@@ -168,6 +168,13 @@ expedition.0052 = {
 			}
 
 			unique_find_ruins_of_valfuria = yes
+		}
+		else_if = { # Volcanic Forge
+			limit = {
+				scope:activity.activity_location.barony = title:b_napoli
+			}
+
+			unique_find_volcanic_forge = yes
 		} 
 		else = {
 			debug_log = "No Unique Items Option Selected"
@@ -333,12 +340,31 @@ expedition.00511 = { # A Trial Of Wisdom
 	title = expedition_riddles.title
 	desc = expedition.00511.desc
 
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+			NOT = {
+				scope:activity.var:trial_attempted = true
+			}
+		}
+	}
+
 	theme = trial_of_wisdom
 	# override_background = { reference = corridor_night }
 
 	left_portrait = {
 		character = scope:host
 		animation = thinking
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = true
+			}
+		}
 	}
 
 	option = {
@@ -464,7 +490,24 @@ expedition.00512 = { # A Trial Of Cunning
 		animation = thinking
 	}
 
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+			NOT = {
+				scope:activity.var:trial_attempted = true
+			}
+		}
+	}
+
 	immediate = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = true
+			}
+		}
+
 		set_variable = {
 			name = player_score 
 			value = 0
@@ -877,6 +920,7 @@ expedition.005122 = { # Trial Of Cunning Player Victory
 
 	option = { 
 		name = expedition.005122.ok
+		trigger_event = expedition.0052 # Unique Encounter
 	}
 }
 
@@ -903,7 +947,17 @@ expedition.005123 = { # Trial Of Cunning AI Victory
 expedition.00513 = { # Trial Of Greed
 	type = activity_event
 	title = expedition.00513.title
-	
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+			NOT = {
+				scope:activity.var:trial_attempted = true
+			}
+		}
+	}
+
 	desc = {
 		desc = expedition.00513.desc
 
@@ -1037,6 +1091,13 @@ expedition.00513 = { # Trial Of Greed
 			exists = scope:option_one
 		}
 
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = true
+			}
+		}
+
 		debug_log = "OPTION 1"
 
 		reduce_treasure_weight_effect = {
@@ -1129,6 +1190,13 @@ expedition.00513 = { # Trial Of Greed
 
 		trigger = {
 			exists = scope:option_two
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = true
+			}
 		}
 
 		debug_log = "OPTION 2"
@@ -1461,12 +1529,6 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 
 	option = {
 		name = expedition.005132.ouch
-		scope:activity = {
-			set_variable = {
-				name = status
-				value = flag:discovery_made
-			}
-		}
 
 		every_attending_character = {
 			random_list = {

@@ -106,6 +106,23 @@
 		}
 
 		# Result is a tie, so no need to remove pieces from the lists
+
+		# Unless...
+		if = { # Last Pieces... and the score is tied, need to end the gamne as a draw
+			limit = {
+				AND = {
+					var:ai_score = 3
+					var:player_score = 3
+				}
+			}
+
+			# TODO: giving player a loss for now, but could isntead do a tie breaker
+			save_scope_value_as = {
+				name = round_result
+				value = flag:ai_won
+			}
+			trigger_event = expedition.005123
+		}
 	}
 	else_if = {
 		limit = {

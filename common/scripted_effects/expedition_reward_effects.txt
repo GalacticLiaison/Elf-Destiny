@@ -720,9 +720,9 @@ unique_find_fortress_tomb_of_the_emperor = {
 	else = {
 		random_list = {
 			10 = { # Culture evolution discovery
-				trigger = {
-					NOT = { has_global_variable = 01_culture_discovery_found }
-				}
+				# trigger = {
+				# 	NOT = { has_global_variable = 01_culture_discovery_found }
+				# }
 				trigger_event = expedition_unique_encounters.001
 			}
 			# 3 = { # Bloodstone Scepter
@@ -752,16 +752,53 @@ unique_find_fortress_tomb_of_the_emperor = {
 unique_find_ruins_of_valfuria = {
 	random_list = {
 		10 = { # Culture evolution discovery
-			trigger = {
-				NOT = { has_global_variable = 02_culture_discovery_found }
-			}
+			# trigger = {
+			# 	NOT = { has_global_variable = 02_culture_discovery_found }
+			# }
 			trigger_event = expedition_unique_encounters.001
 		}
 		10 = { # Portal Spark Capacitor
 			trigger = {
 				NOT = { has_global_variable = portal_capacitor_found }
 			}
+			trigger_event = expedition_unique_encounters.0021
+		}
+		# 3 = { # Some sword...
+		# 	trigger = {
+		# 		NOT = { has_global_variable = 01_bloodstone_sceptor_found }
+		# 	}
+		# 	trigger_event = expedition_unique_encounters.002
+		# }
+		# 10 = { # Map to other ruins
+		# 	trigger = {
+		# 		NOT = { has_global_variable = 01_other_ruins_location_found }
+		# 	}
+		# 	trigger_event = expedition_unique_encounters.003
+		# }
+	}
+
+	# Ends Activity
+	scope:activity = {
+		set_variable = {
+			name = status
+			value = flag:discovery_made
+		}
+	}
+}
+
+unique_find_volcanic_forge = {
+	random_list = {
+		10 = { # Culture evolution discovery
+			# trigger = {
+			# 	NOT = { has_global_variable = 03_culture_discovery_found }
+			# }
 			trigger_event = expedition_unique_encounters.001
+		}
+		10 = { # Portal Navigation Relay
+			trigger = {
+				NOT = { has_global_variable = portal_navigation_relay_found }
+			}
+			trigger_event = expedition_unique_encounters.0022
 		}
 		# 3 = { # Some sword...
 		# 	trigger = {
@@ -790,7 +827,6 @@ disburse_expedition_activity_rewards = {
 	# for the loc
 	save_scope_as = root_scope
 
-	
 	scope:host = {
 		add_prestige = 100
 

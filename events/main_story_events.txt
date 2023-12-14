@@ -191,7 +191,12 @@ main_story_events.0021 = { # Thanks For Playing Act 1
 	theme = stewardship
 	left_portrait = {
 		character = scope:scoped_ruler
-		animation = personality_greedy
+		animation = toast_goblet
+	}
+
+	right_portrait = {
+		character = scope:scoped_ruler
+		animation = celebrate_sword
 	}
 
 	immediate = {
@@ -201,9 +206,15 @@ main_story_events.0021 = { # Thanks For Playing Act 1
 
 	option = { # Receive Blessing Choice
 		name = main_story_events.0021.a
+		trigger_event = divine_spark_rituals.002
 	}
-	option = { # No Thanks
+	option = { # Receive Some Gold and Prestige
 		name = main_story_events.0021.b
+		add_gold = 1000
+		add_prestige = 1000
+	}
+	option = { # No Reward Needed
+		name = main_story_events.0021.c
 	}
 }
 
@@ -241,6 +252,9 @@ main_story_events.0041 = {
 		is_travelling = no
 		has_global_variable = 01_sigil_of_the_realm_lord_found
 		is_any_elf_type = yes
+		NOT = {
+			has_global_variable = 03_choice_of_dreams_made
+		}
 	}
 	
 	theme = divine_spark
@@ -260,6 +274,11 @@ main_story_events.0041 = {
 			add_culture_tradition = tradition_open_hearted
 		}
 
+		set_global_variable = {
+			name = 03_choice_of_dreams_made
+			value = yes
+		}
+
 		trigger_event = {
 			id = aeluran_story.001
 			days = 14
@@ -269,6 +288,11 @@ main_story_events.0041 = {
 		name = main_story_events.004.evil
 		root.culture = {
 			add_culture_tradition = tradition_elf_superiority
+		}
+
+		set_global_variable = {
+			name = 03_choice_of_dreams_made
+			value = yes
 		}
 
 		trigger_event = {
