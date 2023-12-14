@@ -1,0 +1,1270 @@
+﻿
+find_match_choices_effect = {
+	# match_choice_1
+	if = { # Alliance
+		limit = {
+			scope:match_choice_1 = flag:alliance
+		}
+
+		find_strong_aeluran_alliance_match_option_effect = yes
+	}
+	else_if = { # Family
+		limit = {
+			scope:match_choice_1 = flag:family
+		}
+
+		find_family_option_effect = yes
+	}
+	else_if = { # Aeluran
+		limit = {
+			OR = {
+				scope:match_choice_1 = flag:aeluran_matron
+				scope:match_choice_1 = flag:aeluran_sister
+			}
+		}
+
+		find_aeluran_match_option_effect = yes
+	}
+	else_if = { # Breeding Stock
+		limit = {
+			scope:match_choice_1 = flag:breeding_stock
+		}
+
+		find_breeding_stock_match_option_effect = yes
+	}
+	else_if = { # Twins
+		limit = {
+			scope:match_choice_1 = flag:twins
+		}
+
+		find_twins_match_option_effect = yes
+	}
+	else_if = { # Triplets
+		limit = {
+			scope:match_choice_1 = flag:triplets
+		}
+
+		find_triplets_match_option_effect = yes
+	}
+
+	# shift slot 3 to slot 2 if slot 2 is unassigned
+	# if = {
+	# 	limit = {
+	# 		NOT = {
+	# 			match_choice_2_is_valid = yes
+	# 		}
+	# 	}
+	# 	scope:match_choice_3 = {
+	# 		save_scope_as = match_choice_2
+	# 	}
+
+	# 	clear_saved_scope = match_choice_3
+	# }
+
+	# match_choice_2
+	if = {
+		limit = {
+			exists = scope:match_choice_2
+		}
+
+		if = { # Alliance
+			limit = {
+				scope:match_choice_2 = flag:alliance
+			}
+
+			find_strong_aeluran_alliance_match_option_effect = yes
+		}
+		else_if = { # Family
+			limit = {
+				scope:match_choice_2 = flag:family
+			}
+
+			find_family_option_effect = yes
+		}
+		else_if = { # Aeluran
+			limit = {
+				OR = {
+					scope:match_choice_2 = flag:aeluran_matron
+					scope:match_choice_2 = flag:aeluran_sister
+				}
+			}
+
+			find_aeluran_match_option_effect = yes
+		}
+		else_if = { # Breeding Stock
+			limit = {
+				scope:match_choice_2 = flag:breeding_stock
+			}
+
+			find_breeding_stock_match_option_effect = yes
+		}
+		else_if = { # Twins
+			limit = {
+				scope:match_choice_2 = flag:twins
+			}
+
+			find_twins_match_option_effect = yes
+		}
+		else_if = { # Triplets
+			limit = {
+				scope:match_choice_2 = flag:triplets
+			}
+
+			find_triplets_match_option_effect = yes
+		}
+	} 
+	else = {
+		debug_log = ""
+	}
+
+	# match_choice_3
+	if = {
+		limit = {
+			exists = scope:match_choice_3
+		}
+
+		if = { # Alliance
+			limit = {
+				scope:match_choice_3 = flag:alliance
+			}
+
+			find_strong_aeluran_alliance_match_option_effect = yes
+		}
+		else_if = { # Family
+			limit = {
+				scope:match_choice_3 = flag:family
+			}
+
+			find_family_option_effect = yes
+		}
+		else_if = { # Aeluran
+			limit = {
+				OR = {
+					scope:match_choice_3 = flag:aeluran_matron
+					scope:match_choice_3 = flag:aeluran_sister
+				}
+			}
+
+			find_aeluran_match_option_effect = yes
+		}
+		else_if = { # Breeding Stock
+			limit = {
+				scope:match_choice_3 = flag:breeding_stock
+			}
+
+			find_breeding_stock_match_option_effect = yes
+		}
+		else_if = { # Twins
+			limit = {
+				scope:match_choice_3 = flag:twins
+			}
+
+			find_twins_match_option_effect = yes
+		}
+		else_if = { # Triplets
+			limit = {
+				scope:match_choice_3 = flag:triplets
+			}
+
+			find_triplets_match_option_effect = yes
+		}
+	}
+
+
+	resolve_duplicate_character_match_effect = yes
+
+}
+
+## Aelurans ##
+find_aeluran_match_option_effect = {
+	debug_log = "finding aeluran option"
+	
+	if = {
+		limit = {
+			scope:aeluran_respect_level >= 4
+		}
+		if = {
+			limit = {
+				exists = scope:match_option_alliance
+			}
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+					NOT = { this = scope:match_option_alliance }
+				}
+				debug_log = "Assigning match_option_aeluran 6"
+				
+				save_scope_as = match_option_aeluran
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:match_option_family
+			}
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+					NOT = { this = scope:match_option_family }
+				}
+				debug_log = "Assigning match_option_aeluran 5"
+
+				save_scope_as = match_option_aeluran
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+				}
+				debug_log = "Assigning match_option_aeluran 4"
+
+				save_scope_as = match_option_aeluran
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				exists = scope:match_option_alliance
+			}
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_sister
+					NOT = { this = scope:match_option_alliance }
+				}
+				debug_log = "Assigning match_option_aeluran 1"
+				save_scope_as = match_option_aeluran
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:match_option_family
+			}
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_sister
+					NOT = { this = scope:match_option_family }
+				}
+				debug_log = "Assigning match_option_aeluran 2"
+				save_scope_as = match_option_aeluran
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_sister
+				}
+				debug_log = "Assigning match_option_aeluran 3"
+
+				save_scope_as = match_option_aeluran
+			}
+		}
+	}
+	if = { # Still no luck? lets just create one
+		limit = {
+			NOT = { exists = scope:match_option_aeluran }
+		}
+		save_scope_value_as = {
+			name = aeluran_generated
+			value = 1
+		}
+		create_character = {
+			template = aeluran_sister_match
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = root.culture
+			save_scope_as = match_option_aeluran
+		}
+	}
+}
+
+## Alliances ##
+find_strong_aeluran_alliance_match_option_effect = {
+	debug_log = "finding alliance option"
+	
+	if = { # Your an Emperor
+		limit = {
+			highest_held_title_tier = tier_empire
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			random_living_character = {
+				limit = {
+					is_elf_empress = yes
+					OR = {
+						is_suitable_female_elf_spouse = yes
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the empress?
+					limit = {
+						alliance_compatible_female_empress = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_female_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		} 
+		else = {
+			random_living_character = {
+				limit = {
+					is_elf_emperor = yes
+					OR = {
+						is_suitable_male_elf_spouse = yes
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the emperor?
+					limit = {
+						alliance_compatible_male_emperor = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_male_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = { # Your a King
+		limit = {
+			highest_held_title_tier = tier_kingdom
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_empress = yes
+						is_elf_queen = yes
+					}
+					OR = {
+						is_suitable_female_elf_spouse = yes
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_female_queen_or_higher = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_female_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		} 
+		else = {
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_emperor = yes
+						is_elf_king = yes
+					}
+					OR = {
+						is_suitable_male_elf_spouse = yes
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_male_king_or_higher = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_male_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = { # Your a Duke
+		limit = {
+			highest_held_title_tier = tier_duchy
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			debug_log = "Finding Alliance For Duke"
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_empress = yes
+						is_elf_queen = yes
+						is_elf_duchess = yes
+					}
+					OR = {
+						is_suitable_female_elf_spouse = yes
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_female_duchess_or_higher = yes
+					}
+					debug_log = "setting match_option_alliance duke 1"
+					save_scope_as = match_option_alliance
+					if = {
+						limit = {
+							exists = scope:match_option_alliance
+						}
+
+						debug_log = "match_option_alliance scope is FUCKING ASSIGNED"
+					}
+					else = {
+						debug_log = "what the actual fuck"
+					}
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_female_elf_spouse = yes
+							}
+							debug_log = "setting match_option_alliance duke 2"
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		} 
+		else ={
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_emperor = yes
+						is_elf_king = yes
+						is_elf_duke = yes
+					}
+					OR = {
+						is_suitable_male_elf_spouse = yes
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_male_duke_or_higher = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_male_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		}
+	}
+	else_if = { # Your a Count
+		limit = {
+			highest_held_title_tier = tier_county
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			debug_log = "Finding Alliance For Count"
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_queen = yes
+						is_elf_duchess = yes
+					}
+					OR = {
+						is_suitable_female_elf_spouse = yes
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_female_duchess_to_queen = yes
+					}
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_female_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_female_elf_spouse = yes
+							}
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					OR = {
+						is_elf_king = yes
+						is_elf_duke = yes
+					}
+					OR = {
+						is_suitable_male_elf_spouse = yes
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+				}
+				if = { # can we marry the ruler?
+					limit = {
+						alliance_compatible_male_duke_to_king = yes
+					}
+					debug_log = "setting match_option_alliance count 1"
+					save_scope_as = match_option_alliance
+				}
+				else_if = { # if not can we marry one of their children?
+					limit = {
+						any_child = {
+							is_suitable_male_elf_spouse = yes
+						}
+					}
+					every_child = {
+						if = {
+							limit = {
+								is_suitable_male_elf_spouse = yes
+							}
+							debug_log = "setting match_option_alliance count 2"
+							save_scope_as = match_option_alliance
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+## Breeding Stock ##
+# TODO: maybe instead of diplo range we just check for elf traits... 
+# im worried about not finding the good elf breeders across the globe, like a desecendant of a great house
+find_breeding_stock_match_option_effect = {
+	debug_log = "finding breeder option"
+
+	if = {  # First try to find a mate with a bloodline
+		limit = {
+			scope:aeluran_respect_level >= 3
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			random_living_character = {
+				limit = {
+					is_within_diplo_range = { CHARACTER = root }
+					is_suitable_female_breeder_has_bloodline = yes
+				}
+				save_scope_as = match_option_breeding_stock
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_within_diplo_range = { CHARACTER = root }
+					is_suitable_male_breeder_has_bloodline = yes
+				}
+				save_scope_as = match_option_breeding_stock
+			}
+		}
+	}
+	if = { # If we cant find a royal elf, find an elf with good genetics overall
+		limit = {
+			NOT = { exists = scope:match_option_breeding_stock }
+		}
+		if = {
+			limit = {
+				scope:aeluran_respect_level >= 3
+			}
+			if = {
+				limit = {
+					scope:match_recipient = {
+						is_female = no
+					}
+				}
+				random_living_character = {
+					limit = {
+						is_within_diplo_range = { CHARACTER = root }
+						is_suitable_female_breeder_no_bloodline = yes
+					}
+					save_scope_as = match_option_breeding_stock
+				}
+			}
+			else = {
+				random_living_character = {
+					limit = {
+						is_within_diplo_range = { CHARACTER = root }
+						is_suitable_male_breeder_no_bloodline = yes
+					}
+					save_scope_as = match_option_breeding_stock
+				}
+			}
+		}
+	}
+	if = { # Still no luck? lets just create one
+		limit = {
+			NOT = { exists = scope:match_option_breeding_stock }
+		}
+
+		generate_breeding_stock_match_option_effect = {
+			SCOPE = match_option_breeding_stock
+		}
+
+		save_scope_value_as = {
+			name = breeder_generated
+			value = 1
+		}
+	}
+}
+
+generate_breeding_stock_match_option_effect = {
+	if = {
+		limit = {
+			scope:aeluran_respect_level >= 5
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			create_character = {
+				template = outstanding_breeding_stock_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+		else = {
+			create_character = {
+				template = outstanding_breeding_stock_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:aeluran_respect_level >= 3
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			create_character = {
+				template = mediocre_breeding_stock_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+		else = {
+			create_character = {
+				template = mediocre_breeding_stock_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			create_character = {
+				template = poor_breeding_stock_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+		else = {
+			create_character = {
+				template = poor_breeding_stock_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = $SCOPE$
+			}
+		}
+	}
+}
+
+## Polygamy ##
+find_twins_match_option_effect = {
+	debug_log = "finding twins option"
+	
+	if = {
+		limit = {
+			faith = {
+				has_doctrine = doctrine_polygamy
+			}
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			create_character = {
+				template = twins_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_twins_1
+			}
+			create_character = {
+				template = twins_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_twins_2
+			}
+		}
+		else = {
+			create_character = {
+				template = twins_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_twins_1
+			}
+			create_character = {
+				template = twins_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_twins_2
+			}
+		}
+
+	}
+}
+
+find_triplets_match_option_effect = {
+	debug_log = "Finding triplets option"
+	
+	if = {
+		limit = {
+			faith = {
+				has_doctrine = doctrine_polygamy
+			}
+		}
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			create_character = {
+				template = triplets_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_1
+			}
+			create_character = {
+				template = triplets_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_2
+			}
+			create_character = {
+				template = triplets_female
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_3
+			}
+		}
+		else = {
+			create_character = {
+				template = triplets_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_1
+			}
+			create_character = {
+				template = triplets_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_2
+			}
+			create_character = {
+				template = triplets_male
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = match_option_triplets_3
+			}
+		}
+	}
+}
+
+## Incest ##
+find_family_option_effect = {
+	debug_log = "finding family option"
+	
+	if = {
+		limit = {
+			OR = {
+				culture = {
+					has_cultural_parameter = familial_familiarity_marriage
+				}
+				faith = {
+					has_doctrine = tenet_divine_marriage
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				scope:match_recipient = {
+					is_female = no
+				}
+			}
+			random_living_character = { 
+				limit = {
+					is_suitable_female_elf_spouse = yes
+					is_close_or_extended_family_of = scope:match_recipient
+				}
+
+				debug_log = "Assigning match_option_family 1"
+
+				save_scope_as = match_option_family
+			}
+		}
+		else = {
+			random_living_character = { 
+				limit = {
+					is_suitable_male_elf_spouse = yes
+					is_close_or_extended_family_of = scope:match_recipient
+				}
+
+				debug_log = "Assigning match_option_family 2"
+
+				save_scope_as = match_option_family
+			}
+		}
+	}
+}
+
+# TODO: clean up the character cleanups
+
+# Choices
+choose_aeluran_match_option_effect = {
+	add_courtier = scope:match_option_aeluran
+	if = {
+		# SHOULD BE IMPOSSIBLE: F/F
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_aeluran
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_aeluran
+		}
+	}
+
+	cleanup_generated_breeder_characters_effect = yes
+}
+
+choose_alliance_match_option_effect = {
+	add_courtier = scope:match_option_alliance
+	if = {
+		# SHOULD BE IMPOSSIBLE: F/F
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_alliance
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_alliance
+		}
+	}
+
+	cleanup_generated_breeder_characters_effect = yes
+	cleanup_generated_aeluran_characters_effect = yes
+}
+
+choose_breeding_stock_match_option_effect = {
+	add_courtier = scope:match_option_breeding_stock
+	if = {
+		# SHOULD BE IMPOSSIBLE: F/F
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_breeding_stock
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_breeding_stock
+		}
+	}
+
+	cleanup_generated_aeluran_characters_effect = yes
+}
+
+choose_family_match_option_effect = {
+	add_courtier = scope:match_option_family
+	if = {
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_family
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_family
+		}
+	}
+
+	cleanup_generated_breeder_characters_effect = yes
+	cleanup_generated_aeluran_characters_effect = yes
+}
+
+choose_twins_match_option_effect = {
+	add_courtier = scope:match_option_twins_1
+	add_courtier = scope:match_option_twins_2
+	if = {
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_twins_1
+			marry_matrilineal = scope:match_option_twins_2
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_twins_1
+			marry = scope:match_option_twins_2
+		}
+	}
+
+	cleanup_generated_breeder_characters_effect = yes
+	cleanup_generated_aeluran_characters_effect = yes
+}
+
+choose_triplets_match_option_effect = {
+	add_courtier = scope:match_option_triplets_1
+	add_courtier = scope:match_option_triplets_2
+	add_courtier = scope:match_option_triplets_3
+	if = {
+		limit = {
+			scope:match_recipient = {
+				is_female = yes 
+			} 
+		}
+		scope:match_recipient = {
+			marry_matrilineal = scope:match_option_triplets_1
+			marry_matrilineal = scope:match_option_triplets_2
+			marry_matrilineal = scope:match_option_triplets_3
+		}
+	}
+	else = {
+		scope:match_recipient = {
+			marry = scope:match_option_triplets_1
+			marry = scope:match_option_triplets_2
+			marry = scope:match_option_triplets_3
+		}
+	}
+
+	cleanup_generated_breeder_characters_effect = yes
+	cleanup_generated_aeluran_characters_effect = yes
+}
+
+# Remove unused Generated Characters
+cleanup_generated_breeder_characters_effect = {
+	hidden_effect = {
+		if = {
+			limit = {
+				exists = scope:breeder_generated
+			}
+
+			scope:match_option_breeding_stock = {
+				death = {
+					death_reason = death_disappearance
+				}
+			}
+		}
+	}
+}
+
+cleanup_generated_aeluran_characters_effect = {
+	hidden_effect = {
+		if = {
+			limit = {
+				exists = scope:aeluran_generated
+			}
+
+			scope:match_option_aeluran = {
+				death = {
+					death_reason = death_disappearance
+				}
+			}
+		}
+	}
+}
+
+# Start Here: hook this up!
+# - match_option_breeding_stock_2 needs desciption, and all the other event window shenanigans
+resolve_duplicate_character_match_effect = {
+	if = { # Aeluran = Family
+		limit = {
+			AND = {
+				exists = scope:match_option_aeluran
+				exists = scope:match_option_family
+				scope:match_option_aeluran = scope:match_option_family
+			}
+		}
+
+		debug_log = "Aeluran = Family correction"
+
+		# keep family, random assign a generated aeluran
+		save_scope_value_as = {
+			name = aeluran_generated
+			value = 1
+		}
+		create_character = {
+			template = aeluran_sister_match
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = root.culture
+			save_scope_as = match_option_aeluran
+		}
+	}
+	if = { # Aeluran = Alliance
+		limit = {
+			AND = {
+				exists = scope:match_option_aeluran
+				exists = scope:match_option_alliance
+				scope:match_option_aeluran = scope:match_option_alliance
+			}
+		}
+
+		debug_log = "Aeluran = Alliance correction"
+
+		# keep alliance, random assign a generated aeluran
+		save_scope_value_as = {
+			name = aeluran_generated
+			value = 1
+		}
+		create_character = {
+			template = aeluran_sister_match
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = root.culture
+			save_scope_as = match_option_aeluran
+		}
+	}
+	if = { # Family = Alliance
+		limit = {
+			AND = {
+				exists = scope:match_option_family
+				exists = scope:match_option_alliance
+				scope:match_option_family = scope:match_option_alliance
+			}
+		}
+
+		debug_log = "Aeluran = Alliance correction"
+		
+		# remove family for now, swap it for another breeder
+		if = {
+			limit = {
+				scope:match_choice_1 = flag:family
+			}
+			save_scope_value_as = {
+				name = match_choice_1
+				value = flag:breeding_stock_2
+			}
+		}
+		if = {
+			limit = {
+				scope:match_choice_2 = flag:family
+			}
+			save_scope_value_as = {
+				name = match_choice_2
+				value = flag:breeding_stock_2
+			}
+		}
+		if = {
+			limit = {
+				scope:match_choice_3 = flag:family
+			}
+			save_scope_value_as = {
+				name = match_choice_3
+				value = flag:breeding_stock_2
+			}
+		}
+
+		clear_saved_scope = match_option_family
+
+
+		generate_breeding_stock_match_option_effect = {
+			SCOPE = match_option_breeding_stock_2
+		}
+
+		save_scope_value_as = {
+			name = breeder_2_generated
+			value = 1
+		}
+	}
+}

@@ -1,0 +1,155 @@
+﻿standard_expedition_cooldown_time = {
+	value = 1
+}
+
+expedition_activity_base_cost = {
+	value = standard_activity_base_cost
+}
+
+expedition_funding_min_option_cost = {
+	value = 10
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+
+expedition_funding_mid_option_cost = {
+	value = 35
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+
+expedition_funding_max_option_cost = {
+	value = 50
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+
+
+expedition_entourage_base_set_weighting_value = {
+	if = {
+		limit = {
+			is_available_healthy_adult = yes
+			bannable_serving_diarch_trigger = no
+			OR = {
+				has_court_position = master_of_hunt_court_position
+				has_court_position = bodyguard_court_position
+				has_court_position = court_physician_court_position
+				has_any_good_relationship_with_character_trigger = { CHARACTER = scope:host }
+				has_trait = lifestyle_hunter
+			}
+			NAND = {
+				scope:special_option ?= flag:hunt_type_falconry
+				can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:host }
+			}
+		}
+		# Base
+		add = 50
+		add = ai_energy
+		add = ai_boldness
+		# We want to have MoH most of all.
+		if = {
+			limit = { has_court_position = master_of_hunt_court_position }
+			add = 100000
+		}
+		# We want bodyguards too.
+		if = {
+			limit = { has_court_position = bodyguard_court_position }
+			add = 50000
+		}
+		# We want doctors too.
+		if = {
+			limit = { has_court_position = court_physician_court_position }
+			add = 50000
+		}
+		# We want friends too.
+		if = {
+			limit = {
+				has_any_good_relationship_with_character_trigger = { CHARACTER = scope:host }
+			}
+			add = 500
+		}
+		# Sex
+		if = {
+			limit = {
+				exists = scope:special_option
+				NOT = { scope:special_option = flag:hunt_type_falconry }
+				NOT = { 
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:host }
+				}
+			}
+			divide = 2
+		}
+	}
+	if = {
+		limit = {
+			bannable_serving_diarch_trigger = yes
+		}
+		add = -1000
+	}
+}
+
+expedition_entourage_extras_set_weighting_value = {
+	value = 0
+	if = {
+		limit = {
+			is_available_healthy_adult = yes
+			is_designated_diarch = no
+			OR = {
+				is_knight_of = scope:host
+				has_trait = education_martial
+				has_trait = education_martial_prowess
+				has_trait = lazy
+				prowess >= decent_skill_rating
+			}
+			trigger_if = {
+				limit = {
+					NOT = { scope:special_option ?= flag:hunt_type_falconry }
+				}
+				can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:host }
+			}
+			trigger_else = { always = yes }
+		}
+		# Base
+		add = 150
+	}
+}
+
+expedition_entourage_max_set_weighting_value = {
+	value = 0
+	if = {
+		limit = {
+			is_available_healthy_adult = yes
+			is_designated_diarch = no
+		}
+		# Base
+		add = 50
+		# Alright, now we're just grabbing everyone.
+		## Anyone who can fight.
+		if = {
+			limit = {
+				can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:host }
+			}
+			multiply = 1.5
+		}
+	}
+}
+
+expedition_weeks_from_funding = {
+	value = 2
+	if = {
+		limit = {
+			scope:activity = {
+				has_activity_option = { category = expedition_option_funding option = expedition_funding_mid }
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = {
+			scope:activity = {
+				has_activity_option = { category = expedition_option_funding option = expedition_funding_max }
+			}
+		}
+		add = 3
+	}
+}

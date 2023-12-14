@@ -1,0 +1,473 @@
+﻿# Basic starter tradition for all elf cultures
+tradition_the_old_ways = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_the_old_ways_item.dds
+	}
+
+	parameters = {
+		# Grants Fey Archers
+		unlock_maa_fey_archers = yes
+		# Herbalist more common/better
+		herbalist_traits_more_common = yes
+		herbalist_trait_gives_bonuses = yes
+		# Mystic More Common
+		mystic_trait_more_common = yes
+		mystic_trait_gives_bonuses = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+tradition_elf_craftsmanship = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_elf_craftsmanship_item.dds
+	}
+
+	parameters = {
+		improved_artisan_inspiration = yes
+		improved_weaver_inspiration = yes
+		improved_weapon_inspiration = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+# unlocks adventurer level 2 and gain more adventurer xp
+# tradition_adventure_guilds = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = forest_bottom_layer.dds
+# 		1 = pattern_elf_1.dds
+# 		4 = conversation.dds
+# 	}
+
+# 	# can recruit charchters with: 
+# 		# - the adventurer trait
+# 		# - adventure inspiration
+# 	# Adventurer trait gives extra bonuses
+# 	# maybe unlocks elf version of vrangian adventures
+# 	# naval speed bonus
+# 	parameters = {
+		
+# 	}
+
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+# tradition_council_of_queens = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = forest_bottom_layer.dds
+# 		1 = pattern_elf_1.dds
+# 		4 = conversation.dds
+# 	}
+	
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	parameters = {
+# 		council_of_queens = yes
+# 	}
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+# From Wiki:
+# Holdings cannot be created in counties ruled by a tribal ruler, even by a clan or feudal liege.
+# Development will only affect supply limit, as tax and levy development increase does not apply in counties ruled by a tribal ruler. (However, a certain level of development is needed to reform government.)
+# Development does not passively grow in counties ruled by a tribal ruler.
+# Tribal baronies only provide half of their supply limit to armies belonging to other governments.
+# Tribal rulers can only discover Tribal-era innovations.
+# For succession, tribal rulers are locked to Confederate Partition.
+# Tribal rulers can also be challenged by other tribal characters for their titles via personal combat (duel).
+# Tribal rulers pay for men-at-arms using prestige instead of gold.
+# Tribal rulers can raid (unless their religion forbids it).
+# Once per lifetime, a tribal Ruler can use the Subjugation casus belli.
+# Tribal rulers cannot prevent their vassals from declaring war.
+# Tribal rulers cannot imprison vassals or courtiers without passing level 2 tribal authority.
+# −50% Title creation cost.
+# +0.2 monthly  prestige.
+# −20  opinion with feudal, clan, and republic vassals.
+# Tribal rulers have access to a generally inferior Royal court.
+
+# I put X's but we still need to test everything...
+# so what we want:
+# X can create new holdings
+# X can create cadet branches
+# - can change succesion law
+# - development passively grows again
+# X affected by development
+# X later innovations discoverable
+# - either higher level tribal buildings OR replacement/additional versions of buildings, brewhall?
+# - never can go tribal or feudal
+tradition_tribal_ascension = {
+	category = elven
+	
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_tribal_ascension_item.dds
+	}
+
+	# could do a quarterly check if we are only caring about the player
+	# maybe AI can do it through a secret decision only available to them and it has 100% chance of being chosen
+	parameters = {
+		form_advanced_tribal_government = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+# vassals must pay you a fee to wage war
+# vassals must pay you a share of all raiding spoils
+# tradition_obligations_to_realm_lord = {
+
+# }
+
+# evolves to
+# first night nova sancta
+# tradition_submission_to_realm_lord = {
+
+# }
+
+# King and Queen Take Turns being ruler each year. Would definetly have other interactions as well
+# tradition_shared_rule = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = learning
+# 		1 = mena
+# 		4 = conversation.dds
+# 	}
+
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	# parameters = {
+# 	# 	council_of_queens = yes
+# 	# }
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+# # King shares rule will his siblings
+# tradition_bretheren_council = {
+
+# }
+
+# # Twins Rulership
+# tradition_way_of_two = {
+
+# }
+
+# move to innovations
+# tradition_alchemy = {
+# 	# 
+# }
+
+# Strong level 2
+# if no strong => strong, if strong => very strong
+# causes a full stress level
+# body_tempering = {
+
+# }
+
+# Shrewd level 2
+# characters above learning 15 get shrewd
+# characters above learning 20 get shrewd lvl 2s
+# ART: show elves debating in a public square wearing togas and lounging about
+tradition_fey_agoras = {
+
+	category = elven	
+	
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_fey_agoras_item_1.dds
+	}
+
+	parameters = {
+		advanced_shrewd = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+
+# increase rate of magi upgrading
+# spark_cultivators = {
+# }
+
+tradition_beast_tamers = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_beast_tamers_item.dds
+	}
+
+	# Grants wolf riders
+	# Precursor to dragon handling
+	parameters = {
+		unlock_maa_wolf_riders = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+tradition_woodland_bounty = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_woodland_bounty_item.dds
+	}
+
+	# can build "forest farms" in forests
+	parameters = {
+		build_farms_in_forests_and_taiga = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+# tradition_gladitorial_glory = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = forest_bottom_layer.dds
+# 		1 = pattern_elf_1.dds
+# 		4 = conversation.dds
+# 	}
+
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+
+# FEMALE DOM
+# Female rulers have discovered that by castrating their empowered knights, the spark is released slower, and they become more powerful
+# PAth to evolved empowered
+# empowered_eunuchs = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = learning
+# 		1 = mena
+# 		4 = conversation.dds
+# 	}
+
+# 	parameters = {
+# 	}
+
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+# Male DOM
+# Aphrodisiac Dosing
+# male rulers have discovered that by dosing their magi with aphrodisiacs, they become more powerful
+# Path to evolved magi
+# aphrodisiac_dosing = {
+# 	category = elven
+
+# 	layers = {
+# 		0 = learning
+# 		1 = mena
+# 		4 = conversation.dds
+# 	}
+
+# 	parameters = {
+# 	}
+
+# 	cost = {
+# 		prestige = {
+# 			add = {
+# 				value = tradition_base_cost
+# 				desc = BASE
+# 				format = "BASE_VALUE_FORMAT"
+# 			}
+# 			multiply = tradition_replacement_cost_if_relevant
+# 		}
+# 	}
+
+# 	ai_will_do = {
+# 		value = 0	
+# 	}
+# }
+
+tradition_people_of_the_bow = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_people_of_the_bow_item.dds
+	}
+
+	parameters = {
+		unlock_maa_elite_bow_knights = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}

@@ -1,0 +1,121 @@
+﻿can_be_combatant_based_on_gender_trigger = {
+	custom_description = {
+		text = "can_be_combatant_based_on_gender"
+		object = this
+		subject = $ARMY_OWNER$
+		# Priests only fight if faith has war priests
+		trigger_if = {
+			limit = {
+				OR = {
+					has_trait = devoted
+					is_clergy = yes
+				}
+			}
+			OR = {
+				faith = { has_doctrine_parameter = clergy_can_fight }
+				culture = { has_cultural_parameter = culture_clergy_can_fight }
+				AND = {
+					$ARMY_OWNER$.culture = {
+						has_cultural_parameter = high_prowess_ignores_knight_restrictions
+					}
+					prowess >= 10
+				}
+			}
+		}
+		OR = {
+			trigger_if = { # Has the Royal Court and thus can modify pillars
+				limit = {
+					has_dlc_feature = diverge_culture # Can modify pillars
+				}
+				OR = {
+					$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_equal_combatant } }
+					AND = {
+						$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_male_only_combatant } }
+						is_male = yes
+					}
+					AND = {
+						$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_female_only_combatant } }
+						is_female = yes
+					}
+				}
+				
+			}
+			trigger_else = { # Does not have the Royal Court and thus combatant is governed by faith
+				OR = {
+					$ARMY_OWNER$ = { faith = { has_doctrine_parameter = combatant_can_be_either_gender_if_no_roco } }
+					AND = {
+						$ARMY_OWNER$ = { faith = { has_doctrine_parameter = combatant_must_be_male_if_no_roco } }
+						is_male = yes
+					}
+					AND = {
+						$ARMY_OWNER$ = { faith = { has_doctrine_parameter = combatant_must_be_female_if_no_roco } }
+						is_female = yes
+					}
+				}
+			}
+			AND = {
+				$ARMY_OWNER$ = {
+					culture = { has_cultural_parameter = has_access_to_shieldmaidens }
+				}
+				# No need to gender diversify this: if they're a right-gender shieldperson of the culture, then they've already got permission to fight from the previous AND conditions.
+				has_trait = shieldmaiden
+			}
+			# SPARK
+			has_trait = magi
+			# Event-based special exceptions
+			has_character_modifier = ignores_gender_army_rules
+			AND = {
+				$ARMY_OWNER$ = { culture = { has_cultural_parameter = high_prowess_ignores_knight_restrictions } }
+				NOT = { $ARMY_OWNER$ = { culture = { has_cultural_parameter = minimum_prowess_for_knights } } }
+				prowess >= 10
+			}
+			AND = {
+				$ARMY_OWNER$ = {
+					culture = {
+						has_cultural_parameter = high_prowess_ignores_knight_restrictions
+						has_cultural_parameter = minimum_prowess_for_knights
+					}
+				}
+				prowess >= 12
+			}
+		}
+	}
+}
+
+court_position_martial_trigger = {
+	OR = {
+		has_education_martial_trigger = yes
+		number_of_commander_traits > 0
+		has_trait = brave
+		prowess >= mediocre_skill_rating
+		has_trait = viking
+		has_trait = varangian
+		has_trait = berserker
+		has_trait = shieldmaiden
+		has_trait = lifestyle_blademaster
+		has_trait = magi
+	}
+	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
+}
+
+can_be_marshal_trigger = {
+	can_be_councillor_basics_trigger = yes
+	is_hostage = no
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+		AND = {
+			has_trait = shieldmaiden
+			$COURT_OWNER$.culture = { has_cultural_parameter = has_access_to_shieldmaidens }
+		}
+		has_trait = magi
+	}
+}

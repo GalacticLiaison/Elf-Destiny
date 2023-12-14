@@ -1,0 +1,779 @@
+﻿# namespace = aeluran_advisor_task
+
+# ### COVEN MAGISTRATION ###
+
+# # Recruit Magi Success
+# ## TODO: implement male twin chance (empowered)
+# ## TODO: for dna override check succubus mod
+
+# aeluran_advisor_task.0101 = { # New Magi is recruited
+# 	type = character_event
+# 	title = aeluran_advisor_task.0101.t
+# 	desc = aeluran_advisor_task.0101.desc
+
+# 	immediate = {
+# 		set_variable = {
+# 			name = had_new_magi_event
+# 			days = 730
+# 		}
+# 		random_sub_realm_county = {
+# 			save_scope_as = origin
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = {
+# 					exists = capital_province
+# 				}
+# 				capital_province = { save_scope_as = target_location }
+# 			}
+# 			else = {
+# 				location = { save_scope_as = target_location }
+# 			}
+# 			random_list = {
+# 				90 = { # standard magi recruit
+# 					if = { 
+# 						limit = {
+# 							# has enhanced magi recruitment perk
+# 						}
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_high_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi
+# 						}
+# 					}
+# 					else = {
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi
+# 						}
+# 					}
+# 				}
+# 				10 = { # twin magi recruit
+# 					trigger = {
+# 						# has enhanced breeding culture perk
+# 					}
+# 					create_character = {
+# 						location = scope:target_location
+# 						template = generic_elf_mother
+# 						faith = scope:origin.faith
+# 						culture = scope:origin.culture
+# 						save_scope_as = new_mother
+# 					}
+# 					create_character = {
+# 						location = scope:target_location
+# 						template = generic_elf_father
+# 						faith = scope:origin.faith
+# 						culture = scope:origin.culture
+# 						save_scope_as = new_father
+# 					}
+
+# 					if = { 
+# 						limit = {
+# 							# has enhanced magi recruitment perk
+# 						}
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_advanced_twin_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi_t1
+# 						}
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_advanced_twin_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi_t2
+# 						}
+# 					}
+# 					else = {
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_twin_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi_t1
+# 						}
+# 						create_character = {
+# 							gender_female_chance = 100
+# 							location = scope:target_location
+# 							template = new_twin_magi_recruit_character
+# 							faith = scope:origin.faith
+# 							culture = scope:origin.culture
+# 							save_scope_as = new_magi_t2
+# 						}
+# 					}
+
+# 					scope:new_magi_t1 = {
+# 						set_father = scope:new_father
+# 						set_mother = scope:new_mother
+# 						set_house = scope:new_father.house
+# 					}
+
+# 					scope:new_magi_t2 = {
+# 						set_father = scope:new_father
+# 						set_mother = scope:new_mother
+# 						set_house = scope:new_father.house
+# 					}
+# 				}
+# 			}
+			
+
+# 			create_character = {
+# 				gender_female_chance = 100
+# 				location = scope:target_location
+# 				template = new_magi_recruit_character
+# 				faith = scope:origin.faith
+# 				culture = scope:origin.culture
+# 				save_scope_as = new_magi
+# 			}
+# 			add_visiting_courtier = scope:new_magi
+# 		}
+# 	}
+
+# 	theme = martial
+# 	left_portrait = {
+# 		character = scope:new_magi
+# 		animation = ecstasy
+# 	}
+# 	right_portrait = {
+# 		character = cp:councillor_aeluran_advisor
+# 		animation = personality_zealous
+# 	}
+
+# 	trigger = {
+# 		is_ai = no
+# 		exists = cp:councillor_aeluran_advisor
+# 		scope:councillor = cp:councillor_aeluran_advisor
+# 		NOT = {
+# 			has_variable = had_new_magi_event
+# 		}
+# 		OR = {
+# 			exists = capital_province
+# 			exists = location
+# 		}
+
+# 		OR = {
+# 			number_of_knights < max_number_of_knights
+# 			any_knight = {
+# 				prowess < 8
+# 			}
+# 		}
+# 	}
+
+# 	weight_multiplier = {
+# 		base = 1
+# 	}
+
+
+
+# 	option = {
+# 		name = aeluran_advisor_task.0101.a
+# 		add_courtier = scope:new_magi
+# 		ai_chance = {
+# 			base = 100
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_advisor_task.0101.b
+# 		scope:new_magi = {
+# 			select_and_move_to_pool_effect = yes
+# 		}
+# 		ai_chance = {
+# 			base = 10
+# 		}
+# 	}
+# }
+
+# # Improve Magi Side Effects
+# # aeluran_advisor_task.0201 = {
+	
+# # }
+
+# # aeluran_advisor_task.0202 = {
+	
+# # }
+
+# # aeluran_advisor_task.0203 = {
+	
+# # }
+
+# # aeluran_advisor_task.0204 = {
+	
+# # }
+
+# # aeluran_advisor_task.0205 = {
+	
+# # }
+
+# # # Random Events
+# # aeluran_advisor_task.0301 = { # Powerful Accoladed Magi aids in training 
+	
+# # }
+
+# aeluran_advisor_task.0102 = { # Religious hook
+# 	hidden = yes
+
+# 	immediate = {
+# 		# debug_log = "INSIDE MAGISTRATION"
+
+# 		### Lets put together a list of all our vassals and courtiers,  
+# 		### they will be our hook candidates. 							
+# 		every_vassal_or_below = { 
+# 			limit = {
+# 				# Has Religion
+# 				faith = { has_doctrine = tenet_aeluran_sisters }
+# 				age > 16
+# 			}
+# 			add_to_list = devotee_list
+# 		}
+# 		every_courtier = { 
+# 			limit = {
+# 				# Has Religion
+# 				faith = { has_doctrine = tenet_aeluran_sisters }
+# 				age > 16
+# 			}
+# 			add_to_list = devotee_list
+# 		}
+
+# 		### Next, lets pick a random person from our list.  			
+# 		### They will be the target of our hook. 						
+# 		random_in_list = {
+# 			list = devotee_list
+
+# 			### If a candidate is zealous or trusting, they are
+# 			### more likely to believe the words of your advisor.
+# 			### So we will give them a higher chance of being selected.	
+# 			weight = { 
+# 				base = 1
+# 				modifier = {
+# 					factor = 4
+# 					has_trait = trusting
+# 				}
+# 				modifier = {
+# 					factor = 4
+# 					has_trait = zealous
+# 				}
+# 			}
+# 			save_scope_as = devotee_target
+# 		}
+
+# 		### Now that we have a target, we will give them a hook.
+# 		### - Religious Exhaultation Hook
+# 		random_list = {
+# 			40 = { # advisor heals child devotee_target
+# 				# if = {
+# 					# TODO: must have child
+# 				# 	limit = {
+# 				# 		# scope:devotee_target = {
+# 				# 		# 	# Has any children?
+# 				# 		# 	any_child = {
+# 				# 		# 		count >= 1
+# 				# 		# 	}
+# 				# 		# }
+# 				# 	}
+# 				trigger_event = aeluran_advisor_task.01021 
+# 			}
+# 			30 = { # advisor has private session with devotee_target
+# 				# TODO: must be married
+# 				trigger_event = aeluran_advisor_task.01022 
+# 			}
+# 			30 = { # advisor mesmerizes crowd with spark
+# 				# TODO: generic fallback
+# 				trigger_event = aeluran_advisor_task.01023
+# 			}
+# 		}
+# 	}
+# }
+
+# aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
+# 	type = character_event
+# 	title = aeluran_advisor_task.01021.t
+# 	desc = aeluran_advisor_task.01021.desc
+# 	theme = faith
+	
+# 	immediate = {
+# 		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
+# 	}
+	
+# 	left_portrait = scope:devotee_target
+# 	right_portrait = {
+# 		character = cp:councillor_aeluran_advisor
+# 		animation = personality_zealous
+# 	}
+	
+# 	trigger = {
+# 		AND = {
+# 			exists = cp:councillor_aeluran_advisor
+# 			exists = scope:devotee_target
+# 		}
+# 	}
+
+# 	### Add the hook
+# 	option = {
+# 		name = aeluran_advisor_task.01021.a
+# 		add_hook = {
+# 			target = scope:devotee_target
+# 			type = religious_exaltation
+# 		}
+# 	}
+# }
+
+# aeluran_advisor_task.01022 = { # advisor has private session with devotee_target
+# 	type = character_event
+# 	title = aeluran_advisor_task.01022.t
+# 	desc = aeluran_advisor_task.01022.desc
+
+# 	theme = faith
+# 	right_portrait = {
+# 		character = cp:councillor_aeluran_advisor
+# 		animation = personality_zealous
+# 	}
+
+# 	trigger = {
+# 		AND = {
+# 			exists = cp:councillor_aeluran_advisor
+# 			exists = scope:devotee_target
+# 		}
+# 	}
+
+# 	### Add the hook
+# 	option = {
+# 		name = aeluran_advisor_task.01022.a
+# 		add_hook = {
+# 			target = scope:devotee_target
+# 			type = religious_exaltation
+# 		}
+# 	}
+# }
+
+# aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
+# 	type = character_event
+# 	title = aeluran_advisor_task.01023.t
+# 	desc = aeluran_advisor_task.01023.desc
+
+# 	theme = faith
+# 	right_portrait = {
+# 		character = cp:councillor_aeluran_advisor
+# 		animation = personality_zealous
+# 	}
+
+# 	trigger = {
+# 		AND = {
+# 			exists = cp:councillor_aeluran_advisor
+# 			exists = scope:devotee_target
+# 		}
+# 	}
+
+# 	### Add the hook
+# 	option = {
+# 		name = aeluran_advisor_task.01023.a
+# 		add_hook = {
+# 			target = scope:devotee_target
+# 			type = religious_exaltation
+# 		}
+# 	}
+# }
+
+# # aeluran_advisor_task.0303 = { # Increase Control in random counties
+# # 	type = character_event
+# # 	title = aeluran_advisor_task.0303.t
+# # 	desc = aeluran_advisor_task.0303.desc
+
+# # 	theme = faith
+# # 	left_portrait = scope:player
+# # 	right_portrait = {
+# # 		character = cp:councillor_aeluran_advisor
+# # 		animation = personality_zealous
+# # 	}
+
+
+# # 	immediate = {
+# # 		scope:player = {
+# # 			random_sub_realm_county = {
+# # 				limit = {
+# # 					county_control <= high_county_control_limit
+# # 					holder = scope:player
+# # 				}
+# # 				save_scope_as = chosen_county
+# # 			}
+# # 		}
+# # 	}
+
+# # 	option= {
+# # 		name = aeluran_advisor_task.0303.a
+# # 		scope:chosen_county = {
+# # 			change_county_control = 100
+# # 		}
+# # 	}
+
+# # }
+
+# # aeluran_advisor_task.0304 = { # Reduce Player Dominance
+	
+# # }
+
+
+# ### UNDERMINE ###
+
+# scripted_effect court_aeluron_task_charge_prestige_or_gold_effect = {
+# 	# Either we charge prestige during certain struggle phases...
+# 		if = {
+# 			limit = {
+# 				any_character_struggle = {
+# 					involvement = involved
+# 					is_struggle_parameter_active_secondary_county_trigger = {
+# 						PARAMETER = claims_in_region_cost_prestige_not_gold_for_involved_parties
+# 						COUNTY = scope:county
+# 					}
+# 				}
+# 			}
+# 			add_prestige = {
+# 				value = $COST$
+# 				multiply = -1
+# 			}
+# 		}
+# 		# ... or else gold the rest of the time.
+# 		else = { remove_short_term_gold = $COST$ }
+# }
+
+# #Fabricate Claim
+# aeluran_advisor_task.0301 = {
+# 	type = character_event
+# 	title = aeluran_advisor_task.0301.t
+# 	desc = aeluran_advisor_task.0301.desc
+# 	theme = faith
+
+# 	option = {
+# 		name = aeluran_advisor_task.0301.a
+# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+# 		add_unpressed_claim = scope:county
+# 		show_as_tooltip = {
+# 			scope:county_holder = {
+# 				add_opinion = {
+# 					target = root
+# 					modifier = court_chaplain_fabricated_claim_opinion
+# 					days = 3650
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:county_holder.top_liege = root.top_liege }
+# 				}
+# 				scope:county_holder.top_liege = {
+# 					add_opinion = {
+# 						target = root
+# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+# 						days = 3650
+# 					}
+# 				}
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			## THIS IF RESETS TASK TO DEFAULT TASK AFTER FINISH
+# 			# if = {
+# 			# 	limit = {
+# 			# 		scope:councillor = {
+# 			# 			has_council_position = councillor_court_chaplain
+# 			# 		}
+# 			# 	}
+# 			# 	scope:councillor = {
+# 			# 		start_default_task = yes
+# 			# 	}
+# 			# }
+
+# 			scope:county_holder = {
+# 				trigger_event = court_chaplain_task.0311
+# 			}
+
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:county_holder.top_liege = root.top_liege }
+# 				}
+# 				scope:county_holder.top_liege = {
+# 					trigger_event = court_chaplain_task.0312		
+# 				}
+# 			}
+# 		}
+# 		ai_chance = {
+# 			base = 100
+# 			modifier = {
+# 				add = -80
+# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
+# 			}	
+# 			modifier = {
+# 				factor = 0
+# 				short_term_gold < 0
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_advisor_task.0301.b
+# 		custom_tooltip = court_chaplain_task.0301.b.tt
+# 		ai_chance = {
+# 			base = 10
+# 		}
+# 	}
+# }
+
+# #Fabricate Claim Dutchy
+# aeluran_advisor_task.0302 = {
+# 	type = character_event
+# 	title = aeluran_advisor_task.0302.t
+# 	desc = aeluran_advisor_task.0302.desc
+# 	theme = faith
+
+# 	trigger = {
+# 		scope:county = {
+# 			duchy = {
+# 				is_title_created = yes
+# 				exists = holder
+# 				NOT = {
+# 					holder = root
+# 				}
+# 				holder.top_liege = scope:county.holder.top_liege
+# 				save_temporary_scope_as = duchy
+# 				root = {
+# 					NOT = {
+# 						has_claim_on = scope:duchy
+# 					}
+# 					#The recipient of this event must either hold land in the Duchy, or be Duke or above
+# 					OR = {
+# 						any_held_title = {
+# 							tier = tier_county
+# 							duchy = scope:duchy
+# 						}
+# 						highest_held_title_tier > tier_county
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	weight_multiplier = {
+# 		base = 1
+# 		compare_modifier = {
+# 			target = scope:councillor
+# 			value = learning
+# 			offset = -10
+# 			multiplier = 0.1
+# 		}
+# 		modifier = {
+# 			add = 4
+# 			scope:councillor.liege = {
+# 				is_independent_ruler = no
+# 			}
+# 			scope:councillor.liege.faith = scope:councillor.liege.top_liege.faith
+# 			scope:county = {
+# 				duchy = {
+# 					is_title_created = yes
+# 					exists = holder
+# 					NOT = {
+# 						holder.faith = scope:councillor.liege.faith
+# 					}
+# 					holder.top_liege = scope:councillor.liege.top_liege
+# 				}
+# 			}
+# 		}
+# 		modifier = {
+# 			add = 1
+# 			scope:county = {
+# 				duchy = {
+# 					is_title_created = yes
+# 					exists = holder
+# 					NOT = {
+# 						holder.faith = scope:councillor.liege.faith
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	immediate = {
+# 		scope:county = {
+# 			duchy = {
+# 				save_scope_as = duchy
+# 				holder = {
+# 					save_scope_as = duchy_holder
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_advisor_task.0302.a
+# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+# 		add_unpressed_claim = scope:county
+# 		show_as_tooltip = {
+# 			scope:county_holder = {
+# 				add_opinion = {
+# 					target = root
+# 					modifier = court_chaplain_fabricated_claim_opinion
+# 					days = 3650
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:county_holder.top_liege = root.top_liege }
+# 				}
+# 				scope:county_holder.top_liege = {
+# 					add_opinion = {
+# 						target = root
+# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+# 						days = 3650
+# 					}
+# 				}
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = {
+# 					scope:councillor = {
+# 						has_council_position = councillor_court_chaplain
+# 					}
+# 				}
+# 				scope:councillor = {
+# 					start_default_task = yes
+# 				}
+# 			}
+# 			scope:county_holder = {
+# 				trigger_event = court_chaplain_task.0311
+# 			}
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:county_holder.top_liege = root.top_liege }
+# 				}
+# 				scope:county_holder.top_liege = {
+# 					trigger_event = court_chaplain_task.0312		
+# 				}
+# 			}
+# 		}
+# 		ai_chance = {
+# 			base = 100
+# 			modifier = {
+# 				add = -90
+# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
+# 			}	
+# 			modifier = {
+# 				factor = 0
+# 				short_term_gold < 0
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_advisor_task.0302.b
+# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
+# 		add_unpressed_claim = scope:duchy
+# 		show_as_tooltip = {
+# 			scope:duchy_holder = {
+# 				add_opinion = {
+# 					target = root
+# 					modifier = court_chaplain_fabricated_claim_opinion
+# 					days = 3650
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:duchy_holder.top_liege = root.top_liege }
+# 					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
+# 				}
+# 				scope:duchy_holder.top_liege = {
+# 					add_opinion = {
+# 						target = root
+# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+# 						days = 3650
+# 					}
+# 				}
+# 			}
+# 		}
+# 		hidden_effect = {
+# 			if = {
+# 				limit = {
+# 					scope:councillor = {
+# 						has_council_position = councillor_court_chaplain
+# 					}
+# 				}
+# 				scope:councillor = {
+# 					start_default_task = yes
+# 				}
+# 			}
+# 			scope:duchy_holder = {
+# 				trigger_event = court_chaplain_task.0313
+# 			}
+# 			if = {
+# 				limit = {
+# 					scope:county_holder = { is_independent_ruler = no }
+# 					NOT = { scope:duchy_holder.top_liege = root.top_liege }
+# 					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
+# 				}
+# 				scope:duchy_holder.top_liege = {
+# 					trigger_event = court_chaplain_task.0314		
+# 				}
+# 			}
+# 		}
+
+# 		# Struggle Catalysts.
+# 		if = {
+# 			limit = {
+# 				any_character_struggle = {
+# 					involvement = involved
+# 					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+# 						CATALYST = catalyst_fabricating_duchy_level_claims
+# 						CHAR = scope:duchy_holder
+# 					}
+# 				}
+# 			}
+# 			every_character_struggle = {
+# 				involvement = involved
+# 				limit = {
+# 					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+# 						CATALYST = catalyst_fabricating_duchy_level_claims
+# 						CHAR = scope:duchy_holder
+# 					}
+# 				}
+# 				activate_struggle_catalyst = {
+# 					catalyst = catalyst_fabricating_duchy_level_claims
+# 					character = scope:councillor_liege
+# 				}
+# 			}
+# 		}
+
+# 		ai_chance = {
+# 			base = 100
+# 			modifier = {
+# 				add = -95
+# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_duchy_cost
+# 			}	
+# 			modifier = {
+# 				factor = 0
+# 				short_term_gold < 0
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_advisor_task.0301.b
+# 		custom_tooltip = court_chaplain_task.0301.b.tt
+# 		ai_chance = {
+# 			base = 10
+# 		}
+# 	}
+# }

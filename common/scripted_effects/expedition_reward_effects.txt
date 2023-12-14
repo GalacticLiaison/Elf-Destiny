@@ -1,0 +1,822 @@
+﻿	# #Types      #Visuals
+	# type = axe #axe
+	# type = hammer #hammer
+	# type = spear #spear
+	# type = mace #mace
+	# type = dagger #dagger
+	# type = sword #sword longsword small_box
+	# type = bow #bow
+	# type = longbow #longbow
+	# type = composite #composite
+	# type = crossbow #crossbow
+	# type = armor_plate #armor
+	# type = armor_scale #armor
+	# type = armor_lamellar #armor
+	# type = armor_laminar #armor
+	# type = armor_brigandine #armor
+	# type = armor_mail #armor
+	# type = armor_$TYPE$ #armor
+	# type = regalia #regalia
+	# type = regalia_simple #regalia small_box brooch (DEBUG: mace/sword/dagger/axe/hammer/spear)
+	# type = helmet #crown pedestal_justinian hre_crown pope_tiara al_taj_crown
+	# type = brooch #brooch
+	# type = necklace #necklace
+	# type = ring #ring
+
+	# #flowers ring diamond pocket_pouch pocket_basic_case pocket_fancy_case pocket_figurine rock pocket_goblet regalia
+	# #medallion necklace brooch human_skull indian_book book scroll bird_feather flask tapestry fabric_roll pelt
+	# #falconry_glove skull_goblet medium_box small_box pouch chest cabinet_trinket tiny_throne_trinket
+	# type = miscellaneous 
+
+	# #fp2_chalice_dona_urraca fp2_santiago_aquamanile fp2_santiago_bells fp2_votive_crowns
+	# #fp2_2p_chess_board fp2_4p_chess_board
+	# type = miscellaneous_when_not_court
+	# type = bowl #bowl
+	# type = plate #plate
+	# type = urn #urn
+ 
+	# #bone rock pouch scroll cross human_skull diamond reliquary pedestal_longinus pedestal_christian_relic pedestal_islamic_relic
+	# #pedestal_buddhism_relic buddha_tooth pedestal_branch_relic_zoroastr pedestal_branch_relic_germanic pedestal_branch_relic_slavic
+	# #pedestal_branch_relic_boog pedestal_branch_relic_hinduism excalibur head riches medium_box regalia_court wall_khanda_sword 
+	# #dagger_court spear_court sword_court small_box wall_cid_sword wall_muhammad_sword wall_sword_attila ring_court cup_jamshid_template
+	# #crown_iron_template pedestal_justinian hre_crown olifant_court pedestal_david_harp pedestal_alexander_armor statuette
+	# type = pedestal
+
+	# type = brooch_pedestal #brooch_pedestal
+	# type = necklace_pedestal #necklace_pedestal
+	# type = chest #chest
+	# type = cabinet #diwan table cabinet
+	# type = throne #throne
+	# type = throne_special #throne_charlemagne throne_solomon throne_scone throne_turquoise throne_peacock
+	# type = tapestry #tapestry
+	# type = animal_hide_big #large_animal_hide
+	# type = animal_hide #small_animal_hide
+	# type = animal_skull #animal_trophy
+	# type = animal_trinket #fox_tail bear_paw tusk pouch animal_trinket
+	# type = bird_feather #bird_feather
+	# type = box #small_box medium_box
+	# type = goblet #goblet riches
+	# type = wall_big #banner banner_islam
+	# type = wall_shield_special #wall_shield_medi
+	# type = wall_shield # wall_shield
+	# type = sculpture #statue_mena statue sculpture_cabinet_pentapyrgion sculpture_ark_of_covenant sculpture_babr_e_bayan
+	# type = book #indian_book book
+	# type = panacea #small_box
+	# type = elixir #flask
+	# type = philosophers_stone #small_box
+	# type = tun_barrel #tun_barrel
+	# type = scepter_pedestal #scepter_pedestal
+	# type = pas_darmes_token #small_box
+	# type = pas_darmes_spurs #small_box
+	# type = tournament_favor #small_box
+ 
+	# type = $TYPE$ #fp2_armillary_sphere fp2_andalusian_aquamanile $VISUALS$ $TYPE$
+
+	#visuals_source = wall_big/banner wall_big/banner_islam wall_shield_special/wall_shield_medi wall_shield/wall_shield
+
+	# Params: OWNER, RARITY, TYPE
+	# IF Type = Equipment
+	# IF Type = Jewelry
+	# IF Type = Court
+
+create_elf_expedition_artifact_effect = {
+	$OWNER$ = { save_scope_as = owner }
+	# $RARITY$ = { save_scope_as = rarity }
+	# $TYPE$ = { save_scope_as = type }
+
+	# Determine Quality/Wealth
+	random_list = {
+		10 = {
+			save_scope_value_as = {
+				name = quality
+				value = 20
+			}
+			save_scope_value_as = {
+				name = wealth
+				value = 20
+			}
+		}
+		7 = {
+			save_scope_value_as = {
+				name = quality
+				value = 40
+			}
+			save_scope_value_as = {
+				name = wealth
+				value = 40
+			}
+		}
+		5 = {
+			save_scope_value_as = {
+				name = quality
+				value = 60
+			}
+			save_scope_value_as = {
+				name = wealth
+				value = 60
+			}
+		}
+		3 = {
+			save_scope_value_as = {
+				name = quality
+				value = 80
+			}
+			save_scope_value_as = {
+				name = wealth
+				value = 80
+			}
+		}
+	}
+
+	scope:owner = {
+		random_list = {
+			10 = {
+				set_variable = {
+					name = artifact_type
+					value = flag:axe
+				}
+			}
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:hammer
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:spear
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:mace
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:dagger
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:sword
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:bow
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:longbow
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:composite
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:crossbow
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_plate
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_scale
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_lamellar
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_laminar
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_brigandine
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:armor_mail
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:regalia
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:regalia_simple
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:helmet
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:brooch
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:necklace
+			# 	}
+			# }
+			# 10 = {
+			# 	set_variable = {
+			# 		name = artifact_type
+			# 		value = flag:ring
+			# 	}
+			# }
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:owner.var:artifact_type
+		}
+		create_elf_placeholder_artifact = yes
+	}
+
+}
+
+create_elf_placeholder_artifact = {
+
+	hidden_effect_new_object = {
+		if = { # Weapons
+			limit = {
+				OR = {
+					var:artifact_type = flag:axe
+					var:artifact_type = flag:hammer
+					var:artifact_type = flag:spear
+					var:artifact_type = flag:mace
+					var:artifact_type = flag:dagger
+					var:artifact_type = flag:sword
+					var:artifact_type = flag:bow
+					var:artifact_type = flag:longbow
+					var:artifact_type = flag:composite
+					var:artifact_type = flag:crossbow
+				}
+			}
+	
+			if = { # Axe
+				limit = {
+					var:artifact_type = flag:axe
+				}
+				create_artifact = {	
+					name =  artifact_axe_name
+					description = artifact_elf_axe_description
+					# creator = scope:creator
+					visuals = elf_axe
+					type = axe
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Hammer
+				limit = {
+					var:artifact_type = flag:hammer
+				}
+				create_artifact = {	
+					name = artifact_elf_hammer_name
+					description = artifact_elf_hammer_description
+					# creator = scope:creator
+					visuals = elf_hammer
+					type = hammer
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+
+				scope:newly_created_elf_artifact = {
+					# Rarity determines prowess bonus
+					add_scaled_artifact_modifier_prowess_effect = yes
+					elf_weapon_modifier = yes
+				}
+			}
+			else_if = { # Spear
+				limit = {
+					var:artifact_type = flag:spear
+				}
+				create_artifact = {	
+					name = artifact_elf_spear_name
+					description = artifact_elf_spear_description
+					# creator = scope:creator
+					visuals = spear
+					type = spear
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Mace
+				limit = {
+					var:artifact_type = flag:mace
+				}
+				create_artifact = {	
+					name = artifact_elf_mace_name
+					description = artifact_elf_mace_description
+					# creator = scope:creator
+					visuals = mace
+					type = mace
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Dagger
+				limit = {
+					var:artifact_type = flag:dagger
+				}
+				create_artifact = {	
+					name = artifact_elf_dagger_name
+					description = artifact_elf_dagger_description
+					# creator = scope:creator
+					visuals = dagger
+					type = dagger
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Sword
+				limit = {
+					var:artifact_type = flag:sword
+				}
+				create_artifact = {	
+					name = artifact_elf_sword_name
+					description = artifact_elf_sword_description
+					# creator = scope:creator
+					visuals = sword
+					type = sword
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Bow
+				limit = {
+					var:artifact_type = flag:bow
+				}
+				create_artifact = {	
+					name = artifact_elf_bow_name
+					description = artifact_elf_bow_description
+					# creator = scope:creator
+					visuals = bow
+					type = bow
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Longbow
+				limit = {
+					var:artifact_type = flag:longbow
+				}
+				create_artifact = {	
+					name = artifact_elf_long_bow_name
+					description = artifact_elf_long_bow_description
+					# creator = scope:creator
+					visuals = longbow
+					type = longbow
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Composite
+				limit = {
+					var:artifact_type = flag:composite
+				}
+				create_artifact = {	
+					name = artifact_elf_composite_bow_name
+					description = artifact_elf_composite_bow_description
+					# creator = scope:creator
+					visuals = composite
+					type = composite
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Crossbow
+				limit = {
+					var:artifact_type = flag:crossbow
+				}
+				create_artifact = {	
+					name = artifact_elf_crossbow_bow_name
+					description = artifact_elf_crossbow_bow_description
+					# creator = scope:creator
+					visuals = crossbow
+					type = crossbow
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+
+			scope:newly_created_elf_artifact = {
+				# Rarity determines prowess bonus
+				add_scaled_artifact_modifier_prowess_effect = yes
+				add_elf_weapon_modifier = yes
+			}
+		}
+
+		if = { # Armor
+			limit = {
+				OR = {
+					var:artifact_type = flag:armor_plate
+					var:artifact_type = flag:armor_scale
+					var:artifact_type = flag:armor_lamellar
+					var:artifact_type = flag:armor_laminar
+					var:artifact_type = flag:armor_brigandine
+					var:artifact_type = flag:armor_mail
+					var:artifact_type = flag:helmet
+				}
+			}
+
+			if = { # Armor Plate
+				limit = {
+					var:artifact_type = flag:armor_plate
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_plate_name
+					description = artifact_elf_armor_plate_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_plate
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Armor Scale
+				limit = {
+					var:artifact_type = flag:armor_scale
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_scale_name
+					description = artifact_elf_armor_scale_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_scale
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Armor Lamellar
+				limit = {
+					var:artifact_type = flag:armor_lamellar
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_lamellar_name
+					description = artifact_elf_armor_lamellar_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_lamellar
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Armor Laminar
+				limit = {
+					var:artifact_type = flag:armor_laminar
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_laminar_name
+					description = artifact_elf_armor_laminar_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_laminar
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Armor Brigandine
+				limit = {
+					var:artifact_type = flag:armor_brigandine
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_brigandine_name
+					description = artifact_elf_armor_brigandine_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_brigandine
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Armor Mail
+				limit = {
+					var:artifact_type = flag:armor_mail
+				}
+				create_artifact = {	
+					name = artifact_elf_armor_mail_name
+					description = artifact_elf_armor_mail_description
+					# creator = scope:creator
+					visuals = armor
+					type = armor_mail
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Regalia
+				limit = {
+					var:artifact_type = flag:regalia
+				}
+				create_artifact = {	
+					name = artifact_elf_regalia_name
+					description = artifact_elf_regalia_description
+					# creator = scope:creator
+					visuals = regalia
+					type = regalia
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = { # Crown
+				limit = {
+					var:artifact_type = flag:helmet
+				}
+				create_artifact = {	
+					name = artifact_elf_crown_name
+					description = artifact_elf_crown_description
+					# creator = scope:creator
+					visuals = crown
+					type = helmet
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+
+			scope:newly_created_elf_artifact = {
+				# Rarity determines prowess bonus
+				add_scaled_artifact_modifier_prowess_effect = yes
+				add_elf_armor_modifier = yes
+			}
+		}
+
+		if = { # Jewelry
+			limit = {
+				OR = {
+					var:artifact_type = flag:brooch
+					var:artifact_type = flag:necklace
+					var:artifact_type = flag:ring
+				}
+			}
+
+			if = {
+				limit = {
+					var:artifact_type = flag:brooch
+				}
+				create_artifact = {	
+					name = artifact_elf_brooch_name
+					description = artifact_elf_brooch_description
+					# creator = scope:creator
+					visuals = brooch
+					type = brooch
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+			else_if = {
+				limit = {
+					var:artifact_type = flag:necklace
+				}
+				create_artifact = {	
+					name = artifact_elf_necklace_name
+					description = artifact_elf_necklace_description
+					# creator = scope:creator
+					visuals = necklace
+					type = necklace
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}		
+			else_if = {
+				limit = {
+					var:artifact_type = flag:ring
+				}
+				create_artifact = {	
+					name = artifact_elf_ring_name
+					description = artifact_elf_ring_description
+					# creator = scope:creator
+					visuals = ring
+					type = ring
+					modifier = artifact_placeholder_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_elf_artifact
+				}
+			}
+
+			scope:newly_created_elf_artifact = {
+				# Rarity determines prowess bonus
+				add_scaled_artifact_modifier_attractiveness_effect = yes
+				add_scaled_artifact_modifier_scholarship_effect = yes
+				add_scaled_artifact_modifier_learning_lifestyle_xp_effect = yes
+				add_elf_jewelry_modifier = yes
+			}
+		}
+
+		else = {
+			debug_log = "No Item Type selected :("
+		}
+
+		if = {
+			limit = { exists = scope:newly_created_elf_artifact }
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_elf_artifact
+				}
+			}
+		}
+	}
+
+}
+
+
+unique_find_fortress_tomb_of_the_emperor = {
+	# $OWNER$ = { save_scope_as = owner }
+
+	# IF first time to the tomb, they must get sigil of the realm lord
+
+	# - Sigil of The Realm Lord
+	# - Choose your Culture Decision
+	# - \*Bloodstone Scepter
+	# - map to other ruins
+	if = {
+		limit = {
+			NOT = { has_global_variable = 01_sigil_of_the_realm_lord_found }
+		}
+
+		trigger_event = expedition.006901
+	} 
+	else = {
+		random_list = {
+			10 = { # Culture evolution discovery
+				trigger = {
+					NOT = { has_global_variable = 01_culture_discovery_found }
+				}
+				trigger_event = expedition_unique_encounters.001
+			}
+			# 3 = { # Bloodstone Scepter
+			# 	trigger = {
+			# 		NOT = { has_global_variable = 01_bloodstone_sceptor_found }
+			# 	}
+			# 	trigger_event = expedition_unique_encounters.002
+			# }
+			# 10 = { # Map to other ruins
+			# 	trigger = {
+			# 		NOT = { has_global_variable = 01_other_ruins_location_found }
+			# 	}
+			# 	trigger_event = expedition_unique_encounters.003
+			# }
+		}
+	}
+
+	# Ends Activity
+	scope:activity = {
+		set_variable = {
+			name = status
+			value = flag:discovery_made
+		}
+	}
+}
+
+unique_find_ruins_of_valfuria = {
+	random_list = {
+		10 = { # Culture evolution discovery
+			trigger = {
+				NOT = { has_global_variable = 02_culture_discovery_found }
+			}
+			trigger_event = expedition_unique_encounters.001
+		}
+		10 = { # Portal Spark Capacitor
+			trigger = {
+				NOT = { has_global_variable = portal_capacitor_found }
+			}
+			trigger_event = expedition_unique_encounters.001
+		}
+		# 3 = { # Some sword...
+		# 	trigger = {
+		# 		NOT = { has_global_variable = 01_bloodstone_sceptor_found }
+		# 	}
+		# 	trigger_event = expedition_unique_encounters.002
+		# }
+		# 10 = { # Map to other ruins
+		# 	trigger = {
+		# 		NOT = { has_global_variable = 01_other_ruins_location_found }
+		# 	}
+		# 	trigger_event = expedition_unique_encounters.003
+		# }
+	}
+
+	# Ends Activity
+	scope:activity = {
+		set_variable = {
+			name = status
+			value = flag:discovery_made
+		}
+	}
+}
+
+disburse_expedition_activity_rewards = {
+	# for the loc
+	save_scope_as = root_scope
+
+	
+	scope:host = {
+		add_prestige = 100
+
+		if = {
+			limit = {
+				exists = scope:activity.var:expedition_gold_reward
+			}
+			add_gold = scope:activity.var:expedition_gold_reward
+		}
+	}
+
+	scope:activity = {
+
+		hidden_effect = {
+			if = {
+				add_to_variable_list = {
+					name = trait_rewards
+					target = trait:adventurer
+				}
+			}
+		}
+
+		show_as_tooltip = {
+			every_attending_character = {
+				add_prestige = 100
+			}
+		}
+	}
+}

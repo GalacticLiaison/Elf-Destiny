@@ -1,0 +1,646 @@
+﻿init_trial_of_greed_treasure_scopes_effect = {
+	save_scope_value_as = {
+		name = small_bag
+		value = 2
+	}
+
+	save_scope_value_as = {
+		name = large_bag
+		value = 5
+	}
+
+	save_scope_value_as = {
+		name = small_chest
+		value = 4
+	}
+
+	save_scope_value_as = {
+		name = large_chest
+		value = 8
+	}
+
+	save_scope_value_as = {
+		name = weapon_small
+		value = 3
+	}
+
+	save_scope_value_as = {
+		name = weapon_large
+		value = 7
+	}
+
+	save_scope_value_as = {
+		name = armor
+		value = 6
+	}
+
+	save_scope_value_as = {
+		name = gold_vase
+		value = 9
+	}
+}
+
+add_trial_of_greed_treasure_effect = {
+	random_list = {
+		30 = {
+			trigger = {
+				scope:small_bag = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:small_bag = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:small_bag
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:large_bag = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:large_bag = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:large_bag
+				}
+			}
+		}
+		20 = {
+			trigger = {
+				scope:small_chest = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:small_chest = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:small_chest
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:large_chest = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:large_chest = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:large_chest
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:weapon_small = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:weapon_small = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:weapon_small
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:weapon_large = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:weapon_large = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:weapon_large
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:armor = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:armor = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:armor
+				}
+			}
+		}
+		10 = {
+			trigger = {
+				scope:gold_vase = { 
+					NOT = {
+						is_in_list = trial_of_greed_treasures
+					}
+				}
+			}
+			scope:gold_vase = { 
+				add_to_list = trial_of_greed_treasures
+			}
+			change_variable = {
+				name = treasure_weight 
+				add = {
+					value = scope:gold_vase
+				}
+			}
+		}
+	}
+
+
+}
+
+assign_random_pressure_plate_weight_effect = {
+	set_variable = {
+		name = pressure_plate_limit 
+		value = 0
+	}
+
+	random_list = {
+		20 = {
+			change_variable = {name = pressure_plate_limit add = 2}
+		}
+		20 = {
+			change_variable = {name = pressure_plate_limit add = 3}
+		}
+		10 = {
+			change_variable = {name = pressure_plate_limit add = 4}
+		}
+		10 = {
+			change_variable = {name = pressure_plate_limit add = 5}
+		}
+		10 = {
+			change_variable = {name = pressure_plate_limit add = 6}
+		}
+	}
+}
+
+resolve_treasure_choice = {
+	$CHOSEN_TREASURE$ = { save_scope_as = chosen }
+
+	if = {
+		limit = {
+			var:treasure_weight < var:pressure_plate_limit
+		}
+
+		trigger_event = expedition.005132 # Trigger Trap
+	}
+	else = {
+		get_treasure_reward = yes
+
+		trigger_event = expedition.005131 # Loop
+	}
+}
+
+reduce_treasure_weight_effect = {
+	$CHOSEN_TREASURE$ = { save_scope_as = chosen }
+
+	if = {
+		limit = {
+			scope:chosen = 1
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -1
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 2
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -2
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 3
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -3
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 4
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -4
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 5
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -5
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 6
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -6
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 7
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -7
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 8
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -8
+		}
+	}
+	if = {
+		limit = {
+			scope:chosen = 9
+		}
+
+		change_variable = {
+			name = treasure_weight 
+			add = -9
+		}
+	}
+
+}
+
+get_treasure_reward = {
+
+	debug_log_scopes = yes
+
+	if = {
+		limit = {
+			exists = var:expedition_gold_reward
+		}
+		debug_log = "yeeeee"
+	}
+	else = {
+		debug_log = "Nooo yeeeee"
+	}
+
+	if = {
+		limit = {
+			exists = scope:activity.var:expedition_gold_reward
+		}
+
+		debug_log = "Im In"
+
+		if = {
+			limit = {
+				exists = var:total_gold_gained
+			}
+
+			debug_log = "total_gold_gained does exist"
+		}
+		else = {
+			debug_log = "total_gold_gained does NOT exist"
+		}
+
+		if = { # small bag
+			limit = {
+				scope:chosen = 2
+			}
+			debug_log = expedition.005131.DEBUG
+
+			change_variable = { 
+				name = total_gold_gained
+				add = 15
+			}
+			debug_log = "set 1 small bag"
+			debug_log = expedition.005131.DEBUG
+		}
+		if = { # small weapon
+			limit = {
+				scope:chosen = 3
+			}
+	
+			random_list = {
+				10 = {
+					save_scope_value_as = {
+						name = quality
+						value = 20
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 20
+					}
+				}
+				7 = {
+					save_scope_value_as = {
+						name = quality
+						value = 40
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 40
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = quality
+						value = 60
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 60
+					}
+				}
+				3 = {
+					save_scope_value_as = {
+						name = quality
+						value = 80
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 80
+					}
+				}
+			}
+	
+			create_artifact = {	
+				name = artifact_elf_dagger_name
+				description = artifact_elf_dagger_description
+				# creator = scope:creator
+				visuals = dagger
+				type = dagger
+				modifier = artifact_placeholder_modifier
+				wealth = scope:wealth
+				quality = scope:quality
+				save_scope_as = newly_created_elf_artifact
+			}
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_elf_artifact
+				}
+			}
+	
+		}
+		if = { # small chest
+			limit = {
+				scope:chosen = 4
+			}
+			debug_log = expedition.005131.DEBUG
+	
+			change_variable = { 
+				name = total_gold_gained 
+				add = 50
+			}
+	
+			debug_log = "set 2 small chest"
+			debug_log = expedition.005131.DEBUG
+
+
+		}
+		if = { # large bag
+			limit = {
+				scope:chosen = 5
+			}
+	
+			debug_log = expedition.005131.DEBUG
+
+			change_variable = { 
+				name = total_gold_gained 
+				add = 100
+			}
+
+			debug_log = "set 3 large bag"
+			debug_log = expedition.005131.DEBUG
+
+
+		}
+		if = { # armor
+			limit = {
+				scope:chosen = 6
+			}
+	
+			random_list = {
+				10 = {
+					save_scope_value_as = {
+						name = quality
+						value = 20
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 20
+					}
+				}
+				7 = {
+					save_scope_value_as = {
+						name = quality
+						value = 40
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 40
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = quality
+						value = 60
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 60
+					}
+				}
+				3 = {
+					save_scope_value_as = {
+						name = quality
+						value = 80
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 80
+					}
+				}
+			}
+	
+			create_artifact = {	
+				name = artifact_elf_armor_mail_name
+				description = artifact_elf_armor_mail_description
+				# creator = scope:creator
+				visuals = armor
+				type = armor_mail
+				modifier = artifact_placeholder_modifier
+				wealth = scope:wealth
+				quality = scope:quality
+				save_scope_as = newly_created_elf_artifact
+			}
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_elf_artifact
+				}
+			}
+		}
+		if = { # weapon large
+			limit = {
+				scope:chosen = 7
+			}
+	
+			random_list = {
+				10 = {
+					save_scope_value_as = {
+						name = quality
+						value = 20
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 20
+					}
+				}
+				7 = {
+					save_scope_value_as = {
+						name = quality
+						value = 40
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 40
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = quality
+						value = 60
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 60
+					}
+				}
+				3 = {
+					save_scope_value_as = {
+						name = quality
+						value = 80
+					}
+					save_scope_value_as = {
+						name = wealth
+						value = 80
+					}
+				}
+			}
+	
+			create_artifact = {	
+				name =  artifact_axe_name
+				description = artifact_elf_axe_description
+				# creator = scope:creator
+				visuals = elf_axe
+				type = axe
+				modifier = artifact_placeholder_modifier
+				wealth = scope:wealth
+				quality = scope:quality
+				save_scope_as = newly_created_elf_artifact
+			}
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_elf_artifact
+				}
+			}
+		}
+		if = { # large chest
+			limit = {
+				scope:chosen = 8
+			}
+			debug_log = expedition.005131.DEBUG
+	
+			change_variable = { 
+				name = total_gold_gained 
+				add = 250
+			}
+
+			debug_log = "set 4 large chest"
+			debug_log = expedition.005131.DEBUG
+
+		}
+		if = { # gold vase
+			limit = { 
+				scope:chosen = 9
+			}
+
+			debug_log = expedition.005131.DEBUG
+
+			change_variable = { 
+				name = total_gold_gained 
+				add = 500
+			}
+
+			debug_log = "set 5 gold vase"
+			debug_log = expedition.005131.DEBUG
+
+
+		}
+	}
+	else = {
+		debug_log = "expedition_gold_reward is NOT SET"
+	}
+
+}

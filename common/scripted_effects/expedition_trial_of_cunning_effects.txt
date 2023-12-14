@@ -1,0 +1,271 @@
+﻿resolve_round_effect = {
+	# Determine AI choice
+	random_list = {
+		10 = { # King
+			trigger = { # Piece is still an option to play
+				scope:King = { is_in_list = ai_pieces }
+			}
+
+			scope:King = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:King
+			}
+		}
+		10 = { # Queen
+			trigger = { # Piece is still an option to play
+				scope:Queen = { is_in_list = ai_pieces }
+			}
+
+			scope:Queen = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Queen
+			}
+		}
+		10 = { # Priestess
+			trigger = { # Piece is still an option to play
+				scope:Priestess = { is_in_list = ai_pieces }
+			}
+
+			scope:Priestess = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Priestess
+			}
+		}
+		10 = { # Noble
+			trigger = { # Piece is still an option to play
+				scope:Noble = { is_in_list = ai_pieces }
+			}
+
+			scope:Noble = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Noble
+			}
+		}
+		10 = { # Knight
+			trigger = { # Piece is still an option to play
+				scope:Knight = { is_in_list = ai_pieces }
+			}
+
+			scope:Knight = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Knight
+			}
+		}
+		10 = { # Bandit
+			trigger = { # Piece is still an option to play
+				scope:Bandit = { is_in_list = ai_pieces }
+			}
+
+			scope:Bandit = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Bandit
+			}
+		}
+		10 = { # Peasant
+			trigger = { # Piece is still an option to play
+				scope:Peasant = { is_in_list = ai_pieces }
+			}
+
+			scope:Peasant = {
+				save_scope_as = ai_choice
+			}
+			save_scope_value_as = {
+				name = ai_choice_name
+				value = flag:Peasant
+			}
+		}
+	}
+
+	# Who Won?
+	if = {
+		limit = {
+			scope:player_choice = scope:ai_choice
+		}
+
+		save_scope_value_as = {
+			name = round_result
+			value = flag:tie
+		}
+
+		# Result is a tie, so no need to remove pieces from the lists
+	}
+	else_if = {
+		limit = {
+			scope:player_choice > scope:ai_choice
+		}
+
+		change_variable = {name = player_score add = 1}
+
+		save_scope_value_as = {
+			name = round_result
+			value = flag:player_won
+		}
+
+		remove_choices_from_remaining_options_effect = yes
+	}
+	else_if = {
+		limit = {
+			scope:player_choice < scope:ai_choice
+		}
+
+		change_variable = {name = ai_score add = 1}
+
+		save_scope_value_as = {
+			name = round_result
+			value = flag:ai_won
+		}
+
+		remove_choices_from_remaining_options_effect = yes
+	}
+
+	if = {
+		limit = {
+			var:player_score >= 4
+		}
+		trigger_event = expedition.005122
+	}
+	else_if = {
+		limit = { 
+			var:ai_score >= 4
+		}
+		trigger_event = expedition.005123
+	}
+	else = {
+		trigger_event = expedition.005121
+	}
+}
+
+remove_choices_from_remaining_options_effect = {
+	# Player
+	if = {
+		limit = {
+			scope:player_choice = scope:King
+		}
+		scope:King = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Queen
+		}
+		scope:Queen = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Priestess
+		}
+		scope:Priestess = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Noble
+		}
+		scope:Noble = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Knight
+		}
+		scope:Knight = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Bandit
+		}
+		scope:Bandit = {
+			remove_from_list = player_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:player_choice = scope:Peasant
+		}
+		scope:Peasant = {
+			remove_from_list = player_pieces
+		}
+	}
+	# AI
+	if = {
+		limit = {
+			scope:ai_choice = scope:King
+		}
+		scope:King = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Queen
+		}
+		scope:Queen = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Priestess
+		}
+		scope:Priestess = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Noble
+		}
+		scope:Noble = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Knight
+		}
+		scope:Knight = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Bandit
+		}
+		scope:Bandit = {
+			remove_from_list = ai_pieces
+		}
+	}
+	if = {
+		limit = {
+			scope:ai_choice = scope:Peasant
+		}
+		scope:Peasant = {
+			remove_from_list = ai_pieces
+		}
+	}
+}

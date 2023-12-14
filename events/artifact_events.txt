@@ -1,0 +1,60 @@
+﻿namespace = spark_artifact_events
+
+spark_artifact_events.0001 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		NAND = {
+			any_artifact = { has_variable = portal_spark_capacitor }
+			any_artifact = { has_variable = portal_navigation_relay }
+			any_artifact = { has_variable = sigil_of_the_realm_lord }
+			any_artifact = { has_variable = portal_schematics }
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				any_ruler = {
+					is_ai = no
+					NOT = {
+						any_character_artifact = { has_variable = portal }
+					}
+				}
+			}
+			random_ruler = {
+				limit = {
+					is_ai = no
+					NOT = {
+						any_character_artifact = { has_variable = portal }
+					}
+				}
+				trigger_event = spark_artifact_events.0002
+			}
+		}		
+	}
+}
+
+# Get All Portal Stuff
+spark_artifact_events.0002 = {
+	title = spark_artifact_events.0002.title
+	desc = spark_artifact_events.0002.desc
+	theme =  secret
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	option = {
+		name = spark_artifact_events.0002.a
+		create_portal_spark_capacitor_effect = { OWNER = root }
+		create_portal_navigation_relay_effect = { OWNER = root }
+		create_sigil_of_the_realm_lord_effect = { OWNER = root }
+		create_portal_schematics_effect = { OWNER = root }
+	}	
+	after={
+		dynasty={
+			set_variable = portalCheater
+		}
+	}	
+}

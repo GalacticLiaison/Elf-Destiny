@@ -1,0 +1,465 @@
+﻿namespace = expedition_unique_encounters
+
+# Culture evolution discovery
+expedition_unique_encounters.001 = {
+	type = activity_event
+
+	title = expedition_unique_encounters.001.title
+	desc = expedition_unique_encounters.001.desc
+
+	theme = cultural_discovery
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	# Get all unchosen elf culture tradition picks into a list
+	immediate = {
+		# Mark culture traditions as discovered for this elf ruin site
+		if = { # fortress_tomb_of_the_emperor
+			limit = {
+				scope:activity.activity_location.barony = title:b_bellinzona
+			}
+			set_global_variable = {
+				name = 01_culture_discovery_found
+				value = yes
+			}
+		}
+		if = {  # Ancient elf city ruins_of_valfuria
+			limit = {
+				scope:activity.activity_location.barony = title:b_gnezdovo
+			}
+			set_global_variable = {
+				name = 02_culture_discovery_found
+				value = yes
+			}
+		}
+
+		# Lets grab 4 undiscovered culture traditions
+		pick_random_elven_tradition = yes
+		pick_random_elven_tradition = yes
+		pick_random_elven_tradition = yes
+		pick_random_elven_tradition = yes
+
+		random_in_list = {
+			list = selected_elven_traditions
+			save_scope_as = tradition_one
+		}
+
+		random_in_list = {
+			list = selected_elven_traditions
+			limit = {
+				NOT = {
+					this = scope:tradition_one
+				}
+			}
+			save_scope_as = tradition_two
+		}
+
+		random_in_list = {
+			list = selected_elven_traditions
+			limit = {
+				NOT = {
+					OR = {
+						this = scope:tradition_one
+						this = scope:tradition_two
+					}
+				}
+			}
+			save_scope_as = tradition_three
+		}
+
+		random_in_list = {
+			list = selected_elven_traditions
+			limit = {
+				NOT = {
+					OR = {
+						this = scope:tradition_one
+						this = scope:tradition_two
+						this = scope:tradition_three
+					}
+				}
+			}
+			save_scope_as = tradition_four
+		}
+
+
+		# Ends Activity
+		# scope:activity = {
+		# 	set_variable = {
+		# 		name = status
+		# 		value = flag:discovery_made
+		# 	}
+		# }
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_tribal_ascension
+						}
+						desc = expedition_unique_encounters.001.tribal_ascension
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_fey_agoras
+						}
+						desc = expedition_unique_encounters.001.fey_agoras
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_beast_tamers
+						}
+						desc = expedition_unique_encounters.001.beast_tamers
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_woodland_bounty
+						}
+						desc = expedition_unique_encounters.001.woodland_bounty
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_elf_craftsmanship
+						}
+						desc = expedition_unique_encounters.001.elf_craftsmanship
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_one = culture_tradition:tradition_people_of_the_bow
+						}
+						desc = expedition_unique_encounters.001.people_of_the_bow
+					}
+					desc = unexpected_tradition_name
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:tradition_one
+		}
+
+		scope:host.culture = {
+			add_culture_tradition = scope:tradition_one
+		}
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_tribal_ascension
+						}
+						desc = expedition_unique_encounters.001.tribal_ascension
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_fey_agoras
+						}
+						desc = expedition_unique_encounters.001.fey_agoras
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_beast_tamers
+						}
+						desc = expedition_unique_encounters.001.beast_tamers
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_woodland_bounty
+						}
+						desc = expedition_unique_encounters.001.woodland_bounty
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_elf_craftsmanship
+						}
+						desc = expedition_unique_encounters.001.elf_craftsmanship
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_two = culture_tradition:tradition_people_of_the_bow
+						}
+						desc = expedition_unique_encounters.001.people_of_the_bow
+					}
+					desc = unexpected_tradition_name
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:tradition_two
+		}
+
+		scope:host.culture = {
+			add_culture_tradition = scope:tradition_two
+		}
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_tribal_ascension
+						}
+						desc = expedition_unique_encounters.001.tribal_ascension
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_fey_agoras
+						}
+						desc = expedition_unique_encounters.001.fey_agoras
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_beast_tamers
+						}
+						desc = expedition_unique_encounters.001.beast_tamers
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_woodland_bounty
+						}
+						desc = expedition_unique_encounters.001.woodland_bounty
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_elf_craftsmanship
+						}
+						desc = expedition_unique_encounters.001.elf_craftsmanship
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_three = culture_tradition:tradition_people_of_the_bow
+						}
+						desc = expedition_unique_encounters.001.people_of_the_bow
+					}
+					desc = unexpected_tradition_name
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:tradition_three
+		}
+
+		scope:host.culture = {
+			add_culture_tradition = scope:tradition_three
+		}
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_tribal_ascension
+						}
+						desc = expedition_unique_encounters.001.tribal_ascension
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_fey_agoras
+						}
+						desc = expedition_unique_encounters.001.fey_agoras
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_beast_tamers
+						}
+						desc = expedition_unique_encounters.001.beast_tamers
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_woodland_bounty
+						}
+						desc = expedition_unique_encounters.001.woodland_bounty
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_elf_craftsmanship
+						}
+						desc = expedition_unique_encounters.001.elf_craftsmanship
+					}
+					triggered_desc = {
+						trigger = {
+							scope:tradition_four = culture_tradition:tradition_people_of_the_bow
+						}
+						desc = expedition_unique_encounters.001.people_of_the_bow
+					}
+					desc = unexpected_tradition_name
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:tradition_four
+		}
+
+		scope:host.culture = {
+			add_culture_tradition = scope:tradition_four
+		}
+	}
+}
+
+# TODO: Refactor this into controller that picks item
+# Unique Items
+expedition_unique_encounters.002 = { # Bloodstone Sceptor
+	type = activity_event
+
+	title = "Bloodstone Sceptor Discovery"
+	desc = "Bloodstone Sceptor Discovery DESC"
+
+	theme = hunt_activity
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.030.takeSceptor
+
+		scope:host = {
+			create_artifact = {	
+				name = "Bloodstone Sceptor"
+				description = placeholder
+				creator = scope:creator
+				visuals = regalia
+				type = regalia
+				modifier = artifact_placeholder_modifier
+				wealth = 100
+				quality = 100
+				save_scope_as = bloodstone_sceptor
+			}
+		}
+
+		# scope:activity = {
+		# 	set_variable = {
+		# 		name = status
+		# 		value = flag:discovery_made
+		# 	}
+		# }
+
+		set_global_variable = {
+			name = 01_bloodstone_sceptor_found
+			value = yes
+		}
+	}
+}
+
+expedition_unique_encounters.0021 = { # Portal Capacitor
+	type = activity_event
+
+	title = "Portal Capacitor Discovery"
+	desc = "Portal Capacitor Discovery DESC"
+
+	# TODO Replace
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.0021.takeCapacitor
+
+		create_portal_spark_capacitor_effect = { OWNER = scope:host }
+
+		set_global_variable = {
+			name = portal_capacitor_found
+			value = yes
+		}
+	}
+}
+
+expedition_unique_encounters.0022 = { # Portal Navigation Relay
+	type = activity_event
+
+	title = "Portal Navigation Relay Discovery"
+	desc = "Portal Navigation Relay Discovery DESC"
+
+	# TODO Replace
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.030.takeNavigationRelay
+
+		create_portal_navigation_relay_effect = { OWNER = scope:host }
+
+		set_global_variable = {
+			name = portal_navigation_relay_found
+			value = yes
+		}
+	}
+}
+
+
+# Map to Other Ruins
+expedition_unique_encounters.003 = { #
+	type = activity_event
+
+	title = "Lost Map Discovery"
+	desc = "Lost Map Discovery DESC"
+
+	theme = hunt_activity
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = 01_other_ruins_location_found
+			value = yes
+		}
+	}
+
+	option = {
+		name = expedition.040.more_to_discover
+	}
+}
+

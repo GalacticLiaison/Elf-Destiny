@@ -1,0 +1,51 @@
+﻿
+can_be_court_aeluran_advisor = {
+	save_temporary_scope_as = potential_court_aeluran_advisor
+
+	# is high enough rank in the coven
+	OR = {
+		has_trait = aeluran_sister
+		has_trait = aeluran_matron
+		has_trait = aeluran_high_matriarch
+	}
+
+	# Re-enable if it becomes problem but could see special event where child advises you
+	# is_capable_adult = yes
+	is_imprisoned = no
+	is_at_war_with_liege = no
+
+	# A Caravan Master will travel around, which is not compatible with council tasks
+	NOT = { has_court_position = travel_leader_court_position }
+	
+	# Custom blocker env var set elsewhere
+	trigger_if = {
+		limit = { has_variable = block_hire_councillor }
+		NOT = { var:block_hire_councillor = liege }
+	}
+
+	# is this candidate the allowed gender?
+	$COURT_OWNER$.faith = { has_allowed_gender_for_clergy = scope:potential_court_aeluran_advisor }
+
+	# Intentionally Disabled! may want spouse!, infact special events if spouse is advisor
+	NOT = { has_council_position = councillor_spouse }
+
+	# if temporal theocracy, advisor cant be a ruler or have a theorcatic government
+	faith = $COURT_OWNER$.faith
+	trigger_if = {
+		limit = {
+			faith = { has_doctrine = doctrine_theocracy_temporal }
+		}
+		OR = {
+			is_ruler = no
+			government_has_flag = government_is_theocracy
+		}
+	}
+
+	# Cant have escaped my prison before
+	trigger_if = {
+		limit = {
+			exists = var:escaped_imprisonment_from
+		}
+		NOT = { var:escaped_imprisonment_from = $COURT_OWNER$ }
+	}
+}

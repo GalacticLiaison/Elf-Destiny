@@ -1,0 +1,47 @@
+﻿set_up_base_camp_events = {
+	trigger = {
+		exists = scope:activity
+		involved_activity.activity_host ?= this
+	}
+	events = {
+		expedition.001 # Set up base camp
+	}
+}
+
+expedition_events = {
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+			NOT = {
+				scope:activity.var:status = flag:discovery_made
+			}
+		}
+		involved_activity.activity_host ?= this
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_global_variable = 01_sigil_of_the_realm_lord_found }
+			}
+			trigger_event = expedition.006901
+		} 
+		else = {
+			random_list = {
+				50 = { # Nothing
+					trigger_event = expedition.002
+				}
+				5 = { # Hazard
+					trigger_event = expedition.003
+				}
+				15 = { # Minor Treasure
+					trigger_event = expedition.004
+				}
+				50 = { # Trial
+					trigger_event = expedition.0051
+				}
+			}
+		}
+	}
+}

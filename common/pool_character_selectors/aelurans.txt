@@ -1,0 +1,52 @@
+﻿pool_aeluran_advisor = {
+	valid_character = {
+		# Capable adults
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_married = no
+		is_betrothed = no
+
+		# Correct gender
+		scope:base.faith = { has_allowed_gender_for_clergy = root }
+	}
+	
+	character_score = {
+		base = 1
+		
+		modifier = {
+			add = 100
+			has_same_culture_as = scope:base
+		}
+		modifier = {
+			add = 15
+			culture = { has_same_culture_heritage = scope:base.culture }
+		}
+		modifier = {
+			add = 10
+			culture = { has_same_culture_language = scope:base.culture }
+		}
+		modifier = {
+			add = 5
+			culture = { has_same_culture_ethos = scope:base.culture }
+		}
+
+		modifier = {
+			factor = 2.5
+			age < 40
+		}
+		modifier = {
+			factor = 3
+			scope:base.faith = { has_preferred_gender_for_clergy = root }
+		}
+	}
+	
+	config = {
+		# background = clergy
+		age = { 15 35 }
+	}
+	
+	selection_count = 25
+	
+	pool = faith
+	gender = clergy
+}

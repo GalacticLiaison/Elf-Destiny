@@ -1,0 +1,60 @@
+﻿namespace = the_rut_events
+
+the_rut_events.0001 = {
+	hidden = yes
+
+    trigger = {
+		root.culture  = {
+			has_cultural_tradition = tradition_the_rut
+		}
+		is_any_elf_type = yes
+	}
+
+	immediate = {
+		send_interface_message = {
+			type = event_martial_text_good
+			# left_icon = scope:varangian_candidate
+			title = the_rut_begins.title
+			desc = the_rut_begins.desc
+
+			left_icon = root
+
+			add_character_modifier = {
+				modifier = the_rut_modifier
+				months = 3
+			}
+			add_character_flag = rutting
+			add_trait = lustful
+		}
+	}
+}
+
+the_rut_events.0002 = {
+    hidden = yes
+
+    trigger = {
+		is_any_elf_type = yes
+		has_character_flag = rutting
+	}
+
+	immediate = {
+		send_interface_message = {
+			type = event_martial_text_good
+			title = the_rut_ends.title
+			desc = the_rut_ends.desc
+
+			left_icon = root
+			
+			remove_character_flag = rutting
+			if = {
+				trigger = {
+					AND = {
+						has_trait = lustful
+						num_of_personality_traits > 3
+					}
+				}
+				remove_trait = lustful
+			}
+		}
+	}
+}

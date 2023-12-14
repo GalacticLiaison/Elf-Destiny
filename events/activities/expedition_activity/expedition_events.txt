@@ -1,0 +1,1544 @@
+﻿namespace = expedition
+
+expedition.001 = { # Set Up Base Camp
+	type = activity_event
+
+	title = expedition.001.title
+	desc = expedition.001.desc
+
+	theme = hunt_activity_camp
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	# Set Up Camp and prepare for the expedition
+	option = {
+		name = expedition.001.set_up_camp
+	}
+}
+
+# Expedition Encounters Nothing
+expedition.002 = {
+	type = activity_event
+
+	title = expedition.002.title
+	desc = expedition.002.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.002.ok
+	}
+}
+
+# Expedition Encounters A Hazard
+# A great idea for a simple check right now is just add up the parties prowess and that affects the percent chance of successy
+expedition.003 = {
+	type = activity_event
+
+	title = expedition.003.title
+	desc = expedition.003.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		every_attending_character = {
+			random_list = {
+				85 = { # Nothing Happens
+					
+				}
+				15 = { # They Are Injured
+					hidden_effect = {
+						change_trait_rank = {
+							trait = wounded
+							rank = 1
+							max = 3
+						}
+					}
+				}
+			}
+		}
+
+		name = expedition.003.ok
+	}
+}
+
+# Expedition Finds Minor Treasure
+expedition.004 = {
+	type = activity_event
+
+	title = expedition.004.title
+	desc = expedition.004.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:newly_created_elf_artifact
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:newly_created_elf_artifact }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			create_elf_expedition_artifact_effect = {
+				OWNER = scope:host
+			}
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.004.ok
+	}
+}
+
+# Expedition Faces a Trial - Controller
+expedition.0051 = {
+	hidden = yes
+	
+	immediate = {
+		random_list = {
+			100 = { # A Trial Of Wisdom
+				trigger_event = expedition.00511
+			}
+			100 = { # A Trial Of Cunning
+				trigger_event = expedition.00512
+			}
+			25 = { # A Trial Of Greed
+				trigger_event = expedition.00513
+			}
+		}
+	}
+}
+
+# Expedition is rewarded with unique encounter
+expedition.0052 = {
+	hidden = yes
+
+	immediate = {
+		if = { # fortress_tomb_of_the_emperor
+			limit = {
+				scope:activity.activity_location.barony = title:b_bellinzona
+			}
+
+			# debug_fortress_tomb_of_the_emperor = yes
+
+			unique_find_fortress_tomb_of_the_emperor = yes
+		}
+		else_if = { # Ancient elf city ruins_of_valfuria
+			limit = {
+				scope:activity.activity_location.barony = title:b_gnezdovo
+			}
+
+			unique_find_ruins_of_valfuria = yes
+		} 
+		else = {
+			debug_log = "No Unique Items Option Selected"
+		}
+	}
+}
+
+# Start here, flesh out this event description, spread it out over multiple windows if needed
+# Grab king skeleton, pic
+
+# Find skele king
+expedition.0069 = { # Find Sigil Of The Realm Lord
+	# IF expedition.discovery_made = false
+
+	type = activity_event
+
+	title = expedition.0069.title
+	desc = expedition.0069.desc
+
+	theme = dead_elf_king_with_sigil
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = character:6969696
+		animation = thinking
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = expedition.0069.ok
+		if = {
+			limit = {
+				NOT = { has_global_variable = 01_sigil_of_the_realm_lord_found }
+			}
+	
+			create_sigil_of_the_realm_lord_effect = { OWNER = root }
+	
+			set_global_variable = {
+				name = 01_sigil_of_the_realm_lord_found
+				value = yes
+			}
+		}
+
+		trigger_event = expedition.00691
+	}
+}
+
+# Flash of light => you are transformed => press continue
+expedition.00691 = {
+	type = activity_event
+
+	title = expedition.00691.title
+	desc = expedition.00691.desc
+
+	theme = dead_elf_king_with_light
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	option = {
+		name = expedition.00691.ok
+
+		if = {
+			limit = {
+				NOT = {
+					is_any_elf_type = yes
+				}
+			}
+			add_trait = elf
+		}
+
+		if = {
+			limit = {
+				exists = character:6969696
+				character:6969696  = {
+					NOT = {
+						is_any_elf_type = yes
+					}
+				}
+			}
+			character:6969696 = {
+				add_trait = elf
+			}
+		}
+
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf
+		}
+
+		trigger_event = expedition.00692
+	}
+}
+
+# Conclusion, head home
+expedition.00692 = {
+	type = activity_event
+
+	title = expedition.00692.title
+	desc = expedition.00692.desc
+
+	theme = dead_elf_king
+
+	left_portrait = {
+		character = scope:host
+		animation = disbelief
+	}
+
+	right_portrait = {
+		character = character:6969696
+		animation = shock
+	}
+
+	option = {
+		name = expedition.00692.ok
+	}
+}
+
+
+### Standard Shared Events ###
+expedition.006901 = { # A Trial Of Wisdom TUTORIAL
+	type = activity_event
+
+	title = expedition_riddles.title
+	desc = expedition.006901.desc
+
+	theme = trial_of_wisdom
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = character:6969696
+		animation = admiration
+	}
+
+	option = {
+		name = expedition.006901.ok
+
+		random_list = {
+			100 = { 
+				trigger_event = expedition_riddles.tutorial
+			}
+		}
+	}
+}
+
+expedition.00511 = { # A Trial Of Wisdom
+	type = activity_event
+
+	title = expedition_riddles.title
+	desc = expedition.00511.desc
+
+	theme = trial_of_wisdom
+	# override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.00511.ok
+
+		random_list = {
+			100 = { 
+				trigger_event = expedition_riddles.001
+			}
+			100 = { 
+				trigger_event = expedition_riddles.002
+			}
+			100 = { 
+				trigger_event = expedition_riddles.003
+			}
+			100 = { 
+				trigger_event = expedition_riddles.004
+			}
+			100 = { 
+				trigger_event = expedition_riddles.005
+			}
+			100 = { 
+				trigger_event = expedition_riddles.006
+			}
+			100 = { 
+				trigger_event = expedition_riddles.007
+			}
+			100 = { 
+				trigger_event = expedition_riddles.008
+			}
+			100 = { 
+				trigger_event = expedition_riddles.009
+			}
+			100 = { 
+				trigger_event = expedition_riddles.010
+			}
+			100 = { 
+				trigger_event = expedition_riddles.011
+			}
+			100 = { 
+				trigger_event = expedition_riddles.012
+			}
+			100 = { 
+				trigger_event = expedition_riddles.013
+			}
+			100 = { 
+				trigger_event = expedition_riddles.014
+			}
+			100 = { 
+				trigger_event = expedition_riddles.015
+			}
+			100 = { 
+				trigger_event = expedition_riddles.016
+			}
+			100 = { 
+				trigger_event = expedition_riddles.017
+			}
+			100 = { 
+				trigger_event = expedition_riddles.018
+			}
+			100 = { 
+				trigger_event = expedition_riddles.019
+			}
+			100 = { 
+				trigger_event = expedition_riddles.020
+			}
+			100 = { 
+				trigger_event = expedition_riddles.021
+			}
+			100 = { 
+				trigger_event = expedition_riddles.022
+			}
+			100 = { 
+				trigger_event = expedition_riddles.023
+			}
+			100 = { 
+				trigger_event = expedition_riddles.024
+			}
+			100 = { 
+				trigger_event = expedition_riddles.025
+			}
+			100 = { 
+				trigger_event = expedition_riddles.026
+			}
+			100 = { 
+				trigger_event = expedition_riddles.027
+			}
+			100 = { 
+				trigger_event = expedition_riddles.028
+			}
+			100 = { 
+				trigger_event = expedition_riddles.029
+			}
+			100 = { 
+				trigger_event = expedition_riddles.030
+			}
+			100 = { 
+				trigger_event = expedition_riddles.031
+			}
+			100 = { 
+				trigger_event = expedition_riddles.032
+			}
+			100 = { 
+				trigger_event = expedition_riddles.033
+			}
+			100 = { 
+				trigger_event = expedition_riddles.034
+			}
+		}
+	}
+}
+
+expedition.00512 = { # A Trial Of Cunning
+	type = activity_event
+
+	title = expedition.00512.title
+	desc = expedition.00512.desc
+
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		set_variable = {
+			name = player_score 
+			value = 0
+		}
+
+		set_variable = {
+			name = ai_score 
+			value = 0
+		}
+
+		save_scope_value_as = {
+			name = King
+			value = 7
+		}
+		save_scope_value_as = {
+			name = Queen
+			value = 6
+		}
+		save_scope_value_as = {
+			name = Priestess
+			value = 5
+		}
+		save_scope_value_as = {
+			name = Noble
+			value = 4
+		}
+		save_scope_value_as = {
+			name = Knight
+			value = 3
+		}
+		save_scope_value_as = {
+			name = Bandit
+			value = 2
+		}
+		save_scope_value_as = {
+			name = Peasant
+			value = 1
+		}
+
+		scope:King = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Queen = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Priestess = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Noble = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Knight = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Bandit = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Peasant = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+	}
+
+	option = { # King
+		name = expedition.00512.playKing
+
+		trigger = {
+			scope:King = { is_in_list = player_pieces }
+		}
+
+		scope:King = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:King
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Queen
+		name = expedition.00512.playQueen
+
+		trigger = {
+			scope:Queen = { is_in_list = player_pieces }
+		}
+
+		scope:Queen = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Queen
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Priestess
+		name = expedition.00512.playPriestess
+
+		trigger = {
+			scope:Priestess = { is_in_list = player_pieces }
+		}
+
+		scope:Priestess = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Priestess
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Noble
+		name = expedition.00512.playNoble
+
+		trigger = {
+			scope:Noble = { is_in_list = player_pieces }
+		}
+
+		scope:Noble = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Noble
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Knight
+		name = expedition.00512.playKnight
+
+		trigger = {
+			scope:Knight = { is_in_list = player_pieces }
+		}
+	
+		scope:Knight = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Knight
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Bandit
+		name = expedition.00512.playBandit
+		
+		trigger = {
+			scope:Bandit = { is_in_list = player_pieces }
+		}
+
+		scope:Bandit = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Bandit
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Peasant
+		name = expedition.00512.playPeasant
+
+		trigger = {
+			scope:Peasant = { is_in_list = player_pieces }
+		}
+
+		scope:Peasant = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Peasant
+		}
+
+		resolve_round_effect = yes
+	}
+}
+
+expedition.005121 = { # Trial Of Cunning Round
+
+	type = activity_event
+
+	title = expedition.005121.title
+
+	desc = {
+		desc = expedition.00512.chosen_pieces
+		first_valid = {
+			triggered_desc = { # Tie
+				trigger = {
+					scope:round_result = flag:tie
+				}
+				desc = expedition.005121.tie
+			}
+			triggered_desc = { # Player Wins Round
+				trigger = {
+					scope:round_result = flag:player_won
+				}
+				desc = expedition.005121.player_won
+			}
+			triggered_desc = { # Player Wins Round
+				trigger = {
+					scope:round_result = flag:ai_won
+				}
+				desc = expedition.005121.ai_won
+			}
+			desc = expedition.005121.error
+		}
+		desc = expedition.00512.current_score
+		desc = expedition.00512.remaining_ai_pieces
+		# AI Pieces Remaining
+		triggered_desc = {
+			trigger = {
+				scope:King = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.king
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Queen = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.queen
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Priestess = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.priestess
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Noble = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.noble
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Knight = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.knight
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Bandit = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.bandit
+		}
+		triggered_desc = {
+			trigger = {
+				scope:Peasant = { is_in_list = ai_pieces }
+			}
+			desc = expedition.00512.peasant
+		}
+	}
+
+	# desc = expedition.game_score
+
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = { # King
+		name = expedition.00512.playKing
+
+		trigger = {
+			scope:King = { is_in_list = player_pieces }
+		}
+
+		scope:King = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:King
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Queen
+		name = expedition.00512.playQueen
+
+		trigger = {
+			scope:Queen = { is_in_list = player_pieces }
+		}
+
+		scope:Queen = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Queen
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Priestess
+		name = expedition.00512.playPriestess
+
+		trigger = {
+			scope:Priestess = { is_in_list = player_pieces }
+		}
+
+		scope:Priestess = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Priestess
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Noble
+		name = expedition.00512.playNoble
+
+		trigger = {
+			scope:Noble = { is_in_list = player_pieces }
+		}
+
+		scope:Noble = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Noble
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Knight
+		name = expedition.00512.playKnight
+
+		trigger = {
+			scope:Knight = { is_in_list = player_pieces }
+		}
+	
+		scope:Knight = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Knight
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Bandit
+		name = expedition.00512.playBandit
+		
+		trigger = {
+			scope:Bandit = { is_in_list = player_pieces }
+		}
+
+		scope:Bandit = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Bandit
+		}
+
+		resolve_round_effect = yes
+	}
+	option = { # Peasant
+		name = expedition.00512.playPeasant
+
+		trigger = {
+			scope:Peasant = { is_in_list = player_pieces }
+		}
+
+		scope:Peasant = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Peasant
+		}
+
+		resolve_round_effect = yes
+	}
+}
+
+expedition.005122 = { # Trial Of Cunning Player Victory
+
+	type = activity_event
+
+	title = expedition.005122.title
+	desc = expedition.005122.desc
+
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = happiness
+	}
+
+	option = { 
+		name = expedition.005122.ok
+	}
+}
+
+expedition.005123 = { # Trial Of Cunning AI Victory
+	type = activity_event
+
+	title = expedition.005123.title
+	desc = expedition.005123.desc
+
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = disapproval
+	}
+
+	option = { 
+		name = expedition.005123.ok
+	}
+}
+
+
+# # Remove pieces of treasure from a weight. Lift to much and a trap is sprung
+expedition.00513 = { # Trial Of Greed
+	type = activity_event
+	title = expedition.00513.title
+	
+	desc = {
+		desc = expedition.00513.desc
+
+		# Add Triggered descs for each item in pile
+		triggered_desc = {
+			trigger = {
+				# 
+			}
+			# desc = expedition.00513.debug
+		}
+	}
+
+	theme = trial_of_greed
+
+	left_portrait = {
+		character = scope:host
+		animation = personality_greedy
+	}
+
+	# Determine Random Weight for pressure plate
+	# Items on plates maybe have standard weights players could come to learn
+	# - ex small chest 20lbs, large chest 40lbs, sword 5lbs, etc
+	# As Items are removed the odds of triggering the trap are increased
+
+
+	# Step1: Determine eight of plate and choose random tresures to place on plate
+
+	# Step2: Player can pick one of two items or leave the room
+
+	# Removed Item is replaced with a new item from list if trap not triggered
+
+
+	# Create a list of reward scopes
+	immediate = {
+		set_variable = {
+			name = treasure_weight 
+			value = 0
+		}
+
+		set_variable = {
+			name = total_gold_gained
+			value = 0
+		}
+
+		assign_random_pressure_plate_weight_effect = yes
+		init_trial_of_greed_treasure_scopes_effect = yes
+		add_trial_of_greed_treasure_effect = yes
+		add_trial_of_greed_treasure_effect = yes
+		add_trial_of_greed_treasure_effect = yes
+		add_trial_of_greed_treasure_effect = yes
+
+		random_in_list = {
+			list = trial_of_greed_treasures
+			save_scope_as = option_one
+		}
+
+		random_in_list = {
+			list = trial_of_greed_treasures
+			limit = {
+				NOT = {
+					scope:option_one = this
+				}
+			}
+			save_scope_as = option_two
+		}
+	}
+
+	# HUGE IDEA: in the event description, 
+	# based on your highest stewardship, 
+	# we put a message like 
+	# "Sir Bob estimates the pressure plate is near to triggering". 
+	# Different message clues for different stewardship levels AND based on remaining trigger threshold
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 2
+						}
+						desc = expedition.00513.small_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 5
+						}
+						desc = expedition.00513.large_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 4
+						}
+						desc = expedition.00513.small_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 8
+						}
+						desc = expedition.00513.large_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 3
+						}
+						desc = expedition.00513.weapon_small
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 7
+						}
+						desc = expedition.00513.weapon_large
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 6
+						}
+						desc = expedition.00513.armor
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 9
+						}
+						desc = expedition.00513.gold_vase
+					}
+				}
+			}
+		}
+		
+		trigger = {
+			exists = scope:option_one
+		}
+
+		debug_log = "OPTION 1"
+
+		reduce_treasure_weight_effect = {
+			CHOSEN_TREASURE = scope:option_one
+		}
+
+		scope:option_one = {
+			remove_from_list = trial_of_greed_treasures
+		}
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOT = {
+						scope:option_two = this
+					}
+				}
+				save_scope_as = option_one
+			}
+		} else = {
+			clear_saved_scope = option_one
+		}
+		
+		resolve_treasure_choice = {
+			CHOSEN_TREASURE = scope:option_one
+		}
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 2
+						}
+						desc = expedition.00513.small_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 5
+						}
+						desc = expedition.00513.large_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 4
+						}
+						desc = expedition.00513.small_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 8
+						}
+						desc = expedition.00513.large_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 3
+						}
+						desc = expedition.00513.weapon_small
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 7
+						}
+						desc = expedition.00513.weapon_large
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 6
+						}
+						desc = expedition.00513.armor
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 9
+						}
+						desc = expedition.00513.gold_vase
+					}
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:option_two
+		}
+
+		debug_log = "OPTION 2"
+
+		# scope:small_bag = {
+		# 	remove_from_list = trial_of_greed_treasures
+		# }
+
+		scope:option_two = {
+			remove_from_list = trial_of_greed_treasures
+		}
+
+		reduce_treasure_weight_effect = {
+			CHOSEN_TREASURE = scope:option_two
+		}
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOT = {
+						scope:option_one = this
+					}
+				}
+				save_scope_as = option_two
+			}
+		}
+		else = {
+			clear_saved_scope = option_two
+		}
+
+		resolve_treasure_choice = {
+			CHOSEN_TREASURE = scope:option_two
+		}
+	}
+
+	option = {
+		name = expedition.00513.leave
+	}
+}
+
+expedition.005131 = { # Trial Of Greed Loop
+	type = activity_event
+
+	title = expedition.005131.title
+
+	desc = {
+		desc = expedition.005131.desc
+		desc = expedition.005131.round_reward_gold
+
+		# Add Triggered descs for each item in pile
+		triggered_desc = {
+			trigger = {
+				# 
+			}
+			# desc = expedition.00513.debug
+		}
+	}
+
+	theme = trial_of_greed
+
+	left_portrait = {
+		character = scope:host
+		animation = personality_greedy
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:newly_created_elf_artifact
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:newly_created_elf_artifact }
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 2
+						}
+						desc = expedition.00513.small_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 5
+						}
+						desc = expedition.00513.large_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 4
+						}
+						desc = expedition.00513.small_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 8
+						}
+						desc = expedition.00513.large_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 3
+						}
+						desc = expedition.00513.weapon_small
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 7
+						}
+						desc = expedition.00513.weapon_large
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 6
+						}
+						desc = expedition.00513.armor
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_one = 9
+						}
+						desc = expedition.00513.gold_vase
+					}
+				}
+			}
+		}
+		
+		trigger = {
+			exists = scope:option_one
+		}
+
+		debug_log = "OPTION 1"
+
+		reduce_treasure_weight_effect = {
+			CHOSEN_TREASURE = scope:option_one
+		}
+
+		scope:option_one = {
+			remove_from_list = trial_of_greed_treasures
+		}
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOT = {
+						scope:option_two = this
+					}
+				}
+				save_scope_as = option_one
+			}
+		}
+		else = {
+			clear_saved_scope = option_one
+		}
+		
+		resolve_treasure_choice = {
+			CHOSEN_TREASURE = scope:option_one
+		}
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 2
+						}
+						desc = expedition.00513.small_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 5
+						}
+						desc = expedition.00513.large_bag
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 4
+						}
+						desc = expedition.00513.small_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 8
+						}
+						desc = expedition.00513.large_chest
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 3
+						}
+						desc = expedition.00513.weapon_small
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 7
+						}
+						desc = expedition.00513.weapon_large
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 6
+						}
+						desc = expedition.00513.armor
+					}
+					triggered_desc = {
+						trigger = {
+							scope:option_two = 9
+						}
+						desc = expedition.00513.gold_vase
+					}
+				}
+			}
+		}
+
+		trigger = {
+			exists = scope:option_two
+		}
+
+		debug_log = "OPTION 2"
+
+		reduce_treasure_weight_effect = {
+			CHOSEN_TREASURE = scope:option_two
+		}
+
+		scope:option_two = {
+			remove_from_list = trial_of_greed_treasures
+		}
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOT = {
+						scope:option_one = this
+					}
+				}
+				save_scope_as = option_two
+			}
+		}
+		else = {
+			clear_saved_scope = option_two
+		}
+		
+		resolve_treasure_choice = {
+			CHOSEN_TREASURE = scope:option_two
+		}
+	}
+
+	option = {
+		name = expedition.00513.leaveLoop
+
+		if = {
+			limit = {
+				exists = scope:activity.var:wtf_now
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:activity.var:expedition_gold_reward
+			}
+
+			debug_log = "updating scope:activity.var:expedition_gold_reward"
+
+			if = {
+				limit = {
+					exists = var:total_gold_gained
+				}
+				scope:activity = {
+					change_variable = {
+						name = expedition_gold_reward 
+						add = root.var:total_gold_gained
+					}
+				}
+
+				change_variable = {
+					name = expedition_gold_reward 
+					add = var:total_gold_gained
+				}
+			}
+			else = {
+				debug_log = "more problems"
+			}
+		}
+		else = {
+			debug_log = "problems"
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:discovery_made
+			}
+		}
+
+	}
+}
+
+expedition.005132 = { # Trial Of Greed Trap Triggered
+	type = activity_event
+
+	title = expedition.005132.title
+	desc = expedition.005132.desc
+
+	theme = trial_of_greed_trap
+
+	left_portrait = {
+		character = scope:host
+		animation = fear
+	}
+
+	option = {
+		name = expedition.005132.ouch
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:discovery_made
+			}
+		}
+
+		every_attending_character = {
+			random_list = {
+				85 = { # Nothing Happens
+					
+				}
+				15 = { # They Are Injured
+					hidden_effect = {
+						change_trait_rank = {
+							trait = wounded
+							rank = 1
+							max = 3
+						}
+					}
+				}
+			}
+		}
+
+
+	}
+}
+
+# Expedition Ends
+expedition.006 = {
+	type = activity_event
+
+	title = expedition.006.title
+	desc = expedition.006.desc
+
+	theme = hunt_activity
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.006.ok
+		# trigger_event = expedition.0061
+	}
+}
+
+# expedition.0061 = {
+# 	type = character_event
+# 	hidden = yes
+
+# 	immediate = {
+# 		# Save expedition scopes for loc
+# 		# tournament_save_contest_winner_scopes_effect = yes
+
+# 		# Create log entry and hand out rewards
+# 		scope:activity = {
+# 			add_activity_log_entry = {
+# 				key = expedition_complete_log
+# 				character = scope:host
+# 				score = 100
+# 				show_in_conclusion = yes
+
+# 				#Effect
+# 				scope:host = { disburse_tournament_activity_rewards = yes }
+# 			}
+# 			# Hand out prize artifacts
+# 			scope:host = { tournament_disburse_contest_prize_effect = yes }
+# 			every_attending_character = {
+# 				# Trigger summary event
+# 				trigger_event = tournament_events.0150
+# 			}
+# 		}
+# 	}
+# }

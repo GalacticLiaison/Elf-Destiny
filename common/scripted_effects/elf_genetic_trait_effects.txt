@@ -1,0 +1,379 @@
+﻿remove_all_physique_traits = {
+	remove_trait = physique_good_1
+	remove_trait = physique_good_2
+	remove_trait = physique_good_3
+	remove_trait = physique_bad_1
+	remove_trait = physique_bad_2
+	remove_trait = physique_bad_3
+}
+
+remove_all_beauty_traits = {
+	remove_trait = beauty_good_1
+	remove_trait = beauty_good_2
+	remove_trait = beauty_good_3
+	remove_trait = beauty_bad_1
+	remove_trait = beauty_bad_2
+	remove_trait = beauty_bad_3
+}
+
+remove_all_intellect_traits = {
+	remove_trait = intellect_good_1
+	remove_trait = intellect_good_2
+	remove_trait = intellect_good_3
+	remove_trait = intellect_bad_1
+	remove_trait = intellect_bad_2
+	remove_trait = intellect_bad_3
+}
+
+remove_pure_blooded = {
+	remove_trait = pure_blooded
+	remove_trait = purer_blooded
+}
+
+physique_good_4_inheritance_effect = {
+	if = { # both parents have physique_good_4
+		limit = {
+			physique_trait_score = 8
+		}
+
+		remove_all_physique_traits = yes
+
+		random_list = {
+			80 = {
+				add_trait = physique_good_4
+			}
+			20 = {
+				add_trait = physique_good_3
+			}
+
+		}
+	}
+
+	if = { # one parent physique_good_3, one parent physique_good_4
+		limit = {
+			physique_trait_score = 7
+		}
+
+		remove_all_physique_traits = yes
+
+		random_list = {
+			40 = {
+				add_trait = physique_good_4
+			}
+			60 = {
+				add_trait = physique_good_3
+			}
+
+		}
+	}
+
+	if = { # both parents average physique_good_3
+		limit = {
+			physique_trait_score = 6
+		}
+
+		remove_all_physique_traits = yes
+
+		if = {
+			limit = {
+				either_parent_has_physique_good_4 = yes
+			}
+			
+			random_list = {
+				30 = {
+					add_trait = physique_good_4
+				}
+				70 = {
+					add_trait = physique_good_3
+				}
+			}
+		}
+		else = {
+			random_list = {
+				20 = {
+					add_trait = physique_good_4
+				}
+				80 = {
+					add_trait = physique_good_3
+				}
+			}
+		}
+	}
+
+	if = { # below average physique_good_3
+		limit = {
+			physique_trait_score < 5
+		}
+		if = {
+			limit = {
+				either_parent_has_physique_good_4 = yes
+			}
+			random_list = {
+				15 = {
+					remove_all_physique_traits = yes
+					add_trait = physique_good_4
+				}
+				85 = {
+					# Do Nothing
+				}
+			}
+		}
+	}
+}
+
+beauty_good_4_inheritance_effect = {
+	if = { # both parents have beauty_good_4
+		limit = {
+			beauty_trait_score = 8
+		}
+
+		remove_all_beauty_traits = yes
+
+		random_list = {
+			80 = {
+				add_trait = beauty_good_4
+			}
+			20 = {
+				add_trait = beauty_good_3
+			}
+
+		}
+	}
+
+	if = { # one parent beauty_good_3, one parent beauty_good_4
+		limit = {
+			beauty_trait_score = 7
+		}
+
+		remove_all_beauty_traits = yes
+
+		random_list = {
+			40 = {
+				add_trait = beauty_good_4
+			}
+			60 = {
+				add_trait = beauty_good_3
+			}
+
+		}
+	}
+
+	if = { # both parents average beauty_good_3
+		limit = {
+			beauty_trait_score = 6
+		}
+
+		remove_all_beauty_traits = yes
+
+		if = {
+			limit = {
+				either_parent_has_beauty_good_4 = yes
+			}
+			random_list = {
+				30 = {
+					add_trait = beauty_good_4
+				}
+				70 = {
+					add_trait = beauty_good_3
+				}
+			}
+		}
+		else = {
+			random_list = {
+				20 = {
+					add_trait = beauty_good_4
+				}
+				80 = {
+					add_trait = beauty_good_3
+				}
+			}
+		}
+	}
+
+	if = { # below average beauty_good_3
+		limit = {
+			beauty_trait_score < 5
+		}
+		if = {
+			limit = {
+				either_parent_has_beauty_good_4 = yes
+			}
+			random_list = {
+				15 = {
+					remove_all_beauty_traits = yes
+					add_trait = beauty_good_4
+				}
+				85 = {
+					# Do Nothing
+				}
+			}
+		}
+	}
+}
+
+intellect_good_4_inheritance_effect = {
+	if = { # both parents have intellect_good_4
+		limit = {
+			intellect_trait_score = 8
+		}
+
+		remove_all_intellect_traits = yes
+
+		random_list = {
+			80 = {
+				add_trait = intellect_good_4
+			}
+			20 = {
+				add_trait = intellect_good_3
+			}
+
+		}
+	}
+
+	if = { # one parent intellect_good_3, one parent intellect_good_4
+		limit = {
+			intellect_trait_score = 7
+		}
+
+		remove_all_intellect_traits = yes
+
+		random_list = {
+			40 = {
+				add_trait = intellect_good_4
+			}
+			60 = {
+				add_trait = intellect_good_3
+			}
+
+		}
+	}
+
+	if = { # both parents average intellect_good_3
+		limit = {
+			intellect_trait_score = 6
+		}
+
+		remove_all_intellect_traits = yes
+
+		if = {
+			limit = {
+				either_parent_has_intellect_good_4 = yes
+			}
+			
+			random_list = {
+				30 = {
+					add_trait = intellect_good_4
+				}
+				70 = {
+					add_trait = intellect_good_3
+				}
+			}
+		}
+		else = {
+			random_list = {
+				20 = {
+					add_trait = intellect_good_4
+				}
+				80 = {
+					add_trait = intellect_good_3
+				}
+			}
+		}
+	}
+
+	if = { # below average intellect_good_3
+		limit = {
+			intellect_trait_score < 5
+		}
+		if = {
+			limit = {
+				either_parent_has_intellect_good_4 = yes
+			}
+			random_list = {
+				15 = {
+					remove_all_intellect_traits = yes
+					add_trait = intellect_good_4
+				}
+				85 = {
+					# Do Nothing
+				}
+			}
+		}
+	}
+}
+
+pure_blooded_inheritance_effect = {
+	if = { # both parents have pure blooded
+		limit = {
+			AND = {
+				scope:real_father = {
+					has_trait = pure_blooded
+					is_close_or_extended_family_of = scope:mother
+				}
+				scope:mother = {
+					has_trait = pure_blooded
+					is_close_or_extended_family_of = scope:real_father
+				}
+			}
+		}
+		
+		random_list = {
+			90 = {
+				# Do nothing
+			}
+			10 = {
+				remove_pure_blooded = yes
+				add_trait = purer_blooded
+			}
+		}
+	}
+	
+	else_if = { # twins
+		limit = {
+			AND = {
+				scope:real_father = {
+					has_trait = purer_blooded
+					is_twin_of = scope:mother
+				}
+				scope:mother = {
+					has_trait = purer_blooded
+					is_twin_of = scope:real_father
+				}
+			}
+		}
+			
+		remove_pure_blooded = yes
+		random_list = {
+			70 = {
+				add_trait = purer_blooded
+			}
+			30 = {
+				add_trait = purest_blooded
+			}
+		}
+	}
+
+	else_if = { # greater than pure_blooded
+		limit = {
+			AND = {
+				blood_score > 2
+				scope:real_father = {
+					is_close_or_extended_family_of = scope:mother
+				}
+				scope:mother = {
+					is_close_or_extended_family_of = scope:real_father
+				}
+			}
+		}
+
+		remove_pure_blooded = yes
+		random_list = {
+			70 = {
+				add_trait = pure_blooded
+			}
+			30 = {
+				add_trait = purer_blooded
+			}
+		}
+	}
+}

@@ -1,0 +1,270 @@
+﻿aeluran_regency = {
+	# Handled via content - this is only for power sharing arrangements we want to start automatically.
+	start = { always = yes }
+
+	# Handled via content - this is only for power sharing arrangements we want to end automatically.
+	end = { always = no }
+
+	# Mandates
+	## Just the standard suite
+	mandate = fill_coffers
+	mandate = swell_armies
+	mandate = promote_authority
+	## Aptitudes.
+	aptitude_score = {
+		add = mandate_type_qualification:fill_coffers
+		add = mandate_type_qualification:swell_armies
+		add = mandate_type_qualification:promote_authority
+	}
+	
+	# Scales of Power
+	## 000
+	power_level = {
+		swing = 0
+		parameter = dismissal_requires_gift
+		parameter = unlock_syphon_treasury_interaction
+		parameter = diarch_can_subsidise_liege_authority
+	}
+	## 020
+	power_level = {
+		swing = 20
+		parameter = unlock_shift_privileges_interaction
+		parameter = diarch_gets_a_free_change_on_vassal_contract
+		parameter = regency_free_end_below_this_point
+	}
+	## 040
+	power_level = {
+		swing = 40
+		parameter = unlock_legal_meddling_interaction
+		parameter = unlock_diarch_revoke_title_interaction
+		parameter = liege_pays_currency_surcharge_for_mundane_interactions_mild
+	}
+	## 60
+	power_level = {
+		swing = 60
+		parameter = unlock_diarch_retract_vassal_interaction
+		parameter = unlock_diarch_imprison_interaction
+		parameter = liege_pays_currency_surcharge_for_mundane_interactions_medium
+	}
+	## 080
+	power_level = {
+		swing = 80
+		parameter = liege_pays_currency_surcharge_for_mundane_interactions_major
+		parameter = regency_cant_be_ended_above_this_point
+	}
+	## 95
+	power_level = {
+		swing = 95
+		parameter = liege_pays_currency_surcharge_for_mundane_interactions_massive
+		parameter = regents_can_try_to_overthrow_present_lieges
+		parameter = regents_can_try_to_overthrow_present_lieges_help
+	}
+
+	# Trend towards an even balance of power.
+	swing_balance = {
+		value = 50
+
+		# Accolades
+		## Politicker helps liege during a regency
+		if = {
+			limit = {
+				liege ?= {
+					any_active_accolade = {
+						has_accolade_parameter = accolade_influences_regency
+					}
+				}
+			}
+			add = accolade_scales_of_power_value
+		}
+		if = {
+			limit = {
+				liege ?= {
+					any_active_accolade = {
+						has_accolade_parameter = accolade_influences_regency_high
+					}
+				}
+			}
+			add = accolade_scales_of_power_value_high
+		}
+		# Liege is able to end diarchy.
+		if = {
+			limit = {
+				liege ?= { can_leave_diarchy_trigger = yes }
+			}
+			multiply = 0
+		}
+	}
+
+	succession = yes
+
+	# Candidate scoring for succession.
+	candidate_score = { add = diarchy_aeluran_regent_succession_score_value }
+
+	# Container for hidden parameters.
+	power_level = {
+		swing = 0
+		hidden_parameter = diarchy_is_regency
+		hidden_parameter = diarchy_type_is_entrenched_regency
+	}
+
+	loyalty_score = { add = diarch_loyalty_score_type_regency_value }
+
+	end_interaction = liege_dismiss_entrenched_regency_interaction
+
+	liege_modifier = {
+		name = from_diarch_domain_limit_bonus
+		domain_limit = 1
+		scale = {
+			add = stewardship
+			divide = 6
+		}
+	}
+
+	diarch_modifier = {
+		name = to_diarch_stress_gain
+		stress_gain_mult = 0.3
+	}
+}
+
+# aeluran_regency = {
+# 	# Handled via content - this is only for power sharing arrangements we want to start automatically.
+# 	start = { 
+# 		aeluran_regency_can_start = yes
+# 	}
+
+# 	# Handled via content - this is only for power sharing arrangements we want to end automatically.
+# 	end = { always = no }
+
+# 	# Mandates
+# 	mandate = manage_treasury
+# 	mandate = command_armies
+# 	mandate = administrate_court
+
+# 	## Aptitudes: Describes how good the diarch is overall, thats why they are just added together
+# 	aptitude_score = {
+# 		add = mandate_type_qualification:manage_treasury
+# 		add = mandate_type_qualification:command_armies
+# 		add = mandate_type_qualification:administrate_court
+# 	}
+	
+# 	# Scales of Power (Dominance)
+# 	## 000
+# 	power_level = {
+# 		swing = 0
+# 		# parameter = dismissal_requires_gift
+# 		# parameter = unlock_syphon_treasury_interaction
+# 		# parameter = diarch_can_subsidise_liege_authority
+
+# 		parameter = aeluran_advisor_no_dominance
+
+# 	}
+# 	## 020
+# 	power_level = {
+# 		swing = 20
+# 		# parameter = unlock_shift_privileges_interaction
+# 		# parameter = diarch_gets_a_free_change_on_vassal_contract
+# 		# parameter = regency_free_end_below_this_point
+
+# 		parameter = aeluran_advisor_very_low_dominance
+# 	}
+# 	## 040
+# 	power_level = {
+# 		swing = 40
+# 		# parameter = unlock_legal_meddling_interaction
+# 		# parameter = unlock_diarch_revoke_title_interaction
+# 		# parameter = liege_pays_currency_surcharge_for_mundane_interactions_mild
+
+# 		parameter = aeluran_advisor_low_dominance
+# 	}
+# 	## 60
+# 	power_level = {
+# 		swing = 60
+# 		# parameter = unlock_diarch_retract_vassal_interaction
+# 		# parameter = unlock_diarch_imprison_interaction
+# 		# parameter = liege_pays_currency_surcharge_for_mundane_interactions_medium
+# 		parameter = aeluran_advisor_medium_dominance
+# 	}
+# 	## 080
+# 	power_level = {
+# 		swing = 80
+# 		# parameter = liege_pays_currency_surcharge_for_mundane_interactions_major
+# 		# parameter = regency_cant_be_ended_above_this_point
+
+# 		parameter = aeluran_advisor_high_dominance
+# 	}
+# 	## 95
+# 	power_level = {
+# 		swing = 95
+# 		# parameter = liege_pays_currency_surcharge_for_mundane_interactions_massive
+# 		# parameter = regents_can_try_to_overthrow_present_lieges
+# 		# parameter = regents_can_try_to_overthrow_present_lieges_help
+
+# 		parameter = liege_becomes_puppet_of_aeluran
+# 		parameter = aeluran_advisor_total_dominance
+# 	}
+
+# 	# TODO: here you could implement items/bonuses/whatever to decrease the rate of dominance increase of the aelurans
+# 	swing_balance = { # Trend Torwards total aeluran control
+# 		value = 100
+
+# 		# Accolades
+# 		## Politicker helps liege during a regency
+# 		if = {
+# 			limit = {
+# 				liege ?= {
+# 					any_active_accolade = {
+# 						has_accolade_parameter = accolade_influences_regency
+# 					}
+# 				}
+# 			}
+# 			add = accolade_scales_of_power_value
+# 		}
+# 		if = {
+# 			limit = {
+# 				liege ?= {
+# 					any_active_accolade = {
+# 						has_accolade_parameter = accolade_influences_regency_high
+# 					}
+# 				}
+# 			}
+# 			add = accolade_scales_of_power_value_high
+# 		}
+# 		# Liege is able to end diarchy.
+# 		if = {
+# 			limit = {
+# 				liege ?= { can_leave_diarchy_trigger = yes }
+# 			}
+# 			multiply = 0
+# 		}
+# 	}
+
+# 	# Container for hidden parameters.
+# 	power_level = {
+# 		swing = 0
+# 		hidden_parameter = diarchy_is_aeluran_regency
+# 	}
+
+# 	# We dont want someone automatically getting it, should happen when new advisor selected only
+# 	succession = no
+	
+# 	# Candidate scoring for succession.
+# 	candidate_score = { add = diarchy_aeluran_regent_succession_score_value }
+
+# 	loyalty_score = { add = diarch_loyalty_score_type_regency_value }
+
+# 	end_interaction = liege_dismiss_entrenched_regency_interaction
+
+# 	liege_modifier = {
+# 		name = from_diarch_domain_limit_bonus
+# 		domain_limit = 1
+# 		scale = {
+# 			add = stewardship
+# 			divide = 6
+# 		}
+# 	}
+
+# 	diarch_modifier = {
+# 		name = to_diarch_stress_gain
+# 		stress_gain_mult = 0.3
+# 	}
+# }

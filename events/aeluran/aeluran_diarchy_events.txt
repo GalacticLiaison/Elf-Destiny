@@ -1,0 +1,72 @@
+﻿namespace = aeluran_diarchy
+
+aeluran_diarchy.0001 = {
+	# hidden = yes
+	type = character_event
+	title = aeluran_diarchy.0001.title
+	desc = aeluran_diarchy.0001.desc
+	theme = seduction
+
+	left_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	trigger = {
+		# basic_eligible_for_diarchy_trigger = yes
+		# imprisonment_would_cause_regency_trigger = yes
+	}
+
+	immediate = {
+		debug_log = "REGENCY STARTED"
+
+		start_diarchy = aeluran_regency
+	}
+
+	option = {
+		name = aeluran_diarchy.0001.a
+	}
+}
+
+# aeluran_diarchy.0101 = {
+# 	hidden = yes
+
+# 	trigger = {
+# 		has_active_diarchy = yes
+# 		# Because we were apparently occasionally catching gaps in diarch succession.
+# 		exists = diarch
+# 	}
+
+# 	immediate = {
+# 		# We don't have fine control of mandates yet, so we just randomly pick a pool and push from it.
+# 		if = {
+# 			limit = {
+# 				# Filtering out landless lieges, since they're too much to control for.
+# 				is_landed = yes
+# 			}
+# 			diarch = {
+# 				random_list = {
+# 					100 = {
+# 						trigger = { has_active_mandate = manage_treasury }
+# 						trigger_event = { on_action = diarchy_mandate_manage_treasury_random }
+# 					}
+# 					100 = {
+# 						trigger = { has_active_mandate = command_armies }
+# 						trigger_event = { on_action = diarchy_mandate_command_armies_random }
+# 					}
+# 					100 = {
+# 						trigger = { has_active_mandate = administrate_court }
+# 						trigger_event = { on_action = diarchy_mandate_administrate_court_random }
+# 					}
+# 				}
+# 			}
+# 		}
+# 		# And loop it in a bit.
+# 		trigger_event = {
+# 			id = aeluran_diarchy.0101
+# 			days = { 365 730 }
+# 		}
+# 		# Give out manipulation hooks to landless diarchs.
+# 		diarch = { trigger_event = diarchy.0121 }
+# 	}
+# }

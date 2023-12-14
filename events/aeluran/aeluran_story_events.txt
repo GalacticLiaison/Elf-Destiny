@@ -1,0 +1,158 @@
+﻿namespace = aeluran_story
+
+# Aeluran High Matriarch Arrives Unexpectantly, flanked by a matron
+aeluran_story.001 = {
+	type = character_event
+
+	title = aeluran_story.001.title
+	desc = aeluran_story.001.desc
+
+	theme = court
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	immediate = {
+		random_living_character = {
+			limit = {
+				is_female = yes
+				has_trait = aeluran_high_matriarch
+			}
+			
+			save_scope_as = high_matriarch
+		}
+
+		random_living_character = {
+			limit = {
+				is_female = yes
+				has_trait = aeluran_matron
+			}
+			
+			save_scope_as = aeluran_matron
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:high_matriarch
+				}
+			}
+			create_character = {
+				template = aeluran_matriarch
+				dynasty = none
+				location = root.location
+				faith = aeluran_weavers
+				culture = root.culture
+				save_scope_as = high_matriarch
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:aeluran_matron
+				}
+			}
+			create_character = {
+				template = aeluran_matron
+				dynasty = none
+				location = root.location
+				faith = aeluran_weavers
+				culture = root.culture
+				save_scope_as = aeluran_matron
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_story.001.ok
+		trigger_event = aeluran_story.002
+	}
+}
+
+aeluran_story.002 = {
+	type = character_event
+
+	title = aeluran_story.002.title
+	desc = aeluran_story.002.desc
+
+	theme = seduction
+
+	left_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:aeluran_matron
+		animation = chancellor
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_story.002.ok
+		trigger_event = aeluran_story.003
+	}
+}
+
+aeluran_story.003 = {
+	type = character_event
+
+	title = aeluran_story.003.title
+	desc = aeluran_story.003.desc
+
+	theme = seduction
+
+	left_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_story.003.ok
+
+		set_global_variable = {
+			name = 02_spoke_with_the_aeluran_order
+			value = yes
+		}
+
+		trigger_event = aeluran_story.004
+	}
+
+}
+
+aeluran_story.004 = {
+	type = character_event
+
+	title = aeluran_story.004.title
+	desc = aeluran_story.004.desc
+
+	theme = seduction
+
+	left_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_story.004.ok
+		set_character_faith = faith:aeluran_weavers
+	}
+
+	option = {
+		name = aeluran_story.004.no
+	}
+}

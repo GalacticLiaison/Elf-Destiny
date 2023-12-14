@@ -1,0 +1,29 @@
+﻿
+
+restore_the_grand_portal_scripted_effect = {
+	#this is the County title.
+	title_province = {
+		set_variable = { # Tell the game that the Grand Portal has been restored
+			name = title_grand_portal_restored
+			value = yes
+		}
+
+		if = { # IF for some reason the special slot isnt there yet, add it and level 2 portal
+			limit = {
+				has_special_building_slot = no 
+			}
+			add_special_building_slot = holy_site_spark_grand_portal_02
+		}
+		else_if = { # IF slot exists, its almost guaranteed to be level 1 portal, upgrade it (Expected Path)
+			limit = {
+				has_special_building = yes
+			}
+			remove_building = holy_site_spark_grand_portal_01
+			add_special_building = holy_site_spark_grand_portal_02
+		}
+		else = {
+			debug_log = "Unexpected result in restore_the_grand_portal_scripted_effect"
+		}
+	}
+}
+

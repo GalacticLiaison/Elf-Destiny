@@ -1,0 +1,366 @@
+﻿# build_farms_in_forests_and_taiga
+# woodland_grove_farms
+### Forest Farms ###
+
+woodland_grove_farms_01 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_1_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_1
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.02
+	}
+	
+	next_building = woodland_grove_farms_02
+
+	type_icon = "icon_building_woodland_grove_farms.dds"
+	
+	ai_value = {
+		base = 15 # Significantly higher than normal, they're just that good
+		ai_tier_1_building_modifier = yes
+		ai_tier_1_economical_building_preference_modifier = yes
+		ai_farm_estate_improvement_from_culture_modifier = yes
+		ai_general_building_modifier = yes
+		modifier = {
+			factor = 2
+			AND = {
+				building_watermills_requirement_terrain = yes
+				building_windmills_requirement_terrain = yes
+			}
+		}
+	}
+}
+
+woodland_grove_farms_02 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_crop_rotation
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_2_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_2
+		supply_limit_mult = 0.15
+		supply_limit = 500
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.03
+	}
+	
+	next_building = woodland_grove_farms_03
+	
+	ai_value = {
+		base = 9
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+		modifier = { # Fill all building slots before going for upgrades
+			factor = 0
+			free_building_slots > 0 years_from_game_start > 0.01
+		}
+	}
+}
+
+woodland_grove_farms_03 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		building_woodland_grove_farms_requirement_terrain = yes
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_manorialism
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_3_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_3
+		supply_limit_mult = 0.15
+		supply_limit = 500
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.04
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.02
+	}
+	
+	next_building = woodland_grove_farms_04
+	
+	ai_value = {
+		base = 8
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}
+
+woodland_grove_farms_04 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_manorialism
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_4_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_4
+		supply_limit_mult = 0.15
+		supply_limit = 1000
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.05
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.02
+	}
+	
+	next_building = woodland_grove_farms_05
+	
+	ai_value = {
+		base = 7
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}
+
+woodland_grove_farms_05 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_guilds
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_5_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_5
+		supply_limit_mult = 0.15
+		levy_size = 0.05
+		supply_limit = 1000
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.06
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.02
+	}
+	
+	next_building = woodland_grove_farms_06
+	
+	ai_value = {
+		base = 6
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}
+
+woodland_grove_farms_06 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_guilds
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_6_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_6
+		supply_limit_mult = 0.15
+		levy_size = 0.05
+		supply_limit = 1000
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.06
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.05
+		tax_mult = 0.01
+	}
+	
+	next_building = woodland_grove_farms_07
+	
+	ai_value = {
+		base = 5
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}
+
+woodland_grove_farms_07 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_cranes
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_7_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_7
+		supply_limit_mult = 0.15
+		levy_size = 0.05
+		supply_limit = 1000
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.07
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.05
+		tax_mult = 0.01
+		monthly_county_control_change_add = 0.2
+	}
+	
+	next_building = woodland_grove_farms_08
+	
+	ai_value = {
+		base = 4
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}
+
+woodland_grove_farms_08 = {
+	construction_time = slow_construction_time
+	effect_desc = woodland_grove_farms_effect_desc
+	
+	can_construct_potential = {
+		building_woodland_grove_farms_requirement_terrain = yes
+	}
+
+	can_construct = {
+		culture = { has_cultural_parameter = build_farms_in_forests_and_taiga }
+		scope:holder.culture = {
+			has_innovation = innovation_cranes
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		# building_requirement_tribal = no
+	}
+	
+	cost_gold = normal_building_tier_8_cost
+	
+	province_modifier = {
+		monthly_income = excellent_building_tax_tier_8
+		supply_limit_mult = 0.15
+		levy_size = 0.05
+		supply_limit = 1000
+	}
+	province_terrain_modifier = {
+		parameter = coastal_agriculture_building_bonuses
+		is_coastal = yes
+		tax_mult = 0.08
+	}
+	county_modifier = {
+		development_growth_factor = 0.05
+		tax_mult = 0.02
+		monthly_county_control_change_add = 0.2
+	}
+	
+	ai_value = {
+		base = 3
+		ai_general_building_modifier = yes
+		ai_economical_building_preference_modifier = yes
+	}
+}

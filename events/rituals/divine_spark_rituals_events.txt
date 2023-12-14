@@ -1,0 +1,93 @@
+namespace = divine_spark_rituals
+
+divine_spark_rituals.001 = { # Ascension Ritual
+	type = character_event
+	title = divine_spark_rituals.001.title
+	desc = divine_spark_rituals.001.desc
+
+	trigger = {
+		has_global_variable = 01_sigil_of_the_realm_lord_found
+		is_any_elf_type = yes
+	}
+	
+	theme = divine_spark
+
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		elf_trait_ascension = yes
+	}
+
+	option = { # ascend
+		name = divine_spark_rituals.001.ascend
+	}
+}
+
+# Blessing Ritual
+divine_spark_rituals.002 = { # Blessings Ritual
+	type = character_event
+	title = divine_spark_rituals.002.title
+	desc = divine_spark_rituals.002.desc
+
+	trigger = {
+		is_ai = no
+		is_any_elf_type = yes
+	}
+	
+	theme = divine_spark
+
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+
+		# Add two blessings to list
+		pick_random_blessing = yes
+		pick_random_blessing = yes
+
+		random_in_list = {
+			list = selected_blessings
+			save_scope_as = blessing_one
+		}
+
+		random_in_list = {
+			list = selected_blessings
+			limit = {
+				NOT = {
+					this = scope:blessing_one
+				}
+			}
+			save_scope_as = blessing_two
+		}
+	}
+
+	option = {
+		name = divine_spark_rituals.002.blessing_one
+		trigger = {
+			exists = scope:blessing_one
+		}
+
+		root.culture = {
+			add_culture_tradition = scope:blessing_one
+		}
+	}
+
+	option = {
+		name = divine_spark_rituals.002.blessing_two
+		trigger = {
+			exists = scope:blessing_two
+		}
+
+		root.culture = {
+			add_culture_tradition = scope:blessing_two
+		}
+	}
+
+}

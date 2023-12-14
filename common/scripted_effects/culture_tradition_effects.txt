@@ -1,0 +1,37 @@
+﻿pick_random_blessing = {
+	random_culture_tradition = {
+		limit = {
+			has_tradition_category = blessings
+			NOT = {
+				is_in_list = selected_blessings
+			}
+			culture = {
+				NOT = {
+					has_cultural_tradition = this
+				}
+			}
+		}
+		add_to_list = selected_blessings
+	}
+}
+
+pick_random_elven_tradition = {
+	random_culture_tradition = {
+		limit = {
+			has_tradition_category = elven
+			NOT = {
+				is_in_list = selected_elven_traditions
+				OR = {
+					this = tradition_open_hearted
+					this = tradition_elf_superiority
+				}
+			}
+			culture = {
+				NOT = {
+					has_cultural_tradition = this
+				}
+			}
+		}
+		add_to_list = selected_elven_traditions
+	}
+}

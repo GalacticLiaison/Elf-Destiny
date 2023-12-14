@@ -1,0 +1,279 @@
+﻿namespace = main_story_events
+
+### What is an Archelogist? ###
+main_story_events.001 = { # Restore the Portal
+	type = character_event
+	title = main_story_events.001.t
+	desc = main_story_events.001.desc
+	theme = stewardship
+
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = personality_greedy
+	}
+	right_portrait = {
+		character = scope:archeologist
+		animation = chancellor
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+
+		if = {
+			limit = {
+				exists = character:6969696
+			}
+			character:6969696 = {
+				save_scope_as = archeologist
+			}
+		}
+		else = {
+			create_character = {
+				template = julia_melwood_fallback
+				dynasty = none
+				location = root.location
+				save_scope_as = archeologist
+			}
+		}
+	}
+
+	option = { # Very Well, I Will Fund this Expedition
+		name = main_story_events.001.a
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_what_is_an_archelogist_answered
+			}
+		}
+
+		scope:scoped_ruler = { add_courtier = scope:archeologist }
+	}
+	option = { # Nevermind
+		name = main_story_events.001.b
+		trigger = { is_ai = no }
+		# hidden_effect = {
+		# 	remove_list_global_variable = {
+		# 		name = unavailable_unique_decisions
+		# 		target = flag:flag_what_is_an_archelogist_answered
+		# 	}
+		# }
+		# hidden_effect = { # Reinburse cost
+		# }
+	}
+}
+
+### Restore the Grand Portal ###
+main_story_events.002 = { # Restore the Portal
+	type = character_event
+	title = main_story_events.002.t
+	desc = main_story_events.002.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = personality_greedy
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+	}
+
+	option = { # Restore the Portal
+		name = main_story_events.002.a
+		trigger = {
+			# Must Have All Portal Components
+			# Must Have Studied Schematics
+			# Must Have the Seal and must have awakened it.
+		}
+
+		## We could instead launch a "construction scheme" or something that takes 5 years to complete.
+		## You would be attacked by rebels and have to defend the site.
+		## Then the below effects would trigger
+
+		## Restore Portal ##
+		title:b_luch = {
+			restore_the_grand_portal_scripted_effect = yes
+		}
+
+		## Be Granted The Feyswood as your Domain ##
+		if = { # c_cykma
+			limit = {
+				NOT = { title:c_cykma.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_cykma = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+
+		}
+		if = { # c_martyuba
+			limit = {
+				NOT = { title:c_martyuba.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_martyuba = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+		if = { # d_martyuba
+			limit = {
+				NOT = { title:d_martyuba.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:d_martyuba = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+
+		}
+
+		# We may or may not want this....
+		# set_realm_capital = title:c_martyuba
+
+		## Thanks For Playing Event
+		trigger_event = main_story_events.0021
+
+        # Portal is restored! notification
+		# hidden_effect = {
+		# 	every_player = { # Notify
+		# 		limit = {
+		# 			is_vassal_of = root
+		# 			NOT = { this = root }
+		# 		}
+		# 		trigger_event = main_story_events.002
+		# 	}
+		# }
+	}
+	option = { # Nevermind
+		name = main_story_events.002.b
+		trigger = { is_ai = no }
+		hidden_effect = {
+			remove_list_global_variable = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_restored
+			}
+		}
+		hidden_effect = { # Reinburse cost.
+			# add_gold = 3000
+			add_gold = 3
+		}
+	}
+}
+
+main_story_events.0021 = { # Thanks For Playing Act 1
+	type = character_event
+	title = main_story_events.0021.t
+	desc = main_story_events.0021.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = personality_greedy
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+	}
+
+	option = { # Receive Blessing Choice
+		name = main_story_events.0021.a
+	}
+	option = { # No Thanks
+		name = main_story_events.0021.b
+	}
+}
+
+
+# Dream Sequence where you choose good vs evil human relations
+main_story_events.004 = {
+	hidden = yes
+	scope = none
+
+	immediate = {
+		debug_log = "main_story_events.004"
+
+		every_living_character = {
+			limit = {
+				is_ai = no
+				is_travelling = no
+			}
+
+			save_scope_as = player
+			
+			scope:player = {
+				trigger_event = main_story_events.0041
+			}
+		}
+	}
+}
+
+main_story_events.0041 = {
+	type = character_event
+	title = main_story_events.004.title
+	desc = main_story_events.004.desc
+
+	trigger = {
+		is_ai = no
+		is_travelling = no
+		has_global_variable = 01_sigil_of_the_realm_lord_found
+		is_any_elf_type = yes
+	}
+	
+	theme = divine_spark
+
+	right_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+	}
+
+	option = { # Good
+		name = main_story_events.004.good
+		root.culture = {
+			add_culture_tradition = tradition_open_hearted
+		}
+
+		trigger_event = {
+			id = aeluran_story.001
+			days = 14
+		}
+	}
+	option = { # Evil
+		name = main_story_events.004.evil
+		root.culture = {
+			add_culture_tradition = tradition_elf_superiority
+		}
+
+		trigger_event = {
+			id = aeluran_story.001
+			days = 14
+		}
+	}
+}

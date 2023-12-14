@@ -1,0 +1,176 @@
+﻿what_is_an_archeologist_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+	desc = what_is_an_archeologist_decision_desc
+	selection_tooltip = what_is_an_archeologist_decision_tooltip
+	major = yes
+
+	ai_goal = no
+	ai_will_do = {
+		value = 0
+	}
+	
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_what_is_an_archeologist_answered
+			}
+		}
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		# TODO: implement side quests to reduce the price
+		# gold = 3000
+		# gold = 3
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = main_story_events.0001
+		}
+		hidden_effect = {
+
+		}
+	}
+	
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+
+restore_the_grand_portal_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+	desc = restore_the_grand_portal_decision_desc
+	selection_tooltip = restore_the_grand_portal_decision_tooltip
+	major = yes
+	ai_goal = yes
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_global_variable = 02_spoke_with_the_aeluran_order
+
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_restored
+			}
+		}
+
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		# Must Have All Portal Components
+
+		AND = {
+			custom_description = {
+				text = restore_the_grand_portal_decision_has_portal_capacitor
+				any_character_artifact = { has_variable = is_portal_capacitor }
+			}
+	
+			custom_description = {
+				text = restore_the_grand_portal_decision_has_portal_navigation_relay
+				any_character_artifact = { has_variable = is_navigation_relay }
+			}
+		}
+
+		# Must Have Studied Schematics
+		# Set
+		# create_character_memory = {
+		# 	type = studied_portal_schematics
+		# }
+		# scope:new_memory = {
+		# 	set_variable = {
+		# 		name = education_destination
+		# 		value = scope:activity.activity_location
+		# 	}
+		# }
+
+		# Fetch
+		# any_memory = {
+		# 	has_memory_type = studied_portal_schematics
+		# }
+
+		# Must Have the Seal and must have awakened it.
+		
+		custom_description = {
+			text = restore_the_grand_portal_decision_has_sigil_of_the_realm_lord
+			any_character_artifact = { has_variable = is_sigil_of_the_realm_lord }
+		}
+
+		# Set
+		# add_character_flag = worthy_of_realm_lord
+		# has_character_flag = worthy_of_realm_lord
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		is_at_war = no
+	}
+
+	cost = {
+		# TODO: implement side quests to reduce the price
+		# gold = 3000
+		gold = 3
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = main_story_events.0001
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_restored
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 15
+		ai_value_modifier = {
+			ai_boldness = 1.0
+		}
+	}
+}

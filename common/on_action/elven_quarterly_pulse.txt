@@ -1,0 +1,138 @@
+﻿# # Called from code once a quarter for "playable" (count+) characters.
+# # Root is the character
+# # scope:quarter is which quarter it's for, from 1 to 4. Note that scope:quarter = 1 isn't necessarily in Q1 by calendar time
+quarterly_playable_pulse = {
+	on_actions = {
+		# TODO: Just confirm the old quarterly pulses from base game still work
+		# Spark
+		the_rut_quarterly_pulse
+		the_rut_cleanup_quarterly_pulse
+		form_advanced_tribal_goverment_pulse
+		advanced_shrewd_pulse
+	}
+}
+
+the_rut_quarterly_pulse = {
+	trigger = {
+		scope:quarter = 2
+	}
+	on_actions = {
+		give_the_rut
+	}
+}
+
+give_the_rut = {
+	trigger = {
+		# is_available_adult = yes
+		# is_any_elf_type = yes
+		# has_the_rut_tradition = yes
+		# is_pregnant = no
+	}
+	random_events = {
+		100 = the_rut_events.0001
+	}
+}
+
+the_rut_cleanup_quarterly_pulse = {
+	trigger = {
+		scope:quarter = 3
+	}
+	on_actions = {
+		cleanup_the_rut
+	}
+}
+
+cleanup_the_rut = {
+	trigger = {
+		# is_available_adult = yes
+		# is_any_elf_type = yes
+		# has_the_rut_tradition = yes
+		# is_pregnant = no
+	}
+	random_events = {
+		100 = the_rut_events.0002
+	}
+}
+
+form_advanced_tribal_goverment_pulse = {
+	trigger = {
+		is_ai = no
+		root = {
+			culture = {
+				has_cultural_parameter = form_advanced_tribal_government
+			}
+			NOT = {
+				government_has_flag = government_is_advanced_tribal
+			}
+		}
+	}
+	random_events = {
+		100 = tribal_ascension.0001
+	}
+}
+
+advanced_shrewd_pulse = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = advanced_shrewd
+		}
+		learning >= 15
+	}
+	
+	effect = {
+		if = {
+			limit = {
+				learning >= 15
+				NOT = {
+					has_trait = shrewd
+					has_trait = shrewd_2
+				}
+			}
+	
+			add_trait = shrewd
+		}
+	
+		if = {
+			limit = {
+				learning >= 20
+				has_trait = shrewd
+			}
+	
+			remove_trait = shrewd
+			add_trait = shrewd_2
+		}
+	}
+}
+
+heroic_courage_pulse = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = heroic_trait_unlocked
+		}
+		enemies_slayed_in_battle > 2
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = {
+					has_trait = brave
+					has_trait = heroic
+				}
+				enemies_slayed_in_battle > 2
+			}
+	
+			add_trait = brave
+		}
+	
+		if = {
+			limit = {
+				has_trait = brave
+				enemies_slayed_in_battle > 5
+			}
+	
+			remove_trait = brave
+			add_trait = heroic
+		}
+	}
+}
