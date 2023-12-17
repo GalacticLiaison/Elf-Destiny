@@ -1,4 +1,4 @@
-version="Beta 1.0.0"
+version="Beta 1.0.1"
 tags={
 	"Alternative History"
 	"Gameplay"
