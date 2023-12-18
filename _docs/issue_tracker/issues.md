@@ -1,5 +1,4 @@
 # Priority: Urgent
-- "More than one trial per expedition"
 - "Equipable quest and portal items...."
 - "<insert name> tags"
 

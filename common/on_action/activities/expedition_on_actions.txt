@@ -14,7 +14,7 @@ expedition_events = {
 		AND = {
 			exists = scope:activity
 			NOT = {
-				scope:activity.var:status = flag:discovery_made
+				scope:activity.var:status = flag:expedition_is_over
 			}
 		}
 		involved_activity.activity_host ?= this
@@ -29,7 +29,7 @@ expedition_events = {
 		} 
 		else = {
 			random_list = {
-				50 = { # Nothing
+				30 = { # Nothing
 					trigger_event = expedition.002
 				}
 				5 = { # Hazard
@@ -38,7 +38,14 @@ expedition_events = {
 				15 = { # Minor Treasure
 					trigger_event = expedition.004
 				}
-				50 = { # Trial
+				0 = { # Trial
+					modifier = {
+						add = 50
+						NOT = {
+							scope:activity.var:trial_attempted = flag:true
+						}
+					}
+
 					trigger_event = expedition.0051
 				}
 			}

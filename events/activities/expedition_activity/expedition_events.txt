@@ -134,11 +134,18 @@ expedition.0051 = {
 	hidden = yes
 	
 	immediate = {
+		if = {
+			limit = {
+				NOT = {
+
+				}
+			}
+		}
 		random_list = {
 			100 = { # A Trial Of Wisdom
 				trigger_event = expedition.00511
 			}
-			100 = { # A Trial Of Cunning
+			55 = { # A Trial Of Cunning
 				trigger_event = expedition.00512
 			}
 			25 = { # A Trial Of Greed
@@ -303,7 +310,6 @@ expedition.00692 = {
 	}
 }
 
-
 ### Standard Shared Events ###
 expedition.006901 = { # A Trial Of Wisdom TUTORIAL
 	type = activity_event
@@ -321,6 +327,15 @@ expedition.006901 = { # A Trial Of Wisdom TUTORIAL
 	right_portrait = {
 		character = character:6969696
 		animation = admiration
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:true
+			}
+		}
 	}
 
 	option = {
@@ -344,9 +359,6 @@ expedition.00511 = { # A Trial Of Wisdom
 		is_ai = no
 		AND = {
 			exists = scope:activity
-			NOT = {
-				scope:activity.var:trial_attempted = true
-			}
 		}
 	}
 
@@ -362,7 +374,7 @@ expedition.00511 = { # A Trial Of Wisdom
 		scope:activity = {
 			set_variable = {
 				name = trial_attempted
-				value = true
+				value = flag:true
 			}
 		}
 	}
@@ -494,9 +506,6 @@ expedition.00512 = { # A Trial Of Cunning
 		is_ai = no
 		AND = {
 			exists = scope:activity
-			NOT = {
-				scope:activity.var:trial_attempted = true
-			}
 		}
 	}
 
@@ -504,7 +513,7 @@ expedition.00512 = { # A Trial Of Cunning
 		scope:activity = {
 			set_variable = {
 				name = trial_attempted
-				value = true
+				value = flag:true
 			}
 		}
 
@@ -942,7 +951,6 @@ expedition.005123 = { # Trial Of Cunning AI Victory
 	}
 }
 
-
 # # Remove pieces of treasure from a weight. Lift to much and a trap is sprung
 expedition.00513 = { # Trial Of Greed
 	type = activity_event
@@ -952,9 +960,6 @@ expedition.00513 = { # Trial Of Greed
 		is_ai = no
 		AND = {
 			exists = scope:activity
-			NOT = {
-				scope:activity.var:trial_attempted = true
-			}
 		}
 	}
 
@@ -992,6 +997,13 @@ expedition.00513 = { # Trial Of Greed
 
 	# Create a list of reward scopes
 	immediate = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:true
+			}
+		}
+
 		set_variable = {
 			name = treasure_weight 
 			value = 0
@@ -1091,13 +1103,6 @@ expedition.00513 = { # Trial Of Greed
 			exists = scope:option_one
 		}
 
-		scope:activity = {
-			set_variable = {
-				name = trial_attempted
-				value = true
-			}
-		}
-
 		debug_log = "OPTION 1"
 
 		reduce_treasure_weight_effect = {
@@ -1190,13 +1195,6 @@ expedition.00513 = { # Trial Of Greed
 
 		trigger = {
 			exists = scope:option_two
-		}
-
-		scope:activity = {
-			set_variable = {
-				name = trial_attempted
-				value = true
-			}
 		}
 
 		debug_log = "OPTION 2"
@@ -1469,12 +1467,6 @@ expedition.005131 = { # Trial Of Greed Loop
 
 		if = {
 			limit = {
-				exists = scope:activity.var:wtf_now
-			}
-		}
-
-		if = {
-			limit = {
 				exists = scope:activity.var:expedition_gold_reward
 			}
 
@@ -1491,10 +1483,11 @@ expedition.005131 = { # Trial Of Greed Loop
 					}
 				}
 
-				change_variable = {
-					name = expedition_gold_reward 
-					add = var:total_gold_gained
-				}
+				# TODO check need below or above?
+				# change_variable = {
+				# 	name = expedition_gold_reward 
+				# 	add = var:total_gold_gained
+				# }
 			}
 			else = {
 				debug_log = "more problems"
@@ -1504,12 +1497,12 @@ expedition.005131 = { # Trial Of Greed Loop
 			debug_log = "problems"
 		}
 
-		scope:activity = {
-			set_variable = {
-				name = status
-				value = flag:discovery_made
-			}
-		}
+		# scope:activity = {
+		# 	set_variable = {
+		# 		name = status
+		# 		value = flag:expedition_is_over
+		# 	}
+		# }
 
 	}
 }
