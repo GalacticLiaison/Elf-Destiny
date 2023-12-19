@@ -10,4 +10,4 @@ Traditions
         - Some of these "Fixes" im more confident are working than others so please keep reporting bugs as you find them.
 
 Expeditions
-    - added a minor event where you discover a small bit of gold
+    - added a minor event where you discover a small bit of gold!
