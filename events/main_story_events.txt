@@ -1,10 +1,10 @@
-﻿namespace = main_story_events
+﻿namespace = elf_destiny_main_story_events
 
 ### What is an Archelogist? ###
-main_story_events.001 = { # Restore the Portal
+elf_destiny_main_story_events.001 = { # Restore the Portal
 	type = character_event
-	title = main_story_events.001.t
-	desc = main_story_events.001.desc
+	title = elf_destiny_main_story_events.001.t
+	desc = elf_destiny_main_story_events.001.desc
 	theme = stewardship
 
 	left_portrait = {
@@ -22,9 +22,19 @@ main_story_events.001 = { # Restore the Portal
 
 		if = {
 			limit = {
-				exists = character:6969696
+				game_start_date <= 1065.1.1
+				exists = character:julia_melwood
 			}
-			character:6969696 = {
+			character:julia_melwood = {
+				save_scope_as = archeologist
+			}
+		}
+		else_if = {
+			limit = {
+				game_start_date >= 1065.1.1
+				exists = character:julia_melwood_1066
+			}
+			character:julia_melwood_1066 = {
 				save_scope_as = archeologist
 			}
 		}
@@ -39,7 +49,7 @@ main_story_events.001 = { # Restore the Portal
 	}
 
 	option = { # Very Well, I Will Fund this Expedition
-		name = main_story_events.001.a
+		name = elf_destiny_main_story_events.001.a
 		hidden_effect = {
 			add_to_global_variable_list = {
 				name = unavailable_unique_decisions
@@ -50,7 +60,7 @@ main_story_events.001 = { # Restore the Portal
 		scope:scoped_ruler = { add_courtier = scope:archeologist }
 	}
 	option = { # Nevermind
-		name = main_story_events.001.b
+		name = elf_destiny_main_story_events.001.b
 		trigger = { is_ai = no }
 		# hidden_effect = {
 		# 	remove_list_global_variable = {
@@ -64,10 +74,10 @@ main_story_events.001 = { # Restore the Portal
 }
 
 ### Restore the Grand Portal ###
-main_story_events.002 = { # Restore the Portal
+elf_destiny_main_story_events.002 = { # Restore the Portal
 	type = character_event
-	title = main_story_events.002.t
-	desc = main_story_events.002.desc
+	title = elf_destiny_main_story_events.002.t
+	desc = elf_destiny_main_story_events.002.desc
 	theme = stewardship
 	left_portrait = {
 		character = scope:scoped_ruler
@@ -80,7 +90,7 @@ main_story_events.002 = { # Restore the Portal
 	}
 
 	option = { # Restore the Portal
-		name = main_story_events.002.a
+		name = elf_destiny_main_story_events.002.a
 		trigger = {
 			# Must Have All Portal Components
 			# Must Have Studied Schematics
@@ -155,7 +165,7 @@ main_story_events.002 = { # Restore the Portal
 		# set_realm_capital = title:c_martyuba
 
 		## Thanks For Playing Event
-		trigger_event = main_story_events.0021
+		trigger_event = elf_destiny_main_story_events.0021
 
         # Portal is restored! notification
 		# hidden_effect = {
@@ -164,12 +174,12 @@ main_story_events.002 = { # Restore the Portal
 		# 			is_vassal_of = root
 		# 			NOT = { this = root }
 		# 		}
-		# 		trigger_event = main_story_events.002
+		# 		trigger_event = elf_destiny_main_story_events.002
 		# 	}
 		# }
 	}
 	option = { # Nevermind
-		name = main_story_events.002.b
+		name = elf_destiny_main_story_events.002.b
 		trigger = { is_ai = no }
 		hidden_effect = {
 			remove_list_global_variable = {
@@ -184,10 +194,10 @@ main_story_events.002 = { # Restore the Portal
 	}
 }
 
-main_story_events.0021 = { # Thanks For Playing Act 1
+elf_destiny_main_story_events.0021 = { # Thanks For Playing Act 1
 	type = character_event
-	title = main_story_events.0021.t
-	desc = main_story_events.0021.desc
+	title = elf_destiny_main_story_events.0021.t
+	desc = elf_destiny_main_story_events.0021.desc
 	theme = stewardship
 	left_portrait = {
 		character = scope:scoped_ruler
@@ -205,27 +215,27 @@ main_story_events.0021 = { # Thanks For Playing Act 1
 	}
 
 	option = { # Receive Blessing Choice
-		name = main_story_events.0021.a
+		name = elf_destiny_main_story_events.0021.a
 		trigger_event = divine_spark_rituals.002
 	}
 	option = { # Receive Some Gold and Prestige
-		name = main_story_events.0021.b
+		name = elf_destiny_main_story_events.0021.b
 		add_gold = 1000
 		add_prestige = 1000
 	}
 	option = { # No Reward Needed
-		name = main_story_events.0021.c
+		name = elf_destiny_main_story_events.0021.c
 	}
 }
 
 
 # Dream Sequence where you choose good vs evil human relations
-main_story_events.004 = {
+elf_destiny_main_story_events.004 = {
 	hidden = yes
 	scope = none
 
 	immediate = {
-		debug_log = "main_story_events.004"
+		debug_log = "elf_destiny_main_story_events.004"
 
 		every_living_character = {
 			limit = {
@@ -236,16 +246,16 @@ main_story_events.004 = {
 			save_scope_as = player
 			
 			scope:player = {
-				trigger_event = main_story_events.0041
+				trigger_event = elf_destiny_main_story_events.0041
 			}
 		}
 	}
 }
 
-main_story_events.0041 = {
+elf_destiny_main_story_events.0041 = {
 	type = character_event
-	title = main_story_events.004.title
-	desc = main_story_events.004.desc
+	title = elf_destiny_main_story_events.004.title
+	desc = elf_destiny_main_story_events.004.desc
 
 	trigger = {
 		is_ai = no
@@ -269,7 +279,7 @@ main_story_events.0041 = {
 	}
 
 	option = { # Good
-		name = main_story_events.004.good
+		name = elf_destiny_main_story_events.004.good
 		root.culture = {
 			add_culture_tradition = tradition_open_hearted
 		}
@@ -285,7 +295,7 @@ main_story_events.0041 = {
 		}
 	}
 	option = { # Evil
-		name = main_story_events.004.evil
+		name = elf_destiny_main_story_events.004.evil
 		root.culture = {
 			add_culture_tradition = tradition_elf_superiority
 		}

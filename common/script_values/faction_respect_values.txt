@@ -40,14 +40,14 @@
 				add = 1
 			}
 			else = {
-				limit = {
-					# No Respect
-					has_trait_xp = {
-						trait = elf_blood
-						track = aeluran_respect
-						value < 50
-					}
-				}
+				# limit = {
+				# 	# No Respect
+				# 	has_trait_xp = {
+				# 		trait = elf_blood
+				# 		track = aeluran_respect
+				# 		value < 50
+				# 	}
+				# }
 				add = 0
 			}
 		}
@@ -101,14 +101,14 @@
 				add = 2
 			}
 			else = {
-				limit = {
-					# No Respect
-					has_trait_xp = {
-						trait = elf
-						track = aeluran_respect
-						value < 50
-					}
-				}
+				# limit = {
+				# 	# No Respect
+				# 	has_trait_xp = {
+				# 		trait = elf
+				# 		track = aeluran_respect
+				# 		value < 50
+				# 	}
+				# }
 				add = 1
 			}
 		}
@@ -162,15 +162,116 @@
 				add = 2
 			}
 			else = {
+				# limit = {
+				# 	# No Respect
+				# 	has_trait_xp = {
+				# 		trait = high_elf
+				# 		track = aeluran_respect
+				# 		value < 50
+				# 	}
+				# }
+				add = 1
+			}
+		}
+	}
+}
+
+# TODO: Only using this version until Aeluran Respect is properly added
+aeluran_respect_score_by_title = {
+	value = 0
+	add = {
+		# Elf Blood
+		if = {
+			limit = {
+				has_trait = elf_blood
+			}
+			if = {
 				limit = {
-					# No Respect
-					has_trait_xp = {
-						trait = high_elf
-						track = aeluran_respect
-						value < 50
-					}
+					# Mid Respect, your only half elf
+					highest_held_title_tier >= tier_kingdom
+				}
+				add = 3
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_duchy
+				}
+				add = 2
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_county
 				}
 				add = 1
+			}
+		}
+		# Elf
+		if = {
+			limit = {
+				has_trait = elf
+			}
+			if = {
+				limit = {
+					highest_held_title_tier = tier_empire
+				}
+				add = 5
+			}
+			else_if = {
+				limit = {
+					# High Respect
+					highest_held_title_tier = tier_kingdom
+				}
+				add = 4
+			}
+			else_if = {
+				limit = {
+					# Neutral Respect
+					highest_held_title_tier = tier_duchy
+				}
+				add = 3
+			}
+			else_if = {
+				limit = {
+					# Low Respect
+					highest_held_title_tier = tier_county
+				}
+				add = 2
+			}
+			else = {
+				add = 1
+			}
+		}
+		# High/True Elf
+		if = {
+			limit = {
+				OR = {
+					has_trait = high_elf
+					has_trait = true_elf
+				}
+			}
+			if = {
+				limit = {
+					# Very High Respect
+					highest_held_title_tier = tier_empire
+				}
+				add = 5
+			}
+			else_if = {
+				limit = {
+					# High Respect
+					highest_held_title_tier = tier_kingdom
+				}
+				add = 4
+			}
+			else_if = {
+				limit = {
+					# Neutral Respect
+					highest_held_title_tier = tier_duchy
+				}
+				add = 3
+			}
+			else = {
+				add = 2
 			}
 		}
 	}

@@ -23,8 +23,44 @@ expedition_riddles.tutorial = { # An Onion
 	}
 
 	right_portrait = {
-		character = character:6969696
+		character = scope:archeologist
 		animation = thinking
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:archeologist
+				}
+			}
+			if = {
+				limit = {
+					game_start_date <= 1065.1.1
+					exists = character:julia_melwood
+				}
+				character:julia_melwood = {
+					save_scope_as = archeologist
+				}
+			}
+			else_if = {
+				limit = {
+					game_start_date >= 1065.1.1
+					exists = character:julia_melwood_1066
+				}
+				character:julia_melwood_1066 = {
+					save_scope_as = archeologist
+				}
+			}
+			else = {
+				create_character = {
+					template = julia_melwood_fallback
+					dynasty = none
+					location = root.location
+					save_scope_as = archeologist
+				}
+			}
+		}
 	}
 
 	option = {
@@ -33,18 +69,16 @@ expedition_riddles.tutorial = { # An Onion
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
-				exists = character:6969696
+				exists = scope:archeologist
 			} 
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
 			custom_description = {
 				text = "Julia already solved the riddle..."	
-				exists = character:6969696
+				exists = scope:archeologist
 			}
 		}
-
-
 	}
 	option = {
 		name =  expedition_riddles.tutorial.a.c
@@ -56,14 +90,14 @@ expedition_riddles.tutorial = { # An Onion
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
-				exists = character:6969696
+				exists = scope:archeologist
 			} 
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
 			custom_description = {
 				text = "Julia already solved the riddle..."	
-				exists = character:6969696
+				exists = scope:archeologist
 			}
 		}
 	}
@@ -72,14 +106,14 @@ expedition_riddles.tutorial = { # An Onion
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
-				exists = character:6969696
+				exists = scope:archeologist
 			} 
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
 			custom_description = {
 				text = "Julia already solved the riddle..."	
-				exists = character:6969696
+				exists = scope:archeologist
 			}
 		}
 	}
@@ -88,14 +122,14 @@ expedition_riddles.tutorial = { # An Onion
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
-				exists = character:6969696
+				exists = scope:archeologist
 			} 
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
 			custom_description = {
 				text = "Julia already solved the riddle..."	
-				exists = character:6969696
+				exists = scope:archeologist
 			}
 		}
 	}

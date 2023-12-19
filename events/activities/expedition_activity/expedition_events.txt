@@ -209,12 +209,37 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 	}
 
 	right_portrait = {
-		character = character:6969696
+		character = scope:archeologist
 		animation = thinking
 	}
 
 	immediate = {
-
+		if = {
+			limit = {
+				game_start_date <= 1065.1.1
+				exists = character:julia_melwood
+			}
+			character:julia_melwood = {
+				save_scope_as = archeologist
+			}
+		}
+		else_if = {
+			limit = {
+				game_start_date >= 1065.1.1
+				exists = character:julia_melwood_1066
+			}
+			character:julia_melwood_1066 = {
+				save_scope_as = archeologist
+			}
+		}
+		else = {
+			create_character = {
+				template = julia_melwood_fallback
+				dynasty = none
+				location = root.location
+				save_scope_as = archeologist
+			}
+		}
 	}
 
 	option = {
@@ -264,14 +289,27 @@ expedition.00691 = {
 
 		if = {
 			limit = {
-				exists = character:6969696
-				character:6969696  = {
+				exists = character:julia_melwood
+				character:julia_melwood  = {
 					NOT = {
 						is_any_elf_type = yes
 					}
 				}
 			}
-			character:6969696 = {
+			character:julia_melwood = {
+				add_trait = elf
+			}
+		}
+		else_if = {
+			limit = {
+				exists = character:julia_melwood_1066
+				character:julia_melwood_1066  = {
+					NOT = {
+						is_any_elf_type = yes
+					}
+				}
+			}
+			character:julia_melwood_1066 = {
 				add_trait = elf
 			}
 		}
@@ -301,8 +339,37 @@ expedition.00692 = {
 	}
 
 	right_portrait = {
-		character = character:6969696
+		character = scope:archeologist
 		animation = shock
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				game_start_date <= 1065.1.1
+				exists = character:julia_melwood
+			}
+			character:julia_melwood = {
+				save_scope_as = archeologist
+			}
+		}
+		else_if = {
+			limit = {
+				game_start_date >= 1065.1.1
+				exists = character:julia_melwood_1066
+			}
+			character:julia_melwood_1066 = {
+				save_scope_as = archeologist
+			}
+		}
+		else = {
+			create_character = {
+				template = julia_melwood_fallback
+				dynasty = none
+				location = root.location
+				save_scope_as = archeologist
+			}
+		}
 	}
 
 	option = {
@@ -325,11 +392,38 @@ expedition.006901 = { # A Trial Of Wisdom TUTORIAL
 	}
 
 	right_portrait = {
-		character = character:6969696
+		character = scope:archeologist
 		animation = admiration
 	}
 
 	immediate = {
+		if = {
+			limit = {
+				game_start_date <= 1065.1.1
+				exists = character:julia_melwood
+			}
+			character:julia_melwood = {
+				save_scope_as = archeologist
+			}
+		}
+		else_if = {
+			limit = {
+				game_start_date >= 1065.1.1
+				exists = character:julia_melwood_1066
+			}
+			character:julia_melwood_1066 = {
+				save_scope_as = archeologist
+			}
+		}
+		else = {
+			create_character = {
+				template = julia_melwood_fallback
+				dynasty = none
+				location = root.location
+				save_scope_as = archeologist
+			}
+		}
+
 		scope:activity = {
 			set_variable = {
 				name = trial_attempted

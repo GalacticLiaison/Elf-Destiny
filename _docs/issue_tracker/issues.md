@@ -1,6 +1,7 @@
+ <!-- A bug I noticed last night is if you use to 1066 start date all of the elf characters are 200+ years old and die very quickly, and the archeologist will instantly die as she is only human, thus making it impossible to complete the first expedition as she is the one who give you the answer. -->
+
 # Priority: Urgent
-- "Equipable quest and portal items...."
-- "<insert name> tags"
+- 1066 start date character fixes
 
 # Priority: Important
 - repeating tutorial trial of wisdom... (may be mod conflict related)

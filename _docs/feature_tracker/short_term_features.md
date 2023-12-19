@@ -1,5 +1,5 @@
 # Things to work on!
--animated thumbnail!!!
+- 1066 start date
 
 - add no thank you/nvm options to match making
 - give aeluron matriarch/matrons.sisters a convert me interaction
@@ -17,3 +17,7 @@
     - second starter tradition, aelurans advise you its customary to abdicate and advise from the rear at certain age
 
 - add some features to tribal ascencion and some tooltips for god sake, people are confused
+
+- event to move portal to your capital, cost alot of gold or whatever
+
+- event window dlc logo

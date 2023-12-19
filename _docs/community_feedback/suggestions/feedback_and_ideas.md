@@ -83,3 +83,11 @@ Also when you get to pick a new tradition, it would make things a bit more clear
 Also the faith also has pure blood but not purer blood or purest blood as virtues, which seems like an oversight. -->
 
 <!-- also pure blood isn't mutually exclusive with purer or purest of blood -->
+
+
+<!-- ME: im flexible on the portal location... havent really decided what to do with it. I put it with the aelurans for now and It makes sense lore wise that its up in the great forests of the north where "the elves live"
+I could make a special event where you hire a team to move the pieces to your realm's capital
+maybe it costs a shit ton of gold to do -->
+
+
+<!-- The lore and mechanics are really interesting. The only thing I have to suggest is that if you become an Elf the way I did and adopt elvish culture, it should get all of the innovations of your current culture. The "technology" of my playthrough just lost over a century of progress. Other than that, fantastic mod! -->
