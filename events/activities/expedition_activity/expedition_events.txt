@@ -82,7 +82,7 @@ expedition.003 = {
 	}
 }
 
-# Expedition Finds Minor Treasure
+# Expedition Finds Minor Artifact
 expedition.004 = {
 	type = activity_event
 
@@ -129,18 +129,46 @@ expedition.004 = {
 	}
 }
 
+expedition.0041 = {
+	type = activity_event
+
+	title = expedition.0041.title
+	desc = expedition.0041.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	trigger = {
+		# NOT = {
+		# 	scope:activity.var:status = flag:artifact_discovery_made
+		# }
+	}
+
+	immediate = {
+		scope:activity = {
+			change_variable = {
+				name = expedition_gold_reward 
+				add = 25
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0041.ok
+		custom_tooltip = expedition.0041.minor_gold_discovery
+	}
+}
+
 # Expedition Faces a Trial - Controller
 expedition.0051 = {
 	hidden = yes
 	
 	immediate = {
-		if = {
-			limit = {
-				NOT = {
-
-				}
-			}
-		}
 		random_list = {
 			100 = { # A Trial Of Wisdom
 				trigger_event = expedition.00511

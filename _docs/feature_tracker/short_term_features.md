@@ -1,6 +1,4 @@
 # Things to work on!
-- 1066 start date
-
 - add no thank you/nvm options to match making
 - give aeluron matriarch/matrons.sisters a convert me interaction
 
