@@ -1,104 +1,166 @@
-﻿# namespace = bloodline_random
+﻿namespace = bloodline_random
 
-# # Orphan Child with letter event
-# bloodline_random.001 = { # Intro
-# 	type = character_event
-# 	title = bloodline_random.001.title
-# 	desc = bloodline_random.001.title.desc
+bloodline_random.999 = {
+	hidden = yes
+	scope = none
 
-# 	theme = stewardship
+	immediate = {
+		# TODO: you do this in the code a couple times, theres probably 
+		# a one line solution to grab the player without iterating through litearlly everyone lol
+		every_living_character = {
+			limit = {
+				is_ai = no
+				is_travelling = no
+			}
 
-# 	left_portrait = {
-# 		character = scope:adviser
-# 		animation = personality_bold
-# 	}
+			save_scope_as = player
+		}
 
-# 	right_portrait = {
-# 		character = scope:orphan
-# 		animation = worry
-# 	}
+		if = {
+			limit = {
+				scope:player = {
+					NOT = {
+						any_memory = {
+							has_memory_type = bloodline_orphan_visit
+						}
+					}
+					is_any_elf_type = yes
+				}
+			}
+			scope:player = {
+				trigger_event = {
+					id = bloodline_random.001
+					days = 7
+				}
+			}
+		}
+	}
+}
 
-# 	immediate = {
-# 		play_music_cue = "mx_cue_positive_effect"
+# Orphan Child with letter event
+bloodline_random.001 = { # Intro
+	type = character_event
+	title = bloodline_random.001.title
+	desc = bloodline_random.001.desc.intro
 
-# 		# assign adviser
-# 		if = {
-# 			else_if = {
-# 				limit = {
-# 					exists = cp:aeluran_advisor
-# 				}
-# 				cp:aeluran_advisor= { save_scope_as = adviser }
-# 			}
-# 		}
-# 		else_if = {
-# 			limit = {
-# 				exists = cp:councillor_steward
-# 			}
-# 			cp:councillor_steward = { save_scope_as = adviser }
-# 		}
+	trigger = {
+		is_ai = no
+	}
 
-# 		# grab an orphan
-# 		generate_orphan_with_bloodline_effect = yes
-# 	}
+	theme = stewardship
 
-# 	option = {
-# 		name = bloodline_random.001.read_letter
-# 		trigger_event = {
-# 			id = bloodline_random.0011
-# 		}
-# 	}
-# }
+	left_portrait = {
+		character = scope:adviser
+		animation = personality_bold
+	}
 
-# bloodline_random.0011 = { # Read Letter
-# 	type = letter_event
-# 	opening = bloodline_random.0011.title
-# 	desc = bloodline_random.0011.desc
-# 	sender = scope:actor
-# 	orphan = yes # TODO [CD] - Figure out why
+	right_portrait = {
+		character = scope:orphan
+		animation = worry
+	}
 
-# 	immediate = {
-# 		scope:witch_secret = { reveal_to = root }
-# 		hidden_effect = {
-# 			if = {
-# 				limit = { can_set_relation_potential_friend_trigger = { CHARACTER = scope:actor } }
-# 				set_relation_potential_friend = scope:actor
-# 			}
-# 		}
-# 	}
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
 
-# 	option = {
-# 		name = witch.2900.a
-# 		trigger_event = {
-# 			id = bloodline_random.0012
-# 		}
-# 	}
-# }
+		create_character_memory = {
+			type = bloodline_orphan_visit
+		}
 
-# bloodline_random.0012 = { # Decide
-# 	type = character_event
-# 	title = bloodline_random.001.title
-# 	desc = bloodline_random.001.title.desc
+		# assign adviser
+		if = {
+			limit = {
+				exists = cp:aeluran_advisor
+			}
+			cp:aeluran_advisor = { save_scope_as = adviser }
+		}
+		else_if = {
+			limit = {
+				exists = cp:councillor_steward
+			}
+			cp:councillor_steward = { save_scope_as = adviser }
+		}
 
-# 	theme = stewardship
+		# grab an orphan
+		generate_orphan_with_bloodline_effect = yes
+	}
 
-# 	left_portrait = {
-# 		character = scope:adviser
-# 		animation = personality_bold
-# 	}
+	option = {
+		name = bloodline_random.001.read_letter
+		trigger_event = {
+			id = bloodline_random.0011
+		}
+	}
+}
 
-# 	right_portrait = {
-# 		character = scope:orphan
-# 		animation = worry
-# 	}
+bloodline_random.0011 = { # Read Letter
+	type = letter_event
+	opening = bloodline_random.0011.title
+	desc = bloodline_random.0011.desc
+	sender = scope:orphan_mother
 
-# 	option = { # Take the child as your ward
-# 		name = bloodline_random.001.a1
-# 		trigger_event = bloodline_random.0011
-# 	}
-# 	option = { # We will find a spot for them in my court
-# 		name = bloodline_random.001.a2
-# 	}
-# 	option = { # Turn the child away
-# 		name = bloodline_random.001.a3
-# 	}
-# }
+	immediate = {
+	}
+
+	option = {
+		name = bloodline_random.0011.a
+		trigger_event = {
+			id = bloodline_random.0012
+		}
+	}
+}
+
+bloodline_random.0012 = { # Decide
+	type = character_event
+	title = bloodline_random.0012.title
+	desc = bloodline_random.0012.desc
+
+	theme = stewardship
+
+	left_portrait = {
+		character = scope:adviser
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:orphan
+		animation = worry
+	}
+
+	option = { # Take the child as your ward
+		name = bloodline_random.0012.a1
+		trigger_event = bloodline_random.0013
+		scope:orphan = {
+			set_relation_guardian = root
+		}
+	}
+	option = { # We will find a spot for them in my court
+		name = bloodline_random.0012.a2
+		add_courtier = scope:orphan
+	}
+	option = { # Turn the child away
+		name = bloodline_random.0012.a3
+		add_piety = -500
+	}
+}
+
+bloodline_random.0013 = { # Orphan becomes ward
+	type = character_event
+	title = bloodline_random.0013.title
+	desc = bloodline_random.0013.desc
+
+	theme = stewardship
+
+	left_portrait = {
+		character = scope:adviser
+		animation = approval
+	}
+
+	right_portrait = {
+		character = scope:orphan
+		animation = admiration
+	}
+
+	option = { # Very Well
+		name = bloodline_random.0013.a1
+	}
+}
