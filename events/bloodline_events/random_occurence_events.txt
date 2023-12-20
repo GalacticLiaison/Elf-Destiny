@@ -1,0 +1,104 @@
+﻿# namespace = bloodline_random
+
+# # Orphan Child with letter event
+# bloodline_random.001 = { # Intro
+# 	type = character_event
+# 	title = bloodline_random.001.title
+# 	desc = bloodline_random.001.title.desc
+
+# 	theme = stewardship
+
+# 	left_portrait = {
+# 		character = scope:adviser
+# 		animation = personality_bold
+# 	}
+
+# 	right_portrait = {
+# 		character = scope:orphan
+# 		animation = worry
+# 	}
+
+# 	immediate = {
+# 		play_music_cue = "mx_cue_positive_effect"
+
+# 		# assign adviser
+# 		if = {
+# 			else_if = {
+# 				limit = {
+# 					exists = cp:aeluran_advisor
+# 				}
+# 				cp:aeluran_advisor= { save_scope_as = adviser }
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				exists = cp:councillor_steward
+# 			}
+# 			cp:councillor_steward = { save_scope_as = adviser }
+# 		}
+
+# 		# grab an orphan
+# 		generate_orphan_with_bloodline_effect = yes
+# 	}
+
+# 	option = {
+# 		name = bloodline_random.001.read_letter
+# 		trigger_event = {
+# 			id = bloodline_random.0011
+# 		}
+# 	}
+# }
+
+# bloodline_random.0011 = { # Read Letter
+# 	type = letter_event
+# 	opening = bloodline_random.0011.title
+# 	desc = bloodline_random.0011.desc
+# 	sender = scope:actor
+# 	orphan = yes # TODO [CD] - Figure out why
+
+# 	immediate = {
+# 		scope:witch_secret = { reveal_to = root }
+# 		hidden_effect = {
+# 			if = {
+# 				limit = { can_set_relation_potential_friend_trigger = { CHARACTER = scope:actor } }
+# 				set_relation_potential_friend = scope:actor
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = witch.2900.a
+# 		trigger_event = {
+# 			id = bloodline_random.0012
+# 		}
+# 	}
+# }
+
+# bloodline_random.0012 = { # Decide
+# 	type = character_event
+# 	title = bloodline_random.001.title
+# 	desc = bloodline_random.001.title.desc
+
+# 	theme = stewardship
+
+# 	left_portrait = {
+# 		character = scope:adviser
+# 		animation = personality_bold
+# 	}
+
+# 	right_portrait = {
+# 		character = scope:orphan
+# 		animation = worry
+# 	}
+
+# 	option = { # Take the child as your ward
+# 		name = bloodline_random.001.a1
+# 		trigger_event = bloodline_random.0011
+# 	}
+# 	option = { # We will find a spot for them in my court
+# 		name = bloodline_random.001.a2
+# 	}
+# 	option = { # Turn the child away
+# 		name = bloodline_random.001.a3
+# 	}
+# }

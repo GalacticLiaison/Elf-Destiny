@@ -1,6 +1,7 @@
 # Magic
 
 ## magi trait
+icon - red witch trait
 
 ## empowered trait
 

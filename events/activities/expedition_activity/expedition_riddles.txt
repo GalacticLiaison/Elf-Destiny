@@ -1,13 +1,14 @@
 ﻿namespace = expedition_riddles
 
-expedition_riddles.tutorial = { # An Onion
+# Tutorial
+expedition_riddles.0001 = { # An Onion
 	type = activity_event
 
 	title = expedition_riddles.title
 	desc = {
-		desc = expedition_riddles.tutorial.q
-		desc = expedition_riddles.tutorial.spacing
-		desc = expedition_riddles.tutorial.julia
+		desc = expedition_riddles.0001.q
+		desc = expedition_riddles.0001.spacing
+		desc = expedition_riddles.0001.julia
 	}
 
 	theme = trial_of_wisdom
@@ -64,7 +65,7 @@ expedition_riddles.tutorial = { # An Onion
 	}
 
 	option = {
-		name =  expedition_riddles.tutorial.a.i1
+		name =  expedition_riddles.0001.a.i1
 
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
@@ -74,18 +75,23 @@ expedition_riddles.tutorial = { # An Onion
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
-			custom_description = {
-				text = "Julia already solved the riddle..."	
-				exists = scope:archeologist
-			}
+			exists = scope:archeologist
 		}
 	}
 	option = {
-		name =  expedition_riddles.tutorial.a.c
+		name =  expedition_riddles.0001.a.c
+
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:true
+			}
+		}
+
 		trigger_event = expedition.0069 # Tomb of Dead King
 	}
 	option = {
-		name =  expedition_riddles.tutorial.a.i2
+		name =  expedition_riddles.0001.a.i2
 
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
@@ -95,14 +101,11 @@ expedition_riddles.tutorial = { # An Onion
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
-			custom_description = {
-				text = "Julia already solved the riddle..."	
-				exists = scope:archeologist
-			}
+			exists = scope:archeologist
 		}
 	}
 	option = {
-		name =  expedition_riddles.tutorial.a.i3
+		name =  expedition_riddles.0001.a.i3
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
@@ -111,14 +114,11 @@ expedition_riddles.tutorial = { # An Onion
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
-			custom_description = {
-				text = "Julia already solved the riddle..."	
-				exists = scope:archeologist
-			}
+			exists = scope:archeologist
 		}
 	}
 	option = {
-		name = expedition_riddles.tutorial.a.i4
+		name = expedition_riddles.0001.a.i4
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
@@ -127,10 +127,7 @@ expedition_riddles.tutorial = { # An Onion
 		}
 		# If the event is invalid, but this trigger is, the option will be shown, but disabled. This behavior is also influenced by the EVENT_OPTIONS_SHOWN_HIDE_UNAVAILABLE define
 		show_as_unavailable = {
-			custom_description = {
-				text = "Julia already solved the riddle..."	
-				exists = scope:archeologist
-			}
+			exists = scope:archeologist
 		}
 	}
 }
