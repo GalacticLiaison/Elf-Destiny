@@ -2,6 +2,8 @@
 - add no thank you/nvm options to match making
 - give aeluron matriarch/matrons.sisters a convert me interaction
 
+- maybe transform all party memeber sinto elves. not just you and Julia
+
 - people think traits are OP, maybe reduce abit
 
 - Old Age Prowess modifier and Infirm trait: see if we can make them dynamic and pushed back based on elf trait level.
