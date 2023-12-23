@@ -91,3 +91,6 @@ maybe it costs a shit ton of gold to do -->
 
 
 <!-- The lore and mechanics are really interesting. The only thing I have to suggest is that if you become an Elf the way I did and adopt elvish culture, it should get all of the innovations of your current culture. The "technology" of my playthrough just lost over a century of progress. Other than that, fantastic mod! -->
+
+
+<!-- "Can you add a game rule so that there are no ruling elves at the start of either start date?" -->

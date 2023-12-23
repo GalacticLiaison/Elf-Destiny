@@ -1,0 +1,1 @@
+- trait track spark alignment will have a bonus that when full adds +X% chance of children being born ascended

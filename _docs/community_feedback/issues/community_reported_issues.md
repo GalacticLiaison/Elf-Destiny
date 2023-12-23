@@ -39,3 +39,8 @@ The other culture adjustments you can get through the following events are added
 <!-- The Undermine action with the priest doesn't work I am afraid. I never got a weak claim. I figured it was chance based like in ck2, but even with a 40 learning person and multiple years it never happened.
 
 Also, there is a bug with the realm priests. When you first become an elf you can see that the game recalculates everyone realm priest I fear and it keeps doing that infinitely. Best way to reproduce is playing under Italy in 867, when you become an Elf take a look at Novara. The poor bishop there has a schizophrenic attack as he keeps becoming the Realm Priest than removed over and over... at every tick. -->
+
+Cursed:
+<!-- A niggling issue I'm having is that my Heir is also my concubine. But I keep getting pop-ups from the Aeluran Sisterhood, saying she needs to be married. Minor but irritating. -->
+
+<!-- Do you have any intention of making it compatible with the inverted genders game rule? -->

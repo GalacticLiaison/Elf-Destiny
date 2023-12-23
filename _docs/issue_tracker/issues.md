@@ -1,15 +1,17 @@
 # Priority: Urgent
 - Straighten out the head of faith thing
-- Elven Superiority renown is being applied to all dynasty members and is waaay too op
 
 - check out heroic courage
     - does it work how it is
     - we should just add single combat
 
+tier 4 genetics are mututally exclusive with tier 3
+
 # Priority: Important
 
 - elf blood aastru/norse, stuck in matchmaking request loop. couldnt get further than allowing them to find a match for player.
 - familial familarity may not be allowing family marriage
+- The event for choosing a marriage candidate doesn't work if you haven't done the expedition or are an elf, as it doesn't generate anyone or give any options to the player. So if you were to convert to Aeluran Weavers the event fires repeatedly but nothing ever happens.
 
 # Priority: Mid
 - "Host A Expedition" localization fix
