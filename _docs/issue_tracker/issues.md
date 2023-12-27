@@ -1,5 +1,11 @@
 # Priority: Urgent
+- FIX Elven Superiority renown!
+
 - Straighten out the head of faith thing
+
+mututally exclusive tier 4 geentic traits
+
+tribal asecenion cant build feudal holdings
 
 - check out heroic courage
     - does it work how it is

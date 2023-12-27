@@ -1,3 +1,5 @@
+# Note, launch the "Help me pick expedition sites" thread. "And what are some ideas for elf ruins you would like to see there?" 
+
 # Things to work on!
 - give aeluron matriarch/matrons.sisters a convert me interaction
 
@@ -22,6 +24,7 @@
 
 - reduce elf fertility overall since they live so long
 
+- beauty facial remove?
 
 # The Patch Of The Great Houses
 - purify the ancient bloodlines event, the traits get upgraded art and lose all of the negatives

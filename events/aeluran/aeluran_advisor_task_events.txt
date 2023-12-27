@@ -448,332 +448,337 @@
 # 		else = { remove_short_term_gold = $COST$ }
 # }
 
-# #Fabricate Claim
-# aeluran_advisor_task.0301 = {
-# 	type = character_event
-# 	title = aeluran_advisor_task.0301.t
-# 	desc = aeluran_advisor_task.0301.desc
-# 	theme = faith
+# Fabricate Claim
+aeluran_advisor_task.0301 = {
+	type = character_event
+	title = aeluran_advisor_task.0301.t
+	desc = aeluran_advisor_task.0301.desc
+	theme = faith
 
-# 	option = {
-# 		name = aeluran_advisor_task.0301.a
-# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
-# 		add_unpressed_claim = scope:county
-# 		show_as_tooltip = {
-# 			scope:county_holder = {
-# 				add_opinion = {
-# 					target = root
-# 					modifier = court_chaplain_fabricated_claim_opinion
-# 					days = 3650
-# 				}
-# 			}
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:county_holder.top_liege = root.top_liege }
-# 				}
-# 				scope:county_holder.top_liege = {
-# 					add_opinion = {
-# 						target = root
-# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
-# 						days = 3650
-# 					}
-# 				}
-# 			}
-# 		}
-# 		hidden_effect = {
-# 			## THIS IF RESETS TASK TO DEFAULT TASK AFTER FINISH
-# 			# if = {
-# 			# 	limit = {
-# 			# 		scope:councillor = {
-# 			# 			has_council_position = councillor_court_chaplain
-# 			# 		}
-# 			# 	}
-# 			# 	scope:councillor = {
-# 			# 		start_default_task = yes
-# 			# 	}
-# 			# }
+	option = {
+		name = aeluran_advisor_task.0301.a
+		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		add_unpressed_claim = scope:county
+		show_as_tooltip = {
+			scope:county_holder = {
+				add_opinion = {
+					target = root
+					modifier = court_chaplain_fabricated_claim_opinion
+					days = 3650
+				}
+			}
+			if = {
+				limit = {
+					scope:county_holder = { is_independent_ruler = no }
+					NOT = { scope:county_holder.top_liege = root.top_liege }
+				}
+				scope:county_holder.top_liege = {
+					add_opinion = {
+						target = root
+						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+						days = 3650
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			## THIS IF RESETS TASK TO DEFAULT TASK AFTER FINISH
+			if = {
+				limit = {
+					scope:councillor = {
+						has_council_position = councillor_aeluran_advisor
+					}
+				}
+				scope:councillor = {
+					start_default_task = yes
+				}
+			}
 
-# 			scope:county_holder = {
-# 				trigger_event = court_chaplain_task.0311
-# 			}
+			# TODO: VVVV
 
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:county_holder.top_liege = root.top_liege }
-# 				}
-# 				scope:county_holder.top_liege = {
-# 					trigger_event = court_chaplain_task.0312		
-# 				}
-# 			}
-# 		}
-# 		ai_chance = {
-# 			base = 100
-# 			modifier = {
-# 				add = -80
-# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
-# 			}	
-# 			modifier = {
-# 				factor = 0
-# 				short_term_gold < 0
-# 			}
-# 		}
-# 	}
+			# scope:county_holder = {
+			# 	trigger_event = court_chaplain_task.0311
+			# }
 
-# 	option = {
-# 		name = aeluran_advisor_task.0301.b
-# 		custom_tooltip = court_chaplain_task.0301.b.tt
-# 		ai_chance = {
-# 			base = 10
-# 		}
-# 	}
-# }
+			# if = {
+			# 	limit = {
+			# 		scope:county_holder = { is_independent_ruler = no }
+			# 		NOT = { scope:county_holder.top_liege = root.top_liege }
+			# 	}
+			# 	scope:county_holder.top_liege = {
+			# 		trigger_event = court_chaplain_task.0312		
+			# 	}
+			# }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -80
+				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
+			}	
+			modifier = {
+				factor = 0
+				short_term_gold < 0
+			}
+		}
+	}
 
-# #Fabricate Claim Dutchy
-# aeluran_advisor_task.0302 = {
-# 	type = character_event
-# 	title = aeluran_advisor_task.0302.t
-# 	desc = aeluran_advisor_task.0302.desc
-# 	theme = faith
+	option = {
+		name = aeluran_advisor_task.0301.b
+		custom_tooltip = court_chaplain_task.0301.b.tt
+		ai_chance = {
+			base = 10
+		}
+	}
+}
 
-# 	trigger = {
-# 		scope:county = {
-# 			duchy = {
-# 				is_title_created = yes
-# 				exists = holder
-# 				NOT = {
-# 					holder = root
-# 				}
-# 				holder.top_liege = scope:county.holder.top_liege
-# 				save_temporary_scope_as = duchy
-# 				root = {
-# 					NOT = {
-# 						has_claim_on = scope:duchy
-# 					}
-# 					#The recipient of this event must either hold land in the Duchy, or be Duke or above
-# 					OR = {
-# 						any_held_title = {
-# 							tier = tier_county
-# 							duchy = scope:duchy
-# 						}
-# 						highest_held_title_tier > tier_county
-# 					}
-# 				}
-# 			}
-# 		}
-# 	}
+#Fabricate Claim Dutchy
+aeluran_advisor_task.0302 = {
+	type = character_event
+	title = aeluran_advisor_task.0302.t
+	desc = aeluran_advisor_task.0302.desc
+	theme = faith
 
-# 	weight_multiplier = {
-# 		base = 1
-# 		compare_modifier = {
-# 			target = scope:councillor
-# 			value = learning
-# 			offset = -10
-# 			multiplier = 0.1
-# 		}
-# 		modifier = {
-# 			add = 4
-# 			scope:councillor.liege = {
-# 				is_independent_ruler = no
-# 			}
-# 			scope:councillor.liege.faith = scope:councillor.liege.top_liege.faith
-# 			scope:county = {
-# 				duchy = {
-# 					is_title_created = yes
-# 					exists = holder
-# 					NOT = {
-# 						holder.faith = scope:councillor.liege.faith
-# 					}
-# 					holder.top_liege = scope:councillor.liege.top_liege
-# 				}
-# 			}
-# 		}
-# 		modifier = {
-# 			add = 1
-# 			scope:county = {
-# 				duchy = {
-# 					is_title_created = yes
-# 					exists = holder
-# 					NOT = {
-# 						holder.faith = scope:councillor.liege.faith
-# 					}
-# 				}
-# 			}
-# 		}
-# 	}
+	trigger = {
+		scope:county = {
+			duchy = {
+				is_title_created = yes
+				exists = holder
+				NOT = {
+					holder = root
+				}
+				holder.top_liege = scope:county.holder.top_liege
+				save_temporary_scope_as = duchy
+				root = {
+					NOT = {
+						has_claim_on = scope:duchy
+					}
+					#The recipient of this event must either hold land in the Duchy, or be Duke or above
+					OR = {
+						any_held_title = {
+							tier = tier_county
+							duchy = scope:duchy
+						}
+						highest_held_title_tier > tier_county
+					}
+				}
+			}
+		}
+	}
 
-# 	immediate = {
-# 		scope:county = {
-# 			duchy = {
-# 				save_scope_as = duchy
-# 				holder = {
-# 					save_scope_as = duchy_holder
-# 				}
-# 			}
-# 		}
-# 	}
+	weight_multiplier = {
+		base = 1
+		compare_modifier = {
+			target = scope:councillor
+			value = learning
+			offset = -10
+			multiplier = 0.1
+		}
+		modifier = {
+			add = 4
+			scope:councillor.liege = {
+				is_independent_ruler = no
+			}
+			scope:councillor.liege.faith = scope:councillor.liege.top_liege.faith
+			scope:county = {
+				duchy = {
+					is_title_created = yes
+					exists = holder
+					NOT = {
+						holder.faith = scope:councillor.liege.faith
+					}
+					holder.top_liege = scope:councillor.liege.top_liege
+				}
+			}
+		}
+		modifier = {
+			add = 1
+			scope:county = {
+				duchy = {
+					is_title_created = yes
+					exists = holder
+					NOT = {
+						holder.faith = scope:councillor.liege.faith
+					}
+				}
+			}
+		}
+	}
 
-# 	option = {
-# 		name = aeluran_advisor_task.0302.a
-# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
-# 		add_unpressed_claim = scope:county
-# 		show_as_tooltip = {
-# 			scope:county_holder = {
-# 				add_opinion = {
-# 					target = root
-# 					modifier = court_chaplain_fabricated_claim_opinion
-# 					days = 3650
-# 				}
-# 			}
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:county_holder.top_liege = root.top_liege }
-# 				}
-# 				scope:county_holder.top_liege = {
-# 					add_opinion = {
-# 						target = root
-# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
-# 						days = 3650
-# 					}
-# 				}
-# 			}
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = {
-# 					scope:councillor = {
-# 						has_council_position = councillor_court_chaplain
-# 					}
-# 				}
-# 				scope:councillor = {
-# 					start_default_task = yes
-# 				}
-# 			}
-# 			scope:county_holder = {
-# 				trigger_event = court_chaplain_task.0311
-# 			}
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:county_holder.top_liege = root.top_liege }
-# 				}
-# 				scope:county_holder.top_liege = {
-# 					trigger_event = court_chaplain_task.0312		
-# 				}
-# 			}
-# 		}
-# 		ai_chance = {
-# 			base = 100
-# 			modifier = {
-# 				add = -90
-# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
-# 			}	
-# 			modifier = {
-# 				factor = 0
-# 				short_term_gold < 0
-# 			}
-# 		}
-# 	}
+	immediate = {
+		scope:county = {
+			duchy = {
+				save_scope_as = duchy
+				holder = {
+					save_scope_as = duchy_holder
+				}
+			}
+		}
+	}
 
-# 	option = {
-# 		name = aeluran_advisor_task.0302.b
-# 		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
-# 		add_unpressed_claim = scope:duchy
-# 		show_as_tooltip = {
-# 			scope:duchy_holder = {
-# 				add_opinion = {
-# 					target = root
-# 					modifier = court_chaplain_fabricated_claim_opinion
-# 					days = 3650
-# 				}
-# 			}
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:duchy_holder.top_liege = root.top_liege }
-# 					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
-# 				}
-# 				scope:duchy_holder.top_liege = {
-# 					add_opinion = {
-# 						target = root
-# 						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
-# 						days = 3650
-# 					}
-# 				}
-# 			}
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = {
-# 					scope:councillor = {
-# 						has_council_position = councillor_court_chaplain
-# 					}
-# 				}
-# 				scope:councillor = {
-# 					start_default_task = yes
-# 				}
-# 			}
-# 			scope:duchy_holder = {
-# 				trigger_event = court_chaplain_task.0313
-# 			}
-# 			if = {
-# 				limit = {
-# 					scope:county_holder = { is_independent_ruler = no }
-# 					NOT = { scope:duchy_holder.top_liege = root.top_liege }
-# 					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
-# 				}
-# 				scope:duchy_holder.top_liege = {
-# 					trigger_event = court_chaplain_task.0314		
-# 				}
-# 			}
-# 		}
+	option = {
+		name = aeluran_advisor_task.0302.a
+		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		add_unpressed_claim = scope:county
+		show_as_tooltip = {
+			scope:county_holder = {
+				add_opinion = {
+					target = root
+					modifier = court_chaplain_fabricated_claim_opinion
+					days = 3650
+				}
+			}
+			if = {
+				limit = {
+					scope:county_holder = { is_independent_ruler = no }
+					NOT = { scope:county_holder.top_liege = root.top_liege }
+				}
+				scope:county_holder.top_liege = {
+					add_opinion = {
+						target = root
+						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+						days = 3650
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:councillor = {
+						has_council_position = councillor_aeluran_advisor
+					}
+				}
+				scope:councillor = {
+					start_default_task = yes
+				}
+			}
 
-# 		# Struggle Catalysts.
-# 		if = {
-# 			limit = {
-# 				any_character_struggle = {
-# 					involvement = involved
-# 					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
-# 						CATALYST = catalyst_fabricating_duchy_level_claims
-# 						CHAR = scope:duchy_holder
-# 					}
-# 				}
-# 			}
-# 			every_character_struggle = {
-# 				involvement = involved
-# 				limit = {
-# 					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
-# 						CATALYST = catalyst_fabricating_duchy_level_claims
-# 						CHAR = scope:duchy_holder
-# 					}
-# 				}
-# 				activate_struggle_catalyst = {
-# 					catalyst = catalyst_fabricating_duchy_level_claims
-# 					character = scope:councillor_liege
-# 				}
-# 			}
-# 		}
+			# TODO VVVV
+			
+			# scope:county_holder = {
+			# 	trigger_event = court_chaplain_task.0311
+			# }
+			# if = {
+			# 	limit = {
+			# 		scope:county_holder = { is_independent_ruler = no }
+			# 		NOT = { scope:county_holder.top_liege = root.top_liege }
+			# 	}
+			# 	scope:county_holder.top_liege = {
+			# 		trigger_event = court_chaplain_task.0312		
+			# 	}
+			# }
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -90
+				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_county_cost
+			}	
+			modifier = {
+				factor = 0
+				short_term_gold < 0
+			}
+		}
+	}
 
-# 		ai_chance = {
-# 			base = 100
-# 			modifier = {
-# 				add = -95
-# 				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_duchy_cost
-# 			}	
-# 			modifier = {
-# 				factor = 0
-# 				short_term_gold < 0
-# 			}
-# 		}
-# 	}
+	option = {
+		name = aeluran_advisor_task.0302.b
+		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
+		add_unpressed_claim = scope:duchy
+		show_as_tooltip = {
+			scope:duchy_holder = {
+				add_opinion = {
+					target = root
+					modifier = court_chaplain_fabricated_claim_opinion
+					days = 3650
+				}
+			}
+			if = {
+				limit = {
+					scope:county_holder = { is_independent_ruler = no }
+					NOT = { scope:duchy_holder.top_liege = root.top_liege }
+					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
+				}
+				scope:duchy_holder.top_liege = {
+					add_opinion = {
+						target = root
+						modifier = court_chaplain_fabricated_claim_on_vassal_opinion
+						days = 3650
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:councillor = {
+						has_council_position = councillor_court_chaplain
+					}
+				}
+				scope:councillor = {
+					start_default_task = yes
+				}
+			}
+			scope:duchy_holder = {
+				trigger_event = court_chaplain_task.0313
+			}
+			if = {
+				limit = {
+					scope:county_holder = { is_independent_ruler = no }
+					NOT = { scope:duchy_holder.top_liege = root.top_liege }
+					NOT = { scope:duchy_holder.top_liege = scope:duchy_holder }
+				}
+				scope:duchy_holder.top_liege = {
+					trigger_event = court_chaplain_task.0314		
+				}
+			}
+		}
 
-# 	option = {
-# 		name = aeluran_advisor_task.0301.b
-# 		custom_tooltip = court_chaplain_task.0301.b.tt
-# 		ai_chance = {
-# 			base = 10
-# 		}
-# 	}
-# }
+		# Struggle Catalysts.
+		if = {
+			limit = {
+				any_character_struggle = {
+					involvement = involved
+					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+						CATALYST = catalyst_fabricating_duchy_level_claims
+						CHAR = scope:duchy_holder
+					}
+				}
+			}
+			every_character_struggle = {
+				involvement = involved
+				limit = {
+					activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+						CATALYST = catalyst_fabricating_duchy_level_claims
+						CHAR = scope:duchy_holder
+					}
+				}
+				activate_struggle_catalyst = {
+					catalyst = catalyst_fabricating_duchy_level_claims
+					character = scope:councillor_liege
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -95
+				short_term_gold < scope:councillor.court_chaplain_fabricate_claim_duchy_cost
+			}	
+			modifier = {
+				factor = 0
+				short_term_gold < 0
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_advisor_task.0301.b
+		custom_tooltip = court_chaplain_task.0301.b.tt
+		ai_chance = {
+			base = 10
+		}
+	}
+}

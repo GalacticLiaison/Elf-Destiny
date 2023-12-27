@@ -26,7 +26,7 @@ expedition_events = {
 				NOT = { has_global_variable = 01_sigil_of_the_realm_lord_found }
 			}
 			trigger_event = expedition.006901
-		} 
+		}
 		else = {
 			random_list = {
 				30 = { # Nothing
@@ -44,8 +44,15 @@ expedition_events = {
 				0 = { # Trial
 					modifier = {
 						add = 50
+						exists = scope:activity.var:trial_attempted
 						NOT = {
 							scope:activity.var:trial_attempted = flag:true
+						}
+					}
+					modifier = {
+						add = 50
+						NOT = {
+							exists = scope:activity.var:trial_attempted
 						}
 					}
 

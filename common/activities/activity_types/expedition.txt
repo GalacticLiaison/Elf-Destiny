@@ -1509,33 +1509,29 @@ activity_expedition = {
 
 	guest_invite_rules = {
 		rules = {
-			2 = activity_invite_rule_rivals
 			2 = activity_invite_rule_lovers
-			3 = activity_invite_rule_close_family
-			3 = activity_invite_rule_extended_family
 			3 = activity_invite_rule_knights
 			4 = activity_invite_rule_guests
+			2 = activity_invite_rule_liege
+			2 = activity_invite_rule_fellow_vassals
 			
 			# MP 
 			6 = activity_invite_mp
 		}
 		defaults = {
-			3 = activity_invite_rule_liege
 			3 = activity_invite_rule_vassals
 			1 = activity_invite_rule_friends
-			2 = activity_invite_rule_glory_hounds
-			1 = activity_invite_rule_hunters
+			5 = activity_invite_immediate_family
+			4 = activity_invite_rule_extended_family
 			4 = activity_invite_rule_courtiers
-			4 = activity_invite_rule_fellow_vassals
 		}
 	}
 
 	max_guests = 7
 
 	can_be_activity_guest = {
-		is_adult = yes
+		age > 11
 		NOT = { has_trait = incapable }
-		can_hunt_trigger = yes
 		in_diplomatic_range = scope:host
 	}
 
@@ -1557,7 +1553,7 @@ activity_expedition = {
 
 		# Scripted Modifiers
 		activity_guest_shared_ai_accept_modifier = yes 
-		activity_guest_hunt_ai_accept_modifier = yes
+		activity_guest_expedition_ai_accept_modifier = yes
 	}
 
 	###################
@@ -1569,6 +1565,28 @@ activity_expedition = {
 	}
 
 	on_start = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:false
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = global_var:discovered_ancient_tradition_count
+				}
+			}
+			debug_log = "SETTING discovered_ancient_tradition_count"
+			set_global_variable = {
+				name = discovered_ancient_tradition_count 
+				value = 0
+			}
+		}
+		else = {
+			debug_log = "discovered_ancient_tradition_count was already set"
+		}
 	}
 
 	allow_zero_guest_invites = yes
@@ -1582,30 +1600,6 @@ activity_expedition = {
 	}
 
 	on_complete = {
-		# hunt_remove_variables_effect = yes
-		# scope:activity.activity_location = {
-		# 	if = {
-		# 		limit = { exists = var:recent_hunt_held }
-		# 		save_scope_value_as = {
-		# 			name = recent_hunt_held_count
-		# 			value = var:recent_hunt_held
-		# 		}
-		# 		set_variable = {
-		# 			name = recent_hunt_held
-		# 			value = {
-		# 				value = scope:recent_hunt_held_count
-		# 				add = 1
-		# 			}
-		# 			years = 4
-		# 		}
-		# 	}
-		# 	else = {
-		# 		set_variable = {
-		# 			name = recent_hunt_held
-		# 			value = 1
-		# 			years = 4
-		# 		}
-		# 	}
-		# }
+
 	}
 }

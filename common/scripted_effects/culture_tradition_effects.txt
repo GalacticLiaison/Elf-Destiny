@@ -1,35 +1,128 @@
-﻿pick_random_blessing = {
-	random_culture_tradition = {
+﻿# pick_random_blessing = {
+get_blessing_candidates = {
+	every_culture_tradition = {
 		limit = {
 			has_tradition_category = blessings
 			NOT = {
-				is_in_list = selected_blessings
-				root.culture = {
-					has_cultural_tradition = this
-				}
+				is_in_list = blessing_choice_candidates
 			}
 		}
-		add_to_list = selected_blessings
+		save_temporary_scope_as = blessing_candidate
+
+		# This is verbose and sucks, but I couldnt get a more simple dynamic solution to work
+		if = { # culture_tradition:tradition_the_rut
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_the_rut
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_the_rut
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
+		if = { # culture_tradition:tradition_noble_husbandry
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_noble_husbandry
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_noble_husbandry
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
+		if = { # culture_tradition:tradition_heroic_courage
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_heroic_courage
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_heroic_courage
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
+		if = { # culture_tradition:tradition_familial_familiarity
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_familial_familiarity
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_familial_familiarity
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
+		
+		# add_to_list = blessing_choice_candidates
 	}
+
+	# random_in_list = {
+	# 	list = blessing_choice_candidate
+	# 	save_scope_as = blessing_one
+	# }
+
+	# random_culture_tradition = {
+	# 	limit = {
+	# 		has_tradition_category = blessings
+	# 		save_scope_as = candidate_tradition
+	# 		NOT = {
+	# 			AND = {
+	# 				is_in_list = selected_blessings
+	# 				root.culture = {
+	# 					has_cultural_tradition = candidate_tradition
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# 	add_to_list = selected_blessings
+	# }
 }
+# is_target_in_global_variable_list = discovered_traditions
 
 pick_random_elven_tradition = {
-	random_culture_tradition = {
+	if = {
 		limit = {
-			has_tradition_category = elven
 			NOT = {
-				is_in_list = selected_elven_traditions
-				OR = {
-					this = culture_tradition:tradition_open_hearted
-					this = culture_tradition:tradition_elf_superiority
-					this = culture_tradition:tradition_the_old_ways
-				}
-				root.culture = {
-					has_cultural_tradition = this
-				}
+				global_var:discovered_ancient_tradition_count >= total_available_traditions_to_discover
 			}
 		}
-		add_to_list = selected_elven_traditions
+		random_culture_tradition = {
+			limit = {
+				has_tradition_category = elven
+				NOT = {
+					is_in_list = selected_elven_traditions
+					OR = {
+						this = culture_tradition:tradition_open_hearted
+						this = culture_tradition:tradition_elf_superiority
+						this = culture_tradition:tradition_the_old_ways
+					}
+				}
+			}
+			save_temporary_scope_as = tradition
+		}
+		if = {
+			limit = {
+				exists = scope:tradition
+				NOT = {
+					root.culture = {
+						has_cultural_tradition = scope:tradition
+					}
+				}
+			}
+			scope:tradition = {
+				add_to_list = selected_elven_traditions
+			}
+		}
 	}
 }
 

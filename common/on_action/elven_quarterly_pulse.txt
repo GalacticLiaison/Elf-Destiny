@@ -9,6 +9,7 @@ quarterly_playable_pulse = {
 		the_rut_cleanup_quarterly_pulse
 		form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
+		distribute_aeluran_advisors_pulse
 	}
 }
 
@@ -133,6 +134,47 @@ heroic_courage_pulse = {
 	
 			remove_trait = brave
 			add_trait = heroic
+		}
+	}
+}
+
+distribute_aeluran_advisors_pulse = {
+	trigger = {
+		is_ruler = yes
+		highest_held_title_tier >= tier_county
+		NOT = {
+			primary_title = {
+				is_mercenary_company = yes
+			}
+		}
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		NOT = {
+			exists = root.cp:councillor_aeluran_advisor
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = {
+					exists = root.cp:councillor_aeluran_advisor
+				}
+			}
+			create_character = {
+				template = aeluran_sister_advisor
+				dynasty = none
+				location = root.location
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = aeluran_sister_advisor
+			}
+	
+			assign_councillor_type = {
+				type = councillor_aeluran_advisor
+				target = scope:aeluran_sister_advisor
+			}
 		}
 	}
 }

@@ -5,7 +5,34 @@ expedition_unique_encounters.001 = {
 	type = activity_event
 
 	title = expedition_unique_encounters.001.title
-	desc = expedition_unique_encounters.001.desc
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						AND = {
+							exists = scope:tradition_one
+							exists = scope:tradition_two
+							exists = scope:tradition_three
+							exists = scope:tradition_four
+						}
+					}
+				}
+				desc = expedition_unique_encounters.001.empty.desc
+			}
+			triggered_desc = {
+				trigger = {
+					OR = {
+						exists = scope:tradition_one
+						exists = scope:tradition_two
+						exists = scope:tradition_three
+						exists = scope:tradition_four
+					}
+				}
+				desc = expedition_unique_encounters.001.desc
+			}
+		}
+	}
 
 	theme = cultural_discovery
 
@@ -151,6 +178,8 @@ expedition_unique_encounters.001 = {
 		scope:host.culture = {
 			add_culture_tradition = scope:tradition_one
 		}
+
+		change_global_variable = {name = discovered_ancient_tradition_count add = 1}
 	}
 
 	option = {
@@ -205,6 +234,8 @@ expedition_unique_encounters.001 = {
 		scope:host.culture = {
 			add_culture_tradition = scope:tradition_two
 		}
+
+		change_global_variable = {name = discovered_ancient_tradition_count add = 1}
 	}
 
 	option = {
@@ -259,6 +290,8 @@ expedition_unique_encounters.001 = {
 		scope:host.culture = {
 			add_culture_tradition = scope:tradition_three
 		}
+
+		change_global_variable = {name = discovered_ancient_tradition_count add = 1}
 	}
 
 	option = {
@@ -312,6 +345,29 @@ expedition_unique_encounters.001 = {
 
 		scope:host.culture = {
 			add_culture_tradition = scope:tradition_four
+		}
+
+		change_global_variable = {name = discovered_ancient_tradition_count add = 1}
+	}
+
+	option = {
+		name = expedition_unique_encounters.001.nvm
+	}
+
+	option = {
+		name = expedition_unique_encounters.001.no_more_traditions
+
+		trigger = {
+			NOT = {
+				exists = scope:tradition_one
+				exists = scope:tradition_two
+				exists = scope:tradition_three
+				exists = scope:tradition_four
+			}
+		}
+
+		scope:host.capital_county = {
+			change_development_progress = 25
 		}
 	}
 }

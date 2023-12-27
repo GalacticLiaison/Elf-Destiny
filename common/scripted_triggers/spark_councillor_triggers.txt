@@ -1,5 +1,5 @@
 ﻿
-can_be_court_aeluran_advisor = {
+can_be_court_aeluran_advisor_trigger = {
 	save_temporary_scope_as = potential_court_aeluran_advisor
 
 	# is high enough rank in the coven
@@ -8,6 +8,8 @@ can_be_court_aeluran_advisor = {
 		has_trait = aeluran_matron
 		has_trait = aeluran_high_matriarch
 	}
+
+	is_any_elf_type = yes
 
 	# Re-enable if it becomes problem but could see special event where child advises you
 	# is_capable_adult = yes
@@ -27,25 +29,17 @@ can_be_court_aeluran_advisor = {
 	$COURT_OWNER$.faith = { has_allowed_gender_for_clergy = scope:potential_court_aeluran_advisor }
 
 	# Intentionally Disabled! may want spouse!, infact special events if spouse is advisor
-	NOT = { has_council_position = councillor_spouse }
+	# NOT = { has_council_position = councillor_spouse }
 
 	# if temporal theocracy, advisor cant be a ruler or have a theorcatic government
-	faith = $COURT_OWNER$.faith
-	trigger_if = {
-		limit = {
-			faith = { has_doctrine = doctrine_theocracy_temporal }
-		}
-		OR = {
-			is_ruler = no
-			government_has_flag = government_is_theocracy
-		}
-	}
-
-	# Cant have escaped my prison before
-	trigger_if = {
-		limit = {
-			exists = var:escaped_imprisonment_from
-		}
-		NOT = { var:escaped_imprisonment_from = $COURT_OWNER$ }
-	}
+	# faith = $COURT_OWNER$.faith
+	# trigger_if = {
+	# 	limit = {
+	# 		faith = { has_doctrine = doctrine_theocracy_temporal }
+	# 	}
+	# 	OR = {
+	# 		is_ruler = no
+	# 		government_has_flag = government_is_theocracy
+	# 	}
+	# }
 }
