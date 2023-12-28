@@ -1,10 +1,10 @@
 ﻿councillor_aeluran_advisor = {
 	skill = learning
 
-	auto_fill = yes
+	auto_fill = no
+	fill_from_pool = no
 	inherit = no
 	
-	fill_from_pool = yes
 	pool_character_config = pool_aeluran_advisor
 	
 	valid_character = {
@@ -161,7 +161,16 @@
 councillor_court_chaplain = {
 	skill = learning
 
-	auto_fill = yes
+	auto_fill = {
+		trigger = {
+			faith = {
+				NOT = {
+					has_doctrine = tenet_aeluran_sisters 
+				}
+			}
+		}
+	}
+
 	fill_from_pool = yes
 
 	valid_position = {
