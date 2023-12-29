@@ -10,6 +10,9 @@ quarterly_playable_pulse = {
 		form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
 		distribute_aeluran_advisors_pulse
+		heroic_courage_pulse
+
+		# handle_elf_tradition_effects_pulse
 	}
 }
 
@@ -55,6 +58,35 @@ cleanup_the_rut = {
 	}
 }
 
+
+# handle_elf_tradition_effects_pulse = {
+# 	trigger = {
+# 		scope:quarter = 4
+# 		is_any_elf_type = yes
+# 		culture = {
+# 			OR = {
+# 				has_cultural_parameter = form_advanced_tribal_government
+# 				has_cultural_parameter = advanced_shrewd
+# 				has_cultural_parameter = heroic_trait_unlocked
+# 			}
+# 		}
+# 	}
+
+# 	effect = {
+# 		if = {
+# 			root = {
+# 				culture = {
+# 					has_cultural_parameter = form_advanced_tribal_government
+# 				}
+# 				NOT = {
+# 					government_has_flag = government_is_advanced_tribal
+# 				}
+# 			}
+# 		}
+# 	}
+
+# }
+
 form_advanced_tribal_goverment_pulse = {
 	trigger = {
 		is_ai = no
@@ -77,10 +109,11 @@ advanced_shrewd_pulse = {
 		culture = {
 			has_cultural_parameter = advanced_shrewd
 		}
-		learning >= 15
+		# learning >= 15
 	}
 	
 	effect = {
+		# Rulers
 		if = {
 			limit = {
 				learning >= 15
@@ -102,6 +135,35 @@ advanced_shrewd_pulse = {
 			remove_trait = shrewd
 			add_trait = shrewd_2
 		}
+
+		# Courtiers
+		every_courtier = {
+			limit = {
+				learning >= 15
+			}
+
+			if = {
+				limit = {
+					learning >= 15
+					NOT = {
+						has_trait = shrewd
+						has_trait = shrewd_2
+					}
+				}
+		
+				add_trait = shrewd
+			}
+		
+			if = {
+				limit = {
+					learning >= 20
+					has_trait = shrewd
+				}
+		
+				remove_trait = shrewd
+				add_trait = shrewd_2
+			}
+		}
 	}
 }
 
@@ -110,31 +172,73 @@ heroic_courage_pulse = {
 		culture = {
 			has_cultural_parameter = heroic_trait_unlocked
 		}
-		enemies_slayed_in_battle > 2
+		# enemies_slayed_in_battle > 1
 	}
 
 	effect = {
+		debug_log = "HEROIC PULSE"
+
+		# Rulers
 		if = {
 			limit = {
 				NOT = {
 					has_trait = brave
 					has_trait = heroic
 				}
-				enemies_slayed_in_battle > 2
+				enemies_slayed_in_battle > 1
 			}
 	
+			debug_log = "AWARDING BRAVE"
+
 			add_trait = brave
 		}
 	
 		if = {
 			limit = {
 				has_trait = brave
-				enemies_slayed_in_battle > 5
+				enemies_slayed_in_battle > 4
 			}
-	
+
+			debug_log = "AWARDING HEROIC"
+
 			remove_trait = brave
 			add_trait = heroic
 		}
+
+		# Courtiers
+		every_courtier = {
+			limit = {
+				enemies_slayed_in_battle > 1
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_trait = brave
+						has_trait = heroic
+					}
+					enemies_slayed_in_battle > 1
+				}
+		
+				debug_log = "AWARDING BRAVE"
+	
+				add_trait = brave
+			}
+		
+			if = {
+				limit = {
+					has_trait = brave
+					enemies_slayed_in_battle > 4
+				}
+	
+				debug_log = "AWARDING HEROIC"
+	
+				remove_trait = brave
+				add_trait = heroic
+			}
+		}
+
+
 	}
 }
 

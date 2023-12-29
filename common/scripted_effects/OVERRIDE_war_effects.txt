@@ -1,0 +1,56 @@
+﻿# send_slain_combatant_message = {
+# 	# The positioning of the character portraits needs to sync up with the loc-string we're using.
+# 	if = {
+# 		limit = {
+# 			$IS_ENEMY_MESSAGE$ = no
+# 		}
+# 		root = {
+# 			save_scope_as = right_character
+# 		}
+# 		$KILLER$ = {
+# 			save_scope_as = left_character
+# 		}
+# 	}
+# 	else = {
+# 		root = {
+# 			save_scope_as = left_character
+# 		}
+# 		$KILLER$ = {
+# 			save_scope_as = right_character
+# 		}
+# 	}
+
+# 	# Send either a toast or a message to this character, depending on what variable was passed in.
+# 	if = {
+# 		limit = {
+# 			$TOAST$ = yes
+# 		}
+# 		send_interface_toast = {
+# 			title =  $DESC$
+# 			left_icon = scope:left_character
+# 			right_icon = scope:right_character
+# 		}
+# 	}
+# 	#
+# 	else_if = {
+# 		limit = {
+# 			$IS_ENEMY_MESSAGE$ = no
+# 		}
+# 		send_interface_message = {
+# 			type = event_war_good
+# 			title = $TITLE$
+# 			desc = $DESC$
+# 			left_icon = scope:left_character
+# 			right_icon = scope:right_character
+# 		}
+# 	}
+# 	else = {
+# 		send_interface_message = {
+# 			type = event_war_bad
+# 			title = $TITLE$
+# 			desc = $DESC$
+# 			left_icon = scope:left_character
+# 			right_icon = scope:right_character
+# 		}
+# 	}
+# }

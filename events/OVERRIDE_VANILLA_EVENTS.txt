@@ -86,15 +86,17 @@ combat_event.1001 = {
 	trigger = {
 		# Prisoners of war can only be taken during an actual war.
 		# Non-war battles (such as from engaging Hostile forces) do not take prisoners, since PoWs cannot be released on war end if there is no war!
-		side_primary_participant = {
-			is_at_war_with = root.enemy_side.side_primary_participant
-		}
+		# side_primary_participant = {
+		# 	is_at_war_with = root.enemy_side.side_primary_participant
+		# }
 
 		#Cannot happen in the tutorial
 		NOT = { has_global_variable = lesson_chain_war_tutorial_started }
 	}
 
 	immediate = {
+		debug_log = "ENTERING combat_event.1001"
+
 		# Save necessary scopes for later usage.
 		save_scope_as = winning_side
 		side_primary_participant = {
@@ -139,6 +141,10 @@ combat_event.1001 = {
 		if = {
 			limit = {
 				exists = enemy_side.side_commander
+
+				side_primary_participant = {
+					is_at_war_with = root.enemy_side.side_primary_participant
+				}
 			}
 
 			enemy_side.side_commander = {
@@ -304,6 +310,9 @@ combat_event.1001 = {
 					10 = { # Imprisonment
 						trigger = {
 							is_alive = yes
+							side_primary_participant = {
+								is_at_war_with = root.enemy_side.side_primary_participant
+							}
 						}
 
 						modifier = {
@@ -476,9 +485,11 @@ combat_event.1001 = {
 								}
 							}
 
+							debug_log = "ADDING SLAYER MEMORY"
+							# debug_log_scopes = yes
 							scope:enemy_knight = {
 								create_character_memory = {
-									type = slayed_knight_in_combat
+									type = slayed_knight_in_battle
 									participants = {
 										slayed_knight = scope:this_combatant
 									}
