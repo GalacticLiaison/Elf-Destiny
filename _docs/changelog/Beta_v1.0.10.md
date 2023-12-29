@@ -1,5 +1,9 @@
 # Beta_v1.0.10
 
+Religion
+- following up on the court priest/aeluran advisor hotfix
+  - both positions should now autofill again. Aeluran advisor uses a custom script so it may take a couple months to happen.
+
 Traditions
 - Heroic Courage:
   - It actually works now!
@@ -16,5 +20,4 @@ GUI
 <!-- Gold Tutorial indicators -->
 
 Evolved Traits
-- added to genetic groups, hopefully solves some random bugs
-  - NOTE TO ME: Just redo them to use "potential"?
+- stream-lined and simplified the tier 4 genetic inheritance in the backend, players probably wont notice any difference.
