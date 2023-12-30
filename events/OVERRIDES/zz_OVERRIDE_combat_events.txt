@@ -23,6 +23,62 @@ scripted_trigger combat_event_1001_character_is_important_combatant = {
 	}
 }
 
+# Used to transfer equipped battle gear to slayer/capturer
+scripted_effect combat_transfer_equipped_artifact_effect = {
+	if = {
+		limit = {
+			any_equipped_character_artifact = { artifact_slot_type = $TYPE$ }
+		}
+		save_scope_as = artifact_knight
+		random_equipped_character_artifact = {
+			limit = { artifact_slot_type = $TYPE$ }
+			if = {
+				limit = { artifact_durability >= define:NInventory|ARTIFACT_LOW_DURABILITY }
+				save_scope_as = knight_artifact
+				if = {
+					limit = { exists = artifact_owner.house }
+					artifact_owner.house = { save_scope_as = artifact_house }
+				}
+				set_owner = {
+					target = $OWNER$
+					history = {
+						type = taken_in_battle
+						actor = scope:artifact_knight
+						recipient = $OWNER$
+						location = scope:artifact_knight.location
+					}
+				}
+				if = {
+					limit = {
+						exists = scope:artifact_house
+						NOT = {
+							any_artifact_house_claimant = {
+								this = scope:artifact_house
+							}
+						}
+					}
+					scope:artifact_house = { add_house_artifact_claim = prev }
+				}
+				scope:artifact_knight = {
+					if = {
+						limit = {
+							NOT = {
+								has_personal_artifact_claim = prev
+							}
+						}
+						add_personal_artifact_claim = prev
+					}
+				}
+				## debug_log = "ART_TRAN"
+			}
+			else = {
+				destroy_artifact = this
+				## debug_log = "ART_DEST"
+			}
+		}
+	}
+}
+
 # Used to check if a knight has fought in a battle recently.
 scripted_effect petition_knight_battle_history_effect = {
 	if = {
@@ -95,7 +151,7 @@ combat_event.1001 = {
 	}
 
 	immediate = {
-		debug_log = "ENTERING combat_event.1001"
+		# debug_log = "ENTERING combat_event.1001"
 
 		# Save necessary scopes for later usage.
 		save_scope_as = winning_side
@@ -258,6 +314,7 @@ combat_event.1001 = {
 
 		# For each Knight on the losing side, check if they should be imprisoned/slain.
 		enemy_side = {
+
 			every_side_knight = {
 				random_list = {
 					85 = { # Nothing Happens
@@ -310,8 +367,8 @@ combat_event.1001 = {
 					10 = { # Imprisonment
 						trigger = {
 							is_alive = yes
-							side_primary_participant = {
-								is_at_war_with = root.enemy_side.side_primary_participant
+							prev.side_primary_participant = {
+								is_at_war_with = root.side_primary_participant
 							}
 						}
 
