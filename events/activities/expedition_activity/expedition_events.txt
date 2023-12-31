@@ -1717,6 +1717,42 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 	}
 }
 
+expedition.00514 = { # A Trial Of Prowess
+	type = activity_event
+
+	title = expedition.00514.title
+	desc = expedition.00514.desc
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+		}
+	}
+
+	theme = trial_of_wisdom
+	# override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:true
+			}
+		}
+	}
+
+	option = {
+		name = expedition.00514.ok
+	}
+}
+
+
 # Expedition Ends
 expedition.006 = {
 	type = activity_event
