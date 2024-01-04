@@ -170,14 +170,17 @@ expedition.0051 = {
 	
 	immediate = {
 		random_list = {
-			100 = { # A Trial Of Wisdom
-				trigger_event = expedition.00511
-			}
-			55 = { # A Trial Of Cunning
-				trigger_event = expedition.00512
-			}
-			25 = { # A Trial Of Greed
-				trigger_event = expedition.00513
+			# 100 = { # A Trial Of Wisdom
+			# 	trigger_event = expedition.00511
+			# }
+			# 55 = { # A Trial Of Cunning
+			# 	trigger_event = expedition.00512
+			# }
+			# 25 = { # A Trial Of Greed
+			# 	trigger_event = expedition.00513
+			# }
+			100 = {
+				trigger_event = expedition.00514
 			}
 		}
 	}
@@ -1717,7 +1720,11 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 	}
 }
 
+# Lets experiment! Can we add a health bar to an event? custom GUI window?
+
 expedition.00514 = { # A Trial Of Prowess
+	
+	## TODO: to make your own type of event window, save new gui file in game\gui\event_windows with that name!
 	type = activity_event
 
 	title = expedition.00514.title
@@ -1730,12 +1737,26 @@ expedition.00514 = { # A Trial Of Prowess
 		}
 	}
 
-	theme = trial_of_wisdom
+	theme = trial_of_prowess
 	# override_background = { reference = corridor_night }
+
+	right_portrait = {
+		character = scope:stone_statue
+		animation = anger
+
+		outfit_tags = {
+			military_outfit 
+		}
+	}
 
 	left_portrait = {
 		character = scope:host
-		animation = thinking
+		animation = shock
+	}
+
+	center_portrait = {
+		character = scope:champion
+		animation = shock
 	}
 
 	immediate = {
@@ -1745,10 +1766,256 @@ expedition.00514 = { # A Trial Of Prowess
 				value = flag:true
 			}
 		}
+
+		create_character = {
+			name = stone_automaton_knight
+			template = stone_automaton_1
+			dynasty = none
+			location = root.location
+			save_scope_as = stone_statue
+		}
+
+		scope:activity = {
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					prowess > 5
+				}
+				add_to_list = combat_characters
+			}
+
+			ordered_in_list = {
+				list = combat_characters
+				order_by = {
+					value = 0
+					add = prowess
+				}
+				# max = 1
+
+				save_scope_as = champion
+			}
+
+			every_attending_character = {
+				limit = {
+					has_character_flag = teacher_2
+				}
+				add_to_list = characters
+			}
+		}
+
+	}
+
+	# widgets = {
+	# 	widget = {
+	# 		is_shown = {
+	# 			always = yes
+	# 		}
+	# 		gui = "battle_window"
+	# 		container = "custom_widgets_container"
+	# 		# controller = name_character
+	# 		# setup_scope = { scope:child = { save_scope_as = name_character_target } }
+	# 	}
+	# 	# widget = {
+	# 	# 	is_shown = {
+	# 	# 		always = yes
+	# 	# 	}
+	# 	# 	gui = "battle_window"
+	# 	# 	container = "custom_widgets_container"
+	# 	# 	# controller = name_character
+	# 	# 	# setup_scope = { scope:child = { save_scope_as = name_character_target } }
+	# 	# }
+	# }
+
+	# widget = {
+	# 	gui = "event_window_widget_activity_intent"
+	# 	container = "custom_widgets_container"
+	# }
+
+	option = {
+		name = expedition.00514.playerFights
+
+		configure_start_single_combat_effect = {
+			SC_INITIATOR = scope:host
+			SC_ATTACKER = scope:stone_statue
+			SC_DEFENDER = scope:host
+			FATALITY = possible
+			FIXED = no
+			LOCALE = dungeon
+			OUTPUT_EVENT = expedition.005141
+			INVALIDATION_EVENT = expedition.005141
+		}
 	}
 
 	option = {
-		name = expedition.00514.ok
+		name = expedition.00514.championFights
+
+		trigger = {
+			exists = scope:champion
+		}
+
+		configure_start_single_combat_effect = {
+			SC_INITIATOR = scope:host
+			SC_ATTACKER = scope:stone_statue
+			SC_DEFENDER = scope:champion
+			FATALITY = possible
+			FIXED = no
+			LOCALE = dungeon
+			OUTPUT_EVENT = expedition.005141
+			INVALIDATION_EVENT = expedition.005141
+		}
+	}
+
+	option = {
+		name = expedition.00514.flee
+	}
+}
+
+expedition.005141 = { # A Trial Of Prowess - after battle
+	type = activity_event
+	title = expedition.005141.title
+	desc = {
+		first_valid = { 
+			triggered_desc = { # Duel Won
+				trigger = {
+					exists = scope:sc_victor
+					NOT = {
+						scope:sc_victor = scope:stone_statue
+					}
+				}
+				desc = expedition.005141.desc.won_duel
+			}
+			triggered_desc = {  
+				trigger = { # Duel Lost
+					exists = scope:sc_victor
+					scope:sc_victor = scope:stone_statue
+				}
+				desc = expedition.005141.desc.lost_duel
+			}
+			desc = expedition.005141.error
+		}
+	}
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+		}
+	}
+
+	theme = trial_of_prowess
+
+	right_portrait = {
+		character = scope:stone_statue
+		animation = anger
+
+		outfit_tags = {
+			military_outfit 
+		}
+
+		triggered_animation = {
+			trigger = { 
+				NOT = {
+					scope:sc_victor = scope:stone_statue
+				}
+			}
+			animation = idle
+		}
+		triggered_animation = {
+			trigger = { 
+				scope:sc_victor = scope:stone_statue
+			}
+			animation = whatever
+		}
+	}
+
+	left_portrait = {
+		character = scope:host
+
+		triggered_animation = {
+			trigger = { 
+				NOT = {
+					scope:sc_victor = scope:stone_statue
+				}
+			}
+			animation = celebrate_sword
+		}
+		triggered_animation = {
+			trigger = { 
+				scope:sc_victor = scope:stone_statue
+			}
+			animation = shock
+		}
+	}
+
+	center_portrait = {
+		trigger = { 
+			exists = scope:sc_defender
+			exists = scope:champion
+			scope:sc_defender = scope:champion
+		}
+
+		character = scope:champion
+
+		triggered_animation = {
+			trigger = { 
+				NOT = {
+					scope:sc_victor = scope:stone_statue
+				}
+			}
+			animation = sword_coup_degrace
+		}
+		triggered_animation = {
+			trigger = { 
+				scope:sc_victor = scope:stone_statue
+			}
+			animation = shock
+		}
+		
+	}
+
+	immediate = {
+		# scope:sc_victor
+		# scope:sc_loser
+		if = {
+			limit = {
+				NOT = {
+					scope:sc_victor = scope:stone_statue
+				}
+			}
+
+			scope:stone_statue = {
+				death = {
+					death_reason = death_crumbled
+				}
+			}
+		}
+	}
+
+	option = {
+		name = expedition.005141.won_duel
+
+		trigger = {
+			exists = scope:sc_victor
+			NOT = {
+				scope:sc_victor = scope:stone_statue
+			}
+		}
+		
+		# if won duel, destroy automaton, give unqiue encounter
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	option = {
+		name = expedition.005141.lost_duel
+
+		trigger = {
+			exists = scope:sc_victor
+			scope:sc_victor = scope:stone_statue
+		}
+
+		# if lost duel, nothing happens
 	}
 }
 

@@ -50,24 +50,28 @@ barony of Alcoy/Daniyyah - https://en.wikipedia.org/wiki/Rock_art_of_the_Iberian
 barony of Arles/Venaissin - Ancient City of Glanum
 - https://en.wikipedia.org/wiki/Glanum
 
+## Region - East Europe
+
+barony of oskol - ancient mega city of ukraine
+https://en.wikipedia.org/wiki/Myropillya
 
 ## Region - Mediterranean
 
-- Megalithic Structures of Malta
+- barony of malta - Megalithic Structures of Malta
 
-- The Parthenon in Athens, Greece
+- barony of athens - The Parthenon in Athens, Greece
 
-- Goblio Teppe
+- barony of jarabulus Göbekli Tepe
 
 ## Region - Middle East
 
-Apadana Palace in Susa Iran
+barony of at-tib, Apadana Palace in Susa Iran
 - https://en.wikipedia.org/wiki/Apadana
 
-Ancient City of Bosra
+barony of sirhan - Ancient City of Bosra
 https://whc.unesco.org/en/list/22/
 
-Lion/Ancient city of Babylon Iraq
+barony of sarsar - Lion/Ancient city of Babylon Iraq
 - https://en.wikipedia.org/wiki/Lion_of_Babylon_(statue)
 
 
@@ -76,12 +80,20 @@ Lion/Ancient city of Babylon Iraq
 Barony of Alexandria - Library of Alexandria 
 - https://en.wikipedia.org/wiki/Library_of_Alexandria
 
-## Region India
+## Region - Sub Saharan Africa
 
-Ajanta Caves
+barony of Hamadat Tinghert - Ancient Civilization that messed with magic and caused saharahan desert
+
+barony of mara - domain of the evil lord veldric "Shattered Spire of Veldric"
+
+barony of tabu - dark elves alter
+
+## Region - India
+
+barony of Erandol - Ajanta Caves
 https://www.holidify.com/places/ajanta-and-ellora-caves/ajanta-caves-sightseeing-4020.html
 
-Ancient city of Madurai/Meenakshi Temple, Tamil Nadu
+barony of madurai - Ancient city of Madurai/Meenakshi Temple, Tamil Nadu
 https://en.wikipedia.org/wiki/Meenakshi_Temple
 
 Barony of Bokainagar - Ancient fortress of Mahasthangarh, Bangladesh
@@ -92,3 +104,5 @@ Barony of Bokainagar - Ancient fortress of Mahasthangarh, Bangladesh
 
 barony of chaka/Ge'gyai
 https://en.wikipedia.org/wiki/Shambhala
+
+barony of tekar https://en.wikipedia.org/wiki/Eleke_Sazy

@@ -1,17 +1,6 @@
 # Priority: Urgent
-- FIX Elven Superiority renown!
 
-- Straighten out the head of faith thing
-
-mututally exclusive tier 4 geentic traits
-
-tribal asecenion cant build feudal holdings
-
-- check out heroic courage
-    - does it work how it is
-    - we should just add single combat
-
-tier 4 genetics are mututally exclusive with tier 3
+Getting a bug where I have the empty council position notification event though my council is full. I guess this might be to do with the sister council position but it is bothering me a lot so I hope you can fix it.
 
 # Priority: Important
 

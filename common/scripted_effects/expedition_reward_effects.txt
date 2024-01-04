@@ -828,8 +828,6 @@ disburse_expedition_activity_rewards = {
 	save_scope_as = root_scope
 
 	scope:host = {
-		add_prestige = 100
-
 		if = {
 			limit = {
 				exists = scope:activity.var:expedition_gold_reward
@@ -840,20 +838,96 @@ disburse_expedition_activity_rewards = {
 	}
 
 	scope:activity = {
-
 		hidden_effect = {
-			if = {
-				add_to_variable_list = {
-					name = trait_rewards
-					target = trait:adventurer
+			add_to_variable_list = {
+				name = trait_rewards
+				target = trait:adventurer
+			}
+		}
+
+		every_attending_character = {
+			debug_log = "char check"
+
+			hidden_effect = {
+
+				add_prestige = 100
+
+				if = {
+					limit = {
+						NOT = {
+							has_trait = adventurer
+						}
+					}
+					debug_log = "adventurer trait gained"
+					add_trait = adventurer
+				}
+	
+				if = {
+					limit = {
+						culture = {
+							has_cultural_tradition = tradition_adventurer_guilds 
+						}
+					}
+					add_trait_xp = {
+						trait = adventurer
+						value = 20
+					}
+				}
+				else = {
+					add_trait_xp = {
+						trait = adventurer
+						value = 10
+					}
 				}
 			}
 		}
+	}
 
-		show_as_tooltip = {
-			every_attending_character = {
-				add_prestige = 100
-			}
+	show_as_tooltip = {
+		custom_tooltip = {
+			text = "All party members gain Adventurer XP"
 		}
+
+		custom_tooltip = {
+			text = "All party members gain 100 [prestige_i]"
+		}
+
+		# every_attending_character = {
+		# 	add_prestige = 100
+		# }
+
+		# every_attending_character = {
+		# 	if = {
+		# 		limit = {
+		# 			NOT = {
+		# 				has_trait = adventurer
+		# 			}
+		# 		}
+		# 		add_trait = adventurer
+		# 	}
+		# }
+
+		
+		# every_attending_character = {
+		# 	if = {
+		# 		limit = {
+		# 			culture = {
+		# 				has_cultural_tradition = tradition_adventurer_guilds 
+		# 			}
+		# 		}
+		# 		add_trait_xp = {
+		# 			trait = adventurer
+		# 			value = 10
+		# 		}
+		# 	}
+		# 	else = {
+		# 		add_trait_xp = {
+		# 			trait = adventurer
+		# 			value = 20
+		# 		}
+		# 	}
+		# }
+
+
 	}
 }

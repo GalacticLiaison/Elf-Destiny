@@ -91,40 +91,59 @@ tradition_elf_craftsmanship = {
 }
 
 # unlocks adventurer level 2 and gain more adventurer xp
-# tradition_adventure_guilds = {
-# 	category = elven
+tradition_adventurer_guilds = {
+	category = elven
 
-# 	layers = {
-# 		0 = forest_bottom_layer.dds
-# 		1 = pattern_elf_1.dds
-# 		4 = conversation.dds
-# 	}
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		2 = rec2.dds
+		4 = tradition_adventurer_guilds_item.dds
+	}
 
-# 	# can recruit charchters with: 
-# 		# - the adventurer trait
-# 		# - adventure inspiration
-# 	# Adventurer trait gives extra bonuses
-# 	# maybe unlocks elf version of vrangian adventures
-# 	# naval speed bonus
-# 	parameters = {
-		
-# 	}
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_tradition_not_discovered
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_adventurer_guilds
+			}
+		}
+	}
 
-# 	cost = {
-# 		prestige = {
-# 			add = {
-# 				value = tradition_base_cost
-# 				desc = BASE
-# 				format = "BASE_VALUE_FORMAT"
-# 			}
-# 			multiply = tradition_replacement_cost_if_relevant
-# 		}
-# 	}
+	# can recruit charchters with: 
+		# - the adventurer trait
+		# - adventure inspiration
+	# Adventurer trait gives extra bonuses
+	# maybe unlocks elf version of vrangian adventures
+	# naval speed bonus
+	parameters = {
+		cheaper_expedition_costs = yes
+		more_expedition_experience = yes
+		elf_unlock_varangian_adventurers_innovation = yes
+	}
 
-# 	ai_will_do = {
-# 		value = 0	
-# 	}
-# }
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
 
 # tradition_council_of_queens = {
 # 	category = elven
@@ -372,10 +391,12 @@ tradition_beast_tamers = {
 		}
 	}
 
-	# Grants wolf riders
+	# Grants Wolf Riders
+	# Grants Elk Cav Archers
 	# Precursor to dragon handling
 	parameters = {
 		unlock_maa_wolf_riders = yes
+		unlock_maa_elk_archers = yes
 	}
 
 	cost = {
