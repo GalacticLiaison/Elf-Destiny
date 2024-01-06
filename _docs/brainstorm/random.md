@@ -26,3 +26,5 @@ after collecting  three advanced personality traits can combine them into one su
    Or maybe to start just gain an additional True King/Queen personality trait
 
 allow dark triad traits to form ultimate bad guy personality trait
+
+choice trial: two vases balanced, can only take one other falls in pit. You get treasure from the one you took and get told what fell

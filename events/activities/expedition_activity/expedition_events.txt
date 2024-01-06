@@ -170,16 +170,16 @@ expedition.0051 = {
 	
 	immediate = {
 		random_list = {
-			# 100 = { # A Trial Of Wisdom
-			# 	trigger_event = expedition.00511
-			# }
-			# 55 = { # A Trial Of Cunning
-			# 	trigger_event = expedition.00512
-			# }
-			# 25 = { # A Trial Of Greed
-			# 	trigger_event = expedition.00513
-			# }
-			100 = {
+			100 = { # A Trial Of Wisdom
+				trigger_event = expedition.00511
+			}
+			55 = { # A Trial Of Cunning
+				trigger_event = expedition.00512
+			}
+			25 = { # A Trial Of Greed
+				trigger_event = expedition.00513
+			}
+			100 = { # A Trial of Prowess
 				trigger_event = expedition.00514
 			}
 		}
@@ -200,20 +200,36 @@ expedition.0052 = {
 
 			unique_find_fortress_tomb_of_the_emperor = yes
 		}
-		else_if = { # Ancient elf city ruins_of_valfuria
+		else_if = { # Portal Capacitor
 			limit = {
-				scope:activity.activity_location.barony = title:b_gnezdovo
+				scope:activity.activity_location.barony = {
+					NOT = {
+						has_variable = portal_navigation_relay_found_here
+						has_variable = portal_capacitor_found_here
+					}
+				}
+				NOT = { has_global_variable = portal_capacitor_found }
 			}
 
-			unique_find_ruins_of_valfuria = yes
+			debug_log = "IN Portal Capacitor"
+
+			unique_find_portal_capacitor = yes
 		}
-		else_if = { # Volcanic Forge
+		else_if = { # Portal Navigation Relay
 			limit = {
-				scope:activity.activity_location.barony = title:b_napoli
+				scope:activity.activity_location.barony = {
+					NOT = {
+						has_variable = portal_navigation_relay_found_here
+						has_variable = portal_capacitor_found_here
+					}
+				}
+				NOT = { has_global_variable = portal_navigation_relay_found }
 			}
 
-			unique_find_volcanic_forge = yes
-		} 
+			debug_log = "IN Portal Navigation Relay"
+
+			unique_find_portal_navigation_relay = yes
+		}
 		else = {
 			debug_log = "No Unique Items Option Selected"
 		}
@@ -518,7 +534,7 @@ expedition.006901 = { # A Trial Of Wisdom TUTORIAL
 	option = {
 		name = expedition.006901.ok
 
-		trigger_event = expedition_riddles.0001
+		trigger_event = expedition_riddles.0999
 	}
 }
 
@@ -526,7 +542,45 @@ expedition.00511 = { # A Trial Of Wisdom
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition.00511.desc
+
+	desc = {
+		desc = expedition.00511.desc
+		triggered_desc = { # Advisor
+			trigger = {
+				exists = scope:wisdom_advisor
+			}
+			desc = expedition.00511.wisdom_check
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.wisdom_check.rating.lowest
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.wisdom_check.rating.mid
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.wisdom_check.rating.good
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.wisdom_check.rating.best
+		}
+
+	}
 
 	trigger = {
 		is_ai = no
@@ -536,10 +590,14 @@ expedition.00511 = { # A Trial Of Wisdom
 	}
 
 	theme = trial_of_wisdom
-	# override_background = { reference = corridor_night }
 
 	left_portrait = {
 		character = scope:host
+		animation = thinking
+	}
+
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
 		animation = thinking
 	}
 
@@ -549,119 +607,228 @@ expedition.00511 = { # A Trial Of Wisdom
 				name = trial_attempted
 				value = flag:true
 			}
+
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					learning > 5
+				}
+				add_to_list = wisdom_advisor_candidate
+			}
+
+			ordered_in_list = {
+				list = wisdom_advisor_candidate
+				order_by = {
+					value = 0
+					add = learning
+				}
+
+				save_scope_as = wisdom_advisor
+			}	
 		}
+
+		if = {
+			limit = {
+				exists = scope:wisdom_advisor
+			}
+
+			debug_log = "WISDOM ADVISOR DOES EXIST"
+
+			if = {
+				limit = {
+					scope:wisdom_advisor.learning < 10
+				}
+				save_scope_value_as = {
+					name = advisor_level
+					value = 1
+				}
+			}
+			else_if = {
+				limit = { 
+					AND = {
+						scope:wisdom_advisor.learning > 10
+						scope:wisdom_advisor.learning < 15
+					}
+				}
+				save_scope_value_as = {
+					name = advisor_level
+					value = 2
+				}
+			}
+			else_if = {
+				limit = { 
+					AND = {
+						scope:wisdom_advisor.learning > 15
+						scope:wisdom_advisor.learning < 25
+					}
+				}
+				save_scope_value_as = {
+					name = advisor_level
+					value = 3
+				}
+			}
+			else_if = {
+				limit = {
+					scope:wisdom_advisor.learning > 25
+				}
+				save_scope_value_as = {
+					name = advisor_level
+					value = 4
+				}
+			}
+
+		}
+		else = {
+			debug_log = "WISDOM ADVISOR DOESNT EXIST"
+		}
+
 	}
 
 	option = {
 		name = expedition.00511.ok
 
-		random_list = {
-			100 = { 
-				trigger_event = expedition_riddles.001
-			}
-			100 = { 
-				trigger_event = expedition_riddles.002
-			}
-			100 = { 
-				trigger_event = expedition_riddles.003
-			}
-			100 = { 
-				trigger_event = expedition_riddles.004
-			}
-			100 = { 
-				trigger_event = expedition_riddles.005
-			}
-			100 = { 
-				trigger_event = expedition_riddles.006
-			}
-			100 = { 
-				trigger_event = expedition_riddles.007
-			}
-			100 = { 
-				trigger_event = expedition_riddles.008
-			}
-			100 = { 
-				trigger_event = expedition_riddles.009
-			}
-			100 = { 
-				trigger_event = expedition_riddles.010
-			}
-			100 = { 
-				trigger_event = expedition_riddles.011
-			}
-			100 = { 
-				trigger_event = expedition_riddles.012
-			}
-			100 = { 
-				trigger_event = expedition_riddles.013
-			}
-			100 = { 
-				trigger_event = expedition_riddles.014
-			}
-			100 = { 
-				trigger_event = expedition_riddles.015
-			}
-			100 = { 
-				trigger_event = expedition_riddles.016
-			}
-			100 = { 
-				trigger_event = expedition_riddles.017
-			}
-			100 = { 
-				trigger_event = expedition_riddles.018
-			}
-			100 = { 
-				trigger_event = expedition_riddles.019
-			}
-			100 = { 
-				trigger_event = expedition_riddles.020
-			}
-			100 = { 
-				trigger_event = expedition_riddles.021
-			}
-			100 = { 
-				trigger_event = expedition_riddles.022
-			}
-			100 = { 
-				trigger_event = expedition_riddles.023
-			}
-			100 = { 
-				trigger_event = expedition_riddles.024
-			}
-			100 = { 
-				trigger_event = expedition_riddles.025
-			}
-			100 = { 
-				trigger_event = expedition_riddles.026
-			}
-			100 = { 
-				trigger_event = expedition_riddles.027
-			}
-			100 = { 
-				trigger_event = expedition_riddles.028
-			}
-			100 = { 
-				trigger_event = expedition_riddles.029
-			}
-			100 = { 
-				trigger_event = expedition_riddles.030
-			}
-			100 = { 
-				trigger_event = expedition_riddles.031
-			}
-			100 = { 
-				trigger_event = expedition_riddles.032
-			}
-			100 = { 
-				trigger_event = expedition_riddles.033
-			}
-			100 = { 
-				trigger_event = expedition_riddles.034
-			}
-			100 = { 
-				trigger_event = expedition_riddles.035
+		custom_tooltip = expedition.00511.choice_tooltip
+
+		hidden_effect = {
+			random_list = {
+				100 = { 
+					trigger_event = expedition_riddles.001
+				}
+				100 = { 
+					trigger_event = expedition_riddles.002
+				}
+				100 = { 
+					trigger_event = expedition_riddles.003
+				}
+				100 = { 
+					trigger_event = expedition_riddles.004
+				}
+				100 = { 
+					trigger_event = expedition_riddles.005
+				}
+				100 = { 
+					trigger_event = expedition_riddles.006
+				}
+				100 = { 
+					trigger_event = expedition_riddles.007
+				}
+				100 = { 
+					trigger_event = expedition_riddles.008
+				}
+				100 = { 
+					trigger_event = expedition_riddles.009
+				}
+				100 = { 
+					trigger_event = expedition_riddles.010
+				}
+				100 = { 
+					trigger_event = expedition_riddles.011
+				}
+				100 = { 
+					trigger_event = expedition_riddles.012
+				}
+				100 = { 
+					trigger_event = expedition_riddles.013
+				}
+				100 = { 
+					trigger_event = expedition_riddles.014
+				}
+				100 = { 
+					trigger_event = expedition_riddles.015
+				}
+				100 = { 
+					trigger_event = expedition_riddles.016
+				}
+				100 = { 
+					trigger_event = expedition_riddles.017
+				}
+				100 = { 
+					trigger_event = expedition_riddles.018
+				}
+				100 = { 
+					trigger_event = expedition_riddles.019
+				}
+				100 = { 
+					trigger_event = expedition_riddles.020
+				}
+				100 = { 
+					trigger_event = expedition_riddles.021
+				}
+				100 = { 
+					trigger_event = expedition_riddles.022
+				}
+				100 = { 
+					trigger_event = expedition_riddles.023
+				}
+				100 = { 
+					trigger_event = expedition_riddles.024
+				}
+				100 = { 
+					trigger_event = expedition_riddles.025
+				}
+				100 = { 
+					trigger_event = expedition_riddles.026
+				}
+				100 = { 
+					trigger_event = expedition_riddles.027
+				}
+				100 = { 
+					trigger_event = expedition_riddles.028
+				}
+				100 = { 
+					trigger_event = expedition_riddles.029
+				}
+				100 = { 
+					trigger_event = expedition_riddles.030
+				}
+				100 = { 
+					trigger_event = expedition_riddles.031
+				}
+				100 = { 
+					trigger_event = expedition_riddles.032
+				}
+				100 = { 
+					trigger_event = expedition_riddles.033
+				}
+				100 = { 
+					trigger_event = expedition_riddles.034
+				}
+				100 = { 
+					trigger_event = expedition_riddles.035
+				}
 			}
 		}
+	}
+}
+
+expedition.005111 = { # A Trial Of Wisdom WRONG ANSWER
+	type = activity_event
+
+	title = expedition_riddles.title
+	desc = expedition.005111.desc
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+		}
+	}
+
+	theme = trial_of_wisdom
+
+	left_portrait = {
+		character = scope:host
+		animation = anger
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = expedition.005111.ok
 	}
 }
 
@@ -669,12 +836,82 @@ expedition.00512 = { # A Trial Of Cunning
 	type = activity_event
 
 	title = expedition.00512.title
-	desc = expedition.00512.desc
+	desc = {
+		desc = expedition.00512.desc
+		triggered_desc = { # Advisor
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.intrigue_check
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue < 5
+			}
+			desc = expedition.00512.intrigue_check.rating.lowest
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.low
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.mid
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.good
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue > 25
+			}
+			desc = expedition.00512.intrigue_check.rating.best
+		}
+
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.advisor_advice
+		}
+	}
+	
 
 	theme = trial_of_cunning
 
 	left_portrait = {
 		character = scope:host
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:marble_statue
+		animation = personality_content
+	}
+
+	lower_left_portrait = {
+		character = scope:cunning_advisor
 		animation = thinking
 	}
 
@@ -686,11 +923,56 @@ expedition.00512 = { # A Trial Of Cunning
 	}
 
 	immediate = {
+
+		create_character = {
+			name = marble_automaton_trial_of_cunning
+			template = marble_automaton_1
+			dynasty = none
+			location = root.location
+			save_scope_as = marble_statue
+		}
+
 		scope:activity = {
 			set_variable = {
 				name = trial_attempted
 				value = flag:true
 			}
+
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					intrigue > 5
+				}
+				add_to_list = cunning_advisor_candidate
+			}
+
+			ordered_in_list = {
+				list = cunning_advisor_candidate
+				order_by = {
+					value = 0
+					add = intrigue
+				}
+
+				save_scope_as = cunning_advisor
+			}	
+		}
+
+		if = {
+			limit = {
+				exists = scope:cunning_advisor
+			}
+
+			debug_log = "CUNNING ADVISOR DOES EXIST"
+
+			# set_variable = {
+			# 	name = cunning_advisor_intrigue
+			# 	value = scope:cunning_advisor.intrigue
+			# }
+		}
+		else = {
+			debug_log = "CUNNING ADVISOR DOESNT EXIST"
 		}
 
 		set_variable = {
@@ -760,6 +1042,8 @@ expedition.00512 = { # A Trial Of Cunning
 			add_to_list = player_pieces
 			add_to_list = ai_pieces
 		}
+
+		determine_advisor_pick_effect = yes
 	}
 
 	option = { # King
@@ -777,7 +1061,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:King
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Queen
 		name = expedition.00512.playQueen
@@ -794,7 +1082,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Queen
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Priestess
 		name = expedition.00512.playPriestess
@@ -811,7 +1103,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Priestess
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Noble
 		name = expedition.00512.playNoble
@@ -828,7 +1124,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Noble
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Knight
 		name = expedition.00512.playKnight
@@ -845,7 +1145,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Knight
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Bandit
 		name = expedition.00512.playBandit
@@ -862,7 +1166,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Bandit
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Peasant
 		name = expedition.00512.playPeasant
@@ -879,7 +1187,11 @@ expedition.00512 = { # A Trial Of Cunning
 			value = flag:Peasant
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 }
 
@@ -957,6 +1269,13 @@ expedition.005121 = { # Trial Of Cunning Round
 			}
 			desc = expedition.00512.peasant
 		}
+
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.advisor_advice
+		}
 	}
 
 	# desc = expedition.game_score
@@ -966,6 +1285,14 @@ expedition.005121 = { # Trial Of Cunning Round
 	left_portrait = {
 		character = scope:host
 		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:marble_statue
+	}
+
+	immediate = {
+		determine_advisor_pick_effect = yes
 	}
 
 	option = { # King
@@ -983,7 +1310,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:King
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Queen
 		name = expedition.00512.playQueen
@@ -1000,7 +1331,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Queen
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Priestess
 		name = expedition.00512.playPriestess
@@ -1017,7 +1352,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Priestess
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Noble
 		name = expedition.00512.playNoble
@@ -1034,7 +1373,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Noble
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Knight
 		name = expedition.00512.playKnight
@@ -1051,7 +1394,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Knight
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Bandit
 		name = expedition.00512.playBandit
@@ -1068,7 +1415,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Bandit
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 	option = { # Peasant
 		name = expedition.00512.playPeasant
@@ -1085,7 +1436,11 @@ expedition.005121 = { # Trial Of Cunning Round
 			value = flag:Peasant
 		}
 
-		resolve_round_effect = yes
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
 	}
 }
 
@@ -1101,6 +1456,10 @@ expedition.005122 = { # Trial Of Cunning Player Victory
 	left_portrait = {
 		character = scope:host
 		animation = happiness
+	}
+
+	right_portrait = {
+		character = scope:marble_statue
 	}
 
 	option = { 
@@ -1699,17 +2058,19 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 	option = {
 		name = expedition.005132.ouch
 
-		every_attending_character = {
-			random_list = {
-				85 = { # Nothing Happens
-					
-				}
-				15 = { # They Are Injured
-					hidden_effect = {
-						change_trait_rank = {
-							trait = wounded
-							rank = 1
-							max = 3
+		scope:activity = {
+			every_attending_character = {
+				random_list = {
+					85 = { # Nothing Happens
+						
+					}
+					15 = { # They Are Injured
+						hidden_effect = {
+							change_trait_rank = {
+								trait = wounded
+								rank = 1
+								max = 3
+							}
 						}
 					}
 				}
@@ -1797,12 +2158,6 @@ expedition.00514 = { # A Trial Of Prowess
 				save_scope_as = champion
 			}
 
-			every_attending_character = {
-				limit = {
-					has_character_flag = teacher_2
-				}
-				add_to_list = characters
-			}
 		}
 
 	}

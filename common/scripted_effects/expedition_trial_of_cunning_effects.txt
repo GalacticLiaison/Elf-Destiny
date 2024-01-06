@@ -1,9 +1,143 @@
-﻿resolve_round_effect = {
-	# Determine AI choice
+﻿determine_advisor_pick_effect = {
+	# picked randomly from AI choices
 	random_list = {
+		0 = { # King
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:King
+			}
+
+			modifier = {
+				add = 10
+				scope:King = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Queen
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Queen
+			}
+
+			modifier = {
+				add = 10
+				scope:Queen = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Priestess
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Priestess
+			}
+
+			modifier = {
+				add = 10
+				scope:Priestess = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Noble
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Noble
+			}
+
+			modifier = {
+				add = 10
+				scope:Noble = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Knight
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Knight
+			}
+
+			modifier = {
+				add = 10
+				scope:Knight = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Bandit
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Bandit
+			}
+
+			modifier = {
+				add = 10
+				scope:Bandit = { is_in_list = ai_pieces }
+			}
+		}
+		0 = { # Peasant
+			save_scope_value_as = {
+				name = cunning_advisor_pick
+				value = flag:Peasant
+			}
+
+			modifier = {
+				add = 10
+				scope:Peasant = { is_in_list = ai_pieces }
+			}
+		}
+	}
+
+}
+
+resolve_round_effect = {
+	# Determine AI choice
+
+	random_list = { # Weighted
 		10 = { # King
 			trigger = { # Piece is still an option to play
 				scope:King = { is_in_list = ai_pieces }
+			}
+
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:King
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:King
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:King
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:King
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:King
+					scope:cunning_advisor.intrigue > 25
+				}
 			}
 
 			scope:King = {
@@ -19,6 +153,55 @@
 				scope:Queen = { is_in_list = ai_pieces }
 			}
 
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Queen
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Queen
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Queen
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Queen
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Queen
+					scope:cunning_advisor.intrigue > 25
+				}
+			}
+
 			scope:Queen = {
 				save_scope_as = ai_choice
 			}
@@ -30,6 +213,55 @@
 		10 = { # Priestess
 			trigger = { # Piece is still an option to play
 				scope:Priestess = { is_in_list = ai_pieces }
+			}
+
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Priestess
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Priestess
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Priestess
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Priestess
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Priestess
+					scope:cunning_advisor.intrigue > 25
+				}
 			}
 
 			scope:Priestess = {
@@ -45,6 +277,55 @@
 				scope:Noble = { is_in_list = ai_pieces }
 			}
 
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Noble
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Noble
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Noble
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Noble
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Noble
+					scope:cunning_advisor.intrigue > 25
+				}
+			}
+
 			scope:Noble = {
 				save_scope_as = ai_choice
 			}
@@ -56,6 +337,55 @@
 		10 = { # Knight
 			trigger = { # Piece is still an option to play
 				scope:Knight = { is_in_list = ai_pieces }
+			}
+
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Knight
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Knight
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Knight
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Knight
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Knight
+					scope:cunning_advisor.intrigue > 25
+				}
 			}
 
 			scope:Knight = {
@@ -71,6 +401,55 @@
 				scope:Bandit = { is_in_list = ai_pieces }
 			}
 
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Bandit
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Bandit
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Bandit
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Bandit
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Bandit
+					scope:cunning_advisor.intrigue > 25
+				}
+			}
+
 			scope:Bandit = {
 				save_scope_as = ai_choice
 			}
@@ -82,6 +461,55 @@
 		10 = { # Peasant
 			trigger = { # Piece is still an option to play
 				scope:Peasant = { is_in_list = ai_pieces }
+			}
+
+			modifier = {
+				add = 10
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Peasant
+					scope:cunning_advisor.intrigue < 5
+				}
+			}
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Peasant
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			modifier = {
+				add = 45
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Peasant
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			modifier = {
+				add = 60
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Peasant
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			modifier = {
+				add = 150
+				AND = {
+					exists = scope:cunning_advisor
+					exists = scope:cunning_advisor_pick
+					scope:cunning_advisor_pick = flag:Peasant
+					scope:cunning_advisor.intrigue > 25
+				}
 			}
 
 			scope:Peasant = {
@@ -108,7 +536,19 @@
 	}
 	else_if = {
 		limit = {
-			scope:player_choice > scope:ai_choice
+			OR = {
+				AND = {
+					scope:player_choice > scope:ai_choice
+					NOT = {
+						scope:ai_choice = scope:Peasant
+						scope:player_choice = scope:King
+					}
+				}
+				AND = {
+					scope:player_choice = scope:Peasant
+					scope:ai_choice = scope:King
+				}
+			}
 		}
 
 		change_variable = {name = player_score add = 1}
@@ -122,7 +562,19 @@
 	}
 	else_if = {
 		limit = {
-			scope:player_choice < scope:ai_choice
+			OR = {
+				AND = {
+					scope:player_choice < scope:ai_choice
+					NOT = {
+						scope:player_choice = scope:Peasant
+						scope:ai_choice = scope:King
+					}
+				}
+				AND = {
+					scope:ai_choice = scope:Peasant
+					scope:player_choice = scope:King
+				}
+			}
 		}
 
 		change_variable = {name = ai_score add = 1}

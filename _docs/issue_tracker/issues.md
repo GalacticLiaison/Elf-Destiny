@@ -2,10 +2,13 @@
 
 Getting a bug where I have the empty council position notification event though my council is full. I guess this might be to do with the sister council position but it is bothering me a lot so I hope you can fix it.
 
+Hi, it looks like after i changed to ascended tribal, i can't change out of confederate partition. I can only change the ruler prefered sex, but cant change to primogeniture/ultimogeniture ecc.
+Is it just me or is it intended?
+
 # Priority: Important
 
 - elf blood aastru/norse, stuck in matchmaking request loop. couldnt get further than allowing them to find a match for player.
-- familial familarity may not be allowing family marriage
+- familial familiarity may not be allowing family marriage
 - The event for choosing a marriage candidate doesn't work if you haven't done the expedition or are an elf, as it doesn't generate anyone or give any options to the player. So if you were to convert to Aeluran Weavers the event fires repeatedly but nothing ever happens.
 
 # Priority: Mid

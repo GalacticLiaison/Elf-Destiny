@@ -1,15 +1,11 @@
 ﻿namespace = expedition_riddles
 
 # Tutorial
-expedition_riddles.0001 = { # An Onion
+expedition_riddles.0999 = { # An Onion
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = {
-		desc = expedition_riddles.0001.q
-		desc = expedition_riddles.0001.spacing
-		desc = expedition_riddles.0001.julia
-	}
+	desc = expedition_riddles.0999.q
 
 	theme = trial_of_wisdom
 
@@ -65,7 +61,7 @@ expedition_riddles.0001 = { # An Onion
 	}
 
 	option = {
-		name =  expedition_riddles.0001.a.i1
+		name =  expedition_riddles.0999.a.i1
 
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
@@ -79,7 +75,7 @@ expedition_riddles.0001 = { # An Onion
 		}
 	}
 	option = {
-		name =  expedition_riddles.0001.a.c
+		name =  expedition_riddles.0999.a.c
 
 		scope:activity = {
 			set_variable = {
@@ -91,7 +87,7 @@ expedition_riddles.0001 = { # An Onion
 		trigger_event = expedition.0069 # Tomb of Dead King
 	}
 	option = {
-		name =  expedition_riddles.0001.a.i2
+		name =  expedition_riddles.0999.a.i2
 
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
@@ -105,7 +101,7 @@ expedition_riddles.0001 = { # An Onion
 		}
 	}
 	option = {
-		name =  expedition_riddles.0001.a.i3
+		name =  expedition_riddles.0999.a.i3
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
@@ -118,7 +114,7 @@ expedition_riddles.0001 = { # An Onion
 		}
 	}
 	option = {
-		name = expedition_riddles.0001.a.i4
+		name = expedition_riddles.0999.a.i4
 		# A trigger that has to be fulfilled for this option to be valid.		
 		trigger = { 
 			NOT = { 
@@ -136,7 +132,48 @@ expedition_riddles.001 = { # A River
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.001.q
+
+	desc = {
+		desc = expedition_riddles.001.q
+
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 
 	theme = trial_of_wisdom
 
@@ -150,21 +187,169 @@ expedition_riddles.001 = { # A River
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.001.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.001.a.c
+
+	# advice
+	# a  
+		# 1 - highlighted
+		# 2 - not highlighted
+		# 3 - not highlighted
+		# 4 - not highlighted
+	# b correct answer
+		# 1 - highlighted
+		# 2 - highlighted
+		# 3 - highlighted
+		# 4 - highlighted
+	# c 
+		# 1 - highlighted
+		# 2 - highlighted
+		# 3 - not highlighted
+		# 4 - not highlighted
+	# d 
+		# 1 - highlighted
+		# 2 - highlighted
+		# 3 - highlighted
+		# 4 - not highlighted
+	# e
+		# 1 - highlighted
+		# 2 - highlighted
+		# 3 - highlighted
+		# 4 - highlighted
+ 
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.001.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.001.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.001.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.001.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.001.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.001.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.001.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.001.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.001.a.i2
+		name = expedition_riddles.001.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.001.a.i3
-	}
-	option = {
-		name =  expedition_riddles.001.a.i4
+		name = expedition_riddles.001.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -172,8 +357,47 @@ expedition_riddles.002 = { # A Skull
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.002.q
+	desc = {
+		desc = expedition_riddles.002.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -186,21 +410,142 @@ expedition_riddles.002 = { # A Skull
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.002.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.002.a.i2
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.002.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.002.a.c
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.002.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.002.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.002.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.002.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.002.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.002.a.i3
+		name = expedition_riddles.002.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.002.a.i4
+		name = expedition_riddles.002.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.002.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.002.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -208,8 +553,47 @@ expedition_riddles.003 = { # Waterfall
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.003.q
+	desc = {
+		desc = expedition_riddles.003.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -222,21 +606,143 @@ expedition_riddles.003 = { # Waterfall
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.003.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.003.a.i2
-	}
-	option = {
-		name =  expedition_riddles.003.a.i3
-	}
-	option = {
-		name =  expedition_riddles.003.a.c
+
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.003.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.003.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.003.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.003.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.003.a.i4
+		name = expedition_riddles.003.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.003.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.003.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.003.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.003.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.003.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -244,8 +750,47 @@ expedition_riddles.004 = { # Fish
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.004.q
+	desc = {
+		desc = expedition_riddles.004.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -258,21 +803,143 @@ expedition_riddles.004 = { # Fish
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.004.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.004.a.i2
-	}
-	option = {
-		name =  expedition_riddles.004.a.i3
-	}
-	option = {
-		name =  expedition_riddles.004.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.004.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.004.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.004.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.004.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.004.a.i4
+		name = expedition_riddles.004.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.004.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.004.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.004.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.004.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.004.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -280,8 +947,47 @@ expedition_riddles.005 = { # Wind
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.005.q
+	desc = {
+		desc = expedition_riddles.005.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -294,21 +1000,142 @@ expedition_riddles.005 = { # Wind
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.005.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.005.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.005.a.c
+		name = expedition_riddles.005.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.005.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.005.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.005.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.005.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.005.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.005.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.005.a.i1
-	}
-	option = {
-		name =  expedition_riddles.005.a.i2
-	}
-	option = {
-		name =  expedition_riddles.005.a.i3
-	}
-	option = {
-		name =  expedition_riddles.005.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.005.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
 }
 
@@ -316,8 +1143,47 @@ expedition_riddles.006 = { # Candle
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.006.q
+	desc = {
+		desc = expedition_riddles.006.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -330,21 +1196,142 @@ expedition_riddles.006 = { # Candle
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.006.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.006.a.i2
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.006.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.006.a.i3
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.006.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.006.a.i4
-	}
-	option = {
-		name =  expedition_riddles.006.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.006.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.006.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.006.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.006.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.006.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.006.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
+	option = {
+		name = expedition_riddles.006.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.006.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -352,8 +1339,47 @@ expedition_riddles.007 = { # A Choice
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.007.q
+	desc = {
+		desc = expedition_riddles.007.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -366,30 +1392,194 @@ expedition_riddles.007 = { # A Choice
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.007.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.007.a.i2
+
+	x < 2 Highlighted
+	x >= 2 Not Highlighted
+
+	# Option 5 
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.007.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.007.a.i3
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.007.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.007.a.c
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.007.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.007.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.007.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.007.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.007.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.007.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.007.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.007.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.007.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
 }
 
 expedition_riddles.008 = { # A Mirror
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.008.q
+	desc = {
+		desc = expedition_riddles.008.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -402,21 +1592,142 @@ expedition_riddles.008 = { # A Mirror
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.008.a.c
+		name = expedition_riddles.008.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.008.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.008.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.008.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.008.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.008.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.008.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.008.a.i1
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.008.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.008.a.i2
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.008.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.008.a.i3
-	}
-	option = {
-		name =  expedition_riddles.008.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.008.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -424,8 +1735,47 @@ expedition_riddles.009 = { # Sunshine
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.009.q
+	desc = {
+		desc = expedition_riddles.009.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -438,30 +1788,191 @@ expedition_riddles.009 = { # Sunshine
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.009.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.009.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.009.a.i1
+		name = expedition_riddles.009.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.009.a.i2
+		name = expedition_riddles.009.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.009.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.009.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.009.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.009.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.009.a.c
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.009.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.009.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.009.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.009.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
 }
 
 expedition_riddles.010 = { # Eye
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.010.q
+	desc = {
+		desc = expedition_riddles.010.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -474,21 +1985,142 @@ expedition_riddles.010 = { # Eye
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.010.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.010.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.010.a.i1
+		name = expedition_riddles.010.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.010.a.i2
+		name = expedition_riddles.010.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.010.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.010.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.010.a.c
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.010.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.010.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.010.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.010.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.010.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.010.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
 }
 
@@ -496,8 +2128,47 @@ expedition_riddles.011 = { # Promise
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.011.q
+	desc = {
+		desc = expedition_riddles.011.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -510,30 +2181,191 @@ expedition_riddles.011 = { # Promise
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.011.a.c
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.011.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.011.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.011.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.011.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.011.a.i1
+		name = expedition_riddles.011.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.011.a.i2
+		name = expedition_riddles.011.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.011.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.011.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.011.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.011.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.011.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.011.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
 }
 
 expedition_riddles.012 = { # Courage
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.012.q
+	desc = {
+		desc = expedition_riddles.012.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -546,21 +2378,142 @@ expedition_riddles.012 = { # Courage
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.012.a.c
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.012.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.012.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.012.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.012.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.012.a.i1
+		name = expedition_riddles.012.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.012.a.i2
+		name = expedition_riddles.012.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.012.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.012.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.012.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.012.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.012.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.012.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -568,8 +2521,47 @@ expedition_riddles.013 = { # Day
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.013.q
+	desc = {
+		desc = expedition_riddles.013.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -582,30 +2574,192 @@ expedition_riddles.013 = { # Day
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.013.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.013.a.i2
-	}
-	option = {
-		name =  expedition_riddles.013.a.i3
-	}
-	option = {
-		name =  expedition_riddles.013.a.i4
-	}
-	option = {
-		name =  expedition_riddles.013.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.013.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.013.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.013.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.013.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.013.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.013.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
+	option = {
+		name = expedition_riddles.013.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.013.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.013.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.013.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+
 }
 
 expedition_riddles.014 = { # Keyhole
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.014.q
+	desc = {
+		desc = expedition_riddles.014.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -618,21 +2772,142 @@ expedition_riddles.014 = { # Keyhole
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.014.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.014.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.014.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.014.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.014.a.i1
+		name = expedition_riddles.014.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.014.a.i2
+		name = expedition_riddles.014.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.014.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.014.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.014.a.c
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.014.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.014.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.014.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.014.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
 }
 
@@ -640,8 +2915,47 @@ expedition_riddles.015 = { # Nothing
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.015.q
+	desc = {
+		desc = expedition_riddles.015.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -654,21 +2968,142 @@ expedition_riddles.015 = { # Nothing
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.015.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.015.a.c
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.015.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.015.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.015.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.015.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.015.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.015.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.015.a.i2
+		name = expedition_riddles.015.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.015.a.i3
+		name = expedition_riddles.015.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.015.a.i4
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.015.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.015.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -676,8 +3111,47 @@ expedition_riddles.016 = { # Water
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.016.q
+	desc = {
+		desc = expedition_riddles.016.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -690,21 +3164,142 @@ expedition_riddles.016 = { # Water
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.016.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.016.a.c
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.016.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.016.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.016.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.016.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.016.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.016.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.016.a.i2
+		name = expedition_riddles.016.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.016.a.i3
+		name = expedition_riddles.016.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.016.a.i4
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.016.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.016.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -712,8 +3307,47 @@ expedition_riddles.017 = { # Tongue
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.017.q
+	desc = {
+		desc = expedition_riddles.017.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -726,21 +3360,142 @@ expedition_riddles.017 = { # Tongue
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.017.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.017.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.017.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.017.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.017.a.i1
+		name = expedition_riddles.017.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.017.a.c
+		name = expedition_riddles.017.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.017.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.017.a.i2
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.017.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.017.a.i3
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.017.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.017.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.017.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -748,8 +3503,47 @@ expedition_riddles.018 = { # A Bridge
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.018.q
+	desc = {
+		desc = expedition_riddles.018.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -762,21 +3556,142 @@ expedition_riddles.018 = { # A Bridge
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.018.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.018.a.i2
-	}
-	option = {
-		name =  expedition_riddles.018.a.i3
-	}
-	option = {
-		name =  expedition_riddles.018.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.018.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.018.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.018.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.018.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.018.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.018.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.018.a.i4
+		name = expedition_riddles.018.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.018.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.018.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.018.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -784,8 +3699,47 @@ expedition_riddles.019 = { # A Reflection
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.019.q
+	desc = {
+		desc = expedition_riddles.019.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -798,21 +3752,142 @@ expedition_riddles.019 = { # A Reflection
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.019.a.i1
+		name = expedition_riddles.019.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.019.a.i2
+		name = expedition_riddles.019.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.019.a.i3
-	}
-	option = {
-		name =  expedition_riddles.019.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.019.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.019.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.019.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.019.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.019.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.019.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.019.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.019.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.019.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -820,8 +3895,47 @@ expedition_riddles.020 = { # Sands In An Hourglass
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.020.q
+	desc = {
+		desc = expedition_riddles.020.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -834,21 +3948,142 @@ expedition_riddles.020 = { # Sands In An Hourglass
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.020.a.i1
+		name = expedition_riddles.020.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.020.a.i2
+		name = expedition_riddles.020.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.020.a.i3
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.020.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.020.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.020.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.020.a.c
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.020.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.020.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.020.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.020.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.020.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.020.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -856,8 +4091,47 @@ expedition_riddles.021 = { # A Wheel
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.021.q
+	desc = {
+		desc = expedition_riddles.021.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -870,21 +4144,142 @@ expedition_riddles.021 = { # A Wheel
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.021.a.i1
+		name = expedition_riddles.021.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.021.a.i2
+		name = expedition_riddles.021.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.021.a.i3
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.021.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.021.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.021.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.021.a.c
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.021.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.021.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.021.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.021.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.021.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.021.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -892,8 +4287,47 @@ expedition_riddles.022 = { # A Flower
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.022.q
+	desc = {
+		desc = expedition_riddles.022.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -906,21 +4340,142 @@ expedition_riddles.022 = { # A Flower
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.022.a.i1
+		name = expedition_riddles.022.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.022.a.i2
+		name = expedition_riddles.022.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.022.a.i3
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.022.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.022.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.022.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.022.a.c
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.022.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.022.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.022.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.022.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.022.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.022.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -928,8 +4483,47 @@ expedition_riddles.023 = { # A Key
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.023.q
+	desc = {
+		desc = expedition_riddles.023.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -942,21 +4536,142 @@ expedition_riddles.023 = { # A Key
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.023.a.c
+		name = expedition_riddles.023.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.023.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.023.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.023.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.023.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.023.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.023.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.023.a.i1
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.023.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.023.a.i2
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.023.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.023.a.i3
-	}
-	option = {
-		name =  expedition_riddles.023.a.i4
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.023.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -964,8 +4679,47 @@ expedition_riddles.024 = { # Darkness
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.024.q
+	desc = {
+		desc = expedition_riddles.024.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -978,21 +4732,142 @@ expedition_riddles.024 = { # Darkness
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.024.a.i1
+		name = expedition_riddles.024.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.024.a.i2
+		name = expedition_riddles.024.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.024.a.c
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.024.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.024.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.024.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.024.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.024.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.024.a.i3
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.024.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.024.a.i4
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.024.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.024.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1000,8 +4875,47 @@ expedition_riddles.025 = { # A Sword
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.025.q
+	desc = {
+		desc = expedition_riddles.025.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1014,21 +4928,142 @@ expedition_riddles.025 = { # A Sword
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.025.a.i1
+		name = expedition_riddles.025.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.025.a.i2
+		name = expedition_riddles.025.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.025.a.i3
-	}
-	option = {
-		name =  expedition_riddles.025.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.025.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.025.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.025.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.025.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.025.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.025.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.025.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.025.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.025.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1036,8 +5071,47 @@ expedition_riddles.026 = { # Knowledge
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.026.q
+	desc = {
+		desc = expedition_riddles.026.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1050,21 +5124,142 @@ expedition_riddles.026 = { # Knowledge
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.026.a.i1
+		name = expedition_riddles.026.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.026.a.i2
+		name = expedition_riddles.026.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.026.a.i3
-	}
-	option = {
-		name =  expedition_riddles.026.a.i4
-	}
-	option = {
-		name =  expedition_riddles.026.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.026.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.026.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.026.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.026.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.026.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.026.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.026.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.026.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1072,8 +5267,47 @@ expedition_riddles.027 = { # Clouds
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.027.q
+ 	desc = {
+		desc = expedition_riddles.027.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1086,21 +5320,143 @@ expedition_riddles.027 = { # Clouds
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.027.a.c
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.027.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.027.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.027.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.027.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.027.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.027.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.027.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.027.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.027.a.i1
+		name = expedition_riddles.027.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.027.a.i2
-	}
-	option = {
-		name =  expedition_riddles.027.a.i3
-	}
-	option = {
-		name =  expedition_riddles.027.a.i4
+		name = expedition_riddles.027.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1108,8 +5464,47 @@ expedition_riddles.028 = { # Hope
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.028.q
+	desc = {
+		desc = expedition_riddles.028.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1122,21 +5517,142 @@ expedition_riddles.028 = { # Hope
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.028.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.028.a.i2
-	}
-	option = {
-		name =  expedition_riddles.028.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.028.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.028.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.028.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.028.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.028.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.028.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.028.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.028.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.028.a.i3
+		name = expedition_riddles.028.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.028.a.i4
+		name = expedition_riddles.028.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1144,8 +5660,47 @@ expedition_riddles.029 = { # Voice
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.029.q
+	desc = {
+		desc = expedition_riddles.029.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1158,21 +5713,142 @@ expedition_riddles.029 = { # Voice
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.029.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.029.a.i2
-	}
-	option = {
-		name =  expedition_riddles.029.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.029.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.029.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.029.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.029.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.029.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.029.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.029.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.029.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.029.a.i3
+		name = expedition_riddles.029.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.029.a.i4
+		name = expedition_riddles.029.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1180,8 +5856,47 @@ expedition_riddles.030 = { # An Echo
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.030.q
+	desc = {
+		desc = expedition_riddles.030.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1194,21 +5909,142 @@ expedition_riddles.030 = { # An Echo
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.030.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.030.a.i2
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.030.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.030.a.c
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.030.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.030.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.030.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.030.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.030.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.030.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.030.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.030.a.i3
+		name = expedition_riddles.030.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.030.a.i4
+		name = expedition_riddles.030.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1216,8 +6052,47 @@ expedition_riddles.031 = { # A Mountain
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.031.q
+	desc = {
+		desc = expedition_riddles.031.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1230,21 +6105,142 @@ expedition_riddles.031 = { # A Mountain
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.031.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.031.a.i2
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.031.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.031.a.i3
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.031.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.031.a.c
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.031.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.031.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.031.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.031.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.031.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.031.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.031.a.i4
+		name = expedition_riddles.031.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.031.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1252,8 +6248,47 @@ expedition_riddles.032 = { # Teeth
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.032.q
+	desc = {
+		desc = expedition_riddles.032.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1266,21 +6301,142 @@ expedition_riddles.032 = { # Teeth
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.032.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.032.a.i2
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.032.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.032.a.i3
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.032.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.032.a.c
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.032.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.032.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.032.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.032.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.032.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.032.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.032.a.i4
+		name = expedition_riddles.032.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.032.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1288,8 +6444,47 @@ expedition_riddles.033 = { # Dark
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.033.q
+	desc = {
+		desc = expedition_riddles.033.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1302,21 +6497,142 @@ expedition_riddles.033 = { # Dark
 		animation = thinking
 	}
 
-	option = {
-		name =  expedition_riddles.033.a.i1
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
 	}
-	option = {
-		name =  expedition_riddles.033.a.i2
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.033.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.033.a.i3
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.033.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.033.a.i4
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.033.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.033.a.c
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.033.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.033.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.033.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
+	}
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.033.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.033.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
+	option = {
+		name = expedition_riddles.033.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = {
+		name = expedition_riddles.033.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
 
@@ -1324,8 +6640,47 @@ expedition_riddles.034 = { # Time
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.034.q
+	desc = {
+		desc = expedition_riddles.034.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1338,30 +6693,191 @@ expedition_riddles.034 = { # Time
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.034.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.034.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.034.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.034.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.034.a.i1
+		name = expedition_riddles.034.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.034.a.c
+		name = expedition_riddles.034.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.034.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.034.a.i2
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.034.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.034.a.i3
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.034.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.034.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.034.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
+
 }
 
 expedition_riddles.035 = { # Map
 	type = activity_event
 
 	title = expedition_riddles.title
-	desc = expedition_riddles.035.q
+	desc = {
+		desc = expedition_riddles.035.q
 
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:wisdom_advisor
+				NOT = {
+					scope:advisor_level = 1
+				}
+			}
+			desc = expedition.00511.advisor_advice
+		}
+		triggered_desc = { # Best - 2 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 4
+			}
+			desc = expedition.00511.advisor_advice.best
+		}
+		triggered_desc = { # Good - 3 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 3
+			}
+			desc = expedition.00511.advisor_advice.good
+		}
+		triggered_desc = { # Mid - 4 choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 2
+			}
+			desc = expedition.00511.advisor_advice.mid
+		}
+		triggered_desc = { # Lowest - All choices
+			trigger = {
+				exists = scope:wisdom_advisor
+				scope:advisor_level = 1
+			}
+			desc = expedition.00511.advisor_advice.lowest
+		}
+	}
 	theme = trial_of_wisdom
 
 	widget = {
@@ -1374,20 +6890,141 @@ expedition_riddles.035 = { # Map
 		animation = thinking
 	}
 
+	lower_left_portrait = {
+		character = scope:wisdom_advisor
+		animation = thinking
+	}
+
+	# Option 3
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.035.a.i2
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 2
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.035.a.i2
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 2
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 1
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.035.a.i1
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level < 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+	option = { # NOT HIGHLGHTED
+		name = expedition_riddles.035.a.i1
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level >= 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 5
 	option = {
-		name =  expedition_riddles.035.a.i1
+		name = expedition_riddles.035.a.i4
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 4
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 	option = {
-		name =  expedition_riddles.035.a.c
+		name = expedition_riddles.035.a.i4
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 4
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
+	}
+
+	# Option 2 CORRECT
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.035.a.c
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level >= 1
+		}
+
 		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.035.a.i2
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.035.a.c
+
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				# scope:advisor_level <= 1
+			}
+		}
+
+		trigger_event = expedition.0052 # Unique Encounter
 	}
-	option = {
-		name =  expedition_riddles.035.a.i3
+
+	# Option 4
+	option = { # HIGHLIGHTED
+		name = expedition_riddles.035.a.i3
+		skill = learning
+
+		trigger = {
+			exists = scope:advisor_level
+			scope:advisor_level <= 3
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
-	option = {
-		name =  expedition_riddles.035.a.i4
+	option = { # NOT HIGHLIGHTED
+		name = expedition_riddles.035.a.i3
+		trigger = {
+			OR = {
+				NOT = {
+					exists = scope:advisor_level
+				}
+				scope:advisor_level > 3
+			}
+		}
+
+		trigger_event = expedition.005111 # Wrong answer
 	}
 }
