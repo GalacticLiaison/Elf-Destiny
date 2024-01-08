@@ -28,3 +28,7 @@ after collecting  three advanced personality traits can combine them into one su
 allow dark triad traits to form ultimate bad guy personality trait
 
 choice trial: two vases balanced, can only take one other falls in pit. You get treasure from the one you took and get told what fell
+
+
+find legendary trebuchet event
+- give a 1/1 military seige unit with massive stats slightly better all together than a standard trebuchet
