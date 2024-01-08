@@ -527,6 +527,8 @@ resolve_round_effect = {
 			scope:player_choice = scope:ai_choice
 		}
 
+		debug_log = "TIE CALLED"
+
 		save_scope_value_as = {
 			name = round_result
 			value = flag:tie
@@ -540,8 +542,10 @@ resolve_round_effect = {
 				AND = {
 					scope:player_choice > scope:ai_choice
 					NOT = {
-						scope:ai_choice = scope:Peasant
-						scope:player_choice = scope:King
+						AND = {
+							scope:ai_choice = scope:Peasant
+							scope:player_choice = scope:King
+						}
 					}
 				}
 				AND = {
@@ -550,6 +554,8 @@ resolve_round_effect = {
 				}
 			}
 		}
+
+		debug_log = "PLAYER WON CALLED"
 
 		change_variable = {name = player_score add = 1}
 
@@ -566,8 +572,10 @@ resolve_round_effect = {
 				AND = {
 					scope:player_choice < scope:ai_choice
 					NOT = {
-						scope:player_choice = scope:Peasant
-						scope:ai_choice = scope:King
+						AND = {
+							scope:player_choice = scope:Peasant
+							scope:ai_choice = scope:King
+						}
 					}
 				}
 				AND = {
@@ -576,6 +584,8 @@ resolve_round_effect = {
 				}
 			}
 		}
+
+		debug_log = "AI WON CALLED"
 
 		change_variable = {name = ai_score add = 1}
 

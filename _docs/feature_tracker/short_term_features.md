@@ -15,6 +15,8 @@
 
 - more expedition locations: just make portal components dynamic where they appear
 
+- makes random elf culture spawn with elf
+
 - abdication/handle old extra elves
     - maybe yearly pulse that counts how many unlanded elves there in proportion to landed elves and starts yeeting
     - second starter tradition, aelurans advise you its customary to abdicate and advise from the rear at certain age

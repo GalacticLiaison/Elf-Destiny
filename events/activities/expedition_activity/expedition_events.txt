@@ -61,22 +61,25 @@ expedition.003 = {
 	}
 
 	option = {
-		every_attending_character = {
-			random_list = {
-				85 = { # Nothing Happens
-					
-				}
-				15 = { # They Are Injured
-					hidden_effect = {
-						change_trait_rank = {
-							trait = wounded
-							rank = 1
-							max = 3
+		scope:activity = {
+			every_attending_character = {
+				random_list = {
+					85 = { # Nothing Happens
+						
+					}
+					15 = { # They Are Injured
+						hidden_effect = {
+							change_trait_rank = {
+								trait = wounded
+								rank = 1
+								max = 3
+							}
 						}
 					}
 				}
 			}
-		}
+		}		
+			
 
 		name = expedition.003.ok
 	}
@@ -417,6 +420,12 @@ expedition.00692 = { # Convert To Elf Culture?
 
 	option = {
 		name = expedition.00692.dontConvert
+		
+		root = {
+			culture = {
+				add_innovation = innovation_elven_adaptability
+			}
+		}
 
 		trigger_event = expedition.00693
 	}
