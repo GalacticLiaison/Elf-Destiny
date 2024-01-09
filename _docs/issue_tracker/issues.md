@@ -11,6 +11,12 @@ Is it just me or is it intended?
 - familial familiarity may not be allowing family marriage
 - The event for choosing a marriage candidate doesn't work if you haven't done the expedition or are an elf, as it doesn't generate anyone or give any options to the player. So if you were to convert to Aeluran Weavers the event fires repeatedly but nothing ever happens.
 
+It seems like if you don't have the Noble husbandry tradition and two people with top traits have children the trait can still reinforce, however it leads to losing the trait altogether. In my case I've had two geniuses have children and they end up without any intellect trait altogether (checked for bastardry as well).
+Eastpointed — Today at 10:41 AM
+I hadnt thought that a possibility..  thought the game would handle that.... sigh may have to revert back to my manual inheritance script
+Eastpointed — Today at 10:52 AM
+what I could do is allow people whos parent had genius to get the tier 4 trait, then immediately on birth (or rather right before it) swap out tier 4 for tier 3 if they dont meet the culture requirements
+
 # Priority: Mid
 - "Host A Expedition" localization fix
 - Tribal Ascension: you'll turn into a theocracy and get a game over. This happens once you turn your tribal lands feudal.
