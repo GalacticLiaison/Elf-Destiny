@@ -43,7 +43,7 @@ expedition_events = {
 				}
 				0 = { # Trial
 					modifier = {
-						add = 50
+						add = 40
 						OR = {
 							AND = {
 								exists = scope:activity.var:trial_attempted
@@ -60,6 +60,17 @@ expedition_events = {
 						add = 50
 						culture = {
 							has_cultural_tradition = tradition_adventurer_guilds
+						}
+						OR = {
+							AND = {
+								exists = scope:activity.var:trial_attempted
+								NOT = {
+									scope:activity.var:trial_attempted = flag:true
+								}
+							}
+							NOT = {
+								exists = scope:activity.var:trial_attempted
+							}
 						}
 					}
 
