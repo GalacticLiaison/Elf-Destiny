@@ -32,3 +32,9 @@ choice trial: two vases balanced, can only take one other falls in pit. You get 
 
 find legendary trebuchet event
 - give a 1/1 military seige unit with massive stats slightly better all together than a standard trebuchet
+
+
+galdiator tradition grants
+   - build fighting pits/arena
+   - participate in games yourself for a chance to get special traits/rewards
+      - could be a new activity type
