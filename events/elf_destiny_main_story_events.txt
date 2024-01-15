@@ -228,6 +228,50 @@ elf_destiny_main_story_events.0021 = { # Thanks For Playing Act 1
 	}
 }
 
+elf_destiny_main_story_events.0022 = { # Transport The Grand Portal
+	type = character_event
+	title = elf_destiny_main_story_events.0022.t
+	desc = elf_destiny_main_story_events.0022.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = personality_greedy
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+	}
+
+	option = { # Transport the Portal
+		name = elf_destiny_main_story_events.0022.a
+		trigger = {
+
+		}
+
+		title:b_luch = {
+			remove_the_grand_portal_effect = yes
+		}
+
+		root.capital_county.title_capital_county ?= {
+			move_the_grand_portal_ruins_here_effect = yes
+		}
+	}
+
+	option = { # nvm
+		name = elf_destiny_main_story_events.0022.b
+
+		hidden_effect = {
+			remove_list_global_variable = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_transported
+			}
+		}
+		hidden_effect = { # Reinburse cost.
+			add_gold = 3000
+		}
+	}
+}
 
 # Dream Sequence where you choose good vs evil human relations
 elf_destiny_main_story_events.004 = {

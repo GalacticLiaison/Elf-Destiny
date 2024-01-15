@@ -33,8 +33,42 @@ choice trial: two vases balanced, can only take one other falls in pit. You get 
 find legendary trebuchet event
 - give a 1/1 military seige unit with massive stats slightly better all together than a standard trebuchet
 
-
 galdiator tradition grants
    - build fighting pits/arena
    - participate in games yourself for a chance to get special traits/rewards
       - could be a new activity type
+
+make Hekla a revivable character
+- shes evil but has a ridiculously hard skill check to seduce her.
+
+palantir legendary items, add correct amount lore wise (seven)
+- https://lotr.fandom.com/wiki/Palant%C3%ADri
+- grants 100% diplomacy range
+- maybe can "use" item to build a watchful tower, increases diplo range and other goodies
+
+three silmarils
+
+three legendary elf rings!
+just put in the lotr ones
+
+song spells
+
+add ability for aeluran sisters to choose birth gender, same time you do those blessings
+
+will eventually have essentially a jedi order. Build up ward events until you can replicate the Anakin/Obiwan light saber fight
+- allows you to be either perspective
+- "you were my brother Anakin"
+- honestly should just start subtly recreating the entire events of the prequels
+
+enslave god event
+- requires a legendary item to start
+dalliance with god event
+- become or give preg, child given to you to raise.
+   - maybe make it the only way to get tier 3 traits for now
+
+"saboteurs" or "commandos" as seige units, could be serelion house units
+
+"warging" animal thought control or whatever
+- only unlockable if you have beast tamer
+- add bonus damage to those troops
+- maybe evens add a descriptor  like "Bonded Wolf Riders", change art too?

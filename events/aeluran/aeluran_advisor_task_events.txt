@@ -4,7 +4,6 @@
 
 # # Recruit Magi Success
 # ## TODO: implement male twin chance (empowered)
-# ## TODO: for dna override check succubus mod
 
 # aeluran_advisor_task.0101 = { # New Magi is recruited
 # 	type = character_event
@@ -222,169 +221,172 @@
 	
 # # }
 
-# aeluran_advisor_task.0102 = { # Religious hook
-# 	hidden = yes
+aeluran_advisor_task.0102 = { # Religious hook
+	hidden = yes
 
-# 	immediate = {
-# 		# debug_log = "INSIDE MAGISTRATION"
+	immediate = {
+		# debug_log = "INSIDE MAGISTRATION"
 
-# 		### Lets put together a list of all our vassals and courtiers,  
-# 		### they will be our hook candidates. 							
-# 		every_vassal_or_below = { 
-# 			limit = {
-# 				# Has Religion
-# 				faith = { has_doctrine = tenet_aeluran_sisters }
-# 				age > 16
-# 			}
-# 			add_to_list = devotee_list
-# 		}
-# 		every_courtier = { 
-# 			limit = {
-# 				# Has Religion
-# 				faith = { has_doctrine = tenet_aeluran_sisters }
-# 				age > 16
-# 			}
-# 			add_to_list = devotee_list
-# 		}
+		### Lets put together a list of all our vassals and courtiers,  
+		### they will be our hook candidates. 							
+		every_vassal_or_below = { 
+			limit = {
+				# Has Religion
+				faith = { has_doctrine = tenet_aeluran_sisters }
+				age > 16
+			}
+			add_to_list = devotee_list
+		}
+		every_courtier = { 
+			limit = {
+				# Has Religion
+				faith = { has_doctrine = tenet_aeluran_sisters }
+				age > 16
+			}
+			add_to_list = devotee_list
+		}
 
-# 		### Next, lets pick a random person from our list.  			
-# 		### They will be the target of our hook. 						
-# 		random_in_list = {
-# 			list = devotee_list
+		### Next, lets pick a random person from our list.  			
+		### They will be the target of our hook. 						
+		random_in_list = {
+			list = devotee_list
 
-# 			### If a candidate is zealous or trusting, they are
-# 			### more likely to believe the words of your advisor.
-# 			### So we will give them a higher chance of being selected.	
-# 			weight = { 
-# 				base = 1
-# 				modifier = {
-# 					factor = 4
-# 					has_trait = trusting
-# 				}
-# 				modifier = {
-# 					factor = 4
-# 					has_trait = zealous
-# 				}
-# 			}
-# 			save_scope_as = devotee_target
-# 		}
+			### If a candidate is zealous or trusting, they are
+			### more likely to believe the words of your advisor.
+			### So we will give them a higher chance of being selected.	
+			weight = { 
+				base = 1
+				modifier = {
+					factor = 4
+					has_trait = trusting
+				}
+				modifier = {
+					factor = 4
+					has_trait = zealous
+				}
+			}
+			save_scope_as = devotee_target
+		}
 
-# 		### Now that we have a target, we will give them a hook.
-# 		### - Religious Exhaultation Hook
-# 		random_list = {
-# 			40 = { # advisor heals child devotee_target
-# 				# if = {
-# 					# TODO: must have child
-# 				# 	limit = {
-# 				# 		# scope:devotee_target = {
-# 				# 		# 	# Has any children?
-# 				# 		# 	any_child = {
-# 				# 		# 		count >= 1
-# 				# 		# 	}
-# 				# 		# }
-# 				# 	}
-# 				trigger_event = aeluran_advisor_task.01021 
-# 			}
-# 			30 = { # advisor has private session with devotee_target
-# 				# TODO: must be married
-# 				trigger_event = aeluran_advisor_task.01022 
-# 			}
-# 			30 = { # advisor mesmerizes crowd with spark
-# 				# TODO: generic fallback
-# 				trigger_event = aeluran_advisor_task.01023
-# 			}
-# 		}
-# 	}
-# }
+		### Now that we have a target, we will give them a hook.
+		### - Religious Exhaultation Hook
+		random_list = {
+			50 = { # advisor heals child devotee_target
+				trigger = {
+					scope:devotee_target = {
+						# Has any children?
+						any_child = {
+							count >= 1
+						}
+					}
+				}
+				trigger_event = aeluran_advisor_task.01021 
+			}
+			50 = { # advisor has private session with devotee_target
+				# TODO: must be married
+				trigger = {
+					scope:devotee_target = {
+						is_married = yes
+					}
+				}
+				trigger_event = aeluran_advisor_task.01022 
+			}
+			10 = { # advisor mesmerizes crowd with spark
+				# TODO: generic fallback
+				trigger_event = aeluran_advisor_task.01023
+			}
+		}
+	}
+}
 
-# aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
-# 	type = character_event
-# 	title = aeluran_advisor_task.01021.t
-# 	desc = aeluran_advisor_task.01021.desc
-# 	theme = faith
+aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
+	type = character_event
+	title = aeluran_advisor_task.01021.t
+	desc = aeluran_advisor_task.01021.desc
+	theme = faith
 	
-# 	immediate = {
-# 		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
-# 	}
+	immediate = {
+		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
+	}
 	
-# 	left_portrait = scope:devotee_target
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	left_portrait = scope:devotee_target
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 	
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+		}
+	}
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01021.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01021.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
 
-# aeluran_advisor_task.01022 = { # advisor has private session with devotee_target
-# 	type = character_event
-# 	title = aeluran_advisor_task.01022.t
-# 	desc = aeluran_advisor_task.01022.desc
+aeluran_advisor_task.01022 = { # advisor has private session with devotee_target
+	type = character_event
+	title = aeluran_advisor_task.01022.t
+	desc = aeluran_advisor_task.01022.desc
 
-# 	theme = faith
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	theme = faith
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+		}
+	}
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01022.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01022.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
 
-# aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
-# 	type = character_event
-# 	title = aeluran_advisor_task.01023.t
-# 	desc = aeluran_advisor_task.01023.desc
+aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
+	type = character_event
+	title = aeluran_advisor_task.01023.t
+	desc = aeluran_advisor_task.01023.desc
 
-# 	theme = faith
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	theme = faith
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+		}
+	}
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01023.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01023.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
 
 # # aeluran_advisor_task.0303 = { # Increase Control in random counties
 # # 	type = character_event
