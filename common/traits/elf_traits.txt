@@ -140,53 +140,6 @@
 # 	ai_energy = 5
 # }
 
-### WIZARDS
-# Upraded miracle worker trait
-
-## Female Wizards ##
-
-magi = {
-	index = 3999
-
-	name = {
-		desc = trait_magi
-	}
-
-	group = magi_thresholds
-
-	desc = trait_magi_desc
-
-	tracks = {
-		spark_manipulation = {
-			trait_second_level = {
-				character_travel_speed_mult = 0.2
-				prowess = 1
-			}
-			trait_third_level = {
-				character_travel_speed_mult = 0.2
-				prowess = 1
-			}
-		}
-	}
-	
-	# opposites = {
-	# 	witch
-	# }
-}
-
-# high_magi = {
-
-# }
-
-
-## Male Wizards ##
-
-# Men cant control spark, but can weild it in their form to become stronger
-# Male Knights required to have this
-# empowered = {
-
-# }
-
 
 # ========================= HUGE IDEA =======================
 # elf => fae at tier 2
@@ -1483,163 +1436,165 @@ true_elf = {
 # 	}	
 # }
 
-# regaliant = {
-# 	index = 4209
+regaliant = {
+	index = 4209
 
-# 	# opposites = {
-# 	# 	elf_tier_1
-# 	# 	elf_tier_2
-# 	# }
+	# opposites = {
+	# 	elf_tier_1
+	# 	elf_tier_2
+	# }
 
-# 	#========== Bonuses ==========
-# 	learning = 15
-# 	prowess = 50
+	#========== Bonuses ==========
+	learning = 15
+	prowess = 50
 
-# 	same_opinion = 10
-# 	attraction_opinion = 50
-# 	inbreeding_chance = -1
+	same_opinion = 10
+	attraction_opinion = 50
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
 
-# 	life_expectancy = 9999
-# 	health = 1
-# 	# ==================
+	life_expectancy = 9999
+	years_of_fertility = 9999
+	health = 1
+	# ==================
 
-# 	#========== Trait Properties ==========
-# 	# Genetic
-# 	# group = elf_tier_3
-# 	# level = 3
+	#========== Trait Properties ==========
+	# Genetic
+	# group = elf_tier_3
+	# level = 3
 	
-# 	physical = yes
+	physical = yes
 
-# 	# genetic_constraint_all = high_elf
+	# genetic_constraint_all = high_elf
 
-# 	ai_rationality = dominant_positive_ai_value
+	ai_rationality = dominant_positive_ai_value
 
-# 	compatibility = {
-# 	}
+	compatibility = {
+	}
 
-# 	#========== Tracks ==========
-# 	# TODO: magi vs male equivalent
-# 	name = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = {
-# 							NOT = { exists = this }
-# 						}
-# 					}
-# 					trigger_else_if = {
-# 						limit = { has_trait = regaliant }
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_manipulation
-# 							value < 50
-# 						}
-# 					}
-# 					trigger_else = {
-# 						NOT = { has_trait = regaliant }
-# 					}
-# 				}
-# 				desc = trait_regaliant_1
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = regaliant
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_manipulation
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_regaliant_3
-# 			}
-# 			desc = trait_regaliant_2
-# 		}
-# 	}
+	#========== Tracks ==========
+	# TODO: magi vs male equivalent
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					trigger_if = {
+						limit = {
+							NOT = { exists = this }
+						}
+					}
+					trigger_else_if = {
+						limit = { has_trait = regaliant }
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_alignment
+							value < 50
+						}
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_manipulation
+							value < 50
+						}
+					}
+					trigger_else = {
+						NOT = { has_trait = regaliant }
+					}
+				}
+				desc = trait_regaliant_1
+			}
+			triggered_desc = {
+				trigger = {
+					has_trait = regaliant
+					OR = {
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_alignment
+							value = 100
+						}
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_manipulation
+							value = 100
+						}
+					}
+				}
+				desc = trait_regaliant_3
+			}
+			desc = trait_regaliant_2
+		}
+	}
 
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_regaliant_1_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = { has_trait = regaliant }
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_manipulation
-# 							value < 50
-# 						}
-# 					}
-# 				}
-# 				desc = trait_regaliant_1_character_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = regaliant
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = regaliant
-# 							track = regaliant_spark_manipulation
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_regaliant_3_character_desc
-# 			}
-# 			desc = trait_regaliant_2_character_desc
-# 		}
-# 	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_regaliant_1_desc
+			}
+			triggered_desc = {
+				trigger = {
+					trigger_if = {
+						limit = { has_trait = regaliant }
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_alignment
+							value < 50
+						}
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_manipulation
+							value < 50
+						}
+					}
+				}
+				desc = trait_regaliant_1_character_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_trait = regaliant
+					OR = {
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_alignment
+							value = 100
+						}
+						has_trait_xp = {
+							trait = regaliant
+							track = regaliant_spark_manipulation
+							value = 100
+						}
+					}
+				}
+				desc = trait_regaliant_3_character_desc
+			}
+			desc = trait_regaliant_2_character_desc
+		}
+	}
 
-# 	tracks = {
-# 		regaliant_spark_alignment = {
-# 			trait_second_level = {
-# 				learning = 5
-# 				health = 0.10
-# 			}
-# 			trait_third_level = {
-# 				learning = 5
-# 				health = 0.15
-# 			}		
-# 		}
-# 		regaliant_spark_manipulation = {
-# 			trait_second_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 5
-# 			}
-# 			trait_third_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 7
-# 			}
-# 		}
-# 	}	
-# }
+	# tracks = {
+	# 	regaliant_spark_alignment = {
+	# 		trait_second_level = {
+	# 			learning = 5
+	# 			health = 0.10
+	# 		}
+	# 		trait_third_level = {
+	# 			learning = 5
+	# 			health = 0.15
+	# 		}		
+	# 	}
+	# 	regaliant_spark_manipulation = {
+	# 		trait_second_level = {
+	# 			character_travel_speed_mult = 0.2
+	# 			prowess = 5
+	# 		}
+	# 		trait_third_level = {
+	# 			character_travel_speed_mult = 0.2
+	# 			prowess = 7
+	# 		}
+	# 	}
+	# }	
+}
 
 # 
 # Level 4 and 5 Genetic traits

@@ -1,0 +1,86 @@
+namespace = entrance_general
+
+# scope:recipient = {
+# 	invite_to_activity = scope:actor.involved_activity
+# }
+
+# accept_activity_invite = scope:activity
+# decline_activity_invite = scope:activity
+
+entrance_general.1001 = {
+	hidden = yes
+	
+	immediate = {
+		if = { # Foreign Lord
+			limit = {
+				scope:target = {
+					is_landed = yes
+					NOR = {
+						is_liege_or_above_of = scope:owner
+						is_vassal_or_below_of = scope:owner
+					}
+				}
+			}
+
+			trigger_event = entrance_general.1002
+		}
+
+		else_if = { # Liege
+			limit = {
+				scope:target = {
+					is_liege_or_above_of = scope:owner
+				}
+			}
+
+			trigger_event = entrance_general.1003
+		}
+
+		else_if = { # Vassal
+			limit = {
+				scope:target = {
+					is_vassal_of = scope:owner
+				}
+			}
+
+			trigger_event = entrance_general.1004
+		}
+
+		else_if = { # Courtier
+			limit = {
+				scope:target = {
+					is_courtier_of = scope:owner
+				}
+			}
+
+			trigger_event = entrance_general.1005
+		}
+
+		else = { # Unlanded
+			trigger_event = entrance_general.1006
+		}
+	}
+}
+
+# Foreign Lord
+entrance_general.1002 = {
+	type = character_event
+	title = entrance_general.1002.title
+	desc = entrance_general.1002.desc
+	theme = seduce_scheme
+
+	left_portrait = scope:target
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	# Attend Foreign Lords Feast
+	option = {
+		name = entrance_general.1002.attend_feast
+	}
+
+	# Hold Feast Yourself
+	option = {
+		name = entrance_general.1002.hold_feast
+	}
+}

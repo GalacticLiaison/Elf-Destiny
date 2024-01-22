@@ -15,19 +15,26 @@ tradition_endless_lord
 <!-- - if female guaranteed daughter -->
 <!-- - try to add a special on_birth name event where it presumes you want to use same name and add Is -->
 <!-- - trait icon is reincarnation baby colored different with elf ears -->
-<!-- - trait trracks how many iteration this child is -->
+<!-- - trait tracks how many iteration this child is -->
 
 beguiling nature
 <!-- lustful => passionate -->
 <!-- - at 5 successful seduce against other lords schemes -->
-<!-- entrance human scheme -->
+<!-- entrance lesser soul scheme -->
+<!-- - this is a spell and grants magi experience -->
 <!-- renown for successful seduce/romances -->
+<!-- unlocks enchantress trait
+    - seductress upgrade requires 3 successful entrance schemes-->
+<!-- - can entrance scheme souls of equal or below and it succeeds more. -->
+
 
 <!-- Aeluran Advisor -->
 <!-- - Tasks -->
-<!-- - for mage troop stuff task just give "special" units -->
+- for mage troop stuff task just give "special" units
 
 <!-- Send daughter/daughter is taken to the school event -->
+
+<!-- ^ maybe start here? -->
 
 holy sites mechanics
 <!-- - add description to barony description when choosing site location -->
@@ -46,6 +53,11 @@ elf among the culture people
 No prowess loss from age add to elf traits
 -->
 
+<!-- can I reccommend merging the "reserved names" of the religion and the "cultural names" of the Elf culture, otherwise the only names avaliable to someone who doesnt take the culture are legolas/legalass -->
+
+<!-- portal piece discovery event polished up -->
+<!-- - pieces also removed on portal restoration -->
+
 Adventurer Trait 
 - was too op giving minus 50% maa maintenance right off the bat for just going on a single expedition. Now must have fully leveled adventurer to get that
 
@@ -58,21 +70,27 @@ Adventurer Trait
 
 <!-- adventurer guilds now allows two trials per run. -->
 
-<!-- tribal ascended: "Also, Ascended Tribal seems to be problematic right now, since I can't change my sucesion(the option dissapeared) and we lose all the feudal contracts." -->
+<!-- tribal ascended: "Also, Ascended Tribal seems to be problematic right now, since I can't change my succession(the option disappeared) and we lose all the feudal contracts." -->
 
 <!-- challenge rival to a fight option is perm unlocked... -->
 
 <!-- twin dieties -->
 <!-- Blessings -->
 <!-- - add a 1 of 7 stat boost modifier to characters -->
-<!-- aeluiran pick gender -->
 
-<!-- third diety, queen of the seas
+<!-- aeluran pick gender -->
+
+<!-- cant take last tradition choice bug -->
+
+<!-- It pertains to the "Familial Familiarity" blessing. I acquired this but am still not able to intermarry. I am Orthodox but I believed it would take precedence. Is it possible to override faith restrictions with the blessings? -->
+
+<!-- third deity, queen of the seas
 - naval speed
 - travel safety
 - ports give double the gold because of better fishing -->
 
 <!-- rut moved to every 3 years -->
+<!-- is it being applied to everyone it should? -->
 
 ## Beginning of Magic?
 

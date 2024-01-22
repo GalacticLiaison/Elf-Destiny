@@ -12,8 +12,56 @@ quarterly_playable_pulse = {
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
 		gain_varangian_adventure_innovation_pulse
+		
+		aeluran_order_maintenance
 
 		# handle_elf_tradition_effects_pulse
+	}
+}
+
+aeluran_order_maintenance = {
+	on_actions = {
+		
+		# Things to do
+		# 1.) If the matriarch has died, host an election to replace her
+
+
+		# 2.) If there arent enough matrons, elect new ones
+			# - candidates should be picked from existing sisters if possible
+		# 3.) If not enough spare sisters, generate more
+		# 4.) aeluran school for new sisters recruiting
+	}
+
+}
+
+# TODO: make an actual election vote among the matrons
+matriarch_election = {
+	trigger = {
+		NOT = {
+			any_living_character = {
+				has_trait = aeluran_high_matriarch
+			}
+		}
+	}
+
+	effect = {
+		debug_log = "ELECTING NEW MATRIARCH"
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+			}
+			save_scope_as = new_matriarch
+		}
+
+		scope:new_matriarch = {
+			remove_trait = aeluran_matron
+			add_trait = aeluran_high_matriarch
+		}
+
+		# TODO Trigger notification event
+		# - give title
+		# - move character to the deep woods
 	}
 }
 

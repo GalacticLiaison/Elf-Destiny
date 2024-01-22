@@ -572,3 +572,308 @@ expedition_unique_encounters.0022 = { # Portal Navigation Relay
 # 	}
 # }
 
+expedition_unique_encounters.003 = { # Encounter Regaliant Controller
+	hidden = yes
+	
+	immediate = {
+		random_list = {
+			100 = { # Vána Goddess of Prosperity
+				trigger_event = expedition_unique_encounters.0031
+			}
+			100 = { # tulkas_astaldo God of War
+				trigger_event = expedition_unique_encounters.0032
+			}
+		}
+	}
+}
+
+expedition_unique_encounters.0031 = { # Find Vána Shrine
+	type = activity_event
+	
+	title = expedition_unique_encounters.0031.title
+	desc = expedition_unique_encounters.0031.desc
+	
+	trigger = {
+		scope:host.culture = {
+			NOT = {
+				has_cultural_tradition = tradition_blessing_of_vana
+			}
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = { # connect with shrine
+		name = expedition_unique_encounters.0031.pray
+
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = encountered_regaliants
+				target = flag:vána
+			}
+		}
+	}
+
+	option = { # leave
+		name = expedition_unique_encounters.0031.leave
+	}
+}
+
+expedition_unique_encounters.00311 = { # Vána
+	type = activity_event
+
+	title = expedition_unique_encounters.00311.title
+	desc = {
+		desc = expedition_unique_encounters.0031.pray_intro.desc
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = encountered_regaliants
+						target = flag:vána
+					}
+				}
+			}
+			desc = expedition_unique_encounters.00311.first_visit.desc
+		}
+		triggered_desc = {
+			trigger = {
+				is_target_in_global_variable_list = {
+					name = encountered_regaliants
+					target = flag:vána
+				}
+			}
+			desc = expedition_unique_encounters.00311.additional_visits.desc
+		}
+		triggered_desc = {
+			trigger = {
+				root.culture = {
+					has_cultural_tradition = tradition_blessing_of_tulkas_astaldo
+				}
+			}
+			desc = expedition_unique_encounters.00311.already_worship_tulkas_astaldo.desc
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		create_character = {
+			template = regaliant_vana_projection
+			dynasty = none
+			location = root.location
+			save_scope_as = regaliant
+		}
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:regaliant
+		animation = personality_content
+	}
+
+	option = { # Take as deity
+		name = expedition_unique_encounters.00311.take_as_deity
+		root.culture = {
+			add_culture_tradition = tradition_blessing_of_vana
+		}
+		if = {
+			limit = {
+				root.culture = {
+					has_cultural_tradition = tradition_blessing_of_tulkas_astaldo
+				}
+			}
+			root.culture = {
+				remove_culture_tradition = tradition_blessing_of_tulkas_astaldo
+			}
+		}
+	}
+
+	option = { # refuse
+		name = expedition_unique_encounters.0031.refuse
+		trigger_event = expedition_unique_encounters.00399
+	}
+}
+
+expedition_unique_encounters.0032 = { # Find tulkas_astaldo Shrine
+	type = activity_event
+
+	title = expedition_unique_encounters.0032.title
+	desc = expedition_unique_encounters.0032.desc
+
+	trigger = {
+		scope:host.culture = {
+			NOT = {
+				has_cultural_tradition = tradition_blessing_of_tulkas_astaldo
+			}
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = { # connect with shrine
+		name = expedition_unique_encounters.0032.pray
+
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = encountered_regaliants
+				target = flag:tulkas_astaldo
+			}
+		}
+	}
+
+	option = { # leave
+		name = expedition_unique_encounters.0032.leave
+	}
+}
+
+expedition_unique_encounters.00321 = { # tulkas_astaldo
+	type = activity_event
+
+	title = expedition_unique_encounters.00321.title
+	desc = {
+		desc = expedition_unique_encounters.0031.pray_intro.desc
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = encountered_regaliants
+						target = flag:tulkas_astaldo
+					}
+				}
+			}
+			desc = expedition_unique_encounters.00321.first_visit.desc
+		}
+		triggered_desc = {
+			trigger = {
+				is_target_in_global_variable_list = {
+					name = encountered_regaliants
+					target = flag:tulkas_astaldo
+				}
+			}
+			desc = expedition_unique_encounters.00321.additional_visits.desc
+		}
+		triggered_desc = {
+			trigger = {
+				root.culture = {
+					has_cultural_tradition = tradition_blessing_of_vana
+				}
+			}
+			desc = expedition_unique_encounters.00321.already_worship_vana.desc
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		create_character = {
+			template = regaliant_tulkas_astaldo_projection
+			dynasty = none
+			location = root.location
+			save_scope_as = regaliant
+		}
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:regaliant
+		animation = personality_content
+	}
+
+	option = { # Take as deity
+		name = expedition_unique_encounters.00321.take_as_deity
+		root.culture = {
+			add_culture_tradition = tradition_blessing_of_tulkas_astaldo
+		}
+		if = {
+			limit = {
+				root.culture = {
+					has_cultural_tradition = tradition_blessing_of_vana
+				}
+			}
+			root.culture = {
+				remove_culture_tradition = tradition_blessing_of_vana
+			}
+		}
+	}
+
+	option = { # refuse
+		name = expedition_unique_encounters.00321.refuse
+		trigger_event = expedition_unique_encounters.00399
+	}
+}
+
+expedition_unique_encounters.00399 = { # Refuse Deity
+	type = activity_event
+
+	title = expedition_unique_encounters.00399.title
+	desc = expedition_unique_encounters.00399.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:regaliant
+		animation = disapproval
+	}
+
+	option = { # Take as deity
+		name = expedition_unique_encounters.00399.ok
+	}
+}

@@ -72,3 +72,32 @@ dalliance with god event
 - only unlockable if you have beast tamer
 - add bonus damage to those troops
 - maybe evens add a descriptor  like "Bonded Wolf Riders", change art too?
+
+
+elf inquistion tradition
+elf isolation tradition
+- icon elfs looking peering behind/through thick foilage
+
+
+have completely separate, kind of secret "Wizard training" track of traits
+- apprenctice mage, grandaster,etc
+
+soul link rings, cant be removed. when one person dies so does the other but you can tap into the experiences of the other giving stat and other advantages.
+
+something with liaisons... Diplomatic Liaisons (professional spys who seduce foreign politicians)
+
+dire wolf riders upgrade for wolf riders
+ - could it be paired with eagles?
+ - Beast Tamers Level 2?
+   - granted as reward by God Of THe Hunt? and hes only discoverable if you already have lvl 1?
+   - Not the gods official blessing though?
+
+Dogmatic Worship: Aeluran Tradition
+
+"phial of galadirel" item
+
+"mirror of visions" item
+
+have scheme to break an entrancement/enchantment
+
+lifetime wards/apprentice tradition
