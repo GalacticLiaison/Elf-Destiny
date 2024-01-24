@@ -22,6 +22,7 @@ beguiling nature
 <!-- - at 5 successful seduce against other lords schemes -->
 <!-- entrance lesser soul scheme -->
 <!-- - this is a spell and grants magi experience -->
+<!-- -- dont need to be magi but success chance is far greater -->
 <!-- renown for successful seduce/romances -->
 <!-- unlocks enchantress trait
     - seductress upgrade requires 3 successful entrance schemes-->
@@ -98,3 +99,13 @@ Adventurer Trait
 three gifted level genetic traits
 
 everything just gives prowess for now -->
+
+<!-- Aratar: https://lotr.fandom.com/wiki/Aratar
+Valar: https://lotr.fandom.com/wiki/Valar
+Maiar: https://lotr.fandom.com/wiki/Maiar -->
+
+<!-- 
+BTW dunno if you've already made this edit yet, but the cleanest overwrite for that one tradition to properly allow consanguinous marriage despite faith restrictions is to modify relation_with_character_is_incestuous_in_faith_trigger to add an exception for the tradition -->
+
+
+<!-- # IMPORTANT put on_actions in the best performant quarterly/yearly/etc -->

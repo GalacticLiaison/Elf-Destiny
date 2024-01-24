@@ -101,3 +101,10 @@ Dogmatic Worship: Aeluran Tradition
 have scheme to break an entrancement/enchantment
 
 lifetime wards/apprentice tradition
+
+
+annatar visitng gift giver event
+
+master shipwrights - cirdan tradition: show white valinor ships
+
+human domestication: more common calm/trusting
