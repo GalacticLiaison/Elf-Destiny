@@ -5,110 +5,6 @@
 
 # TODO: learning is increased in each alignment step then starts at same bonus on next perk level
 
-# elf_obsessed_human = {
-	
-# }
-
-# spark_bonded_twin = {
-# 	# level 2 twin
-# }
-
-# Attraction/marriage acceptance
-# witchs_allure = {
-
-# }
-
-# unlocks the voice
-# improves coven magistration effectiveness
-# witchs_command = {
-
-# }
-
-# Scheme resistance/diplomatic range
-# witchs_sight = {
-
-# }
-
-# Gentic Prophecies
-
-## Only available through Aeluran Matchmaking (1%) chance
-## Able To be magi and empowered
-## Able to see the future
-# kwisatz_haderach = {
-# 	index = 3996
-
-# 	name = {
-# 		desc = trait_kwisatz_haderach
-# 	}
-
-# 	desc = trait_kwisatz_haderach_desc
-# }
-
-# Requirements
-# - Emperor With Seven Queens of Kingdom Level
-# child_of_seven = {
-# 	index = 3998
-
-# 	name = {
-# 		desc = child_of_seven
-# 	}
-
-# 	desc = child_of_seven_desc
-# }
-
-# Combines all other royal houses
-# has all advantages/no weaknesses
-# unlocks final dynasty path AND experience tree
-# true_royal_elf = {
-# 	index = 4211
-
-#     # opposites = {
-# 	# 	valyrian_1
-# 	# 	valyrian_2
-# 	# }
-
-# 	#inherit_chance = 100 # recessive
-# 	genetic = yes
-# 	physical = yes
-# 	both_parent_has_trait_inherit_chance = 100
-
-# 	good = yes
-
-# 	birth = 0
-# 	random_creation = 0
-
-#     # group = valyrian
-# 	# level = 3
-
-# 	attraction_opinion = 30
-# 	fertility = 0.3
-# 	max_seduce_schemes_add = 2
-# 	seduce_scheme_power_add = 10
-# 	seduce_scheme_power_mult = 0.5
-# 	scheme_power_against_lover_add = 30
-# 	seduce_scheme_resistance_add = -50
-
-
-# 	# prowess = 15
-# 	# inbreeding_chance = -1
-# 	health = 0.3
- 
-# 	genetic_constraint_all = valyrian_3 
-
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_valyrian_3_desc
-# 			}
-# 			desc = trait_valyrian_3_character_desc
-# 		}
-# 	}
-# 	ai_energy = 5
-# }
-
 
 # ========================= HUGE IDEA =======================
 # elf => fae at tier 2
@@ -120,14 +16,17 @@
 # fae are the noble class
 # celestials are the divine class
 
-## ELF BLOOD ##
+### Elf Tiers
 elf_blood = {
-	index = 4201
+	index = 1
 
-	# opposites = {
-	# 	elf_tier_2
-	# 	elf_tier_3
-	# }
+	opposites = {
+		elf
+		high_elf
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+	}
 
 	#========== Bonuses ==========
 	learning = 1
@@ -137,6 +36,7 @@ elf_blood = {
 	attraction_opinion = 3
 	inbreeding_chance = -0.50
 
+	fertility = -0.25
 	years_of_fertility = 10
 	life_expectancy = 15
 	health = 0.05
@@ -144,8 +44,11 @@ elf_blood = {
 
 	#========== Trait Properties ==========
 	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
 	group = elf_tier_1
-	# level = 1
+	level = 1
 
 	physical = yes
 
@@ -156,131 +59,21 @@ elf_blood = {
 	compatibility = {
 	}
 
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = {
-							NOT = { exists = this }
-						}
-					}
-					trigger_else_if = {
-						limit = { has_trait = elf_blood }
-						has_trait_xp = {
-							trait = elf_blood
-							track = elf_blood_spark_alignment
-							value < 50
-						}
-					}
-					trigger_else = {
-						NOT = { has_trait = elf_blood }
-					}
-				}
-				desc = trait_elf_blood_1
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = elf_blood
-					OR = {
-						has_trait_xp = {
-							trait = elf_blood
-							track = elf_blood_spark_alignment
-							value = 100
-						}
-					}
-				}
-				desc = elf_blood_3
-			}
-			desc = elf_blood_2
-		}
-	}
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_elf_blood_1_desc
-			}
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = { has_trait = elf_blood }
-						has_trait_xp = {
-							trait = elf_blood
-							track = elf_blood_spark_alignment
-							value < 50
-						}
-					}
-				}
-				desc = trait_elf_blood_1_character_desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = elf_blood
-					OR = {
-						has_trait_xp = {
-							trait = elf_blood
-							track = elf_blood_spark_alignment
-							value = 100
-						}
-					}
-				}
-				desc = trait_elf_blood_3_character_desc
-			}
-			desc = trait_elf_blood_2_character_desc
-		}
-	}
-
-	# tracks = {
-	# 	elf_blood_spark_alignment = {
-	# 		trait_second_level = {
-	# 			health = 0.05
-	# 		}
-	# 		trait_third_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}		
-	# 	}
-	# 	elf_blood_aeluran_respect = {
-	# 		0 = {
-	# 			diplomacy = -4
-	# 		} 
-	# 		25 = {
-	# 			diplomacy = -2
-	# 		}
-	# 		50 = {
-	# 			diplomacy = 0
-	# 		}
-	# 		100 = {
-	# 			diplomacy = 1
-	# 		}
-	# 	}
-	# }	
 }
 
-## ELF ##
 # - Elves are the common folk, the backbone of the elf people. 
 #   Being an Elf means forming a full connection with the Divine Spark, 
 #   even if its yet not a very powerful one.
 elf = {
-	index = 4202
+	index = 2
 
-	# potential = {
-	# 	culture = {
-	# 		OR = {
-	# 			has_cultural_pillar = heritage_elf
-	# 			has_innovation = innovation_elven_adaptability
-	# 		}
-	# 	}
-	# }
-
-	# opposites = {
-	# 	elf_tier_2
-	# 	elf_tier_3
-	# }
+	opposites = {
+		elf_blood
+		high_elf
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+	}
 
 	#========== Bonuses ==========
 	learning = 2
@@ -295,6 +88,7 @@ elf = {
 	inbreeding_chance = -0.70
 	no_prowess_loss_from_age = yes
 
+	fertility = -0.5
 	years_of_fertility = 20
 	life_expectancy = 30
 	health = 0.15
@@ -302,8 +96,11 @@ elf = {
 
 	#========== Trait Properties ==========
 	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
 	group = elf_tier_1
-	# level = 2
+	level = 2
 	
 	physical = yes
 
@@ -314,146 +111,20 @@ elf = {
 	compatibility = {
 	}
 
-	# TODO: magi vs male equivalent
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = {
-							NOT = { exists = this }
-						}
-					}
-					trigger_else_if = {
-						limit = { has_trait = elf }
-						has_trait_xp = {
-							trait = elf
-							track = elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-					trigger_else = {
-						NOT = { has_trait = elf }
-					}
-				}
-				desc = trait_elf_1
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = elf
-					OR = {
-						has_trait_xp = {
-							trait = elf
-							track = elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_elf_3
-			}
-			desc = trait_elf_2
-		}
-	}
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_elf_1_desc
-			}
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = { has_trait = elf }
-						has_trait_xp = {
-							trait = elf
-							track = elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-				}
-				desc = trait_elf_1_character_desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = elf
-					OR = {
-						has_trait_xp = {
-							trait = elf
-							track = elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_elf_3_character_desc
-			}
-			desc = trait_elf_2_character_desc
-		}
-	}
-
-	# tracks = {
-	# 	elf_spark_alignment = {
-	# 		trait_second_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}
-	# 		trait_third_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}		
-	# 	}
-	# 	aeluran_respect = {
-	# 		0 = {
-	# 			diplomacy = -4
-	# 		} 
-	# 		25 = {
-	# 			diplomacy = -2
-	# 		}
-	# 		50 = {
-	# 			diplomacy = 1
-	# 		}
-	# 		75 = {
-	# 			diplomacy = 2
-	# 		}
-	# 		100 = {
-	# 			diplomacy = 3
-	# 		}
-	# 	}
-	# }	
 }
 
-## HIGH ELF ##
 # - often the leaders of elf communities, High Elves are the most powerful of the 
 #   lower elves and spend their lives in the pursuit of breaking through to the elevated races.
 high_elf = {
-	index = 4203
+	index = 3
 
-	# opposites = {
-	# 	elf_tier_2
-	# 	elf_tier_3
-	# }
+	opposites = {
+		elf_blood
+		elf
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+	}
 
 	#========== Bonuses ==========
 	learning = 4
@@ -465,6 +136,7 @@ high_elf = {
 	attraction_opinion = 7
 	inbreeding_chance = -0.99
 
+	fertility = -0.55
 	years_of_fertility = 30
 	life_expectancy = 50
 	health = 0.25
@@ -472,8 +144,11 @@ high_elf = {
 
 	#========== Trait Properties ==========
 	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
 	group = elf_tier_1
-	# level = 3
+	level = 3
 	
 	physical = yes
 
@@ -483,140 +158,21 @@ high_elf = {
 
 	compatibility = {
 	}
-
-	#========== Tracks ==========
-	# TODO: magi vs male equivalent
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = {
-							NOT = { exists = this }
-						}
-					}
-					trigger_else_if = {
-						limit = { has_trait = high_elf }
-						has_trait_xp = {
-							trait = high_elf
-							track = high_elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = high_elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-					trigger_else = {
-						NOT = { has_trait = high_elf }
-					}
-				}
-				desc = trait_high_elf_1
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = high_elf
-					OR = {
-						has_trait_xp = {
-							trait = high_elf
-							track = high_elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = high_elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_high_elf_3
-			}
-			desc = trait_high_elf_2
-		}
-	}
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_high_elf_1_desc
-			}
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = { has_trait = high_elf }
-						has_trait_xp = {
-							trait = high_elf
-							track = high_elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = high_elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-				}
-				desc = trait_high_elf_1_character_desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = high_elf
-					OR = {
-						has_trait_xp = {
-							trait = high_elf
-							track = high_elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = high_elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_high_elf_3_character_desc
-			}
-			desc = trait_high_elf_2_character_desc
-		}
-	}
-
-	# tracks = {
-	# 	high_elf_spark_alignment = {
-	# 		trait_second_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}
-	# 		trait_third_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}		
-	# 	}
-	# 	aeluran_respect = {
-	# 		trait_second_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 1
-	# 		}
-	# 		trait_third_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 1
-	# 		}
-	# 	}
-	# }	
 }
 
 ## ===== Major Threshold =====
+### Fae Tiers
 
 true_elf = {
-	index = 4204
+	index = 4
 
-	# opposites = {
-	# 	elf_tier_1
-	# 	elf_tier_3
-	# }
+	opposites = {
+		fae
+		fae_radiant
+		elf_tier_1
+		elf_tier_3
+		elf_tier_4
+	}
 
 	#========== Bonuses ==========
 	learning = 6
@@ -627,6 +183,7 @@ true_elf = {
 	inbreeding_chance = -1
 	no_prowess_loss_from_age = yes
 
+	fertility = -0.6
 	years_of_fertility = 50
 
 	life_expectancy = 100
@@ -635,8 +192,11 @@ true_elf = {
 
 	#========== Trait Properties ==========
 	# Genetic
-	# group = elf_tier_2
-	# level = 1
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2
+	level = 1
 	
 	physical = yes
 
@@ -647,790 +207,362 @@ true_elf = {
 	compatibility = {
 	}
 
-	#========== Tracks ==========
-	# TODO: magi vs male equivalent
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = {
-							NOT = { exists = this }
-						}
-					}
-					trigger_else_if = {
-						limit = { has_trait = true_elf }
-						has_trait_xp = {
-							trait = true_elf
-							track = true_elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = true_elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-					trigger_else = {
-						NOT = { has_trait = true_elf }
-					}
-				}
-				desc = trait_true_elf_1
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = true_elf
-					OR = {
-						has_trait_xp = {
-							trait = true_elf
-							track = true_elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = true_elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_true_elf_3
-			}
-			desc = trait_true_elf_2
-		}
-	}
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_true_elf_1_desc
-			}
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = { has_trait = true_elf }
-						has_trait_xp = {
-							trait = true_elf
-							track = true_elf_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = true_elf
-							track = aeluran_respect
-							value < 50
-						}
-					}
-				}
-				desc = trait_true_elf_1_character_desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = true_elf
-					OR = {
-						has_trait_xp = {
-							trait = true_elf
-							track = true_elf_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = true_elf
-							track = aeluran_respect
-							value = 100
-						}
-					}
-				}
-				desc = trait_true_elf_3_character_desc
-			}
-			desc = trait_true_elf_2_character_desc
-		}
-	}
-
-	# tracks = {
-	# 	true_elf_spark_alignment = {
-	# 		trait_second_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}
-	# 		trait_third_level = {
-	# 			learning = 1
-	# 			health = 0.05
-	# 		}		
-	# 	}
-	# 	aeluran_respect = {
-	# 		trait_second_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 1
-	# 		}
-	# 		trait_third_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 1
-	# 		}
-	# 	}
-	# }	
 }
 
-# radiant_elf = {
-# 	index = 4205
+fae = {
+	index = 5
 
-# 	# opposites = {
-# 	# 	elf_tier_1
-# 	# 	elf_tier_3
-# 	# }
-
-# 	#========== Bonuses ==========
-# 	learning = 8
-# 	prowess = 8
-
-# 	same_opinion = 10
-# 	attraction_opinion = 13
-# 	inbreeding_chance = -1
-
-# 	life_expectancy = 130
-# 	health = 0.45
-# 	# ==================
-
-# 	#========== Trait Properties ==========
-# 	# Genetic
-# 	# group = elf_tier_2
-# 	# level = 2
-	
-# 	physical = yes
-
-# 	# genetic_constraint_all = high_elf
-
-# 	ai_rationality = dominant_positive_ai_value
-
-# 	compatibility = {
-# 	}
-
-# 	#========== Tracks ==========
-# 	# TODO: magi vs male equivalent
-# 	name = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = {
-# 							NOT = { exists = this }
-# 						}
-# 					}
-# 					trigger_else_if = {
-# 						limit = { has_trait = radiant_elf }
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = radiant_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 					trigger_else = {
-# 						NOT = { has_trait = radiant_elf }
-# 					}
-# 				}
-# 				desc = trait_radiant_elf_1
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = radiant_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = radiant_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_radiant_elf_3
-# 			}
-# 			desc = trait_radiant_elf_2
-# 		}
-# 	}
-
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_radiant_elf_1_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = { has_trait = radiant_elf }
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = radiant_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 				}
-# 				desc = trait_radiant_elf_1_character_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = radiant_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = radiant_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = radiant_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_radiant_elf_3_character_desc
-# 			}
-# 			desc = trait_radiant_elf_2_character_desc
-# 		}
-# 	}
-
-# 	tracks = {
-# 		radiant_elf_spark_alignment = {
-# 			trait_second_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}
-# 			trait_third_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}		
-# 		}
-# 		aeluran_respect = {
-# 			trait_second_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 			trait_third_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 		}
-# 	}	
-# }
-
-# celestial_elf = {
-# 	index = 4206
-
-# 	# opposites = {
-# 	# 	elf_tier_1
-# 	# 	elf_tier_3
-# 	# }
-
-# 	#========== Bonuses ==========
-# 	learning = 10
-# 	prowess = 10
-
-# 	same_opinion = 10
-# 	attraction_opinion = 15
-# 	inbreeding_chance = -1
-
-# 	life_expectancy = 150
-# 	health = 0.55
-# 	# ==================
-
-# 	#========== Trait Properties ==========
-# 	# Genetic
-# 	# group = elf_tier_2
-# 	# level = 3
-	
-# 	physical = yes
-
-# 	# genetic_constraint_all = high_elf
-
-# 	ai_rationality = dominant_positive_ai_value
-
-# 	compatibility = {
-# 	}
-
-# 	#========== Tracks ==========
-# 	# TODO: magi vs male equivalent
-# 	name = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = {
-# 							NOT = { exists = this }
-# 						}
-# 					}
-# 					trigger_else_if = {
-# 						limit = { has_trait = celestial_elf }
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = celestial_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 					trigger_else = {
-# 						NOT = { has_trait = celestial_elf }
-# 					}
-# 				}
-# 				desc = trait_celestial_elf_1
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = celestial_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = celestial_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_celestial_elf_3
-# 			}
-# 			desc = trait_celestial_elf_2
-# 		}
-# 	}
-
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_celestial_elf_1_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = { has_trait = celestial_elf }
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = celestial_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 				}
-# 				desc = trait_celestial_elf_1_character_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = celestial_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = celestial_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = celestial_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_celestial_elf_3_character_desc
-# 			}
-# 			desc = trait_celestial_elf_2_character_desc
-# 		}
-# 	}
-
-# 	tracks = {
-# 		celestial_elf_spark_alignment = {
-# 			trait_second_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}
-# 			trait_third_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}		
-# 		}
-# 		aeluran_respect = {
-# 			trait_second_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 			trait_third_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 		}
-# 	}	
-# }
-
-## ===== Major Threshold =====
-
-# ascendant_elf = {
-# 	index = 4207
-
-# 	# opposites = {
-# 	# 	elf_tier_1
-# 	# 	elf_tier_2
-# 	# }
-
-# 	#========== Bonuses ==========
-# 	learning = 12
-# 	prowess = 12
-
-# 	same_opinion = 10
-# 	attraction_opinion = 20
-# 	inbreeding_chance = -1
-
-# 	life_expectancy = 9999
-# 	health = 0.65
-# 	# ==================
-
-# 	#========== Trait Properties ==========
-# 	# Genetic
-# 	# group = elf_tier_3
-# 	# level = 1
-	
-# 	physical = yes
-
-# 	# genetic_constraint_all = high_elf
-
-# 	ai_rationality = dominant_positive_ai_value
-
-# 	compatibility = {
-# 	}
-
-# 	#========== Tracks ==========
-# 	# TODO: magi vs male equivalent
-# 	name = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = {
-# 							NOT = { exists = this }
-# 						}
-# 					}
-# 					trigger_else_if = {
-# 						limit = { has_trait = ascendant_elf }
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = ascendant_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 					trigger_else = {
-# 						NOT = { has_trait = ascendant_elf }
-# 					}
-# 				}
-# 				desc = trait_ascendant_elf_1
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = ascendant_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = ascendant_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_ascendant_elf_3
-# 			}
-# 			desc = trait_ascendant_elf_2
-# 		}
-# 	}
-
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_ascendant_elf_1_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = { has_trait = ascendant_elf }
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = ascendant_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 				}
-# 				desc = trait_ascendant_elf_1_character_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = ascendant_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = ascendant_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = ascendant_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_ascendant_elf_3_character_desc
-# 			}
-# 			desc = trait_ascendant_elf_2_character_desc
-# 		}
-# 	}
-
-# 	tracks = {
-# 		ascendant_elf_spark_alignment = {
-# 			trait_second_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}
-# 			trait_third_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}		
-# 		}
-# 		aeluran_respect = {
-# 			trait_second_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 			trait_third_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 1
-# 			}
-# 		}
-# 	}	
-# }
-
-# seraphic_elf = {
-# 	index = 4208
-
-# 	# opposites = {
-# 	# 	elf_tier_1
-# 	# 	elf_tier_2
-# 	# }
-
-# 	#========== Bonuses ==========
-# 	learning = 14
-# 	prowess = 25
-
-# 	same_opinion = 10
-# 	attraction_opinion = 30
-# 	inbreeding_chance = -1
-
-# 	life_expectancy = 9999
-# 	health = 0.75
-# 	# ==================
-
-# 	#========== Trait Properties ==========
-# 	# Genetic
-# 	# group = elf_tier_3
-# 	# level = 2
-	
-# 	physical = yes
-
-# 	# genetic_constraint_all = ascendant_elf
-
-# 	ai_rationality = dominant_positive_ai_value
-
-# 	compatibility = {
-# 	}
-
-# 	#========== Tracks ==========
-# 	# TODO: magi vs male equivalent
-# 	name = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = {
-# 							NOT = { exists = this }
-# 						}
-# 					}
-# 					trigger_else_if = {
-# 						limit = { has_trait = seraphic_elf }
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = seraphic_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 					trigger_else = {
-# 						NOT = { has_trait = seraphic_elf }
-# 					}
-# 				}
-# 				desc = trait_seraphic_elf_1
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = seraphic_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = seraphic_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_seraphic_elf_3
-# 			}
-# 			desc = trait_seraphic_elf_2
-# 		}
-# 	}
-
-# 	desc = {
-# 		first_valid = {
-# 			triggered_desc = {
-# 				trigger = {
-# 					NOT = { exists = this }
-# 				}
-# 				desc = trait_seraphic_elf_1_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					trigger_if = {
-# 						limit = { has_trait = seraphic_elf }
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = seraphic_elf_spark_alignment
-# 							value < 50
-# 						}
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = aeluran_respect
-# 							value < 50
-# 						}
-# 					}
-# 				}
-# 				desc = trait_seraphic_elf_1_character_desc
-# 			}
-# 			triggered_desc = {
-# 				trigger = {
-# 					has_trait = seraphic_elf
-# 					OR = {
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = seraphic_elf_spark_alignment
-# 							value = 100
-# 						}
-# 						has_trait_xp = {
-# 							trait = seraphic_elf
-# 							track = aeluran_respect
-# 							value = 100
-# 						}
-# 					}
-# 				}
-# 				desc = trait_seraphic_elf_3_character_desc
-# 			}
-# 			desc = trait_seraphic_elf_2_character_desc
-# 		}
-# 	}
-
-# 	tracks = {
-# 		seraphic_elf_spark_alignment = {
-# 			trait_second_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}
-# 			trait_third_level = {
-# 				learning = 1
-# 				health = 0.05
-# 			}		
-# 		}
-# 		aeluran_respect = {
-# 			trait_second_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 5
-# 			}
-# 			trait_third_level = {
-# 				character_travel_speed_mult = 0.2
-# 				prowess = 7
-# 			}
-# 		}
-# 	}	
-# }
-
-regaliant = {
-	index = 4209
-
-	# opposites = {
-	# 	elf_tier_1
-	# 	elf_tier_2
-	# }
+	opposites = {
+		true_elf
+		fae_radiant
+		elf_tier_1
+		elf_tier_3
+		elf_tier_4
+	}
 
 	#========== Bonuses ==========
-	learning = 15
-	prowess = 50
+	learning = 8
+	prowess = 8
 
 	same_opinion = 10
-	attraction_opinion = 50
+	attraction_opinion = 12
 	inbreeding_chance = -1
 	no_prowess_loss_from_age = yes
 
+	fertility = -0.75
+	years_of_fertility = 100
+
+	life_expectancy = 200
+	health = 0.4
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+fae_radiant = {
+	index = 6
+
+	opposites = {
+		true_elf
+		fae
+		elf_tier_1
+		elf_tier_3
+		elf_tier_4
+	}
+
+	#========== Bonuses ==========
+	learning = 10
+	prowess = 10
+
+	same_opinion = 10
+	attraction_opinion = 13
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	fertility = -0.80
+	years_of_fertility = 150
+
+	life_expectancy = 250
+	health = 0.45
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+## ===== Major Threshold =====
+### Celestial Tiers
+celestial = {
+	index = 7
+
+	opposites = {
+		seraphic_celestial
+		eldar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_4
+	}
+
+	#========== Bonuses ==========
+	learning = 15
+	prowess = 15
+
+	same_opinion = 10
+	attraction_opinion = 15
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	fertility = -0.85
+	years_of_fertility = 200
+
 	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3
+	level = 1
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+seraphic_celestial = {
+	index = 8
+
+	opposites = {
+		celestial
+		eldar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_4
+	}
+
+	#========== Bonuses ==========
+	learning = 20
+	prowess = 20
+
+	same_opinion = 10
+	attraction_opinion = 17
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	fertility = -0.85
+	years_of_fertility = 250
+
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+eldar = {
+	index = 9
+
+	opposites = {
+		celestial
+		seraphic_celestial
+		elf_tier_1
+		elf_tier_2
+		elf_tier_4
+	}
+
+	#========== Bonuses ==========
+	learning = 25
+	prowess = 25
+
+	fertility = -0.90
+	same_opinion = 10
+	attraction_opinion = 20
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	years_of_fertility = 300
+
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+## ===== Major Threshold =====
+### Ainur Tiers
+maiar = {
+	index = 10
+
+	opposites = {
+		valar
+		aratar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+	}
+
+	#========== Bonuses ==========
+	learning = 50
+	prowess = 50
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 50
+	inbreeding_chance = -1
+
+	fertility = -0.95
 	years_of_fertility = 9999
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4
+	level = 1
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+valar = {
+	index = 11
+
+	opposites = {
+		maiar
+		aratar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+	}
+
+	#========== Bonuses ==========
+	learning = 75
+	prowess = 75
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 75
+	inbreeding_chance = -1
+
+	fertility = -0.95
+	years_of_fertility = 999
+	life_expectancy = 999
+	health = 0.75
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+aratar = {
+	index = 12
+
+	opposites = {
+		maiar
+		valar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+	}
+
+	#========== Bonuses ==========
+	learning = 99
+	prowess = 99
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 99
+	inbreeding_chance = -1
+
+	fertility = -0.99
+	years_of_fertility = 999
+	life_expectancy = 999
 	health = 1
 	# ==================
 
 	#========== Trait Properties ==========
 	# Genetic
-	# group = elf_tier_3
-	# level = 3
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4
+	level = 3
 	
 	physical = yes
 
@@ -1441,428 +573,9 @@ regaliant = {
 	compatibility = {
 	}
 
-	#========== Tracks ==========
-	# TODO: magi vs male equivalent
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = {
-							NOT = { exists = this }
-						}
-					}
-					trigger_else_if = {
-						limit = { has_trait = regaliant }
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_manipulation
-							value < 50
-						}
-					}
-					trigger_else = {
-						NOT = { has_trait = regaliant }
-					}
-				}
-				desc = trait_regaliant_1
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = regaliant
-					OR = {
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_manipulation
-							value = 100
-						}
-					}
-				}
-				desc = trait_regaliant_3
-			}
-			desc = trait_regaliant_2
-		}
-	}
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_regaliant_1_desc
-			}
-			triggered_desc = {
-				trigger = {
-					trigger_if = {
-						limit = { has_trait = regaliant }
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_alignment
-							value < 50
-						}
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_manipulation
-							value < 50
-						}
-					}
-				}
-				desc = trait_regaliant_1_character_desc
-			}
-			triggered_desc = {
-				trigger = {
-					has_trait = regaliant
-					OR = {
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_alignment
-							value = 100
-						}
-						has_trait_xp = {
-							trait = regaliant
-							track = regaliant_spark_manipulation
-							value = 100
-						}
-					}
-				}
-				desc = trait_regaliant_3_character_desc
-			}
-			desc = trait_regaliant_2_character_desc
-		}
-	}
-
-	# tracks = {
-	# 	regaliant_spark_alignment = {
-	# 		trait_second_level = {
-	# 			learning = 5
-	# 			health = 0.10
-	# 		}
-	# 		trait_third_level = {
-	# 			learning = 5
-	# 			health = 0.15
-	# 		}		
-	# 	}
-	# 	regaliant_spark_manipulation = {
-	# 		trait_second_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 5
-	# 		}
-	# 		trait_third_level = {
-	# 			character_travel_speed_mult = 0.2
-	# 			prowess = 7
-	# 		}
-	# 	}
-	# }	
 }
 
-# 
-# Level 4 and 5 Genetic traits
 
-# Level 5 perk requirements
-# Beauty - House Valerith Blood
-# Strength - House Daelurin Blood
-# Giant - House Daelurin Blood
-# Intelligence - House Thundarael Blood
-
-# Other ehanced traits
-# Overseer - House Serelion Blood
-# Administrator - House Gwynthorn Blood
-# Seductress - House Valerith Blood
-# Blade Master - House Daelurin Blood
-# Wise Man - House Thundarael Blood
-
-# Fecundity - Higher Elf Levels, Special Event from Fecundity Season Event Chains
-
-
-
-# IDEA: MAYBE USE AI TO CREATE GEM BLOOD DROPS FOR ICONS
-# IDEA: If to0 many similar affects on traits, bundle them into a modifer effect or something
-
-# Huge Idea: create a very special event where you can forge a new dynasty bloodline trait
-#  - options could be based on 
-#    - your current blood traits
-#    - your acheivements
-#  - this is similar to the final combine all blood line...
-#    - if you wait for this event until you have the "final" bloodline, special options for new bloodline
-#  - customization options 
-#	 - player can pick among blood trait icons
-
-# Tutorial on Ancient Bloodlines starts in phase 2 with higher ranked aelurin weaver coming through portal
-# Do i get reeeaaal ambitious and do three levels of each
-#  - Inheritance: to upgrade a level, need to find someone with higher level, otherwise 2% chance of upgrading
-#		- Both same level: 100% of basic inheritance, 2% chance of upgrading
-#		- One with level higher: 70% chance of lower level, 30% chance of higher level, 0% chance of upgrading
-
-# TODO: Add purity tracking to all bloodlines
-
-
-# Silver hair - diplomacy/intrigue - 
-# Advantage: seduction, feasting
-# Weakness: being seduced, low self control, maybe forced to feast
-royal_elf_valerith = {
-	index = 4210
-	
-	# TODO: enable before release
-	# shown_in_ruler_designer = no
-
-	# genetic = yes
-	physical = yes
-	good = yes
-
-	inherit_chance = 50 
-	both_parent_has_trait_inherit_chance = 100
-	
-	genetic_constraint_all = royal_elf_valerith 
-
-	birth = 0
-	random_creation = 0
-
-	attraction_opinion = 30
-	fertility = 0.3
-	max_seduce_schemes_add = 2
-	seduce_scheme_power_add = 10
-	seduce_scheme_power_mult = 0.5
-	scheme_power_against_lover_add = 30
-	seduce_scheme_resistance_add = -50
-	stress_loss_mult = 0.5
-
-	# Custom affects
-	# - Huge Stress Penalty if havent feasted in last 2 years
-	# - Opinion penalty of chaste
-	# - Opinon boost of revelers
-	# - Fully Unlock Seductress Tree
-	# - Ability to get ehanced Seductress trait
-
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_royal_elf_valerith_desc
-			}
-			desc = trait_royal_elf_valerith_character_desc
-		}
-	}
-	ai_energy = 5
-}
-
-# Purple Eyes - Control/rulership diplomacy/intrigue/dread mean
-# Advantage: control/increased dread/domain limit/vassal_limit/knight count
-# Weakness: fearful troops dont fight as well, opinion penalties, traitors
-royal_elf_serelion = {
-	index = 4211
-
-    # opposites = {
-	# 	valyrian_1
-	# 	valyrian_2
-	# }
-
-	#inherit_chance = 100 # recessive
-	genetic = yes
-	physical = yes
-	both_parent_has_trait_inherit_chance = 100
-
-	good = yes
-
-	birth = 0
-	random_creation = 0
-
-    # group = valyrian
-	# level = 3
-	intrigue = 2
-	attraction_opinion = 5
-	dread_gain_mult = 0.2
-	dread_baseline_add = 10
-	dread_decay_mult = -0.5
-	monthly_county_control_change_factor = 0.2
-	monthly_county_control_change_add = 0.3
-	knight_limit = 2
-	domain_limit = 1
-	hard_casualty_modifier = 0.25
-	enemy_hard_casualty_modifier = -0.25
-
-	# prowess = 15
-	# inbreeding_chance = -1
-	# health = 0.3
- 
-	genetic_constraint_all = valyrian_3 
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_royal_elf_serelion_desc
-			}
-			desc = trait_royal_elf_serelion_character_desc
-		}
-	}
-	ai_energy = 5
-}
-
-# Perfect body shape/porportions - stewardship - orderly/multi-tasking development/stress gains
-# Advantage: development/vassal contribution, maybe unique building and/or government type
-# Weakness: stress/shorter lives
-royal_elf_gwynthorn= {
-	index = 4212
-
-    # opposites = {
-	# 	valyrian_1
-	# 	valyrian_2
-	# }
-
-	#inherit_chance = 100 # recessive
-	genetic = yes
-	physical = yes
-	both_parent_has_trait_inherit_chance = 100
-
-	good = yes
-
-	birth = 0
-	random_creation = 0
-
-    # group = valyrian
-	# level = 3
-
-	stewardship = 2
-	domain_limit = 2
-	development_growth = 0.1
-	development_growth_factor = 0.25
-	stress_gain_mult = 0.5
-	stress_loss_mult = -0.2
-	life_expectancy = -10
-
-	# prowess = 15
-	# inbreeding_chance = -1
-	# health = 0.3
- 
-	genetic_constraint_all = valyrian_3 
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_royal_elf_gwynthorn_desc
-			}
-			desc = trait_royal_elf_gwynthorn_character_desc
-		}
-	}
-	ai_energy = 5
-}
-
-# Skin Color (they radiate magic) - inteligence/magic - experience/travel speed gain
-# Advantage: experience gain/travel speed/unlock ultimate spells
-# Weakness: very poor diplomacy (lost touch with humanity), lunatic and melancholic common (maybe spindly)
-royal_elf_thundarael= {
-	index = 4213
-
-    # opposites = {
-	# 	valyrian_1
-	# 	valyrian_2
-	# }
-
-	#inherit_chance = 100 # recessive
-	genetic = yes
-	physical = yes
-	both_parent_has_trait_inherit_chance = 100
-
-	good = yes
-
-	birth = 0
-	random_creation = 0
-
-    # group = valyrian
-	# level = 3
-
-	learning = 2
-	diplomacy = -2
-	monthly_learning_lifestyle_xp_gain_mult = 0.25
-	character_travel_speed = 10
-	# lunatic_and_melancholic_more_common = yes
-
-	# prowess = 15
-	# inbreeding_chance = -1
-	# health = 0.3
- 
-	genetic_constraint_all = valyrian_3 
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_royal_elf_thundarael_desc
-			}
-			desc = trait_royal_elf_thundarael_character_desc
-		}
-	}
-	ai_energy = 5
-}
-
-# Giant - martial/prowess - neg travel speed
-# Advantage: prowess/knight effectiveness/unique units
-# Weakness: travel speed, intelligence (all have slow)
-royal_elf_daelurin= {
-	index = 4214
-
-    # opposites = {
-	# 	valyrian_1
-	# 	valyrian_2
-	# }
-
-	#inherit_chance = 100 # recessive
-	genetic = yes
-	physical = yes
-	both_parent_has_trait_inherit_chance = 100
-
-	good = yes
-
-	birth = 0
-	random_creation = 0
-
-    # group = valyrian
-	# level = 3
-
-	martial = 2
-	learning = -4
-	prowess = 10
-	knight_limit = 3
-	army_maintenance_mult = -0.25
-	character_travel_speed = -20
-	# inbreeding_chance = -1
-	# health = 0.3
- 
-	genetic_constraint_all = valyrian_3 
-
-	desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					NOT = { exists = this }
-				}
-				desc = trait_royal_elf_daelurin_desc
-			}
-			desc = trait_royal_elf_daelurin_character_desc
-		}
-	}
-	ai_energy = 5
-}
 
 
 

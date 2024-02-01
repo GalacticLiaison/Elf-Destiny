@@ -108,3 +108,9 @@ annatar visitng gift giver event
 master shipwrights - cirdan tradition: show white valinor ships
 
 human domestication: more common calm/trusting
+
+expedition site: https://lotr.fandom.com/wiki/Cuivi%C3%A9nen
+
+
+something that purges all non-elfs from realm
+- could be a tradiiton/decision/etc

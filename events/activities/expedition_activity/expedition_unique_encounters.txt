@@ -572,7 +572,7 @@ expedition_unique_encounters.0022 = { # Portal Navigation Relay
 # 	}
 # }
 
-expedition_unique_encounters.003 = { # Encounter Regaliant Controller
+expedition_unique_encounters.003 = { # Encounter Valar Controller
 	hidden = yes
 	
 	immediate = {
@@ -580,7 +580,7 @@ expedition_unique_encounters.003 = { # Encounter Regaliant Controller
 			100 = { # Vána Goddess of Prosperity
 				trigger_event = expedition_unique_encounters.0031
 			}
-			100 = { # tulkas_astaldo God of War
+			100 = { # Tulas Astaldo God of War
 				trigger_event = expedition_unique_encounters.0032
 			}
 		}
@@ -601,8 +601,7 @@ expedition_unique_encounters.0031 = { # Find Vána Shrine
 		}
 	}
 
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
+	theme = shrine_of_vana
 
 	widget = {
 		gui = "event_window_widget_activity_intent"
@@ -617,12 +616,7 @@ expedition_unique_encounters.0031 = { # Find Vána Shrine
 	option = { # connect with shrine
 		name = expedition_unique_encounters.0031.pray
 
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = encountered_regaliants
-				target = flag:vána
-			}
-		}
+		trigger_event = expedition_unique_encounters.00311
 	}
 
 	option = { # leave
@@ -640,7 +634,7 @@ expedition_unique_encounters.00311 = { # Vána
 			trigger = {
 				NOT = {
 					is_target_in_global_variable_list = {
-						name = encountered_regaliants
+						name = encountered_valars
 						target = flag:vána
 					}
 				}
@@ -650,7 +644,7 @@ expedition_unique_encounters.00311 = { # Vána
 		triggered_desc = {
 			trigger = {
 				is_target_in_global_variable_list = {
-					name = encountered_regaliants
+					name = encountered_valars
 					target = flag:vána
 				}
 			}
@@ -666,8 +660,7 @@ expedition_unique_encounters.00311 = { # Vána
 		}
 	}
 
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
+	theme = shrine_of_vana
 
 	widget = {
 		gui = "event_window_widget_activity_intent"
@@ -676,10 +669,11 @@ expedition_unique_encounters.00311 = { # Vána
 
 	immediate = {
 		create_character = {
-			template = regaliant_vana_projection
+			name = "Vána"
+			template = vana_projection
 			dynasty = none
 			location = root.location
-			save_scope_as = regaliant
+			save_scope_as = valar
 		}
 	}
 
@@ -689,7 +683,7 @@ expedition_unique_encounters.00311 = { # Vána
 	}
 
 	right_portrait = {
-		character = scope:regaliant
+		character = scope:valar
 		animation = personality_content
 	}
 
@@ -711,12 +705,22 @@ expedition_unique_encounters.00311 = { # Vána
 	}
 
 	option = { # refuse
-		name = expedition_unique_encounters.0031.refuse
-		trigger_event = expedition_unique_encounters.00399
+		name = expedition_unique_encounters.00311.refuse
+
+		trigger_event = expedition_unique_encounters.00319
+	}
+
+	after = {
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = encountered_valars
+				target = flag:vána
+			}
+		}
 	}
 }
 
-expedition_unique_encounters.0032 = { # Find tulkas_astaldo Shrine
+expedition_unique_encounters.0032 = { # Find Tulkas Astaldo Shrine
 	type = activity_event
 
 	title = expedition_unique_encounters.0032.title
@@ -730,8 +734,7 @@ expedition_unique_encounters.0032 = { # Find tulkas_astaldo Shrine
 		}
 	}
 
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
+	theme = shrine_of_tulkas
 
 	widget = {
 		gui = "event_window_widget_activity_intent"
@@ -748,10 +751,12 @@ expedition_unique_encounters.0032 = { # Find tulkas_astaldo Shrine
 
 		hidden_effect = {
 			add_to_global_variable_list = {
-				name = encountered_regaliants
+				name = encountered_valars
 				target = flag:tulkas_astaldo
 			}
 		}
+
+		trigger_event = expedition_unique_encounters.00321
 	}
 
 	option = { # leave
@@ -759,7 +764,7 @@ expedition_unique_encounters.0032 = { # Find tulkas_astaldo Shrine
 	}
 }
 
-expedition_unique_encounters.00321 = { # tulkas_astaldo
+expedition_unique_encounters.00321 = { # Tulkas Astaldo
 	type = activity_event
 
 	title = expedition_unique_encounters.00321.title
@@ -769,7 +774,7 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 			trigger = {
 				NOT = {
 					is_target_in_global_variable_list = {
-						name = encountered_regaliants
+						name = encountered_valars
 						target = flag:tulkas_astaldo
 					}
 				}
@@ -779,7 +784,7 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 		triggered_desc = {
 			trigger = {
 				is_target_in_global_variable_list = {
-					name = encountered_regaliants
+					name = encountered_valars
 					target = flag:tulkas_astaldo
 				}
 			}
@@ -795,8 +800,7 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 		}
 	}
 
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
+	theme = shrine_of_tulkas
 
 	widget = {
 		gui = "event_window_widget_activity_intent"
@@ -805,10 +809,11 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 
 	immediate = {
 		create_character = {
-			template = regaliant_tulkas_astaldo_projection
+			name = "Tulkas"
+			template = tulkas_projection
 			dynasty = none
 			location = root.location
-			save_scope_as = regaliant
+			save_scope_as = valar
 		}
 	}
 
@@ -818,7 +823,7 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 	}
 
 	right_portrait = {
-		character = scope:regaliant
+		character = scope:valar
 		animation = personality_content
 	}
 
@@ -841,18 +846,58 @@ expedition_unique_encounters.00321 = { # tulkas_astaldo
 
 	option = { # refuse
 		name = expedition_unique_encounters.00321.refuse
-		trigger_event = expedition_unique_encounters.00399
+		trigger_event = expedition_unique_encounters.00329
+	}
+
+	after = {
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = encountered_valars
+				target = flag:tulkas_astaldo
+			}
+		}
 	}
 }
 
-expedition_unique_encounters.00399 = { # Refuse Deity
+expedition_unique_encounters.00319 = { # Refuse Vána
 	type = activity_event
 
 	title = expedition_unique_encounters.00399.title
 	desc = expedition_unique_encounters.00399.desc
 
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
+	theme = shrine_of_vana
+	
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:valar
+		animation = disapproval
+	}
+
+	option = { # Take as deity
+		name = expedition_unique_encounters.00399.ok
+	}
+}
+
+expedition_unique_encounters.00329 = { # Refuse Tulkas Astaldo
+	type = activity_event
+
+	title = expedition_unique_encounters.00399.title
+	desc = expedition_unique_encounters.00399.desc
+
+	theme = shrine_of_tulkas
 
 	widget = {
 		gui = "event_window_widget_activity_intent"
@@ -869,7 +914,7 @@ expedition_unique_encounters.00399 = { # Refuse Deity
 	}
 
 	right_portrait = {
-		character = scope:regaliant
+		character = scope:valar
 		animation = disapproval
 	}
 

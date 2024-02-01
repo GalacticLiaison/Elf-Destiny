@@ -1,0 +1,352 @@
+﻿
+# IDEA: MAYBE USE AI TO CREATE GEM BLOOD DROPS FOR ICONS
+# IDEA: If to0 many similar affects on traits, bundle them into a modifer effect or something
+
+# Huge Idea: create a very special event where you can forge a new dynasty bloodline trait
+#  - options could be based on 
+#    - your current blood traits
+#    - your acheivements
+#  - this is similar to the final combine all blood line...
+#    - if you wait for this event until you have the "final" bloodline, special options for new bloodline
+#  - customization options 
+#	 - player can pick among blood trait icons
+
+# Tutorial on Ancient Bloodlines starts in phase 2 with higher ranked aelurin weaver coming through portal
+# Do i get reeeaaal ambitious and do three levels of each
+#  - Inheritance: to upgrade a level, need to find someone with higher level, otherwise 2% chance of upgrading
+#		- Both same level: 100% of basic inheritance, 2% chance of upgrading
+#		- One with level higher: 70% chance of lower level, 30% chance of higher level, 0% chance of upgrading
+
+# TODO: Add purity tracking to all bloodlines
+
+
+# Silver hair - diplomacy/intrigue - 
+# Advantage: seduction, feasting
+# Weakness: being seduced, low self control, maybe forced to feast
+royal_elf_valerith = {
+	index = 4210
+	
+	# TODO: enable before release
+	# shown_in_ruler_designer = no
+
+	# genetic = yes
+	physical = yes
+	good = yes
+
+	inherit_chance = 50 
+	both_parent_has_trait_inherit_chance = 100
+	
+	genetic_constraint_all = royal_elf_valerith 
+
+	birth = 0
+	random_creation = 0
+
+	attraction_opinion = 30
+	fertility = 0.3
+	max_seduce_schemes_add = 2
+	seduce_scheme_power_add = 10
+	seduce_scheme_power_mult = 0.5
+	scheme_power_against_lover_add = 30
+	seduce_scheme_resistance_add = -50
+	stress_loss_mult = 0.5
+
+	# Custom affects
+	# - Huge Stress Penalty if havent feasted in last 2 years
+	# - Opinion penalty of chaste
+	# - Opinon boost of revelers
+	# - Fully Unlock Seductress Tree
+	# - Ability to get ehanced Seductress trait
+
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_royal_elf_valerith_desc
+			}
+			desc = trait_royal_elf_valerith_character_desc
+		}
+	}
+	ai_energy = 5
+}
+
+# Purple Eyes - Control/rulership diplomacy/intrigue/dread mean
+# Advantage: control/increased dread/domain limit/vassal_limit/knight count
+# Weakness: fearful troops dont fight as well, opinion penalties, traitors
+royal_elf_serelion = {
+	index = 4211
+
+    # opposites = {
+	# 	valyrian_1
+	# 	valyrian_2
+	# }
+
+	#inherit_chance = 100 # recessive
+	genetic = yes
+	physical = yes
+	both_parent_has_trait_inherit_chance = 100
+
+	good = yes
+
+	birth = 0
+	random_creation = 0
+
+    # group = valyrian
+	# level = 3
+	intrigue = 2
+	attraction_opinion = 5
+	dread_gain_mult = 0.2
+	dread_baseline_add = 10
+	dread_decay_mult = -0.5
+	monthly_county_control_change_factor = 0.2
+	monthly_county_control_change_add = 0.3
+	knight_limit = 2
+	domain_limit = 1
+	hard_casualty_modifier = 0.25
+	enemy_hard_casualty_modifier = -0.25
+
+	# prowess = 15
+	# inbreeding_chance = -1
+	# health = 0.3
+ 
+	genetic_constraint_all = valyrian_3 
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_royal_elf_serelion_desc
+			}
+			desc = trait_royal_elf_serelion_character_desc
+		}
+	}
+	ai_energy = 5
+}
+
+# Perfect body shape/porportions - stewardship - orderly/multi-tasking development/stress gains
+# Advantage: development/vassal contribution, maybe unique building and/or government type
+# Weakness: stress/shorter lives
+royal_elf_gwynthorn= {
+	index = 4212
+
+    # opposites = {
+	# 	valyrian_1
+	# 	valyrian_2
+	# }
+
+	#inherit_chance = 100 # recessive
+	genetic = yes
+	physical = yes
+	both_parent_has_trait_inherit_chance = 100
+
+	good = yes
+
+	birth = 0
+	random_creation = 0
+
+    # group = valyrian
+	# level = 3
+
+	stewardship = 2
+	domain_limit = 2
+	development_growth = 0.1
+	development_growth_factor = 0.25
+	stress_gain_mult = 0.5
+	stress_loss_mult = -0.2
+	life_expectancy = -10
+
+	# prowess = 15
+	# inbreeding_chance = -1
+	# health = 0.3
+ 
+	genetic_constraint_all = valyrian_3 
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_royal_elf_gwynthorn_desc
+			}
+			desc = trait_royal_elf_gwynthorn_character_desc
+		}
+	}
+	ai_energy = 5
+}
+
+# Skin Color (they radiate magic) - inteligence/magic - experience/travel speed gain
+# Advantage: experience gain/travel speed/unlock ultimate spells
+# Weakness: very poor diplomacy (lost touch with humanity), lunatic and melancholic common (maybe spindly)
+royal_elf_thundarael= {
+	index = 4213
+
+    # opposites = {
+	# 	valyrian_1
+	# 	valyrian_2
+	# }
+
+	#inherit_chance = 100 # recessive
+	genetic = yes
+	physical = yes
+	both_parent_has_trait_inherit_chance = 100
+
+	good = yes
+
+	birth = 0
+	random_creation = 0
+
+    # group = valyrian
+	# level = 3
+
+	learning = 2
+	diplomacy = -2
+	monthly_learning_lifestyle_xp_gain_mult = 0.25
+	character_travel_speed = 10
+	# lunatic_and_melancholic_more_common = yes
+
+	# prowess = 15
+	# inbreeding_chance = -1
+	# health = 0.3
+ 
+	genetic_constraint_all = valyrian_3 
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_royal_elf_thundarael_desc
+			}
+			desc = trait_royal_elf_thundarael_character_desc
+		}
+	}
+	ai_energy = 5
+}
+
+# Giant - martial/prowess - neg travel speed
+# Advantage: prowess/knight effectiveness/unique units
+# Weakness: travel speed, intelligence (all have slow)
+royal_elf_daelurin= {
+	index = 4214
+
+    # opposites = {
+	# 	valyrian_1
+	# 	valyrian_2
+	# }
+
+	#inherit_chance = 100 # recessive
+	genetic = yes
+	physical = yes
+	both_parent_has_trait_inherit_chance = 100
+
+	good = yes
+
+	birth = 0
+	random_creation = 0
+
+    # group = valyrian
+	# level = 3
+
+	martial = 2
+	learning = -4
+	prowess = 10
+	knight_limit = 2
+	# army_maintenance_mult = -0.25
+	character_travel_speed = -20
+	# inbreeding_chance = -1
+	# health = 0.3
+ 
+	genetic_constraint_all = valyrian_3 
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_royal_elf_daelurin_desc
+			}
+			desc = trait_royal_elf_daelurin_character_desc
+		}
+	}
+	ai_energy = 5
+}
+
+
+# Combines all other royal houses
+# has all advantages/no weaknesses
+# unlocks final dynasty path AND experience tree
+# true_royal_elf = {
+# 	index = 4211
+
+#     # opposites = {
+# 	# 	valyrian_1
+# 	# 	valyrian_2
+# 	# }
+
+# 	#inherit_chance = 100 # recessive
+# 	genetic = yes
+# 	physical = yes
+# 	both_parent_has_trait_inherit_chance = 100
+
+# 	good = yes
+
+# 	birth = 0
+# 	random_creation = 0
+
+#     # group = valyrian
+# 	# level = 3
+
+# 	attraction_opinion = 30
+# 	fertility = 0.3
+# 	max_seduce_schemes_add = 2
+# 	seduce_scheme_power_add = 10
+# 	seduce_scheme_power_mult = 0.5
+# 	scheme_power_against_lover_add = 30
+# 	seduce_scheme_resistance_add = -50
+
+
+# 	# prowess = 15
+# 	# inbreeding_chance = -1
+# 	health = 0.3
+ 
+# 	genetic_constraint_all = valyrian_3 
+
+# 	desc = {
+# 		first_valid = {
+# 			triggered_desc = {
+# 				trigger = {
+# 					NOT = { exists = this }
+# 				}
+# 				desc = trait_valyrian_3_desc
+# 			}
+# 			desc = trait_valyrian_3_character_desc
+# 		}
+# 	}
+# 	ai_energy = 5
+# }
+
+
+# 
+# Level 4 and 5 Genetic traits
+
+# Level 5 perk requirements
+# Beauty - House Valerith Blood
+# Strength - House Daelurin Blood
+# Giant - House Daelurin Blood
+# Intelligence - House Thundarael Blood
+
+# Other ehanced traits
+# Overseer - House Serelion Blood
+# Administrator - House Gwynthorn Blood
+# Seductress - House Valerith Blood
+# Blade Master - House Daelurin Blood
+# Wise Man - House Thundarael Blood
+
+# Fecundity - Higher Elf Levels, Special Event from Fecundity Season Event Chains

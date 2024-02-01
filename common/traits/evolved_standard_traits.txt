@@ -1,8 +1,152 @@
-﻿beauty_good_4 = {
+﻿# Beauty (+1) - Comely
+beauty_good_1 = {
+	opposites = {
+		beauty_bad
+		beauty_good_2
+		beauty_good_3
+	}
+	
+	diplomacy = 1
+	fertility = 0.1
+	
+	birth = 0.5
+	random_creation = 0.5
+	
+	attraction_opinion = 10
+
+	group = beauty_good
+	level = 1
+	
+	genetic = yes
+	physical = yes
+	good = yes
+	
+	# genetic_constraint_all = beauty_1
+	# genetic_constraint_men = male_beauty_1
+	# genetic_constraint_women = female_beauty_1
+	
+	ruler_designer_cost = 40
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_beauty_good_1_desc
+			}
+			desc = trait_beauty_good_1_character_desc
+		}
+	}
+}
+
+# Beauty (+2) - Pretty (f) / Handsome (m)
+beauty_good_2 = {
+	opposites = {
+		beauty_bad
+		beauty_good_1
+		beauty_good_3
+	}
+	
+	diplomacy = 2
+	fertility = 0.2
+	
+	birth = 0.25
+	random_creation = 0.25
+	
+	attraction_opinion = 20
+
+	# pretty if female
+	# handsome if male
+
+	group = beauty_good
+	level = 2
+	
+	ruler_designer_cost = 80
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_beauty_good_male_2
+			}
+			triggered_desc = {
+				trigger = { is_female = yes }
+				desc = trait_beauty_good_female_2
+			}
+			desc = trait_beauty_good_male_2
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_beauty_good_2_desc
+			}
+			desc = trait_beauty_good_2_character_desc
+		}
+	}
+	
+	genetic = yes
+	physical = yes
+	good = yes
+	
+	# genetic_constraint_all = beauty_2
+	# genetic_constraint_men = male_beauty_2
+	# genetic_constraint_women = female_beauty_2
+}
+
+# Beauty (+3) - Beautiful
+beauty_good_3 = {
+	opposites = {
+		beauty_bad
+		beauty_good_2
+		beauty_good_1
+	}
+	
+	birth = 0.15
+	random_creation = 0.15
+	
+	diplomacy = 3
+	fertility = 0.3
+	
+	attraction_opinion = 30
+
+	group = beauty_good
+	level = 3
+	
+	genetic = yes
+	physical = yes
+	good = yes
+	
+	# genetic_constraint_all = beauty_3
+	# genetic_constraint_men = male_beauty_3
+	# genetic_constraint_women = female_beauty_3
+	
+	ruler_designer_cost = 120
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_beauty_good_3_desc
+			}
+			desc = trait_beauty_good_3_character_desc
+		}
+	}
+}
+
+beauty_good_4 = {
 	potential = {
-		any_parent = {
-			culture = {
-				has_cultural_parameter = higher_level_base_genetics_unlocked
+		trigger_if = {
+			limit = { exists = root }
+			any_parent = {
+				culture = {
+					has_cultural_parameter = higher_level_base_genetics_unlocked
+				}
 			}
 		}
 	}
@@ -64,9 +208,12 @@
 
 intellect_good_4 = {
 	potential = {
-		any_parent = {
-			culture = {
-				has_cultural_parameter = higher_level_base_genetics_unlocked
+		trigger_if = {
+			limit = { exists = root }
+			any_parent = {
+				culture = {
+					has_cultural_parameter = higher_level_base_genetics_unlocked
+				}
 			}
 		}
 	}
@@ -128,9 +275,12 @@ intellect_good_4 = {
 
 physique_good_4 = {
 	potential = {
-		any_parent = {
-			culture = {
-				has_cultural_parameter = higher_level_base_genetics_unlocked
+		trigger_if = {
+			limit = { exists = root }
+			any_parent = {
+				culture = {
+					has_cultural_parameter = higher_level_base_genetics_unlocked
+				}
 			}
 		}
 	}

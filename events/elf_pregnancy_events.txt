@@ -10,16 +10,43 @@ elf_pregnancy_events.0001 = {
 	}
 
 	immediate = {
-		random_list = {
-			50 = {
-				debug_log = "GIRL SELECTED"
-				set_pregnancy_gender = female
+		if = {
+			limit = {
+				culture = {
+					has_cultural_parameter = blessing_of_vana
+				}
 			}
-			50 = {
-				debug_log = "BOY SELECTED"
-				set_pregnancy_gender = male
+
+			random_list = {
+				86 = {
+					debug_log = "GIRL SELECTED"
+					set_pregnancy_gender = female
+				}
+				14 = {
+					debug_log = "BOY SELECTED"
+					set_pregnancy_gender = male
+				}
 			}
 		}
+		else_if = {
+			limit = {
+				culture = {
+					has_cultural_parameter = blessing_of_tulkas_astaldo
+				}
+			}
+
+			random_list = {
+				14 = {
+					debug_log = "GIRL SELECTED"
+					set_pregnancy_gender = female
+				}
+				86 = {
+					debug_log = "BOY SELECTED"
+					set_pregnancy_gender = male
+				}
+			}
+		}
+
 	}
 }
 

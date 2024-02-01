@@ -1,14 +1,14 @@
 ﻿entrance = {
 	skill = intrigue
-	desc = seduce_desc_general
+	desc = entrance_desc_general
 	# cooldown = { months = 2 }
 	is_secret = yes
 	base_secrecy = 10
 	uses_agents = no
 	power_per_skill_point = 8
 	resistance_per_skill_point = 0
-	minimum_progress_chance = 35
-	maximum_progress_chance = 90
+	minimum_progress_chance = 0
+	maximum_progress_chance = 0
 	maximum_success = 95
 	icon = icon_scheme_seduce
 
@@ -17,6 +17,8 @@
 	spymaster_resistance_per_skill_point = 0
 	
 	allow = {
+		# TODO: huge one, make AI do it
+		is_ai = no
 		is_adult = yes
 		is_travelling = no
 		is_any_elf_type = yes
@@ -38,13 +40,13 @@
 
 		# Have I been blocked from targeting this character?
 		custom_description = { #Permanent
-			text = entrance_blocked
+			text = seduce_blocked
 			object = scope:target
 
 			NOT = {
 				scope:target = {
 					has_opinion_modifier = {
-						modifier = entrance_permanent_blocker_opinion
+						modifier = seduce_permanent_blocker_opinion
 						target = scope:owner
 					}
 				}
@@ -53,13 +55,13 @@
 
 		# Time-limited blocker
 		custom_description = {
-			text = entrance_cooldown
+			text = seduce_cooldown
 			object = scope:target
 
 			NOT = {
 				scope:target = {
 					has_opinion_modifier = {
-						modifier = entrance_regular_cooldown_opinion
+						modifier = seduce_regular_cooldown_opinion
 						target = scope:owner
 					}
 				}
@@ -68,7 +70,7 @@
 
 		# 10 year general target blocker
 		custom_description = {
-			text = entrance_general_10_year_cooldown
+			text = seduce_general_10_year_cooldown
 			subject = scope:target
 
 			NOT = {
@@ -575,14 +577,15 @@
 	}
 
 	on_start = {
+		debug_log = "STARTING ENTRANCE SCHEME"
+
 		scheme_target = {
 			save_scope_as = target
 		}
 		scheme_owner = {
 			save_scope_as = owner
+			trigger_event = entrance_general.101
 		}
-		
-		trigger_event = entrance_general.1001
 	}
 
 	on_monthly = {
@@ -590,58 +593,58 @@
 		scheme_owner = { save_scope_as = owner }
 		scheme_target = { save_scope_as = target }
 
-		#Milestone 1 event
-		if = {
-			limit = {
-				scheme_progress >= 3
-				scheme_progress < 7
-				NOR = {
-					has_scheme_modifier = seduce_success_1_modifier
-					has_scheme_modifier = seduce_failure_1_modifier
-					has_variable = declined_seduce_milestone_1_event
-				}
-				scheme_owner = {
-					is_available = yes
-				}
-				scheme_target = {
-					is_available = yes
-				}
-				player_target_available_for_personal_scheme_ongoing_events_trigger = {
-					OWNER = scope:owner
-					TARGET = scope:target
-				}
-			}
-			scheme_owner = {
-				trigger_event = { on_action = seduce_ongoing_milestone_1 }
-			}
-		}
-		#Milestone 2 event
-		else_if = {
-			limit = {
-				scheme_progress >= 7
-				NOR = {
-					has_scheme_modifier = seduce_success_2_modifier
-					has_scheme_modifier = seduce_failure_2_modifier
-					has_variable = declined_seduce_milestone_2_event
-				}
-				scheme_owner = {
-					is_available = yes
-				}
-				scheme_target = {
-					is_available = yes
-				}
-				player_target_available_for_personal_scheme_ongoing_events_trigger = {
-					OWNER = scope:owner
-					TARGET = scope:target
-				}
-			}
-			scheme_owner = {
-				trigger_event = { on_action = seduce_ongoing_milestone_2 }
-			}
-		}
+		# #Milestone 1 event
+		# if = {
+		# 	limit = {
+		# 		scheme_progress >= 3
+		# 		scheme_progress < 7
+		# 		NOR = {
+		# 			has_scheme_modifier = seduce_success_1_modifier
+		# 			has_scheme_modifier = seduce_failure_1_modifier
+		# 			has_variable = declined_seduce_milestone_1_event
+		# 		}
+		# 		scheme_owner = {
+		# 			is_available = yes
+		# 		}
+		# 		scheme_target = {
+		# 			is_available = yes
+		# 		}
+		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
+		# 			OWNER = scope:owner
+		# 			TARGET = scope:target
+		# 		}
+		# 	}
+		# 	scheme_owner = {
+		# 		trigger_event = { on_action = seduce_ongoing_milestone_1 }
+		# 	}
+		# }
+		# #Milestone 2 event
+		# else_if = {
+		# 	limit = {
+		# 		scheme_progress >= 7
+		# 		NOR = {
+		# 			has_scheme_modifier = seduce_success_2_modifier
+		# 			has_scheme_modifier = seduce_failure_2_modifier
+		# 			has_variable = declined_seduce_milestone_2_event
+		# 		}
+		# 		scheme_owner = {
+		# 			is_available = yes
+		# 		}
+		# 		scheme_target = {
+		# 			is_available = yes
+		# 		}
+		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
+		# 			OWNER = scope:owner
+		# 			TARGET = scope:target
+		# 		}
+		# 	}
+		# 	scheme_owner = {
+		# 		trigger_event = { on_action = seduce_ongoing_milestone_2 }
+		# 	}
+		# }
 	}
 	success_desc = "SEDUCE_SUCCESS_DESC"
 
-	freeze_scheme_when_traveling = yes
+	freeze_scheme_when_traveling = no
 	freeze_scheme_when_traveling_target = yes
 }

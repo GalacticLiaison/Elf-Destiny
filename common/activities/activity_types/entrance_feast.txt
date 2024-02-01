@@ -3,24 +3,24 @@
 @weight_up_ai_select_province_large = 250
 @weight_up_ai_select_province_massive = 500
 
-@feast_cost_gold_low = tiny_gold_value
-@feast_cost_gold_medium = medium_gold_value
-@feast_cost_gold_high = major_gold_value
+@feast_cost_gold_low = 0
+@feast_cost_gold_medium = 0
+@feast_cost_gold_high = 0
 
 activity_entrance_feast = {
 	is_shown = {
 		highest_held_title_tier > tier_barony
 		is_landed = yes
-		trigger_if = {
-			limit = {
-				is_ai = yes
-			}
-			is_at_war = no
-			OR = {
-				has_character_flag = feasts_a_lot
-				short_term_gold >= feast_activity_cost
-			}
-		}
+		# trigger_if = {
+		# 	limit = {
+		# 		is_ai = yes
+		# 	}
+		# 	is_at_war = no
+		# 	OR = {
+		# 		has_character_flag = feasts_a_lot
+		# 		short_term_gold >= feast_activity_cost
+		# 	}
+		# }
 	}
 
 	can_start_showing_failures_only = {
@@ -67,6 +67,8 @@ activity_entrance_feast = {
 	}
 
 	on_invalidated = {
+		debug_log = "ENTRANCE feast got invalidated"
+
 		if = {
 			limit = {
 				scope:host = { is_imprisoned = yes }
@@ -265,305 +267,27 @@ activity_entrance_feast = {
 
 	province_score = {
 		value = 0
-		# BUILDINGS
-		# Triple good / +++
-		if = {
-			limit = { has_building_or_higher = citadel_of_aleppo_01 }
-			add = 100
-		}
-		if = {
-			limit = { has_building_or_higher = palace_of_aachen_01 }
-			add = 100
-		}
-		if = {
-			limit = { has_building_or_higher = doges_palace_01 }
-			add = 100
-		}
-		if = {
-			limit = { has_building_or_higher = leisure_palace_01 }
-			add = 100
-		}
-		if = {
-			limit = { has_building_or_higher = alhambra_01 }
-			add = 100
-		}
-		# Double good / ++
-		if = {
-			limit = { has_building_or_higher = farm_estates_01 }
-			add = 50
-		}
-		# Good / +
-		if = {
-			limit = { has_building_or_higher = longhouses_01 }
-			add = 25
-		}
-		if = {
-			limit = { has_building_or_higher = orchards_01 }
-			add = 25
-		}
-		if = {
-			limit = { has_building_or_higher = cereal_fields_01 }
-			add = 25
-		}
-		if = {
-			limit = { has_building_or_higher = plantations_01 }
-			add = 25
-		}
+		add = 888
 	}
 
 	cooldown = { years = standard_feast_cooldown_time }
 
+	ai_check_interval = 1
 	# desc is only shown in debug AI watch window
 	ai_will_do = {
 		add = {
-			value = 30
+			value = -100
 			desc = "Base"
 		}
-		add = {
-            value = ai_greed
-            multiply = -0.25
-            desc = "ai_greed"
-        }
-        add = {
-        	value = ai_sociability
-        	multiply = 0.5
-        	desc = "ai_sociability"
-        }
 		if = {
 			limit = {
-				ai_energy < 0
+				has_character_flag = hold_feast_now
 			}
 			add = {
-				add = ai_energy
-				desc = "ai_energy"
+				add = 1000
+				desc = "must hold feast"
 			}
 		}
-		if = {
-			limit = { has_trait = gregarious }
-			add = {
-				value = 10
-				desc = "Is gregarious"
-			}
-		}
-		if = {
-			limit = { has_trait = shy }
-			add = {
-				value = -30
-				desc = "Is shy"
-			}
-		}
-		if = {
-			limit = { has_trait = inappetetic }
-			add = {
-				value = -30
-				desc = "Is inappetetic"
-			}
-		}
-		if = {
-			limit = { has_trait = reclusive }
-			add = {
-				value = -30
-				desc = "Is reclusive"
-			}
-		}
-		if = {
-			limit = {
-				short_term_gold >= feast_activity_cost
-				short_term_gold >= major_gold_value
-			}
-			add = {
-				value = 30
-				desc = "Got gold to burn"
-			}
-		}
-		if = {
-			limit = { has_trait = lifestyle_reveler }
-			add = {
-				value = 20
-				desc = "Is Reveler"
-			}
-		}
-		if = {
-			limit = {
-				has_royal_court = yes 
-				has_court_type = court_intrigue
-				}
-			add = {
-				value = 10
-				desc = "Intrigue court trait"
-			}
-		}
-		if = {
-			limit = { has_trait = comfort_eater }
-			add = {
-				value = 10
-				desc = "Is Comfort Eater"
-			}
-		}
-		if = {
-			limit = { has_trait = drunkard }
-			add = {
-				value = 10
-				desc = "Is Drunkard"
-			}
-		}
-		if = {
-			limit = { has_trait = gluttonous }
-			add = {
-				value = 10
-				desc = "Is Gluttonous"
-			}
-		}
-		if = {
-			limit = { has_trait = hashishiyah }
-			add = {
-				value = 10
-				desc = "Has Munchies"
-			}
-		}
-		# Stress
-		if = { # Low Stress
-            limit = {
-				stress >= lower_than_baseline_stress
-				NOT = { has_trait = shy }
-			}
-            add = {
-            	value = 10
-            	desc = "lower_than_baseline_stress"
-            }
-        }
-        if = { # High Stress
-        	limit = {
-				stress >= higher_than_baseline_stress
-				NOT = { has_trait = shy }
-			}
-        	add = {
-        		value = 10
-        		desc = "higher_than_baseline_stress"
-        	}
-        }
-        if = { # Very High Stress
-        	limit = {
-				stress >= high_stress
-				NOT = { has_trait = shy }
-			}
-        	add = {
-        		value = 10
-        		desc = "high_stress"
-        	}
-        }
-		if = {
-			limit = {
-				culture = {
-					has_cultural_tradition = tradition_culinary_art
-				}
-			}
-			add = {
-				value = 20
-				desc = "Host culture has Culinary Artists Cultural Tradition"
-			}
-		}
-		if = {
-			limit = {
-				faith = { has_doctrine = tenet_ritual_celebrations }
-			}
-			add = {
-				value = 35
-				desc = "Host culture has Ritual Celebrations Cultural Tradition"
-			}
-		}
-		if = {
-			limit = {
-				faith = { has_doctrine = tenet_hedonistic }
-			}
-			add = {
-				value = 35
-				desc = "Host faith has Hedonistic Tenet"
-			}
-		}
-		if = {
-			limit = {
-				host.faith = {
-					has_doctrine = tenet_asceticism
-				}
-			}
-			add = {
-				value = -20
-				desc = "Host faith has Asceticism tenet"
-			}
-		}
-        if = {
-        	limit = { has_character_flag = feasts_a_lot }
-        	add = {
-            	value = 500
-            	desc = "feasts a lot"
-            }
-        }
-		if = {
-			limit = {
-				is_independent_ruler = no
-				has_vassal_stance = courtly
-			}
-			add = {
-				value = 10
-				desc = courtly
-			}
-		}
-        if = {
-        	limit = { ai_has_warlike_personality = yes }
-        	add = {
-            	value = -30
-            	desc = "Warlike"
-            }
-        }
-		# Struggles.
-		if = {
-			limit = {
-				any_character_struggle = {
-					involvement = involved
-					phase_has_catalyst = catalyst_invite_diff_faith_culture_to_feast
-				}
-			}
-			# Escalating.
-			if = {
-				limit = { has_character_flag = agenda_towards_escalation }
-				add = {
-					value = -25
-					desc = debug_gui.activity_weight.struggle.wants_to_escalate
-				}
-			}
-			# Deescalating.
-			if = {
-				limit = { has_character_flag = agenda_towards_deescalation }
-				add = {
-					value = 50
-					desc = debug_gui.activity_weight.struggle.wants_to_deescalate
-				}
-			}
-		}
-        if = {
-        	limit = {
-				ai_has_warlike_personality = yes
-				war_chest_gold < war_chest_gold_maximum
-			}
-        	multiply = {
-            	value = 0.25
-            	desc = "Warlike"
-            }
-        }
-        # Economic Archetype
-		if = { # Too busy booming the economy
-            limit = {
-                OR = {
-                    ai_has_economical_boom_personality = yes
-                    has_character_flag = ai_boom
-                }
-            }
-            add = {
-            	value = -200
-            	desc = "Builder"
-            }
-        }
 	}
 
 	###################
@@ -591,6 +315,7 @@ activity_entrance_feast = {
 			6 = activity_invite_mp
 		}
 		defaults = {
+			1 = activity_invite_entrancer
 			1 = activity_invite_rule_friends
 			1 = activity_invite_rule_close_family
 			1 = activity_invite_rule_liege
@@ -647,61 +372,43 @@ activity_entrance_feast = {
 	}
 
 	special_guests = {
-		honorary_guest_regular = {
-			is_required = no
-			
-			is_shown = { 
-				scope:special_option = flag:feast_type_generic
-			}
-
-			can_pick = {
-				NOT = { this = scope:host }
-				is_healthy = yes
-				is_adult = yes
-				NOT = { is_spouse_of = scope:host }
-				trigger_if = {
-					limit = {
-						scope:host = { is_ai = yes }
-					}
-					OR = {
-						is_vassal_of = scope:host
-						target_is_vassal_or_below = scope:host
-						has_relation_friend = scope:host
-						has_relation_lover = scope:host
-					}
-				}
-			}
-			
-			ai_will_do = {
-				value = 10
-			}
-		}
-		
-		honorary_guest = { #Murder guest, localization changes for host
+		entrancer = {
 			is_required = yes
 
-			is_shown = {
-				scope:special_option = flag:feast_type_murder
+			is_shown = { 
+				# scope:special_option = flag:feast_type_generic
+			}
+
+			# scope:host = {
+			# 	var:entrancer = {
+			# 		save_scope_as = entrance_schemer
+			# 	}
+			# }
+	
+			select_character = {
+				var:entrancer = {
+					save_scope_as = character
+				}
 			}
 
 			can_pick = {
 				NOT = { this = scope:host }
-				is_healthy = yes
-				is_adult = yes
-				NOT = { is_spouse_of = scope:host }
-				trigger_if = {
-					limit = {
-						this = scope:host
-						scope:host = { is_ai = yes }
-					}
-					has_relation_rival = scope:host #AI only picks rivals
-					NOT = { this = scope:host.liege } #AI doesnt pick their liege
-					NOT = { this = scope:host.faith.religious_head } #AI doesnt pick their HoF
+				# scope:host = {
+				# 	var:entrancer = this
+				# }
+			}
+
+			on_invite = {
+				set_variable = {
+					name = invited_entrance_feast
+					value = scope:activity
 				}
+				
+				trigger_event = entrance_general.1021
 			}
 			
 			ai_will_do = {
-				value = 10
+				value = 1000
 			}
 		}
 	}
@@ -727,284 +434,284 @@ activity_entrance_feast = {
 	}
 
 	cost = {
-		gold = {
-			add = {
-				add = {
-					value = feast_activity_cost
-					desc = feast_activity_cost_desc
-				}
-				add = {
-					value = feast_activity_cost
-					multiply = activity_cost_scale_by_era
-					subtract = feast_activity_cost
-					desc = activity_cost_scale_by_era_desc
-				}
-				if = {
-					limit = {
-						scope:province ?= { has_building_or_higher = citadel_of_aleppo_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_max_value
-						desc = feast_cost_discount_citadel_of_aleppo
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= { has_building_or_higher = palace_of_aachen_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_max_value
-						desc = feast_cost_discount_palace_of_aachen
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= { has_building_or_higher = doges_palace_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_max_value
-						desc = feast_cost_discount_doges_palace
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= { has_building_or_higher = leisure_palace_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_max_value
-						desc = feast_cost_discount_leisure_palaces
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= { has_building_or_higher = alhambra_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_max_value
-						desc = feast_cost_discount_alhambra
-					}
-				}
-				if = {
-					limit = { 
-						scope:province ?= {
-							has_building_or_higher = farm_estates_01
-						}
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_medium_value
-						desc = feast_cost_discount_farm_estates
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= {	has_building_or_higher = longhouses_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_medium_value
-						desc = feast_cost_discount_longhouses
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= {	has_building_or_higher = orchards_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_min_value
-						desc = feast_cost_discount_orchards
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= {	has_building_or_higher = cereal_fields_01 }
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_min_value
-						desc = feast_cost_discount_cereal_fields
-					}
-				}
-				if = {
-					limit = {
-						scope:province ?= {	has_building_or_higher = plantations_01	}
-					}
-					add = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = feast_activity_cost_discount_min_value
-						desc = activity_feast_province_desc_plantations
-					}
-				}
-				if = {
-					limit = {
-						dynasty ?= {
-							has_dynasty_perk = law_legacy_1
-						}
-					}
-					subtract = {
-						value = 0
-						add = {
-							value = feast_activity_cost
-							add = {
-								value = feast_activity_cost
-								multiply = activity_cost_scale_by_era
-								subtract = feast_activity_cost
-							}
-						}
-						multiply = law_legacy_cost_reduction_mult
-						desc = law_legacy_1_name
-					}
-				}
-				min = 0
-			}
-		}
+		# gold = {
+		# 	add = {
+		# 		add = {
+		# 			value = feast_activity_cost
+		# 			desc = feast_activity_cost_desc
+		# 		}
+		# 		add = {
+		# 			value = feast_activity_cost
+		# 			multiply = activity_cost_scale_by_era
+		# 			subtract = feast_activity_cost
+		# 			desc = activity_cost_scale_by_era_desc
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= { has_building_or_higher = citadel_of_aleppo_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_max_value
+		# 				desc = feast_cost_discount_citadel_of_aleppo
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= { has_building_or_higher = palace_of_aachen_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_max_value
+		# 				desc = feast_cost_discount_palace_of_aachen
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= { has_building_or_higher = doges_palace_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_max_value
+		# 				desc = feast_cost_discount_doges_palace
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= { has_building_or_higher = leisure_palace_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_max_value
+		# 				desc = feast_cost_discount_leisure_palaces
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= { has_building_or_higher = alhambra_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_max_value
+		# 				desc = feast_cost_discount_alhambra
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = { 
+		# 				scope:province ?= {
+		# 					has_building_or_higher = farm_estates_01
+		# 				}
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_medium_value
+		# 				desc = feast_cost_discount_farm_estates
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= {	has_building_or_higher = longhouses_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_medium_value
+		# 				desc = feast_cost_discount_longhouses
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= {	has_building_or_higher = orchards_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_min_value
+		# 				desc = feast_cost_discount_orchards
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= {	has_building_or_higher = cereal_fields_01 }
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_min_value
+		# 				desc = feast_cost_discount_cereal_fields
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				scope:province ?= {	has_building_or_higher = plantations_01	}
+		# 			}
+		# 			add = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = feast_activity_cost_discount_min_value
+		# 				desc = activity_feast_province_desc_plantations
+		# 			}
+		# 		}
+		# 		if = {
+		# 			limit = {
+		# 				dynasty ?= {
+		# 					has_dynasty_perk = law_legacy_1
+		# 				}
+		# 			}
+		# 			subtract = {
+		# 				value = 0
+		# 				add = {
+		# 					value = feast_activity_cost
+		# 					add = {
+		# 						value = feast_activity_cost
+		# 						multiply = activity_cost_scale_by_era
+		# 						subtract = feast_activity_cost
+		# 					}
+		# 				}
+		# 				multiply = law_legacy_cost_reduction_mult
+		# 				desc = law_legacy_1_name
+		# 			}
+		# 		}
+		# 		min = 0
+		# 	}
+		# }
 	}
 
 	ui_predicted_cost = {
 		# All costs are balanced on County/Early Era starting point
-		gold = {
-			add = { # Base Cost, scaled by era
-				value = feast_activity_cost
-				multiply = activity_cost_scale_by_era
-			}
+		# gold = {
+		# 	add = { # Base Cost, scaled by era
+		# 		value = feast_activity_cost
+		# 		multiply = activity_cost_scale_by_era
+		# 	}
 			
-			# Options 
-			add = { # Food 
-				value = 0 # Bad Option Cost
-				add = 10 # Normal Option Cost
-				add = 35 # Good Option Cost
-				# Scale the sum of the options by era and tier
-				add = {
-					value = 45
-					multiply = activity_cost_scale_by_tier
-				}
-				add = {
-					value = 45
-					multiply = activity_cost_scale_by_era
-				}
-				# Divide by 3 (num of levels for this option) so we get the average option cost
-				divide = 3
-			}
-			add = { # Courses 
-				value = 0 # Bad Option Cost
-				add = 10 # Normal Option Cost
-				add = 35 # Good Option Cost
-				# Scale the sum of the options by era and tier
-				add = {
-					value = 45
-					multiply = activity_cost_scale_by_tier
-				}
-				add = {
-					value = 45
-					multiply = activity_cost_scale_by_era
-				}
-				# Divide by 3 (num of levels for this option) so we get the average option cost
-				divide = 3
-			}
-			save_temporary_value_as = pre_discount_feast_cost_ui
-			if = {
-				limit = {
-					dynasty ?= {
-						has_dynasty_perk = law_legacy_1
-					}
-				}
-				subtract = {
-					value = scope:pre_discount_feast_cost_ui
-					multiply = law_legacy_cost_reduction_mult
-				}
-			}
+		# 	# Options 
+		# 	add = { # Food 
+		# 		value = 0 # Bad Option Cost
+		# 		add = 10 # Normal Option Cost
+		# 		add = 35 # Good Option Cost
+		# 		# Scale the sum of the options by era and tier
+		# 		add = {
+		# 			value = 45
+		# 			multiply = activity_cost_scale_by_tier
+		# 		}
+		# 		add = {
+		# 			value = 45
+		# 			multiply = activity_cost_scale_by_era
+		# 		}
+		# 		# Divide by 3 (num of levels for this option) so we get the average option cost
+		# 		divide = 3
+		# 	}
+		# 	add = { # Courses 
+		# 		value = 0 # Bad Option Cost
+		# 		add = 10 # Normal Option Cost
+		# 		add = 35 # Good Option Cost
+		# 		# Scale the sum of the options by era and tier
+		# 		add = {
+		# 			value = 45
+		# 			multiply = activity_cost_scale_by_tier
+		# 		}
+		# 		add = {
+		# 			value = 45
+		# 			multiply = activity_cost_scale_by_era
+		# 		}
+		# 		# Divide by 3 (num of levels for this option) so we get the average option cost
+		# 		divide = 3
+		# 	}
+		# 	save_temporary_value_as = pre_discount_feast_cost_ui
+		# 	if = {
+		# 		limit = {
+		# 			dynasty ?= {
+		# 				has_dynasty_perk = law_legacy_1
+		# 			}
+		# 		}
+		# 		subtract = {
+		# 			value = scope:pre_discount_feast_cost_ui
+		# 			multiply = law_legacy_cost_reduction_mult
+		# 		}
+		# 	}
 			
-			# Make it a multiple of 5 (rounded up)
-			divide = 5
-			ceiling = yes 
-			multiply = 5
-		}
+		# 	# Make it a multiple of 5 (rounded up)
+		# 	divide = 5
+		# 	ceiling = yes 
+		# 	multiply = 5
+		# }
 	}
 
 	###################
@@ -2690,405 +2397,382 @@ activity_entrance_feast = {
 				default = yes
 
 				ai_will_do = {
-					value = 50
-					if = {
-						limit = {
-							OR = {
-								has_trait = gregarious
-								has_trait = arrogant
-								has_trait = arbitrary
-								has_trait = brave
-								has_trait = just
-							}
-						}
-						add = 50
-					}
-					if = {
-						limit = {
-							OR = {
-								has_trait = shy
-								has_trait = humble
-								has_trait = callous
-								has_trait = sadistic
-							}
-						}
-						subtract = 50
-					}
+					value = 1000
 				}
 			}
-			# Murder feast.
-			## You're trying to kill. _Everyone_. Kind of.
-			feast_type_murder = {
+			# # Murder feast.
+			# ## You're trying to kill. _Everyone_. Kind of.
+			# feast_type_murder = {
 			
-				cost = {
-					gold = {
-						add = {
-							add = {
-								value = feast_activity_cost
-								multiply = 2.5
-								desc = murder_feast_activity_cost_desc
-							}
-							add = {
-								value = feast_activity_cost
-								multiply = 2.5
-								multiply = activity_cost_scale_by_era
-								subtract = {
-									value = feast_activity_cost
-									multiply = 2.5
-								}
-								desc = activity_cost_scale_by_era_desc
-							}
-						}
-						if = {
-							limit = {
-								dynasty ?= {
-									has_dynasty_perk = law_legacy_1
-								}
-							}
-							subtract = {
-								value = feast_activity_cost
-								multiply = 2.5
-								multiply = activity_cost_scale_by_era
-								multiply = law_legacy_cost_reduction_mult
-								desc = law_legacy_1_name
-							}
-						}
-					}
-				}
+			# 	cost = {
+			# 		gold = {
+			# 			add = {
+			# 				add = {
+			# 					value = feast_activity_cost
+			# 					multiply = 2.5
+			# 					desc = murder_feast_activity_cost_desc
+			# 				}
+			# 				add = {
+			# 					value = feast_activity_cost
+			# 					multiply = 2.5
+			# 					multiply = activity_cost_scale_by_era
+			# 					subtract = {
+			# 						value = feast_activity_cost
+			# 						multiply = 2.5
+			# 					}
+			# 					desc = activity_cost_scale_by_era_desc
+			# 				}
+			# 			}
+			# 			if = {
+			# 				limit = {
+			# 					dynasty ?= {
+			# 						has_dynasty_perk = law_legacy_1
+			# 					}
+			# 				}
+			# 				subtract = {
+			# 					value = feast_activity_cost
+			# 					multiply = 2.5
+			# 					multiply = activity_cost_scale_by_era
+			# 					multiply = law_legacy_cost_reduction_mult
+			# 					desc = law_legacy_1_name
+			# 				}
+			# 			}
+			# 		}
+			# 	}
 
-				is_shown = {
-					has_dlc_feature = tours_and_tournaments
-				}
+			# 	is_shown = {
+			# 		has_dlc_feature = tours_and_tournaments
+			# 	}
 
-				is_valid = {
-					has_perk = forever_infamous_perk
-					custom_tooltip = {
-						text = feast_type_murder_valid_tt
-						NOT = { has_variable = recent_murder_feast_var } #15 years cooldown
-					}
-				}
+			# 	is_valid = {
+			# 		has_perk = forever_infamous_perk
+			# 		custom_tooltip = {
+			# 			text = feast_type_murder_valid_tt
+			# 			NOT = { has_variable = recent_murder_feast_var } #15 years cooldown
+			# 		}
+			# 	}
 
-				blocked_intents = { murder_attendee_intent befriend_attendee_intent woo_attendee_intent }  #you can only relax mate
+			# 	blocked_intents = { murder_attendee_intent befriend_attendee_intent woo_attendee_intent }  #you can only relax mate
 
-				ai_will_do = {
-					value = 0
-					if = {
-						limit = {
-							OR = {
-								has_trait = callous
-								has_trait = sadistic
-								has_trait = arbitrary
-								has_trait = vengeful
-								has_trait = torturer
-							}
-						}
-						add = 50
-					}
-					if = {
-						limit = {
-							OR = {
-								has_trait = just
-								has_trait = honest
-								has_trait = compassionate
-								has_trait = generous
-								has_trait = forgiving
-							}
-						}
-						subtract = 50
-					}
-					if = {
-						limit = {
-							this = faith.religious_head
-							NOT = { has_trait = torturer }
-							faith = {
-								NOR = {
-									has_doctrine_parameter = gruesome_festivals_active
-									has_doctrine_parameter = human_sacrifice_active
-								}
-							}
-						}
-						add = -100
-					}
-					if = {
-						limit = {
-							this = faith.religious_head
-							NOT = { has_trait = compassionate }
-							faith = {
-								OR = {
-									has_doctrine_parameter = gruesome_festivals_active
-									has_doctrine_parameter = human_sacrifice_active
-								}
-							}
-						}
-						add = 50
-					}
-				}
-			}
+			# 	ai_will_do = {
+			# 		value = 0
+			# 		if = {
+			# 			limit = {
+			# 				OR = {
+			# 					has_trait = callous
+			# 					has_trait = sadistic
+			# 					has_trait = arbitrary
+			# 					has_trait = vengeful
+			# 					has_trait = torturer
+			# 				}
+			# 			}
+			# 			add = 50
+			# 		}
+			# 		if = {
+			# 			limit = {
+			# 				OR = {
+			# 					has_trait = just
+			# 					has_trait = honest
+			# 					has_trait = compassionate
+			# 					has_trait = generous
+			# 					has_trait = forgiving
+			# 				}
+			# 			}
+			# 			subtract = 50
+			# 		}
+			# 		if = {
+			# 			limit = {
+			# 				this = faith.religious_head
+			# 				NOT = { has_trait = torturer }
+			# 				faith = {
+			# 					NOR = {
+			# 						has_doctrine_parameter = gruesome_festivals_active
+			# 						has_doctrine_parameter = human_sacrifice_active
+			# 					}
+			# 				}
+			# 			}
+			# 			add = -100
+			# 		}
+			# 		if = {
+			# 			limit = {
+			# 				this = faith.religious_head
+			# 				NOT = { has_trait = compassionate }
+			# 				faith = {
+			# 					OR = {
+			# 						has_doctrine_parameter = gruesome_festivals_active
+			# 						has_doctrine_parameter = human_sacrifice_active
+			# 					}
+			# 				}
+			# 			}
+			# 			add = 50
+			# 		}
+			# 	}
+			# }
 		}
 
 		# How fancy do you make your dishes?
 		feast_option_food = {
-			feast_food_bad = {
-				is_shown = { has_dlc_feature = advanced_activities }
+			# feast_food_bad = {
+			# 	is_shown = { has_dlc_feature = advanced_activities }
 				
-				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_cheap_expense_value
-					# Fanciness preference.
-					add = activity_option_likes_functional_food_option_value
-				}
-			}
+			# 	ai_will_do = {
+			# 		value = 0
+			# 		# Financial preference.
+			# 		add = activity_option_likes_cheap_expense_value
+			# 		# Fanciness preference.
+			# 		add = activity_option_likes_functional_food_option_value
+			# 	}
+			# }
 			feast_food_normal = {
 				default = yes
 				cost = {
-					gold = {
-						add = {
-							add = {
-								value = 10
-								desc = feast_food_normal
-							}
-							add = {
-								value = 10
-								multiply = activity_cost_scale_by_tier
-								subtract = 10
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 10
-								multiply = activity_cost_scale_by_era
-								subtract = 10
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 10
-									add = {
-										value = 10
-										multiply = activity_cost_scale_by_tier
-										subtract = 10
-									}
-									add = {
-										value = 10
-										multiply = activity_cost_scale_by_era
-										subtract = 10
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
-					}
+					# gold = {
+					# 	add = {
+					# 		add = {
+					# 			value = 10
+					# 			desc = feast_food_normal
+					# 		}
+					# 		add = {
+					# 			value = 10
+					# 			multiply = activity_cost_scale_by_tier
+					# 			subtract = 10
+					# 			desc = activity_cost_scale_by_tier_desc
+					# 		}
+					# 		add = {
+					# 			value = 10
+					# 			multiply = activity_cost_scale_by_era
+					# 			subtract = 10
+					# 			desc = activity_cost_scale_by_era_desc
+					# 		}
+					# 		if = {
+					# 			limit = {
+					# 				dynasty ?= {
+					# 					has_dynasty_perk = law_legacy_1
+					# 				}
+					# 			}
+					# 			subtract = {
+					# 				value = 10
+					# 				add = {
+					# 					value = 10
+					# 					multiply = activity_cost_scale_by_tier
+					# 					subtract = 10
+					# 				}
+					# 				add = {
+					# 					value = 10
+					# 					multiply = activity_cost_scale_by_era
+					# 					subtract = 10
+					# 				}
+					# 				multiply = law_legacy_cost_reduction_mult
+					# 				desc = law_legacy_1_name
+					# 			}
+					# 		}
+					# 		min = 0
+					# 	}
+					# }
 				}
 
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_middling_expense_value
-					# Fanciness preference.
-					## We just use slightly reduced fanciness prefs here.
-					add = {
-						value = activity_option_likes_ostentatious_food_option_value
-						multiply = 0.5
-					}
+					value = 968
+					# # Financial preference.
+					# add = activity_option_likes_middling_expense_value
+					# # Fanciness preference.
+					# ## We just use slightly reduced fanciness prefs here.
+					# add = {
+					# 	value = activity_option_likes_ostentatious_food_option_value
+					# 	multiply = 0.5
+					# }
 				}
 			}
-			feast_food_good = {
-				is_shown = { has_dlc_feature = advanced_activities }
+			# feast_food_good = {
+			# 	is_shown = { has_dlc_feature = advanced_activities }
 
-				cost = {
-					gold = {
-						add = {
-							add = {
-								value = 35
-								desc = feast_food_good
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_tier
-								subtract = 35
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_era
-								subtract = 35
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 35
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_tier
-										subtract = 35
-									}
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_era
-										subtract = 35
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
-					}
-				}
+			# 	cost = {
+			# 		gold = {
+			# 			add = {
+			# 				add = {
+			# 					value = 35
+			# 					desc = feast_food_good
+			# 				}
+			# 				add = {
+			# 					value = 35
+			# 					multiply = activity_cost_scale_by_tier
+			# 					subtract = 35
+			# 					desc = activity_cost_scale_by_tier_desc
+			# 				}
+			# 				add = {
+			# 					value = 35
+			# 					multiply = activity_cost_scale_by_era
+			# 					subtract = 35
+			# 					desc = activity_cost_scale_by_era_desc
+			# 				}
+			# 				if = {
+			# 					limit = {
+			# 						dynasty ?= {
+			# 							has_dynasty_perk = law_legacy_1
+			# 						}
+			# 					}
+			# 					subtract = {
+			# 						value = 35
+			# 						add = {
+			# 							value = 35
+			# 							multiply = activity_cost_scale_by_tier
+			# 							subtract = 35
+			# 						}
+			# 						add = {
+			# 							value = 35
+			# 							multiply = activity_cost_scale_by_era
+			# 							subtract = 35
+			# 						}
+			# 						multiply = law_legacy_cost_reduction_mult
+			# 						desc = law_legacy_1_name
+			# 					}
+			# 				}
+			# 				min = 0
+			# 			}
+			# 		}
+			# 	}
 
-				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_heavy_expense_value
-					# Fanciness preference.
-					add = activity_option_likes_ostentatious_food_option_value
-				}
-			}
+			# 	ai_will_do = {
+			# 		value = 0
+			# 		# Financial preference.
+			# 		add = activity_option_likes_heavy_expense_value
+			# 		# Fanciness preference.
+			# 		add = activity_option_likes_ostentatious_food_option_value
+			# 	}
+			# }
 		}
 
 		# How many courses do you have?
 		feast_option_courses = {
-			feast_courses_bad = {
-				is_shown = { has_dlc_feature = advanced_activities }
+			# feast_courses_bad = {
+			# 	is_shown = { has_dlc_feature = advanced_activities }
 
-				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_cheap_expense_value
-					# Quantity preference.
-					add = activity_option_food_prefers_small_volume_value
-				}
-			}
+			# 	ai_will_do = {
+			# 		value = 0
+			# 		# Financial preference.
+			# 		add = activity_option_likes_cheap_expense_value
+			# 		# Quantity preference.
+			# 		add = activity_option_food_prefers_small_volume_value
+			# 	}
+			# }
 			feast_courses_normal = {
 				default = yes
 	
 				cost = {
 					gold = {
-						add = {
-							add = {
-								value = 10
-								desc = feast_courses_normal
-							}
-							add = {
-								value = 10
-								multiply = activity_cost_scale_by_tier
-								subtract = 10
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 10
-								multiply = activity_cost_scale_by_era
-								subtract = 10
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 10
-									add = {
-										value = 10
-										multiply = activity_cost_scale_by_tier
-										subtract = 10
-									}
-									add = {
-										value = 10
-										multiply = activity_cost_scale_by_era
-										subtract = 10
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
+						# add = {
+						# 	add = {
+						# 		value = 10
+						# 		desc = feast_courses_normal
+						# 	}
+						# 	add = {
+						# 		value = 10
+						# 		multiply = activity_cost_scale_by_tier
+						# 		subtract = 10
+						# 		desc = activity_cost_scale_by_tier_desc
+						# 	}
+						# 	add = {
+						# 		value = 10
+						# 		multiply = activity_cost_scale_by_era
+						# 		subtract = 10
+						# 		desc = activity_cost_scale_by_era_desc
+						# 	}
+						# 	if = {
+						# 		limit = {
+						# 			dynasty ?= {
+						# 				has_dynasty_perk = law_legacy_1
+						# 			}
+						# 		}
+						# 		subtract = {
+						# 			value = 10
+						# 			add = {
+						# 				value = 10
+						# 				multiply = activity_cost_scale_by_tier
+						# 				subtract = 10
+						# 			}
+						# 			add = {
+						# 				value = 10
+						# 				multiply = activity_cost_scale_by_era
+						# 				subtract = 10
+						# 			}
+						# 			multiply = law_legacy_cost_reduction_mult
+						# 			desc = law_legacy_1_name
+						# 		}
+						# 	}
+						# 	min = 0
+						# }
 					}
 				}
 
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_middling_expense_value
-					# Quantity preference.
-					## We just use slightly reduced quantity prefs here.
-					add = {
-						value = activity_option_prefers_large_volume_value
-						multiply = 0.5
-					}
+					value = 969
+					# # Financial preference.
+					# add = activity_option_likes_middling_expense_value
+					# # Quantity preference.
+					# ## We just use slightly reduced quantity prefs here.
+					# add = {
+					# 	value = activity_option_prefers_large_volume_value
+					# 	multiply = 0.5
+					# }
 				}
 			}
-			feast_courses_good = {
-				is_shown = { has_dlc_feature = advanced_activities }
+			# feast_courses_good = {
+			# 	is_shown = { has_dlc_feature = advanced_activities }
 
-				cost = {
-					gold = {
-						add = {
-							add = {
-								value = 35
-								desc = feast_courses_good
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_tier
-								subtract = 35
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_era
-								subtract = 35
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 35
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_tier
-										subtract = 35
-									}
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_era
-										subtract = 35
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
-					}
-				}
+			# 	cost = {
+			# 		gold = {
+			# 			add = {
+			# 				add = {
+			# 					value = 35
+			# 					desc = feast_courses_good
+			# 				}
+			# 				add = {
+			# 					value = 35
+			# 					multiply = activity_cost_scale_by_tier
+			# 					subtract = 35
+			# 					desc = activity_cost_scale_by_tier_desc
+			# 				}
+			# 				add = {
+			# 					value = 35
+			# 					multiply = activity_cost_scale_by_era
+			# 					subtract = 35
+			# 					desc = activity_cost_scale_by_era_desc
+			# 				}
+			# 				if = {
+			# 					limit = {
+			# 						dynasty ?= {
+			# 							has_dynasty_perk = law_legacy_1
+			# 						}
+			# 					}
+			# 					subtract = {
+			# 						value = 35
+			# 						add = {
+			# 							value = 35
+			# 							multiply = activity_cost_scale_by_tier
+			# 							subtract = 35
+			# 						}
+			# 						add = {
+			# 							value = 35
+			# 							multiply = activity_cost_scale_by_era
+			# 							subtract = 35
+			# 						}
+			# 						multiply = law_legacy_cost_reduction_mult
+			# 						desc = law_legacy_1_name
+			# 					}
+			# 				}
+			# 				min = 0
+			# 			}
+			# 		}
+			# 	}
 
-				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_heavy_expense_value
-					# Quantity preference.
-					add = activity_option_prefers_large_volume_value
-				}
-			}
+			# 	ai_will_do = {
+			# 		value = 0
+			# 		# Financial preference.
+			# 		add = activity_option_likes_heavy_expense_value
+			# 		# Quantity preference.
+			# 		add = activity_option_prefers_large_volume_value
+			# 	}
+			# }
 		}
 	}
 
@@ -3309,9 +2993,20 @@ activity_entrance_feast = {
 			}
 		}
 
+		plant_seed_attempt = {
+			order = 2
+			is_predefined = yes
+
+			on_phase_active = {
+				trigger_event = entrance_general.1022
+					
+				scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+			}
+		}
+
 		# Toast.
 		feast_phase_toast = {
-			order = 2
+			order = 3
 			is_predefined = yes
 
 			on_enter_phase = {
@@ -3368,123 +3063,24 @@ activity_entrance_feast = {
 				}
 			}
 		}
+
+		complete_entrance_attempt = {
+			order = 4
+			is_predefined = yes
+
+			on_phase_active = {
+				trigger_event = entrance_general.1025
+					
+				scope:activity = { progress_activity_phase_after = { days = 3 } }
+			}
+		}
 	}
 
 	ai_check_interval = 60
 
 	ai_will_select_province = {
 		# Base
-		value = 0
-		# Buildings
-		## Tribal
-		### Gathering Halls
-		if = {
-			limit = { has_building_or_higher = longhouses_01 }
-			add = {
-				value = @weight_up_ai_select_province_small
-				desc = activity_feast_province_desc_longhouses
-			}
-		}
-		## Terrain
-		### Manor Houses
-		if = {
-			limit = { has_building_or_higher = farm_estates_01 }
-			add = {
-				value = @weight_up_ai_select_province_medium
-				desc = activity_feast_province_desc_farm_estates
-			}
-		}
-		### Orchards
-		if = {
-			limit = { has_building_or_higher = orchards_01 }
-			add = {
-				value = @weight_up_ai_select_province_small
-				desc = activity_feast_province_desc_orchards
-			}
-		}
-		### Farms & Fields
-		if = {
-			limit = { has_building_or_higher = cereal_fields_01 }
-			add = {
-				value = @weight_up_ai_select_province_small
-				desc = activity_feast_province_desc_cereal_fields
-			}
-		}
-		### Hill Farms
-		if = {
-			limit = { has_building_or_higher = hill_farms_01 }
-			add = {
-				value = @weight_up_ai_select_province_small
-				desc = debug_gui.location_weight.building.hill_farms
-			}
-		}
-		### Desert Agriculture
-		if = {
-			limit = { has_building_or_higher = plantations_01 }
-			add = {
-				value = @weight_up_ai_select_province_small
-				desc = activity_feast_province_desc_plantations
-			}
-		}
-		## Duchy
-		### Leisure Palaces
-		if = {
-			limit = { has_building_or_higher = leisure_palace_01 }
-			add = {
-				value = @weight_up_ai_select_province_large
-				desc = activity_feast_province_desc_leisure_palace
-			}
-		}
-		## Special
-		### Doge's Palace
-		if = {
-			limit = { has_building_or_higher = doges_palace_01 }
-			add = {
-				value = @weight_up_ai_select_province_massive
-				desc = activity_feast_province_desc_doges_palace
-			}
-		}
-		### Palace of Aachen
-		if = {
-			limit = { has_building_or_higher = palace_of_aachen_01 }
-			add = {
-				value = @weight_up_ai_select_province_large
-				desc = activity_feast_province_desc_palace_of_aachen
-			}
-		}
-		### Royal Palace of Alhambra
-		if = {
-			limit = { has_building_or_higher = alhambra_01 }
-			add = {
-				value = @weight_up_ai_select_province_massive
-				desc = activity_feast_province_desc_alhambra
-			}
-		}
-		### Citadel of Aleppo
-		if = {
-			limit = { has_building_or_higher = citadel_of_aleppo_01 }
-			add = {
-				value = @weight_up_ai_select_province_massive
-				desc = activity_feast_province_desc_citadel_of_aleppo
-			}
-		}
-		### Theodosian Walls
-		#### Standing in for "Constantinople's guts" because otherwise we'd use the Hagia Sophia, and that would be weird.
-		if = {
-			limit = { has_building_or_higher = theodosian_walls_01 }
-			add = {
-				value = @weight_up_ai_select_province_massive
-				desc = activity_feast_province_desc_theodosian_walls
-			}
-		}
-		### Hall of Heroes
-		if = {
-			limit = { has_building_or_higher = hall_of_heroes_01 }
-			add = {
-				value = @weight_up_ai_select_province_medium
-				desc = activity_feast_province_desc_hall_of_heroes
-			}
-		}
+		value = 469
 	}
 
 	###################
@@ -3505,6 +3101,34 @@ activity_entrance_feast = {
 	}
 	
 	on_start = {
+		debug_log = "ENTRANCE FEAST IS STARTING"
+
+		# scope:host = {
+		# 	var:entrancer = {
+		# 		save_scope_as = entrance_schemer
+		# 	}
+		# }
+
+		# # invite_to_activity entrance_general.1021
+		# if = {
+		# 	limit = {
+		# 		exists = scope:entrance_schemer
+		# 	}
+
+		# 	scope:entrance_schemer = {
+		# 		set_variable = {
+		# 			name = invited_entrance_feast
+		# 			value = scope:activity
+		# 		}
+	
+		# 		trigger_event = entrance_general.1021
+		# 	}
+		# }
+		# else = {
+		# 	debug_log = "no entrance schemer found"
+		# }
+
+
 		set_variable = {
 			name = host_var
 			value = scope:host

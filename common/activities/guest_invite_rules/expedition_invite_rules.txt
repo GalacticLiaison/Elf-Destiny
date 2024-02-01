@@ -12,3 +12,24 @@
 		}
 	}
 }
+
+activity_invite_entrancer = {
+	effect = {
+		# debug_log = "adding entrancer to invitable list?"
+		if = {
+			limit = {
+				exists = var:entrancer
+			}
+			var:entrancer = {
+				save_scope_as = entrancer
+			}
+		}
+		else = {
+			# debug_log = "no entrancer found to invite"
+		}
+
+		scope:entrancer ?= {
+			add_to_list = characters
+		}
+	}
+}
