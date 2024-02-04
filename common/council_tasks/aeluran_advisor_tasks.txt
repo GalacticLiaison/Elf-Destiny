@@ -297,7 +297,7 @@ task_aeluran_conversion = {
 				desc = COURT_CHAPLAIN_CONVERSION_FERVOR_IMPACT
 			}
 		}
-		add = court_chaplain_conversion_contextual_bonuses
+		add = aeluran_advisor_conversion_contextual_bonuses
 		
 		# Faster conversion for certain special doctrines
 		if = {
@@ -324,6 +324,15 @@ task_aeluran_conversion = {
 				value = scope:county.convert_faith_development_penalty
 				desc = STEWARD_PROMOTE_CULTURE_DEVELOPMENT_PENALTY
 			}
+		}
+
+		if = {
+			limit = {
+				scope:councillor_liege.culture = { 
+					has_cultural_parameter = aeluran_improved_religion_conversion_speed
+				}
+			}
+			multiply = 1.5 # 50% increase?
 		}
 		
 		if = {

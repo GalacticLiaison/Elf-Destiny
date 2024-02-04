@@ -1,0 +1,340 @@
+﻿namespace = entrance_general
+
+# scope:recipient = {
+# 	invite_to_activity = scope:actor.involved_activity
+# }
+
+# accept_activity_invite = scope:activity
+# decline_activity_invite = scope:activity
+
+# Controller
+entrance_general.101 = {
+	hidden = yes
+	
+	immediate = {
+		if = { # Foreign Lord
+			limit = {
+				scope:target = {
+					is_landed = yes
+					NOR = {
+						is_liege_or_above_of = scope:owner
+						is_vassal_or_below_of = scope:owner
+					}
+				}
+			}
+
+			trigger_event = entrance_general.102
+		}
+
+		# else_if = { # Liege
+		# 	limit = {
+		# 		scope:target = {
+		# 			is_liege_or_above_of = scope:owner
+		# 		}
+		# 	}
+
+		# 	trigger_event = entrance_general.1003
+		# }
+
+		# else_if = { # Vassal
+		# 	limit = {
+		# 		scope:target = {
+		# 			is_vassal_of = scope:owner
+		# 		}
+		# 	}
+
+		# 	trigger_event = entrance_general.1004
+		# }
+
+		# else_if = { # Courtier
+		# 	limit = {
+		# 		scope:target = {
+		# 			is_courtier_of = scope:owner
+		# 		}
+		# 	}
+
+		# 	trigger_event = entrance_general.1005
+		# }
+
+		# else = { # Unlanded
+		# 	trigger_event = entrance_general.1006
+		# }
+	}
+}
+
+# Foreign Lord
+entrance_general.102 = {
+	type = character_event
+	title = entrance_general.102.title
+	desc = entrance_general.102.desc
+	theme = seduce_scheme
+
+	left_portrait = scope:target
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	# Attend Foreign Lords Feast
+	option = {
+		name = entrance_general.102.attend_feast
+
+		scope:target = {
+			add_character_flag = hold_feast_now
+			set_variable = {
+				name = entrancer
+				value = scope:owner
+			}
+		}
+	}
+
+	# Hold Feast Yourself
+	option = {
+		name = entrance_general.102.hold_feast
+	}
+}
+
+# Recieve invitation
+entrance_general.1021 = {
+	type = letter_event
+	opening = entrance_general.1021.title
+	desc = entrance_general.1021.desc
+	sender = scope:host
+
+	immediate = {
+	}
+
+	option = {
+		name = entrance_general.1021.ok
+
+		random_scheme = {
+			limit = {
+				scheme_type = entrance
+				scheme_target = scope:host
+			}
+			add_scheme_progress = 3
+		}
+		
+		add_to_activity = scope:host.involved_activity
+	}
+}
+
+# Entrance Feast Event - Attempt Entrance Plant Seed?
+entrance_general.1022 = {
+	type = activity_event
+	title = entrance_general.1022.title
+	desc = entrance_general.1022.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = scope:host
+		animation = admiration
+	}
+
+	trigger = {
+		# Because prior checks don't always seem to catch it.
+		# exists = scope:goh
+		# scope:goh = {
+		# 	is_alive = yes
+		# 	involved_activity ?= scope:activity
+		# }
+	}
+
+	option = { # Attempt Entrance
+		name = entrance_general.1022.a
+		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+
+		attempt_to_entrance_character = yes
+
+		if = {
+			limit = {
+				scope:entrance_successful = yes
+			}
+			trigger_event = entrance_general.1023
+		}
+		else = {
+			trigger_event = entrance_general.1024
+		}
+	}
+	
+	option = { # Nevermind abandon scheme
+		name = entrance_general.1022.b
+		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+
+		random_scheme = {
+			limit = {
+				scheme_type = entrance
+				scheme_target = scope:victim
+			}
+			end_scheme = yes
+		}
+	}
+}
+
+# Entrance Feast Event - Plant Entrance Seed Success
+entrance_general.1023 = {
+	type = activity_event
+	title = entrance_general.1023.title
+	desc = entrance_general.1023.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = flirtation
+	}
+	right_portrait = {
+		character = scope:host
+		animation = disbelief
+	}
+
+	option = { 
+		name = entrance_general.1023.a
+	}
+}
+
+# Entrance Feast Event - Plant Entrance Seed Fail
+entrance_general.1024 = {
+	type = activity_event
+	title = entrance_general.1024.title
+	desc = entrance_general.1024.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = disbelief
+	}
+	right_portrait = {
+		character = scope:host
+		animation = dismissal
+	}
+
+	option = { 
+		name = entrance_general.1024.a
+	}
+}
+
+# Entrance Feast Event - Complete Entrance Effect
+entrance_general.1025 = {
+	type = activity_event
+	title = entrance_general.1025.title
+	desc = entrance_general.1025.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = scope:host
+		animation = admiration
+	}
+
+	trigger = {
+
+	}
+
+	option = { # Attempt Entrance
+		name = entrance_general.1025.a
+		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+
+		attempt_to_entrance_character = yes
+
+		if = {
+			limit = {
+				scope:entrance_successful = yes
+			}
+			trigger_event = entrance_general.1026
+		}
+		else = {
+			trigger_event = entrance_general.1027
+		}
+	}
+	
+	option = { # Nevermind abandon scheme
+		name = entrance_general.1025.b
+		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+
+		random_scheme = {
+			limit = {
+				scheme_type = entrance
+				scheme_target = scope:victim
+			}
+			end_scheme = yes
+		}
+	}
+}
+
+# Entrance Feast Event - Entrance was successful!
+entrance_general.1026 = {
+	type = activity_event
+	title = entrance_general.1026.title
+	desc = entrance_general.1026.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = flirtation
+	}
+	right_portrait = {
+		character = scope:host
+		animation = disbelief
+	}
+
+	immediate = {
+		add_hook = {
+			target = scope:host
+			type = entranced
+		}
+
+		random_scheme = {
+			limit = {
+				scheme_type = entrance
+				scheme_target = scope:victim
+			}
+			end_scheme = yes
+		}
+	}
+
+	option = { 
+		name = entrance_general.1026.just_hook
+	}
+
+	option = { 
+		name = entrance_general.1026.sleep_with
+	}
+}
+
+# Entrance Feast Event - Entrance failed
+entrance_general.1027 = {
+	type = activity_event
+	title = entrance_general.1027.title
+	desc = entrance_general.1027.desc
+	theme = feast_activity
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = disbelief
+	}
+	right_portrait = {
+		character = scope:host
+		animation = dismissal
+	}
+
+	immediate = {
+		random_scheme = {
+			limit = {
+				scheme_type = entrance
+				scheme_target = scope:victim
+			}
+			end_scheme = yes
+		}
+	}
+
+	option = { 
+		name = entrance_general.1024.a
+	}
+}

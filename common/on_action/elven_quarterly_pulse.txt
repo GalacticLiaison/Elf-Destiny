@@ -12,10 +12,132 @@ quarterly_playable_pulse = {
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
 		gain_varangian_adventure_innovation_pulse
+		
+		aeluran_order_maintenance
 
 		# handle_elf_tradition_effects_pulse
 	}
 }
+
+aeluran_order_maintenance = {
+	on_actions = {
+		# Things to do
+		# 1.) If the matriarch has died, host an election to replace her
+		matriarch_election
+		# 2.) If there arent enough matrons, elect new ones
+		matron_counting
+			# - candidates should be picked from existing sisters if possible
+		# 3.) aeluran school for new sisters recruiting
+		elf_daughters_to_school
+		elf_daughters_back_from_school
+		# 4.) If not enough spare sisters, generate more
+
+	}
+}
+
+# TODO: make an actual election vote among the matrons
+matriarch_election = {
+	trigger = {
+		NOT = {
+			any_living_character = {
+				has_trait = aeluran_high_matriarch
+			}
+		}
+	}
+
+	effect = {
+		debug_log = "ELECTING NEW MATRIARCH"
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+			}
+			save_scope_as = new_matriarch
+		}
+
+		scope:new_matriarch = {
+			remove_trait = aeluran_matron
+			add_trait = aeluran_high_matriarch
+		}
+
+		# TODO Trigger notification event
+		# - give title
+		# - move character to the deep woods
+	}
+}
+
+
+matron_counting = {
+	effect = {
+		set_global_variable = {
+			name = total_matrons
+			value = total_current_matrons
+		}
+	}
+}
+
+# TODO: Make actual Matron choice event
+matron_choosing = {
+	trigger = {
+		global_var:total_matrons < 7
+	}
+
+	effect = {
+		debug_log = "CHOOSING NEW MATRON"
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+			}
+			save_scope_as = new_matron
+		}
+
+		scope:new_matron = {
+			remove_trait = aeluran_sister
+			add_trait = aeluran_matron
+		}
+
+		# TODO Trigger notification event
+	}
+}
+
+elf_daughters_to_school = {
+	trigger = {
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		exists = cp:councillor_aeluran_advisor
+		any_child = {
+			is_female = yes
+			age < 8
+			age > 6
+			NOT = {
+				has_character_flag = recruited_by_aelurans
+			}
+		}
+	}
+
+	effect = {
+		trigger_event = aeluran_repeating.001
+	}
+}
+
+elf_daughters_back_from_school = {
+	trigger = {
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		any_child = {
+			is_female = yes
+			age > 16
+			age < 20
+			has_character_flag = recruited_by_aelurans
+		}
+	}
+}
+
 
 the_rut_quarterly_pulse = {
 	trigger = {
