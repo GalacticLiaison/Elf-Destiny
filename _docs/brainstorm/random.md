@@ -114,3 +114,10 @@ expedition site: https://lotr.fandom.com/wiki/Cuivi%C3%A9nen
 
 something that purges all non-elfs from realm
 - could be a tradiiton/decision/etc
+
+Add triplets trait
+4 or more "litter" trait
+
+Tradition idea: "Prophecy Architects", inspired by how the Bene Gessirit engineer prophecies. Could be an Aeluran only tradition only unlockable after getting the Divinator tradition
+
+Dicord Idea: Bot that allows people to pick three personality traits, maybe part of onboarding

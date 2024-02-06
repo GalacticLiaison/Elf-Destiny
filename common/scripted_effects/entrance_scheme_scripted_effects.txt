@@ -1,5 +1,5 @@
-# TODO compare elf levels
-attempt_to_entrance_character = {
+﻿# TODO compare elf levels
+attempt_to_entrance_character_effect = {
 	$ENTRANCER$ = {
 		save_scope_as = entrancer
 	}
@@ -20,11 +20,72 @@ attempt_to_entrance_character = {
 			}
 
 			modifier = {
-				entrancer = { has_trait = enchantress }
+				scope:entrancer.elf_trait_level > scope:victim.elf_trait_level
+
+				add = {
+					value = 0
+					add = scope:entrancer.elf_trait_level
+					subtract = scope:victim.elf_trait_level
+					multiply = 10
+					max = 50
+				}				
+			}
+
+			modifier = {
+				scope:entrancer.magic_talent_level > scope:victim.magic_talent_level
+
+				add = {
+					value = 0
+					add = scope:entrancer.magic_talent_level
+					subtract = scope:victim.magic_talent_level
+					multiply = 10
+					max = 20
+				}				
+			}
+
+			modifier = {
+				scope:entrancer = { has_trait = magi }
+				add = 20
+			}
+
+			modifier = {
+				scope:entrancer = { has_trait = enchantress }
 				add = 30
 			}
 
-			desc = entrance_attempt.success
+			if = {
+				limit = {
+					scope:entrancer = {
+						any_scheme = {
+							scheme_target = scope:victim
+							scheme_type = entrance
+							scheme_progress >= 6
+						}
+					}
+				}
+				desc = entrance_attempt.success_2
+			}
+			else = {
+				desc = entrance_attempt.success_1
+			}
+
+			# desc = {
+			# 	first_valid = {
+			# 		triggered_desc = {
+			# 			trigger = { 
+			# 				scope:entrancer = {
+			# 					any_scheme = {
+			# 						scheme_target = scope:victim
+			# 						scheme_type = entrance
+			# 						scheme_progress >= 6
+			# 					}
+			# 				}
+			# 			}
+			# 			desc = entrance_attempt.success_2
+			# 		}
+			# 		desc = entrance_attempt.success_1
+			# 	}
+			# }
 
 			save_scope_value_as = {
 				name = entrance_successful
@@ -47,22 +108,60 @@ attempt_to_entrance_character = {
 			}
 
 			modifier = {
-				entrancer = { has_trait = enchantress }
-				add = 30
+				scope:victim.elf_trait_level > scope:entrancer.elf_trait_level
+
+				add = {
+					value = 0
+					add = scope:victim.elf_trait_level
+					subtract = scope:entrancer.elf_trait_level
+					multiply = 5
+					max = 20
+				}				
+			}
+
+			modifier = {
+				scope:entrancer = { has_trait = magi }
+				add = 20
+			}
+
+			modifier = {
+				scope:victim.magic_talent_level > scope:entrancer.magic_talent_level
+
+				add = {
+					value = 0
+					add = scope:victim.magic_talent_level
+					subtract = scope:entrancer.magic_talent_level
+					multiply = 10
+					max = 20
+				}				
 			}
 
 			modifier = {
 				scope:victim = { has_trait = enchantress }
-				add = 30
+				add = 20
 			}
 
 			min = 2
 
-			desc = entrance_attempt.failure
+			if = {
+				limit = {
+					scope:entrancer = {
+						any_scheme = {
+							scheme_target = scope:victim
+							scheme_type = entrance
+							scheme_progress >= 6
+						}
+					}
+				}
+				desc = entrance_attempt.failure_2
+			}
+			else = {
+				desc = entrance_attempt.failure_1
+			}
 
 			save_scope_value_as = {
 				name = entrance_successful
-				value = yes
+				value = no
 			}
 
 			random_scheme = {
@@ -75,4 +174,233 @@ attempt_to_entrance_character = {
 		}
 
 	}
+}
+
+entrance_modifier_custom_tool_tips = {
+	# Difference in Elf Level
+	custom_tooltip = entrance_attempt_modifiers
+	if = { ## +
+		limit = { 
+			entrance_difference_in_elf_level >= 1
+			entrance_difference_in_elf_level < 3
+		}
+		custom_tooltip = entrance_difference_in_elf_level.small_boost
+	}
+	else_if = { ## ++
+		limit = { 
+			entrance_difference_in_elf_level >= 3
+			entrance_difference_in_elf_level < 5
+		}
+		custom_tooltip = entrance_difference_in_elf_level.big_boost
+	}
+	else_if = { ## +++
+		limit = { 
+			entrance_difference_in_elf_level >= 5
+		}
+		custom_tooltip = entrance_difference_in_elf_level.massive_boost
+	}
+	else_if = { ## -
+		limit = { 
+			entrance_difference_in_elf_level <= -1
+			entrance_difference_in_elf_level > -3
+		}
+		custom_tooltip = entrance_difference_in_elf_level.small_penalty
+	}
+	else_if = { ## --
+		limit = { 
+			entrance_difference_in_elf_level <= -3
+			entrance_difference_in_elf_level > -5
+		}
+		custom_tooltip = entrance_difference_in_elf_level.big_penalty
+	}
+	else_if = { ## ---
+		limit = { 
+			entrance_difference_in_elf_level <= -5
+		}
+		custom_tooltip = entrance_difference_in_elf_level.massive_penalty
+	}
+
+	# Difference in Spark Manipulation
+	if = { ## +
+		limit = { 
+			entrance_difference_in_magic_talent = 1
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.small_boost
+	}
+	else_if = { ## ++
+		limit = { 
+			entrance_difference_in_magic_talent = 2
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.big_boost
+	}
+	else_if = { ## +++
+		limit = { 
+			entrance_difference_in_magic_talent >= 3
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.massive_boost
+	}
+	if = { ## -
+		limit = { 
+			entrance_difference_in_magic_talent = -1
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.small_penalty
+	}
+	else_if = { ## --
+		limit = { 
+			entrance_difference_in_magic_talent = -2
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.big_penalty
+	}
+	else_if = { ## ---
+		limit = { 
+			entrance_difference_in_magic_talent <= -3
+		}
+		custom_tooltip = entrance_difference_in_magic_talent.massive_penalty
+	}
+
+	# Enchantress Bonus
+	if = {
+		limit = {
+			scope:entrancer = {
+				has_trait = enchantress
+			}
+			NOT = {
+				scope:victim = {
+					has_trait = enchantress
+				}
+			}
+		}
+
+		custom_tooltip = entrance_entrancer_is_enchantress
+	}
+	if = {
+		limit = {
+			NOT = {
+				scope:entrancer = {
+					has_trait = enchantress
+				}
+			}
+
+			scope:victim = {
+				has_trait = enchantress
+			}
+		}
+
+		custom_tooltip = entrance_victim_is_enchantress
+	}
+}
+
+entrance_modifier_flavor = {
+	# Difference in Elf Level
+	desc = entrance_attempt_modifiers
+	triggered_desc = { ## +
+		trigger = { 
+			entrance_difference_in_elf_level >= 1
+			entrance_difference_in_elf_level < 3
+		}
+		desc = entrance_difference_in_elf_level.small_boost
+	}
+	triggered_desc = { ## ++
+		trigger = { 
+			entrance_difference_in_elf_level >= 3
+			entrance_difference_in_elf_level < 5
+		}
+		desc = entrance_difference_in_elf_level.big_boost
+	}
+	triggered_desc = { ## +++
+		trigger = { 
+			entrance_difference_in_elf_level >= 5
+		}
+		desc = entrance_difference_in_elf_level.massive_boost
+	}
+	triggered_desc = { ## -
+		trigger = { 
+			entrance_difference_in_elf_level <= -1
+			entrance_difference_in_elf_level > -3
+		}
+		desc = entrance_difference_in_elf_level.small_penalty
+	}
+	triggered_desc = { ## --
+		trigger = { 
+			entrance_difference_in_elf_level <= -3
+			entrance_difference_in_elf_level > -5
+		}
+		desc = entrance_difference_in_elf_level.big_penalty
+	}
+	triggered_desc = { ## ---
+		trigger = { 
+			entrance_difference_in_elf_level <= -5
+		}
+		desc = entrance_difference_in_elf_level.massive_penalty
+	}
+
+	# Difference in Spark Manipulation
+	triggered_desc = { ## +
+		trigger = { 
+			entrance_difference_in_magic_talent = 1
+		}
+		desc = entrance_difference_in_magic_talent.small_boost
+	}
+	triggered_desc = { ## ++
+		trigger = { 
+			entrance_difference_in_magic_talent = 2
+		}
+		desc = entrance_difference_in_magic_talent.big_boost
+	}
+	triggered_desc = { ## +++
+		trigger = { 
+			entrance_difference_in_magic_talent >= 3
+		}
+		desc = entrance_difference_in_magic_talent.massive_boost
+	}
+	triggered_desc = { ## -
+		trigger = { 
+			entrance_difference_in_magic_talent = -1
+		}
+		desc = entrance_difference_in_magic_talent.small_penalty
+	}
+	triggered_desc = { ## --
+		trigger = { 
+			entrance_difference_in_magic_talent = -2
+		}
+		desc = entrance_difference_in_magic_talent.big_penalty
+	}
+	triggered_desc = { ## ---
+		trigger = { 
+			entrance_difference_in_magic_talent <= -3
+		}
+		desc = entrance_difference_in_magic_talent.massive_penalty
+	}
+
+	# Enchantress Bonus
+	triggered_desc = {
+		trigger = {
+			scope:entrancer = {
+				has_trait = enchantress
+			}
+			NOT = {
+				scope:victim = {
+					has_trait = enchantress
+				}
+			}
+		}
+
+		desc = entrance_entrancer_is_enchantress
+	}
+	triggered_desc = {
+		trigger = {
+			NOT = {
+				scope:entrancer = {
+					has_trait = enchantress
+				}
+			}
+
+			scope:victim = {
+				has_trait = enchantress
+			}
+		}
+
+		desc = entrance_victim_is_enchantress
+	}
+	
 }

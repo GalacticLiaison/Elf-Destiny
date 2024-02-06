@@ -82,58 +82,6 @@ activity_entrance_feast = {
 			}
 			scope:host = { trigger_event = feast.5004 }
 		}
-		else_if = { #Invalidation for your Murder Target not showing up
-			limit = {
-				scope:activity = {
-					has_activity_option = {
-						category = special_type
-						option = feast_type_murder
-					}
-				}
-				scope:activity = { #theyre not attending
-					any_attending_character = {
-						NOT = {
-							this = scope:activity.special_guest:honorary_guest
-						}
-					}
-				}
-				scope:activity.special_guest:honorary_guest = { is_alive = yes } #but they're alive
-				scope:host = { #and you didn't back down/fail
-					NOR = {
-						has_variable = murder_feast_murder_back_down
-						has_variable = murder_feast_murder_failure_var
-					}
-				}
-			}
-			activity_host = { trigger_event = feast.2020 }
-			every_attending_character = {
-				limit = {
-					NOT = { this  = scope:host }
-				}
-				trigger_event = feast.2021
-			}
-		}
-		else_if = { #Invalidation for your Murder Target dying before you kill them
-			limit = {
-				scope:activity = {
-					has_activity_option = {
-						category = special_type
-						option = feast_type_murder
-					}
-				}
-				scope:activity.special_guest:honorary_guest = {
-					is_alive = no
-					scope:host = { has_variable = murder_feast_killed_var }
-				}
-			}
-			activity_host = { trigger_event = feast.2010 }
-			every_attending_character = {
-				limit = {
-					NOT = { this = scope:host }
-				}
-				trigger_event = feast.2011
-			}
-		}
 		if = {
 			limit = {
 				scope:host = { is_incapable = yes }
@@ -334,12 +282,12 @@ activity_entrance_feast = {
 	}
 
 	host_intents = {
-		intents = { reduce_stress_intent murder_attendee_intent woo_attendee_intent befriend_attendee_intent }
+		intents = { reduce_stress_intent woo_attendee_intent befriend_attendee_intent }
 		default = reduce_stress_intent
 	}
 
 	guest_intents = {
-		intents = { reduce_stress_intent murder_attendee_intent woo_attendee_intent befriend_attendee_intent banquet_mischief_intent }
+		intents = { reduce_stress_intent woo_attendee_intent befriend_attendee_intent banquet_mischief_intent }
 		default = reduce_stress_intent
 	}
 
@@ -398,12 +346,7 @@ activity_entrance_feast = {
 				# }
 			}
 
-			on_invite = {
-				set_variable = {
-					name = invited_entrance_feast
-					value = scope:activity
-				}
-				
+			on_invite = {				
 				trigger_event = entrance_general.1021
 			}
 			
@@ -1376,21 +1319,6 @@ activity_entrance_feast = {
 		ambience = "event:/SFX/Events/Backgrounds/feasthall"
 		music = "grandfeast_cue"
 	}
-	background = {
-		trigger = {
-			scope:activity = {
-				has_activity_option = {
-					category = special_type
-					option = feast_type_murder
-				}
-			}
-			scope:activity.special_guest:honorary_guest ?= { is_alive = no }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/feast.dds"
-		environment = "environment_event_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
-		music = "murderfest_cue"
-	}
 
 	window_characters = {
 		
@@ -1701,12 +1629,6 @@ activity_entrance_feast = {
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = yes }
-					}
-					animation = { worry stress boredom fear disbelief lunatic paranoia eyeroll drink drink_goblet }
-				}
-				triggered_animation = {
-					trigger = {
 						exists = scope:host.intent_target
 						scope:host = {
 							has_activity_intent = woo_attendee_intent
@@ -1717,26 +1639,9 @@ activity_entrance_feast = {
 				}
 				triggered_animation = {
 					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							has_activity_intent = murder_attendee_intent
-						}
-						scope:character = scope:host.intent_target
-					}
-					animation = { dismissal worry paranoia }
-				}
-				triggered_animation = {
-					trigger = {
-						scope:activity = { is_murder_feast = no }
 						scope:character = { has_trait = shy }
 					}
 					animation = { sadness worry }
-				}
-				triggered_animation = {
-					trigger = {
-						scope:activity = { is_murder_feast = no }
-					}
-					animation = { drink_goblet happiness flirtation throne_room_conversation_3 throne_room_conversation_1 }
 				}
 				#Fallback
 				animation = toast
@@ -1779,12 +1684,6 @@ activity_entrance_feast = {
 				}
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = yes }
-					}
-					animation = { schadenfreude personality_vengeful }
-				}
-				triggered_animation = {
-					trigger = {
 						exists = scope:host.intent_target
 						scope:host = {
 							is_male = yes
@@ -1793,17 +1692,6 @@ activity_entrance_feast = {
 						scope:host.intent_target.location = scope:activity.activity_location
 					}
 					animation = { personality_forgiving personality_compassionate }
-				}
-				triggered_animation = {
-					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							is_male = yes
-							has_activity_intent = murder_attendee_intent
-						}
-						scope:host.intent_target.location = scope:activity.activity_location
-					}
-					animation = { hunting_knife_start }
 				}
 				triggered_animation = {
 					trigger = {
@@ -1829,7 +1717,7 @@ activity_entrance_feast = {
 				}
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = no }
+						always = yes
 					}
 					animation = { toast_goblet }
 				}
@@ -1864,63 +1752,6 @@ activity_entrance_feast = {
 					animation = { jockey_gallop }
 				}
 				animation = jockey_walk
-			}
-		}
-
-		honorary_guest_traveling_murder = {
-			camera = camera_body
-			
-			effect = {
-				if = {
-					limit = {
-						scope:activity.special_guest:honorary_guest.involved_activity ?= scope:activity
-						NOT = {
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-					}
-					special_guest:honorary_guest ?= {
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
-				triggered_animation = {
-					trigger = {
-						scope:character.location = { is_sea_province = yes }
-					}
-					animation = { idle }
-				}
-				triggered_animation = {
-					trigger = { scope:character = { has_trait = impatient } }
-					animation = { jockey_gallop }
-				}
-				animation = jockey_walk
-			}
-		}
-
-		honorary_guest_murder = { # Both regular and murder
-			camera = camera_body
-			
-			effect = {
-				if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-					special_guest:honorary_guest ?= {
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
-				triggered_animation = {
-					trigger = {
-						always = yes
-					}
-					animation = { ecstasy wedding_priest chaplain personality_honorable personality_bold }
-				}
 			}
 		}
 
@@ -2160,20 +1991,12 @@ activity_entrance_feast = {
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = yes }
-					}
-					animation = { worry stress boredom fear disbelief lunatic paranoia eyeroll drink drink_goblet }
-				}
-				triggered_animation = {
-					trigger = {
-						scope:activity = { is_murder_feast = no }
 						scope:character = { has_trait = shy }
 					}
 					animation = { stress }
 				}
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = no }
 					}
 					animation = { laugh toast flirtation_left throne_room_conversation_2 }
 				}
@@ -2361,20 +2184,12 @@ activity_entrance_feast = {
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = yes }
-					}
-					animation = { worry stress boredom fear disbelief lunatic paranoia eyeroll drink drink_goblet }
-				}
-				triggered_animation = {
-					trigger = {
-						scope:activity = { is_murder_feast = no }
 						scope:character = { has_trait = shy }
 					}
 					animation = { paranoia }
 				}
 				triggered_animation = {
 					trigger = {
-						scope:activity = { is_murder_feast = no }
 					}
 					animation = { drink eavesdrop wedding_drunk }
 				}
@@ -2400,129 +2215,22 @@ activity_entrance_feast = {
 					value = 1000
 				}
 			}
-			# # Murder feast.
-			# ## You're trying to kill. _Everyone_. Kind of.
-			# feast_type_murder = {
-			
-			# 	cost = {
-			# 		gold = {
-			# 			add = {
-			# 				add = {
-			# 					value = feast_activity_cost
-			# 					multiply = 2.5
-			# 					desc = murder_feast_activity_cost_desc
-			# 				}
-			# 				add = {
-			# 					value = feast_activity_cost
-			# 					multiply = 2.5
-			# 					multiply = activity_cost_scale_by_era
-			# 					subtract = {
-			# 						value = feast_activity_cost
-			# 						multiply = 2.5
-			# 					}
-			# 					desc = activity_cost_scale_by_era_desc
-			# 				}
-			# 			}
-			# 			if = {
-			# 				limit = {
-			# 					dynasty ?= {
-			# 						has_dynasty_perk = law_legacy_1
-			# 					}
-			# 				}
-			# 				subtract = {
-			# 					value = feast_activity_cost
-			# 					multiply = 2.5
-			# 					multiply = activity_cost_scale_by_era
-			# 					multiply = law_legacy_cost_reduction_mult
-			# 					desc = law_legacy_1_name
-			# 				}
-			# 			}
-			# 		}
-			# 	}
 
-			# 	is_shown = {
-			# 		has_dlc_feature = tours_and_tournaments
-			# 	}
-
-			# 	is_valid = {
-			# 		has_perk = forever_infamous_perk
-			# 		custom_tooltip = {
-			# 			text = feast_type_murder_valid_tt
-			# 			NOT = { has_variable = recent_murder_feast_var } #15 years cooldown
-			# 		}
-			# 	}
-
-			# 	blocked_intents = { murder_attendee_intent befriend_attendee_intent woo_attendee_intent }  #you can only relax mate
-
-			# 	ai_will_do = {
-			# 		value = 0
-			# 		if = {
-			# 			limit = {
-			# 				OR = {
-			# 					has_trait = callous
-			# 					has_trait = sadistic
-			# 					has_trait = arbitrary
-			# 					has_trait = vengeful
-			# 					has_trait = torturer
-			# 				}
-			# 			}
-			# 			add = 50
-			# 		}
-			# 		if = {
-			# 			limit = {
-			# 				OR = {
-			# 					has_trait = just
-			# 					has_trait = honest
-			# 					has_trait = compassionate
-			# 					has_trait = generous
-			# 					has_trait = forgiving
-			# 				}
-			# 			}
-			# 			subtract = 50
-			# 		}
-			# 		if = {
-			# 			limit = {
-			# 				this = faith.religious_head
-			# 				NOT = { has_trait = torturer }
-			# 				faith = {
-			# 					NOR = {
-			# 						has_doctrine_parameter = gruesome_festivals_active
-			# 						has_doctrine_parameter = human_sacrifice_active
-			# 					}
-			# 				}
-			# 			}
-			# 			add = -100
-			# 		}
-			# 		if = {
-			# 			limit = {
-			# 				this = faith.religious_head
-			# 				NOT = { has_trait = compassionate }
-			# 				faith = {
-			# 					OR = {
-			# 						has_doctrine_parameter = gruesome_festivals_active
-			# 						has_doctrine_parameter = human_sacrifice_active
-			# 					}
-			# 				}
-			# 			}
-			# 			add = 50
-			# 		}
-			# 	}
-			# }
 		}
 
 		# How fancy do you make your dishes?
 		feast_option_food = {
-			# feast_food_bad = {
-			# 	is_shown = { has_dlc_feature = advanced_activities }
+			feast_food_bad = {
+				is_shown = { has_dlc_feature = advanced_activities }
 				
-			# 	ai_will_do = {
-			# 		value = 0
-			# 		# Financial preference.
-			# 		add = activity_option_likes_cheap_expense_value
-			# 		# Fanciness preference.
-			# 		add = activity_option_likes_functional_food_option_value
-			# 	}
-			# }
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_cheap_expense_value
+					# Fanciness preference.
+					add = activity_option_likes_functional_food_option_value
+				}
+			}
 			feast_food_normal = {
 				default = yes
 				cost = {
@@ -2583,78 +2291,78 @@ activity_entrance_feast = {
 					# }
 				}
 			}
-			# feast_food_good = {
-			# 	is_shown = { has_dlc_feature = advanced_activities }
+			feast_food_good = {
+				is_shown = { has_dlc_feature = advanced_activities }
 
-			# 	cost = {
-			# 		gold = {
-			# 			add = {
-			# 				add = {
-			# 					value = 35
-			# 					desc = feast_food_good
-			# 				}
-			# 				add = {
-			# 					value = 35
-			# 					multiply = activity_cost_scale_by_tier
-			# 					subtract = 35
-			# 					desc = activity_cost_scale_by_tier_desc
-			# 				}
-			# 				add = {
-			# 					value = 35
-			# 					multiply = activity_cost_scale_by_era
-			# 					subtract = 35
-			# 					desc = activity_cost_scale_by_era_desc
-			# 				}
-			# 				if = {
-			# 					limit = {
-			# 						dynasty ?= {
-			# 							has_dynasty_perk = law_legacy_1
-			# 						}
-			# 					}
-			# 					subtract = {
-			# 						value = 35
-			# 						add = {
-			# 							value = 35
-			# 							multiply = activity_cost_scale_by_tier
-			# 							subtract = 35
-			# 						}
-			# 						add = {
-			# 							value = 35
-			# 							multiply = activity_cost_scale_by_era
-			# 							subtract = 35
-			# 						}
-			# 						multiply = law_legacy_cost_reduction_mult
-			# 						desc = law_legacy_1_name
-			# 					}
-			# 				}
-			# 				min = 0
-			# 			}
-			# 		}
-			# 	}
+				cost = {
+					gold = {
+						add = {
+							add = {
+								value = 35
+								desc = feast_food_good
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_tier
+								subtract = 35
+								desc = activity_cost_scale_by_tier_desc
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_era
+								subtract = 35
+								desc = activity_cost_scale_by_era_desc
+							}
+							if = {
+								limit = {
+									dynasty ?= {
+										has_dynasty_perk = law_legacy_1
+									}
+								}
+								subtract = {
+									value = 35
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_tier
+										subtract = 35
+									}
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_era
+										subtract = 35
+									}
+									multiply = law_legacy_cost_reduction_mult
+									desc = law_legacy_1_name
+								}
+							}
+							min = 0
+						}
+					}
+				}
 
-			# 	ai_will_do = {
-			# 		value = 0
-			# 		# Financial preference.
-			# 		add = activity_option_likes_heavy_expense_value
-			# 		# Fanciness preference.
-			# 		add = activity_option_likes_ostentatious_food_option_value
-			# 	}
-			# }
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_heavy_expense_value
+					# Fanciness preference.
+					add = activity_option_likes_ostentatious_food_option_value
+				}
+			}
 		}
 
 		# How many courses do you have?
 		feast_option_courses = {
-			# feast_courses_bad = {
-			# 	is_shown = { has_dlc_feature = advanced_activities }
+			feast_courses_bad = {
+				is_shown = { has_dlc_feature = advanced_activities }
 
-			# 	ai_will_do = {
-			# 		value = 0
-			# 		# Financial preference.
-			# 		add = activity_option_likes_cheap_expense_value
-			# 		# Quantity preference.
-			# 		add = activity_option_food_prefers_small_volume_value
-			# 	}
-			# }
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_cheap_expense_value
+					# Quantity preference.
+					add = activity_option_food_prefers_small_volume_value
+				}
+			}
 			feast_courses_normal = {
 				default = yes
 	
@@ -2716,63 +2424,63 @@ activity_entrance_feast = {
 					# }
 				}
 			}
-			# feast_courses_good = {
-			# 	is_shown = { has_dlc_feature = advanced_activities }
+			feast_courses_good = {
+				is_shown = { has_dlc_feature = advanced_activities }
 
-			# 	cost = {
-			# 		gold = {
-			# 			add = {
-			# 				add = {
-			# 					value = 35
-			# 					desc = feast_courses_good
-			# 				}
-			# 				add = {
-			# 					value = 35
-			# 					multiply = activity_cost_scale_by_tier
-			# 					subtract = 35
-			# 					desc = activity_cost_scale_by_tier_desc
-			# 				}
-			# 				add = {
-			# 					value = 35
-			# 					multiply = activity_cost_scale_by_era
-			# 					subtract = 35
-			# 					desc = activity_cost_scale_by_era_desc
-			# 				}
-			# 				if = {
-			# 					limit = {
-			# 						dynasty ?= {
-			# 							has_dynasty_perk = law_legacy_1
-			# 						}
-			# 					}
-			# 					subtract = {
-			# 						value = 35
-			# 						add = {
-			# 							value = 35
-			# 							multiply = activity_cost_scale_by_tier
-			# 							subtract = 35
-			# 						}
-			# 						add = {
-			# 							value = 35
-			# 							multiply = activity_cost_scale_by_era
-			# 							subtract = 35
-			# 						}
-			# 						multiply = law_legacy_cost_reduction_mult
-			# 						desc = law_legacy_1_name
-			# 					}
-			# 				}
-			# 				min = 0
-			# 			}
-			# 		}
-			# 	}
+				cost = {
+					gold = {
+						add = {
+							add = {
+								value = 35
+								desc = feast_courses_good
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_tier
+								subtract = 35
+								desc = activity_cost_scale_by_tier_desc
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_era
+								subtract = 35
+								desc = activity_cost_scale_by_era_desc
+							}
+							if = {
+								limit = {
+									dynasty ?= {
+										has_dynasty_perk = law_legacy_1
+									}
+								}
+								subtract = {
+									value = 35
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_tier
+										subtract = 35
+									}
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_era
+										subtract = 35
+									}
+									multiply = law_legacy_cost_reduction_mult
+									desc = law_legacy_1_name
+								}
+							}
+							min = 0
+						}
+					}
+				}
 
-			# 	ai_will_do = {
-			# 		value = 0
-			# 		# Financial preference.
-			# 		add = activity_option_likes_heavy_expense_value
-			# 		# Quantity preference.
-			# 		add = activity_option_prefers_large_volume_value
-			# 	}
-			# }
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_heavy_expense_value
+					# Quantity preference.
+					add = activity_option_prefers_large_volume_value
+				}
+			}
 		}
 	}
 
@@ -2792,33 +2500,269 @@ activity_entrance_feast = {
 
 			is_shown = { always = yes }
 			is_valid = {
-				trigger_if = {
-					limit = {
-						scope:activity = {
-							has_activity_option = {
-								category = special_type
-								option = feast_type_murder
-							}
+
+			}
+
+			on_phase_active = {
+				# Sort some stuff on the host.
+				if = {
+					limit = { this = scope:host }
+
+					scope:activity = { progress_activity_phase_after = { weeks = 2 } }
+
+					# Misc. old content variable.
+					## Reduce alcohol stores if appropriate.					
+					if = {
+						limit = { exists = var:protected_alcohol_stores }
+						set_variable = {
+							name = protected_alcohol_stores
+							value = 0
 						}
 					}
-					scope:activity.special_guest:honorary_guest = {
-						OR = {
-							AND = { #is alive and attending/invited
-								is_alive = yes
-								OR = {
-									is_participant_in_activity = scope:activity
-									scope:activity = {
-										any_invited_character = { this = scope:activity.special_guest:honorary_guest }
+					## Look for a target you're trying to befriend
+					if = {
+						limit = {
+							any_scheme = {
+								scheme_type = befriend
+								scheme_target = {
+									exists = involved_activity
+									involved_activity = scope:activity
+								}
+							}
+						}
+						random_scheme = {
+							limit = {
+								scheme_type = befriend
+								scheme_target = {
+									exists = involved_activity
+									involved_activity = scope:activity
+								}
+							}
+							scheme_target = {
+								save_scope_as = potential_friend
+								scope:activity = {
+									set_variable = {
+										name = potential_friend
+										value = scope:potential_friend
 									}
 								}
 							}
-							AND = { #is dead but you killed them
-								is_alive = no
-								scope:host = { has_variable = murder_feast_killed_var }
+							scheme_freeze = { days = 10 }
+						}
+					}
+					# And now, the main event!
+					## Check that there are guests apart from the feast host.
+					if = {
+						limit = {
+							scope:activity = {
+								any_attending_character = {
+									count = 0
+									NOT = {	this = scope:host }
+								}
+							}
+						}
+						# If there are no other guests, throw this event.
+						## [sad period-appropriate trombone noises]
+						trigger_event = feast.2003
+					}
+					## Otherwise, there are guests present.
+					### The key event is chosen for the host, and fires other events from there to every participant.
+					else = {
+						trigger_event = feast.2001
+						# Struggle Catalysts
+						## We trigger this here to make sure that someone else actually turned up to the party before having it affect regional relations.
+						if = {
+							limit = {
+								# At least one participant is involved and  of a different faith or culture
+								scope:activity = {
+									any_attending_character = {
+										any_character_struggle = {
+											involvement = involved
+											phase_has_catalyst = catalyst_invite_diff_faith_culture_to_feast
+										}
+										is_diff_faith_or_culture_trigger = {
+											CHAR = scope:host
+											STATUS = involved
+										}
+									}
+								}
+							}
+							every_character_struggle = {
+								involvement = involved
+								activate_struggle_catalyst = {
+									catalyst = catalyst_invite_diff_faith_culture_to_feast
+									character = scope:activity.activity_host
+								}
 							}
 						}
 					}
-				}	
+					# Accolade stuff
+					if = {
+						limit = {
+							any_active_accolade = {
+								has_accolade_parameter = accolade_party_fertility
+							}
+						}
+						add_character_modifier = {
+							modifier = accolade_charmer_party_modifier
+						}
+					}
+					if = {
+						limit = {
+							any_active_accolade = {
+								has_accolade_parameter = accolade_party_fertility_high
+							}
+						}
+						add_character_modifier = {
+							modifier = accolade_charmer_party_high_modifier
+						}
+					}
+				}
+				# And for everyone else.
+				else = {
+					# You're busy at another party! (invites were sent the same day, but you agreed to another party after this one )
+					if = {
+						limit = {
+							exists = var:booked_for_a_party
+							var:booked_for_a_party = {
+								NOT = { this = scope:activity.activity_host }
+							}
+						}
+						trigger_event = feast.0010
+					}
+					else = {
+						random_list = {
+							0 = { #they don't join
+								modifier = {
+									add = 100
+									scope:host = { has_variable = murder_feast_perpetrator_var } #if you have hosted a murder feast
+								}
+							}
+							100 = {
+								trigger_event = feast.7051
+							}
+						}
+						# Take care of reveller stuff for everyone else.
+						if = {
+							limit = { 
+								NOT = { has_trait = temperate }
+							}
+							# Reveler lifestyle tracking:
+							reveler_points_gain_effect = {
+								CHANGE = 1
+								RANDOM_CHANGE = 1
+							}
+							# Remove blocker for invitations to feasts (the feast is now active and will work as a blocker)
+							remove_variable = booked_for_a_party
+						}
+					}
+				}
+			}
+			
+			on_weekly_pulse = {
+				if = { #host
+					limit = {
+						this = scope:host
+					}
+					trigger_event = { on_action = feast_new_event_selection_tombola }
+				}
+				else_if = { #guest
+					limit = {
+						NOT = { this = scope:host }
+					}
+					trigger_event = { on_action = feast_default_event_selection }
+				}
+			}
+		}
+
+		plant_seed_attempt_phase = {
+			order = 2
+			is_predefined = yes
+
+			on_enter_phase = {
+				debug_log = "ENTERED on_enter_phase plant_seed_attempt"
+				if = {
+					limit = { this = scope:host }
+					debug_log = "ENTERED on_enter_phase plant_seed_attempt HOST CHECK"
+					# # No passive state for the toast, just jump right into it
+					# scope:activity = { progress_activity_phase_after = { days = 1 } }
+				}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer
+					}
+					debug_log = "ENTERED on_enter_phase plant_seed_attempt Entrancer CHECK"
+
+					scope:activity = { progress_activity_phase_after = { days = 1 } }
+				}
+			}
+
+			on_phase_active = {
+				debug_log = "ENTERED on_phase_active plant_seed_attempt"
+
+				scope:host = {
+					save_scope_as = victim
+				}
+		
+				scope:activity.special_guest:entrancer = {
+					save_scope_as = entrancer
+				}
+
+				if = {
+					limit = { this = scope:host }
+					
+					debug_log = "ENTERED on_phase_active plant_seed_attempt HOST CHECK"
+
+					# trigger_event = entrance_general.1022
+					
+					# scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+				}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer
+					}
+					debug_log = "ENTERED on_phase_active plant_seed_attempt Entrancer CHECK"
+					# trigger_event = entrance_general.1022
+
+					scope:activity.special_guest:entrancer = {
+						trigger_event = entrance_general.1022
+					}
+
+					scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+				}
+				# else = {
+				# 	debug_log = "ENTERED on_phase_active plant_seed_attempt NOT HOST CHECK"
+
+				# 	scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+				# }
+			}
+		}
+
+		feast_phase_meal_2 = {		
+			order = 3
+			is_predefined = yes
+
+			is_shown = { always = yes }
+			is_valid = {
+
+			}
+
+			on_enter_phase = {
+				debug_log = "ENTERED on_enter_phase feast_phase_meal_2"
+				if = {
+					limit = { this = scope:host }
+					debug_log = "ENTERED on_enter_phase feast_phase_meal_2 HOST CHECK"
+					# # No passive state for the toast, just jump right into it
+					# scope:activity = { progress_activity_phase_after = { days = 1 } }
+				}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer
+					}
+					debug_log = "ENTERED on_enter_phase feast_phase_meal_2 Entrancer CHECK"
+
+					scope:activity = { progress_activity_phase_after = { days = 1 } }
+				}
 			}
 
 			on_phase_active = {
@@ -2993,85 +2937,54 @@ activity_entrance_feast = {
 			}
 		}
 
-		plant_seed_attempt = {
-			order = 2
+		complete_entrance_attempt_phase = {
+			order = 4
 			is_predefined = yes
-
-			on_phase_active = {
-				trigger_event = entrance_general.1022
-					
-				scope:activity = { progress_activity_phase_after = { weeks = 1 } }
-			}
-		}
-
-		# Toast.
-		feast_phase_toast = {
-			order = 3
-			is_predefined = yes
-
+			
 			on_enter_phase = {
 				if = {
 					limit = { this = scope:host }
+					debug_log = "ENTERED on_enter_phase complete_entrance_attempt_phase HOST CHECK"
 
 					# No passive state for the toast, just jump right into it
+					# scope:activity = { progress_activity_phase_after = { days = 1 } }
+				}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer
+					}
+					debug_log = "ENTERED on_enter_phase complete_entrance_attempt_phase Entrancer CHECK"
+
 					scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
+				# else = {
+				# 	scope:activity = { progress_activity_phase_after = { days = 1 } }
+				# }
 			}
 
 			on_phase_active = {
 				if = {
 					limit = { this = scope:host }
+					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase HOST CHECK"
 
-					if = { # Regular feast
-						limit = {
-							scope:activity = {
-								has_activity_option = {
-									category = special_type
-									option = feast_type_generic
-								}
-							}
-						}
+					# trigger_event = entrance_general.1025
 
-						# Save the GoH for the sake of my sanity.
-						scope:activity.special_guest:honorary_guest_regular ?= { save_scope_as = goh }
-						
-						# Trigger summary event, also handles guest events
-						trigger_event = feast.7201
-					}
-					else_if = { # Murder feast
-						limit = {
-							scope:activity = {
-								has_activity_option = {
-									category = special_type
-									option = feast_type_murder
-								}
-							}
-							scope:host = { NOT = { has_variable = murder_feast_murder_back_down } }
-						}
-
-						trigger_event = { on_action = feast_murder_feast_event_selection } #KILL event, also handles the guest events
-					}
-					
-					scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+					# No passive state for the toast, just jump right into it
+					# scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
-			}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer
+					}
+					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase Entrancer CHECK"
+					trigger_event = entrance_general.1025
 
-			on_end = {
-				# Adjust everyone's waistlines.
-				target_weight_modifier_effect = {
-					VALUE = feast_weight_modifier_value
+					scope:activity = { progress_activity_phase_after = { days = 2 } }
 				}
-			}
-		}
 
-		complete_entrance_attempt = {
-			order = 4
-			is_predefined = yes
-
-			on_phase_active = {
-				trigger_event = entrance_general.1025
+				# trigger_event = entrance_general.1025
 					
-				scope:activity = { progress_activity_phase_after = { days = 3 } }
+				# scope:activity = { progress_activity_phase_after = { days = 3 } }
 			}
 		}
 	}
@@ -3138,39 +3051,6 @@ activity_entrance_feast = {
 			character = scope:host
 			score = 10
 		}
-		if = {
-			limit = { is_murder_feast = yes }
-			scope:host = {
-				set_variable = {
-					name = recent_murder_feast_var
-					years = 15
-				}
-			}
-			scope:activity = {
-				set_variable = {
-					name = murder_guest_var
-					value = scope:activity.special_guest:honorary_guest
-				}
-			}
-			scope:host = { #doing this to get the loc for invalidation cases
-				set_variable = {
-					name = murder_guest_host_var
-					value = scope:activity.special_guest:honorary_guest
-				}
-			}
-			if = {
-				limit = {
-					scope:activity.special_guest:honorary_guest = scope:host.liege
-				}
-				scope:host = { set_variable = murder_feast_liege_var }
-			}
-			if = {
-				limit = {
-					scope:activity.special_guest:honorary_guest = scope:host.faith.religious_head
-				}
-				scope:host = { set_variable = murder_feast_head_of_faith_var }
-			}
-		}
 		scope:host = {
 			if = {
 				limit = {
@@ -3232,31 +3112,12 @@ activity_entrance_feast = {
 			limit = { this = scope:host }
 			location = { save_scope_as = activity_location }
 			if = {
-				limit = { 
-					is_murder_feast = yes
-					scope:host = { NOT = { has_variable = murder_feast_murder_back_down } }
-				}
-				scope:activity.var:murder_guest_var = { save_scope_as = murder_guest }
-				scope:host = {
-					save_scope_as = root_scope
-					trigger_event = feast.7110
-					disburse_murder_feast_activity_rewards = yes
-				}
-			}
-			else_if = {
 				limit = { this = scope:host }
 				scope:host = {
 					save_scope_as = root_scope
 					trigger_event = feast.7101
 					disburse_feast_activity_rewards = yes
 				}
-			}
-			# Various post-feast effects.
-			if = {
-				limit = {
-					has_character_flag = murdered_someone_during_feast
-				}
-				remove_character_flag = murdered_someone_during_feast
 			}
 			## A vassal was promised a feast (vassal.2101)
 			if = {
@@ -3307,41 +3168,9 @@ activity_entrance_feast = {
 					NOT = { this = scope:host }
 					is_imprisoned = no
 				}
-				if = {
-					limit = {
-						is_murder_feast = yes
-						scope:host = { NOT = { has_variable = murder_feast_murder_back_down } }
-					}
-					scope:activity.var:murder_guest_var = { save_scope_as = murder_guest }
-					trigger_event = feast_default.8061
-				}
-				else = {
-					disburse_feast_reveler_rewards = yes
-					trigger_event = feast.7151
-				}
-			}
-		}
-		# Achievements.
-		scope:host = {
-			if = {
-				limit = {
-					exists = global_var:started_black_dinner_achievement
-					is_ai = no
-					scope:activity = {
-						has_activity_option = {
-							category = special_type
-							option = feast_type_murder
-						}
-					}
-					NOR = {
-						has_variable = murder_feast_murder_failure_var
-						has_variable = murder_feast_murder_back_down
-					}
-				}
-				set_global_variable = {
-					name = finished_black_dinner_achievement
-					value = yes
-				}
+				disburse_feast_reveler_rewards = yes
+				trigger_event = feast.7151
+				
 			}
 		}
 

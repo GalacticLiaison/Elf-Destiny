@@ -1,3 +1,35 @@
 entranced  = {
 	perpetual = yes
+
+	on_used = {
+		scope:target = {
+			add_trait_xp = {
+				trait = entranced
+				track = depth_of_entrancement
+				value = 1
+			}
+		}
+
+		if = {
+			limit = {
+				scope:target = {
+					has_trait_xp = {
+						trait = entranced
+						track = depth_of_entrancement
+						value > 2
+					}
+				}
+			}
+
+			root = {
+				trigger_event = entrance_general.1100
+			}
+		}
+		# START HERE!
+	}
+}
+
+enthralled = {
+	perpetual = yes
+	strong = yes
 }

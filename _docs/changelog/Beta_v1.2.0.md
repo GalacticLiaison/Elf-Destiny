@@ -111,6 +111,9 @@ Tradition: Tribal Ascension
 Tradition: The Rut
     - Rut was a bit too frequent happening every year. Changing to occur every three years
 
+Tradition: Familial Familiarity
+    - Accidentally disabled Purer/Purest-Blooded inheritance, should be working again
+
 Elven Adaptability innovation now removes reform cooldown for culture
 
 Elf Religion Names = Elf Culture Names
@@ -130,6 +133,8 @@ Basically the mod makes several faith tenets disappear in faith reformations, mo
 - Portal Piece Discovery Background
 
 # The religion patch
+
+<!-- REVIEW AVAILABLE IN RULER DESIGNER FOR TRAITS -->
 
 <!-- As much as attraction bonuses make sense for elves, don't they all become irrelevant by like age 45 unless the character is immortal with an immortal age set to less than the age cutoff? Similar to how NPC rulers will reject marriages due to 'low fertility' based solely on age rather than the 'years of fertility' parameter right? I think it's all hard coded. 
 

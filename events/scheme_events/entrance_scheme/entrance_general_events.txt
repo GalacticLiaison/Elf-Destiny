@@ -136,22 +136,152 @@ entrance_general.1022 = {
 	}
 
 	trigger = {
-		# Because prior checks don't always seem to catch it.
-		# exists = scope:goh
-		# scope:goh = {
-		# 	is_alive = yes
-		# 	involved_activity ?= scope:activity
-		# }
+		# this = scope:activity.special_guest:entrancer
+			# 	# scope:goh = {
+		# 	# 	is_alive = yes
+		# 	# 	involved_activity ?= scope:activity
+		# 	# }
+	}
+
+	immediate = {
+		debug_log = "MADE IT TO FIRST EVENT"
+		debug_log_scopes = yes
 	}
 
 	option = { # Attempt Entrance
 		name = entrance_general.1022.a
-		flavor = feast.7201.b.tt # leave to test! wtf is this lol
-
-		attempt_to_entrance_character = yes
+		flavor = {
+			# Difference in Elf Level
+			desc = entrance_attempt_modifiers
+			triggered_desc = { ## +
+				trigger = { 
+					entrance_difference_in_elf_level >= 1
+					entrance_difference_in_elf_level < 3
+				}
+				desc = entrance_difference_in_elf_level.small_boost
+			}
+			triggered_desc = { ## ++
+				trigger = { 
+					entrance_difference_in_elf_level >= 3
+					entrance_difference_in_elf_level < 5
+				}
+				desc = entrance_difference_in_elf_level.big_boost
+			}
+			triggered_desc = { ## +++
+				trigger = { 
+					entrance_difference_in_elf_level >= 5
+				}
+				desc = entrance_difference_in_elf_level.massive_boost
+			}
+			triggered_desc = { ## -
+				trigger = { 
+					entrance_difference_in_elf_level <= -1
+					entrance_difference_in_elf_level > -3
+				}
+				desc = entrance_difference_in_elf_level.small_penalty
+			}
+			triggered_desc = { ## --
+				trigger = { 
+					entrance_difference_in_elf_level <= -3
+					entrance_difference_in_elf_level > -5
+				}
+				desc = entrance_difference_in_elf_level.big_penalty
+			}
+			triggered_desc = { ## ---
+				trigger = { 
+					entrance_difference_in_elf_level <= -5
+				}
+				desc = entrance_difference_in_elf_level.massive_penalty
+			}
+		
+			# Difference in Spark Manipulation
+			triggered_desc = { ## +
+				trigger = { 
+					entrance_difference_in_magic_talent = 1
+				}
+				desc = entrance_difference_in_magic_talent.small_boost
+			}
+			triggered_desc = { ## ++
+				trigger = { 
+					entrance_difference_in_magic_talent = 2
+				}
+				desc = entrance_difference_in_magic_talent.big_boost
+			}
+			triggered_desc = { ## +++
+				trigger = { 
+					entrance_difference_in_magic_talent >= 3
+				}
+				desc = entrance_difference_in_magic_talent.massive_boost
+			}
+			triggered_desc = { ## -
+				trigger = { 
+					entrance_difference_in_magic_talent = -1
+				}
+				desc = entrance_difference_in_magic_talent.small_penalty
+			}
+			triggered_desc = { ## --
+				trigger = { 
+					entrance_difference_in_magic_talent = -2
+				}
+				desc = entrance_difference_in_magic_talent.big_penalty
+			}
+			triggered_desc = { ## ---
+				trigger = { 
+					entrance_difference_in_magic_talent <= -3
+				}
+				desc = entrance_difference_in_magic_talent.massive_penalty
+			}
+		
+			# Enchantress Bonus
+			triggered_desc = {
+				trigger = {
+					scope:entrancer = {
+						has_trait = enchantress
+					}
+					NOT = {
+						scope:victim = {
+							has_trait = enchantress
+						}
+					}
+				}
+		
+				desc = entrance_entrancer_is_enchantress
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						scope:entrancer = {
+							has_trait = enchantress
+						}
+					}
+		
+					scope:victim = {
+						has_trait = enchantress
+					}
+				}
+		
+				desc = entrance_victim_is_enchantress
+			}
+			
+		}
 
 		if = {
 			limit = {
+				AND = {
+					exists = root
+					exists = scope:host
+				}
+			}
+			
+			attempt_to_entrance_character_effect = {
+				ENTRANCER = root
+				VICTIM = scope:host
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
 			trigger_event = entrance_general.1023
@@ -163,14 +293,18 @@ entrance_general.1022 = {
 	
 	option = { # Nevermind abandon scheme
 		name = entrance_general.1022.b
-		flavor = feast.7201.b.tt # leave to test! wtf is this lol
-
-		random_scheme = {
+		# flavor = entrance_flavor # but different!
+		if = {
 			limit = {
-				scheme_type = entrance
-				scheme_target = scope:victim
+				exists = scope:host
 			}
-			end_scheme = yes
+			random_scheme = {
+				limit = {
+					scheme_type = entrance
+					scheme_target = scope:host
+				}
+				end_scheme = yes
+			}
 		}
 	}
 }
@@ -212,6 +346,15 @@ entrance_general.1024 = {
 		animation = dismissal
 	}
 
+	immediate = {
+		scope:host = {
+			set_relation_rival = {
+				target = root
+				reason = tried_to_entrance_me
+			}
+		}
+	}
+
 	option = { 
 		name = entrance_general.1024.a
 	}
@@ -239,12 +382,184 @@ entrance_general.1025 = {
 
 	option = { # Attempt Entrance
 		name = entrance_general.1025.a
-		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+		# flavor = entrance_flavor
+		flavor = {
+			# Difference in Elf Level
+			desc = entrance_attempt_modifiers
+			triggered_desc = { ## +
+				trigger = { 
+					entrance_difference_in_elf_level >= 1
+					entrance_difference_in_elf_level < 3
+				}
+				desc = entrance_difference_in_elf_level.small_boost
+			}
+			triggered_desc = { ## ++
+				trigger = { 
+					entrance_difference_in_elf_level >= 3
+					entrance_difference_in_elf_level < 5
+				}
+				desc = entrance_difference_in_elf_level.big_boost
+			}
+			triggered_desc = { ## +++
+				trigger = { 
+					entrance_difference_in_elf_level >= 5
+				}
+				desc = entrance_difference_in_elf_level.massive_boost
+			}
+			triggered_desc = { ## -
+				trigger = { 
+					entrance_difference_in_elf_level <= -1
+					entrance_difference_in_elf_level > -3
+				}
+				desc = entrance_difference_in_elf_level.small_penalty
+			}
+			triggered_desc = { ## --
+				trigger = { 
+					entrance_difference_in_elf_level <= -3
+					entrance_difference_in_elf_level > -5
+				}
+				desc = entrance_difference_in_elf_level.big_penalty
+			}
+			triggered_desc = { ## ---
+				trigger = { 
+					entrance_difference_in_elf_level <= -5
+				}
+				desc = entrance_difference_in_elf_level.massive_penalty
+			}
+		
+			# Difference in Spark Manipulation
+			triggered_desc = { ## +
+				trigger = { 
+					entrance_difference_in_magic_talent = 1
+				}
+				desc = entrance_difference_in_magic_talent.small_boost
+			}
+			triggered_desc = { ## ++
+				trigger = { 
+					entrance_difference_in_magic_talent = 2
+				}
+				desc = entrance_difference_in_magic_talent.big_boost
+			}
+			triggered_desc = { ## +++
+				trigger = { 
+					entrance_difference_in_magic_talent >= 3
+				}
+				desc = entrance_difference_in_magic_talent.massive_boost
+			}
+			triggered_desc = { ## -
+				trigger = { 
+					entrance_difference_in_magic_talent = -1
+				}
+				desc = entrance_difference_in_magic_talent.small_penalty
+			}
+			triggered_desc = { ## --
+				trigger = { 
+					entrance_difference_in_magic_talent = -2
+				}
+				desc = entrance_difference_in_magic_talent.big_penalty
+			}
+			triggered_desc = { ## ---
+				trigger = { 
+					entrance_difference_in_magic_talent <= -3
+				}
+				desc = entrance_difference_in_magic_talent.massive_penalty
+			}
 
-		attempt_to_entrance_character = yes
+			# Magi Bonus
+			triggered_desc = {
+				trigger = {
+					scope:entrancer = {
+						has_trait = magi
+					}
+					NOT = {
+						scope:victim = {
+							has_trait = magi
+						}
+					}
+				}
+		
+				desc = entrance_entrancer_is_magi
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						scope:entrancer = {
+							has_trait = magi
+						}
+					}
+		
+					scope:victim = {
+						has_trait = magi
+					}
+				}
+		
+				desc = entrance_victim_is_magi
+			}
+
+			# Enchantress Bonus
+			triggered_desc = {
+				trigger = {
+					scope:entrancer = {
+						has_trait = enchantress
+					}
+					NOT = {
+						scope:victim = {
+							has_trait = enchantress
+						}
+					}
+				}
+		
+				desc = entrance_entrancer_is_enchantress
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						scope:entrancer = {
+							has_trait = enchantress
+						}
+					}
+		
+					scope:victim = {
+						has_trait = enchantress
+					}
+				}
+		
+				desc = entrance_victim_is_enchantress
+			}
+			
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						scope:entrancer = {
+							has_trait = enchantress
+						}
+						scope:victim = {
+							has_trait = enchantress
+						}
+					}
+				}
+				desc = spacer
+			}
+		}
+		# custom_label
 
 		if = {
 			limit = {
+				AND = {
+					exists = root
+					exists = scope:host
+				}
+			}
+			
+			attempt_to_entrance_character_effect = {
+				ENTRANCER = root
+				VICTIM = scope:host
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
 			trigger_event = entrance_general.1026
@@ -256,12 +571,12 @@ entrance_general.1025 = {
 	
 	option = { # Nevermind abandon scheme
 		name = entrance_general.1025.b
-		flavor = feast.7201.b.tt # leave to test! wtf is this lol
+		# flavor = feast.7201.b.tt # leave to test! wtf is this lol
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target = scope:host
 			}
 			end_scheme = yes
 		}
@@ -293,7 +608,7 @@ entrance_general.1026 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target = scope:host
 			}
 			end_scheme = yes
 		}
@@ -305,6 +620,13 @@ entrance_general.1026 = {
 
 	option = { 
 		name = entrance_general.1026.sleep_with
+
+		set_relation_lover = { 
+			reason = ensnared_in_entrancement
+			target = scope:host
+			province = scope:activity.activity_province
+		}
+		had_sex_with_effect = { CHARACTER = scope:host PREGNANCY_CHANCE = 50 }
 	}
 }
 
@@ -325,10 +647,17 @@ entrance_general.1027 = {
 	}
 
 	immediate = {
+		scope:host = {
+			set_relation_rival = {
+				target = root
+				reason = tried_to_entrance_me
+			}
+		}
+
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target = scope:host
 			}
 			end_scheme = yes
 		}
@@ -336,5 +665,38 @@ entrance_general.1027 = {
 
 	option = { 
 		name = entrance_general.1024.a
+	}
+}
+
+entrance_general.1100 = { # Convert to Enthralled
+	type = character_event
+	title = entrance_general.1100.title
+	desc = entrance_general.1100.desc
+
+	theme = seduction
+	left_portrait = {
+		character = scope:target
+		animation = disbelief
+	}
+	right_portrait = {
+		character = root
+		animation = flirtation
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:target
+			}
+
+			scope:target = {
+				remove_trait = entranced
+				add_trait = enthralled
+			}
+		}
+	}
+
+	option = {
+		name = entrance_general.1100.a
 	}
 }
