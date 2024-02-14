@@ -24,16 +24,16 @@ activity_entrance_feast = {
 	}
 
 	can_start_showing_failures_only = {
-		is_available_adult = yes
+		# is_available_adult = yes
 	}
 
 	is_valid = {
 		scope:host = {
 			is_alive = yes
-			is_capable_adult = yes
-			is_imprisoned = no
+			# is_capable_adult = yes
+			# is_imprisoned = no
 			is_landed = yes
-			NOT = { is_incapable = yes }
+			# NOT = { is_incapable = yes }
 		}
 		# If no one shows up
 		trigger_if = {
@@ -161,7 +161,7 @@ activity_entrance_feast = {
 	max_route_deviation_mult = 2.0
 
 	is_location_valid = {
-		has_holding = yes
+		# has_holding = yes
 	}
 
 	province_description = {
@@ -264,6 +264,7 @@ activity_entrance_feast = {
 		}
 		defaults = {
 			1 = activity_invite_entrancer
+			1 = activity_invite_victim
 			1 = activity_invite_rule_friends
 			1 = activity_invite_rule_close_family
 			1 = activity_invite_rule_liege
@@ -277,7 +278,7 @@ activity_entrance_feast = {
 
 	can_be_activity_guest = {
 		is_adult = yes
-		is_healthy = yes
+		# is_healthy = yes
 		in_diplomatic_range = scope:host
 	}
 
@@ -320,7 +321,7 @@ activity_entrance_feast = {
 	}
 
 	special_guests = {
-		entrancer = {
+		entrancer_or_victim = {
 			is_required = yes
 
 			is_shown = { 
@@ -337,6 +338,9 @@ activity_entrance_feast = {
 				var:entrancer = {
 					save_scope_as = character
 				}
+				var:victim = {
+					save_scope_as = character
+				}
 			}
 
 			can_pick = {
@@ -347,7 +351,7 @@ activity_entrance_feast = {
 			}
 
 			on_invite = {				
-				trigger_event = entrance_general.1021
+				trigger_event = entrance.1021
 			}
 			
 			ai_will_do = {
@@ -1995,13 +1999,9 @@ activity_entrance_feast = {
 					}
 					animation = { stress }
 				}
-				triggered_animation = {
-					trigger = {
-					}
-					animation = { laugh toast flirtation_left throne_room_conversation_2 }
-				}
+
 				#Fallback
-				animation = toast
+				animation = toast 
 			}
 		}
 		
@@ -2188,11 +2188,11 @@ activity_entrance_feast = {
 					}
 					animation = { paranoia }
 				}
-				triggered_animation = {
-					trigger = {
-					}
-					animation = { drink eavesdrop wedding_drunk }
-				}
+				# triggered_animation = {
+				# 	trigger = {
+				# 	}
+				# 	animation = { drink eavesdrop wedding_drunk }
+				# }
 				#Fallback
 				animation = toast
 			}
@@ -2224,11 +2224,11 @@ activity_entrance_feast = {
 				is_shown = { has_dlc_feature = advanced_activities }
 				
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_cheap_expense_value
-					# Fanciness preference.
-					add = activity_option_likes_functional_food_option_value
+					value = 100
+					# # Financial preference.
+					# add = activity_option_likes_cheap_expense_value
+					# # Fanciness preference.
+					# add = activity_option_likes_functional_food_option_value
 				}
 			}
 			feast_food_normal = {
@@ -2294,58 +2294,58 @@ activity_entrance_feast = {
 			feast_food_good = {
 				is_shown = { has_dlc_feature = advanced_activities }
 
-				cost = {
-					gold = {
-						add = {
-							add = {
-								value = 35
-								desc = feast_food_good
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_tier
-								subtract = 35
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_era
-								subtract = 35
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 35
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_tier
-										subtract = 35
-									}
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_era
-										subtract = 35
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
-					}
-				}
+				# cost = {
+				# 	gold = {
+				# 		add = {
+				# 			add = {
+				# 				value = 35
+				# 				desc = feast_food_good
+				# 			}
+				# 			add = {
+				# 				value = 35
+				# 				multiply = activity_cost_scale_by_tier
+				# 				subtract = 35
+				# 				desc = activity_cost_scale_by_tier_desc
+				# 			}
+				# 			add = {
+				# 				value = 35
+				# 				multiply = activity_cost_scale_by_era
+				# 				subtract = 35
+				# 				desc = activity_cost_scale_by_era_desc
+				# 			}
+				# 			if = {
+				# 				limit = {
+				# 					dynasty ?= {
+				# 						has_dynasty_perk = law_legacy_1
+				# 					}
+				# 				}
+				# 				subtract = {
+				# 					value = 35
+				# 					add = {
+				# 						value = 35
+				# 						multiply = activity_cost_scale_by_tier
+				# 						subtract = 35
+				# 					}
+				# 					add = {
+				# 						value = 35
+				# 						multiply = activity_cost_scale_by_era
+				# 						subtract = 35
+				# 					}
+				# 					multiply = law_legacy_cost_reduction_mult
+				# 					desc = law_legacy_1_name
+				# 				}
+				# 			}
+				# 			min = 0
+				# 		}
+				# 	}
+				# }
 
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_heavy_expense_value
-					# Fanciness preference.
-					add = activity_option_likes_ostentatious_food_option_value
+					value = 100
+					# # Financial preference.
+					# add = activity_option_likes_heavy_expense_value
+					# # Fanciness preference.
+					# add = activity_option_likes_ostentatious_food_option_value
 				}
 			}
 		}
@@ -2356,11 +2356,11 @@ activity_entrance_feast = {
 				is_shown = { has_dlc_feature = advanced_activities }
 
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_cheap_expense_value
-					# Quantity preference.
-					add = activity_option_food_prefers_small_volume_value
+					value = 100
+					# # Financial preference.
+					# add = activity_option_likes_cheap_expense_value
+					# # Quantity preference.
+					# add = activity_option_food_prefers_small_volume_value
 				}
 			}
 			feast_courses_normal = {
@@ -2428,57 +2428,57 @@ activity_entrance_feast = {
 				is_shown = { has_dlc_feature = advanced_activities }
 
 				cost = {
-					gold = {
-						add = {
-							add = {
-								value = 35
-								desc = feast_courses_good
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_tier
-								subtract = 35
-								desc = activity_cost_scale_by_tier_desc
-							}
-							add = {
-								value = 35
-								multiply = activity_cost_scale_by_era
-								subtract = 35
-								desc = activity_cost_scale_by_era_desc
-							}
-							if = {
-								limit = {
-									dynasty ?= {
-										has_dynasty_perk = law_legacy_1
-									}
-								}
-								subtract = {
-									value = 35
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_tier
-										subtract = 35
-									}
-									add = {
-										value = 35
-										multiply = activity_cost_scale_by_era
-										subtract = 35
-									}
-									multiply = law_legacy_cost_reduction_mult
-									desc = law_legacy_1_name
-								}
-							}
-							min = 0
-						}
-					}
+					# gold = {
+					# 	add = {
+					# 		add = {
+					# 			value = 35
+					# 			desc = feast_courses_good
+					# 		}
+					# 		add = {
+					# 			value = 35
+					# 			multiply = activity_cost_scale_by_tier
+					# 			subtract = 35
+					# 			desc = activity_cost_scale_by_tier_desc
+					# 		}
+					# 		add = {
+					# 			value = 35
+					# 			multiply = activity_cost_scale_by_era
+					# 			subtract = 35
+					# 			desc = activity_cost_scale_by_era_desc
+					# 		}
+					# 		if = {
+					# 			limit = {
+					# 				dynasty ?= {
+					# 					has_dynasty_perk = law_legacy_1
+					# 				}
+					# 			}
+					# 			subtract = {
+					# 				value = 35
+					# 				add = {
+					# 					value = 35
+					# 					multiply = activity_cost_scale_by_tier
+					# 					subtract = 35
+					# 				}
+					# 				add = {
+					# 					value = 35
+					# 					multiply = activity_cost_scale_by_era
+					# 					subtract = 35
+					# 				}
+					# 				multiply = law_legacy_cost_reduction_mult
+					# 				desc = law_legacy_1_name
+					# 			}
+					# 		}
+					# 		min = 0
+					# 	}
+					# }
 				}
 
 				ai_will_do = {
-					value = 0
-					# Financial preference.
-					add = activity_option_likes_heavy_expense_value
-					# Quantity preference.
-					add = activity_option_prefers_large_volume_value
+					value = 100
+					# # Financial preference.
+					# add = activity_option_likes_heavy_expense_value
+					# # Quantity preference.
+					# add = activity_option_prefers_large_volume_value
 				}
 			}
 		}
@@ -2682,59 +2682,79 @@ activity_entrance_feast = {
 			on_enter_phase = {
 				debug_log = "ENTERED on_enter_phase plant_seed_attempt"
 				if = {
-					limit = { this = scope:host }
+					limit = { 
+						this = scope:host
+					}
 					debug_log = "ENTERED on_enter_phase plant_seed_attempt HOST CHECK"
 					# # No passive state for the toast, just jump right into it
-					# scope:activity = { progress_activity_phase_after = { days = 1 } }
+					scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
 				else_if = {
 					limit = {
-						this = scope:activity.special_guest:entrancer
+						this = scope:activity.special_guest:entrancer_or_victim
 					}
 					debug_log = "ENTERED on_enter_phase plant_seed_attempt Entrancer CHECK"
 
-					scope:activity = { progress_activity_phase_after = { days = 1 } }
+					# scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
 			}
 
 			on_phase_active = {
 				debug_log = "ENTERED on_phase_active plant_seed_attempt"
 
-				scope:host = {
-					save_scope_as = victim
+				if = {
+					limit = { # host has a recorded entrancer, so is the victim
+						scope:host = {
+							has_variable = entrancer
+						}
+					}
+					scope:host = {
+						save_scope_as = victim
+					}
+					scope:activity.special_guest:entrancer_or_victim = {
+						save_scope_as = entrancer
+					}
 				}
-		
-				scope:activity.special_guest:entrancer = {
-					save_scope_as = entrancer
+				else = {
+					scope:host = {
+						save_scope_as = entrancer
+					}
+					scope:activity.special_guest:entrancer_or_victim = {
+						save_scope_as = victim
+					}
 				}
 
 				if = {
-					limit = { this = scope:host }
+					limit = { 
+						this = scope:host
+					}
+					scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+
+				}
+
+				if = {
+					limit = { 
+						this = scope:host
+						this = scope:entrancer
+					}
 					
 					debug_log = "ENTERED on_phase_active plant_seed_attempt HOST CHECK"
 
-					# trigger_event = entrance_general.1022
-					
-					# scope:activity = { progress_activity_phase_after = { weeks = 1 } }
+					scope:activity.special_guest:entrancer_or_victim = {
+						trigger_event = entrance.1042
+					}
 				}
 				else_if = {
 					limit = {
-						this = scope:activity.special_guest:entrancer
+						this = scope:activity.special_guest:entrancer_or_victim
+						this = scope:entrancer
 					}
 					debug_log = "ENTERED on_phase_active plant_seed_attempt Entrancer CHECK"
-					# trigger_event = entrance_general.1022
 
-					scope:activity.special_guest:entrancer = {
-						trigger_event = entrance_general.1022
+					scope:activity.special_guest:entrancer_or_victim = {
+						trigger_event = entrance.1022
 					}
-
-					scope:activity = { progress_activity_phase_after = { weeks = 1 } }
 				}
-				# else = {
-				# 	debug_log = "ENTERED on_phase_active plant_seed_attempt NOT HOST CHECK"
-
-				# 	scope:activity = { progress_activity_phase_after = { weeks = 1 } }
-				# }
 			}
 		}
 
@@ -2757,7 +2777,7 @@ activity_entrance_feast = {
 				}
 				else_if = {
 					limit = {
-						this = scope:activity.special_guest:entrancer
+						this = scope:activity.special_guest:entrancer_or_victim
 					}
 					debug_log = "ENTERED on_enter_phase feast_phase_meal_2 Entrancer CHECK"
 
@@ -2946,45 +2966,66 @@ activity_entrance_feast = {
 					limit = { this = scope:host }
 					debug_log = "ENTERED on_enter_phase complete_entrance_attempt_phase HOST CHECK"
 
-					# No passive state for the toast, just jump right into it
-					# scope:activity = { progress_activity_phase_after = { days = 1 } }
+					scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
 				else_if = {
 					limit = {
-						this = scope:activity.special_guest:entrancer
+						this = scope:activity.special_guest:entrancer_or_victim
 					}
 					debug_log = "ENTERED on_enter_phase complete_entrance_attempt_phase Entrancer CHECK"
-
-					scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
-				# else = {
-				# 	scope:activity = { progress_activity_phase_after = { days = 1 } }
-				# }
 			}
 
 			on_phase_active = {
 				if = {
-					limit = { this = scope:host }
-					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase HOST CHECK"
-
-					# trigger_event = entrance_general.1025
-
-					# No passive state for the toast, just jump right into it
-					# scope:activity = { progress_activity_phase_after = { days = 1 } }
-				}
-				else_if = {
-					limit = {
-						this = scope:activity.special_guest:entrancer
+					limit = { # host has a recorded entrancer, so is the victim
+						scope:host = {
+							has_variable = entrancer
+						}
 					}
-					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase Entrancer CHECK"
-					trigger_event = entrance_general.1025
+					scope:host = {
+						save_scope_as = victim
+					}
+					scope:activity.special_guest:entrancer_or_victim = {
+						save_scope_as = entrancer
+					}
+				}
+				else = {
+					scope:host = {
+						save_scope_as = entrancer
+					}
+					scope:activity.special_guest:entrancer_or_victim = {
+						save_scope_as = victim
+					}
+				}
 
+
+				if = {
+					limit = { 
+						this = scope:host
+					}
 					scope:activity = { progress_activity_phase_after = { days = 2 } }
 				}
 
-				# trigger_event = entrance_general.1025
-					
-				# scope:activity = { progress_activity_phase_after = { days = 3 } }
+
+				if = {
+					limit = { 
+						this = scope:host
+						this = scope:entrancer
+					}
+					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase HOST CHECK"
+
+					trigger_event = entrance.1045
+				}
+				else_if = {
+					limit = {
+						this = scope:activity.special_guest:entrancer_or_victim
+						this = scope:entrancer
+					}
+					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase Entrancer CHECK"
+					trigger_event = entrance.1025
+
+				}
 			}
 		}
 	}
@@ -3022,7 +3063,7 @@ activity_entrance_feast = {
 		# 	}
 		# }
 
-		# # invite_to_activity entrance_general.1021
+		# # invite_to_activity entrance.1021
 		# if = {
 		# 	limit = {
 		# 		exists = scope:entrance_schemer
@@ -3034,7 +3075,7 @@ activity_entrance_feast = {
 		# 			value = scope:activity
 		# 		}
 	
-		# 		trigger_event = entrance_general.1021
+		# 		trigger_event = entrance.1021
 		# 	}
 		# }
 		# else = {

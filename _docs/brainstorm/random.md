@@ -121,3 +121,25 @@ Add triplets trait
 Tradition idea: "Prophecy Architects", inspired by how the Bene Gessirit engineer prophecies. Could be an Aeluran only tradition only unlockable after getting the Divinator tradition
 
 Dicord Idea: Bot that allows people to pick three personality traits, maybe part of onboarding
+
+
+Gold duck idol: when owned not even equipped grants its own special tradition. Its a prosperity totem so art is the statue on a platform surrounded by ocean with fish jumping out
+- grants development and whatever the fishing traditions give
+
+## The Elf Moot
+- hosted by realm lord
+- all of earths elfs attend
+- maybe elf council from highest 12 leaders
+- could have special votes taken
+   - maybe have to establish elf congress
+   - elfs submit disputed claims and the elfs vote
+- if not congress its a chance for elf lords to petition the realm lord
+- Grant intro event where all of the most prestigious attendants are announced
+- Ballroom event following?
+- challenge realm lords authority
+- have selectable options like grand tournament!
+   - host ball
+   - form congress
+   - have vote
+   - adult party :)
+   - group prayer/ritual organized by aelurans?

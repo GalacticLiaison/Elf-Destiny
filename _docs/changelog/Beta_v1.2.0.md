@@ -109,7 +109,7 @@ Tradition: Tribal Ascension
     - fixed loss of feudal contracts
 
 Tradition: The Rut
-    - Rut was a bit too frequent happening every year. Changing to occur every three years
+    - Rut was a bit too frequent happening every year. Changing to occur once a decade
 
 Tradition: Familial Familiarity
     - Accidentally disabled Purer/Purest-Blooded inheritance, should be working again

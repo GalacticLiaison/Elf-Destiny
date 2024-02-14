@@ -1,6 +1,7 @@
 ﻿entrance = {
 	skill = intrigue
 	desc = entrance_desc_general
+	icon = icon_scheme_entrance
 	# cooldown = { months = 2 }
 	is_secret = yes
 	base_secrecy = 10
@@ -10,7 +11,6 @@
 	minimum_progress_chance = 0
 	maximum_progress_chance = 0
 	maximum_success = 95
-	icon = icon_scheme_entrance
 
 	# Does not use Spymaster
 	spymaster_power_per_skill_point = 0
@@ -580,70 +580,62 @@
 		debug_log = "STARTING ENTRANCE SCHEME"
 
 		scheme_target = {
-			save_scope_as = target
+			save_scope_as = victim
 		}
 		scheme_owner = {
-			save_scope_as = owner
-			trigger_event = entrance_general.101
+			save_scope_as = entrancer
+			trigger_event = entrance.101
 		}
 	}
 
 	on_monthly = {
 		save_scope_as = scheme
-		scheme_owner = { save_scope_as = owner }
-		scheme_target = { save_scope_as = target }
+		scheme_owner = { save_scope_as = entrancer }
+		scheme_target = { save_scope_as = victim }
 
-		# #Milestone 1 event
-		# if = {
-		# 	limit = {
-		# 		scheme_progress >= 3
-		# 		scheme_progress < 7
-		# 		NOR = {
-		# 			has_scheme_modifier = seduce_success_1_modifier
-		# 			has_scheme_modifier = seduce_failure_1_modifier
-		# 			has_variable = declined_seduce_milestone_1_event
-		# 		}
-		# 		scheme_owner = {
-		# 			is_available = yes
-		# 		}
-		# 		scheme_target = {
-		# 			is_available = yes
-		# 		}
-		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
-		# 			OWNER = scope:owner
-		# 			TARGET = scope:target
-		# 		}
-		# 	}
-		# 	scheme_owner = {
-		# 		trigger_event = { on_action = seduce_ongoing_milestone_1 }
-		# 	}
-		# }
+		#Milestone 1 event
+		if = {
+			limit = {
+				scheme_progress >= 3
+				scheme_progress < 6
+				has_variable = entrance_in_holding
+				scheme_owner = {
+					is_available = yes
+				}
+				scheme_target = {
+					is_available = yes
+				}
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:entrancer
+					TARGET = scope:victim
+				}
+			}
+			scheme_owner = {
+				trigger_event = { on_action = entrance_in_holding_milestone_1 }
+			}
+		}
 		# #Milestone 2 event
-		# else_if = {
-		# 	limit = {
-		# 		scheme_progress >= 7
-		# 		NOR = {
-		# 			has_scheme_modifier = seduce_success_2_modifier
-		# 			has_scheme_modifier = seduce_failure_2_modifier
-		# 			has_variable = declined_seduce_milestone_2_event
-		# 		}
-		# 		scheme_owner = {
-		# 			is_available = yes
-		# 		}
-		# 		scheme_target = {
-		# 			is_available = yes
-		# 		}
-		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
-		# 			OWNER = scope:owner
-		# 			TARGET = scope:target
-		# 		}
-		# 	}
-		# 	scheme_owner = {
-		# 		trigger_event = { on_action = seduce_ongoing_milestone_2 }
-		# 	}
-		# }
+		else_if = {
+			limit = {
+				scheme_progress >= 6
+				has_variable = entrance_in_holding
+				scheme_owner = {
+					is_available = yes
+				}
+				scheme_target = {
+					is_available = yes
+				}
+				player_target_available_for_personal_scheme_ongoing_events_trigger = {
+					OWNER = scope:entrancer
+					TARGET = scope:victim
+				}
+			}
+			scheme_owner = {
+				trigger_event = { on_action = entrance_in_holding_milestone_2 }
+			}
+		}
 	}
-	success_desc = "SEDUCE_SUCCESS_DESC"
+	success_desc = "ENTRANCE_SUCCESS_DESC"
 
 	freeze_scheme_when_traveling = no
 	freeze_scheme_when_traveling_target = yes
