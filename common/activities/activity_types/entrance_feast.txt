@@ -11,6 +11,11 @@ activity_entrance_feast = {
 	is_shown = {
 		highest_held_title_tier > tier_barony
 		is_landed = yes
+
+		any_scheme = {
+			scheme_type = entrance
+		}
+
 		# trigger_if = {
 		# 	limit = {
 		# 		is_ai = yes
@@ -294,7 +299,13 @@ activity_entrance_feast = {
 
 	guest_join_chance = {
 		base = 10
-		base_activity_modifier = yes
+		# base_activity_modifier = yes
+
+		modifier = {
+			has_variable = entrancer
+			add = 999
+			desc = is_target_of_entrancement
+		}
 
 		# Scripted Modifiers
 		activity_guest_shared_ai_accept_modifier = yes 
@@ -335,10 +346,10 @@ activity_entrance_feast = {
 			# }
 	
 			select_character = {
-				var:entrancer = {
+				var:entrancer ?= {
 					save_scope_as = character
 				}
-				var:victim = {
+				var:victim ?= {
 					save_scope_as = character
 				}
 			}
@@ -350,8 +361,16 @@ activity_entrance_feast = {
 				# }
 			}
 
-			on_invite = {				
-				trigger_event = entrance.1021
+			on_invite = {
+				if = {
+					limit = {
+						is_ai = no
+					}
+					trigger_event = entrance.1021
+				}
+				else = {
+					trigger_event = entrance.1141
+				}	
 			}
 			
 			ai_will_do = {
@@ -2568,7 +2587,7 @@ activity_entrance_feast = {
 					## Otherwise, there are guests present.
 					### The key event is chosen for the host, and fires other events from there to every participant.
 					else = {
-						trigger_event = feast.2001
+						trigger_event = feast_replacement.2001
 						# Struggle Catalysts
 						## We trigger this here to make sure that someone else actually turned up to the party before having it affect regional relations.
 						if = {
@@ -2664,13 +2683,13 @@ activity_entrance_feast = {
 					limit = {
 						this = scope:host
 					}
-					trigger_event = { on_action = feast_new_event_selection_tombola }
+					trigger_event = { on_action = entrance_feast_new_event_selection_tombola }
 				}
 				else_if = { #guest
 					limit = {
 						NOT = { this = scope:host }
 					}
-					trigger_event = { on_action = feast_default_event_selection }
+					trigger_event = { on_action = entrance_feast_default_event_selection }
 				}
 			}
 		}
@@ -2685,7 +2704,7 @@ activity_entrance_feast = {
 					limit = { 
 						this = scope:host
 					}
-					debug_log = "ENTERED on_enter_phase plant_seed_attempt HOST CHECK"
+					# debug_log = "ENTERED on_enter_phase plant_seed_attempt HOST CHECK"
 					# # No passive state for the toast, just jump right into it
 					scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
@@ -2693,7 +2712,7 @@ activity_entrance_feast = {
 					limit = {
 						this = scope:activity.special_guest:entrancer_or_victim
 					}
-					debug_log = "ENTERED on_enter_phase plant_seed_attempt Entrancer CHECK"
+					# debug_log = "ENTERED on_enter_phase plant_seed_attempt Entrancer CHECK"
 
 					# scope:activity = { progress_activity_phase_after = { days = 1 } }
 				}
@@ -2738,9 +2757,9 @@ activity_entrance_feast = {
 						this = scope:entrancer
 					}
 					
-					debug_log = "ENTERED on_phase_active plant_seed_attempt HOST CHECK"
+					debug_log = "ENTERED on_phase_active plant_seed_attempt HOST is entrancer CHECK"
 
-					scope:activity.special_guest:entrancer_or_victim = {
+					scope:host = {
 						trigger_event = entrance.1042
 					}
 				}
@@ -2749,7 +2768,7 @@ activity_entrance_feast = {
 						this = scope:activity.special_guest:entrancer_or_victim
 						this = scope:entrancer
 					}
-					debug_log = "ENTERED on_phase_active plant_seed_attempt Entrancer CHECK"
+					debug_log = "ENTERED on_phase_active plant_seed_attempt Special guest is Entrancer CHECK"
 
 					scope:activity.special_guest:entrancer_or_victim = {
 						trigger_event = entrance.1022
@@ -2786,158 +2805,11 @@ activity_entrance_feast = {
 			}
 
 			on_phase_active = {
-				# Sort some stuff on the host.
+				# # Sort some stuff on the host.
 				if = {
 					limit = { this = scope:host }
 
 					scope:activity = { progress_activity_phase_after = { months = 1 } }
-
-					# Misc. old content variable.
-					## Reduce alcohol stores if appropriate.					
-					if = {
-						limit = { exists = var:protected_alcohol_stores }
-						set_variable = {
-							name = protected_alcohol_stores
-							value = 0
-						}
-					}
-					## Look for a target you're trying to befriend
-					if = {
-						limit = {
-							any_scheme = {
-								scheme_type = befriend
-								scheme_target = {
-									exists = involved_activity
-									involved_activity = scope:activity
-								}
-							}
-						}
-						random_scheme = {
-							limit = {
-								scheme_type = befriend
-								scheme_target = {
-									exists = involved_activity
-									involved_activity = scope:activity
-								}
-							}
-							scheme_target = {
-								save_scope_as = potential_friend
-								scope:activity = {
-									set_variable = {
-										name = potential_friend
-										value = scope:potential_friend
-									}
-								}
-							}
-							scheme_freeze = { days = 10 }
-						}
-					}
-					# And now, the main event!
-					## Check that there are guests apart from the feast host.
-					if = {
-						limit = {
-							scope:activity = {
-								any_attending_character = {
-									count = 0
-									NOT = {	this = scope:host }
-								}
-							}
-						}
-						# If there are no other guests, throw this event.
-						## [sad period-appropriate trombone noises]
-						trigger_event = feast.2003
-					}
-					## Otherwise, there are guests present.
-					### The key event is chosen for the host, and fires other events from there to every participant.
-					else = {
-						trigger_event = feast.2001
-						# Struggle Catalysts
-						## We trigger this here to make sure that someone else actually turned up to the party before having it affect regional relations.
-						if = {
-							limit = {
-								# At least one participant is involved and  of a different faith or culture
-								scope:activity = {
-									any_attending_character = {
-										any_character_struggle = {
-											involvement = involved
-											phase_has_catalyst = catalyst_invite_diff_faith_culture_to_feast
-										}
-										is_diff_faith_or_culture_trigger = {
-											CHAR = scope:host
-											STATUS = involved
-										}
-									}
-								}
-							}
-							every_character_struggle = {
-								involvement = involved
-								activate_struggle_catalyst = {
-									catalyst = catalyst_invite_diff_faith_culture_to_feast
-									character = scope:activity.activity_host
-								}
-							}
-						}
-					}
-					# Accolade stuff
-					if = {
-						limit = {
-							any_active_accolade = {
-								has_accolade_parameter = accolade_party_fertility
-							}
-						}
-						add_character_modifier = {
-							modifier = accolade_charmer_party_modifier
-						}
-					}
-					if = {
-						limit = {
-							any_active_accolade = {
-								has_accolade_parameter = accolade_party_fertility_high
-							}
-						}
-						add_character_modifier = {
-							modifier = accolade_charmer_party_high_modifier
-						}
-					}
-				}
-				# And for everyone else.
-				else = {
-					# You're busy at another party! (invites were sent the same day, but you agreed to another party after this one )
-					if = {
-						limit = {
-							exists = var:booked_for_a_party
-							var:booked_for_a_party = {
-								NOT = { this = scope:activity.activity_host }
-							}
-						}
-						trigger_event = feast.0010
-					}
-					else = {
-						random_list = {
-							0 = { #they don't join
-								modifier = {
-									add = 100
-									scope:host = { has_variable = murder_feast_perpetrator_var } #if you have hosted a murder feast
-								}
-							}
-							100 = {
-								trigger_event = feast.7051
-							}
-						}
-						# Take care of reveller stuff for everyone else.
-						if = {
-							limit = { 
-								NOT = { has_trait = temperate }
-							}
-							# Reveler lifestyle tracking:
-							reveler_points_gain_effect = {
-								CHANGE = 1
-								RANDOM_CHANGE = 1
-							}
-							# Remove blocker for invitations to feasts (the feast is now active and will work as a blocker)
-							remove_variable = booked_for_a_party
-						}
-					}
 				}
 			}
 			
@@ -2946,13 +2818,13 @@ activity_entrance_feast = {
 					limit = {
 						this = scope:host
 					}
-					trigger_event = { on_action = feast_new_event_selection_tombola }
+					trigger_event = { on_action = entrance_feast_new_event_selection_tombola }
 				}
 				else_if = { #guest
 					limit = {
 						NOT = { this = scope:host }
 					}
-					trigger_event = { on_action = feast_default_event_selection }
+					trigger_event = { on_action = entrance_feast_default_event_selection }
 				}
 			}
 		}

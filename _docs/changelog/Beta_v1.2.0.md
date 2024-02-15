@@ -5,6 +5,7 @@
 Elf Holy Sites will now be created at Expedition sites you complete three trials at
 NEW! Spark Syncretism Tenet
 Now have a chance to encounter a couple Valar (Gods) at expeditions sites after the portal has been opened
+Selecting an Aeluran offers a convert to Aeluran faith character interaction for the non-believers
 
 ## Story
 
