@@ -851,6 +851,368 @@ expedition.005111 = { # A Trial Of Wisdom WRONG ANSWER
 	}
 }
 
+expedition.01512 = { # A Trial Of Cunning
+	type = activity_event
+
+	title = expedition.00512.title
+	desc = {
+		desc = expedition.01512.desc
+		triggered_desc = { # Advisor
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.intrigue_check
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue < 5
+			}
+			desc = expedition.00512.intrigue_check.rating.lowest
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.low
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.mid
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.good
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue > 25
+			}
+			desc = expedition.00512.intrigue_check.rating.best
+		}
+
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.advisor_advice
+		}
+	}
+	
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:marble_statue
+		animation = personality_content
+	}
+
+	lower_left_portrait = {
+		character = scope:cunning_advisor
+		animation = thinking
+	}
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+		}
+	}
+
+	immediate = {
+
+		create_character = {
+			name = marble_automaton_trial_of_cunning
+			template = marble_automaton_1
+			dynasty = none
+			location = root.location
+			save_scope_as = marble_statue
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = trial_attempted
+				value = flag:true
+			}
+
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					intrigue > 5
+				}
+				add_to_list = cunning_advisor_candidate
+			}
+
+			ordered_in_list = {
+				list = cunning_advisor_candidate
+				order_by = {
+					value = 0
+					add = intrigue
+				}
+
+				save_scope_as = cunning_advisor
+			}	
+		}
+
+		if = {
+			limit = {
+				exists = scope:cunning_advisor
+			}
+
+			debug_log = "CUNNING ADVISOR DOES EXIST"
+
+			# set_variable = {
+			# 	name = cunning_advisor_intrigue
+			# 	value = scope:cunning_advisor.intrigue
+			# }
+		}
+		else = {
+			debug_log = "CUNNING ADVISOR DOESNT EXIST"
+		}
+
+		set_variable = {
+			name = player_score 
+			value = 0
+		}
+
+		set_variable = {
+			name = ai_score 
+			value = 0
+		}
+
+		save_scope_value_as = {
+			name = King
+			value = 7
+		}
+		save_scope_value_as = {
+			name = Queen
+			value = 6
+		}
+		save_scope_value_as = {
+			name = Priestess
+			value = 5
+		}
+		save_scope_value_as = {
+			name = Noble
+			value = 4
+		}
+		save_scope_value_as = {
+			name = Knight
+			value = 3
+		}
+		save_scope_value_as = {
+			name = Bandit
+			value = 2
+		}
+		save_scope_value_as = {
+			name = Peasant
+			value = 1
+		}
+
+		scope:King = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Queen = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Priestess = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Noble = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Knight = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Bandit = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Peasant = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+
+		determine_advisor_pick_effect = yes
+	}
+
+	option = { # King
+		name = expedition.00512.playKing
+
+		trigger = {
+			scope:King = { is_in_list = player_pieces }
+		}
+
+		scope:King = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:King
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Queen
+		name = expedition.00512.playQueen
+
+		trigger = {
+			scope:Queen = { is_in_list = player_pieces }
+		}
+
+		scope:Queen = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Queen
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Priestess
+		name = expedition.00512.playPriestess
+
+		trigger = {
+			scope:Priestess = { is_in_list = player_pieces }
+		}
+
+		scope:Priestess = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Priestess
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Noble
+		name = expedition.00512.playNoble
+
+		trigger = {
+			scope:Noble = { is_in_list = player_pieces }
+		}
+
+		scope:Noble = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Noble
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Knight
+		name = expedition.00512.playKnight
+
+		trigger = {
+			scope:Knight = { is_in_list = player_pieces }
+		}
+	
+		scope:Knight = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Knight
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Bandit
+		name = expedition.00512.playBandit
+		
+		trigger = {
+			scope:Bandit = { is_in_list = player_pieces }
+		}
+
+		scope:Bandit = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Bandit
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Peasant
+		name = expedition.00512.playPeasant
+
+		trigger = {
+			scope:Peasant = { is_in_list = player_pieces }
+		}
+
+		scope:Peasant = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Peasant
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+}
+
 expedition.00512 = { # A Trial Of Cunning
 	type = activity_event
 
@@ -1063,6 +1425,11 @@ expedition.00512 = { # A Trial Of Cunning
 		}
 
 		determine_advisor_pick_effect = yes
+	}
+
+	option = { # RULES?
+		name = expedition.00512.rules
+		trigger_event = expedition.01512
 	}
 
 	option = { # King

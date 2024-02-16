@@ -157,22 +157,25 @@
 	}
 
 	is_valid_showing_failures_only = {
+
+		scope:actor = {
+			custom_description = {
+				text = not_spark_talented
+				subject = scope:recipient
+				is_spark_talented = yes
+			}
+		}
+
 		scope:actor = {
 			NOT = { is_at_war_with = scope:recipient }
 			can_start_scheme = {
-				type = seduce
+				type = entrance
 				target = scope:recipient
 			}
 		}
-		trigger_if = {
-			limit = {
-				scope:recipient = { exists = primary_spouse }
-			}
-			scope:recipient = { primary_spouse = { NOT = { has_strong_hook = scope:actor } } }
-		}
 	}
 
-	desc = scheme_interaction_tt_seduce_approved
+	desc = entrance_interaction_tt_entrance_approved
 
 	on_accept = {
 		debug_log = "Accepted Entrance intereaction"

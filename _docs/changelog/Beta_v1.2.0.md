@@ -5,7 +5,8 @@
 Elf Holy Sites will now be created at Expedition sites you complete three trials at
 NEW! Spark Syncretism Tenet
 Now have a chance to encounter a couple Valar (Gods) at expeditions sites after the portal has been opened
-Selecting an Aeluran offers a convert to Aeluran faith character interaction for the non-believers
+Selecting an Aeluran Sister offers a convert to Aeluran faith character interaction
+Aeluran Sisters now have the ability to control the gender of their unborn child like the Benne Gesserit through a new character interaction
 
 ## Story
 
@@ -88,6 +89,8 @@ Elf Beautification
 - removed giant like head change for Daelurin bloodline trait
 - NEW! Game Rule: apply or remove prowess muscle gain effect for female characters
 - NEW! Game Rule: apply or remove makeup effect from Beauty traits
+
+Added rules explanation to Expedition Trial of Cunning
 
 ## Bug Fixes/Tweaks
 
