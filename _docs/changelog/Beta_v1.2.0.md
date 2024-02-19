@@ -1,3 +1,11 @@
+Monday Plan:
+X - elf trait immortal/not-immortal
+- rut, get 10 yr version working
+    - had it start, just need cleanup?
+- Ascension ritual threshold blockers
+X - historical elf hair/clothing choices
+- endless lord trait
+
 # Beta_v1.2.0
 
 ## Religion
@@ -14,54 +22,66 @@ New event that allows player to move portal pieces to their capital so they can 
 
 ## Traditions
 
-NEW! Blessing: Endless Lord
+### NEW! Blessing: Endless Lord
 - First born child born is an exact genetic copy of their parent lord.
 - Other children born normally
 - Child receives all standard genetic traits of their lord parent.
 - Elf traits treated differently, first born can still ascend higher than parent
 - Child receives a new trait that tracks how many iterations of that lord there has been
 
-NEW! Blessing: Beguiling Nature
+### NEW! Blessing: Beguiling Nature
 - Characters gain Lustful after 3 seducing three lords and upgrade it to Passionate after seducing 5 lords.
 - Unlocks new **Entrance** Scheme
 - Characters with the Seductress Lifestyle trait will upgrade it to Enchantress after 3 successful Entrance Schemes. 
 
-NEW! Tradition: Aeluran Etiquette
+### NEW! Tradition: Aeluran Etiquette
 - Increases county religion and culture conversion speeds.
 
 ## Introducing Valar Blessing!
 
-NEW! Blessing of Vána
+### NEW! Blessing of Vána
 - Gift Of Many Mothers: The people of this culture will give birth to six girls for every one boy born
 - +3 stewardship; -3 martial
 
-NEW! Blessing of Tulkas Astaldo
+### NEW! Blessing of Tulkas Astaldo
 - Gift Of Endless Armies: The people of this culture will give birth to six boys for every one girl born
 - +3 martial; -3 stewardship;
 
 ## Ascension
 
-The remainder of the Elf traits have been added to the game bringing the total levels of Ascension to 12!
-Players can not Ascend past High Elf until after the portal has been opened.
-Players can not yet Ascend to the highest tier of traits
-Elf Traits
+### The remainder of the Elf traits have been added to the game bringing the total levels of Ascension to 12!
+- Players can not Ascend past High Elf until after the portal has been opened.
+- Players can not yet Ascend to the highest tier of traits
+### Elf Traits
 - Now give Elves huge fertility penalties that increase in severity as you Ascend.
 - Now give no prowess loss from age
+- Did a fundamental re-work of how Elf traits work
+    - Now instead of using the "life expectancy stat", Elf traits grant "immortality".
+    - Children start with an elf trait version that has no immortality and have it swapped to an immortality version at age 20
+    - When an Elf has reached an age when they should start to be able to die, the traits are swapped back and they are again given a version of their elf trait without immortality
+    - Throughout their lifespan, at an appropriate age, their visual immortality age will be increased
+    - As a result now attraction will not be loss from age until an appropriate age
+    - The higher Elf trait levels stay young looking forever
+<!-- under Construction -->
 - Now will randomly appear on characters of Elven culture
+- on_guest_arrived_from_pool
+- on_join_court
+- yearly_culture_pulse
+
+- on_councillor_left (remove delay for aeluran? or at least launch event and have aeluran advisor begin trvaeling from aeluran capital!)
 
 ## Magic
-
-Started to dip the mod's toes into magic
-NEW! Magi Lifestyle trait
-NEW! genetic magic ability traits!
+Started to dip the mod's toes into magic!
+### NEW! Magi Lifestyle trait
+### NEW! genetic magic ability traits!
     - Spark Gifted
     - Spark Savant
     - Spark Prodigy
-NEW! Entrance scheme unlocked by "Beguiling Nature" blessing. This is the first official "spell" of the mod.
+### NEW! Entrance scheme unlocked by "Beguiling Nature" blessing. This is the first official "spell" of the mod.
     - Make target slightly "obsessed" with you via your Spark powered aura through "chance" encounters at events like Feasts.
     - grants a perpetual hook on target if successful
     - odds of success are lowered if trying to Entrance a character of same elf tier. Impossible to entrance character of higher elf tier without the new Enchantress Trait
-NEW! Enchantress trait
+### NEW! Enchantress trait
     - First trait of a series of planned traits that represent a type of Magi specialization.
     - requires the Seductress Lifestyle trait to unlock
 
@@ -89,8 +109,11 @@ Elf Beautification
 - removed giant like head change for Daelurin bloodline trait
 - NEW! Game Rule: apply or remove prowess muscle gain effect for female characters
 - NEW! Game Rule: apply or remove makeup effect from Beauty traits
+- Added manual style choices to the Valerith family. Might do others in the future
 
 Added rules explanation to Expedition Trial of Cunning
+
+Added new "event decoration" to Elf Destiny events. Tells player what "DLC" it came from.
 
 ## Bug Fixes/Tweaks
 
@@ -109,8 +132,8 @@ Tradition: Familial Familiarity
     - now properly unlocks family consanguinity
 
 Tradition: Tribal Ascension
-    - fixed loss of succession options
-    - fixed loss of feudal contracts
+    X- fixed loss of succession options
+    X- some feudal contract options restored
 
 Tradition: The Rut
     - Rut was a bit too frequent happening every year. Changing to occur once a decade

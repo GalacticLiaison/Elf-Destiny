@@ -143,3 +143,22 @@ Gold duck idol: when owned not even equipped grants its own special tradition. I
    - have vote
    - adult party :)
    - group prayer/ritual organized by aelurans?
+
+
+   ## Resonance Quests
+   - live the lifestyle of an elf that came before you.
+   - rewards players for living a type of way.
+
+   example
+      - have 4 children in line to inherit 4 different kingdoms
+
+   Resonance UI
+   - repurpose Activity
+      - all resonances are listed at different "types" of the same activity
+      - each resonance type is named after a historic elf
+      - art for activity type is their likeness
+      - * cool idea, if have the planned spiritual blessing, maybe can bestow the upgraded possessed trait on a character and its this famous elf, so you essentially resurrect them!. Celebrim for example.
+   - could be quests unique to realm lord enabled by having the sigil? 
+
+   lifestyle trait: Spiritualist
+   lifestyle trait: Warlock (dark spiritualist)
