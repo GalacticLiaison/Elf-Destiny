@@ -1,10 +1,4 @@
-Monday Plan:
-X - elf trait immortal/not-immortal
-- rut, get 10 yr version working
-    - had it start, just need cleanup?
-- Ascension ritual threshold blockers
-X - historical elf hair/clothing choices
-- endless lord trait
+Wednesday Plan
 
 # Beta_v1.2.0
 
@@ -145,6 +139,8 @@ Elven Adaptability innovation now removes reform cooldown for culture
 
 Elf Religion Names = Elf Culture Names
 
+Ascension ritual is now doable for all Elfs even if the Sigil Of The Realm Lord hasn't been found yet
+
 Accidentally permanently unlocked "challenge rival to a fight" character interaction. Fixed
 
 Portal pieces are now removed after restoring the Grand Portal
@@ -155,7 +151,6 @@ Basically the mod makes several faith tenets disappear in faith reformations, mo
 
 ## ART STILL NEEDED ##
 
-- Endless Lord Trait
 - Shrine Backgrounds
 - Portal Piece Discovery Background
 

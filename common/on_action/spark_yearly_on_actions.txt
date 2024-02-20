@@ -15,7 +15,7 @@ yearly_global_pulse = {
 		elf_destiny_random_occurences_yearly_pulse
 		elf_destiny_modifier_management_yearly_pulse
 		the_rut_yearly_pulse
-		# the_rut_cleanup_yearly_pulse
+		the_rut_cleanup_yearly_pulse
 	}
 }
 
@@ -97,24 +97,36 @@ the_rut_yearly_pulse = {
 			value = yes
 		}
 	}
-	# on_actions = {
-	# 	give_the_rut
-	# }
+	on_actions = {
+		give_the_rut
+	}
 }
 
-# give_the_rut = {
-# 	trigger = {
+give_the_rut = {
+	trigger = {
 
-# 	}
-# 	random_events = {
-# 		100 = the_rut_events.0001
-# 	}
-# }
+	}
+	effect = {
+		every_living_character = {
+			limit = {
+				is_any_elf_type = yes
+				culture = {
+					has_cultural_parameter = the_rut_enabled
+				}
+			}
+			trigger_event = the_rut_events.0001
+		}
+	}
+
+	# random_events = {
+	# 	100 = the_rut_events.0001
+	# }
+}
 
 the_rut_cleanup_yearly_pulse = {
 	trigger = {
 		global_var:rut_is_active = yes
-		years_since_last_rut_value >= 1
+		years_since_last_rut_value >= 2
 	}
 	effect = {
 		debug_log = "RUT ENDING YEARLY CHECK"
@@ -123,6 +135,9 @@ the_rut_cleanup_yearly_pulse = {
 			value = no
 		}
 		every_living_character = {
+			limit = {
+				has_character_flag = rutting
+			}
 			trigger_event = the_rut_events.0002
 		}
 	}

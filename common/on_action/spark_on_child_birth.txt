@@ -19,7 +19,11 @@ on_birth_child = {
 
 on_birth_elf_trait = {
 	effect = {
-		# debug_log = "IN ELF TRAITS ASSIGNMENT!!!!"
+		debug_log = "IN ELF TRAITS ASSIGNMENT!!!!"
+		
+		# Cleans up any natural genetic traits
+		remove_all_elf_traits_effect = yes
+
 		# average_elf_trait_score = 7
 		if = { # Both Parents Human
 			limit = {
@@ -459,8 +463,12 @@ on_birth_higher_level_base_genetics = {
 	}
 }
 
+# TODO handle multi-birth!
 on_birth_endless_lord = {
 	trigger = {
+		culture = {
+			has_cultural_parameter = endless_lord_active
+		}
 		OR = {
 			scope:real_father = {
 				is_ruler = yes
@@ -472,45 +480,37 @@ on_birth_endless_lord = {
 	}
 
 	effect = {
+		debug_log = "Beginning Endless Lord"
+
+		# Identify Mother or Father as lord
+		determine_endless_lord_parent = yes
+
 		if = {
 			limit = {
-				culture = {
-					has_cultural_parameter = endless_lord_active
-				}
-			}
-
-			debug_log = "Beginning Endless Lord"
-
-			# Identify Mother or Father as lord
-			determine_endless_lord_parent = yes
-
-			if = {
-				limit = {
-					# Check if child is first child
-					NOT = {
-						scope:lord_to_copy = {
-							any_child = {
-								count > 1
-							}
+				# Check if child is first child
+				NOT = {
+					scope:lord_to_copy = {
+						any_child = {
+							count > 1
 						}
 					}
 				}
-
-				remove_all_genetic_traits_from_child = yes
-				add_endless_lord_genetic_traits = yes
-				handle_endless_lord_trait_effect = yes
-
-				debug_log = "Do it!"
-				scope:child = {
-					# TODO: will handle this during naming event
-					# change_first_name = { template_character = scope:lord_to_copy }
-					copy_inheritable_appearance_from = scope:lord_to_copy
-					# TODO Gender?
-				}
 			}
-			else = {
-				debug_log = "FAILED TO TRIGGER ENDLESS LORD"
+
+			remove_all_genetic_traits_from_child = yes
+			add_endless_lord_genetic_traits = yes
+			handle_endless_lord_trait_effect = yes
+
+			debug_log = "Do it!"
+			scope:child = {
+				# TODO: will handle this during naming event
+				# change_first_name = { template_character = scope:lord_to_copy }
+				copy_inheritable_appearance_from = scope:lord_to_copy
+				# TODO Gender?
 			}
+		}
+		else = {
+			debug_log = "FAILED TO TRIGGER ENDLESS LORD"
 		}
 	}
 }

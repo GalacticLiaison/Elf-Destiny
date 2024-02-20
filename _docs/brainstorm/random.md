@@ -162,3 +162,11 @@ Gold duck idol: when owned not even equipped grants its own special tradition. I
 
    lifestyle trait: Spiritualist
    lifestyle trait: Warlock (dark spiritualist)
+
+   secret ways to learn languages
+   - ancient elvish
+   - ancient draconian
+
+   knowing these languages unlocks secrets within expedition sites
+
+   Ive already had this idea once but: tradition => drastically increases the quality of knights that join your court, peasant revolts are far more dangerous
