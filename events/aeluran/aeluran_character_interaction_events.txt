@@ -36,8 +36,20 @@ aeluran_character_interaction.001 = {
 aeluran_character_interaction.002 = {
 	type = character_event
 	title = aeluran_character_interaction.002.title
-	desc = aeluran_character_interaction.002.desc
 	
+	desc = {
+		desc = aeluran_character_interaction.002.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:recipient = root
+				}
+				desc = aeluran_character_interaction.002.player_is_mother
+			}
+			desc = aeluran_character_interaction.002.not_mother
+		}
+	}
+
 	theme = seduction
 	content_source = elf_destiny
 	
@@ -61,15 +73,21 @@ aeluran_character_interaction.002 = {
 
 	option = {
 		name = aeluran_character_interaction.002.girl
-		scope:recipient = {
-			set_pregnancy_gender = female
+		custom_tooltip = {
+			text = set_baby_to_girl
+			scope:recipient = {
+				set_pregnancy_gender = female
+			}
 		}
 	}
 
 	option = {
 		name = aeluran_character_interaction.002.boy
-		scope:recipient = {
-			set_pregnancy_gender = male
+		custom_tooltip = {
+			text = set_baby_to_boy
+			scope:recipient = {
+				set_pregnancy_gender = male
+			}
 		}
 	}
 

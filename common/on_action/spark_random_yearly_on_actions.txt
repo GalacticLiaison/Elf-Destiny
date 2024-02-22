@@ -1,0 +1,92 @@
+﻿random_yearly_everyone_pulse = {
+	on_actions = {
+		elf_prego_pulse
+	}
+}
+
+# With lower elf fertility this make sure that elves are at least having some kids
+elf_prego_pulse = {
+	trigger = {
+		root = {
+			OR = {
+				AND = {
+					is_female = yes
+					is_pregnant = no
+				}
+				is_female = no
+			}
+			age > 16
+			is_any_elf_type = yes
+			any_child = {
+				count = 0
+			}
+			OR = {
+				is_married = yes
+				is_concubine = yes
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_female = yes
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				debug_log = "evaluating elf preg encouragment married"
+	
+				random_consort = {
+					save_scope_as = sex_partner
+				}
+	
+				debug_log_scopes = yes
+	
+				random = {
+					chance = 20
+					debug_log = "pregnancy given"
+					make_pregnant = {
+						father = scope:sex_partner
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_concubine = yes
+					is_concubine_of = liege
+				}
+				debug_log = "evaluating elf preg encouragment concubine"
+				debug_log_scopes = yes
+	
+				random = {
+					chance = 20
+					debug_log = "pregnancy given"
+					make_pregnant = {
+						father = liege
+					}
+				}
+			}
+		}
+		else = {
+			debug_log = "evaluating elf preg encouragment married male perspective"
+	
+			random_consort = {
+				save_scope_as = sex_partner
+			}
+
+			debug_log_scopes = yes
+
+			random = {
+				chance = 20
+				debug_log = "pregnancy given"
+				scope:sex_partner = {
+					make_pregnant = {
+						father = root
+					}
+				}
+			}
+		}
+
+	}
+}

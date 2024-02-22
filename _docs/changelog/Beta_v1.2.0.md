@@ -1,14 +1,58 @@
-Wednesday Plan
+# Wednesday Plan
+X - Art For transport portal
+
+X - Restored portal event with updated Art
+
+X - register all new blessings/traditions with their corresponding event
+
+X - expedition.0061.ok
+
+X - Indoctrinate
+   X - now has small chance of increasing control in selected county
+   X - now has small chance of converting culture in selected county
+- Undermine
+    - now has small chance of converting county to your faith
+    - now has a very small chance of converting enemy heir to your faith
+
+<!-- under Construction -->
+- Now will randomly appear on characters of Elven culture
+    - on_guest_arrived_from_pool
+    - on_join_court
+    - yearly_culture_pulse
+
+Tradition: Adventurer Guilds
+    - now allows potentially two trials per run
+
+Tradition: Familial Familiarity
+    - now properly unlocks family consanguinity
+<!-- BTW dunno if you've already made this edit yet, but the cleanest overwrite for that one tradition to properly allow consanguinous marriage despite faith restrictions is to modify relation_with_character_is_incestuous_in_faith_trigger to add an exception for the tradition -->
+
+Elven Adaptability innovation now removes reform cooldown for culture
+
+Accidentally permanently unlocked "challenge rival to a fight" character interaction. Fixed
+
+X - Portal pieces are now removed after restoring the Grand Portal
+
+Added "OK" dismiss button to tutorial window
+
+Basically the mod makes several faith tenets disappear in faith reformations, mostly ones added in the Persia update. Selection of existing faiths that have the doctrines is fine, but I don’t think new player-created faith have the option to select such tenets
+
+SEE BOTTOM OF PAGE FOR LEVEL 4 GENETICS BUG
+
+TEST ENTRANCE STABILITY
+TEST ENTRANCE/ENTHRALL
 
 # Beta_v1.2.0
 
 ## Religion
 
-Elf Holy Sites will now be created at Expedition sites you complete three trials at
-NEW! Spark Syncretism Tenet
-Now have a chance to encounter a couple Valar (Gods) at expeditions sites after the portal has been opened
-Selecting an Aeluran Sister offers a convert to Aeluran faith character interaction
-Aeluran Sisters now have the ability to control the gender of their unborn child like the Benne Gesserit through a new character interaction
+- Elf Holy Sites will now be created at Expedition sites you complete three trials at
+- NEW! Spark Syncretism Tenet
+- Now have a chance to encounter a couple Valar (Gods) at expeditions sites after the portal has been opened
+- Selecting an Aeluran Sister offers a convert to Aeluran faith character interaction
+- Aeluran Sisters also now have the ability to control the gender of their unborn child like the Benne Gesserit through a new character interaction
+- Entranced => Enthralled trait needs testing
+    - could just use a debug decision to apply trait but might as well test full thing?
 
 ## Story
 
@@ -72,7 +116,7 @@ Started to dip the mod's toes into magic!
     - Spark Savant
     - Spark Prodigy
 ### NEW! Entrance scheme unlocked by "Beguiling Nature" blessing. This is the first official "spell" of the mod.
-    - Make target slightly "obsessed" with you via your Spark powered aura through "chance" encounters at events like Feasts.
+    - Make target "obsessed" with you via your Spark powered aura through "chance" encounters at events like Feasts.
     - grants a perpetual hook on target if successful
     - odds of success are lowered if trying to Entrance a character of same elf tier. Impossible to entrance character of higher elf tier without the new Enchantress Trait
 ### NEW! Enchantress trait
@@ -81,10 +125,11 @@ Started to dip the mod's toes into magic!
 
 ## Aelurans
 
-Added annual logic to replace dead Matriarch/Matrons/Sisters
-- This is a very simplistic solution that will be expanded upon in the future with proper elections and what not.
-Added event to take magically talented daughters of Elf Lords to be trained at the Aeluran's HQ at age 7
-Added event where they return as trained Aeluran Sister Magi at age 15
+- Added annual logic to replace dead Matriarch/Matrons/Sisters
+    - This is a very simplistic solution that will be expanded upon in the future with proper elections and what not.
+- Added event to take magically talented daughters of Elf Lords to be trained at the Aeluran's HQ at age 7
+- Added event where they return as trained Aeluran Sister Magi at age 15
+- Added new background Art for Aeluran Advisor
 Aeluran Advisor
 - Magistration:
     - Now has chance to gain a perpetual basic hook called "Religious Exaltation" on a courtier or vassal
@@ -103,10 +148,9 @@ Elf Beautification
 - removed giant like head change for Daelurin bloodline trait
 - NEW! Game Rule: apply or remove prowess muscle gain effect for female characters
 - NEW! Game Rule: apply or remove makeup effect from Beauty traits
-- Added manual style choices to the Valerith family. Might do others in the future
+- Added manual style choices to the Valerith family. Might do others in the future too!
 
 Added rules explanation to Expedition Trial of Cunning
-
 Added new "event decoration" to Elf Destiny events. Tells player what "DLC" it came from.
 
 ## Bug Fixes/Tweaks
@@ -145,9 +189,9 @@ Accidentally permanently unlocked "challenge rival to a fight" character interac
 
 Portal pieces are now removed after restoring the Grand Portal
 
-Added "OK" dismiss button to tutorial window
+Fixed issue where characters could lose level 3 genetic traits if they didnt have the "Noble Husbandry" Blessing
 
-Basically the mod makes several faith tenets disappear in faith reformations, mostly ones added in the Persia update. Selection of existing faiths that have the doctrines is fine, but I don’t think new player-created faith have the option to select such tenets
+Added "OK" dismiss button to tutorial window
 
 ## ART STILL NEEDED ##
 

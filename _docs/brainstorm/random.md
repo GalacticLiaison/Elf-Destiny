@@ -170,3 +170,7 @@ Gold duck idol: when owned not even equipped grants its own special tradition. I
    knowing these languages unlocks secrets within expedition sites
 
    Ive already had this idea once but: tradition => drastically increases the quality of knights that join your court, peasant revolts are far more dangerous
+
+   with rats coming to the game, have a pied piper ability to control rat waves, could be a military unit and a way to spread plague at will
+
+   tradition idea: Tavern Network

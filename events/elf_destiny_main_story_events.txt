@@ -75,21 +75,42 @@ elf_destiny_main_story_events.001 = {
 }
 
 ### Restore the Grand Portal ###
-elf_destiny_main_story_events.002 = { # Restore the Portal
+elf_destiny_main_story_events.002 = { # Restore the Portal part 1
 	type = character_event
 	title = elf_destiny_main_story_events.002.t
 	desc = elf_destiny_main_story_events.002.desc
-	theme = stewardship
+
+	theme = broken_portal
 	content_source = elf_destiny
 
-	left_portrait = {
-		character = scope:scoped_ruler
-		animation = personality_greedy
+	artifact = {
+		target = scope:portal_capacitor
+		position = lower_left_portrait
+	}
+
+	artifact = {
+		target = scope:navigation_relay
+		position = lower_center_portrait
 	}
 
 	immediate = {
 		play_music_cue = "mx_cue_positive_effect"
 		save_scope_as = scoped_ruler
+
+		every_character_artifact = {
+			if = {
+				limit = {
+					has_variable = is_portal_capacitor
+				}
+				save_scope_as = portal_capacitor
+			}
+			if = {
+				limit = {
+					has_variable = is_navigation_relay
+				}
+				save_scope_as = navigation_relay
+			}
+		}
 	}
 
 	option = { # Restore the Portal
@@ -100,15 +121,18 @@ elf_destiny_main_story_events.002 = { # Restore the Portal
 			# Must Have the Seal and must have awakened it.
 		}
 
-		root = {
-			every_character_artifact = {
-				limit = {
-					OR = {
-						has_variable = is_portal_capacitor
-						has_variable = is_navigation_relay
+		custom_tooltip = {
+			text = lose_portal_components
+			root = {
+				every_character_artifact = {
+					limit = {
+						OR = {
+							has_variable = is_portal_capacitor
+							has_variable = is_navigation_relay
+						}
 					}
+					destroy_artifact = this
 				}
-				destroy_artifact = this
 			}
 		}
 
@@ -117,72 +141,83 @@ elf_destiny_main_story_events.002 = { # Restore the Portal
 		## Then the below effects would trigger
 
 		## Restore Portal ##
-		title:b_luch = {
-			restore_the_grand_portal_scripted_effect = yes
+		if = {
+			limit = {
+				has_global_variable = grand_portal_transported
+			}
+			root = {
+				capital_province.barony = {
+					restore_the_grand_portal_scripted_effect = yes
+				}
+			}
+		}
+		else = {
+			title:b_luch = {
+				restore_the_grand_portal_scripted_effect = yes
+			}
+
+			## Be Granted The Feyswood as your Domain ##
+			if = { # c_cykma
+				limit = {
+					NOT = { title:c_cykma.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_cykma = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			if = { # c_martyuba
+				limit = {
+					NOT = { title:c_martyuba.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_martyuba = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			if = { # d_martyuba
+				limit = {
+					NOT = { title:d_martyuba.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:d_martyuba = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			
+			# We may or may not want this....
+			# set_realm_capital = title:c_martyuba
 		}
 
 		set_global_variable = {
 			name = grand_portal_restored
 			value = yes
 		}
-
-		## Be Granted The Feyswood as your Domain ##
-		if = { # c_cykma
-			limit = {
-				NOT = { title:c_cykma.holder = { this = root } }
-			}
-			create_title_and_vassal_change = {
-				type = returned
-				save_scope_as = change
-				add_claim_on_loss = no
-			}
-			title:c_cykma = {
-				change_title_holder = {
-					holder = root
-					change = scope:change
-				}
-			}
-			resolve_title_and_vassal_change = scope:change
-
-		}
-		if = { # c_martyuba
-			limit = {
-				NOT = { title:c_martyuba.holder = { this = root } }
-			}
-			create_title_and_vassal_change = {
-				type = returned
-				save_scope_as = change
-				add_claim_on_loss = no
-			}
-			title:c_martyuba = {
-				change_title_holder = {
-					holder = root
-					change = scope:change
-				}
-			}
-			resolve_title_and_vassal_change = scope:change
-		}
-		if = { # d_martyuba
-			limit = {
-				NOT = { title:d_martyuba.holder = { this = root } }
-			}
-			create_title_and_vassal_change = {
-				type = returned
-				save_scope_as = change
-				add_claim_on_loss = no
-			}
-			title:d_martyuba = {
-				change_title_holder = {
-					holder = root
-					change = scope:change
-				}
-			}
-			resolve_title_and_vassal_change = scope:change
-
-		}
-
-		# We may or may not want this....
-		# set_realm_capital = title:c_martyuba
 
 		## Thanks For Playing Event
 		trigger_event = elf_destiny_main_story_events.0021
@@ -209,27 +244,18 @@ elf_destiny_main_story_events.002 = { # Restore the Portal
 		}
 		hidden_effect = { # Reinburse cost.
 			# add_gold = 3000
-			add_gold = 3
+			add_gold = 1000
 		}
 	}
 }
 
-elf_destiny_main_story_events.0021 = { # Thanks For Playing Act 1
+elf_destiny_main_story_events.0021 = { # Restore the Portal part 2
 	type = character_event
 	title = elf_destiny_main_story_events.0021.t
 	desc = elf_destiny_main_story_events.0021.desc
-	theme = stewardship
+	theme = restored_portal
+
 	content_source = elf_destiny
-
-	left_portrait = {
-		character = scope:scoped_ruler
-		animation = toast_goblet
-	}
-
-	right_portrait = {
-		character = scope:scoped_ruler
-		animation = celebrate_sword
-	}
 
 	immediate = {
 		play_music_cue = "mx_cue_positive_effect"
@@ -237,16 +263,8 @@ elf_destiny_main_story_events.0021 = { # Thanks For Playing Act 1
 	}
 
 	option = { # Receive Blessing Choice
-		name = elf_destiny_main_story_events.0021.a
-		trigger_event = divine_spark_rituals.002
-	}
-	option = { # Receive Some Gold and Prestige
-		name = elf_destiny_main_story_events.0021.b
-		add_gold = 1000
-		add_prestige = 1000
-	}
-	option = { # No Reward Needed
-		name = elf_destiny_main_story_events.0021.c
+		name = elf_destiny_main_story_events.0021.ok
+		trigger_event = elf_destiny_main_story_events.0023
 	}
 }
 
@@ -280,6 +298,11 @@ elf_destiny_main_story_events.0022 = { # Transport The Grand Portal
 		root.capital_county.title_capital_county ?= {
 			move_the_grand_portal_ruins_here_effect = yes
 		}
+
+		set_global_variable = {
+			name = grand_portal_transported
+			value = yes
+		}
 	}
 
 	option = { # nvm
@@ -292,8 +315,44 @@ elf_destiny_main_story_events.0022 = { # Transport The Grand Portal
 			}
 		}
 		hidden_effect = { # Reinburse cost.
-			add_gold = 3000
+			add_gold = 1000
 		}
+	}
+}
+
+elf_destiny_main_story_events.0023 = { # Thanks For Playing Act 1
+	type = character_event
+	title = elf_destiny_main_story_events.0023.t
+	desc = elf_destiny_main_story_events.0023.desc
+	theme = stewardship
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = toast_goblet
+	}
+
+	right_portrait = {
+		character = scope:scoped_ruler
+		animation = celebrate_sword
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+	}
+
+	option = { # Receive Blessing Choice
+		name = elf_destiny_main_story_events.0023.a
+		trigger_event = divine_spark_rituals.002
+	}
+	option = { # Receive Some Gold and Prestige
+		name = elf_destiny_main_story_events.0023.b
+		add_gold = 1000
+		add_prestige = 1000
+	}
+	option = { # No Reward Needed
+		name = elf_destiny_main_story_events.0023.c
 	}
 }
 

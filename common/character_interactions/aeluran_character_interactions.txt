@@ -1,0 +1,372 @@
+﻿# request_matchmaking_interaction = {
+# 	category = interaction_category_friendly
+# 	interface_priority = 60
+# 	icon = send_to_varangian_guard_interaction
+
+# 	desc = request_matchmaking_desc
+# 	use_diplomatic_range = no
+# 	common_interaction = yes
+	
+# 	is_shown = {
+# 		NOT = { scope:recipient = scope:actor }
+
+# 		scope:actor = {
+# 			is_ai = no
+# 			faith = {
+# 				has_doctrine = tenet_aeluran_sisters
+# 			}
+# 		}
+
+# 		scope:recipient = {
+# 			is_councillor_of = scope:host
+# 			OR = {
+# 				has_trait = aeluran_sister
+# 				has_trait = aeluran_matron
+# 				has_trait = aeluran_high_matriarch
+# 			}
+# 		}
+# 	}
+	
+# 	cooldown = { years = 2 }
+
+# 	is_valid_showing_failures_only = {
+# 		scope:actor = {
+# 			is_at_war = no
+# 			is_married = no
+# 		}
+# 	}
+	
+# 	on_accept = {
+# 		hidden_effect = {
+# 			scope:actor = {
+# 				trigger_event = aeluran_matchmaking.001
+# 			}
+# 		}
+# 	}
+	
+# 	cost = {
+# 		prestige = {
+# 			value = 10
+# 		}
+# 	}
+	
+# 	auto_accept = yes
+
+# 	# ai_potential = {
+# 	# 	is_ai = no
+# 	# }
+# 	ai_will_do = {
+# 		base = 0
+# 	}
+# }
+
+sister_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_sister
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = faith:aeluran_weavers
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_sister
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matron_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_matron
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = faith:aeluran_weavers
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_matron
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matriarch_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_high_matriarch
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = faith:aeluran_weavers
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_high_matriarch
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+
+sister_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_sister
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_sister
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matron_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_matron
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_matron
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002 
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matriarch_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_high_matriarch
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_high_matriarch
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002 
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}

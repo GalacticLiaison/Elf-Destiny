@@ -55,6 +55,41 @@ doctrine_core_elf_tenets = {
 		}
 	}
 
+	tenet_elf_hostlity = {
+		icon = tenet_elf_syncretism
+
+		piety_cost = 0
+
+		is_shown = {
+			NOT = { religion_tag = spark_religion }
+		}
+		can_pick = {
+			# custom_description = {
+			# 	text = incompatible_tenet_other_syncretism_trigger
+			# 	NOR = {
+			# 		doctrine:tenet_eastern_syncretism = { is_in_list = selected_doctrines }
+			# 		doctrine:tenet_unreformed_syncretism = { is_in_list = selected_doctrines }
+			# 		doctrine:tenet_islamic_syncretism = { is_in_list = selected_doctrines }
+			# 		doctrine:tenet_jewish_syncretism = { is_in_list = selected_doctrines }
+			# 	}
+			# }
+		}
+
+		parameters = {
+			hostility_override_elf_hostility_doctrine = 3
+			#For loc:
+			is_elf_faith_one_way_loc_override = 3
+			# This parameter is empty; the syncretic religious trigger checks against the doctrine, as that's much clearer in tooltips and allows us to use a unified syncretic trigger per-religion rather than having bitty situational triggers.
+			# elf_syncretic_actor_opinion_active = yes
+			# opinion_of_elf_syncretic_recipient_opinion_active = 30 #Sync this to syncretic_mutual_opinion_bonus_value
+		}
+
+		# traits = {
+		# 	virtues = { compassionate }
+		# 	sins = { callous sadistic }
+		# }
+	}
+
 	tenet_elf_syncretism = {
 		icon = tenet_elf_syncretism
 
@@ -84,19 +119,19 @@ doctrine_core_elf_tenets = {
 		}
 
 		parameters = {
-			hostility_override_special_doctrine_is_elf_faith = 2
+			hostility_override_elf_hostility_doctrine = 1
 			#For loc:
-			is_christian_faith_bilateral_loc_override = 2
+			is_elf_faith_bilateral_loc_override = 1
 			# This parameter is empty; the syncretic religious trigger checks against the doctrine, as that's much clearer in tooltips and allows us to use a unified syncretic trigger per-religion rather than having bitty situational triggers.
-			can_use_christian_artefacts = yes
-			christian_syncretic_actor_opinion_active = yes
-			opinion_of_christian_syncretic_recipient_opinion_active = 30 #Sync this to syncretic_mutual_opinion_bonus_value
+			# can_use_christian_artefacts = yes
+			elf_syncretic_actor_opinion_active = yes
+			opinion_of_elf_syncretic_recipient_opinion_active = 30 #Sync this to syncretic_mutual_opinion_bonus_value
 		}
 
-		traits = {
-			virtues = { compassionate }
-			sins = { callous sadistic }
-		}
+		# traits = {
+		# 	virtues = { compassionate }
+		# 	sins = { callous sadistic }
+		# }
 	}
 }
 
@@ -110,9 +145,9 @@ is_elf_faith = {
 	special_doctrine_is_elf_faith = {
 		parameters = {
 			# Since doctrines cannot modify other faith's views of us, only our view of others, all Christian faiths are given this special doctrine which makes them friendlier to Faiths with the Christian Syncretism tenet.
-			hostility_override_tenet_elf_syncretism = 2
-			christian_syncretic_recipient_opinion_active = yes
-			opinion_of_christian_syncretic_actor_opinion_active = 30
+			hostility_override_tenet_elf_syncretism = 1
+			elf_syncretic_recipient_opinion_active = yes
+			opinion_of_elf_syncretic_actor_opinion_active = 30
 		}
 	}
 }

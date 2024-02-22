@@ -364,7 +364,10 @@ aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
 		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
 	}
 	
-	left_portrait = scope:devotee_target
+	left_portrait = {
+		character = scope:devotee_target
+		animation = disbelief
+	}
 	right_portrait = {
 		character = cp:councillor_aeluran_advisor
 		animation = personality_zealous
@@ -456,44 +459,108 @@ aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
 	}
 }
 
-# # aeluran_advisor_task.0303 = { # Increase Control in random counties
-# # 	type = character_event
-# # 	title = aeluran_advisor_task.0303.t
-# # 	desc = aeluran_advisor_task.0303.desc
+### INDOCTRINATE ###
 
-# # 	theme = faith
-# # 	left_portrait = scope:player
-# # 	right_portrait = {
-# # 		character = cp:councillor_aeluran_advisor
-# # 		animation = personality_zealous
-# # 	}
+aeluran_advisor_task.0303 = { # Increase Control in county
+	type = character_event
+	title = aeluran_advisor_task.0303.t
+	desc = aeluran_advisor_task.0303.desc
+
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		NOT = {
+			scope:county.county_control = 100
+		}
+	}
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		set_variable = {
+			name = had_aeluran_advisor_task_side_effect
+			value = yes
+			days = 365
+		}
+	}
+
+	# immediate = {
+	# 	scope:player = {
+	# 		random_sub_realm_county = {
+	# 			limit = {
+	# 				county_control <= high_county_control_limit
+	# 				holder = scope:player
+	# 			}
+	# 			save_scope_as = chosen_county
+	# 		}
+	# 	}
+	# }
+
+	option= {
+		name = aeluran_advisor_task.0303.a
+		scope:county = {
+			change_county_control = 100
+		}
+	}
+
+}
+
+aeluran_advisor_task.0304 = { # Convert Culture in county
+	type = character_event
+	title = aeluran_advisor_task.0304.t
+	desc = aeluran_advisor_task.0304.desc
+
+	trigger = {
+		NOT = {
+			scope:county.culture = root.culture
+		}
+	}
+
+	theme = faith
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
 
-# # 	immediate = {
-# # 		scope:player = {
-# # 			random_sub_realm_county = {
-# # 				limit = {
-# # 					county_control <= high_county_control_limit
-# # 					holder = scope:player
-# # 				}
-# # 				save_scope_as = chosen_county
-# # 			}
-# # 		}
-# # 	}
+	# immediate = {
+	# 	scope:player = {
+	# 		random_sub_realm_county = {
+	# 			limit = {
+	# 				county_control <= high_county_control_limit
+	# 				holder = scope:player
+	# 			}
+	# 			save_scope_as = chosen_county
+	# 		}
+	# 	}
+	# }
 
-# # 	option= {
-# # 		name = aeluran_advisor_task.0303.a
-# # 		scope:chosen_county = {
-# # 			change_county_control = 100
-# # 		}
-# # 	}
+	immediate = {
+		set_variable = {
+			name = had_aeluran_advisor_task_side_effect
+			value = yes
+			days = 365
+		}
 
-# # }
+		root = {
+			save_scope_as = lord
+		}
+	}
 
-# # aeluran_advisor_task.0304 = { # Reduce Player Dominance
-	
-# # }
+	option= {
+		name = aeluran_advisor_task.0304.a
+		scope:county = {
+			set_county_culture = root.culture
+		}
+	}
 
+}
 
 # ### UNDERMINE ###
 
@@ -528,7 +595,7 @@ aeluran_advisor_task.0301 = {
 
 	option = {
 		name = aeluran_advisor_task.0301.a
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -690,7 +757,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.a
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -756,7 +823,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.b
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
 		add_unpressed_claim = scope:duchy
 		show_as_tooltip = {
 			scope:duchy_holder = {
