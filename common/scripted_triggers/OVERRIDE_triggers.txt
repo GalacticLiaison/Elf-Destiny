@@ -1,0 +1,40 @@
+﻿#Needs CHARACTER and FAITH
+relation_with_character_is_incestuous_in_faith_trigger = {
+	OR = {
+		#doctrine_consanguinity_restricted; absolutely no family business 
+		AND = {
+			$FAITH$ = { has_doctrine = doctrine_consanguinity_restricted }
+			is_close_or_extended_family_of = $CHARACTER$ #[parents, children, siblings, grandparents, grandchildren, cousins, uncles, aunts, nephews, nieces]
+			$CHARACTER$.culture = {
+				NOT = {
+					has_cultural_parameter = culture_allows_incest
+				}
+			}
+		}
+		#doctrine_consanguinity_cousins; the only acceptable incest is with your cousin
+		AND = {
+			$FAITH$ = { has_doctrine = doctrine_consanguinity_cousins }
+			OR = {
+	            is_close_family_of = $CHARACTER$ #[parents, children, siblings, grandparents, grandchildren]
+	            is_uncle_or_aunt_of = $CHARACTER$
+	            is_nibling_of = $CHARACTER$
+	        }
+			$CHARACTER$.culture = {
+				NOT = {
+					has_cultural_parameter = culture_allows_incest
+				}
+			}
+		}
+		#doctrine_consanguinity_aunt_nephew_and_uncle_niece; extended family is ok
+		AND = {
+			$FAITH$ = { has_doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece }	
+			is_close_family_of = $CHARACTER$
+			$CHARACTER$.culture = {
+				NOT = {
+					has_cultural_parameter = culture_allows_incest
+				}
+			}
+		}
+		#doctrine_consanguinity_unrestricted; all forms of incest is acceptable
+	}	
+}

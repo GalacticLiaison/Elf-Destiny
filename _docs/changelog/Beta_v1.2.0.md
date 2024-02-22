@@ -10,21 +10,15 @@ X - expedition.0061.ok
 X - Indoctrinate
    X - now has small chance of increasing control in selected county
    X - now has small chance of converting culture in selected county
-- Undermine
-    - now has small chance of converting county to your faith
-    - now has a very small chance of converting enemy heir to your faith
+X - Undermine
+   X - now has small chance of converting county to your faith
+   X - now has a very small chance of converting enemy heir to your faith
 
-<!-- under Construction -->
-- Now will randomly appear on characters of Elven culture
-    - on_guest_arrived_from_pool
-    - on_join_court
-    - yearly_culture_pulse
-
-Tradition: Adventurer Guilds
-    - now allows potentially two trials per run
+X Tradition: Adventurer Guilds
+   X - now allows potentially two trials per run
 
 Tradition: Familial Familiarity
-    - now properly unlocks family consanguinity
+    X - now properly unlocks family consanguinity
 <!-- BTW dunno if you've already made this edit yet, but the cleanest overwrite for that one tradition to properly allow consanguinous marriage despite faith restrictions is to modify relation_with_character_is_incestuous_in_faith_trigger to add an exception for the tradition -->
 
 Elven Adaptability innovation now removes reform cooldown for culture
@@ -33,7 +27,17 @@ Accidentally permanently unlocked "challenge rival to a fight" character interac
 
 X - Portal pieces are now removed after restoring the Grand Portal
 
+<!-- under Construction -->
+- Now will randomly appear on characters of Elven culture
+    - on_guest_arrived_from_pool
+    - on_join_court
+    - yearly_culture_pulse
+
 Added "OK" dismiss button to tutorial window
+
+You can only attempt to entrance a character with a higher elf level if you have the Enchantress trait!
+
+There will be a decision that Entranced characters will be able to take to try to remove the trait and hook. It will be the same Skill duel from the Entrance scheme. If they fail however they will instead level the trait even more, further falling under the control of their Entrancer!
 
 Basically the mod makes several faith tenets disappear in faith reformations, mostly ones added in the Persia update. Selection of existing faiths that have the doctrines is fine, but I don’t think new player-created faith have the option to select such tenets
 
@@ -128,19 +132,20 @@ Started to dip the mod's toes into magic!
 - Added annual logic to replace dead Matriarch/Matrons/Sisters
     - This is a very simplistic solution that will be expanded upon in the future with proper elections and what not.
 - Added event to take magically talented daughters of Elf Lords to be trained at the Aeluran's HQ at age 7
-- Added event where they return as trained Aeluran Sister Magi at age 15
+- Added event where they return as trained Aeluran Sister Magi at age 16
 - Added new background Art for Aeluran Advisor
 Aeluran Advisor
-- Magistration:
+- Magistration (Religious Relations):
     - Now has chance to gain a perpetual basic hook called "Religious Exaltation" on a courtier or vassal
     - Now has a chance to recruit a new Magi to join your court
-    - Now has a chance to receive a unit of special NEW! MAAs "Aeluran Magi" sent from the Order
-- Indoctrinate
-    - now has small chance of increasing control in selected county
-    - now has small chance of converting culture in selected county
-- Undermine
-    - now has small chance of converting county to your faith
-    - now has a very small chance of converting enemy heir to your faith
+    - Now has a chance to receive a regiment of special NEW! MAAs "Aeluran Magi" sent from the Order
+- Indoctrinate (Convert):
+    - now has a small chance of increasing control in selected county
+    - now has a small chance of converting culture in selected county
+- Undermine (Fabricate Claim):
+    - now has a small chance of converting county to your faith
+    - now has a small chance of converting enemy heir to your faith
+    = now has a small chance of starting a peasant revolt in target lords realm
 
 ## Misc
 
@@ -150,6 +155,7 @@ Elf Beautification
 - NEW! Game Rule: apply or remove makeup effect from Beauty traits
 - Added manual style choices to the Valerith family. Might do others in the future too!
 
+New Base Elf Ethnicity
 Added rules explanation to Expedition Trial of Cunning
 Added new "event decoration" to Elf Destiny events. Tells player what "DLC" it came from.
 

@@ -593,6 +593,11 @@ aeluran_advisor_task.0301 = {
 	theme = faith
 	content_source = elf_destiny
 
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
 	option = {
 		name = aeluran_advisor_task.0301.a
 		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
@@ -670,13 +675,18 @@ aeluran_advisor_task.0301 = {
 	}
 }
 
-#Fabricate Claim Dutchy
+# Fabricate Claim Dutchy
 aeluran_advisor_task.0302 = {
 	type = character_event
 	title = aeluran_advisor_task.0302.t
 	desc = aeluran_advisor_task.0302.desc
 	theme = faith
 	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
 	trigger = {
 		scope:county = {
@@ -918,6 +928,181 @@ aeluran_advisor_task.0302 = {
 		custom_tooltip = court_chaplain_task.0301.b.tt
 		ai_chance = {
 			base = 10
+		}
+	}
+}
+
+# Convert County
+aeluran_advisor_task.03011 = {
+	type = character_event
+	title = aeluran_advisor_task.03011.t
+	desc = aeluran_advisor_task.03011.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		NOT = {
+			scope:county.faith = root.faith
+		}
+	}
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+		}
+		# set_variable = {
+		# 	name = had_aeluran_advisor_task_side_effect
+		# 	value = yes
+		# 	days = 365
+		# }
+	}
+
+	option= {
+		name = aeluran_advisor_task.03011.a
+
+		scope:county = {
+			set_county_faith = root.faith
+		}
+	}
+}
+
+# Convert Heir Of Lord
+aeluran_advisor_task.03012 = {
+	type = character_event
+	title = aeluran_advisor_task.03012.t
+	desc = aeluran_advisor_task.03012.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		scope:county.holder ={
+			any_heir = {
+				is_child_of = scope:county.holder
+				NOT = {
+					root.faith = this.faith
+				}
+				age > 7
+			}
+		}
+	}
+
+	right_portrait = {
+		character = scope:county_lord
+		animation = anger
+	}
+
+	left_portrait = {
+		character = scope:lords_heir
+		animation = personality_zealous
+	}
+
+	lower_center_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+
+			primary_heir = {
+				save_scope_as = lords_heir
+			}
+		}
+		
+		scope:lords_heir ?= {
+			set_character_faith = root.faith
+		}
+
+		# set_variable = {
+		# 	name = had_aeluran_advisor_task_side_effect
+		# 	value = yes
+		# 	days = 365
+		# }
+	}
+
+	option= {
+		name = aeluran_advisor_task.03012.a
+	}
+}
+
+# Pesant Revolt
+aeluran_advisor_task.03013 = {
+	type = character_event
+	title = aeluran_advisor_task.03013.t
+	desc = aeluran_advisor_task.03013.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		scope:county.faith = root.faith
+		NOT = {
+			scope:county.faith = scope:county_lord.faith
+		}
+	}
+
+	right_portrait = {
+		character = scope:county_lord
+		animation = fear
+	}
+
+	left_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+		}
+		
+		if = {
+			limit = {
+				scope:county_lord ?= {
+					NOT = { exists = scope:sabotage_faction }
+				}
+			}
+			hidden_effect = { # Hidden to avoid TT clutter
+				scope:county = {
+					title_create_faction = {
+						type = peasant_faction
+						target = scope:county_lord
+					}
+				}
+				scope:county_lord = {
+					random_targeting_faction = {
+						limit = {
+							faction_is_type = peasant_faction
+						}
+						save_scope_as = sabotage_faction
+						setup_peasant_leader_effect = yes
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_advisor_task.03013.a
+		custom_tooltip = aeluran_advisor_task.03013.a.tt
+	}
+
+	# Summon the rabble
+	after = {
+		scope:sabotage_faction = {
+			faction_start_war = {}
+			hidden_effect = { # Hidden to avoid TT clutter
+				faction_spawn_member_county_armies_effect = {
+					FACTION = scope:sabotage_faction
+					ARMY_OWNER = scope:peasant_leader
+					PEASANT_ARMY_NAME = peasant_faction_event_troops
+				}
+			}
 		}
 	}
 }
