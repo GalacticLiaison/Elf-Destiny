@@ -16,7 +16,7 @@
 #         # has_trait = celestial_elf
 #         # has_trait = ascendant_elf
 #         # has_trait = seraphic_elf
-#         # has_trait = regaliant
+#         # has_trait = valar
 #     }  
 # }
 
@@ -32,11 +32,32 @@ is_any_elf_type = {
         has_trait = elf
         has_trait = high_elf
         has_trait = true_elf
-        # has_trait = radiant_elf
-        # has_trait = celestial_elf
-        # has_trait = ascendant_elf
-        # has_trait = seraphic_elf
-        # has_trait = regaliant
+        has_trait = fae
+        has_trait = fae_radiant
+        has_trait = celestial
+        has_trait = seraphic_celestial
+        has_trait = eldar
+        has_trait = maiar
+        has_trait = valar
+        has_trait = aratar
+        is_any_elf_mortal_type = yes
+    }
+}
+
+is_any_elf_mortal_type = {
+    OR = {
+        has_trait = elf_blood_mortal
+        has_trait = elf_mortal
+        has_trait = high_elf_mortal
+        has_trait = true_elf_mortal
+        has_trait = fae_mortal
+        has_trait = fae_radiant_mortal
+        has_trait = celestial_mortal
+        has_trait = seraphic_celestial_mortal
+        has_trait = eldar_mortal
+        has_trait = maiar_mortal
+        has_trait = valar_mortal
+        has_trait = aratar_mortal
     }
 }
 
@@ -44,9 +65,30 @@ is_below_top_elf_type = {
     AND = {
         is_any_elf_type = yes
         NOT = {
-            has_trait = true_elf
+            has_trait = aratar
+        }
+        NOT = {
+            has_trait = aratar_mortal
         }
     }
+}
+
+is_at_elf_thereshold = {
+    OR = {
+        has_trait = high_elf
+        has_trait = fae_radiant
+        has_trait = eldar
+    }
+}
+
+is_at_first_elf_threshold = {
+    has_trait = high_elf
+}
+is_at_second_elf_threshold = {
+    has_trait = fae_radiant
+}
+is_at_third_elf_threshold = {
+    has_trait = eldar
 }
 
 is_any_elf_type_desc = {
@@ -58,47 +100,98 @@ is_any_elf_type_desc = {
             has_trait = elf
             has_trait = high_elf
             has_trait = true_elf
-            # has_trait = radiant_elf
-            # has_trait = celestial_elf
-            # has_trait = ascendant_elf
-            # has_trait = seraphic_elf
-            # has_trait = regaliant
+            has_trait = fae
+            has_trait = fae_radiant
+            has_trait = celestial
+            has_trait = seraphic_celestial
+            has_trait = eldar
+            has_trait = maiar
+            has_trait = valar
+            has_trait = aratar
         }
     }
 }
 
 is_elf_blood = {
-    has_trait = elf_blood
+    OR = {
+        has_trait = elf_blood
+        has_trait = elf_blood_mortal
+    }
 }
 
 is_elf = {
-    has_trait = elf
+    OR = {
+        has_trait = elf
+        has_trait = elf_mortal
+    }
 }
 
 is_high_elf = {
-    has_trait = high_elf
+    OR = {
+        has_trait = high_elf
+        has_trait = high_elf_mortal
+    }
 }
 
 is_true_elf = {
-    has_trait = true_elf
+    OR = {
+        has_trait = true_elf
+        has_trait = true_elf_mortal
+    }
 }
 
-# is_radiant_elf = {
-#     has_trait = radiant_elf
-# }
+is_fae = {
+    OR = {
+        has_trait = fae
+        has_trait = fae_mortal
+    }
+}
 
-# is_celestial_elf = {
-#     has_trait = celestial_elf
-# }
+is_fae_radiant = {
+    OR = {
+        has_trait = fae_radiant
+        has_trait = fae_radiant_mortal
+    }
+}
 
-# is_ascendant_elf = {
-#     has_trait = ascendant_elf
-# }
+is_celestial = {
+    OR = {
+        has_trait = celestial
+        has_trait = celestial_mortal
+    }
+}
 
-# is_seraphic_elf = {
-#     has_trait = seraphic_elf
-# }
+is_seraphic_celestial = {
+    OR = {
+        has_trait = seraphic_celestial
+        has_trait = seraphic_celestial_mortal
+    }
+}
 
-# is_regaliant= {
-#     has_trait = regaliant
-# }
+is_eldar = {
+    OR = {
+        has_trait = eldar
+        has_trait = eldar_mortal
+    }
+}
+
+is_maiar = {
+    OR = {
+        has_trait = maiar
+        has_trait = maiar_mortal
+    }
+}
+
+is_valar = {
+    OR = {
+        has_trait = valar
+        has_trait = valar_mortal
+    }
+}
+
+is_aratar = {
+    OR = {
+        has_trait = aratar
+        has_trait = aratar_mortal
+    }
+}

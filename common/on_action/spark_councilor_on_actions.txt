@@ -1,19 +1,23 @@
 ﻿### MAGISTRATION ###
 task_aeluran_magistration_side_effects = {
 	trigger = {
-		# exists = cp:aeluran_advisor
 	}
 
 	on_actions = {
 		recruit_magi_success_effect
 		# improve_magi_side_effects
-		# reinforce_spark_wielder_core | As of now I know no way to mess with maa creation and reinforcement rates
+		reinforce_magi_core
 	}
 
 	random_events = {
 		chance_to_happen = 2
+
+		chance_of_no_event = {
+			value = 100
+			subtract = scope:councillor.aeluran_improve_magi_core_monthly_chance_value #TODO swap
+		}
 		# 10 = aeluran_advisor_task.0301 # Powerful Accoladed Magi aids in training 
-		# 100 = aeluran_advisor_task.0102 # X Religious hook
+		100 = aeluran_advisor_task.0102 # X Religious hook
 		# 20 = aeluran_advisor_task.0303 # Increase Contro Ind Random Counties
 		# 50 = aeluran_advisor_task.0304 # reduce_player_dominance
 	}
@@ -21,19 +25,31 @@ task_aeluran_magistration_side_effects = {
 
 recruit_magi_success_effect = {
 	random_events = {
+		chance_to_happen = 2
+		
 		chance_of_no_event = {
 			value = 100
 			subtract = scope:councillor.aeluran_improve_magi_core_monthly_chance_value #TODO swap
 		}
 
-		# 80 = aeluran_advisor_task.0101 # New Magi is recruited
+		80 = aeluran_advisor_task.0101 # New Magi is recruited
+	}
+}
+
+reinforce_magi_core = {
+	random_events = {
+		chance_of_no_event = {
+			value = 100
+			subtract = scope:councillor.aeluran_improve_magi_core_monthly_chance_value #TODO swap
+		}
+
+		80 = aeluran_advisor_task.01011 # Magi Core is reinforced
 	}
 }
 
 improve_magi_side_effects = {
 	trigger = {
 		NOT = { has_variable = had_improve_magi_side_effect}
-		# exists = cp:aeluran_advisor
 	}
 	random_events = {
 		chance_to_happen = 2
@@ -49,6 +65,27 @@ improve_magi_side_effects = {
 }
 
 ### INDOCTRINATE ###
+task_indoctrinate_side_effects = {
+	trigger = {
+		NOT = { has_variable = had_aeluran_advisor_task_side_effect }
+		exists = cp:councillor_aeluran_advisor
+	}
+
+	random_events = {
+		chance_to_happen = 2
+		500 = 0
+		# #Bad side effects
+		# 100 = court_chaplain_task.2001 #Resistance to conversion
+		# 100 = court_chaplain_task.2002 #Resistance to conversion
+		#Good side effects
+		200 = aeluran_advisor_task.0303 #Increase County Control 
+		200 = aeluran_advisor_task.0304 #Convert County Culture
+
+		# 100 = court_chaplain_task.2101 #Improve County Opinion
+		# 100 = court_chaplain_task.2102 #Increased Development
+		# 100 = court_chaplain_task.2103 #Increased County Levies
+	}
+}
 
 
 ### UNDERMINE ###
@@ -61,17 +98,22 @@ task_aeluran_fabricate_claim_success_effect = {
 
 task_aeluran_fabricate_claim_side_effects = {
 	trigger = {
-		# exists = cp:aeluran_advisor
 	}
 
 	# on_actions = {
 	# 	recruit_magi_success_effect
 	# 	# improve_magi_side_effects
 	# 	# reinforce_spark_wielder_core | As of now I know no way to mess with maa creation and reinforcement rates
-	# }
+	# } 
 
 	random_events = {
-		chance_to_happen = 2
-		# 100 = aeluran_advisor_task.0301
+		chance_to_happen = 5
+		# chance_of_no_event = {
+		# 	value = 100
+		# 	subtract = scope:councillor.aeluran_improve_magi_core_monthly_chance_value #TODO swap
+		# }
+		100 = aeluran_advisor_task.03011 # Convert County
+		100 = aeluran_advisor_task.03012 # Convert Heir Of Lord
+		100 = aeluran_advisor_task.03013 # Pesant Revolt
 	}
 }

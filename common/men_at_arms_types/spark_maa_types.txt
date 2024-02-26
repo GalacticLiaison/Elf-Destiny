@@ -1,52 +1,56 @@
-﻿# @cultural_spark_religion_maa_extra_ai_score = 80 
+﻿@cultural_spark_religion_maa_extra_ai_score = 80 
 
-# Women who can wield spark but arent quite at the level of Magi
 # - Todo: could make a distinction between aeluran trained and wild spark wielders
 # - Todo: make an elite squad for accolade
-# spark_wielders = {
-# 	icon = spark_wielders
-# 	type = spark_wielders
+aeluran_magi_core = {
+	type = spark_wielders
+	icon = magi_core
 	
-# 	# They are an elite squad of smaller troop numbers
-# 	stack = 10 # Size of one sub-regiment
-# 	hired_stack_size = 5 # size of sub-regiment for the purpose of hired troops. If not set, this will be the same as the "stack" value
+	# They are an elite squad of smaller troop numbers
+	stack = 10 # Size of one sub-regiment
+	hired_stack_size = 5 # size of sub-regiment for the purpose of hired troops. If not set, this will be the same as the "stack" value
 
-# 	# They are a bit of a glass cannon
-# 	damage = 200
-# 	toughness = 20
-# 	# Their magics can hold off troops well on the retreat
-# 	pursuit = 5
-# 	screen = 80
+	# They are a bit of a glass cannon
+	damage = 200
+	toughness = 20
+	# Their magics can hold off troops well on the retreat
+	pursuit = 5
+	screen = 80
 	
-# 	# Nature empowers them
-# 	terrain_bonus = {
-# 		taiga = { damage = 25 pursuit = 15 screen = 15}
-# 		forest = { damage = 25 pursuit = 15 screen = 15 }
-# 		wetlands = { damage = 25 pursuit = 15 screen = 15 }
-# 	}
+	# Nature empowers them
+	terrain_bonus = {
+		taiga = { damage = 25 pursuit = 15 screen = 15}
+		forest = { damage = 25 pursuit = 15 screen = 15 }
+		wetlands = { damage = 25 pursuit = 15 screen = 15 }
+	}
 
-# 	# Their Magic makes them a menace on the field, it counters everything
-# 	counters = {
-# 		skirmishers = 2
-# 		pikemen = 2
-# 		archers = 2
-# 		light_cavalry = 1
-# 		heavy_infantry = 1
-# 		heavy_cavalry = 1
-# 		camel_cavalry = 1
-# 		elephant_cavalry = 1
-# 	}
+	# Their Magic makes them a menace on the field, it counters everything
+	counters = {
+		skirmishers = 2
+		pikemen = 2
+		archers = 2
+		light_cavalry = 1
+		heavy_infantry = 1
+		heavy_cavalry = 1
+		camel_cavalry = 1
+		elephant_cavalry = 1
+	}
 
-# 	can_recruit = {
-# 		religion = { is_in_family = rf_spark }
-# 	}
+	can_recruit = {
+		# always = yes
+		OR = {
+			has_trait = aeluran_sister 
+			has_trait = aeluran_matron 
+			has_trait = aeluran_high_matriarch 
+		}
+	}
 
-# 	# bought with gold
-# 	buy_cost = { gold = spark_wielder_recruitment_cost }
+	# bought with gold
+	buy_cost = { gold = spark_wielder_recruitment_cost }
 
-# 	# maintained with piety
-# 	low_maintenance_cost = { piety = spark_wielder_low_maint_cost }
-# 	high_maintenance_cost = { piety = spark_wielder_high_maint_cost }
+	# maintained with piety
+	low_maintenance_cost = { piety = spark_wielder_low_maint_cost }
+	high_maintenance_cost = { piety = spark_wielder_high_maint_cost }
 	
-# 	ai_quality = { value = @cultural_spark_religion_maa_extra_ai_score }
-# }
+	ai_quality = { value = @cultural_spark_religion_maa_extra_ai_score }
+}

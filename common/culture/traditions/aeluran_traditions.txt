@@ -1,0 +1,49 @@
+﻿tradition_aeluran_etiquette = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer_aeluran.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_aeluran_etiquette_item.dds
+	}
+
+	is_shown = {
+		is_target_in_global_variable_list = {
+			name = discovered_traditions
+			target = flag:tradition_aeluran_etiquette
+		}
+		# any_player = {
+		# 	is_any_elf_type = yes
+		# }
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_tradition_not_discovered
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_aeluran_etiquette
+			}
+		}
+	}
+
+	parameters = {
+		aeluran_converting_counties_increases_fervor = yes
+		aeluran_improved_religion_conversion_speed = yes
+		aeluran_improved_culture_conversion_speed = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}

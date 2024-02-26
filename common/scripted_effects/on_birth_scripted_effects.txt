@@ -1,0 +1,907 @@
+﻿determine_endless_lord_parent = {
+	if = {
+		limit = {
+			scope:real_father = {
+				is_ruler = yes
+			}
+			scope:mother = {
+				is_ruler = no
+			}
+		}
+
+		scope:real_father = {
+			save_scope_as = lord_to_copy
+		}
+	}
+	else_if = {
+		limit = {
+			scope:real_father = {
+				is_ruler = no
+			}
+			scope:mother = {
+				is_ruler = yes
+			}
+		}
+
+		scope:mother = {
+			save_scope_as = lord_to_copy
+		}
+	}
+	else_if = {
+		limit = {
+			scope:real_father = {
+				is_ruler = yes
+			}
+			scope:mother = {
+				is_ruler = yes
+			}
+
+		}
+
+		if = {
+			limit = {
+				scope:real_father.primary_title.tier > scope:mother.primary_title.tier
+			}
+			scope:real_father = {
+				save_scope_as = lord_to_copy
+			}
+		}
+		if = {
+			limit = {
+				scope:real_father.primary_title.tier < scope:mother.primary_title.tier
+			}
+			scope:mother = {
+				save_scope_as = lord_to_copy
+			}
+		}
+		if = {
+			limit = {
+				scope:real_father.primary_title.tier = scope:mother.primary_title.tier
+			}
+			if = {
+				limit = {
+					scope:mother = {
+						is_ai = no
+					}
+				}
+				scope:mother = {
+					save_scope_as = lord_to_copy
+				}
+			}
+			else_if = {
+				limit = {
+					scope:real_father = {
+						is_ai = no
+					}
+				}
+				scope:real_father = {
+					save_scope_as = lord_to_copy
+				}
+			}
+			else = {
+				scope:mother = {
+					save_scope_as = lord_to_copy
+				}
+			}
+		}
+	}
+
+}
+
+remove_all_elf_traits_effect = {
+	if = {
+		limit = {
+			has_trait = elf_blood
+		}
+		remove_trait = elf_blood
+	}
+	if = {
+		limit = {
+			has_trait = elf
+		}
+		remove_trait = elf
+	}
+	if = {
+		limit = {
+			has_trait = high_elf
+		}
+		remove_trait = high_elf
+	}
+	if = {
+		limit = {
+			has_trait = true_elf
+		}
+		remove_trait = true_elf
+	}
+	if = {
+		limit = {
+			has_trait = fae
+		}
+		remove_trait = fae
+	}
+	if = {
+		limit = {
+			has_trait = fae_radiant
+		}
+		remove_trait = fae_radiant
+	}
+	if = {
+		limit = {
+			has_trait = celestial
+		}
+		remove_trait = celestial
+	}
+	if = {
+		limit = {
+			has_trait = seraphic_celestial
+		}
+		remove_trait = seraphic_celestial
+	}
+	if = {
+		limit = {
+			has_trait = eldar
+		}
+		remove_trait = eldar
+	}
+	if = {
+		limit = {
+			has_trait = maiar
+		}
+		remove_trait = maiar
+	}
+	if = {
+		limit = {
+			has_trait = valar
+		}
+		remove_trait = valar
+	}
+	if = {
+		limit = {
+			has_trait = aratar
+		}
+		remove_trait = aratar
+	}
+}
+
+remove_all_genetic_traits_from_child = {
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = depressed_genetic
+			}
+		}
+		scope:child = {
+			remove_trait = depressed_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = lunatic_genetic
+			}
+		}
+		scope:child = {
+			remove_trait = lunatic_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = possessed_genetic
+			}
+		}
+		scope:child = {
+			remove_trait = possessed_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_bad_1
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_bad_2
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_bad_3
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_good_1
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_good_2
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = beauty_good_3
+			}
+		}
+		scope:child = {
+			remove_trait = beauty_good_3
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_bad_1
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_bad_2
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_bad_3
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_good_1
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_good_2
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = intellect_good_3
+			}
+		}
+		scope:child = {
+			remove_trait = intellect_good_3
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_bad_1
+			}
+		}
+		scope:child = {
+			remove_trait = physique_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_bad_2
+			}
+		}
+		scope:child = {
+			remove_trait = physique_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_bad_3
+			}
+		}
+		scope:child = {
+			remove_trait = physique_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_good_1
+			}
+		}
+		scope:child = {
+			remove_trait = physique_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_good_2
+			}
+		}
+		scope:child = {
+			remove_trait = physique_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = physique_good_3
+			}
+		}
+		scope:child = {
+			remove_trait = physique_good_3
+		}
+	}
+
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = pure_blooded
+			}
+		}
+		scope:child = {
+			remove_trait = pure_blooded
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = fecund
+			}
+		}
+		scope:child = {
+			remove_trait = fecund
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = clubfooted
+			}
+		}
+		scope:child = {
+			remove_trait = clubfooted
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = hunchbacked
+			}
+		}
+		scope:child = {
+			remove_trait = hunchbacked
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = lisping
+			}
+		}
+		scope:child = {
+			remove_trait = lisping
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = stuttering
+			}
+		}
+		scope:child = {
+			remove_trait = stuttering
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = dwarf
+			}
+		}
+		scope:child = {
+			remove_trait = dwarf
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = giant
+			}
+		}
+		scope:child = {
+			remove_trait = giant
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = impotent
+			}
+		}
+		scope:child = {
+			remove_trait = impotent
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = spindly
+			}
+		}
+		scope:child = {
+			remove_trait = spindly
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = scaly
+			}
+		}
+		scope:child = {
+			remove_trait = scaly
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = albino
+			}
+		}
+		scope:child = {
+			remove_trait = albino
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = wheezing
+			}
+		}
+		scope:child = {
+			remove_trait = wheezing
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = bleeder
+			}
+		}
+		scope:child = {
+			remove_trait = bleeder
+		}
+	}
+	if = {
+		limit = {
+			scope:child = {
+				has_trait = infertile
+			}
+		}
+		scope:child = {
+			remove_trait = infertile
+		}
+	}
+}
+
+add_endless_lord_genetic_traits = {
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = depressed_genetic
+			}
+		}
+		scope:child = {
+			add_trait = depressed_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = lunatic_genetic
+			}
+		}
+		scope:child = {
+			add_trait = lunatic_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = possessed_genetic
+			}
+		}
+		scope:child = {
+			add_trait = possessed_genetic
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_bad_1
+			}
+		}
+		scope:child = {
+			add_trait = beauty_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_bad_2
+			}
+		}
+		scope:child = {
+			add_trait = beauty_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_bad_3
+			}
+		}
+		scope:child = {
+			add_trait = beauty_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_good_1
+			}
+		}
+		scope:child = {
+			add_trait = beauty_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_good_2
+			}
+		}
+		scope:child = {
+			add_trait = beauty_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = beauty_good_3
+			}
+		}
+		scope:child = {
+			add_trait = beauty_good_3
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_bad_1
+			}
+		}
+		scope:child = {
+			add_trait = intellect_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_bad_2
+			}
+		}
+		scope:child = {
+			add_trait = intellect_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_bad_3
+			}
+		}
+		scope:child = {
+			add_trait = intellect_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_good_1
+			}
+		}
+		scope:child = {
+			add_trait = intellect_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_good_2
+			}
+		}
+		scope:child = {
+			add_trait = intellect_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = intellect_good_3
+			}
+		}
+		scope:child = {
+			add_trait = intellect_good_3
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_bad_1
+			}
+		}
+		scope:child = {
+			add_trait = physique_bad_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_bad_2
+			}
+		}
+		scope:child = {
+			add_trait = physique_bad_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_bad_3
+			}
+		}
+		scope:child = {
+			add_trait = physique_bad_3
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_good_1
+			}
+		}
+		scope:child = {
+			add_trait = physique_good_1
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_good_2
+			}
+		}
+		scope:child = {
+			add_trait = physique_good_2
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = physique_good_3
+			}
+		}
+		scope:child = {
+			add_trait = physique_good_3
+		}
+	}
+
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = pure_blooded
+			}
+		}
+		scope:child = {
+			add_trait = pure_blooded
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = fecund
+			}
+		}
+		scope:child = {
+			add_trait = fecund
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = clubfooted
+			}
+		}
+		scope:child = {
+			add_trait = clubfooted
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = hunchbacked
+			}
+		}
+		scope:child = {
+			add_trait = hunchbacked
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = lisping
+			}
+		}
+		scope:child = {
+			add_trait = lisping
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = stuttering
+			}
+		}
+		scope:child = {
+			add_trait = stuttering
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = dwarf
+			}
+		}
+		scope:child = {
+			add_trait = dwarf
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = giant
+			}
+		}
+		scope:child = {
+			add_trait = giant
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = impotent
+			}
+		}
+		scope:child = {
+			add_trait = impotent
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = spindly
+			}
+		}
+		scope:child = {
+			add_trait = spindly
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = scaly
+			}
+		}
+		scope:child = {
+			add_trait = scaly
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = albino
+			}
+		}
+		scope:child = {
+			add_trait = albino
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = wheezing
+			}
+		}
+		scope:child = {
+			add_trait = wheezing
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = bleeder
+			}
+		}
+		scope:child = {
+			add_trait = bleeder
+		}
+	}
+	if = {
+		limit = {
+			scope:lord_to_copy = {
+				has_trait = infertile
+			}
+		}
+		scope:child = {
+			add_trait = infertile
+		}
+	}
+}
+
+handle_endless_lord_trait_effect = {
+	scope:child = {
+		add_trait = endless_lord
+
+		add_trait_xp = { # previous iteration's xp
+			trait = endless_lord
+			value = endless_lord_parent_track_experience_to_add
+		}
+		add_trait_xp = { # plus new level for this new child
+			trait = endless_lord
+			value = 10
+		}
+	}
+}

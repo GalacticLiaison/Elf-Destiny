@@ -1,0 +1,134 @@
+﻿namespace = feast_replacement
+
+feast_replacement.2001 = {
+	type = activity_event
+	title = {
+		desc = feast.2001.t
+	}
+	desc = {
+		first_valid = {
+			random_valid = {
+				triggered_desc = {
+					trigger = {
+						OR = {
+							has_trait = comfort_eater
+							has_trait = drunkard
+							has_trait = lifestyle_reveler
+							has_trait = gregarious
+							has_education_diplomacy_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_gregarious
+				}
+				triggered_desc = {
+					trigger = {
+						OR = {
+							has_trait = shy
+							has_trait = reclusive
+							has_trait = paranoid
+							has_trait = craven
+						}
+					}
+					desc = feast.2001.desc_shy
+				}
+				triggered_desc = {
+					trigger = {
+						OR = {
+							has_trait = ambitious
+							has_trait = arrogant
+							has_trait = deceitful
+							has_trait = cynical
+							has_education_intrigue_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_ambitious
+				}
+				triggered_desc = {
+					trigger = {
+						OR = {
+							has_trait = scholar
+							has_trait = theologian
+							has_education_learning_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_nerd
+				}
+				triggered_desc = {
+					trigger = {
+						OR = {
+							has_trait = brave
+							has_trait = impatient
+							has_trait = wrathful
+							has_education_martial_trigger = yes
+						}
+					}
+					desc = feast.2001.desc_martial
+				}
+				triggered_desc = {
+					trigger = {
+						has_lustful_adjacent_trait_trigger = yes
+					}
+					desc = feast.2001.desc_lustful
+				}
+				desc = feast.2001.desc_fallback
+			}
+		}
+	}
+	theme = feast_activity
+	left_portrait = {
+		character = root
+		animation = toast_goblet
+	}
+	center_portrait = {
+		trigger = { exists = scope:honorary_guest }
+		character = scope:honorary_guest
+		animation = personality_honorable
+	}
+	right_portrait = {
+		trigger = {
+			exists = scope:my_spouse
+		}
+		character = scope:my_spouse
+		animation = ecstasy
+	}
+
+	trigger = {
+		this = scope:activity.activity_host
+	}
+
+	immediate = {
+		play_music_cue = grandfeast_cue
+		if = {
+			limit = {
+				scope:activity = {
+					any_attending_character = {
+						is_spouse_of = root 
+						is_healthy = yes
+					}
+				}
+			}
+			scope:activity = {
+				random_attending_character = {
+					limit = {
+						is_spouse_of = root
+						is_healthy = yes
+					}
+					save_scope_as = my_spouse
+				}
+			}
+		}
+		if = {
+			limit = { exists = scope:activity.special_guest:honorary_guest_regular }
+			scope:activity.special_guest:honorary_guest_regular = { save_scope_as = honorary_guest }
+		}
+	}
+
+	option = {
+		name = feast.2001.a
+		# trigger ={
+		# 	is_murder_feast = no
+		# }
+		exclusive = yes
+		custom_tooltip = feast.2001.a.tt
+	}
+}

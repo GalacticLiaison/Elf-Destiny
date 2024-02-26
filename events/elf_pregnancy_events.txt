@@ -10,16 +10,43 @@ elf_pregnancy_events.0001 = {
 	}
 
 	immediate = {
-		random_list = {
-			50 = {
-				debug_log = "GIRL SELECTED"
-				set_pregnancy_gender = female
+		if = {
+			limit = {
+				culture = {
+					has_cultural_parameter = blessing_of_vana
+				}
 			}
-			50 = {
-				debug_log = "BOY SELECTED"
-				set_pregnancy_gender = male
+
+			random_list = {
+				86 = {
+					debug_log = "GIRL SELECTED"
+					set_pregnancy_gender = female
+				}
+				14 = {
+					debug_log = "BOY SELECTED"
+					set_pregnancy_gender = male
+				}
 			}
 		}
+		else_if = {
+			limit = {
+				culture = {
+					has_cultural_parameter = blessing_of_tulkas_astaldo
+				}
+			}
+
+			random_list = {
+				14 = {
+					debug_log = "GIRL SELECTED"
+					set_pregnancy_gender = female
+				}
+				86 = {
+					debug_log = "BOY SELECTED"
+					set_pregnancy_gender = male
+				}
+			}
+		}
+
 	}
 }
 
@@ -28,44 +55,39 @@ elf_pregnancy_events.0002 = {
     hidden = yes
 	
     trigger = {
-		has_the_rut_tradition = yes
+		culture = {
+			has_cultural_parameter = multi_birthing
+		}
 	}
 
 	immediate = {
 		random = {
 			# 1 child
 			chance = 21
-			debug_log = "multi-birth 1"
 			set_num_pregnancy_children = 1
 		}
 		random = {
 			chance = 40
-			debug_log = "multi-birth 2"
 			set_num_pregnancy_children = 2
 		}
 		random = {
 			chance = 20
-			debug_log = "multi-birth 3"
 			set_num_pregnancy_children = 3
 		}
 		random = {
 			chance = 10
-			debug_log = "multi-birth 4"
 			set_num_pregnancy_children = 4
 		}
 		random = {
 			chance = 5
-			debug_log = "multi-birth 5"
 			set_num_pregnancy_children = 5
 		}
 		random = {
 			chance = 3
-			debug_log = "multi-birth 6"
 			set_num_pregnancy_children = 6
 		}
 		random = {
 			chance = 1
-			debug_log = "multi-birth 7"
 			set_num_pregnancy_children = 7
 			# Initiate special magic of the seven event if have the incest culture
 		}

@@ -8,6 +8,7 @@ aeluran_story.001 = {
 	desc = aeluran_story.001.desc
 
 	theme = court
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = root
@@ -43,7 +44,7 @@ aeluran_story.001 = {
 				template = aeluran_matriarch
 				dynasty = none
 				location = root.location
-				faith = aeluran_weavers
+				faith = faith:aeluran_weavers
 				culture = root.culture
 				save_scope_as = high_matriarch
 			}
@@ -59,7 +60,7 @@ aeluran_story.001 = {
 				template = aeluran_matron
 				dynasty = none
 				location = root.location
-				faith = aeluran_weavers
+				faith = faith:aeluran_weavers
 				culture = root.culture
 				save_scope_as = aeluran_matron
 			}
@@ -79,6 +80,7 @@ aeluran_story.002 = {
 	desc = aeluran_story.002.desc
 
 	theme = seduction
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:high_matriarch
@@ -107,7 +109,8 @@ aeluran_story.003 = {
 	desc = aeluran_story.003.desc
 
 	theme = seduction
-
+	content_source = elf_destiny
+	
 	left_portrait = {
 		character = scope:high_matriarch
 		animation = thinking
@@ -137,6 +140,7 @@ aeluran_story.004 = {
 	desc = aeluran_story.004.desc
 
 	theme = seduction
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:high_matriarch
@@ -150,9 +154,27 @@ aeluran_story.004 = {
 	option = {
 		name = aeluran_story.004.ok
 		set_character_faith = faith:aeluran_weavers
+		trigger_event = {
+			id = aeluran_story.005
+			years = 10
+		}
 	}
 
 	option = {
 		name = aeluran_story.004.no
+	}
+}
+
+aeluran_story.005 = {
+	hidden = yes
+
+	trigger = {
+		root.faith = faith:aeluran_weavers
+	}
+
+	immediate = {
+		root.culture = {
+			add_culture_tradition = tradition_aeluran_etiquette
+		}
 	}
 }

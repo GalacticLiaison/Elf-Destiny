@@ -42,7 +42,7 @@ expedition_events = {
 					trigger_event = expedition.0041
 				}
 				0 = { # Trial
-					modifier = {
+					modifier = { # No Trials attempted
 						add = 40
 						OR = {
 							AND = {
@@ -56,8 +56,8 @@ expedition_events = {
 							}
 						}
 					}
-					modifier = {
-						add = 50
+					modifier = { # No Trial attempted (Increased Trial Odds from tradition_adventurer_guilds)
+						add = 40
 						culture = {
 							has_cultural_tradition = tradition_adventurer_guilds
 						}
@@ -73,6 +73,29 @@ expedition_events = {
 							}
 						}
 					}
+					modifier = { # First Trial Attempted, Adventure Guilds Second Trial Chance activated
+						add = 40
+						culture = {
+							has_cultural_tradition = tradition_adventurer_guilds
+						}
+						AND = {
+							exists = scope:activity.var:trial_attempted
+							scope:activity.var:trial_attempted = flag:true
+						}
+						OR = {
+							AND = {
+								exists = scope:activity.var:second_trial_attempted
+								NOT = {
+									scope:activity.var:second_trial_attempted = flag:true
+								}
+							}
+							NOT = {
+								exists = scope:activity.var:second_trial_attempted
+							}
+						}
+						
+					}
+
 
 					trigger_event = expedition.0051
 				}

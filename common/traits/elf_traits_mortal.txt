@@ -1,0 +1,653 @@
+﻿## TODO: should all trait tracks just be the same? distinughisng a seperate track for each will require a ton of extra code, 
+# but there may be advantages to keeping them seperate
+
+# could implement monthly_track_xp_degradation{ min = 20 change = 5}
+
+# TODO: learning is increased in each alignment step then starts at same bonus on next perk level
+
+
+# ========================= HUGE IDEA =======================
+# elf => fae at tier 2
+# then fae => celestial at tier 3
+# Would make cleaner naming
+# middle tiers could be TierLevel, High TierLevel, True Tierlevel
+
+# elfs are the common people
+# fae are the noble class
+# celestials are the divine class
+
+### Elf Tiers
+elf_blood_mortal = {
+	icon = elf_blood.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		elf
+		high_elf
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 1
+	prowess = 1
+
+	same_opinion = 10
+	attraction_opinion = 3
+	inbreeding_chance = -0.50
+
+	fertility = -0.25
+	years_of_fertility = 10
+	life_expectancy = 15
+	health = 0.05
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_1_mortal
+	level = 1
+
+	physical = yes
+
+	# genetic_constraint_all = elf_blood
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+# - Elves are the common folk, the backbone of the elf people. 
+#   Being an Elf means forming a full connection with the Divine Spark, 
+#   even if its yet not a very powerful one.
+elf_mortal = {
+	icon = elf.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		elf_blood
+		high_elf
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 2
+	prowess = 2
+
+	# inherit_chance = 0.01
+	# random_creation = 0.99
+
+	same_opinion = 10
+
+	attraction_opinion = 5
+	inbreeding_chance = -0.70
+	no_prowess_loss_from_age = yes
+
+	life_expectancy = 30
+	health = 0.15
+	fertility = -0.5
+	years_of_fertility = 20
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_1_mortal
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+# - often the leaders of elf communities, High Elves are the most powerful of the 
+#   lower elves and spend their lives in the pursuit of breaking through to the elevated races.
+high_elf_mortal = {
+	icon = high_elf.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		elf_blood
+		elf
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 4
+	prowess = 4
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 7
+	inbreeding_chance = -0.99
+
+	fertility = -0.55
+	years_of_fertility = 30
+	life_expectancy = 50
+	health = 0.25
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_1_mortal
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+## ===== Major Threshold =====
+### Fae Tiers
+
+true_elf_mortal = {
+	icon = true_elf.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		fae
+		fae_radiant
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 6
+	prowess = 6
+
+	same_opinion = 10
+	attraction_opinion = 10
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	fertility = -0.6
+	years_of_fertility = 50
+
+	life_expectancy = 100
+	health = 0.35
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2_mortal
+	level = 1
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+fae_mortal = {
+	icon = fae.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		true_elf
+		fae_radiant
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 8
+	prowess = 8
+
+	same_opinion = 10
+	attraction_opinion = 12
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	
+	
+	fertility = -0.75
+	years_of_fertility = 100
+
+	life_expectancy = 200
+	health = 0.4
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2_mortal
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+fae_radiant_mortal = {
+	icon = fae_radiant.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		true_elf
+		fae
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_3_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 10
+	prowess = 10
+
+	same_opinion = 10
+	attraction_opinion = 13
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	
+	
+	fertility = -0.80
+	years_of_fertility = 150
+
+	life_expectancy = 250
+	health = 0.45
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_2_mortal
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+## ===== Major Threshold =====
+### Celestial Tiers
+celestial_mortal = {
+	icon = celestial.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		seraphic_celestial
+		eldar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 15
+	prowess = 15
+
+	same_opinion = 10
+	attraction_opinion = 15
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	
+	
+	fertility = -0.85
+	years_of_fertility = 200
+
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3_mortal
+	level = 1
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+seraphic_celestial_mortal = {
+	icon = seraphic_celestial.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		celestial
+		eldar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 20
+	prowess = 20
+
+	same_opinion = 10
+	attraction_opinion = 17
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	
+	
+	fertility = -0.85
+	years_of_fertility = 250
+
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3_mortal
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+eldar_mortal = {
+	icon = eldar.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		celestial
+		seraphic_celestial
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_4_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 25
+	prowess = 25
+
+	fertility = -0.90
+	same_opinion = 10
+	attraction_opinion = 20
+	inbreeding_chance = -1
+	no_prowess_loss_from_age = yes
+
+	
+	
+	years_of_fertility = 300
+
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_3_mortal
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+## ===== Major Threshold =====
+### Ainur Tiers
+maiar_mortal = {
+	icon = maiar.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		valar
+		aratar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 50
+	prowess = 50
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 50
+	inbreeding_chance = -1
+
+	
+	
+	fertility = -0.95
+	years_of_fertility = 9999
+	life_expectancy = 9999
+	health = 0.5
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4_mortal
+	level = 1
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+}
+
+valar_mortal = {
+	icon = valar.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		maiar
+		aratar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 75
+	prowess = 75
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 75
+	inbreeding_chance = -1
+
+	fertility = -0.95
+	years_of_fertility = 999
+	life_expectancy = 999
+	health = 0.75
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4_mortal
+	level = 2
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+aratar_mortal = {
+	icon = aratar.dds
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	opposites = {
+		maiar
+		valar
+		elf_tier_1
+		elf_tier_2
+		elf_tier_3
+		elf_tier_4
+		elf_tier_1_mortal
+		elf_tier_2_mortal
+		elf_tier_3_mortal
+	}
+
+	#========== Bonuses ==========
+	learning = 99
+	prowess = 99
+	no_prowess_loss_from_age = yes
+
+	same_opinion = 10
+
+	attraction_opinion = 99
+	inbreeding_chance = -1
+
+	fertility = -0.99
+	years_of_fertility = 999
+	life_expectancy = 999
+	health = 1
+	# ==================
+
+	#========== Trait Properties ==========
+	# Genetic
+	genetic = yes
+	good = yes
+	birth = 0
+	group = elf_tier_4_mortal
+	level = 3
+	
+	physical = yes
+
+	# genetic_constraint_all = high_elf
+
+	ai_rationality = dominant_positive_ai_value
+
+	compatibility = {
+	}
+
+}
+
+
+
+
+

@@ -390,6 +390,7 @@ tradition_familial_familiarity = {
 
 	parameters = {
 		allows_unrestricted_marriage = yes
+		culture_allows_incest = yes
 		familial_familiarity_purer_blood = yes
 		familial_familiarity_purest_blood = yes
 	}
@@ -442,30 +443,110 @@ tradition_familial_familiarity = {
 # 	}
 # }
 
-# tradition_endless_lord ={
-# 	# your children will be genetic clones of you
-# 	category = blessings
 
-# 	layers = {
-# 		0 = blessing_bottom_layer.dds
-# 		1 = pattern_blessing_1.dds
-# 		4 = conversation.dds
-# 	}
+# your children will be genetic clones of you
+tradition_endless_lord ={
+	category = blessings
 
-# 	cost = {
-# 		prestige = {
-# 			add = {
-# 				value = tradition_base_cost
-# 				desc = BASE
-# 				format = "BASE_VALUE_FORMAT"
-# 			}
-# 			multiply = tradition_replacement_cost_if_relevant
-# 		}
-# 	}
+	layers = {
+		0 = blessing_bottom_layer.dds
+		1 = pattern_blessing_1.dds
+		4 = tradition_endless_lord_item.dds
+	}
 
-# 	ai_will_do = {
-# 		value = 0	
-# 	}
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_blessing_not_given
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_endless_lord
+			}
+		}
+	}
+
+	parameters = {
+		endless_lord_active = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+tradition_beguiling_nature = {
+	category = blessings
+
+	layers = {
+		0 = blessing_bottom_layer.dds
+		1 = pattern_blessing_1.dds
+		4 = tradition_beguiling_nature_item.dds
+	}
+
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_blessing_not_given
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_beguiling_nature
+			}
+		}
+	}
+
+	parameters = {
+		passionate_trait_unlocked = yes
+		entrance_scheme_unlocked = yes
+		enchantress_trait_unlocked = yes
+	}
+
+	character_modifier = {
+		attraction_opinion = 5
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+# Herbalist upgraded, icon with gold liquid and white marbel bowl.
+# tradition_healing_grace = {
+
+# }
+
+# Theologian => Oracle
+# tradition_divination = {
+
 # }
 
 
@@ -596,3 +677,10 @@ tradition_familial_familiarity = {
 # Maybe make this a religion doctrine
 # "Chosen Ones" tradition where individuals chosen by the spark are randomly geenrated, 
 # 	- strong trait, magic ability, and gives special troops?
+
+
+# blessing of the war god
+# - 7:1 m/f
+
+# blessing of the goddess of prosperity
+# - 1:7 m/f

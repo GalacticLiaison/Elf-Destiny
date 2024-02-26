@@ -76,6 +76,9 @@ task_aeluran_magistration = {
 
 		desc = {
 			desc = council_task_possible_side_effects
+			desc = task_aeluran_magistration_recruit_magi
+			desc = task_aeluran_magistration_hooks
+			desc = task_aeluran_magistration_conversion
 			triggered_desc = {
 				trigger = {
 					learning > mediocre_skill_rating
@@ -213,7 +216,7 @@ task_aeluran_conversion = {
 	highlight_own_realm = yes
 
 	effect_desc = {
-		desc = task_conversion_effect_desc
+		desc = task_aeluran_conversion_effect_desc
 		triggered_desc = {
 			trigger = {
 				scope:councillor_liege = {
@@ -226,36 +229,8 @@ task_aeluran_conversion = {
 		}
 		desc = {
 			desc = council_task_possible_side_effects
-			triggered_desc = {
-				trigger = {
-					learning > mediocre_skill_rating
-				}
-				desc = task_conversion_opinion_gain
-			}
-			triggered_desc = {
-				trigger = {
-					learning > mediocre_skill_rating
-				}
-				desc = task_conversion_development_gain
-			}
-			triggered_desc = {
-				trigger = {
-					learning > mediocre_skill_rating
-				}
-				desc = task_conversion_levy_gain
-			}
-			triggered_desc = {
-				trigger = {
-					learning < high_skill_rating
-				}
-				desc = task_conversion_resistance_to_conversion
-			}
-			triggered_desc = {
-				trigger = {
-					learning < high_skill_rating
-				}
-				desc = task_conversion_opinion_loss
-			}
+			desc = task_aeluran_conversion_convert_culture
+			desc = task_aeluran_conversion_increase_control
 		}
 	}
 
@@ -324,6 +299,15 @@ task_aeluran_conversion = {
 				value = scope:county.convert_faith_development_penalty
 				desc = STEWARD_PROMOTE_CULTURE_DEVELOPMENT_PENALTY
 			}
+		}
+
+		if = {
+			limit = {
+				scope:councillor_liege.culture = { 
+					has_cultural_parameter = aeluran_improved_religion_conversion_speed
+				}
+			}
+			multiply = 1.5 # 50% increase?
 		}
 		
 		if = {
@@ -731,7 +715,7 @@ task_aeluran_conversion = {
 		}
 	}
 
-	monthly_on_action = task_convert_side_effects
+	monthly_on_action = task_indoctrinate_side_effects
 
 	ai_will_do = {
 		value = 1000 # Always convert if possible

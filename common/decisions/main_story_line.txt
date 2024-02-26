@@ -64,8 +64,83 @@
 	}
 }
 
+transport_the_grand_portal_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_transport_portal.dds"
+
+	desc = transport_the_grand_portal_decision_desc
+	selection_tooltip = transport_the_grand_portal_decision_tooltip
+	major = yes
+	ai_goal = yes
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_global_variable = 02_spoke_with_the_aeluran_order
+
+		NOR = {  #Can only do it once and not after portal restored.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_transported
+			}
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_restored
+			}
+		}
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		custom_description = {
+			text = restore_the_grand_portal_decision_has_sigil_of_the_realm_lord
+			any_character_artifact = { has_variable = is_sigil_of_the_realm_lord }
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		# is_independent_ruler = yes
+		is_at_war = no
+	}
+
+	cost = {
+		# TODO: implement side quests to reduce the price
+		gold = 1000
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = elf_destiny_main_story_events.0022
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_grand_portal_transported
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 15
+		ai_value_modifier = {
+			ai_boldness = 1.0
+		}
+	}
+}
+
 restore_the_grand_portal_decision = {
-	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	picture = "gfx/interface/illustrations/decisions/decision_portal.dds"
 
 	desc = restore_the_grand_portal_decision_desc
 	selection_tooltip = restore_the_grand_portal_decision_tooltip
@@ -143,7 +218,7 @@ restore_the_grand_portal_decision = {
 	cost = {
 		# TODO: implement side quests to reduce the price
 		# gold = 3000
-		gold = 3
+		gold = 1000
 	}
 
 	effect = {

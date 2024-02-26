@@ -1,4 +1,4 @@
-namespace = divine_spark_rituals
+﻿namespace = divine_spark_rituals
 
 divine_spark_rituals.001 = { # Ascension Ritual
 	type = character_event
@@ -6,7 +6,7 @@ divine_spark_rituals.001 = { # Ascension Ritual
 	desc = divine_spark_rituals.001.desc
 
 	trigger = {
-		has_global_variable = 01_sigil_of_the_realm_lord_found
+		# has_global_variable = 01_sigil_of_the_realm_lord_found
 		is_any_elf_type = yes
 	}
 	
@@ -19,7 +19,10 @@ divine_spark_rituals.001 = { # Ascension Ritual
 
 	immediate = {
 		play_music_cue = "mx_cue_positive_effect"
-		elf_trait_ascension = yes
+		custom_tooltip = {
+			text = elf_trait_evolved
+			elf_trait_ascension = yes
+		}
 	}
 
 	option = { # ascend
@@ -94,6 +97,18 @@ divine_spark_rituals.002 = { # Blessings Ritual
 						}
 						desc = divine_spark_rituals.002.tradition_heroic_courage
 					}
+					triggered_desc = {
+						trigger = {
+							scope:blessing_one = culture_tradition:tradition_endless_lord
+						}
+						desc = divine_spark_rituals.002.tradition_endless_lord
+					}
+					triggered_desc = {
+						trigger = {
+							scope:blessing_one = culture_tradition:tradition_beguiling_nature
+						}
+						desc = divine_spark_rituals.002.tradition_beguiling_nature
+					}
 					desc = unexpected_blessing_name
 				}
 			}
@@ -102,8 +117,6 @@ divine_spark_rituals.002 = { # Blessings Ritual
 		trigger = {
 			exists = scope:blessing_one
 		}
-
-
 
 		root.culture = {
 			add_culture_tradition = scope:blessing_one
@@ -137,6 +150,18 @@ divine_spark_rituals.002 = { # Blessings Ritual
 							scope:blessing_two = culture_tradition:tradition_heroic_courage
 						}
 						desc = divine_spark_rituals.002.tradition_heroic_courage
+					}
+					triggered_desc = {
+						trigger = {
+							scope:blessing_two = culture_tradition:tradition_endless_lord
+						}
+						desc = divine_spark_rituals.002.tradition_endless_lord
+					}
+					triggered_desc = {
+						trigger = {
+							scope:blessing_two = culture_tradition:tradition_beguiling_nature
+						}
+						desc = divine_spark_rituals.002.tradition_beguiling_nature
 					}
 					desc = unexpected_blessing_name
 				}

@@ -1,0 +1,96 @@
+﻿
+###########################
+# ONGOING EVENTS
+###########################
+
+# Game Plan
+# IMPRTANT: use "duel" keyword mechanic
+
+# first encounter you meet the target and plant the seed
+entrance_in_holding_milestone_1 = {
+	trigger = {
+		exists = scope:scheme
+	}
+	random_events = { # Any added events must set and remove scheme_event_active_flag to prevent simultaneous firing in MP		
+		
+		100 = entrance.1031
+
+		# # Close Family
+		# 100 = entrance.1032
+
+		# # Spouse
+		# 100 = entrance.1033
+	}
+}
+
+# second encounter you solidify the connection
+# if the seed was planted, you can either have them come seek you out from a strange desperation or revisit them
+entrance_in_holding_milestone_2 = {
+	trigger = {
+		exists = scope:scheme
+	}
+	random_events = { # Any added events must set and remove scheme_event_active_flag to prevent simultaneous firing in MP
+		# # Categories
+		
+		100 = entrance.1034
+	}
+}
+
+
+
+####################################################################
+# OUTCOME ON ACTIONS
+####################################################################
+
+############################
+# Fire Success event
+############################
+
+entrance_success = {
+	first_valid = {
+		seduce_outcome.2000 # Bedded the Pope!
+		seduce_outcome.2307 # entrance rival/someone you dislike a lot
+		seduce_outcome.2308 # entrance close family member
+		seduce_outcome.2306 # Spouse seduction
+	}
+	fallback = seduce_generic_success
+	effect = {
+		root = {
+			add_achievement_variable_effect = {
+				VARIABLE = achievement_seductive_variable
+				VALUE = 1
+			}
+		}
+	}
+}
+
+entrance_generic_success = {
+	random_events = {
+		150 = seduce_outcome.2010 # Both Drunkards
+		100 = seduce_outcome.2020 # In the privy
+		150 = seduce_outcome.2030 # Both Gluttonous
+		100 = seduce_outcome.2040 # At the walls
+		150 = seduce_outcome.2050 # Both chaste, at least one married
+		100 = seduce_outcome.2301 # Go to the target's chambers
+		150 = seduce_outcome.2302 # Sneak into target's court (long distance)
+		150 = seduce_outcome.2303 # Gregarious target(and owner), gushing compliments
+		150 = seduce_outcome.2304 # Meet under the open sky (for hunters etc.)
+		100 = seduce_outcome.2305 # Love letter
+		100 = seduce_outcome.2309 # Sex scene is generated
+	}	
+}
+
+
+############################
+# Fire Failure event
+############################
+entrance_failure = {
+	random_events = {
+		100 = seduce_outcome.4001 # Standard rejection event, no discovery (kind rejection)
+		100 = seduce_outcome.4005 # Standard discovered failure event
+		100 = seduce_outcome.4002 # Hard reject (Disabled by Graceful Recovery)
+		50 = seduce_outcome.4003 # Hard reject & reveal (Disabled by Graceful Recovery)
+		100 = seduce_outcome.4004 # Taboo (incest/sodomy)
+		100 = seduce_outcome.4100 # Flirtatious rejection, no discovery
+	}
+}

@@ -1,28 +1,20 @@
 ﻿ascension_ritual_decision = {
 	picture = "gfx/interface/illustrations/decisions/decision_divine_spark.dds"
 
-	desc = {
-		first_valid = {
-			triggered_desc = {
-			    trigger = {
-					OR = {
-						has_trait = high_elf
-					}
-			    }
-			    desc = ascension_ritual_threshold_1_decision_desc
-			}
-			desc = ascension_ritual_decision_desc
-		}
-	}
+	desc = ascension_ritual_decision_desc
 
 	selection_tooltip = ascension_ritual_decision_tooltip
 	major = yes
 	ai_goal = yes
 
 	is_shown = {
+		is_ai = no
 		is_ruler = yes
 		is_landed = yes
 		is_any_elf_type = yes
+		NOT = {
+			is_at_elf_thereshold = yes
+		}
 	}
 	
 	# Following conditions must be true to take decision, shown in requirements section
@@ -30,6 +22,335 @@
 		custom_tooltip = {
 			text = is_below_top_elf_type
 			is_below_top_elf_type = yes
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	cost = {
+		piety = {
+			add = {
+				value = 0
+				if = {
+					limit = {
+						is_elf_blood = yes
+					}
+					add = {
+						value = 3000
+					}
+				}
+				if = {
+					limit = {
+						is_elf = yes
+					}
+					add = {
+						value = 5000
+					}
+				}
+				if = {
+					limit = {
+						is_high_elf = yes
+					}
+					add = {
+						value = 6000
+					}
+				}
+				if = {
+					limit = {
+						is_true_elf = yes
+					}
+					add = {
+						value = 7000
+					}
+				}
+				if = {
+					limit = {
+						is_fae = yes
+					}
+					add = {
+						value = 8000
+					}
+				}
+				if = {
+					limit = {
+						is_fae_radiant = yes
+					}
+					add = {
+						value = 9000
+					}
+				}
+				if = {
+					limit = {
+						is_celestial = yes
+					}
+					add = {
+						value = 10000
+					}
+				}
+				if = {
+					limit = {
+						is_seraphic_celestial = yes
+					}
+					add = {
+						value = 11000
+					}
+				}
+				if = {
+					limit = {
+						is_eldar = yes
+					}
+					add = {
+						value = 12000
+					}
+				}
+				if = {
+					limit = {
+						is_maiar = yes
+					}
+					add = {
+						value = 13000
+					}
+				}
+				if = {
+					limit = {
+						is_valar = yes
+					}
+					add = {
+						value = 15000
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = divine_spark_rituals.001
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 15
+		ai_value_modifier = {
+			ai_boldness = 1.0
+		}
+	}
+}
+
+ascension_ritual_decision_first_threshold = {
+	picture = "gfx/interface/illustrations/decisions/decision_divine_spark.dds"
+
+	desc = ascension_ritual_threshold_1_decision_desc
+
+	selection_tooltip = ascension_ritual_decision_tooltip
+	major = yes
+	ai_goal = yes
+
+	is_shown = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_at_first_elf_threshold = yes
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		custom_tooltip = {
+			text = need_to_restore_portal
+			NAND = {
+				is_at_first_elf_threshold = yes
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:flag_grand_portal_restored
+					}
+				}
+			}
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	cost = {
+		piety = {
+			add = {
+				value = 0
+				if = {
+					limit = {
+						has_trait = elf_blood
+					}
+					add = {
+						value = 3000
+					}
+				}
+				if = {
+					limit = {
+						has_trait = elf
+					}
+					add = {
+						value = 5000
+					}
+				}
+				if = {
+					limit = {
+						has_trait = high_elf
+					}
+					add = {
+						value = 6000
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = divine_spark_rituals.001
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 15
+		ai_value_modifier = {
+			ai_boldness = 1.0
+		}
+	}
+}
+
+ascension_ritual_decision_second_threshold = {
+	picture = "gfx/interface/illustrations/decisions/decision_divine_spark.dds"
+
+	desc = ascension_ritual_threshold_2_decision_desc
+
+	selection_tooltip = ascension_ritual_decision_tooltip
+	major = yes
+	ai_goal = yes
+
+	is_shown = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_at_second_elf_threshold = yes
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		custom_tooltip = {
+			text = need_to_restore_portal
+			NAND = {
+				is_at_first_elf_threshold = yes
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:flag_grand_portal_restored
+					}
+				}
+			}
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	cost = {
+		piety = {
+			add = {
+				value = 0
+				if = {
+					limit = {
+						has_trait = elf_blood
+					}
+					add = {
+						value = 3000
+					}
+				}
+				if = {
+					limit = {
+						has_trait = elf
+					}
+					add = {
+						value = 5000
+					}
+				}
+				if = {
+					limit = {
+						has_trait = high_elf
+					}
+					add = {
+						value = 6000
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		show_as_tooltip = {
+			# TODO: see if this works
+			# restore_the_grand_portal_scripted_effect = yes
+		}
+		trigger_event = {
+			id = divine_spark_rituals.001
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 15
+		ai_value_modifier = {
+			ai_boldness = 1.0
+		}
+	}
+}
+
+ascension_ritual_decision_final_threshold = {
+	picture = "gfx/interface/illustrations/decisions/decision_divine_spark.dds"
+
+	desc = ascension_ritual_threshold_3_decision_desc
+
+	selection_tooltip = ascension_ritual_decision_tooltip
+	major = yes
+	ai_goal = yes
+
+	is_shown = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_at_third_elf_threshold = yes
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		custom_tooltip = {
+			text = players_cant_be_gods
+			always = no
 		}
 	}
 
@@ -105,6 +426,7 @@ blessing_ritual_decision = {
 	}
 
 	is_shown = {
+		is_ai = no
 		is_ruler = yes
 		is_landed = yes
 		is_any_elf_type = yes

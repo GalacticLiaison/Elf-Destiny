@@ -1,0 +1,216 @@
+﻿random_yearly_everyone_pulse = {
+	on_actions = {
+		elf_prego_pulse
+		entranced_resist_attempt_pulse
+	}
+}
+
+# With lower elf fertility this make sure that elves are at least having some kids
+elf_prego_pulse = {
+	trigger = {
+		root = {
+			OR = {
+				AND = {
+					is_female = yes
+					is_pregnant = no
+				}
+				is_female = no
+			}
+			age > 16
+			is_any_elf_type = yes
+			any_child = {
+				count = 0
+			}
+			OR = {
+				is_married = yes
+				is_concubine = yes
+			}
+		}
+	}
+	effect = {
+		if = {
+			limit = {
+				is_female = yes
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				debug_log = "evaluating elf preg encouragment married"
+	
+				random_consort = {
+					save_scope_as = sex_partner
+				}
+	
+				debug_log_scopes = yes
+	
+				random = {
+					chance = 20
+					debug_log = "pregnancy given"
+					make_pregnant = {
+						father = scope:sex_partner
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_concubine = yes
+					is_concubine_of = liege
+				}
+				debug_log = "evaluating elf preg encouragment concubine"
+				debug_log_scopes = yes
+	
+				random = {
+					chance = 20
+					debug_log = "pregnancy given"
+					make_pregnant = {
+						father = liege
+					}
+				}
+			}
+		}
+		else = {
+			debug_log = "evaluating elf preg encouragment married male perspective"
+	
+			random_consort = {
+				limit = {
+					is_pregnant = no
+				}
+				save_scope_as = sex_partner
+			}
+
+			debug_log_scopes = yes
+
+			random = {
+				chance = 20
+				debug_log = "pregnancy given"
+				scope:sex_partner = {
+					make_pregnant = {
+						father = root
+					}
+				}
+			}
+		}
+
+	}
+}
+
+entranced_resist_attempt_pulse = {
+	trigger = {
+		has_trait = entranced
+		has_variable = years_since_last_entrance_break_attempt
+	}
+	effect = {
+		debug_log = "entranced_resist_attempt_pulse"
+
+		if = {
+			limit = {
+				var:years_since_last_entrance_break_attempt >= 3
+			}
+
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
+
+			every_living_character = {
+				limit = {
+					has_hook_of_type = {
+						type = entranced
+						target = root
+					}
+				}
+				save_scope_as = entrancer
+			}
+
+			debug_log_scopes = yes
+
+			if = {
+				limit = {
+					exists = scope:entrancer
+				}
+				# if = { # BOTH AI
+				# 	limit = { 
+				# 		root = {
+				# 			is_ai = yes
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = yes
+				# 		}
+				# 	}
+				# 	random_list = {
+				# 		60 = { # Entrancement deepens
+				# 			root = {
+				# 				add_trait_xp = {
+				# 					trait = entranced
+				# 					value = 33
+				# 				}
+				# 			}
+				# 		}
+				# 		40 = { # They break free
+				# 			scope:entrancer = {
+				# 				remove_hook = {
+				# 					target = scope:victim
+				# 				}
+				# 			}
+		
+				# 			remove_trait = entranced
+				# 		}
+				# 	}
+				# }
+				# else_if = { # Player is victim
+				# 	limit = {
+				# 		root = {
+				# 			is_ai = no
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = yes
+				# 		}
+				# 	}
+				# 	# trigger_event = entrance.1160
+				# }
+				if = { # Player Is Enchanter, AI is victim
+					limit = {
+						root = {
+							is_ai = yes
+						}
+						scope:entrancer = {
+							is_ai = no
+						}
+					}
+
+					scope:entrancer = {
+						set_variable = {
+							name = struggling_pet
+							value = root
+						}
+						trigger_event = entrance.1150
+					}
+				}
+				# else_if = { # Multiplayer - both roles are players
+				# 	limit = {
+				# 		root = {
+				# 			is_ai = no
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = no
+				# 		}
+				# 	}
+				# 	# trigger_event = entrance.1160
+				# }
+			}
+			else = {
+				debug_log = "ERROR: NO ENTRANCER"
+			}
+	
+
+		}
+		else = {
+			change_variable = {
+				name = years_since_last_entrance_break_attempt
+				add = 1
+			}
+		}
+
+	}
+}

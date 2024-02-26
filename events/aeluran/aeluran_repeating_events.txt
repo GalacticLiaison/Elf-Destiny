@@ -1,0 +1,124 @@
+﻿namespace = aeluran_repeating
+
+aeluran_repeating.001 = { # Daughters recruited by Aelurans
+	type = character_event
+
+	title = aeluran_repeating.001.title
+	
+	desc = {
+		desc = aeluran_repeating.001.desc
+		triggered_desc = { 
+			trigger = {
+				scope:daughter = {
+					has_trait = magic_talent_1
+				}
+			}
+			desc = aeluran_repeating.001.low_talent
+		}
+		triggered_desc = { 
+			trigger = {
+				scope:daughter = {
+					has_trait = magic_talent_2
+				}
+			}
+			desc = aeluran_repeating.001.mid_talent
+		}
+		triggered_desc = { 
+			trigger = {
+				scope:daughter = {
+					has_trait = magic_talent_3
+				}
+			}
+			desc = aeluran_repeating.001.high_talent
+		}
+
+		desc = aeluran_repeating.001.conclusion
+	}
+
+	trigger = {
+		exists = cp:councillor_aeluran_advisor
+	}
+
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:daughter
+		animation = worry
+	}
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		cp:councillor_aeluran_advisor = {
+			save_scope_as = advisor
+		}
+
+		random_child = {
+			limit = {
+				is_female = yes
+				NOT = {
+					has_character_flag = recruited_by_aelurans
+				}
+				age < 8
+				age > 6
+			}
+
+			add_character_flag = recruited_by_aelurans
+			save_scope_as = daughter
+		}
+	}
+
+	option = {
+		name = aeluran_repeating.001.ok
+		daughter_sent_to_deep_wood_effect = yes
+	}
+
+	option = {
+		name = aeluran_repeating.001.refuse
+		add_piety = -250
+	}
+}
+
+aeluran_repeating.002 = { # Daughters returned from Aelurans
+	type = character_event
+
+	title = aeluran_repeating.002.title
+	desc = aeluran_repeating.002.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = scope:daughter
+		animation = personality_zealous
+	}
+
+	immediate = {
+		random_child = {
+			limit = {
+				is_female = yes
+				age > 15
+				age < 20
+				has_character_flag = recruited_by_aelurans
+			}
+			save_scope_as = daughter
+
+			remove_character_flag = recruited_by_aelurans
+
+			add_trait = magi
+			add_trait = aeluran_sister
+
+			set_location = root.location
+			# stick_to_location
+			
+		}
+	}
+
+	option = {
+		name = aeluran_repeating.002.ok
+		add_courtier = scope:daughter
+	}
+
+}

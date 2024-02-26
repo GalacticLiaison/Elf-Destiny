@@ -1,200 +1,253 @@
 ﻿namespace = aeluran_advisor_task
 
-# ### COVEN MAGISTRATION ###
+### COVEN MAGISTRATION ###
 
-# # Recruit Magi Success
-# ## TODO: implement male twin chance (empowered)
-# ## TODO: for dna override check succubus mod
+# Recruit Magi Success
+## TODO: implement male twin chance (empowered)
 
-# aeluran_advisor_task.0101 = { # New Magi is recruited
-# 	type = character_event
-# 	title = aeluran_advisor_task.0101.t
-# 	desc = aeluran_advisor_task.0101.desc
+aeluran_advisor_task.0101 = { # New Magi is recruited
+	type = character_event
+	title = aeluran_advisor_task.0101.t
+	desc = aeluran_advisor_task.0101.desc
 
-# 	immediate = {
-# 		set_variable = {
-# 			name = had_new_magi_event
-# 			days = 730
-# 		}
-# 		random_sub_realm_county = {
-# 			save_scope_as = origin
-# 		}
-# 		hidden_effect = {
-# 			if = {
-# 				limit = {
-# 					exists = capital_province
-# 				}
-# 				capital_province = { save_scope_as = target_location }
-# 			}
-# 			else = {
-# 				location = { save_scope_as = target_location }
-# 			}
-# 			random_list = {
-# 				90 = { # standard magi recruit
-# 					if = { 
-# 						limit = {
-# 							# has enhanced magi recruitment perk
-# 						}
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_high_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi
-# 						}
-# 					}
-# 					else = {
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi
-# 						}
-# 					}
-# 				}
-# 				10 = { # twin magi recruit
-# 					trigger = {
-# 						# has enhanced breeding culture perk
-# 					}
-# 					create_character = {
-# 						location = scope:target_location
-# 						template = generic_elf_mother
-# 						faith = scope:origin.faith
-# 						culture = scope:origin.culture
-# 						save_scope_as = new_mother
-# 					}
-# 					create_character = {
-# 						location = scope:target_location
-# 						template = generic_elf_father
-# 						faith = scope:origin.faith
-# 						culture = scope:origin.culture
-# 						save_scope_as = new_father
-# 					}
+	immediate = {
+		set_variable = {
+			name = had_new_magi_event
+			days = 730
+		}
+		random_sub_realm_county = {
+			save_scope_as = origin
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					exists = capital_province
+				}
+				capital_province = { save_scope_as = target_location }
+			}
+			else = {
+				location = { save_scope_as = target_location }
+			}
+			random_list = {
+				90 = { # standard magi recruit
+					if = { 
+						limit = {
+							# has enhanced magi recruitment perk
+						}
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_high_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi
+						}
+					}
+					else = {
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi
+						}
+					}
+				}
+				10 = { # twin magi recruit
+					trigger = {
+						# has enhanced breeding culture perk
+					}
+					create_character = {
+						location = scope:target_location
+						template = generic_elf_mother
+						faith = scope:origin.faith
+						culture = scope:origin.culture
+						save_scope_as = new_mother
+					}
+					create_character = {
+						location = scope:target_location
+						template = generic_elf_father
+						faith = scope:origin.faith
+						culture = scope:origin.culture
+						save_scope_as = new_father
+					}
 
-# 					if = { 
-# 						limit = {
-# 							# has enhanced magi recruitment perk
-# 						}
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_advanced_twin_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi_t1
-# 						}
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_advanced_twin_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi_t2
-# 						}
-# 					}
-# 					else = {
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_twin_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi_t1
-# 						}
-# 						create_character = {
-# 							gender_female_chance = 100
-# 							location = scope:target_location
-# 							template = new_twin_magi_recruit_character
-# 							faith = scope:origin.faith
-# 							culture = scope:origin.culture
-# 							save_scope_as = new_magi_t2
-# 						}
-# 					}
+					if = { 
+						limit = {
+							# has enhanced magi recruitment perk
+						}
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_advanced_twin_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi_t1
+						}
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_advanced_twin_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi_t2
+						}
+					}
+					else = {
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_twin_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi_t1
+						}
+						create_character = {
+							gender_female_chance = 100
+							location = scope:target_location
+							template = new_twin_magi_recruit_character
+							faith = scope:origin.faith
+							culture = scope:origin.culture
+							save_scope_as = new_magi_t2
+						}
+					}
 
-# 					scope:new_magi_t1 = {
-# 						set_father = scope:new_father
-# 						set_mother = scope:new_mother
-# 						set_house = scope:new_father.house
-# 					}
+					scope:new_magi_t1 = {
+						set_father = scope:new_father
+						set_mother = scope:new_mother
+						set_house = scope:new_father.house
+					}
 
-# 					scope:new_magi_t2 = {
-# 						set_father = scope:new_father
-# 						set_mother = scope:new_mother
-# 						set_house = scope:new_father.house
-# 					}
-# 				}
-# 			}
+					scope:new_magi_t2 = {
+						set_father = scope:new_father
+						set_mother = scope:new_mother
+						set_house = scope:new_father.house
+					}
+				}
+			}
 			
 
-# 			create_character = {
-# 				gender_female_chance = 100
-# 				location = scope:target_location
-# 				template = new_magi_recruit_character
-# 				faith = scope:origin.faith
-# 				culture = scope:origin.culture
-# 				save_scope_as = new_magi
-# 			}
-# 			add_visiting_courtier = scope:new_magi
-# 		}
-# 	}
+			create_character = {
+				gender_female_chance = 100
+				location = scope:target_location
+				template = new_magi_recruit_character
+				faith = scope:origin.faith
+				culture = scope:origin.culture
+				save_scope_as = new_magi
+			}
+			add_visiting_courtier = scope:new_magi
+		}
+	}
 
-# 	theme = martial
-# 	left_portrait = {
-# 		character = scope:new_magi
-# 		animation = ecstasy
-# 	}
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	theme = martial
+	content_source = elf_destiny
 
-# 	trigger = {
-# 		is_ai = no
-# 		exists = cp:councillor_aeluran_advisor
-# 		scope:councillor = cp:councillor_aeluran_advisor
-# 		NOT = {
-# 			has_variable = had_new_magi_event
-# 		}
-# 		OR = {
-# 			exists = capital_province
-# 			exists = location
-# 		}
+	left_portrait = {
+		character = scope:new_magi
+		animation = ecstasy
+	}
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
-# 		OR = {
-# 			number_of_knights < max_number_of_knights
-# 			any_knight = {
-# 				prowess < 8
-# 			}
-# 		}
-# 	}
+	trigger = {
+		is_ai = no
+		exists = cp:councillor_aeluran_advisor
+		scope:councillor = cp:councillor_aeluran_advisor
+		NOT = {
+			has_variable = had_new_magi_event
+		}
+		OR = {
+			exists = capital_province
+			exists = location
+		}
 
-# 	weight_multiplier = {
-# 		base = 1
-# 	}
+		OR = {
+			number_of_knights < max_number_of_knights
+			any_knight = {
+				prowess < 8
+			}
+		}
+	}
 
+	weight_multiplier = {
+		base = 1
+	}
 
+	option = {
+		name = aeluran_advisor_task.0101.a
+		add_courtier = scope:new_magi
+		ai_chance = {
+			base = 100
+		}
+	}
 
-# 	option = {
-# 		name = aeluran_advisor_task.0101.a
-# 		add_courtier = scope:new_magi
-# 		ai_chance = {
-# 			base = 100
-# 		}
-# 	}
+	option = {
+		name = aeluran_advisor_task.0101.b
+		scope:new_magi = {
+			select_and_move_to_pool_effect = yes
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+}
 
-# 	option = {
-# 		name = aeluran_advisor_task.0101.b
-# 		scope:new_magi = {
-# 			select_and_move_to_pool_effect = yes
-# 		}
-# 		ai_chance = {
-# 			base = 10
-# 		}
-# 	}
-# }
+aeluran_advisor_task.01011 = { # Magi Core is reinforced
+	type = character_event
+	title = aeluran_advisor_task.01011.t
+	desc = aeluran_advisor_task.01011.desc
+
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			root = {
+				NOT = {
+					any_memory = {
+						has_memory_type = received_aeluran_magi_recently
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		cp:councillor_aeluran_advisor ?= {
+			save_scope_as = councillor
+		}
+	}
+
+	theme = martial
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	option = {
+		name = aeluran_advisor_task.01011.a
+
+		spawn_army = {
+			men_at_arms = {
+				type = aeluran_magi_core
+				stacks = 1
+			}
+			inheritable = yes
+			uses_supply = yes
+			location = root.capital_province
+			name = stationed_aeluran_magi
+		}
+
+		create_character_memory = {
+			type = received_aeluran_magi_recently
+		}
+	}
+
+}
+
 
 # # Improve Magi Side Effects
 # # aeluran_advisor_task.0201 = {
@@ -222,208 +275,292 @@
 	
 # # }
 
-# aeluran_advisor_task.0102 = { # Religious hook
-# 	hidden = yes
+aeluran_advisor_task.0102 = { # Religious hook
+	hidden = yes
 
-# 	immediate = {
-# 		# debug_log = "INSIDE MAGISTRATION"
+	immediate = {
+		# debug_log = "INSIDE MAGISTRATION"
 
-# 		### Lets put together a list of all our vassals and courtiers,  
-# 		### they will be our hook candidates. 							
-# 		every_vassal_or_below = { 
-# 			limit = {
-# 				# Has Religion
-# 				faith = { has_doctrine = tenet_aeluran_sisters }
-# 				age > 16
-# 			}
-# 			add_to_list = devotee_list
-# 		}
-# 		every_courtier = { 
-# 			limit = {
-# 				# Has Religion
-# 				faith = { has_doctrine = tenet_aeluran_sisters }
-# 				age > 16
-# 			}
-# 			add_to_list = devotee_list
-# 		}
+		### Lets put together a list of all our vassals and courtiers,  
+		### they will be our hook candidates. 							
+		every_vassal_or_below = { 
+			limit = {
+				# Has Religion
+				faith = { has_doctrine = tenet_aeluran_sisters }
+				age > 16
+			}
+			add_to_list = devotee_list
+		}
+		every_courtier = { 
+			limit = {
+				# Has Religion
+				faith = { has_doctrine = tenet_aeluran_sisters }
+				age > 16
+			}
+			add_to_list = devotee_list
+		}
 
-# 		### Next, lets pick a random person from our list.  			
-# 		### They will be the target of our hook. 						
-# 		random_in_list = {
-# 			list = devotee_list
+		### Next, lets pick a random person from our list.  			
+		### They will be the target of our hook. 						
+		random_in_list = {
+			list = devotee_list
 
-# 			### If a candidate is zealous or trusting, they are
-# 			### more likely to believe the words of your advisor.
-# 			### So we will give them a higher chance of being selected.	
-# 			weight = { 
-# 				base = 1
-# 				modifier = {
-# 					factor = 4
-# 					has_trait = trusting
-# 				}
-# 				modifier = {
-# 					factor = 4
-# 					has_trait = zealous
-# 				}
-# 			}
-# 			save_scope_as = devotee_target
-# 		}
+			### If a candidate is zealous or trusting, they are
+			### more likely to believe the words of your advisor.
+			### So we will give them a higher chance of being selected.	
+			weight = { 
+				base = 1
+				modifier = {
+					factor = 4
+					has_trait = trusting
+				}
+				modifier = {
+					factor = 4
+					has_trait = zealous
+				}
+			}
+			save_scope_as = devotee_target
+		}
 
-# 		### Now that we have a target, we will give them a hook.
-# 		### - Religious Exhaultation Hook
-# 		random_list = {
-# 			40 = { # advisor heals child devotee_target
-# 				# if = {
-# 					# TODO: must have child
-# 				# 	limit = {
-# 				# 		# scope:devotee_target = {
-# 				# 		# 	# Has any children?
-# 				# 		# 	any_child = {
-# 				# 		# 		count >= 1
-# 				# 		# 	}
-# 				# 		# }
-# 				# 	}
-# 				trigger_event = aeluran_advisor_task.01021 
-# 			}
-# 			30 = { # advisor has private session with devotee_target
-# 				# TODO: must be married
-# 				trigger_event = aeluran_advisor_task.01022 
-# 			}
-# 			30 = { # advisor mesmerizes crowd with spark
-# 				# TODO: generic fallback
-# 				trigger_event = aeluran_advisor_task.01023
-# 			}
-# 		}
-# 	}
-# }
+		### Now that we have a target, we will give them a hook.
+		### - Religious Exhaultation Hook
+		random_list = {
+			50 = { # advisor heals child devotee_target
+				trigger = {
+					scope:devotee_target = {
+						# Has any children?
+						any_child = {
+							count >= 1
+						}
+					}
+				}
+				trigger_event = aeluran_advisor_task.01021 
+			}
+			50 = { # advisor has private session with devotee_target
+				# TODO: must be married
+				trigger = {
+					scope:devotee_target = {
+						is_married = yes
+					}
+				}
+				trigger_event = aeluran_advisor_task.01022 
+			}
+			10 = { # advisor mesmerizes crowd with spark
+				# TODO: generic fallback
+				trigger_event = aeluran_advisor_task.01023
+			}
+		}
+	}
+}
 
-# aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
-# 	type = character_event
-# 	title = aeluran_advisor_task.01021.t
-# 	desc = aeluran_advisor_task.01021.desc
-# 	theme = faith
+aeluran_advisor_task.01021 = { # advisor heals child of devotee_target
+	type = character_event
+	title = aeluran_advisor_task.01021.t
+	desc = aeluran_advisor_task.01021.desc
+	theme = faith
+	content_source = elf_destiny
 	
-# 	immediate = {
-# 		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
-# 	}
+	immediate = {
+		# debug_log = "INSIDE MAGISTRATION HEAL CHILD EVENT"
+	}
 	
-# 	left_portrait = scope:devotee_target
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	left_portrait = {
+		character = scope:devotee_target
+		animation = disbelief
+	}
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 	
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+			NOT = {
+				cp:councillor_aeluran_advisor = scope:devotee_target
+			}
+		}
+	}
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01021.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01021.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
 
-# aeluran_advisor_task.01022 = { # advisor has private session with devotee_target
-# 	type = character_event
-# 	title = aeluran_advisor_task.01022.t
-# 	desc = aeluran_advisor_task.01022.desc
+aeluran_advisor_task.01022 = { # advisor has private session with devotee_target
+	type = character_event
+	title = aeluran_advisor_task.01022.t
+	desc = aeluran_advisor_task.01022.desc
 
-# 	theme = faith
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	theme = faith
+	content_source = elf_destiny
 
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01022.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+			NOT = {
+				cp:councillor_aeluran_advisor = scope:devotee_target
+			}
+		}
+	}
 
-# aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
-# 	type = character_event
-# 	title = aeluran_advisor_task.01023.t
-# 	desc = aeluran_advisor_task.01023.desc
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01022.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
 
-# 	theme = faith
-# 	right_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+aeluran_advisor_task.01023 = { # advisor mesmerizes crowd with spark
+	type = character_event
+	title = aeluran_advisor_task.01023.t
+	desc = aeluran_advisor_task.01023.desc
 
-# 	trigger = {
-# 		AND = {
-# 			exists = cp:councillor_aeluran_advisor
-# 			exists = scope:devotee_target
-# 		}
-# 	}
+	theme = faith
+	content_source = elf_destiny
 
-# 	### Add the hook
-# 	option = {
-# 		name = aeluran_advisor_task.01023.a
-# 		add_hook = {
-# 			target = scope:devotee_target
-# 			type = religious_exaltation
-# 		}
-# 	}
-# }
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
-# # aeluran_advisor_task.0303 = { # Increase Control in random counties
-# # 	type = character_event
-# # 	title = aeluran_advisor_task.0303.t
-# # 	desc = aeluran_advisor_task.0303.desc
+	trigger = {
+		AND = {
+			exists = cp:councillor_aeluran_advisor
+			exists = scope:devotee_target
+			NOT = {
+				cp:councillor_aeluran_advisor = scope:devotee_target
+			}
+		}
+	}
 
-# # 	theme = faith
-# # 	left_portrait = scope:player
-# # 	right_portrait = {
-# # 		character = cp:councillor_aeluran_advisor
-# # 		animation = personality_zealous
-# # 	}
+	### Add the hook
+	option = {
+		name = aeluran_advisor_task.01023.a
+		add_hook = {
+			target = scope:devotee_target
+			type = religious_exaltation
+		}
+	}
+}
+
+### INDOCTRINATE ###
+
+aeluran_advisor_task.0303 = { # Increase Control in county
+	type = character_event
+	title = aeluran_advisor_task.0303.t
+	desc = aeluran_advisor_task.0303.desc
+
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		NOT = {
+			scope:county.county_control = 100
+		}
+	}
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		set_variable = {
+			name = had_aeluran_advisor_task_side_effect
+			value = yes
+			days = 365
+		}
+	}
+
+	# immediate = {
+	# 	scope:player = {
+	# 		random_sub_realm_county = {
+	# 			limit = {
+	# 				county_control <= high_county_control_limit
+	# 				holder = scope:player
+	# 			}
+	# 			save_scope_as = chosen_county
+	# 		}
+	# 	}
+	# }
+
+	option= {
+		name = aeluran_advisor_task.0303.a
+		scope:county = {
+			change_county_control = 100
+		}
+	}
+
+}
+
+aeluran_advisor_task.0304 = { # Convert Culture in county
+	type = character_event
+	title = aeluran_advisor_task.0304.t
+	desc = aeluran_advisor_task.0304.desc
+
+	trigger = {
+		NOT = {
+			scope:county.culture = root.culture
+		}
+	}
+
+	theme = faith
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
 
-# # 	immediate = {
-# # 		scope:player = {
-# # 			random_sub_realm_county = {
-# # 				limit = {
-# # 					county_control <= high_county_control_limit
-# # 					holder = scope:player
-# # 				}
-# # 				save_scope_as = chosen_county
-# # 			}
-# # 		}
-# # 	}
+	# immediate = {
+	# 	scope:player = {
+	# 		random_sub_realm_county = {
+	# 			limit = {
+	# 				county_control <= high_county_control_limit
+	# 				holder = scope:player
+	# 			}
+	# 			save_scope_as = chosen_county
+	# 		}
+	# 	}
+	# }
 
-# # 	option= {
-# # 		name = aeluran_advisor_task.0303.a
-# # 		scope:chosen_county = {
-# # 			change_county_control = 100
-# # 		}
-# # 	}
+	immediate = {
+		set_variable = {
+			name = had_aeluran_advisor_task_side_effect
+			value = yes
+			days = 365
+		}
 
-# # }
+		root = {
+			save_scope_as = lord
+		}
+	}
 
-# # aeluran_advisor_task.0304 = { # Reduce Player Dominance
-	
-# # }
+	option= {
+		name = aeluran_advisor_task.0304.a
+		scope:county = {
+			set_county_culture = root.culture
+		}
+	}
 
+}
 
 # ### UNDERMINE ###
 
@@ -454,10 +591,16 @@ aeluran_advisor_task.0301 = {
 	title = aeluran_advisor_task.0301.t
 	desc = aeluran_advisor_task.0301.desc
 	theme = faith
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
 	option = {
 		name = aeluran_advisor_task.0301.a
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -532,12 +675,18 @@ aeluran_advisor_task.0301 = {
 	}
 }
 
-#Fabricate Claim Dutchy
+# Fabricate Claim Dutchy
 aeluran_advisor_task.0302 = {
 	type = character_event
 	title = aeluran_advisor_task.0302.t
 	desc = aeluran_advisor_task.0302.desc
 	theme = faith
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
 
 	trigger = {
 		scope:county = {
@@ -618,7 +767,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.a
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -684,7 +833,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.b
-		court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
+		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
 		add_unpressed_claim = scope:duchy
 		show_as_tooltip = {
 			scope:duchy_holder = {
@@ -779,6 +928,181 @@ aeluran_advisor_task.0302 = {
 		custom_tooltip = court_chaplain_task.0301.b.tt
 		ai_chance = {
 			base = 10
+		}
+	}
+}
+
+# Convert County
+aeluran_advisor_task.03011 = {
+	type = character_event
+	title = aeluran_advisor_task.03011.t
+	desc = aeluran_advisor_task.03011.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		NOT = {
+			scope:county.faith = root.faith
+		}
+	}
+
+	right_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+		}
+		# set_variable = {
+		# 	name = had_aeluran_advisor_task_side_effect
+		# 	value = yes
+		# 	days = 365
+		# }
+	}
+
+	option= {
+		name = aeluran_advisor_task.03011.a
+
+		scope:county = {
+			set_county_faith = root.faith
+		}
+	}
+}
+
+# Convert Heir Of Lord
+aeluran_advisor_task.03012 = {
+	type = character_event
+	title = aeluran_advisor_task.03012.t
+	desc = aeluran_advisor_task.03012.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		scope:county.holder ={
+			any_heir = {
+				is_child_of = scope:county.holder
+				NOT = {
+					root.faith = this.faith
+				}
+				age > 7
+			}
+		}
+	}
+
+	right_portrait = {
+		character = scope:county_lord
+		animation = anger
+	}
+
+	left_portrait = {
+		character = scope:lords_heir
+		animation = personality_zealous
+	}
+
+	lower_center_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+
+			primary_heir = {
+				save_scope_as = lords_heir
+			}
+		}
+		
+		scope:lords_heir ?= {
+			set_character_faith = root.faith
+		}
+
+		# set_variable = {
+		# 	name = had_aeluran_advisor_task_side_effect
+		# 	value = yes
+		# 	days = 365
+		# }
+	}
+
+	option= {
+		name = aeluran_advisor_task.03012.a
+	}
+}
+
+# Pesant Revolt
+aeluran_advisor_task.03013 = {
+	type = character_event
+	title = aeluran_advisor_task.03013.t
+	desc = aeluran_advisor_task.03013.desc
+	theme = faith
+	content_source = elf_destiny
+
+	trigger = {
+		scope:county.faith = root.faith
+		NOT = {
+			scope:county.faith = scope:county_lord.faith
+		}
+	}
+
+	right_portrait = {
+		character = scope:county_lord
+		animation = fear
+	}
+
+	left_portrait = {
+		character = cp:councillor_aeluran_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		scope:county.holder = {
+			save_scope_as = county_lord
+		}
+		
+		if = {
+			limit = {
+				scope:county_lord ?= {
+					NOT = { exists = scope:sabotage_faction }
+				}
+			}
+			hidden_effect = { # Hidden to avoid TT clutter
+				scope:county = {
+					title_create_faction = {
+						type = peasant_faction
+						target = scope:county_lord
+					}
+				}
+				scope:county_lord = {
+					random_targeting_faction = {
+						limit = {
+							faction_is_type = peasant_faction
+						}
+						save_scope_as = sabotage_faction
+						setup_peasant_leader_effect = yes
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_advisor_task.03013.a
+		custom_tooltip = aeluran_advisor_task.03013.a.tt
+	}
+
+	# Summon the rabble
+	after = {
+		scope:sabotage_faction = {
+			faction_start_war = {}
+			hidden_effect = { # Hidden to avoid TT clutter
+				faction_spawn_member_county_armies_effect = {
+					FACTION = scope:sabotage_faction
+					ARMY_OWNER = scope:peasant_leader
+					PEASANT_ARMY_NAME = peasant_faction_event_troops
+				}
+			}
 		}
 	}
 }

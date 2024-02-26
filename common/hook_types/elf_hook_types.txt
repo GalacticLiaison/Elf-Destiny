@@ -1,0 +1,36 @@
+﻿entranced = {
+	perpetual = yes
+
+	on_used = {
+		debug_log = "in hoook"
+		scope:target = {
+			add_trait_xp = {
+				trait = entranced
+				track = depth_of_entrancement
+				value = 33
+			}
+		}
+
+		if = {
+			limit = {
+				scope:target = {
+					has_trait_xp = {
+						trait = entranced
+						track = depth_of_entrancement
+						value > 66
+					}
+				}
+			}
+
+			root = {
+				trigger_event = entrance.1100
+			}
+		}
+		
+	}
+}
+
+enthralled = {
+	perpetual = yes
+	strong = yes
+}

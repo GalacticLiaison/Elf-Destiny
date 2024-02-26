@@ -212,6 +212,9 @@ expedition.0052 = {
 					}
 				}
 				NOT = { has_global_variable = portal_capacitor_found }
+				NOT = {
+					has_global_variable = grand_portal_restored # In case we cheat the portal items
+				} 
 			}
 
 			debug_log = "IN Portal Capacitor"
@@ -227,11 +230,23 @@ expedition.0052 = {
 					}
 				}
 				NOT = { has_global_variable = portal_navigation_relay_found }
+				NOT = {
+					has_global_variable = grand_portal_restored # In case we cheat the portal items
+				} 
 			}
 
 			debug_log = "IN Portal Navigation Relay"
 
 			unique_find_portal_navigation_relay = yes
+		}
+		else_if = { # After Portal has been completed
+			limit = {
+				has_global_variable = grand_portal_restored
+			}
+
+			debug_log = "IN POST PORTAL"
+
+			unique_find_after_portal_restored = yes
 		}
 		else = {
 			debug_log = "No Unique Items Option Selected"
@@ -239,9 +254,6 @@ expedition.0052 = {
 		}
 	}
 }
-
-# Start here, flesh out this event description, spread it out over multiple windows if needed
-# Grab king skeleton, pic
 
 # Find skele king
 expedition.0069 = { # Find Sigil Of The Realm Lord
@@ -613,9 +625,21 @@ expedition.00511 = { # A Trial Of Wisdom
 
 	immediate = {
 		scope:activity = {
-			set_variable = {
-				name = trial_attempted
-				value = flag:true
+			if = {
+				limit = {
+					exists = scope:activity.var:trial_attempted
+					scope:activity.var:trial_attempted = flag:true
+				}
+				set_variable = {
+					name = second_trial_attempted
+					value = flag:true
+				}
+			}
+			else = {
+				set_variable = {
+					name = trial_attempted
+					value = flag:true
+				}
 			}
 
 			every_attending_character = {
@@ -842,6 +866,380 @@ expedition.005111 = { # A Trial Of Wisdom WRONG ANSWER
 	}
 }
 
+expedition.01512 = { # A Trial Of Cunning
+	type = activity_event
+
+	title = expedition.00512.title
+	desc = {
+		desc = expedition.01512.desc
+		triggered_desc = { # Advisor
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.intrigue_check
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue < 5
+			}
+			desc = expedition.00512.intrigue_check.rating.lowest
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 5
+					scope:cunning_advisor.intrigue < 10
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.low
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 10
+					scope:cunning_advisor.intrigue < 15
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.mid
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				AND = {
+					scope:cunning_advisor.intrigue > 15
+					scope:cunning_advisor.intrigue < 25
+				}
+			}
+			desc = expedition.00512.intrigue_check.rating.good
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:cunning_advisor
+				scope:cunning_advisor.intrigue > 25
+			}
+			desc = expedition.00512.intrigue_check.rating.best
+		}
+
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:cunning_advisor
+			}
+			desc = expedition.00512.advisor_advice
+		}
+	}
+	
+	theme = trial_of_cunning
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:marble_statue
+		animation = personality_content
+	}
+
+	lower_left_portrait = {
+		character = scope:cunning_advisor
+		animation = thinking
+	}
+
+	trigger = {
+		is_ai = no
+		AND = {
+			exists = scope:activity
+		}
+	}
+
+	immediate = {
+
+		create_character = {
+			name = marble_automaton_trial_of_cunning
+			template = marble_automaton_1
+			dynasty = none
+			location = root.location
+			save_scope_as = marble_statue
+		}
+
+		scope:activity = {
+			if = {
+				limit = {
+					exists = scope:activity.var:trial_attempted
+					scope:activity.var:trial_attempted = flag:true
+				}
+				set_variable = {
+					name = second_trial_attempted
+					value = flag:true
+				}
+			}
+			else = {
+				set_variable = {
+					name = trial_attempted
+					value = flag:true
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					intrigue > 5
+				}
+				add_to_list = cunning_advisor_candidate
+			}
+
+			ordered_in_list = {
+				list = cunning_advisor_candidate
+				order_by = {
+					value = 0
+					add = intrigue
+				}
+
+				save_scope_as = cunning_advisor
+			}	
+		}
+
+		if = {
+			limit = {
+				exists = scope:cunning_advisor
+			}
+
+			debug_log = "CUNNING ADVISOR DOES EXIST"
+
+			# set_variable = {
+			# 	name = cunning_advisor_intrigue
+			# 	value = scope:cunning_advisor.intrigue
+			# }
+		}
+		else = {
+			debug_log = "CUNNING ADVISOR DOESNT EXIST"
+		}
+
+		set_variable = {
+			name = player_score 
+			value = 0
+		}
+
+		set_variable = {
+			name = ai_score 
+			value = 0
+		}
+
+		save_scope_value_as = {
+			name = King
+			value = 7
+		}
+		save_scope_value_as = {
+			name = Queen
+			value = 6
+		}
+		save_scope_value_as = {
+			name = Priestess
+			value = 5
+		}
+		save_scope_value_as = {
+			name = Noble
+			value = 4
+		}
+		save_scope_value_as = {
+			name = Knight
+			value = 3
+		}
+		save_scope_value_as = {
+			name = Bandit
+			value = 2
+		}
+		save_scope_value_as = {
+			name = Peasant
+			value = 1
+		}
+
+		scope:King = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Queen = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Priestess = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Noble = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Knight = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Bandit = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+		scope:Peasant = { 
+			add_to_list = player_pieces
+			add_to_list = ai_pieces
+		}
+
+		determine_advisor_pick_effect = yes
+	}
+
+	option = { # King
+		name = expedition.00512.playKing
+
+		trigger = {
+			scope:King = { is_in_list = player_pieces }
+		}
+
+		scope:King = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:King
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Queen
+		name = expedition.00512.playQueen
+
+		trigger = {
+			scope:Queen = { is_in_list = player_pieces }
+		}
+
+		scope:Queen = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Queen
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Priestess
+		name = expedition.00512.playPriestess
+
+		trigger = {
+			scope:Priestess = { is_in_list = player_pieces }
+		}
+
+		scope:Priestess = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Priestess
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Noble
+		name = expedition.00512.playNoble
+
+		trigger = {
+			scope:Noble = { is_in_list = player_pieces }
+		}
+
+		scope:Noble = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Noble
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Knight
+		name = expedition.00512.playKnight
+
+		trigger = {
+			scope:Knight = { is_in_list = player_pieces }
+		}
+	
+		scope:Knight = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Knight
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Bandit
+		name = expedition.00512.playBandit
+		
+		trigger = {
+			scope:Bandit = { is_in_list = player_pieces }
+		}
+
+		scope:Bandit = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Bandit
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+	option = { # Peasant
+		name = expedition.00512.playPeasant
+
+		trigger = {
+			scope:Peasant = { is_in_list = player_pieces }
+		}
+
+		scope:Peasant = {
+			save_scope_as = player_choice
+		}
+		save_scope_value_as = {
+			name = player_choice_name
+			value = flag:Peasant
+		}
+
+		custom_tooltip = expedition.00512.choice_tooltip
+
+		hidden_effect = {
+			resolve_round_effect = yes
+		}
+	}
+}
+
 expedition.00512 = { # A Trial Of Cunning
 	type = activity_event
 
@@ -1054,6 +1452,11 @@ expedition.00512 = { # A Trial Of Cunning
 		}
 
 		determine_advisor_pick_effect = yes
+	}
+
+	option = { # RULES?
+		name = expedition.00512.rules
+		trigger_event = expedition.01512
 	}
 
 	option = { # King
@@ -1543,9 +1946,21 @@ expedition.00513 = { # Trial Of Greed
 	# Create a list of reward scopes
 	immediate = {
 		scope:activity = {
-			set_variable = {
-				name = trial_attempted
-				value = flag:true
+			if = {
+				limit = {
+					exists = scope:activity.var:trial_attempted
+					scope:activity.var:trial_attempted = flag:true
+				}
+				set_variable = {
+					name = second_trial_attempted
+					value = flag:true
+				}
+			}
+			else = {
+				set_variable = {
+					name = trial_attempted
+					value = flag:true
+				}
 			}
 		}
 
@@ -2132,9 +2547,21 @@ expedition.00514 = { # A Trial Of Prowess
 
 	immediate = {
 		scope:activity = {
-			set_variable = {
-				name = trial_attempted
-				value = flag:true
+			if = {
+				limit = {
+					exists = scope:activity.var:trial_attempted
+					scope:activity.var:trial_attempted = flag:true
+				}
+				set_variable = {
+					name = second_trial_attempted
+					value = flag:true
+				}
+			}
+			else = {
+				set_variable = {
+					name = trial_attempted
+					value = flag:true
+				}
 			}
 		}
 
@@ -2384,13 +2811,61 @@ expedition.005141 = { # A Trial Of Prowess - after battle
 	}
 }
 
+expedition.006 = {
+	hidden = yes
+	
+	immediate = {
+		# Add expedition count at this barony
+		if = { 
+			limit = {
+				NOT = {
+					exists = scope:activity.activity_location.barony.var:expeditions_completed_here
+				}
+			}
+
+			debug_log = "setting expeditions_completed_here"
+
+			scope:activity.activity_location.barony = {
+				set_variable = {
+					name = expeditions_completed_here 
+					value = 0
+				}
+			}
+		}
+
+		debug_log = "incrementing expeditions_completed_here"
+
+		scope:activity.activity_location.barony = {
+			change_variable = {name = expeditions_completed_here add = 1}
+		}
+
+		if = {
+			limit = {
+				scope:activity.activity_location.barony.var:expeditions_completed_here = 2
+				NOT = {
+					scope:activity.activity_location.barony = title:b_luch # Portal Site
+				}
+			}
+
+			debug_log = "activating holy site"
+
+			trigger_event = expedition.0062
+		}
+		else = {
+			trigger_event = expedition.0061
+		}
+
+		# if count > 5, fire event declaring it a holy site and adding special building ruins
+	}
+}
+
 
 # Expedition Ends
-expedition.006 = {
+expedition.0061 = {
 	type = activity_event
 
-	title = expedition.006.title
-	desc = expedition.006.desc
+	title = expedition.0061.title
+	desc = expedition.0061.desc
 
 	theme = hunt_activity
 
@@ -2405,36 +2880,410 @@ expedition.006 = {
 	}
 
 	option = {
-		name = expedition.006.ok
-		# trigger_event = expedition.0061
+		name = expedition.0061.ok
 	}
 }
 
-# expedition.0061 = {
-# 	type = character_event
-# 	hidden = yes
+# Holy Site Unlocked
+expedition.0062 = {
+	type = activity_event
 
-# 	immediate = {
-# 		# Save expedition scopes for loc
-# 		# tournament_save_contest_winner_scopes_effect = yes
+	title = expedition.0062.title
+	desc = expedition.0062.desc
 
-# 		# Create log entry and hand out rewards
-# 		scope:activity = {
-# 			add_activity_log_entry = {
-# 				key = expedition_complete_log
-# 				character = scope:host
-# 				score = 100
-# 				show_in_conclusion = yes
+	theme = hunt_activity
 
-# 				#Effect
-# 				scope:host = { disburse_tournament_activity_rewards = yes }
-# 			}
-# 			# Hand out prize artifacts
-# 			scope:host = { tournament_disburse_contest_prize_effect = yes }
-# 			every_attending_character = {
-# 				# Trigger summary event
-# 				trigger_event = tournament_events.0150
-# 			}
-# 		}
-# 	}
-# }
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_gnezdovo
+			}
+			root.faith = {
+				activate_holy_site = ruins_of_valfuria
+			}
+		}
+		if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_rohan
+			}
+			root.faith = {
+				activate_holy_site = spire_citadel
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_zweibrucken
+			}
+			root.faith = {
+				activate_holy_site = proving_fields
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_bellinzona
+			}
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_napoli
+			}
+			root.faith = {
+				activate_holy_site = volcanic_forge
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_ranariki
+			}
+			root.faith = {
+				activate_holy_site = high_harbor
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_rounala
+			}
+			root.faith = {
+				activate_holy_site = citadel_of_bear_king_thul
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_rounala
+			}
+			root.faith = {
+				activate_holy_site = citadel_of_bear_king_thul
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_torgar
+			}
+			root.faith = {
+				activate_holy_site = archipelago_of_duck_duke_vega
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_tommerup
+			}
+			root.faith = {
+				activate_holy_site = tomb_of_ale_the_dragon_slayer
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_vaestraaros
+			}
+			root.faith = {
+				activate_holy_site = ruins_of_the_runic_city_of_anundshog
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_liinmaa
+			}
+			root.faith = {
+				activate_holy_site = tomb_of_the_lights_champions
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_stokkseyri
+			}
+			root.faith = {
+				activate_holy_site = black_palace_of_dark_queen_hekla
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_drogheda
+			}
+			root.faith = {
+				activate_holy_site = newgrange_temple
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_ennis
+			}
+			root.faith = {
+				activate_holy_site = burrens_bastion
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_salisbury
+			}
+			root.faith = {
+				activate_holy_site = skip_gates_of_camelot
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_kirriemuir
+			}
+			root.faith = {
+				activate_holy_site = great_obelisk_of_the_pictish
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_santander
+			}
+			root.faith = {
+				activate_holy_site = labyrinth_gateway_of_the_altamirans
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_lamego
+			}
+			root.faith = {
+				activate_holy_site = grazing_villages_of_the_great_herds
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_almansa
+			}
+			root.faith = {
+				activate_holy_site = hunting_grounds_of_the_greater_drakes
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_arles
+			}
+			root.faith = {
+				activate_holy_site = ancient_city_of_glanum
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_oskol
+			}
+			root.faith = {
+				activate_holy_site = ancient_mega_city_of_myropillya
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_malta
+			}
+			root.faith = {
+				activate_holy_site = temple_of_the_mages_court
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_athens
+			}
+			root.faith = {
+				activate_holy_site = seat_of_the_storm_king
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_jarabulus
+			}
+			root.faith = {
+				activate_holy_site = cradle_of_the_first_elves
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_at-tib
+			}
+			root.faith = {
+				activate_holy_site = apadana_palace
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_sirhan
+			}
+			root.faith = {
+				activate_holy_site = ancient_city_of_bosra
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_sarsar
+			}
+			root.faith = {
+				activate_holy_site = ancient_city_of_babylon
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_alexandria
+			}
+			root.faith = {
+				activate_holy_site = library_of_alexandria
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_hamadat_tinghert
+			}
+			root.faith = {
+				activate_holy_site = harkonnens_foley
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_mara
+			}
+			root.faith = {
+				activate_holy_site = shattered_spire_of_veldric
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_tabu
+			}
+			root.faith = {
+				activate_holy_site = the_grand_blood_alter
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_erandol
+			}
+			root.faith = {
+				activate_holy_site = labyrinth_gateway_of_the_ajantas
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_madurai
+			}
+			root.faith = {
+				activate_holy_site = ancient_holy_city_of_madurai
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_bokainagar
+			}
+			root.faith = {
+				activate_holy_site = ancient_fortress_of_mahasthangarh
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_chaka
+			}
+			root.faith = {
+				activate_holy_site = mythical_spiritual_kingdom_of_shambhala
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_tekar
+			}
+			root.faith = {
+				activate_holy_site = domain_of_the_forest_spirit_eleke_sazy
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_suq-socotra
+			}
+			root.faith = {
+				activate_holy_site = ancient_faerie_groves
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_south_jaz_murian
+			}
+			root.faith = {
+				activate_holy_site = overwatch_fortress
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_asmaak
+			}
+			root.faith = {
+				activate_holy_site = wraith_wood
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_chuya
+			}
+			root.faith = {
+				activate_holy_site = matrons_hollow
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_arkhangelsk
+			}
+			root.faith = {
+				activate_holy_site = sealed_magic_armoury
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_biia
+			}
+			root.faith = {
+				activate_holy_site = whisper_wood
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_fort_aleksandrovkiy
+			}
+			root.faith = {
+				activate_holy_site = light_reach_citadel
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_laposbanya
+			}
+			root.faith = {
+				activate_holy_site = east_flaria
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_melnik
+			}
+			root.faith = {
+				activate_holy_site = west_flaria
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.activity_location.barony = title:b_aqmescit
+			}
+			root.faith = {
+				activate_holy_site = wratislaw_magi_academy
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0062.ok
+		trigger_event = expedition.0061 # end expedition
+	}
+}

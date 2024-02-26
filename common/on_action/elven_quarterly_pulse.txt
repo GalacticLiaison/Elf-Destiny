@@ -5,59 +5,142 @@ quarterly_playable_pulse = {
 	on_actions = {
 		# TODO: Just confirm the old quarterly pulses from base game still work
 		# Spark
-		the_rut_quarterly_pulse
-		the_rut_cleanup_quarterly_pulse
 		form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
+		beguiling_nature_pulse
 		gain_varangian_adventure_innovation_pulse
+		
+		aeluran_order_maintenance
 
 		# handle_elf_tradition_effects_pulse
 	}
 }
 
-the_rut_quarterly_pulse = {
-	trigger = {
-		scope:quarter = 2
-	}
+aeluran_order_maintenance = {
 	on_actions = {
-		give_the_rut
+		# Things to do
+		# 1.) If the matriarch has died, host an election to replace her
+		matriarch_election
+		# 2.) If there arent enough matrons, elect new ones
+		matron_counting
+			# - candidates should be picked from existing sisters if possible
+		# 3.) aeluran school for new sisters recruiting
+		elf_daughters_to_school
+		elf_daughters_back_from_school
+		# 4.) If not enough spare sisters, generate more
+
 	}
 }
 
-give_the_rut = {
+# TODO: make an actual election vote among the matrons
+matriarch_election = {
 	trigger = {
-		# is_available_adult = yes
-		# is_any_elf_type = yes
-		# has_the_rut_tradition = yes
-		# is_pregnant = no
+		NOT = {
+			any_living_character = {
+				has_trait = aeluran_high_matriarch
+			}
+		}
 	}
-	random_events = {
-		100 = the_rut_events.0001
+
+	effect = {
+		debug_log = "ELECTING NEW MATRIARCH"
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+			}
+			save_scope_as = new_matriarch
+		}
+
+		scope:new_matriarch = {
+			remove_trait = aeluran_matron
+			add_trait = aeluran_high_matriarch
+		}
+
+		# TODO Trigger notification event
+		# - give title
+		# - move character to the deep woods
 	}
 }
 
-the_rut_cleanup_quarterly_pulse = {
-	trigger = {
-		scope:quarter = 3
-	}
-	on_actions = {
-		cleanup_the_rut
+matron_counting = {
+	effect = {
+		set_global_variable = {
+			name = total_matrons
+			value = total_current_matrons
+		}
 	}
 }
 
-cleanup_the_rut = {
+# TODO: Make actual Matron choice event
+matron_choosing = {
 	trigger = {
-		# is_available_adult = yes
-		# is_any_elf_type = yes
-		# has_the_rut_tradition = yes
-		# is_pregnant = no
+		global_var:total_matrons < 7
 	}
-	random_events = {
-		100 = the_rut_events.0002
+
+	effect = {
+		debug_log = "CHOOSING NEW MATRON"
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+			}
+			save_scope_as = new_matron
+		}
+
+		scope:new_matron = {
+			remove_trait = aeluran_sister
+			add_trait = aeluran_matron
+		}
+
+		# TODO Trigger notification event
 	}
 }
+
+elf_daughters_to_school = {
+	trigger = {
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		exists = cp:councillor_aeluran_advisor
+		any_child = {
+			is_female = yes
+			age < 8
+			age > 6
+			NOT = {
+				has_character_flag = recruited_by_aelurans
+			}
+		}
+	}
+
+	effect = {
+		trigger_event = aeluran_repeating.001
+	}
+}
+
+elf_daughters_back_from_school = {
+	trigger = {
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		any_child = {
+			is_female = yes
+			age > 15
+			age < 20
+			has_character_flag = recruited_by_aelurans
+		}
+	}
+
+	effect = {
+		trigger_event = aeluran_repeating.002
+	}
+}
+
+
 
 
 # handle_elf_tradition_effects_pulse = {
@@ -209,6 +292,13 @@ heroic_courage_pulse = {
 				}
 				enemies_slayed > 1
 			}
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 	
 			debug_log = "AWARDING BRAVE"
 
@@ -222,6 +312,13 @@ heroic_courage_pulse = {
 			}
 
 			debug_log = "AWARDING HEROIC"
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 
 			remove_trait = brave
 			add_trait = heroic
@@ -271,6 +368,119 @@ heroic_courage_pulse = {
 	
 				remove_trait = brave
 				add_trait = heroic
+			}
+		}
+
+
+	}
+}
+
+beguiling_nature_pulse = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = passionate_trait_unlocked
+		}
+		times_had_sex_with_a_lord_count >= 2
+	}
+
+	effect = {
+		debug_log = "BEGUILING PULSE"
+		set_variable = {
+			name = sex_partner_number 
+			value = times_had_sex_with_a_lord_count
+		}
+
+		create_unique_lord_sex_partner_list_effect = yes
+		set_variable = {
+			name = unique_lords_sexed_count_value 
+			value = unique_lords_sexed_count
+		}
+
+		# Rulers
+		if = {
+			limit = {
+				NOT = {
+					has_trait = lustful
+					has_trait = passionate
+				}
+				unique_lords_sexed_count >= 2
+			}
+	
+			debug_log = "AWARDING LUSTFUL"
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			add_trait = lustful
+		}
+	
+		if = {
+			limit = {
+				has_trait = lustful
+				unique_lords_sexed_count >= 5
+			}
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			debug_log = "AWARDING PASSIONATE"
+
+			remove_trait = lustful
+			add_trait = passionate
+		}
+
+		# Courtiers
+		every_courtier = {
+			limit = {
+				enemies_slayed > 1
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_trait = lustful
+						has_trait = passionate
+					}
+					enemies_slayed > 1
+				}
+		
+				debug_log = "AWARDING LUSTFUL"
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				add_trait = lustful
+			}
+		
+			if = {
+				limit = {
+					has_trait = lustful
+					enemies_slayed > 4
+				}
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				debug_log = "AWARDING PASSIONATE"
+	
+				remove_trait = lustful
+				add_trait = passionate
 			}
 		}
 

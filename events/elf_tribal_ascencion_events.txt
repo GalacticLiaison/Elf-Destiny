@@ -6,22 +6,33 @@ tribal_ascension.0001 = {
 	desc = tribal_ascension.0001.desc
 
 	theme = culture_change
+	content_source = elf_destiny
 
 	right_portrait = {
 		character = root
 		animation = celebrate_axe
 	}
 
-    # trigger = {
-	# 	is_any_elf_type = yes
-	# }
-
-	# immediate = {
-
-	# }
-
 	option = {
 		name = tribal_ascension.0001.a
 		change_government = advanced_tribal_government
+		every_vassal = {
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_tribal
+						AND = {
+							culture = {
+								has_cultural_parameter = form_advanced_tribal_government
+							}
+							NOT = {
+								government_has_flag = government_is_advanced_tribal
+							}
+						}
+					}
+				}
+				change_government = advanced_tribal_government
+			}
+		}
 	}
 }
