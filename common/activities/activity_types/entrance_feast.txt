@@ -12,7 +12,7 @@ activity_entrance_feast = {
 		highest_held_title_tier > tier_barony
 		is_landed = yes
 
-		if = {
+		trigger_if = {
 			limit = {
 				is_ai = no
 			}
@@ -406,6 +406,231 @@ activity_entrance_feast = {
 	}
 
 	cost = {
+		gold = {
+			add = {
+				if = {
+					limit = {
+						is_ai = no
+					}
+				}
+				add = {
+					add = {
+						value = feast_activity_cost
+						desc = feast_activity_cost_desc
+					}
+					add = {
+						value = feast_activity_cost
+						multiply = activity_cost_scale_by_era
+						subtract = feast_activity_cost
+						desc = activity_cost_scale_by_era_desc
+					}
+					if = {
+						limit = {
+							scope:province ?= { has_building_or_higher = citadel_of_aleppo_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_max_value
+							desc = feast_cost_discount_citadel_of_aleppo
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= { has_building_or_higher = palace_of_aachen_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_max_value
+							desc = feast_cost_discount_palace_of_aachen
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= { has_building_or_higher = doges_palace_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_max_value
+							desc = feast_cost_discount_doges_palace
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= { has_building_or_higher = leisure_palace_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_max_value
+							desc = feast_cost_discount_leisure_palaces
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= { has_building_or_higher = alhambra_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_max_value
+							desc = feast_cost_discount_alhambra
+						}
+					}
+					if = {
+						limit = { 
+							scope:province ?= {
+								has_building_or_higher = farm_estates_01
+							}
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_medium_value
+							desc = feast_cost_discount_farm_estates
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= {	has_building_or_higher = longhouses_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_medium_value
+							desc = feast_cost_discount_longhouses
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= {	has_building_or_higher = orchards_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_min_value
+							desc = feast_cost_discount_orchards
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= {	has_building_or_higher = cereal_fields_01 }
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_min_value
+							desc = feast_cost_discount_cereal_fields
+						}
+					}
+					if = {
+						limit = {
+							scope:province ?= {	has_building_or_higher = plantations_01	}
+						}
+						add = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = feast_activity_cost_discount_min_value
+							desc = activity_feast_province_desc_plantations
+						}
+					}
+					if = {
+						limit = {
+							dynasty ?= {
+								has_dynasty_perk = law_legacy_1
+							}
+						}
+						subtract = {
+							value = 0
+							add = {
+								value = feast_activity_cost
+								add = {
+									value = feast_activity_cost
+									multiply = activity_cost_scale_by_era
+									subtract = feast_activity_cost
+								}
+							}
+							multiply = law_legacy_cost_reduction_mult
+							desc = law_legacy_1_name
+						}
+					}
+					min = 0
+				}
+			}
+		}
+
 		# gold = {
 		# 	add = {
 		# 		add = {
@@ -626,6 +851,71 @@ activity_entrance_feast = {
 	}
 
 	ui_predicted_cost = {
+		gold = {
+			add = {
+				if = {
+					limit = {
+						is_ai = no
+					}
+				}
+
+				add = { # Base Cost, scaled by era
+					value = feast_activity_cost
+					multiply = activity_cost_scale_by_era
+				}
+			
+				# Options 
+				add = { # Food 
+					value = 0 # Bad Option Cost
+					add = 10 # Normal Option Cost
+					add = 35 # Good Option Cost
+					# Scale the sum of the options by era and tier
+					add = {
+						value = 45
+						multiply = activity_cost_scale_by_tier
+					}
+					add = {
+						value = 45
+						multiply = activity_cost_scale_by_era
+					}
+					# Divide by 3 (num of levels for this option) so we get the average option cost
+					divide = 3
+				}
+				add = { # Courses 
+					value = 0 # Bad Option Cost
+					add = 10 # Normal Option Cost
+					add = 35 # Good Option Cost
+					# Scale the sum of the options by era and tier
+					add = {
+						value = 45
+						multiply = activity_cost_scale_by_tier
+					}
+					add = {
+						value = 45
+						multiply = activity_cost_scale_by_era
+					}
+					# Divide by 3 (num of levels for this option) so we get the average option cost
+					divide = 3
+				}
+				save_temporary_value_as = pre_discount_feast_cost_ui
+				if = {
+					limit = {
+						dynasty ?= {
+							has_dynasty_perk = law_legacy_1
+						}
+					}
+					subtract = {
+						value = scope:pre_discount_feast_cost_ui
+						multiply = law_legacy_cost_reduction_mult
+					}
+				}
+				
+				# Make it a multiple of 5 (rounded up)
+				divide = 5
+				ceiling = yes 
+				multiply = 5
+			}
+		}
 		# All costs are balanced on County/Early Era starting point
 		# gold = {
 		# 	add = { # Base Cost, scaled by era

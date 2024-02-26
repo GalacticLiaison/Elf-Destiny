@@ -79,6 +79,7 @@ Restore The Portal Event got a minor facelift
 - Players can not yet Ascend to the highest tier of traits (Godhood)
 ### Elf Traits
 - Now give Elves huge fertility penalties that increase in severity as you Ascend.
+    - added a yearly check to make sure elves are at least having some kids
 - Now give no prowess loss from age
 - Did a fundamental re-work of how Elf traits work
     - Now instead of using the "life expectancy stat", Elf traits grant "immortality".
@@ -87,13 +88,6 @@ Restore The Portal Event got a minor facelift
     - Throughout their lifespan, at an appropriate age, their visual immortality age will be increased
     - As a result now attraction will not be loss from age until an appropriate age
     - The higher Elf trait levels stay young looking forever
-<!-- under Construction -->
-- Now will randomly appear on characters of Elven culture
-- on_guest_arrived_from_pool
-- on_join_court
-- yearly_culture_pulse
-
-- on_councillor_left (remove delay for aeluran? or at least launch event and have aeluran advisor begin trvaeling from aeluran capital!)
 
 ## Magic
 Started to dip the mod's toes into magic!
@@ -137,6 +131,7 @@ Elf Beautification
 - NEW! Game Rule: apply or remove prowess muscle gain effect for female characters
 - NEW! Game Rule: apply or remove makeup effect from Beauty traits
 - Added manual style choices to the Valerith family. Might do others in the future too!
+- added some new DNA for a few Elfs from @markus!
 
 New Base Elf Ethnicity
 Added rules explanation to Expedition Trial of Cunning
@@ -159,8 +154,8 @@ Tradition: Familial Familiarity
     - now properly unlocks family consanguinity
 
 Tradition: Tribal Ascension
-    X- fixed loss of succession options
-    X- some feudal contract options restored
+    - fixed loss of succession options
+    - some feudal contract options restored
 
 Tradition: The Rut
     - Rut was a bit too frequent happening every year. Changing to occur once a decade
@@ -174,13 +169,7 @@ Elf Religion Names = Elf Culture Names
 
 Ascension ritual is now doable for all Elfs even if the Sigil Of The Realm Lord hasn't been found yet
 
-Accidentally permanently unlocked "challenge rival to a fight" character interaction. Fixed
-
 Portal pieces are now removed after restoring the Grand Portal
-
-Fixed issue where characters could lose level 3 genetic traits if they didnt have the "Noble Husbandry" Blessing
-
-Added "OK" dismiss button to tutorial window
 
 ## ART STILL NEEDED ##
 
