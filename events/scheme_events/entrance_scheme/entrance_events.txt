@@ -82,10 +82,10 @@ entrance.102 = {
 
 		scope:victim = {
 			add_character_flag = hold_feast_now
-			# add_character_modifier = {
-			# 	modifier = planning_feast
-			# 	years = 10
-			# }
+			add_character_modifier = {
+				modifier = planning_feast
+				years = 10
+			}
 			set_variable = {
 				name = entrancer
 				value = scope:entrancer
@@ -131,6 +131,11 @@ entrance.1021 = {
 				scheme_target = scope:victim
 			}
 			add_scheme_progress = 3
+		}
+
+		scope:victim = {
+			remove_character_modifier = planning_feast
+			remove_character_flag = hold_feast_now
 		}
 		
 		add_to_activity = scope:victim.involved_activity
@@ -353,6 +358,15 @@ entrance.1026 = {
 			type = entranced
 		}
 
+		scope:victim = {
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
+
+			add_trait = entranced
+		}
+
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
@@ -360,10 +374,33 @@ entrance.1026 = {
 			}
 			end_scheme = yes
 		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = successful_entrances
+				}
+			}
+			set_variable = {
+				name = successful_entrances 
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {name = successful_entrances add = 1}
+		}
 	}
 
 	option = { 
 		name = entrance.1026.just_hook
+
+		if = {
+			limit = {
+				var:successful_entrances >= 3
+				has_trait = seducer 
+			}
+			trigger_event = entrance.1200
+		}
 	}
 }
 
@@ -662,6 +699,30 @@ entrance.1035 = {
 			type = entranced
 		}
 
+		scope:victim = {
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
+
+			add_trait = entranced
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = successful_entrances
+				}
+			}
+			set_variable = {
+				name = successful_entrances 
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {name = successful_entrances add = 1}
+		}
+
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
@@ -673,6 +734,14 @@ entrance.1035 = {
 
 	option = { 
 		name = entrance.1035.just_hook
+
+		if = {
+			limit = {
+				var:successful_entrances >= 3
+				has_trait = seducer 
+			}
+			trigger_event = entrance.1200
+		}
 	}
 }
 
@@ -973,6 +1042,15 @@ entrance.1046 = {
 			type = entranced
 		}
 
+		scope:victim = {
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
+
+			add_trait = entranced
+		}
+
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
@@ -980,10 +1058,33 @@ entrance.1046 = {
 			}
 			end_scheme = yes
 		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = successful_entrances
+				}
+			}
+			set_variable = {
+				name = successful_entrances 
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {name = successful_entrances add = 1}
+		}
 	}
 
 	option = { 
 		name = entrance.1046.just_hook
+
+		if = {
+			limit = {
+				var:successful_entrances >= 3
+				has_trait = seducer
+			}
+			trigger_event = entrance.1200
+		}
 	}
 }
 
@@ -1025,9 +1126,6 @@ entrance.1047 = {
 	}
 }
 
-
-
-
 entrance.1100 = { # Convert to Enthralled
 	type = character_event
 	title = entrance.1100.title
@@ -1048,10 +1146,15 @@ entrance.1100 = { # Convert to Enthralled
 			limit = {
 				exists = scope:target
 			}
-			scope:target = {
-				remove_trait = entranced
-				add_trait = enthralled
+
+			custom_tooltip = {
+				text = converts_to_enthralled
+				scope:target = {
+					remove_trait = entranced
+					add_trait = enthralled
+				}
 			}
+
 			remove_hook = {
 				target = scope:target
 			}
@@ -1066,3 +1169,313 @@ entrance.1100 = { # Convert to Enthralled
 		name = entrance.1100.a
 	}
 }
+
+entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
+	type = character_event
+	title = entrance.1150.title
+	desc = entrance.1150.enchantress_perspective
+	# desc = {
+	# 	first_valid = {
+	# 		triggered_desc = {
+	# 			trigger = {
+	# 				# is entrancer or victim
+	# 			}
+	# 			desc = entrance.1150.enchantress_perspective
+	# 		}
+	# 		desc = entrance.1150.entranced_perspective
+	# 	}
+	# }
+
+	theme = seduction
+	right_portrait = {
+		character = root
+		animation = anger
+	}
+	lower_center_portrait = {
+		character = scope:victim
+		animation = idle
+	}
+
+	immediate = {
+		var:struggling_pet = {
+			save_scope_as = victim
+		}
+	}
+
+	option = {
+		name = entrance.1150.a
+		flavor = entrance_modifiers_desc
+		if = {
+			limit = {
+				AND = {
+					exists = root
+					exists = scope:victim
+				}
+			}
+			
+			victim_attempts_to_break_free_of_entrance_effect = {
+				ENTRANCER = root
+				VICTIM = scope:victim
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:entrance_successful
+				scope:entrance_successful = yes
+			}
+
+			trigger_event = entrance.1152
+			
+		}
+		else = {
+			trigger_event = entrance.1151
+		}
+	}
+}
+
+entrance.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Successfully breaks free
+	type = character_event
+	title = entrance.1151.title
+	desc = entrance.1151.desc
+
+	theme = seduction
+
+	right_portrait = {
+		character = root
+		animation = anger
+	}
+	lower_center_portrait = {
+		character = scope:victim
+		animation = idle
+	}
+
+	immediate = {
+		scope:entrancer = {
+			remove_hook = {
+				target = scope:victim
+			}
+		}
+		scope:victim = {
+			remove_trait = entranced
+		}
+	}
+
+	option = {
+		name = entrance.1151.a
+	}
+}
+
+entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails to break free
+	type = character_event
+	title = entrance.1152.title
+	desc = entrance.1152.desc
+
+	theme = seduction
+
+	right_portrait = {
+		character = root
+		animation = flirtation
+	}
+	lower_center_portrait = {
+		character = scope:victim
+		animation = idle
+	}
+
+	immediate = {
+		custom_tooltip = {
+			text = falls_deeper_into_entrancement
+			scope:victim = {
+				add_trait_xp = {
+					trait = entranced
+					value = 33
+				}
+			}
+		}
+	}
+
+	option = {
+		name = entrance.1152.a
+		if = {
+			limit = {
+				scope:victim = {
+					has_trait_xp = {
+						trait = entranced
+						value >= 99
+					}
+				}
+			}
+			scope:victim = {
+				save_scope_as = target
+			}
+			trigger_event = entrance.1100
+		}
+	}
+}
+
+# entrance.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
+# 	type = character_event
+# 	title = entrance.1160.title
+# 	desc = entrance.1160.desc
+
+# 	theme = seduction
+# 	left_portrait = {
+# 		character = scope:target
+# 		animation = disbelief
+# 	}
+# 	right_portrait = {
+# 		character = root
+# 		animation = flirtation
+# 	}
+
+# 	immediate = {
+
+# 	}
+
+# 	option = {
+# 		name = entrance.1160.a
+# 		if = {
+# 			limit = {
+# 				AND = {
+# 					exists = root
+# 					exists = scope:victim
+# 				}
+# 			}
+			
+# 			attempt_to_entrance_character_effect = {
+# 				ENTRANCER = root
+# 				VICTIM = scope:victim
+# 			}
+# 		}
+
+# 		if = {
+# 			limit = {
+# 				exists = scope:entrance_successful
+# 				scope:entrance_successful = yes
+# 			}
+# 			trigger_event = entrance.1161
+# 		}
+# 		else = {
+# 			trigger_event = entrance.1161
+# 		}
+# 	}
+# }
+
+# entrance.1161 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Success
+# 	type = character_event
+# 	title = entrance.1161.title
+# 	desc = entrance.1161.desc
+
+# 	theme = seduction
+# 	left_portrait = {
+# 		character = scope:target
+# 		animation = disbelief
+# 	}
+# 	right_portrait = {
+# 		character = root
+# 		animation = flirtation
+# 	}
+
+# 	immediate = {
+# 		scope:entrancer = {
+# 			remove_hook = {
+# 				target = scope:victim
+# 			}
+# 		}
+# 		scope:victim = {
+# 			remove_trait = entranced
+# 		}
+# 	}
+
+# 	option = {
+# 		name = entrance.1161.a
+# 	}
+# }
+
+# entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
+# 	type = character_event
+# 	title = entrance.1162.title
+# 	desc = entrance.1162.desc
+
+# 	theme = seduction
+# 	left_portrait = {
+# 		character = scope:target
+# 		animation = disbelief
+# 	}
+# 	right_portrait = {
+# 		character = root
+# 		animation = flirtation
+# 	}
+
+# 	immediate = {
+# 		scope:victim = {
+# 			add_trait_xp = {
+# 				trait = entranced
+# 				value = 33
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = entrance.1162.a
+# 		if = {
+# 			limit = {
+# 				scope:victim = {
+# 					has_trait_xp = {
+# 						trait = endless_lord
+# 						value >= 99
+# 					}
+# 				}
+# 			}
+# 			scope:victim = {
+# 				save_scope_as = target
+# 			}
+# 			trigger_event = entrance.1100
+# 		}
+# 	}
+# }
+
+
+entrance.1200 = { # Evolve to Enchantress
+	type = character_event
+	title = entrance.1200.title
+	
+	desc = {
+		desc = entrance.1200.desc
+		triggered_desc = {
+			trigger = {
+				is_female = yes
+			}
+			desc = entrance.1200.female
+		}
+		triggered_desc = {
+			trigger = {
+				is_female = no
+			}
+			desc = entrance.1200.male
+		}
+	}
+
+	trigger = {
+		has_trait = seducer
+	}
+
+	theme = enchantress_lifestyle
+	
+	right_portrait = {
+		character = root
+		animation = flirtation
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = entrance.1200.a
+
+		remove_trait = seducer
+		add_trait = enchantress
+	}
+}
+

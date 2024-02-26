@@ -9,6 +9,7 @@ quarterly_playable_pulse = {
 		advanced_shrewd_pulse
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
+		beguiling_nature_pulse
 		gain_varangian_adventure_innovation_pulse
 		
 		aeluran_order_maintenance
@@ -291,6 +292,13 @@ heroic_courage_pulse = {
 				}
 				enemies_slayed > 1
 			}
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 	
 			debug_log = "AWARDING BRAVE"
 
@@ -304,6 +312,13 @@ heroic_courage_pulse = {
 			}
 
 			debug_log = "AWARDING HEROIC"
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 
 			remove_trait = brave
 			add_trait = heroic
@@ -353,6 +368,119 @@ heroic_courage_pulse = {
 	
 				remove_trait = brave
 				add_trait = heroic
+			}
+		}
+
+
+	}
+}
+
+beguiling_nature_pulse = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = passionate_trait_unlocked
+		}
+		times_had_sex_with_a_lord_count >= 2
+	}
+
+	effect = {
+		debug_log = "BEGUILING PULSE"
+		set_variable = {
+			name = sex_partner_number 
+			value = times_had_sex_with_a_lord_count
+		}
+
+		create_unique_lord_sex_partner_list_effect = yes
+		set_variable = {
+			name = unique_lords_sexed_count_value 
+			value = unique_lords_sexed_count
+		}
+
+		# Rulers
+		if = {
+			limit = {
+				NOT = {
+					has_trait = lustful
+					has_trait = passionate
+				}
+				unique_lords_sexed_count >= 2
+			}
+	
+			debug_log = "AWARDING LUSTFUL"
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			add_trait = lustful
+		}
+	
+		if = {
+			limit = {
+				has_trait = lustful
+				unique_lords_sexed_count >= 5
+			}
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			debug_log = "AWARDING PASSIONATE"
+
+			remove_trait = lustful
+			add_trait = passionate
+		}
+
+		# Courtiers
+		every_courtier = {
+			limit = {
+				enemies_slayed > 1
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_trait = lustful
+						has_trait = passionate
+					}
+					enemies_slayed > 1
+				}
+		
+				debug_log = "AWARDING LUSTFUL"
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				add_trait = lustful
+			}
+		
+			if = {
+				limit = {
+					has_trait = lustful
+					enemies_slayed > 4
+				}
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				debug_log = "AWARDING PASSIONATE"
+	
+				remove_trait = lustful
+				add_trait = passionate
 			}
 		}
 

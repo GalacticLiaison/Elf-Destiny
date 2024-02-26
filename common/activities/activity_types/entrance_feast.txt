@@ -12,8 +12,13 @@ activity_entrance_feast = {
 		highest_held_title_tier > tier_barony
 		is_landed = yes
 
-		any_scheme = {
-			scheme_type = entrance
+		if = {
+			limit = {
+				is_ai = no
+			}
+			any_scheme = {
+				scheme_type = entrance
+			}
 		}
 
 		# trigger_if = {
@@ -226,6 +231,7 @@ activity_entrance_feast = {
 	cooldown = { years = standard_feast_cooldown_time }
 
 	ai_check_interval = 1
+	
 	# desc is only shown in debug AI watch window
 	ai_will_do = {
 		add = {
@@ -237,7 +243,7 @@ activity_entrance_feast = {
 				has_character_flag = hold_feast_now
 			}
 			add = {
-				add = 1000
+				add = 10000
 				desc = "must hold feast"
 			}
 		}
@@ -2242,6 +2248,10 @@ activity_entrance_feast = {
 			feast_food_bad = {
 				is_shown = { has_dlc_feature = advanced_activities }
 				
+				cost = {
+
+				}
+
 				ai_will_do = {
 					value = 100
 					# # Financial preference.
@@ -2374,6 +2384,10 @@ activity_entrance_feast = {
 			feast_courses_bad = {
 				is_shown = { has_dlc_feature = advanced_activities }
 
+				cost = {
+
+				}
+
 				ai_will_do = {
 					value = 100
 					# # Financial preference.
@@ -2386,49 +2400,49 @@ activity_entrance_feast = {
 				default = yes
 	
 				cost = {
-					gold = {
-						# add = {
-						# 	add = {
-						# 		value = 10
-						# 		desc = feast_courses_normal
-						# 	}
-						# 	add = {
-						# 		value = 10
-						# 		multiply = activity_cost_scale_by_tier
-						# 		subtract = 10
-						# 		desc = activity_cost_scale_by_tier_desc
-						# 	}
-						# 	add = {
-						# 		value = 10
-						# 		multiply = activity_cost_scale_by_era
-						# 		subtract = 10
-						# 		desc = activity_cost_scale_by_era_desc
-						# 	}
-						# 	if = {
-						# 		limit = {
-						# 			dynasty ?= {
-						# 				has_dynasty_perk = law_legacy_1
-						# 			}
-						# 		}
-						# 		subtract = {
-						# 			value = 10
-						# 			add = {
-						# 				value = 10
-						# 				multiply = activity_cost_scale_by_tier
-						# 				subtract = 10
-						# 			}
-						# 			add = {
-						# 				value = 10
-						# 				multiply = activity_cost_scale_by_era
-						# 				subtract = 10
-						# 			}
-						# 			multiply = law_legacy_cost_reduction_mult
-						# 			desc = law_legacy_1_name
-						# 		}
-						# 	}
-						# 	min = 0
-						# }
-					}
+					# gold = {
+					# 	# add = {
+					# 	# 	add = {
+					# 	# 		value = 10
+					# 	# 		desc = feast_courses_normal
+					# 	# 	}
+					# 	# 	add = {
+					# 	# 		value = 10
+					# 	# 		multiply = activity_cost_scale_by_tier
+					# 	# 		subtract = 10
+					# 	# 		desc = activity_cost_scale_by_tier_desc
+					# 	# 	}
+					# 	# 	add = {
+					# 	# 		value = 10
+					# 	# 		multiply = activity_cost_scale_by_era
+					# 	# 		subtract = 10
+					# 	# 		desc = activity_cost_scale_by_era_desc
+					# 	# 	}
+					# 	# 	if = {
+					# 	# 		limit = {
+					# 	# 			dynasty ?= {
+					# 	# 				has_dynasty_perk = law_legacy_1
+					# 	# 			}
+					# 	# 		}
+					# 	# 		subtract = {
+					# 	# 			value = 10
+					# 	# 			add = {
+					# 	# 				value = 10
+					# 	# 				multiply = activity_cost_scale_by_tier
+					# 	# 				subtract = 10
+					# 	# 			}
+					# 	# 			add = {
+					# 	# 				value = 10
+					# 	# 				multiply = activity_cost_scale_by_era
+					# 	# 				subtract = 10
+					# 	# 			}
+					# 	# 			multiply = law_legacy_cost_reduction_mult
+					# 	# 			desc = law_legacy_1_name
+					# 	# 		}
+					# 	# 	}
+					# 	# 	min = 0
+					# 	# }
+					# }
 				}
 
 				ai_will_do = {
@@ -2503,7 +2517,7 @@ activity_entrance_feast = {
 		}
 	}
 
-	special_option_category = special_type
+	# special_option_category = special_type
 
 	###################
 	# PHASES
@@ -2901,8 +2915,6 @@ activity_entrance_feast = {
 			}
 		}
 	}
-
-	ai_check_interval = 60
 
 	ai_will_select_province = {
 		# Base

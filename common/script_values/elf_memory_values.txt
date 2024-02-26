@@ -13,3 +13,49 @@
 		}
 	}
 }
+
+times_had_sex_with_a_lord_count = {
+	value = 0
+
+	add = {
+		every_memory = {
+			limit = {
+				has_memory_type = had_sex
+			}
+
+			if = {
+				limit = {
+					any_memory_participant = {
+						# NOR = {
+						# 	is_in_list = sex_partners
+						# 	root = this
+						# }
+						NOT = {
+							root = this
+						}
+						highest_held_title_tier >= tier_barony
+					}
+				}
+
+				every_memory_participant = {
+					limit = {
+						NOT = {
+							root = this
+						}
+						highest_held_title_tier >= tier_barony
+					}
+					add = 1
+				}
+			}
+		}
+	}
+
+}
+
+unique_lords_sexed_count = {
+	value = 0
+	every_in_list = {
+		list = unique_lord_sex_partners
+		add = 1
+	}
+}

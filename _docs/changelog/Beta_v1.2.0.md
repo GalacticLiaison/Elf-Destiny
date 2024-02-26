@@ -1,31 +1,12 @@
-# Wednesday Plan
-X - Art For transport portal
+# Wrap Up
 
-X - Restored portal event with updated Art
-
-X - register all new blessings/traditions with their corresponding event
-
-X - expedition.0061.ok
-
-X - Indoctrinate
-   X - now has small chance of increasing control in selected county
-   X - now has small chance of converting culture in selected county
-X - Undermine
-   X - now has small chance of converting county to your faith
-   X - now has a very small chance of converting enemy heir to your faith
-
-X Tradition: Adventurer Guilds
-   X - now allows potentially two trials per run
-
-Tradition: Familial Familiarity
-    X - now properly unlocks family consanguinity
-<!-- BTW dunno if you've already made this edit yet, but the cleanest overwrite for that one tradition to properly allow consanguinous marriage despite faith restrictions is to modify relation_with_character_is_incestuous_in_faith_trigger to add an exception for the tradition -->
+- enchantress unlock mechanics
 
 Elven Adaptability innovation now removes reform cooldown for culture
 
 Accidentally permanently unlocked "challenge rival to a fight" character interaction. Fixed
 
-X - Portal pieces are now removed after restoring the Grand Portal
+all history characters have their elf trait mort type or immortal age correct
 
 <!-- under Construction -->
 - Now will randomly appear on characters of Elven culture
@@ -62,6 +43,8 @@ TEST ENTRANCE/ENTHRALL
 
 New event that allows player to move portal pieces to their capital so they can restore the Grand Portal there.
 
+Restore The Portal Event got a minor facelift
+
 ## Traditions
 
 ### NEW! Blessing: Endless Lord
@@ -91,9 +74,9 @@ New event that allows player to move portal pieces to their capital so they can 
 
 ## Ascension
 
-### The remainder of the Elf traits have been added to the game bringing the total levels of Ascension to 12!
+### The Remainder of the Elf traits have been added to the game bringing the total levels of Ascension to 12!
 - Players can not Ascend past High Elf until after the portal has been opened.
-- Players can not yet Ascend to the highest tier of traits
+- Players can not yet Ascend to the highest tier of traits (Godhood)
 ### Elf Traits
 - Now give Elves huge fertility penalties that increase in severity as you Ascend.
 - Now give no prowess loss from age
@@ -170,7 +153,7 @@ Adventurer Trait
 - was too OP giving minus 50% MAA maintenance right off the bat for just going on a single expedition. Now must have fully leveled adventurer to get that bonus
 
 Tradition: Adventurer Guilds
-    - now allows potentially two trials per run
+    - now can encounter two trials per Expedition
 
 Tradition: Familial Familiarity
     - now properly unlocks family consanguinity

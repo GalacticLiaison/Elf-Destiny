@@ -1,0 +1,33 @@
+﻿create_unique_lord_sex_partner_list_effect = {
+	every_memory = {
+		limit = {
+			has_memory_type = had_sex
+		}
+
+		if = {
+			limit = {
+				any_memory_participant = {
+					NOR = {
+						is_in_list = unique_lord_sex_partners
+						root = this
+					}
+					highest_held_title_tier >= tier_barony
+				}
+			}
+
+			every_memory_participant = {
+				limit = {
+					NOR = {
+						is_in_list = unique_lord_sex_partners
+						root = this
+					}
+					highest_held_title_tier >= tier_barony
+				}
+
+				add_to_list  = unique_lord_sex_partners
+			}
+		}
+	}
+
+	debug_log_scopes = yes
+}

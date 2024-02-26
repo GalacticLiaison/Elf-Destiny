@@ -174,3 +174,12 @@ Gold duck idol: when owned not even equipped grants its own special tradition. I
    with rats coming to the game, have a pied piper ability to control rat waves, could be a military unit and a way to spread plague at will
 
    tradition idea: Tavern Network
+
+Some fun fonts to try
+ BOOKMARK_CHARACTER_DIFFICULTY_EASY:2 "#difficulty_easy Easy#!"
+ BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM:2 "#difficulty_medium Medium#!"
+ BOOKMARK_CHARACTER_DIFFICULTY_HARD:2 "#difficulty_hard Hard#!"
+
+ https://ck3.paradoxwikis.com/Localization#/media/File:Text_formatting_1.11.png
+
+ Search textformatting = { in base game

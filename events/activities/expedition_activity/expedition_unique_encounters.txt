@@ -48,6 +48,7 @@ expedition_unique_encounters.001 = {
 
 	# Get all unchosen elf culture tradition picks into a list
 	immediate = {
+		debug_log = "Culture tradition event"
 		# Mark culture traditions as discovered for this elf ruin site
 		if = { # fortress_tomb_of_the_emperor
 			limit = {
@@ -629,7 +630,17 @@ expedition_unique_encounters.00311 = { # Vána
 
 	title = expedition_unique_encounters.00311.title
 	desc = {
-		desc = expedition_unique_encounters.0031.pray_intro.desc
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = encountered_valars
+						target = flag:vána
+					}
+				}
+			}
+			desc = expedition_unique_encounters.0031.pray_intro.desc
+		}
 		triggered_desc = {
 			trigger = {
 				NOT = {
@@ -675,6 +686,13 @@ expedition_unique_encounters.00311 = { # Vána
 			location = root.location
 			save_scope_as = valar
 		}
+		hidden_effect = {		
+			scope:valar = {
+				copy_inheritable_appearance_from = character:vana
+				add_character_flag = is_vana
+				set_immortal_age = 17
+			}
+		}
 	}
 
 	left_portrait = {
@@ -702,6 +720,7 @@ expedition_unique_encounters.00311 = { # Vána
 				remove_culture_tradition = tradition_blessing_of_tulkas_astaldo
 			}
 		}
+		trigger_event = expedition_unique_encounters.00318
 	}
 
 	option = { # refuse
@@ -749,13 +768,6 @@ expedition_unique_encounters.0032 = { # Find Tulkas Astaldo Shrine
 	option = { # connect with shrine
 		name = expedition_unique_encounters.0032.pray
 
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = encountered_valars
-				target = flag:tulkas_astaldo
-			}
-		}
-
 		trigger_event = expedition_unique_encounters.00321
 	}
 
@@ -769,7 +781,17 @@ expedition_unique_encounters.00321 = { # Tulkas Astaldo
 
 	title = expedition_unique_encounters.00321.title
 	desc = {
-		desc = expedition_unique_encounters.0031.pray_intro.desc
+		triggered_desc = {
+			trigger = {
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = encountered_valars
+						target = flag:tulkas_astaldo
+					}
+				}
+			}
+			desc = expedition_unique_encounters.0031.pray_intro.desc
+		}
 		triggered_desc = {
 			trigger = {
 				NOT = {
@@ -815,6 +837,13 @@ expedition_unique_encounters.00321 = { # Tulkas Astaldo
 			location = root.location
 			save_scope_as = valar
 		}
+		hidden_effect = {			
+			scope:valar = {
+				copy_inheritable_appearance_from = character:tulkas_astaldo
+				add_character_flag = is_tulkas_astaldo
+				set_immortal_age = 30
+			}
+		}
 	}
 
 	left_portrait = {
@@ -824,7 +853,7 @@ expedition_unique_encounters.00321 = { # Tulkas Astaldo
 
 	right_portrait = {
 		character = scope:valar
-		animation = personality_content
+		animation = throne_room_two_handed_passive_1
 	}
 
 	option = { # Take as deity
@@ -842,6 +871,7 @@ expedition_unique_encounters.00321 = { # Tulkas Astaldo
 				remove_culture_tradition = tradition_blessing_of_vana
 			}
 		}
+		trigger_event = expedition_unique_encounters.00328
 	}
 
 	option = { # refuse
@@ -889,6 +919,14 @@ expedition_unique_encounters.00319 = { # Refuse Vána
 	option = { # Take as deity
 		name = expedition_unique_encounters.00399.ok
 	}
+
+	after = {
+		scope:valar = {
+			death = {
+				death_reason = spirit_faded
+			}
+		}
+	}
 }
 
 expedition_unique_encounters.00329 = { # Refuse Tulkas Astaldo
@@ -920,5 +958,86 @@ expedition_unique_encounters.00329 = { # Refuse Tulkas Astaldo
 
 	option = { # Take as deity
 		name = expedition_unique_encounters.00399.ok
+	}
+
+	after = {
+		scope:valar = {
+			death = {
+				death_reason = spirit_faded
+			}
+		}
+	}
+}
+
+
+expedition_unique_encounters.00318 = { # Accept Vána
+	type = activity_event
+
+	title = expedition_unique_encounters.00398.title
+	desc = expedition_unique_encounters.00398.desc
+
+	theme = shrine_of_vana
+	
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+
+	}
+
+	right_portrait = {
+		character = scope:valar
+		animation = happiness
+	}
+
+	option = {
+		name = expedition_unique_encounters.00398.ok
+	}
+
+	after = {
+		scope:valar = {
+			death = {
+				death_reason = spirit_faded
+			}
+		}
+	}
+}
+
+expedition_unique_encounters.00328 = { # Accept Tulkas Astaldo
+	type = activity_event
+
+	title = expedition_unique_encounters.00398.title
+	desc = expedition_unique_encounters.00398.desc
+
+	theme = shrine_of_tulkas
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+
+	}
+
+	right_portrait = {
+		character = scope:valar
+		animation = happiness
+	}
+
+	option = {
+		name = expedition_unique_encounters.00398.ok
+	}
+
+	after = {
+		hidden_effect = {
+			scope:valar = {
+				death = {
+					death_reason = spirit_faded
+				}
+			}
+		}
 	}
 }
