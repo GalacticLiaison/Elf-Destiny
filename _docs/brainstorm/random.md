@@ -183,3 +183,8 @@ Some fun fonts to try
  https://ck3.paradoxwikis.com/Localization#/media/File:Text_formatting_1.11.png
 
  Search textformatting = { in base game
+
+ 
+ Lembas satchel: item for donors
+ - adds two extra free days to any expedition run, raises day cap to 7 essentially
+ - supply duration boost as well for army unless this is part of a tradition that handles that
