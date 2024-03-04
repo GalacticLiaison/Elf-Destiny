@@ -314,6 +314,16 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 	
 			create_sigil_of_the_realm_lord_effect = { OWNER = root }
 	
+			if = {
+				limit = { exists = scope:newly_created_artifact }
+				scope:activity = {
+					add_to_variable_list = {
+						name = artifact_rewards
+						target = scope:newly_created_artifact
+					}
+				}
+			}
+
 			set_global_variable = {
 				name = 01_sigil_of_the_realm_lord_found
 				value = yes
@@ -336,6 +346,11 @@ expedition.00691 = {
 	left_portrait = {
 		character = scope:host
 		animation = shock
+	}
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
 	}
 
 	option = {
@@ -1340,6 +1355,10 @@ expedition.00512 = { # A Trial Of Cunning
 			save_scope_as = marble_statue
 		}
 
+		scope:marble_statue = {
+			set_immortal_age = 18
+		}
+
 		scope:activity = {
 			set_variable = {
 				name = trial_attempted
@@ -1879,6 +1898,23 @@ expedition.005122 = { # Trial Of Cunning Player Victory
 		name = expedition.005122.ok
 		trigger_event = expedition.0052 # Unique Encounter
 	}
+
+	after = {
+		hidden_effect = {			
+			if = {
+				limit = {
+					scope:marble_statue= {
+						is_alive = yes
+					}
+				}
+				scope:marble_statue = {
+					death = {
+						death_reason = death_crumbled
+					}
+				}
+			}
+		}
+	}
 }
 
 expedition.005123 = { # Trial Of Cunning AI Victory
@@ -1896,6 +1932,23 @@ expedition.005123 = { # Trial Of Cunning AI Victory
 
 	option = { 
 		name = expedition.005123.ok
+	}
+
+	after = {
+		hidden_effect = {			
+			if = {
+				limit = {
+					scope:marble_statue = {
+						is_alive = yes
+					}
+				}
+				scope:marble_statue = {
+					death = {
+						death_reason = death_crumbled
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -2808,6 +2861,23 @@ expedition.005141 = { # A Trial Of Prowess - after battle
 		}
 
 		# if lost duel, nothing happens
+	}
+
+	after = {
+		hidden_effect = {			
+			if = {
+				limit = {
+					scope:stone_statue = {
+						is_alive = yes
+					}
+				}
+				scope:stone_statue = {
+					death = {
+						death_reason = death_crumbled
+					}
+				}
+			}
+		}
 	}
 }
 

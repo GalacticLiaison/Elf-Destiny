@@ -246,7 +246,7 @@ activity_expedition = {
 						barony = title:b_chaka
 						barony = title:b_tekar
 
-						barony = title:b_gardafuul # horn of africa
+						barony = title:b_suq-socotra # horn of africa
 						barony = title:b_south_jaz_murian
 
 						barony = title:b_luch # portal
@@ -1483,7 +1483,24 @@ activity_expedition = {
 					scope:activity.activity_location = { save_scope_as = activity_location }
 
 					# How Long Is The Total Expedition?
-					scope:activity = { progress_activity_phase_after = { weeks = expedition_weeks_from_funding} }
+
+					# set_variable  = {
+					# 	name = expedition_weeks 
+					# 	value = total_expedition_weeks
+					# }
+					if = {
+						limit = {
+							scope:host = {
+								any_character_artifact = { 
+									has_variable = lembas_satchel
+									is_equipped = yes
+								}
+							}
+						}
+						debug_log = "wearing belt"
+					}
+
+					scope:activity = { progress_activity_phase_after = { weeks = total_expedition_weeks} }
 
 					# Fires Immediatly - Lets Set Up Our Base Camp
 					trigger_event = { on_action = set_up_base_camp_events }
@@ -1502,13 +1519,9 @@ activity_expedition = {
 					# Mid Funding
 					if = {
 						limit = {
-							scope:activity = {
-								OR = {
-									has_activity_option = { category = expedition_option_funding option = expedition_funding_mid }
-									has_activity_option = { category = expedition_option_funding option = expedition_funding_max }
-								}
-							}
+							total_expedition_weeks >= 4
 						}
+						debug_log = "mid funding"
 						trigger_event = {
 							on_action = expedition_events
 							days = 21
@@ -1518,17 +1531,48 @@ activity_expedition = {
 					# Max Funding
 					if = {
 						limit = {
-							scope:activity = {
-								has_activity_option = { category = expedition_option_funding option = expedition_funding_max }
-							}
+							total_expedition_weeks >= 5
 						}
+						debug_log = "max funding 1"
 						trigger_event = {
 							on_action = expedition_events
 							days = 28
 						}
+					}
+
+					# Max Funding
+					if = {
+						limit = {
+							total_expedition_weeks >= 6
+						}
+						debug_log = "max funding 2"
 						trigger_event = {
 							on_action = expedition_events
 							days = 35
+						}
+					}
+
+					# Obtainable with lembas satchel
+					if = {
+						limit = {
+							total_expedition_weeks >= 8
+						}
+						debug_log = "lembas 1"
+						trigger_event = {
+							on_action = expedition_events
+							days = 42
+						}
+					}
+
+					# Obtainable with lembas satchel
+					if = {
+						limit = {
+							total_expedition_weeks >= 9
+						}
+						debug_log = "lembas 2"
+						trigger_event = {
+							on_action = expedition_events
+							days = 49
 						}
 					}
 				}

@@ -484,10 +484,23 @@ expedition_unique_encounters.0021 = { # Portal Capacitor
 		animation = thinking
 	}
 
-	option = {
-		name = expedition_unique_encounters.0021.takeCapacitor
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
+	}
 
+	immediate = {
 		create_portal_spark_capacitor_effect = { OWNER = scope:host }
+
+		if = {
+			limit = { exists = scope:newly_created_artifact }
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_artifact
+				}
+			}
+		}
 
 		scope:activity.activity_location.barony = {
 			set_variable = {
@@ -500,6 +513,10 @@ expedition_unique_encounters.0021 = { # Portal Capacitor
 			name = portal_capacitor_found
 			value = yes
 		}
+	}
+
+	option = {
+		name = expedition_unique_encounters.0021.takeCapacitor
 	}
 }
 
@@ -523,10 +540,23 @@ expedition_unique_encounters.0022 = { # Portal Navigation Relay
 		animation = thinking
 	}
 
-	option = {
-		name = expedition_unique_encounters.0022.takeNavigationRelay
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
+	}
 
+	immediate = {
 		create_portal_navigation_relay_effect = { OWNER = scope:host }
+
+		if = {
+			limit = { exists = scope:newly_created_artifact }
+			scope:activity = {
+				add_to_variable_list = {
+					name = artifact_rewards
+					target = scope:newly_created_artifact
+				}
+			}
+		}
 
 		scope:activity.activity_location.barony = {
 			set_variable = {
@@ -539,6 +569,10 @@ expedition_unique_encounters.0022 = { # Portal Navigation Relay
 			name = portal_navigation_relay_found
 			value = yes
 		}
+	}
+
+	option = {
+		name = expedition_unique_encounters.0022.takeNavigationRelay
 	}
 }
 

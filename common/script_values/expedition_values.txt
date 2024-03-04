@@ -177,3 +177,19 @@ expedition_weeks_from_funding = {
 		add = 3
 	}
 }
+
+total_expedition_weeks = {
+	value = 0
+	add = expedition_weeks_from_funding
+	if = {
+		limit = {
+			scope:host = {
+				any_character_artifact = { 
+					has_variable = lembas_satchel
+					is_equipped = yes
+				}
+			}
+		}
+		add = 3 # extra +1 for additional buffer time
+	}
+}
