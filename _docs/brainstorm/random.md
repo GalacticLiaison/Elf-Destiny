@@ -188,3 +188,17 @@ Some fun fonts to try
  Lembas satchel: item for donors
  - adds two extra free days to any expedition run, raises day cap to 7 essentially
  - supply duration boost as well for army unless this is part of a tradition that handles that
+
+ entire dead cultures you can find on expedition. BUT you need to convert to benefit from them
+
+ Religion cult leader
+ - worshipped as god by people
+ - can lay with any character of the faith
+ - other crazy cult stuff
+
+ send kidnappers 
+ - unlocked by tradition
+ - send agents to grab whomeevr they can from a county
+
+ milk of nectar trait
+ - huge boost to feeding babes
