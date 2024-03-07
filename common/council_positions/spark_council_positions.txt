@@ -13,7 +13,7 @@
 	}
 
 	valid_position = {
-		root.faith = {
+		faith = {
 			has_doctrine = tenet_aeluran_sisters 
 		}
 	}
@@ -100,6 +100,12 @@
 	}
 
 	on_get_position = {
+		root.liege = {
+			set_variable = {
+				name = religious_advisor
+				value = root
+			}
+		}
 		got_council_position_effect = yes
 		if = {
 			limit = {
@@ -145,6 +151,7 @@
 	}
 
 	on_fired_from_position = {
+		remove_variable = religious_advisor
 		fired_from_council_position_effect = yes
 	}
 
@@ -327,6 +334,12 @@ councillor_court_chaplain = {
 	}
 
 	on_get_position = {
+		root.liege = {
+			set_variable = {
+				name = religious_advisor
+				value = root
+			}
+		}
 		got_council_position_effect = yes
 		if = {
 			limit = {
@@ -418,7 +431,47 @@ councillor_court_chaplain = {
 		}
 	}
 
+	on_lose_position = {
+		debug_log = "LOST REALM PRIEST"
+		remove_variable = religious_advisor
+
+		root.liege = {
+			save_scope_as = liege
+		}
+
+		debug_log_scopes = yes
+
+		if = {
+			limit = {
+				scope:liege = {
+					faith = {
+						has_doctrine = tenet_aeluran_sisters
+					}
+					# NOT = {
+					# 	exists = cp:councillor_aeluran_advisor
+					# }
+				}
+			}
+
+			debug_log = "LOST REALM PRIEST HIRE AELURAN"
+
+			root.liege = {
+				debug_log_scopes = yes
+				create_and_assign_aeluran_advisor_effect = yes
+			}
+		}
+	}
+
 	on_fired_from_position = {
+		debug_log = "FIRED REALM PRIEST"
+		remove_variable = religious_advisor
+
+		root.liege = {
+			save_scope_as = liege
+		}
+
+		debug_log_scopes = yes
+
 		fired_from_council_position_effect = yes
 	}
 
