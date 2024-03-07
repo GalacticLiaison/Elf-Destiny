@@ -716,6 +716,10 @@ PixelShader =
 
 			float3 Color = DiffuseIBL + SpecularIBL + DiffuseLight + SpecularLight;
 			
+			#ifdef VARIATIONS_ENABLED
+				ApplyClothFresnel( Input, CameraPosition, Normal, Color );
+			#endif
+
 			float3 SssColor = vec3(0.0f);
 			float SssMask = Properties.r;
 			#ifdef FAKE_SSS_EMISSIVE
@@ -921,7 +925,14 @@ PixelShader =
 				float2 UV0 = Input.UV0;
 				float4 Diffuse = PdxTex2D( DiffuseMap, UV0 );
 				float4 Properties = PdxTex2D( PropertiesMap, UV0 );
-				float3 NormalSample = UnpackRRxGNormal( PdxTex2D( NormalMap, UV0 ) );
+
+				#ifdef DOUBLE_SIDED_ENABLED
+					float4 NormalSampleRaw = PdxTex2D( NormalMap, UV0 );
+					float3 NormalSample = UnpackRRxGNormal( NormalSampleRaw ) * ( PDX_IsFrontFace ? 1 : -1 );
+				#else
+					float3 NormalSample = UnpackRRxGNormal( PdxTex2D( NormalMap, UV0 ) );
+				#endif
+
 				Properties.r = 1.0; // wipe this clean now, ready to be modified later
 				Diffuse.a = PdxMeshApplyOpacity( Diffuse.a, Input.Position.xy, PdxMeshGetOpacity( Input.InstanceIndex ) );
 
@@ -941,7 +952,7 @@ PixelShader =
 					// we append hover value after _BodyPartIndex, so
 					// it's a float under index 1 in float4 element of Data array
 					// if portrait accessory use data layout changes, this will also break
-					static const int USER_DATA_HOVER_SLOT = 9;
+					static const int USER_DATA_HOVER_SLOT = 13;
 					float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).g;
 					#else
 					// if the effect doesn't have variations and is intended for a court artifact on a pedestal,
@@ -1252,7 +1263,10 @@ RasterizerState rasterizer_no_culling
 {
 	CullMode = "none"
 }
-
+RasterizerState rasterizer_back_culling
+{
+	CullMode = "back"
+}
 RasterizerState rasterizer_backfaces
 {
 	FrontCCW = yes
@@ -1438,6 +1452,13 @@ Effect portrait_attachment_with_coa
 	PixelShader = "PS_attachment"
 	Defines = {"USE_CHARACTER_DATA" "COA_ENABLED" "PDX_MESH_BLENDSHAPES" }
 }
+Effect portrait_attachment_with_coaShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	RasterizerState = "ShadowRasterizerState"
+	Defines = { "PDXMESH_DISABLE_DITHERED_OPACITY" "PDX_MESH_BLENDSHAPES" }
+}
 
 Effect portrait_attachment_alpha_to_coverage_with_coa
 {
@@ -1445,6 +1466,14 @@ Effect portrait_attachment_alpha_to_coverage_with_coa
 	PixelShader = "PS_attachment"
 	BlendState = "alpha_to_coverage"
 	Defines = {"USE_CHARACTER_DATA" "COA_ENABLED" "PDX_MESH_BLENDSHAPES" }
+}
+
+Effect portrait_attachment_alpha_to_coverage_with_coaShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	RasterizerState = "ShadowRasterizerState"
+	Defines = { "PDX_MESH_BLENDSHAPES" }
 }
 
 Effect portrait_attachment_with_coa_selection
@@ -1477,12 +1506,28 @@ Effect portrait_attachment_with_coa_and_variations
 	Defines = { "USE_CHARACTER_DATA" "COA_ENABLED" "VARIATIONS_ENABLED" "PDX_MESH_BLENDSHAPES" }
 }
 
+Effect portrait_attachment_with_coa_and_variationsShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	RasterizerState = "ShadowRasterizerState"
+	Defines = { "PDXMESH_DISABLE_DITHERED_OPACITY" "PDX_MESH_BLENDSHAPES" }
+}
+
 Effect portrait_attachment_alpha_to_coverage_with_coa_and_variations
 {
 	VertexShader = "VS_standard"
 	PixelShader = "PS_attachment"
 	BlendState = "alpha_to_coverage"
 	Defines = {"USE_CHARACTER_DATA" "COA_ENABLED" "VARIATIONS_ENABLED" "PDX_MESH_BLENDSHAPES" }
+}
+
+Effect portrait_attachment_alpha_to_coverage_with_coa_and_variationsShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	RasterizerState = "ShadowRasterizerState"
+	Defines = { "PDX_MESH_BLENDSHAPES" }
 }
 
 Effect portrait_attachment_with_coa_and_variations_selection
@@ -1969,6 +2014,123 @@ Effect standard_winter
 }
 
 Effect standard_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect standard_map_decoration
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect standard_map_decoration_alpha_to_coverage
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_alpha_to_coverage_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_alpha_to_coverage_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_map_decoration_alpha_to_coverage_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect map_floor
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect map_floor_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect map_floor_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect map_floor_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect atlas_map_decoration
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect atlas_map_decoration_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect atlas_map_decoration_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect atlas_map_decoration_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect standard_glass
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_glass_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_glass_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+Effect standard_glass_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect standard_alpha_to_coverage_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect standard_alpha_to_coverage_selection_mapobject
 {
 	VertexShader = "VS_standard"
 	PixelShader = "PS_noop"

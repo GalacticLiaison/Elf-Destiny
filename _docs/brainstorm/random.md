@@ -200,5 +200,6 @@ Some fun fonts to try
  - unlocked by tradition
  - send agents to grab whomeevr they can from a county
 
- milk of nectar trait
- - huge boost to feeding babes
+ endless lord item add on
+ - some kind of stone you pass down each generation containing memories of past generation
+ - some decision to forge the item
