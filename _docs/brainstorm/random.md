@@ -203,3 +203,22 @@ Some fun fonts to try
  endless lord item add on
  - some kind of stone you pass down each generation containing memories of past generation
  - some decision to forge the item
+
+
+ trial of luck
+ - literally a slot machine
+ - each slot is a 1-10 randomly picked number
+ - make reward board showing what each three of a kind paysout
+ - one row just has ??? or something like that, get tradition or artifact, a door opens kind of thing.
+ - another 1/1000 spin that has symbols not even on the board show up
+
+ some kind of item that makes trials of luck (extra spin?) and greed easier
+
+ A quest line to make the ultimate castle
+ - your people stumble upon an enchanted marble deposit
+ - maybe requires evolved architect lifestyle
+ - maybe requires dwarf content first
+
+ can you REALLY not add two special building slots? what if you make a custom UI component? 
+
+ super long trading quest where you keep trading up items like in legend of zelda ocarina
