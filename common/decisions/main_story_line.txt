@@ -100,9 +100,7 @@ transport_the_grand_portal_decision = {
 
 	# Following conditions Will be shown as a validation error tooltip when False
 	is_valid_showing_failures_only = {
-		is_capable_adult = yes
 		is_imprisoned = no
-		# is_independent_ruler = yes
 		is_at_war = no
 	}
 
@@ -116,6 +114,9 @@ transport_the_grand_portal_decision = {
 			# TODO: see if this works
 			# restore_the_grand_portal_scripted_effect = yes
 		}
+
+		# set_variable = show_my_window
+		
 		trigger_event = {
 			id = elf_destiny_main_story_events.0022
 		}
@@ -178,23 +179,6 @@ restore_the_grand_portal_decision = {
 			}
 		}
 
-		# Must Have Studied Schematics
-		# Set
-		# create_character_memory = {
-		# 	type = studied_portal_schematics
-		# }
-		# scope:new_memory = {
-		# 	set_variable = {
-		# 		name = education_destination
-		# 		value = scope:activity.activity_location
-		# 	}
-		# }
-
-		# Fetch
-		# any_memory = {
-		# 	has_memory_type = studied_portal_schematics
-		# }
-
 		# Must Have the Seal and must have awakened it.
 		
 		custom_description = {
@@ -202,9 +186,6 @@ restore_the_grand_portal_decision = {
 			any_character_artifact = { has_variable = is_sigil_of_the_realm_lord }
 		}
 
-		# Set
-		# add_character_flag = worthy_of_realm_lord
-		# has_character_flag = worthy_of_realm_lord
 	}
 
 	# Following conditions Will be shown as a validation error tooltip when False
@@ -246,5 +227,71 @@ restore_the_grand_portal_decision = {
 		ai_value_modifier = {
 			ai_boldness = 1.0
 		}
+	}
+}
+
+reform_the_aeluran_faith_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_reform_aelurans.dds"
+
+	desc = reform_the_aeluran_faith_desc
+	selection_tooltip = reform_the_aeluran_faith_tooltip
+	major = yes
+	ai_goal = no
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_global_variable = 02_spoke_with_the_aeluran_order
+
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_aeluran_faith_reformed
+			}
+		}
+
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		custom_description = {
+			text = discover_two_more_elven_holy_sites
+			global_variable_list_size = {
+				name = discovered_holy_sites
+				value >= 3
+			}
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+	}
+
+	cost = {
+
+	}
+
+	effect = {
+		trigger_event = {
+			id = aeluran_story.006
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_aeluran_faith_reformed
+			}
+		}
+		custom_tooltip = free_religion_reformation
+	}
+	
+	ai_potential = {
+		always = no
 	}
 }

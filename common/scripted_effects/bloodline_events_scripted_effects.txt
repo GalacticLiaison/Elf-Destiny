@@ -294,3 +294,258 @@ create_orphan_mother_effect = {
 		}
 	}
 }
+
+generate_champion_with_bloodline_effect = {
+	# determine_bloodline_champion_gender_effect = yes
+	determine_bloodline_champion_type_effect = yes
+	create_bloodline_champion_effect = yes
+}
+
+determine_bloodline_champion_type_effect = {
+	random_list = {
+		5 = { # Bow
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:bow
+			}
+		}
+		5 = { # Board Game
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:board_game
+			}
+		}
+		5 = { # Duel
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:duel
+			}
+		}
+		5 = { # Horse
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:horse
+			}
+		}
+		5 = { # Melee
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:melee
+			}
+		}
+		5 = { # Recital
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:recital
+			}
+		}
+		5 = { # Wrestling
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:wrestling
+			}
+		}
+		5 = { # Joust
+			save_scope_value_as = {
+				name = champion_type
+				value = flag:joust
+			}
+		}
+	}
+}
+
+create_bloodline_champion_effect = {
+	create_character = {
+		template = bloodline_champion
+		dynasty = none
+		location = root.location
+		faith = root.faith
+		culture = culture:elf
+		save_scope_as = champion
+	}
+}
+
+assign_champion_lifestyle_traits_and_xp = {
+	if = { # Bow
+		limit = {
+			scope:champion_type = flag:bow
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = bow
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = lifestyle_hunter
+		add_trait_xp = {
+			trait = lifestyle_hunter
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+	}
+
+	if = { # Board Game
+		limit = {
+			scope:champion_type = flag:board_game
+		}
+
+		# learning
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = wit
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = scholar
+	}
+
+	if = { # Duel
+		limit = {
+			scope:champion_type = flag:duel
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = foot
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = lifestyle_blademaster
+		add_trait_xp = {
+			trait = lifestyle_blademaster
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+	}
+
+	if = { # Horse
+		limit = {
+			scope:champion_type = flag:horse
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = horse
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = administrator
+	}
+
+	if = { # Melee
+		limit = {
+			scope:champion_type = flag:melee
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = foot
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = lifestyle_blademaster
+		add_trait_xp = {
+			trait = lifestyle_blademaster
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+	}
+
+	if = { # Recital
+		limit = {
+			scope:champion_type = flag:recital
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = wit
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = poet
+		add_trait = diplomat
+	}
+
+	if = { # Wrestling
+		limit = {
+			scope:champion_type = flag:wrestling
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = foot
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = strong
+		add_trait = giant
+	}
+
+	if = { # Joust
+		limit = {
+			scope:champion_type = flag:joust
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = horse
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		add_trait = gallant
+	}
+}
