@@ -154,10 +154,7 @@ aeluran_story.004 = {
 	option = {
 		name = aeluran_story.004.ok
 		set_character_faith = faith:aeluran_weavers
-		trigger_event = {
-			id = aeluran_story.005
-			years = 10
-		}
+		trigger_event = aeluran_story.0061
 	}
 
 	option = {
@@ -178,3 +175,113 @@ aeluran_story.005 = {
 		}
 	}
 }
+
+aeluran_story.006 = { # REFORMATION DECISION
+	type = character_event
+
+	title = aeluran_story.006.title
+	desc = aeluran_story.006.desc
+
+	theme = court
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = throne_room_conversation_2
+	}
+
+	right_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+		random_living_character = {
+			limit = {
+				is_female = yes
+				has_trait = aeluran_high_matriarch
+			}
+			
+			save_scope_as = high_matriarch
+		}
+
+		random_living_character = {
+			limit = {
+				is_female = yes
+				has_trait = aeluran_matron
+			}
+			
+			save_scope_as = aeluran_matron
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:high_matriarch
+				}
+			}
+			create_character = {
+				template = aeluran_matriarch
+				dynasty = none
+				location = root.location
+				faith = faith:aeluran_weavers
+				culture = root.culture
+				save_scope_as = high_matriarch
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:aeluran_matron
+				}
+			}
+			create_character = {
+				template = aeluran_matron
+				dynasty = none
+				location = root.location
+				faith = faith:aeluran_weavers
+				culture = root.culture
+				save_scope_as = aeluran_matron
+			}
+		}
+
+		## Free Reformation Discount
+		root = {
+			add_character_modifier = deference_of_the_aelurans
+		}
+	}
+
+	option = {
+		name = aeluran_story.006.ok
+	}
+}
+
+aeluran_story.0061 = { # Given Reformation Quest
+	type = character_event
+
+	title = aeluran_story.0061.title
+	desc = aeluran_story.0061.desc
+
+	theme = court
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+		trigger_event = {
+			id = aeluran_story.005
+			years = 10
+		}
+	}
+
+	option = {
+		name = aeluran_story.0061.ok
+		custom_tooltip = unlocked_decision_to_find_holy_sites
+	}
+}
+
+

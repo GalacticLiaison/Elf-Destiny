@@ -19,17 +19,28 @@ bloodline_random.999 = {
 				scope:player = {
 					NOT = {
 						any_memory = {
-							has_memory_type = bloodline_orphan_visit
+							has_memory_type = bloodline_event
 						}
 					}
 					is_any_elf_type = yes
 				}
 			}
 			scope:player = {
-				trigger_event = {
-					id = bloodline_random.001
-					days = 100
+				random_list = {
+					50 = {
+						trigger_event = {
+							id = bloodline_random.001
+							days = 100
+						}
+					}
+					50 = {
+						trigger_event = {
+							id = bloodline_random.002
+							days = 100
+						}
+					}
 				}
+
 			}
 		}
 	}
@@ -45,7 +56,8 @@ bloodline_random.001 = { # Intro
 		is_ai = no
 	}
 
-	theme = stewardship
+	theme = bloodline_orphan
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:adviser
@@ -61,7 +73,7 @@ bloodline_random.001 = { # Intro
 		play_music_cue = "mx_cue_positive_effect"
 
 		create_character_memory = {
-			type = bloodline_orphan_visit
+			type = bloodline_event
 		}
 
 		# assign adviser
@@ -112,7 +124,8 @@ bloodline_random.0012 = { # Decide
 	title = bloodline_random.0012.title
 	desc = bloodline_random.0012.desc
 
-	theme = stewardship
+	theme = bloodline_orphan
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:adviser
@@ -147,7 +160,8 @@ bloodline_random.0013 = { # Orphan becomes ward
 	title = bloodline_random.0013.title
 	desc = bloodline_random.0013.desc
 
-	theme = stewardship
+	theme = bloodline_orphan
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:adviser
@@ -161,5 +175,179 @@ bloodline_random.0013 = { # Orphan becomes ward
 
 	option = { # Very Well
 		name = bloodline_random.0013.a1
+	}
+}
+
+bloodline_random.002 = { # Tourney Champion Arrives
+	type = character_event
+	title = bloodline_random.002.title
+	desc = {
+		desc = bloodline_random.002.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:bow }
+				desc = bloodline_random.002.desc.intro.bow
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:board_game }
+				desc = bloodline_random.002.desc.intro.board_game
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:duel }
+				desc = bloodline_random.002.desc.intro.duel
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:horse }
+				desc = bloodline_random.002.desc.intro.horse
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:melee }
+				desc = bloodline_random.002.desc.intro.melee
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:recital }
+				desc = bloodline_random.002.desc.intro.recital
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:wrestling }
+				desc = bloodline_random.002.desc.intro.wrestling
+			}
+			triggered_desc = {
+				trigger = { scope:champion_type = flag:joust }
+				desc = bloodline_random.002.desc.intro.joust
+			}
+		}
+		desc = bloodline_random.002.desc.continued
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	theme = bloodline_champion
+	content_source = elf_destiny
+
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	lower_left_portrait = {
+		character = scope:champion
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+
+		create_character_memory = {
+			type = bloodline_event
+		}
+
+		generate_champion_with_bloodline_effect = yes
+	}
+
+	option = {
+		name = bloodline_random.002.recruit
+		trigger_event = {
+			id = bloodline_random.0021
+		}
+	}
+
+	option = {
+		name = bloodline_random.002.ignore
+	}
+}
+
+bloodline_random.0021 = { # Find Champion In Tavern
+	type = character_event
+	title = bloodline_random.0021.title
+	desc = bloodline_random.0021.desc
+
+	trigger = {
+		is_ai = no
+	}
+
+	theme = bloodline_champion
+	override_background = { reference = tavern }
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:champion
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = root
+		animation = throne_room_conversation_2
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+	}
+
+	option = {
+		name = bloodline_random.0021.pay
+		send_interface_toast = {
+			title = bloodline_random.0021.outcome.pay
+			left_icon = scope:champion
+			pay_short_term_gold = {
+				target = scope:champion
+				gold = 100
+			}
+			add_courtier = scope:champion
+		}
+	}
+
+	option = {
+		name = bloodline_random.0021.haggle
+		duel = {
+			skills = { diplomacy }
+			target = scope:champion
+	
+			50 = { # Success!
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				desc = bloodline_random.0021.haggle_victory
+		
+				send_interface_toast = {
+					title = bloodline_random.0021.outcome.haggle_victory
+					left_icon = scope:champion
+					pay_short_term_gold = {
+						target = scope:champion
+						gold = 50
+					}
+					add_courtier = scope:champion
+				}
+			}
+			50 = { # Fail!
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+		
+				min = 2
+	
+				desc = bloodline_random.0021.haggle_loss
+	
+				send_interface_toast = {
+					title = bloodline_random.0021.outcome.haggle_loss
+					left_icon = scope:champion
+					pay_short_term_gold = {
+						target = scope:champion
+						gold = 200
+					}
+					add_courtier = scope:champion
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bloodline_random.0021.nvm
 	}
 }

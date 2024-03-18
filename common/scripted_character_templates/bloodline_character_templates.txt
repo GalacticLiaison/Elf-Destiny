@@ -992,3 +992,369 @@ orphan_daelurin_mother = {
 		}
 	}
 }
+
+## CHAMPIONS ##
+
+bloodline_champion = {
+	gender_female_chance = 50
+	age = { 18 40 }
+	faith = root.faith
+	culture = culture:elf
+
+	trait = tourney_participant
+
+	diplomacy = {
+		bloodline_champion_diplomacy_low
+		bloodline_champion_diplomacy_high
+	}
+
+	learning = {
+		bloodline_champion_learning_low
+		bloodline_champion_learning_high
+	}
+
+	prowess = {
+		bloodline_champion_prowess_low
+		bloodline_champion_prowess_high
+	}
+
+	random_traits = no
+
+	random_traits_list = { # Personality
+		count = 3
+		lustful = {
+			weight = {
+				base = 10
+			}
+		}
+		chaste = {
+			weight = {
+				base = 1
+			}
+		}
+		gluttonous = {
+			weight = {
+				base = 1
+			}
+		}
+		temperate = {
+			weight = {
+				base = 1
+			}
+		}
+		greedy = {
+			weight = {
+				base = 1
+			}
+		}
+		generous = {
+			weight = {
+				base = 1
+			}
+		}
+		diligent = {
+			trigger = {
+				scope:champion_type = flag:horse
+			}
+			weight = {
+				base = 100
+			}
+		}
+		wrathful = {
+			trigger = {
+				scope:champion_type = flag:wrestling
+			}
+			weight = {
+				base = 100
+			}
+		}
+		calm = {
+			trigger = {
+				scope:champion_type = flag:horse
+			}
+			weight = {
+				base = 100
+			}
+		}
+		patient = {
+			trigger = {
+				OR = {
+					scope:champion_type = flag:wrestling
+					scope:champion_type = flag:horse
+					scope:champion_type = flag:bow
+				}
+			}
+			weight = {
+				base = 100
+			}
+		}
+		impatient = {
+			weight = {
+				base = 1
+			}
+		}
+		arrogant = {
+			weight = {
+				base = 1
+			}
+		}
+		humble = {
+			weight = {
+				base = 1
+			}
+		}
+		deceitful = {
+			trigger = {
+				scope:champion_type = flag:wrestling
+			}
+			weight = {
+				base = 100
+			}
+		}
+		honest = {
+			weight = {
+				base = 1
+			}
+		}
+		brave = {
+			weight = {
+				base = 15
+			}
+		}
+		gregarious = {
+			weight = {
+				base = 15
+			}
+		}
+		ambitious = {
+			weight = {
+				base = 1
+			}
+		}
+		content = {
+			weight = {
+				base = 1
+			}
+		}
+		arbitrary = {
+			weight = {
+				base = 1
+			}
+		}
+		just = {
+			weight = {
+				base = 1
+			}
+		}
+		cynical = {
+			weight = {
+				base = 1
+			}
+		}
+		zealous = {
+			weight = {
+				base = 1
+			}
+		}
+		compassionate = {
+			trigger = {
+				scope:champion_type = flag:horse
+			}
+			weight = {
+				base = 100
+			}
+		}
+		callous = {
+			weight = {
+				base = 1
+			}
+		}
+		sadistic = {
+			weight = {
+				base = 1
+			}
+		}
+		stubborn = {
+			weight = {
+				base = 1
+			}
+		}
+		fickle = {
+			weight = {
+				base = 1
+			}
+		}
+		vengeful = {
+			weight = {
+				base = 1
+			}
+		}
+		forgiving = {
+			weight = {
+				base = 1
+			}
+		}
+	}
+
+	random_traits_list = { # Education
+		count = 1
+		education_martial_4 = {
+			trigger = {
+				OR = {
+					scope:champion_type = flag:bow
+					scope:champion_type = flag:duel
+					scope:champion_type = flag:horse
+					scope:champion_type = flag:melee
+					scope:champion_type = flag:wrestling
+					scope:champion_type = flag:joust
+				}
+			}
+			weight = {
+				base = 100
+			}
+		}
+		education_learning_4 = {
+			trigger = {
+				scope:champion_type = flag:board_game
+			}
+			weight = {
+				base = 100
+			}
+		}
+		education_diplomacy_4 = {
+			trigger = {
+				scope:champion_type = flag:recital
+			}
+			weight = {
+				base = 100
+			}
+		}
+		education_stewardship_4 = { # fallback
+			trigger = {
+				NOR = {
+					scope:champion_type = flag:recital
+					scope:champion_type = flag:board_game
+					scope:champion_type = flag:bow
+					scope:champion_type = flag:duel
+					scope:champion_type = flag:horse
+					scope:champion_type = flag:melee
+					scope:champion_type = flag:wrestling
+					scope:champion_type = flag:joust
+				}
+			}
+			weight = {
+				base = 1
+			}
+		}
+	}
+
+	# Random Personality
+
+	random_traits_list = { # Bloodline
+		count = 1
+		royal_elf_daelurin = {
+
+		}
+		royal_elf_thundarael = {
+
+		}
+		royal_elf_gwynthorn = {
+
+		}
+		royal_elf_serelion = {
+
+		}
+		royal_elf_valerith = {
+
+		}
+	}
+
+	random_traits_list = { # Random Good Genetic
+		count = 1
+		beauty_good_2 = {
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					OR = {
+						scope:champion_type = flag:recital
+					}
+				}
+			}
+		}
+		physique_good_2 = {
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					OR = {
+						scope:champion_type = flag:bow
+						scope:champion_type = flag:duel
+						scope:champion_type = flag:horse
+						scope:champion_type = flag:melee
+						scope:champion_type = flag:wrestling
+						scope:champion_type = flag:joust
+					}
+				}
+			}
+		}
+		intellect_good_2 = {
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					OR = {
+						scope:champion_type = flag:board_game
+					}
+				}
+			}
+		}
+		pure_blooded = { # fallback
+			weight = {
+				base = 1
+			}
+		}
+	}
+
+	random_traits_list = { # Random magic
+		count = 1
+		magic_talent_1 = {
+			weight = {
+				base = 55
+			}
+		}
+		magic_talent_2 = {
+			weight = {
+				base = 35
+			}
+		}
+		magic_talent_3 = {
+			weight = {
+				base = 10
+			}
+		}
+	}
+
+	random_traits_list = { # Elf
+		count = 1
+		elf = {
+			weight = {
+				base = 85
+			}
+		}
+		high_elf = {
+			weight = {
+				base = 15
+			}
+		}
+	}
+
+	after_creation = {
+		assign_champion_lifestyle_traits_and_xp = yes
+		# add_random_tiered_trait_xp_effect = {
+		# 	TRAIT = lifestyle_physician
+		# 	LEVEL_1 = yes
+		# 	LEVEL_3 = yes
+		# }
+	}
+}

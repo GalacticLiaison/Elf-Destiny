@@ -222,3 +222,25 @@ Some fun fonts to try
  can you REALLY not add two special building slots? what if you make a custom UI component? 
 
  super long trading quest where you keep trading up items like in legend of zelda ocarina
+
+ uncanny luck tradition: reward for getting best result in luck trial
+ - maybe could be a rare lifestyle instead
+
+ some kind of tradition/spell around making "deals", a common trope with leprechauns or demons or whatever
+
+adventurer guilds should increase the odds of getting an adventurer artifact inspiration
+
+trial of accuracy, shoot bow at target, chances of success increased based on hastildur archery skill
+dude also use hastildur to determine lifestyle evolutions!!!!
+
+Monogamous Marriage Tradition: Unlocks level above soulmate!
+
+Something maybe a tradition or artifact, that gives more info about genetic things. Maybe from Aelurans
+- example: hovering over the Rut mult-birth would then show a table with odds of each multiple of births
+
+excalibur sword in stone event, need prowess of 50 to pull it
+thors hammers need "worthiness" and prowess to equip it
+
+for "choose guild" decision in act 2, maybe it works like
+- to unlock the guilds features you need to construct a faction HQ Duchy building
+- you may build one where the portal HQ is and that one faction gives you a bonus/discount

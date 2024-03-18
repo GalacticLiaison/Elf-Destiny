@@ -1,21 +1,21 @@
-﻿# rut_quarterly_pulse = {
-# 	trigger = {
-# 		scope:quarter = 2
-# 	}
-# 	on_actions = {
-# 		manage_rut_modifier
-# 	}
-# }
+﻿# Code on-action: character creates a faith
+# Root is the creator
+# scope:old_faith is the faith they used to have
+on_faith_created = {
+    on_actions = {
+        remove_free_reformation_modifier 
+    } 
+}
 
-# manage_rut_modifier = {
-# 	trigger = {
-# 		is_available_adult = yes
-# 		culture_has_the_rut = yes
-# 	}
-# 	effect = {
-# 		add_character_modifier = {
-# 			modifier = rutting
-# 			months = 3
-# 		}
-# 	}
-# }
+remove_free_reformation_modifier = {
+	effect = {
+		if = {
+			limit = {
+				root = {
+					has_character_modifier = deference_of_the_aelurans
+				}
+			}
+			remove_character_modifier = deference_of_the_aelurans
+		}
+	}
+}

@@ -499,3 +499,31 @@ set_appropriate_elf_immortality_age = {
 		set_adult_immortal_age = yes
 	}
 }
+
+people_of_the_bow_birthday_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_trait = tourney_participant
+			}	
+		}
+
+		add_trait = tourney_participant
+	}
+
+	if = {
+		limit = {
+			has_trait_xp = {
+				trait = tourney_participant
+				track = bow
+				value < 30
+			}
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = bow
+			value = 30
+		}
+	}
+}
