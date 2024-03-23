@@ -1,69 +1,29 @@
 ﻿namespace = the_rut_events
 
-the_rut_events.0001 = {
-	hidden = yes
-
-    trigger = {
-		root.culture  = {
-			has_cultural_tradition = tradition_the_rut
-		}
-		root = {
-			is_any_elf_type = yes
-		}
-		age > 15
-	}
-
-	immediate = {
-		debug_log = "MADE IT TO RUT EVENT"
-		debug_log_scopes = yes
-		send_interface_message = {
-			type = event_martial_text_good
-			# left_icon = scope:varangian_candidate
-			title = the_rut_begins.title
-			desc = the_rut_begins.desc
-
-			left_icon = root
-
-			add_character_modifier = {
-				modifier = the_rut_modifier
-				months = 12
-			}
-			add_character_flag = rutting
-			add_trait = lustful
-		}
-	}
-}
-
-the_rut_events.0002 = {
+the_rut_events.1 = {
     hidden = yes
 
     trigger = {
-		# root = {
-		# 	is_any_elf_type = yes
-		# }
-		root = {
-			has_character_flag = rutting
-		}
-	}
+        age >= 16
+        is_any_elf_type = yes
+    }
 
-	immediate = {
-		send_interface_message = {
-			type = event_martial_text_good
-			title = the_rut_ends.title
-			desc = the_rut_ends.desc
+    immediate = {
+	    add_trait = rutting
+    }
+}
 
-			left_icon = root
-			
-			remove_character_flag = rutting
-			if = {
-				limit = {
-					AND = {
-						has_trait = lustful
-						num_of_personality_traits > 3
-					}
-				}
-				remove_trait = lustful
-			}
-		}
-	}
+the_rut_events.2 = {
+    hidden = yes
+
+    trigger = {
+        root = {
+            has_trait = rutting
+        }
+    }
+
+    immediate = {
+        remove_trait = rutting
+        add_character_flag = { flag = contraction_cooldown_rutting years = 8 }
+    }
 }

@@ -1,0 +1,158 @@
+﻿the_rut = {
+    trait = rutting
+    color = { 255 128 128 }
+    priority = 3
+
+    shader_data = {
+        strength = 0.3
+        edge_fade = 0.25
+        tile_multiplier = 0.004702
+        texture_index = 0
+        channel = alpha
+    }
+
+    name = {
+        first_valid = {
+            random_valid = {
+                desc = epidemic_rulers_rut
+                desc = epidemic_titled_rulers_rut
+                desc = epidemic_realm_rut
+                desc = epidemic_holder_rut
+                desc = epidemic_culture_rut
+                desc = epidemic_location_rut
+            }
+            desc = trait_rutting
+        }
+    }
+    
+    on_start = {
+    }
+
+    on_monthly = {
+        #trigger_event = {
+        #    on_action = epidemic_ongoing_events
+        #}
+    }
+
+    character_infection_chance = {
+        value = character_rut_chance
+    }
+
+    can_infect_character = {
+        NOT = { has_trait = rutting }
+        age >= 16
+        is_any_elf_type = yes
+
+        NOT = {
+            has_character_flag = contraction_cooldown_rutting
+        }
+    }
+
+    on_character_infected = {
+        trigger_event = { id = the_rut_events.1 days = { 4 12 } }
+        trigger_event = { id = the_rut_events.2 days = { 720 800 } }
+    }
+
+    infection_levels = {
+        10 = {
+            province_modifier = {
+                county_opinion_add = 2
+            }
+        }
+        50 = {
+            province_modifier = {
+                county_opinion_add = 3
+            }
+        }
+        80 = {
+            province_modifier = {
+                county_opinion_add = 5
+            }
+        }
+    }
+
+    outbreak_intensities = {
+        minor = {
+            outbreak_chance = {
+                value = rut_outbreak_chance_minor_value
+                multiply = rut_outbreak_chance_mult_value
+            }
+            spread_chance = {
+                value = spread_chance_rut_value
+                multiply = spread_chance_rut_mult_value
+            }
+            max_provinces = { 15 30 }
+
+            infection_duration = {
+                months = { 6 8 }
+            }
+
+            infection_progress_duration = {
+                days = { 80 120 }
+            }
+
+            infection_recovery_duration = {
+                days = { 15 22 }
+            }
+        }
+
+        major = {
+            outbreak_chance = {
+                value = rut_outbreak_chance_major_value
+                multiply = rut_outbreak_chance_mult_value
+            }
+            spread_chance = {
+                value = spread_chance_rut_value
+                multiply = spread_chance_rut_mult_value
+            }
+            max_provinces = { 45 70 }
+
+            infection_duration = {
+                months = { 10 20 }
+            }
+
+            infection_progress_duration = {
+                days = { 40 60 }
+            }
+
+            infection_recovery_duration = {
+                days = 25
+            }
+        }
+
+        apocalyptic = {
+            outbreak_chance = {
+                value = rut_outbreak_chance_apocalytic_value
+                multiply = rut_outbreak_chance_mult_value
+            }
+            spread_chance = {
+                value = spread_chance_rut_value
+                multiply = spread_chance_rut_mult_value
+            }
+            max_provinces = { 120 180 }
+
+            infection_duration = {
+                months = { 22 40 }
+            }
+            
+            infection_progress_duration = {
+                days = { 15 20 }
+            }
+
+            infection_recovery_duration = {
+                days = { 25 35 }
+            }
+        }
+    }
+    
+    on_province_infected = {
+    }
+    
+    on_province_recovered = {
+        add_to_variable_list = {
+            name = epidemic_cooldown
+            target = scope:epidemic.epidemic_type
+            years = 20
+        }
+    }
+}

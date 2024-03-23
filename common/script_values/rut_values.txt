@@ -1,10 +1,469 @@
-﻿years_since_last_rut_value = {
-	value = 0
-	if = {
-		limit = {
-			exists = global_var:previous_rut_year
-		}
-		add = current_year 
-		subtract = global_var:previous_rut_year
-	}
+﻿character_rut_chance = {
+    value = 30
+
+    #Intensity
+    if = {
+        limit = {
+            scope:epidemic ?= {
+                outbreak_intensity = apocalyptic
+            }
+        }
+        add = 60
+    }
+    else_if = {
+        limit = {
+            scope:epidemic ?= {
+                outbreak_intensity = major
+            }
+        }
+        add = 30
+    }
+    else = { #minor
+        add = 20
+    }
+}
+
+rut_outbreak_chance_minor_value = {
+    value = outbreak_chance_base_low
+    if = {
+        limit = {
+            culture = {
+                NOT = { has_cultural_parameter = the_rut_enabled }
+            }
+        }
+        multiply = 0
+    }
+}
+
+rut_outbreak_chance_major_value = {
+    value = outbreak_chance_base_low
+    if = {
+        limit = {
+            culture = {
+                NOT = { has_cultural_parameter = the_rut_enabled }
+            }
+        }
+        multiply = 0
+    }
+}
+
+rut_outbreak_chance_mult_value = {
+    value = 1
+
+    #Development
+    add = {
+        value = county.development_level
+        multiply = 0.01
+    }
+
+    #Terrain
+    if = {
+        limit = {
+            OR = {
+                terrain = desert
+                terrain = desert_mountains
+                terrain = mountains
+            }
+        }
+        add = outbreak_decrease_mult_low
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = forest
+                terrain = jungle
+            }
+        }
+        add = outbreak_increase_mult_low
+    }
+
+    #Developed places
+    if = {
+        limit = {
+            has_holding = yes
+        }
+        add = outbreak_increase_mult_low
+    }
+    if = {
+        limit = {
+            has_holding_type = city_holding
+        }
+        add = outbreak_increase_mult_low
+    }
+    
+    min = 0.001
+}
+
+
+rut_outbreak_chance_apocalytic_value = {
+    value = outbreak_chance_base_very_low
+    if = {
+        limit = {
+            culture = {
+                NOT = { has_cultural_parameter = the_rut_enabled }
+            }
+        }
+        multiply = 0
+    }
+}
+
+spread_chance_rut_value = {
+    if = {
+        limit = {
+            scope:epidemic = {
+                outbreak_intensity = apocalyptic
+            }
+        }
+        add = spread_chance_base_high
+    }
+    else_if = {
+        limit = {
+            scope:epidemic = {
+                outbreak_intensity = major
+            }
+        }
+        add = spread_chance_base_medium
+    }
+    else = { #minor
+        add = spread_chance_base_low
+    }
+
+    #less patchy, add
+    if = {
+        limit = {
+            county = {
+                any_county_province = {
+                    any_province_epidemic = {
+                        this.epidemic_type = scope:epidemic.epidemic_type
+                    }
+                }
+            }
+        }
+        add = spread_increase_add_high
+    }
+    
+    #Buildings
+    add = {
+        value = num_buildings
+        multiply = spread_increase_mult_low
+    }
+
+    #Tradeports
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_01
+        }
+        add = spread_increase_add_low
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_02
+        }
+        add = spread_increase_add_low
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_03
+        }
+        add = spread_increase_add_low
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_04
+        }
+        add = spread_increase_add_medium
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_05
+        }
+        add = spread_increase_add_medium
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_06
+        }
+        add = spread_increase_add_medium
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_07
+        }
+        add = spread_increase_add_high
+    }
+    if = {
+        limit = {
+            has_building_or_higher = common_tradeport_08
+        }
+        add = spread_increase_add_high
+    }
+
+    #Markets
+    if = {
+        limit = {
+            has_building_or_higher = market_villages_01
+        }
+        add = spread_increase_add_low
+    }
+    if = {
+        limit = {
+            has_building_or_higher = market_villages_02
+        }
+        add = spread_increase_add_low
+    }
+
+    #Guild Halls
+    if = {
+        limit = {
+            has_building_or_higher = guild_halls_02
+        }
+        add = spread_increase_add_high
+    }
+    if = {
+        limit = {
+            has_building_or_higher = guild_halls_04
+        }
+        add = spread_increase_add_high
+    }
+    if = {
+        limit = {
+            has_building_or_higher = guild_halls_06
+        }
+        add = spread_increase_add_high
+    }
+    if = {
+        limit = {
+            has_building_or_higher = guild_halls_08
+        }
+        add = spread_increase_add_high
+    }
+
+
+    #Terrain
+    if = {
+        limit = {
+            terrain = farmlands
+        }
+        add = spread_increase_add_medium
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = floodplains
+                terrain = wetlands
+            }
+        }
+        add = spread_increase_add_low
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = plains
+                terrain = steppe
+            }
+        }
+        add = spread_increase_add_low
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = hills
+                terrain = drylands
+                terrain = oasis
+                terrain = forest
+            }
+        }
+        add = spread_decrease_add_low
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = jungle
+                terrain = taiga
+            }
+        }
+        add = spread_decrease_add_medium
+    }
+    else_if = {
+        limit = {
+            OR = {
+                terrain = desert
+                terrain = desert_mountains
+                terrain = mountains
+            }
+        }
+        add = spread_decrease_add_medium
+    }
+    #Island?
+    if = {
+        limit = {
+            geographical_region = divergence_island_regions
+        }
+        add = spread_decrease_add_medium
+    }
+    #Cultural Traditions
+    if = {
+        limit = {
+            county.culture = {
+                OR = {
+                    has_cultural_tradition = tradition_city_keepers
+                    has_cultural_tradition = tradition_maritime_mercantilism
+                }
+            }
+        }
+        add = spread_increase_add_medium
+    }
+    else_if = {
+        limit = {
+            county.culture = {
+                OR = {
+                    has_cultural_tradition = tradition_esteemed_hospitality
+                    has_cultural_tradition = tradition_horse_lords
+                    has_cultural_tradition = tradition_caravaneers
+                    has_cultural_tradition = tradition_seafaring
+                }
+            }
+        }
+        add = spread_increase_add_low
+    }
+    else_if = {
+        limit = {
+            county.culture = {
+                OR = {
+                    has_cultural_tradition = tradition_practiced_pirates
+                    has_cultural_tradition = tradition_parochialism
+                }
+            }
+        }
+        add = spread_increase_add_low
+    }
+    if = {
+        limit = {
+            county.culture = {
+                has_cultural_tradition = tradition_hidden_cities
+            }
+        }
+        add = spread_decrease_add_high
+    }
+    else_if = {
+        limit = {
+            county.culture = {
+                has_cultural_tradition = tradition_isolationist
+            }
+        }
+        add = spread_decrease_add_high
+    }
+    
+    #Reinfection shouldn't happen often
+    if = {
+        limit = {
+            scope:epidemic = {
+                is_target_in_variable_list = {
+                    name = epidemic_cooldown
+                }
+            }
+        }
+        add = spread_decrease_add_high
+    }
+}
+
+spread_chance_rut_mult_value = {
+    value = 1
+    min = 0.0
+    
+    # Must be rut-capable
+    if = {
+        limit = {
+            county.culture = {
+                NOT = { has_cultural_parameter = the_rut_enabled }
+            }
+        }
+        add = -100
+    }
+
+    #Coastal Statistics Squash
+    if = {
+        limit = {
+            OR = {
+                is_coastal = yes
+                is_riverside_province = yes
+            }
+            NOR = {
+                has_building_or_higher = common_tradeport_04
+                num_buildings > 4
+            }
+        }
+        add = spread_decrease_mult_medium
+    }
+
+    #less patchy, mult
+    if = {
+        limit = {
+            county = {
+                any_county_province = {
+                    any_province_epidemic = {
+                        this.epidemic_type = scope:epidemic.epidemic_type
+                    }
+                }
+            }
+        }
+        add = spread_increase_mult_very_high
+    }
+
+    #Development
+    add = {
+        value = county.development_level
+        multiply = 0.025
+    }
+
+    #Intensity mult
+    if = {
+        limit = { 
+            scope:epidemic = {
+                outbreak_intensity = apocalyptic
+            }
+        }
+        add = spread_increase_mult_high
+    }
+    else_if = {
+        limit = { 
+            scope:epidemic = {
+                outbreak_intensity = major
+            }
+        }
+        add = spread_increase_mult_medium
+    }
+
+    #Recent Epidemics
+    if = {
+        limit = {
+            is_target_in_variable_list = {
+                name = epidemic_cooldown #Average lifespan
+                target = scope:epidemic.epidemic_type
+            }
+        }
+    }
+
+    #Developed places
+    if = {
+        limit = {
+            has_holding = yes
+        }
+        add = spread_increase_mult_low
+    }
+    if = {
+        limit = {
+            OR = {
+                has_holding_type = castle_holding
+                has_holding_type = church_holding
+            }
+        }
+        add = spread_increase_mult_low
+    }
+    if = {
+        limit = {
+            has_holding_type = city_holding
+        }
+        add = spread_increase_mult_medium
+    }
 }
