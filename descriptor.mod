@@ -7,5 +7,5 @@ tags={
 	"Culture"
 	"Religion"
 }
-name="Git Elf Destiny"
+name="Elf Destiny"
 supported_version="1.12.2.1"
