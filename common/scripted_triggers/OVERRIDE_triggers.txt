@@ -38,3 +38,19 @@ relation_with_character_is_incestuous_in_faith_trigger = {
 		#doctrine_consanguinity_unrestricted; all forms of incest is acceptable
 	}	
 }
+
+
+# Don't consider the Rut to be an epidemic, preventing things like isolation decisions
+realm_has_any_epidemic = {
+    any_sub_realm_county = {
+       	count >= $SIZE$
+       	any_county_province = {
+            any_province_epidemic = {
+            	NOT = {
+            		epidemic_type = epidemic_type:the_rut
+            	}
+               	outbreak_intensity >= $INTENSITY$
+            }
+       	}
+    }
+}
