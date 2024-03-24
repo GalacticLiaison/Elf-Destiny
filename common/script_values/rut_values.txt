@@ -24,7 +24,7 @@
 }
 
 rut_outbreak_chance_minor_value = {
-    value = outbreak_chance_base_low
+    value = 0.3
     if = {
         limit = {
             culture = {
@@ -36,7 +36,19 @@ rut_outbreak_chance_minor_value = {
 }
 
 rut_outbreak_chance_major_value = {
-    value = outbreak_chance_base_low
+    value = 0.2
+    if = {
+        limit = {
+            culture = {
+                NOT = { has_cultural_parameter = the_rut_enabled }
+            }
+        }
+        multiply = 0
+    }
+}
+
+rut_outbreak_chance_apocalytic_value = {
+    value = 0.1
     if = {
         limit = {
             culture = {
@@ -54,6 +66,19 @@ rut_outbreak_chance_mult_value = {
     add = {
         value = county.development_level
         multiply = 0.01
+    }
+
+    if = {
+        NOT = {
+            limit = {
+                scope:epidemic = {
+                    is_target_in_variable_list = {
+                        name = epidemic_cooldown
+                    }
+                }
+            }
+        }
+        add = outbreak_decrease_mult_unlikely
     }
 
     #Terrain
@@ -92,19 +117,6 @@ rut_outbreak_chance_mult_value = {
     }
     
     min = 0.001
-}
-
-
-rut_outbreak_chance_apocalytic_value = {
-    value = outbreak_chance_base_very_low
-    if = {
-        limit = {
-            culture = {
-                NOT = { has_cultural_parameter = the_rut_enabled }
-            }
-        }
-        multiply = 0
-    }
 }
 
 spread_chance_rut_value = {
@@ -363,7 +375,7 @@ spread_chance_rut_value = {
                 }
             }
         }
-        add = spread_decrease_add_high
+        add = spread_decrease_add_very_high
     }
 }
 
@@ -438,10 +450,11 @@ spread_chance_rut_mult_value = {
     if = {
         limit = {
             is_target_in_variable_list = {
-                name = epidemic_cooldown #Average lifespan
+                name = epidemic_cooldown
                 target = scope:epidemic.epidemic_type
             }
         }
+        add = spread_decrease_mult_unlikely
     }
 
     #Developed places
