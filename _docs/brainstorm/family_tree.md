@@ -52,7 +52,7 @@ Victaris + *Valindra =>
 ## Serelion
 
 Hallendar
-Saeval
+Saevel
 (third dead brother who is father of Meldona/Selene) (just copy meldrid again)
 
 Meldona =>
@@ -89,9 +89,6 @@ Ganduin + Pamora =>
 
 # Thundarael
 
-Elysia Amaranthel (Aunt)
-[F] Elf - https://discord.com/channels/1179053540161880074/1216813178420199504 (daughter)
-
 *Celestia Thundarael (sister of heldrin)
 Heldrin => 
     Fera
@@ -100,8 +97,14 @@ seperate line
 *Nic'theras of House Skyreaver
 Arandur Skyreaver (younger brother)
 
-seperate line
-Naelion and Nivara Moonwhisper
+Elysia Amaranthel (Aunt)
+
+
+<!-- [F] Elf - https://discord.com/channels/1179053540161880074/1216813178420199504 (daughter)
+    - too many other mods -->
+
+<!-- seperate line
+Naelion and Nivara Moonwhisper -->
 
 
 ## MISC
