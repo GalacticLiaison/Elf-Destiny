@@ -19,15 +19,104 @@ divine_spark_rituals.001 = { # Ascension Ritual
 
 	immediate = {
 		play_music_cue = "mx_cue_positive_effect"
-		custom_tooltip = {
-			text = elf_trait_evolved
-			elf_trait_ascension = yes
-		}
 	}
 
 	option = { # ascend
 		name = divine_spark_rituals.001.ascend
+
+		trigger = {
+			piety >= ritual_solo_cost
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+
+		add_piety = {
+			value = ritual_solo_cost_neg
+		}
+		elf_trait_ascension = yes
 	}
+
+	option = { # ascend with spouse
+		name = divine_spark_rituals.001.ascend_spouse
+		trait = none
+
+		trigger = {
+			NOT = {
+				has_game_rule = solo_only
+			}
+			piety >= ritual_spouse_cost
+			is_married = yes
+			custom_tooltip = {
+				text = spouse_is_elf
+				primary_spouse = {
+					is_below_top_elf_type = yes
+				}
+			}
+		}
+
+		show_as_unavailable = {
+			NOT = {
+				has_game_rule = solo_only
+			}
+		}
+
+		add_piety = {
+			value = ritual_spouse_cost_neg
+		}
+		elf_trait_ascension = yes
+		primary_spouse = {
+			if = {
+				limit = {
+					is_below_top_elf_type = yes
+				}
+				elf_trait_ascension = yes
+			}
+		}
+	}
+
+	option = { # ascend with consorts
+		name = divine_spark_rituals.001.ascend_consorts
+		trait = none
+
+		trigger = {
+			has_game_rule = spouse_and_consort
+			piety >= ritual_consort_cost
+			custom_tooltip = {
+				text = no_concort
+				OR = {
+					number_of_concubines > 0
+					is_married = yes
+				}
+			}
+			custom_tooltip = {
+				text = consort_is_elf
+				any_consort = {
+					is_below_top_elf_type = yes
+				}
+			}
+		}
+
+		show_as_unavailable = {
+			has_game_rule = spouse_and_consort
+		}
+
+		add_piety = {
+			value = ritual_consort_cost_neg
+		}
+		elf_trait_ascension = yes
+		every_consort = {
+			limit = {
+				is_below_top_elf_type = yes
+			}
+			elf_trait_ascension = yes
+		}
+	}
+
+    option = { # do not ascend
+        name = divine_spark_rituals.001.cancel
+    }
 }
 
 divine_spark_rituals.002 = { # Blessings Ritual
