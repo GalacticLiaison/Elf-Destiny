@@ -101,6 +101,16 @@ ritual_spouse_cost = {
             limit = {
                 is_below_top_elf_type = yes
 
+				trigger_if = {
+					limit = {
+						is_at_first_elf_threshold = yes
+					}
+
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:flag_grand_portal_restored
+					}
+				}
             }
             add = ritual_solo_cost
         }
@@ -139,6 +149,17 @@ ritual_consort_cost = {
     every_consort = {
         limit = {
             is_below_top_elf_type = yes
+
+            trigger_if = {
+                limit = {
+                    is_at_first_elf_threshold = yes
+                }
+
+                is_target_in_global_variable_list = {
+                    name = unavailable_unique_decisions
+                    target = flag:flag_grand_portal_restored
+                }
+            }
         }
         add = ritual_solo_cost
     }
