@@ -28,18 +28,23 @@ on_birth_elf_trait = {
 		# Cleans up any natural genetic traits
 		remove_all_elf_traits_effect = yes
 
+		set_variable = { 
+			name = elf_trait_score
+			value = average_elf_trait_score
+		}
+
 		# average_elf_trait_score = 7
 		if = { # Both Parents Human
 			limit = {
-				average_elf_trait_score = 0
+				var:elf_trait_score = 0
 			}
 			# debug_log = "elf trait 0"
 			# Do nothing (Human)
 		}
 		else_if = { # Below Elf Blood
 			limit = {
-				average_elf_trait_score > 0
-				average_elf_trait_score < 1
+				var:elf_trait_score > 0
+				var:elf_trait_score < 1
 			}
 			# debug_log = "elf trait 1"
 			random_list = {
@@ -53,9 +58,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Elf Blood
+		else_if = { # Both Parents Elf Blood
 			limit = {
-				average_elf_trait_score = 1
+				var:elf_trait_score = 1
 			}
 			# debug_log = "elf trait 2"
 			random_list = {
@@ -70,10 +75,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Elf Blood and Elf
+		else_if = { # Between Elf Blood and Elf
 			limit = {
-				average_elf_trait_score > 1
-				average_elf_trait_score < 2
+				var:elf_trait_score > 1
+				var:elf_trait_score < 2
 			}
 			# debug_log = "elf trait 3"
 			random_list = {
@@ -87,9 +92,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Elf
+		else_if = { # Both Parents Elf
 			limit = {
-				average_elf_trait_score = 2
+				var:elf_trait_score = 2
 			}
 			# debug_log = "elf trait 4"
 			random_list = {
@@ -104,10 +109,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Elf and High Elf
+		else_if = { # Between Elf and High Elf
 			limit = {
-				average_elf_trait_score > 2
-				average_elf_trait_score < 3
+				var:elf_trait_score > 2
+				var:elf_trait_score < 3
 			}
 			# debug_log = "elf trait 5"
 			random_list = {
@@ -121,9 +126,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents High Elf
+		else_if = { # Both Parents High Elf
 			limit = {
-				average_elf_trait_score = 3
+				var:elf_trait_score = 3
 			}
 			# debug_log = "elf trait 6"
 			random_list = {
@@ -138,10 +143,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between High Elf and True Elf
+		else_if = { # Between High Elf and True Elf
 			limit = {
-				average_elf_trait_score > 3
-				average_elf_trait_score < 4
+				var:elf_trait_score > 3
+				var:elf_trait_score < 4
 			}
 			debug_log = "elf trait 7"
 			random_list = {
@@ -155,9 +160,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents True Elf
+		else_if = { # Both Parents True Elf
 			limit = {
-				average_elf_trait_score = 4
+				var:elf_trait_score = 4
 			}
 			debug_log = "elf trait 8"
 			random_list = {
@@ -172,10 +177,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between True Elf and Fae Elf
+		else_if = { # Between True Elf and Fae Elf
 			limit = {
-				average_elf_trait_score > 4
-				average_elf_trait_score < 5
+				var:elf_trait_score > 4
+				var:elf_trait_score < 5
 			}
 			debug_log = "elf trait 9"
 			random_list = {
@@ -189,9 +194,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Fae Elf
+		else_if = { # Both Parents Fae Elf
 			limit = {
-				average_elf_trait_score = 5
+				var:elf_trait_score = 5
 			}
 			debug_log = "elf trait 10"
 			random_list = {
@@ -206,10 +211,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Fae Elf and Fae Radiant Elf
+		else_if = { # Between Fae Elf and Fae Radiant Elf
 			limit = {
-				average_elf_trait_score > 5
-				average_elf_trait_score < 6
+				var:elf_trait_score > 5
+				var:elf_trait_score < 6
 			}
 			debug_log = "elf trait 11"
 			random_list = {
@@ -223,9 +228,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Fae Radiant Elf
+		else_if = { # Both Parents Fae Radiant Elf
 			limit = {
-				average_elf_trait_score = 6
+				var:elf_trait_score = 6
 			}
 			debug_log = "elf trait 12"
 			random_list = {
@@ -240,10 +245,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Fae Radiant and Celestial Elf
+		else_if = { # Between Fae Radiant and Celestial Elf
 			limit = {
-				average_elf_trait_score > 6
-				average_elf_trait_score < 7
+				var:elf_trait_score > 6
+				var:elf_trait_score < 7
 			}
 			debug_log = "elf trait 13"
 			random_list = {
@@ -257,9 +262,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Celestial Elf
+		else_if = { # Both Parents Celestial Elf
 			limit = {
-				average_elf_trait_score = 7
+				var:elf_trait_score = 7
 			}
 			debug_log = "elf trait 14"
 			random_list = {
@@ -274,10 +279,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Celestial Elf and Seraphic Celestial Elf
+		else_if = { # Between Celestial Elf and Seraphic Celestial Elf
 			limit = {
-				average_elf_trait_score > 7
-				average_elf_trait_score < 8
+				var:elf_trait_score > 7
+				var:elf_trait_score < 8
 			}
 			debug_log = "elf trait 15"
 			random_list = {
@@ -291,9 +296,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Seraphic Celestial Elf
+		else_if = { # Both Parents Seraphic Celestial Elf
 			limit = {
-				average_elf_trait_score = 8
+				var:elf_trait_score = 8
 			}
 			debug_log = "elf trait 16"
 			random_list = {
@@ -308,10 +313,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Seraphic Celestial Elf and Eldar Elf
+		else_if = { # Between Seraphic Celestial Elf and Eldar Elf
 			limit = {
-				average_elf_trait_score > 8
-				average_elf_trait_score < 9
+				var:elf_trait_score > 8
+				var:elf_trait_score < 9
 			}
 			debug_log = "elf trait 17"
 			random_list = {
@@ -323,9 +328,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Eldar
+		else_if = { # Both Parents Eldar
 			limit = {
-				average_elf_trait_score = 9
+				var:elf_trait_score = 9
 			}
 			debug_log = "elf trait 18"
 
@@ -341,10 +346,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Eldar and Maiar
+		else_if = { # Between Eldar and Maiar
 			limit = {
-				average_elf_trait_score > 9
-				average_elf_trait_score < 10
+				var:elf_trait_score > 9
+				var:elf_trait_score < 10
 			}
 			debug_log = "elf trait 19"
 			random_list = {
@@ -356,9 +361,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Maiar
+		else_if = { # Both Parents Maiar
 			limit = {
-				average_elf_trait_score = 10
+				var:elf_trait_score = 10
 			}
 			debug_log = "elf trait 20"
 
@@ -374,10 +379,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Maiar and Valar
+		else_if = { # Between Maiar and Valar
 			limit = {
-				average_elf_trait_score > 10
-				average_elf_trait_score < 11
+				var:elf_trait_score > 10
+				var:elf_trait_score < 11
 			}
 			debug_log = "elf trait 21"
 			random_list = {
@@ -389,9 +394,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Valar
+		else_if = { # Both Parents Valar
 			limit = {
-				average_elf_trait_score = 11
+				var:elf_trait_score = 11
 			}
 			debug_log = "elf trait 22"
 
@@ -407,10 +412,10 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Between Valar and Aratar
+		else_if = { # Between Valar and Aratar
 			limit = {
-				average_elf_trait_score > 10
-				average_elf_trait_score < 11
+				var:elf_trait_score > 10
+				var:elf_trait_score < 11
 			}
 			debug_log = "elf trait 21"
 			random_list = {
@@ -422,9 +427,9 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Aratar
+		else_if = { # Both Parents Aratar
 			limit = {
-				average_elf_trait_score = 12
+				var:elf_trait_score = 12
 			}
 			debug_log = "elf trait 22"
 
