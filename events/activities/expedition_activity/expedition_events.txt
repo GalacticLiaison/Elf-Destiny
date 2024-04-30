@@ -87,25 +87,7 @@ expedition.003 = {
 
 # Expedition Finds Minor Artifact
 expedition.004 = {
-	type = activity_event
-
-	title = expedition.004.title
-	desc = expedition.004.desc
-
-	theme = hunt_activity
-	override_background = { reference = corridor_night }
-
-	left_portrait = {
-		character = scope:host
-		animation = thinking
-	}
-
-	artifact = { # To display the artifact in the event-window
-		target = scope:newly_created_elf_artifact
-		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
-		trigger = { exists = scope:newly_created_elf_artifact }
-	}
-
+	hidden = yes
 	trigger = {
 		NOT = {
 			scope:activity.var:status = flag:artifact_discovery_made
@@ -113,26 +95,27 @@ expedition.004 = {
 	}
 
 	immediate = {
-		scope:host = {
-			create_elf_expedition_artifact_effect = {
-				OWNER = scope:host
+		random_list = {
+			70 = { # equipment
+				trigger_event = expedition.0042
+			}
+			0 = { # crystal
+				modifier = { # Does the player already have a crystal?
+					add = 30
+					any_artifact = {
+						NOT = {
+							has_variable = is_spark_crystal
+						}
+					}
+				}
+			
+				trigger_event = expedition.0043
 			}
 		}
-
-		scope:activity = {
-			set_variable = {
-				name = status
-				value = flag:artifact_discovery_made
-			}
-		}
-	}
-
-	option = {
-		name = expedition.004.ok
 	}
 }
 
-expedition.0041 = {
+expedition.0041 = { # Find Gold
 	type = activity_event
 
 	title = expedition.0041.title
@@ -166,6 +149,102 @@ expedition.0041 = {
 		custom_tooltip = expedition.0041.minor_gold_discovery
 	}
 }
+
+expedition.0042 = { # Find Common Equipment
+	type = activity_event
+
+	title = expedition.0042.title
+	desc = expedition.0042.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:newly_created_elf_artifact
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:newly_created_elf_artifact }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			random_list = {
+				create_elf_expedition_artifact_effect = {
+					OWNER = scope:host
+				}
+			}
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0042.ok
+	}
+}
+
+expedition.0043 = { # Find Spark Crystal
+	type = activity_event
+
+	title = expedition.0043.title
+	desc = expedition.0043.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:newly_created_elf_artifact
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:newly_created_elf_artifact }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			create_spark_crystal_effect = {
+				OWNER = scope:host
+			}
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0043.ok
+	}
+}
+
+
 
 # Expedition Faces a Trial - Controller
 expedition.0051 = {

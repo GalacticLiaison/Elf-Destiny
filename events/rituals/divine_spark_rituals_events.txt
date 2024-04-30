@@ -3,8 +3,18 @@
 divine_spark_rituals.001 = { # Ascension Ritual
 	type = character_event
 	title = divine_spark_rituals.001.title
-	desc = divine_spark_rituals.001.desc
-
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:group_ritual = yes
+				}
+				desc = divine_spark_rituals.001.desc.group
+			}
+			desc = divine_spark_rituals.001.desc.solo
+		}
+	}
+	
 	trigger = {
 		# has_global_variable = 01_sigil_of_the_realm_lord_found
 		is_any_elf_type = yes
@@ -14,21 +24,296 @@ divine_spark_rituals.001 = { # Ascension Ritual
 
 	left_portrait = {
 		character = root
-		animation = disbelief
+		animation = personality_zealous
+	}
+
+	right_portrait = {
+		character = scope:first_portrait
+		animation = personality_zealous
+	}
+
+	lower_left_portrait = {
+		character = scope:second_portrait
+		animation = personality_zealous
+	}
+
+	lower_center_portrait = {
+		character = scope:third_portrait
+		animation = personality_zealous
+	}
+
+	lower_right_portrait = {
+		character = scope:fourth_portait
+		animation = personality_zealous
 	}
 
 	immediate = {
 		play_music_cue = "mx_cue_positive_effect"
-		custom_tooltip = {
-			text = elf_trait_evolved
-			elf_trait_ascension = yes
+
+		root = {
+			add_to_list = ascenders
+		}
+
+		if = {
+			limit = {
+				scope:group_ritual = yes
+			}
+
+			every_consort = {
+				limit = {
+					is_any_elf_type = yes
+				}
+				add_to_list = ascenders
+			}
+			if = {
+				limit = {
+					primary_heir = {
+						is_any_elf_type = yes
+					}
+				}
+				primary_heir = {
+					add_to_list = ascenders
+				}
+			}
+	
+			### DEV THOUGHTS
+			# - Was originally going to make it so you could also ascend ALL your children...
+			# - But that seems way too OP
+			# - For now will just do heir and spouses with maybe ways to do entire family as a huge reward down the line
+	
+			# Right Portrait
+			if = {
+				limit = {
+					exists = primary_spouse
+					is_any_elf_type = yes
+				}
+				primary_spouse = {
+					save_scope_as = first_portrait
+				}
+			}
+			else_if = {
+				limit = {
+					any_child = {
+						is_alive = yes
+						is_child_of = root
+						is_primary_heir_of = root
+						is_any_elf_type = yes
+					}
+				}
+	
+				random_child = {
+					limit = {
+						is_child_of = root
+						is_primary_heir_of = root
+						is_any_elf_type = yes
+					}
+	
+					save_scope_as = first_portrait
+				}
+			}
+	
+			# Lower Left Portrait
+			if = {
+				limit = {
+					any_child = {
+						is_alive = yes
+						is_child_of = root
+						is_primary_heir_of = root
+						is_any_elf_type = yes
+						NOT = {
+							this = scope:first_portrait
+						}
+					}
+				}
+	
+				random_child = {
+					limit = {
+						is_child_of = root
+						is_primary_heir_of = root
+						is_any_elf_type = yes
+					}
+	
+					save_scope_as = second_portrait
+				}
+			}
+			else_if = {
+				limit = {
+					any_consort = {
+						NOT = {
+							this = scope:first_portrait
+						}
+						is_any_elf_type = yes
+					}
+				}
+	
+				random_consort = {
+					limit = {
+						NOT = {
+							this = scope:first_portrait
+						}
+						is_any_elf_type = yes
+					}
+	
+					save_scope_as = second_portrait
+				}
+	
+			}
+	
+			# Lower Center Portrait
+			if = {
+				limit = {
+					any_consort = {
+						NOR = {
+							this = scope:first_portrait
+							this = scope:second_portrait
+						}
+						is_any_elf_type = yes
+					}
+				}
+	
+				random_consort = {
+					limit = {
+						NOR = {
+							this = scope:first_portrait
+							this = scope:second_portrait
+						}
+						is_any_elf_type = yes
+					}
+	
+					save_scope_as = third_portrait
+				}
+	
+			}
+	
+			# Lower Right Portrait
+			if = {
+				limit = {
+					any_consort = {
+						NOR = {
+							this = scope:first_portrait
+							this = scope:second_portrait
+							this = scope:third_portrait
+						}
+						is_any_elf_type = yes
+					}
+				}
+	
+				random_consort = {
+					limit = {
+						NOR = {
+							this = scope:first_portrait
+							this = scope:second_portrait
+							this = scope:third_portrait
+						}
+						is_any_elf_type = yes
+					}
+	
+					save_scope_as = fourth_portait
+				}
+	
+			}
+	
+		}
+
+		every_in_list = {
+			list = ascenders
+			custom_tooltip = {
+				text = elf_trait_evolved
+				elf_trait_ascension = yes
+			}
 		}
 	}
 
 	option = { # ascend
-		name = divine_spark_rituals.001.ascend
+		name = {
+			trigger = { scope:group_ritual = yes }
+			text = divine_spark_rituals.001.ascend.group
+		}
+		name = {
+			trigger = { scope:group_ritual = no }
+			text = divine_spark_rituals.001.ascend.solo
+		}
 	}
 }
+
+divine_spark_rituals.0011 = { # Ascension Ritual
+	type = character_event
+	title = divine_spark_rituals.0011.title
+	desc = divine_spark_rituals.0011.desc
+
+	trigger = {
+		# has_global_variable = 01_sigil_of_the_realm_lord_found
+		is_any_elf_type = yes
+	}
+	
+	theme = learning
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	artifact = {
+		target = scope:spark_crystal
+		position = lower_right_portrait
+	}
+
+	immediate = {
+		random_artifact = {
+			limit = {
+				artifact_owner = root
+				has_variable = is_spark_crystal
+			}
+			save_scope_as = spark_crystal
+		}
+
+		# Figure out who else is ascending
+		every_consort = {
+			limit = {
+				is_any_elf_type = yes
+			}
+			add_to_list = other_ascenders
+		}
+		if = {
+			limit = {
+				primary_heir = {
+					is_any_elf_type = yes
+				}
+			}
+			primary_heir = {
+				add_to_list = other_ascenders
+			}
+		}
+	}
+
+	option = { # use crystal - whole family
+		name = divine_spark_rituals.0011.a
+		save_scope_value_as = {
+			name = group_ritual
+			value = yes
+		}
+		destroy_artifact = scope:spark_crystal
+		
+		add_piety = total_extra_ritual_piety_cost
+
+		trigger_event = divine_spark_rituals.001
+	}
+
+	option = { # just me
+		name = divine_spark_rituals.0011.b
+		save_scope_value_as = {
+			name = group_ritual
+			value = no
+		}
+		trigger_event = divine_spark_rituals.001
+	}
+
+	option = { # I need to think about this more
+		name = divine_spark_rituals.0011.c
+		add_piety = ritual_solo_cost
+	}
+}
+
 
 divine_spark_rituals.002 = { # Blessings Ritual
 	type = character_event
