@@ -109,6 +109,38 @@ create_portal_schematics_effect = {
 	}
 }
 
+create_spark_crystal_effect = {
+	$OWNER$ = { save_scope_as = owner }
+
+	create_artifact = {	
+		name = spark_crystal
+		description = spark_crystal_desc
+		template = portal_unequippable_component_template
+		type = miscellaneous
+		visuals = spark_crystal
+		modifier = spark_crystal_modifier
+		rarity = famed
+		decaying = no
+		history = {
+			type = history_portal_components
+		}
+		save_scope_as = newly_created_elf_artifact
+	}
+	scope:newly_created_elf_artifact = {
+		set_variable = is_spark_crystal
+	}
+
+	if = {
+		limit = { exists = scope:newly_created_elf_artifact }
+		scope:activity = {
+			add_to_variable_list = {
+				name = artifact_rewards
+				target = scope:newly_created_elf_artifact
+			}
+		}
+	}
+}
+
 
 # From Old Readme:
 # ### Items
