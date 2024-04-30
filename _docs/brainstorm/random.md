@@ -244,3 +244,11 @@ thors hammers need "worthiness" and prowess to equip it
 for "choose guild" decision in act 2, maybe it works like
 - to unlock the guilds features you need to construct a faction HQ Duchy building
 - you may build one where the portal HQ is and that one faction gives you a bonus/discount
+
+The former elf emperor is going to need backstory eventually
+- hist staff has powerful emethyst
+- all the evil he did was for a reason, to prevent some great disaster
+
+MAgical Contracts: With COnsequences
+
+See if we can tweak the UI to have single trait icon that rotates bloodlines
