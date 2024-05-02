@@ -252,3 +252,6 @@ The former elf emperor is going to need backstory eventually
 MAgical Contracts: With COnsequences
 
 See if we can tweak the UI to have single trait icon that rotates bloodlines
+
+Special "Aeluran Vassal" type. Maybe gives extra tax/piety/control but theres some kind of drawback, like they constantly challenge the player somehow. 
+   - create new faction type!!!
