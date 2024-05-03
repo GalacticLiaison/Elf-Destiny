@@ -14,6 +14,15 @@
 		if = {
 			limit = {
 				has_trait = elf_blood_mortal
+				age < life_expectancy_elf
+			}
+			remove_trait = elf_blood_mortal
+			add_trait = elf
+			set_appropriate_elf_immortality_age = yes
+		}
+		else_if = {
+			limit = {
+				has_trait = elf_blood_mortal
 			}
 			remove_trait = elf_blood_mortal
 			add_trait = elf_mortal
@@ -31,7 +40,17 @@
 			add_trait = high_elf
 			set_appropriate_elf_immortality_age = yes
 		}
+
 		if = {
+			limit = {
+				has_trait = elf_mortal
+				age < life_expectancy_high_elf
+			}
+			remove_trait = elf_mortal
+			add_trait = high_elf
+			set_appropriate_elf_immortality_age = yes
+		}
+		else_if = {
 			limit = {
 				has_trait = elf_mortal
 			}
@@ -54,6 +73,15 @@
 		if = {
 			limit = {
 				has_trait = high_elf_mortal
+				age < life_expectancy_true_elf
+			}
+			remove_trait = high_elf_mortal
+			add_trait = true_elf
+			set_appropriate_elf_immortality_age = yes
+		}
+		else_if = {
+			limit = {
+				has_trait = high_elf_mortal
 			}
 			remove_trait = high_elf_mortal
 			add_trait = true_elf_mortal
@@ -71,13 +99,24 @@
 			add_trait = fae
 			set_appropriate_elf_immortality_age = yes
 		}
+
 		if = {
+			limit = {
+				has_trait = true_elf_mortal
+				age < life_expectancy_fae
+			}
+			remove_trait = true_elf_mortal
+			add_trait = fae
+			set_appropriate_elf_immortality_age = yes
+		}
+		else_if = {
 			limit = {
 				has_trait = true_elf_mortal
 			}
 			remove_trait = true_elf_mortal
 			add_trait = fae_mortal
-		}	
+		}
+
 	}
 	else_if = { # Fae
 		limit = {
@@ -91,13 +130,23 @@
 			add_trait = fae_radiant
 			set_appropriate_elf_immortality_age = yes
 		}
+
 		if = {
+			limit = {
+				has_trait = fae_mortal
+				age < life_expectancy_fae_radiant
+			}
+			remove_trait = fae_mortal
+			add_trait = fae_radiant
+			set_appropriate_elf_immortality_age = yes
+		}
+		else_if = {
 			limit = {
 				has_trait = fae_mortal
 			}
 			remove_trait = fae_mortal
 			add_trait = fae_radiant_mortal
-		}	
+		}
 	}
 	else_if = { # Fae Radiant
 		limit = {
@@ -110,14 +159,15 @@
 			remove_trait = fae_radiant
 			add_trait = celestial
 			set_appropriate_elf_immortality_age = yes
-		}
+		}		
 		if = {
 			limit = {
 				has_trait = fae_radiant_mortal
 			}
 			remove_trait = fae_radiant_mortal
-			add_trait = celestial_mortal
-		}	
+			add_trait = celestial
+			set_appropriate_elf_immortality_age = yes
+		}
 	}
 	else_if = { # Celestial
 		limit = {
