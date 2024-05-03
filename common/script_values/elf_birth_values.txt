@@ -1,4 +1,4 @@
-﻿average_elf_trait_score = {
+﻿total_parent_elf_value = {
 	value = 0
 	add = {
 		if = {
@@ -192,6 +192,16 @@
 				}
 			}
 			add = 12
+		}
+
+
+		if = { # Fallback incase father was never assigned, just double mother 
+			limit = {
+				NOT = {
+					exists = scope:real_father
+				}
+			}
+			multiply = 2
 		}
 	}
 }

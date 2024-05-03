@@ -10,3 +10,6 @@
         - 100 is a bit unrealistic for an average lifespan so now its reduced to 65 + trait bonus
         - Note: Even when Elves have become mortal again at the end of their life, they often still live a good long while because they stacked so many health bonuses throughout their life! We'll keep an eye on things and see how this change feels!
     - Fixed an issue where Elves that had reached end of life and became mortal again would not return to immortality when Ascending to a higher elf level and still being an age in that new elf level trait's window of immortality.
+- Fixed bug with Elf Trait Inheritance
+    - using an additive total instead of an average when determining "Elf Score" to avoid division errors
+    - also added a fallback to just double mothers elf score if no real father is found
