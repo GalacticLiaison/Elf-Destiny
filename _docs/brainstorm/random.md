@@ -255,3 +255,7 @@ See if we can tweak the UI to have single trait icon that rotates bloodlines
 
 Special "Aeluran Vassal" type. Maybe gives extra tax/piety/control but theres some kind of drawback, like they constantly challenge the player somehow. 
    - create new faction type!!!
+
+mythic artifact, hammer that gives insane building speed bonus 
+
+myhtril coat

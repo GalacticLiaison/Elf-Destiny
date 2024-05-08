@@ -85,7 +85,7 @@ expedition.003 = {
 	}
 }
 
-# Expedition Finds Minor Artifact
+# Expedition Finds Artifact
 expedition.004 = {
 	hidden = yes
 	trigger = {
@@ -102,14 +102,26 @@ expedition.004 = {
 			0 = { # crystal
 				modifier = { # Does the player already have a crystal?
 					add = 30
-					any_artifact = {
+					scope:host = {
 						NOT = {
-							has_variable = is_spark_crystal
+							any_artifact = {
+								has_variable = is_spark_crystal
+							}
 						}
 					}
 				}
 			
 				trigger_event = expedition.0043
+			}
+			0 = { # lembas satchel
+				modifier = { # Does the player already have a crystal?
+					add = 3
+					NOT = {
+						has_global_variable = lembas_satchel_discovered
+					}
+				}
+			
+				trigger_event = expedition.0044
 			}
 		}
 	}
@@ -154,7 +166,47 @@ expedition.0042 = { # Find Common Equipment
 	type = activity_event
 
 	title = expedition.0042.title
-	desc = expedition.0042.desc
+	desc = {
+		desc = expedition.0042.desc
+		# +++ / triple plus good
+		triggered_desc = {
+			trigger = {
+				OR = {
+					scope:artifact_type = flag:axe
+					scope:artifact_type = flag:hammer
+					scope:artifact_type = flag:sword
+				}
+			}
+			desc = expedition.0042.desc.weapon
+		}
+		triggered_desc = {
+			trigger = {
+				OR = {
+					scope:artifact_type = flag:armor_plate
+					scope:artifact_type = flag:armor_scale
+					scope:artifact_type = flag:armor_lamellar
+					scope:artifact_type = flag:armor_laminar
+					scope:artifact_type = flag:armor_brigandine
+					scope:artifact_type = flag:armor_mail
+				}
+			}
+			desc = expedition.0042.desc.armor
+		}
+		triggered_desc = {
+			trigger = {
+				OR = {
+					scope:artifact_type = flag:brooch
+				}
+			}
+			desc = expedition.0042.desc.jewelry
+		}
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:boots
+			}
+			desc = expedition.0042.desc.boots
+		}
+	}
 
 	theme = hunt_activity
 	override_background = { reference = corridor_night }
@@ -175,13 +227,11 @@ expedition.0042 = { # Find Common Equipment
 			scope:activity.var:status = flag:artifact_discovery_made
 		}
 	}
-
+ 
 	immediate = {
 		scope:host = {
-			random_list = {
-				create_elf_expedition_artifact_effect = {
-					OWNER = scope:host
-				}
+			create_elf_expedition_artifact_effect = {
+				OWNER = scope:host
 			}
 		}
 
@@ -244,6 +294,55 @@ expedition.0043 = { # Find Spark Crystal
 	}
 }
 
+expedition.0044 = { # Find Lembas Satchel
+	type = activity_event
+
+	title = expedition.0044.title
+	desc = expedition.0044.desc
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = happiness
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:lembas_satchel
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:lembas_satchel }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+			has_global_variable = lembas_satchel_discovered
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			create_lembas_satchel_effect = { OWNER = root }
+		}
+
+		set_global_variable = {
+			name = lembas_satchel_discovered
+			value = yes
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0044.ok
+	}
+}
 
 
 # Expedition Faces a Trial - Controller
@@ -2031,7 +2130,6 @@ expedition.005123 = { # Trial Of Cunning AI Victory
 	}
 }
 
-# # Remove pieces of treasure from a weight. Lift to much and a trap is sprung
 expedition.00513 = { # Trial Of Greed
 	type = activity_event
 	title = expedition.00513.title
@@ -2045,21 +2143,92 @@ expedition.00513 = { # Trial Of Greed
 
 	desc = {
 		desc = expedition.00513.desc
-
-		# Add Triggered descs for each item in pile
+		triggered_desc = { # Advisor
+			trigger = {
+				exists = scope:greed_advisor
+			}
+			desc = expedition.00513.stewardship_check
+		}
 		triggered_desc = {
 			trigger = {
-				# 
+				exists = scope:greed_advisor
+				scope:adviser_skill_level = 1
 			}
-			# desc = expedition.00513.debug
+			desc = expedition.00513.stewardship_check.rating.lowest
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:greed_advisor
+				scope:adviser_skill_level = 2
+			}
+			desc = expedition.00513.stewardship_check.rating.low
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:greed_advisor
+				scope:adviser_skill_level = 3
+			}
+			desc = expedition.00513.stewardship_check.rating.mid
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:greed_advisor
+				scope:adviser_skill_level = 4
+			}
+			desc = expedition.00513.stewardship_check.rating.good
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:greed_advisor
+				scope:adviser_skill_level = 5
+			}
+			desc = expedition.00513.stewardship_check.rating.best
+		}
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:greed_advisor
+			}
+			desc = expedition.00513.advisor_advice
+		}
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:little_more
+				}
+				desc = expedition.00513.advisor_advice.about_to_trigger
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:more
+				}
+				desc = expedition.00513.advisor_advice.take_a_little
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:alot_more
+				}
+				desc = expedition.00513.advisor_advice.take_a_lot
+			}
 		}
 	}
-
+	
 	theme = trial_of_greed
 
 	left_portrait = {
 		character = scope:host
 		animation = personality_greedy
+	}
+
+	right_portrait = {
+		trigger = { 
+			exists = scope:greed_advisor
+		}
+
+		character = scope:greed_advisor
+		animation = thinking
 	}
 
 	# Determine Random Weight for pressure plate
@@ -2068,7 +2237,7 @@ expedition.00513 = { # Trial Of Greed
 	# As Items are removed the odds of triggering the trap are increased
 
 
-	# Step1: Determine eight of plate and choose random tresures to place on plate
+	# Step1: Determine weight of plate and choose random tresures to place on plate
 
 	# Step2: Player can pick one of two items or leave the room
 
@@ -2127,6 +2296,87 @@ expedition.00513 = { # Trial Of Greed
 			}
 			save_scope_as = option_two
 		}
+
+		scope:activity = {
+			debug_log = "Selecting Greed Adviser"
+
+			every_attending_character = {
+				limit = {
+					NOT = {
+						this = scope:host
+					}
+					stewardship > 5
+				}
+				add_to_list = greed_advisor_candidate
+			}
+
+			ordered_in_list = {
+				list = greed_advisor_candidate
+				order_by = {
+					value = 0
+					add = stewardship
+				}
+	
+				save_scope_as = greed_advisor
+			}
+		}
+
+		if = {
+			limit = {
+				scope:greed_advisor.stewardship <= 5
+			}
+			save_scope_value_as = {
+				name = adviser_skill_level
+				value = 1
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					scope:greed_advisor.stewardship > 5
+					scope:greed_advisor.stewardship <= 10
+				}
+			}
+			save_scope_value_as = {
+				name = adviser_skill_level
+				value = 2
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					scope:greed_advisor.stewardship > 10
+					scope:greed_advisor.stewardship <= 15
+				}
+			}
+			save_scope_value_as = {
+				name = adviser_skill_level
+				value = 3
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					scope:greed_advisor.stewardship > 15
+					scope:greed_advisor.stewardship <= 25
+				}
+			}
+			save_scope_value_as = {
+				name = adviser_skill_level
+				value = 4
+			}
+		}
+		else_if = {
+			limit = {
+				scope:greed_advisor.stewardship > 25
+			}
+			save_scope_value_as = {
+				name = adviser_skill_level
+				value = 5
+			}
+		}
+
+		determine_greed_adviser_advice = yes
 	}
 
 	# HUGE IDEA: in the event description, 
@@ -2195,37 +2445,20 @@ expedition.00513 = { # Trial Of Greed
 			exists = scope:option_one
 		}
 
-		debug_log = "OPTION 1"
+		custom_tooltip = {
+			text = take_treasure
 
-		reduce_treasure_weight_effect = {
-			CHOSEN_TREASURE = scope:option_one
-		}
-
-		scope:option_one = {
-			remove_from_list = trial_of_greed_treasures
-		}
-
-		if = {
-			limit = {
-				any_in_list = {
-					list = trial_of_greed_treasures
-				}
+			reduce_treasure_weight_effect = {
+				CHOSEN_TREASURE = scope:option_one
 			}
-			random_in_list = {
-				list = trial_of_greed_treasures
-				limit = {
-					NOT = {
-						scope:option_two = this
-					}
-				}
-				save_scope_as = option_one
+	
+			scope:option_one = {
+				remove_from_list = trial_of_greed_treasures
 			}
-		} else = {
-			clear_saved_scope = option_one
-		}
-		
-		resolve_treasure_choice = {
-			CHOSEN_TREASURE = scope:option_one
+	
+			resolve_treasure_choice = {
+				SLOT = 1
+			}
 		}
 	}
 
@@ -2289,42 +2522,20 @@ expedition.00513 = { # Trial Of Greed
 			exists = scope:option_two
 		}
 
-		debug_log = "OPTION 2"
+		custom_tooltip = {
+			text = take_treasure
 
-		# scope:small_bag = {
-		# 	remove_from_list = trial_of_greed_treasures
-		# }
-
-		scope:option_two = {
-			remove_from_list = trial_of_greed_treasures
-		}
-
-		reduce_treasure_weight_effect = {
-			CHOSEN_TREASURE = scope:option_two
-		}
-
-		if = {
-			limit = {
-				any_in_list = {
-					list = trial_of_greed_treasures
-				}
+			scope:option_two = {
+				remove_from_list = trial_of_greed_treasures
 			}
-			random_in_list = {
-				list = trial_of_greed_treasures
-				limit = {
-					NOT = {
-						scope:option_one = this
-					}
-				}
-				save_scope_as = option_two
+	
+			reduce_treasure_weight_effect = {
+				CHOSEN_TREASURE = scope:option_two
 			}
-		}
-		else = {
-			clear_saved_scope = option_two
-		}
-
-		resolve_treasure_choice = {
-			CHOSEN_TREASURE = scope:option_two
+	
+			resolve_treasure_choice = {
+				SLOT = 2
+			}
 		}
 	}
 
@@ -2339,17 +2550,91 @@ expedition.005131 = { # Trial Of Greed Loop
 	title = expedition.005131.title
 
 	desc = {
-		desc = expedition.005131.desc
-		desc = expedition.005131.round_reward_gold
-
-		# Add Triggered descs for each item in pile
-		triggered_desc = {
-			trigger = {
-				# 
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:newly_created_elf_artifact
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:artifact_equipment
+				}
+				desc = expedition.005131.round_reward_artifact
 			}
-			# desc = expedition.00513.debug
+			triggered_desc = { 
+				trigger = {
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:gold
+					scope:chosen = scope:small_bag
+				}
+				desc = expedition.005131.round_reward_gold.small_bag
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:gold
+					scope:chosen = scope:large_bag
+				}
+				desc = expedition.005131.round_reward_gold.large_bag
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:gold
+					scope:chosen = scope:small_chest
+				}
+				desc = expedition.005131.round_reward_gold.small_chest
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:gold
+					scope:chosen = scope:large_chest
+				}
+				desc = expedition.005131.round_reward_gold.large_chest
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:selection_reward_type
+					scope:selection_reward_type = flag:gold
+					scope:chosen = scope:gold_vase
+				}
+				desc = expedition.005131.round_reward_gold.gold_vase
+			}
+			desc = expedition.005131.desc # Fallback
+		}
+
+		desc = expedition.005131.total_gold
+		
+		triggered_desc = { # Advisor Advice
+			trigger = {
+				exists = scope:greed_advisor
+			}
+			desc = expedition.00513.advisor_advice
+		}
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:little_more
+				}
+				desc = expedition.00513.advisor_advice.about_to_trigger
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:more
+				}
+				desc = expedition.00513.advisor_advice.take_a_little
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:advice
+					scope:advice = flag:alot_more
+				}
+				desc = expedition.00513.advisor_advice.take_a_lot
+			}
 		}
 	}
+
 
 	theme = trial_of_greed
 
@@ -2358,10 +2643,42 @@ expedition.005131 = { # Trial Of Greed Loop
 		animation = personality_greedy
 	}
 
+	right_portrait = {
+		trigger = { 
+			exists = scope:greed_advisor
+		}
+
+		character = scope:greed_advisor
+		animation = thinking
+	}
+
 	artifact = { # To display the artifact in the event-window
+		trigger = { 
+			exists = scope:newly_created_elf_artifact
+			exists = scope:selection_reward_type
+			scope:selection_reward_type = flag:artifact_equipment
+		}
 		target = scope:newly_created_elf_artifact
 		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
-		trigger = { exists = scope:newly_created_elf_artifact }
+	}
+
+	immediate = {
+		debug_log = "GREED LOOP"
+		debug_log_scopes = yes
+		determine_greed_adviser_advice = yes
+
+		if = {
+			limit = {
+				exists = scope:selection_reward_type
+				scope:selection_reward_type = flag:artifact_equipment
+			}
+
+			create_specific_elf_expedition_artifact_effect = { OWNER = scope:host }
+
+			scope:newly_created_elf_artifact ?= { 
+				add_to_list = trial_of_greed_artifacts
+			}
+		}
 	}
 
 	option = {
@@ -2422,40 +2739,25 @@ expedition.005131 = { # Trial Of Greed Loop
 		
 		trigger = {
 			exists = scope:option_one
-		}
-
-		debug_log = "OPTION 1"
-
-		reduce_treasure_weight_effect = {
-			CHOSEN_TREASURE = scope:option_one
-		}
-
-		scope:option_one = {
-			remove_from_list = trial_of_greed_treasures
-		}
-
-		if = {
-			limit = {
-				any_in_list = {
-					list = trial_of_greed_treasures
-				}
-			}
-			random_in_list = {
-				list = trial_of_greed_treasures
-				limit = {
-					NOT = {
-						scope:option_two = this
-					}
-				}
-				save_scope_as = option_one
+			NOT = {
+				exists = scope:slot_1_empty
 			}
 		}
-		else = {
-			clear_saved_scope = option_one
-		}
-		
-		resolve_treasure_choice = {
-			CHOSEN_TREASURE = scope:option_one
+
+		custom_tooltip = {
+			text = take_treasure
+
+			reduce_treasure_weight_effect = {
+				CHOSEN_TREASURE = scope:option_one
+			}
+	
+			scope:option_one = {
+				remove_from_list = trial_of_greed_treasures
+			}
+				
+			resolve_treasure_choice = {
+				SLOT = 1
+			}
 		}
 	}
 
@@ -2517,40 +2819,25 @@ expedition.005131 = { # Trial Of Greed Loop
 
 		trigger = {
 			exists = scope:option_two
-		}
-
-		debug_log = "OPTION 2"
-
-		reduce_treasure_weight_effect = {
-			CHOSEN_TREASURE = scope:option_two
-		}
-
-		scope:option_two = {
-			remove_from_list = trial_of_greed_treasures
-		}
-
-		if = {
-			limit = {
-				any_in_list = {
-					list = trial_of_greed_treasures
-				}
-			}
-			random_in_list = {
-				list = trial_of_greed_treasures
-				limit = {
-					NOT = {
-						scope:option_one = this
-					}
-				}
-				save_scope_as = option_two
+			NOT = {
+				exists = scope:slot_2_empty
 			}
 		}
-		else = {
-			clear_saved_scope = option_two
-		}
-		
-		resolve_treasure_choice = {
-			CHOSEN_TREASURE = scope:option_two
+
+		custom_tooltip = {
+			text = take_treasure
+
+			reduce_treasure_weight_effect = {
+				CHOSEN_TREASURE = scope:option_two
+			}
+	
+			scope:option_two = {
+				remove_from_list = trial_of_greed_treasures
+			}
+	
+			resolve_treasure_choice = {
+				SLOT = 2
+			}
 		}
 	}
 
@@ -2612,29 +2899,60 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 		animation = fear
 	}
 
+	right_portrait = {
+		trigger = { 
+			exists = scope:greed_advisor
+		}
+
+		character = scope:greed_advisor
+		animation = fear
+	}
+
 	option = {
 		name = expedition.005132.ouch
 
-		scope:activity = {
-			every_attending_character = {
-				random_list = {
-					85 = { # Nothing Happens
-						
-					}
-					15 = { # They Are Injured
-						hidden_effect = {
-							change_trait_rank = {
-								trait = wounded
-								rank = 1
-								max = 3
+		if = {
+			limit = {
+				exists = scope:trial_of_greed_artifacts
+			}
+		}
+
+		custom_tooltip = {
+			text = all_found_gold_lost
+		}
+
+		custom_tooltip = {
+			text = all_found_artifacts_lost
+
+			every_in_list = {
+				list = trial_of_greed_artifacts
+
+				destroy_artifact = this
+			}
+		}
+
+		custom_tooltip = {
+			text = party_members_may_be_wounded
+
+			scope:activity = {
+				every_attending_character = {
+					random_list = {
+						85 = { # Nothing Happens
+							
+						}
+						15 = { # They Are Injured
+							hidden_effect = {
+								change_trait_rank = {
+									trait = wounded
+									rank = 1
+									max = 3
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-
-
 	}
 }
 
