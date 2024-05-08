@@ -141,6 +141,29 @@ create_spark_crystal_effect = {
 	}
 }
 
+create_lembas_satchel_effect = {
+	$OWNER$ = { save_scope_as = owner }
+
+	create_artifact = {	
+		name = lembas_satchel
+		description = lembas_satchel_desc
+		template = elf_equipment_template
+		type = miscellaneous
+		visuals = lembas_satchel
+		modifier = lembas_satchel_modifier
+		rarity = famed
+		decaying = no
+		history = {
+			type = history_portal_components
+		}
+		save_scope_as = lembas_satchel
+		#set_variable=magic1
+	}
+	scope:lembas_satchel = {
+		set_variable = lembas_satchel
+	}
+}
+
 
 # From Old Readme:
 # ### Items
@@ -348,13 +371,452 @@ expedition_create_minor_treasure_effect = {
 }
 
 add_elf_weapon_modifier = {
-	add_artifact_modifier = elf_weapon_modifier
+	if = {
+		limit = {
+			scope:artifact_type = flag:axe
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_weapon_axe_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_weapon_axe_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_weapon_axe_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_weapon_axe_modifier_4
+		}
+	}
+	if = {
+		limit = {
+			scope:artifact_type = flag:hammer
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_weapon_hammer_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_weapon_hammer_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_weapon_hammer_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_weapon_hammer_modifier_4
+		}
+	}
+	if = {
+		limit = {
+			scope:artifact_type = flag:sword
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_weapon_sword_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_weapon_sword_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_weapon_sword_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_weapon_sword_modifier_4
+		}
+	}
 }
 
 add_elf_armor_modifier = {
-	add_artifact_modifier = elf_armor_modifier
+	if = {
+		limit = {
+			OR = {
+				scope:artifact_type = flag:armor_plate
+				scope:artifact_type = flag:armor_laminar
+				scope:artifact_type = flag:armor_mail
+			}
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_armor_plate_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_armor_plate_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_armor_plate_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_armor_plate_modifier_4
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				scope:artifact_type = flag:armor_scale
+				scope:artifact_type = flag:armor_brigandine
+				scope:artifact_type = flag:armor_lamellar
+			}
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_armor_gambeson_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_armor_gambeson_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_armor_gambeson_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_armor_gambeson_modifier_4
+		}
+	}
+	if = {
+		limit = {
+			scope:artifact_type = flag:cloak
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_armor_cloak_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_armor_cloak_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_armor_cloak_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_armor_cloak_modifier_4
+		}
+	}
 }
 
+add_archetype_modifier = {
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:ravager
+		}
+
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_ravager_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_ravager_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_ravager_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_ravager_modifier_4
+		}
+	}
+			
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:roadmen
+		}
+
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_roadmen_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_roadmen_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_roadmen_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_roadmen_modifier_4
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:paladin
+		}
+
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_paladin_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_paladin_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_paladin_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_paladin_modifier_4
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:captain
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_captain_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_captain_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_captain_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_captain_modifier_4
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:noble
+		}
+
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_noble_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_noble_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_noble_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_noble_modifier_4
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:artifact_archetype
+			scope:artifact_archetype = flag:aeluran
+		}
+
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = archetype_aeluran_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = archetype_aeluran_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = archetype_aeluran_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = archetype_aeluran_modifier_4
+		}
+	}
+}
+
+
+# get_archetype_descriptions_effect = {
+# 	set_artifact_feature_group = elf_artifact_archetype_title
+# }
+
+
 add_elf_jewelry_modifier = {
-	add_artifact_modifier = elf_jewelry_modifier
+	if = {
+		limit = {
+			scope:artifact_type = flag:brooch
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_jewelry_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_jewelry_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_jewelry_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_jewelry_modifier_4
+		}
+	}
+}
+
+add_elf_boots_modifier = {
+	if = {
+		limit = {
+			scope:artifact_type = flag:boots
+		}
+		if = {
+			limit = {
+				scope:quality <= 20
+			}
+			add_artifact_modifier = elf_boots_modifier_1
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 40
+			}
+			add_artifact_modifier = elf_boots_modifier_2
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 60
+			}
+			add_artifact_modifier = elf_boots_modifier_3
+		}
+		else_if = {
+			limit = {
+				scope:quality <= 80
+			}
+			add_artifact_modifier = elf_boots_modifier_4
+		}
+	}
 }

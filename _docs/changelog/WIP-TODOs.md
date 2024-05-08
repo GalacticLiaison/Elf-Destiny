@@ -2,8 +2,6 @@ GITHUB STUFF FIRST
 
 https://discord.com/channels/1179053540161880074/1219397987491512400/1229604419470102568
 
-update on allowing ai realms to upgrade to ascended tribal government: they randomly downgrade into tribal government again, so I undid my change /shrug
-
 cheat menu?
 
 Aeluran Matching Making 
@@ -13,18 +11,14 @@ Aeluran Matching Making
 
 implement heroic courage compatibility upgrade
 rut takes away lustful
-add purer blood and purerst blood to virtues
 Aeluran Advisor doesnt update religion on reformation by player
 - All elves should switch religion to the reformed one?
-nerf lifespan
 
 Endless lord trait doesnt show up when twins are born
 
 albino trait giving violet eyes
 
 undermine event has three options: https://discord.com/channels/1179053540161880074/1216100186536018040
-
-Ascension on the brink of death from old age doesn't prevent it. https://discord.com/channels/1179053540161880074/1220001851185827893
 
 issues with holy sites and non elf faith https://discord.com/channels/1179053540161880074/1224331002982301778
 

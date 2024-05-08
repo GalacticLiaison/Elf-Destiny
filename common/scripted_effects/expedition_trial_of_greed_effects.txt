@@ -42,7 +42,7 @@
 
 add_trial_of_greed_treasure_effect = {
 	random_list = {
-		30 = {
+		20 = {
 			trigger = {
 				scope:small_bag = { 
 					NOT = {
@@ -114,7 +114,7 @@ add_trial_of_greed_treasure_effect = {
 				}
 			}
 		}
-		10 = {
+		15 = {
 			trigger = {
 				scope:weapon_small = { 
 					NOT = {
@@ -132,7 +132,7 @@ add_trial_of_greed_treasure_effect = {
 				}
 			}
 		}
-		10 = {
+		15 = {
 			trigger = {
 				scope:weapon_large = { 
 					NOT = {
@@ -150,7 +150,7 @@ add_trial_of_greed_treasure_effect = {
 				}
 			}
 		}
-		10 = {
+		15 = {
 			trigger = {
 				scope:armor = { 
 					NOT = {
@@ -213,23 +213,6 @@ assign_random_pressure_plate_weight_effect = {
 		10 = {
 			change_variable = {name = pressure_plate_limit add = 6}
 		}
-	}
-}
-
-resolve_treasure_choice = {
-	$CHOSEN_TREASURE$ = { save_scope_as = chosen }
-
-	if = {
-		limit = {
-			var:treasure_weight < var:pressure_plate_limit
-		}
-
-		trigger_event = expedition.005132 # Trigger Trap
-	}
-	else = {
-		get_treasure_reward = yes
-
-		trigger_event = expedition.005131 # Loop
 	}
 }
 
@@ -329,19 +312,131 @@ reduce_treasure_weight_effect = {
 
 }
 
+resolve_treasure_choice = {
+
+	if = {
+		limit = {
+			var:treasure_weight < var:pressure_plate_limit
+		}
+
+		trigger_event = expedition.005132 # Trigger Trap
+	}
+	else = {
+		get_treasure_reward = {
+			SLOT = $SLOT$
+		}
+		
+		assign_replacement_treasure_for_chosen_slot = {
+			SLOT = $SLOT$
+		}
+
+		trigger_event = expedition.005131 # Loop
+	}
+}
+
+assign_replacement_treasure_for_chosen_slot = {
+	if = {
+		limit = {
+			$SLOT$ = 1
+		}
+
+		debug_log = "Inside assign_replacement_treasure_for_chosen_slot 1"
+
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+					NOR = {
+						scope:option_one = this
+						scope:option_two = this
+					}
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOR = {
+						scope:option_one = this
+						scope:option_two = this
+					}
+				}
+				save_scope_as = option_one
+			}
+		} else = {
+			debug_log = "clearing option_one"
+			save_scope_value_as = {
+				name = slot_1_empty
+				value = yes
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			$SLOT$ = 2
+		}
+
+		debug_log = "Inside assign_replacement_treasure_for_chosen_slot 2"
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = trial_of_greed_treasures
+					NOR = {
+						scope:option_one = this
+						scope:option_two = this
+					}
+				}
+			}
+			random_in_list = {
+				list = trial_of_greed_treasures
+				limit = {
+					NOR = {
+						scope:option_one = this
+						scope:option_two = this
+					}
+				}
+				save_scope_as = option_two
+			}
+		}
+		else = {
+			debug_log = "clearing option_two"
+			save_scope_value_as = {
+				name = slot_2_empty
+				value = yes
+			}
+		}
+	}
+}
+
+
 get_treasure_reward = {
 
 	# debug_log_scopes = yes
 
 	if = {
 		limit = {
-			exists = var:expedition_gold_reward
+			$SLOT$ = 1
 		}
-		debug_log = "yeeeee"
+
+		debug_log = "get_treasure_reward slot 1"
+
+		scope:option_one = {
+			save_scope_as = chosen
+		}
 	}
-	else = {
-		debug_log = "Nooo yeeeee"
+	else_if = {
+		limit = {
+			$SLOT$ = 2
+		}
+
+		debug_log = "get_treasure_reward slot 2"
+
+		scope:option_two = {
+			save_scope_as = chosen
+		}
 	}
+
 
 	if = {
 		limit = {
@@ -365,87 +460,44 @@ get_treasure_reward = {
 			limit = {
 				scope:chosen = 2
 			}
-			debug_log = expedition.005131.DEBUG
+
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:gold
+			}
 
 			change_variable = { 
 				name = total_gold_gained
 				add = 15
 			}
 			debug_log = "set 1 small bag"
-			debug_log = expedition.005131.DEBUG
 		}
 		if = { # small weapon
 			limit = {
 				scope:chosen = 3
 			}
-	
-			random_list = {
-				10 = {
-					save_scope_value_as = {
-						name = quality
-						value = 20
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 20
-					}
-				}
-				7 = {
-					save_scope_value_as = {
-						name = quality
-						value = 40
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 40
-					}
-				}
-				5 = {
-					save_scope_value_as = {
-						name = quality
-						value = 60
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 60
-					}
-				}
-				3 = {
-					save_scope_value_as = {
-						name = quality
-						value = 80
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 80
-					}
-				}
+
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:artifact_equipment
 			}
-	
-			create_artifact = {	
-				name = artifact_elf_dagger_name
-				description = artifact_elf_dagger_description
-				# creator = scope:creator
-				visuals = dagger
-				type = dagger
-				modifier = artifact_placeholder_modifier
-				wealth = scope:wealth
-				quality = scope:quality
-				save_scope_as = newly_created_elf_artifact
+
+			debug_log = "set small weapon"
+			
+			save_scope_value_as = {
+				name = artifact_type
+				value = flag:sword
 			}
-			scope:activity = {
-				add_to_variable_list = {
-					name = artifact_rewards
-					target = scope:newly_created_elf_artifact
-				}
-			}
-	
 		}
 		if = { # small chest
 			limit = {
 				scope:chosen = 4
 			}
-			debug_log = expedition.005131.DEBUG
+
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:gold
+			}
 	
 			change_variable = { 
 				name = total_gold_gained 
@@ -453,7 +505,6 @@ get_treasure_reward = {
 			}
 	
 			debug_log = "set 2 small chest"
-			debug_log = expedition.005131.DEBUG
 
 
 		}
@@ -462,7 +513,10 @@ get_treasure_reward = {
 				scope:chosen = 5
 			}
 	
-			debug_log = expedition.005131.DEBUG
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:gold
+			}
 
 			change_variable = { 
 				name = total_gold_gained 
@@ -470,7 +524,6 @@ get_treasure_reward = {
 			}
 
 			debug_log = "set 3 large bag"
-			debug_log = expedition.005131.DEBUG
 
 
 		}
@@ -478,139 +531,91 @@ get_treasure_reward = {
 			limit = {
 				scope:chosen = 6
 			}
+
+			debug_log = "set armor"
 	
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:artifact_equipment
+			}
+
 			random_list = {
 				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 20
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 20
+						name = artifact_type
+						value = flag:armor_plate
 					}
 				}
-				7 = {
+				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 40
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 40
+						name = artifact_type
+						value = flag:armor_scale
 					}
 				}
-				5 = {
+				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 60
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 60
+						name = artifact_type
+						value = flag:armor_lamellar
 					}
 				}
-				3 = {
+				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 80
+						name = artifact_type
+						value = flag:armor_laminar
 					}
+				}
+				10 = {
 					save_scope_value_as = {
-						name = wealth
-						value = 80
+						name = artifact_type
+						value = flag:armor_brigandine
+					}
+				}
+				10 = {
+					save_scope_value_as = {
+						name = artifact_type
+						value = flag:armor_mail
 					}
 				}
 			}
-	
-			create_artifact = {	
-				name = artifact_elf_armor_mail_name
-				description = artifact_elf_armor_mail_description
-				# creator = scope:creator
-				visuals = armor
-				type = armor_mail
-				modifier = artifact_placeholder_modifier
-				wealth = scope:wealth
-				quality = scope:quality
-				save_scope_as = newly_created_elf_artifact
-			}
-			scope:activity = {
-				add_to_variable_list = {
-					name = artifact_rewards
-					target = scope:newly_created_elf_artifact
-				}
-			}
+
 		}
 		if = { # weapon large
 			limit = {
 				scope:chosen = 7
 			}
 	
+			debug_log = "set large weapon"
+
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:artifact_equipment
+			}
+
 			random_list = {
 				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 20
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 20
+						name = artifact_type
+						value = flag:axe
 					}
 				}
-				7 = {
+				10 = {
 					save_scope_value_as = {
-						name = quality
-						value = 40
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 40
-					}
-				}
-				5 = {
-					save_scope_value_as = {
-						name = quality
-						value = 60
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 60
-					}
-				}
-				3 = {
-					save_scope_value_as = {
-						name = quality
-						value = 80
-					}
-					save_scope_value_as = {
-						name = wealth
-						value = 80
+						name = artifact_type
+						value = flag:hammer
 					}
 				}
 			}
-	
-			create_artifact = {	
-				name =  artifact_axe_name
-				description = artifact_elf_axe_description
-				# creator = scope:creator
-				visuals = elf_axe
-				type = axe
-				modifier = artifact_placeholder_modifier
-				wealth = scope:wealth
-				quality = scope:quality
-				save_scope_as = newly_created_elf_artifact
-			}
-			scope:activity = {
-				add_to_variable_list = {
-					name = artifact_rewards
-					target = scope:newly_created_elf_artifact
-				}
-			}
+
 		}
 		if = { # large chest
 			limit = {
 				scope:chosen = 8
 			}
-			debug_log = expedition.005131.DEBUG
+
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:gold
+			}
 	
 			change_variable = { 
 				name = total_gold_gained 
@@ -618,7 +623,6 @@ get_treasure_reward = {
 			}
 
 			debug_log = "set 4 large chest"
-			debug_log = expedition.005131.DEBUG
 
 		}
 		if = { # gold vase
@@ -626,7 +630,10 @@ get_treasure_reward = {
 				scope:chosen = 9
 			}
 
-			debug_log = expedition.005131.DEBUG
+			save_scope_value_as = {
+				name = selection_reward_type
+				value = flag:gold
+			}
 
 			change_variable = { 
 				name = total_gold_gained 
@@ -634,13 +641,520 @@ get_treasure_reward = {
 			}
 
 			debug_log = "set 5 gold vase"
-			debug_log = expedition.005131.DEBUG
 
 
 		}
 	}
 	else = {
 		debug_log = "expedition_gold_reward is NOT SET"
+	}
+
+}
+
+
+determine_greed_adviser_advice = {
+	if = {
+		limit = {
+			scope:adviser_skill_level = 5
+			exists = var:treasure_weight
+			exists = var:pressure_plate_limit
+		}
+
+		if = {
+			limit = {
+				weight_till_trap_triggered > first_weight_checkpoint
+			}
+
+			random_list = {
+				98 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+				2 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > second_weight_checkpoint
+			}
+
+			random_list = {
+				98 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				2 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > third_weight_checkpoint
+			}
+
+			random_list = {
+				98 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				2 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered < third_weight_checkpoint
+				weight_till_trap_triggered > 0
+			}
+
+			random_list = {
+				98 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				2 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			scope:adviser_skill_level = 4
+			exists = var:treasure_weight
+			exists = var:pressure_plate_limit
+		}
+
+		if = {
+			limit = {
+				weight_till_trap_triggered > first_weight_checkpoint
+			}
+
+			random_list = {
+				75 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+				25 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > second_weight_checkpoint
+			}
+
+			random_list = {
+				75 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				20 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > third_weight_checkpoint
+			}
+
+			random_list = {
+				75 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				23 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				2 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered < third_weight_checkpoint
+				weight_till_trap_triggered > 0
+			}
+
+			random_list = {
+				75 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				25 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			scope:adviser_skill_level = 3
+			exists = var:treasure_weight
+			exists = var:pressure_plate_limit
+		}
+
+		if = {
+			limit = {
+				weight_till_trap_triggered > first_weight_checkpoint
+			}
+
+			random_list = {
+				65 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+				35 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > second_weight_checkpoint
+			}
+
+			random_list = {
+				65 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				25 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				10 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > third_weight_checkpoint
+			}
+
+			random_list = {
+				65 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				30 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered < third_weight_checkpoint
+				weight_till_trap_triggered > 0
+			}
+
+			random_list = {
+				65 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				35 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			scope:adviser_skill_level = 2
+			exists = var:treasure_weight
+			exists = var:pressure_plate_limit
+		}
+
+		if = {
+			limit = {
+				weight_till_trap_triggered > first_weight_checkpoint
+			}
+
+			random_list = {
+				60 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > second_weight_checkpoint
+			}
+
+			random_list = {
+				60 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				30 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				10 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > third_weight_checkpoint
+			}
+
+			random_list = {
+				60 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				30 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				10 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered < third_weight_checkpoint
+				weight_till_trap_triggered > 0
+			}
+
+			random_list = {
+				60 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			scope:adviser_skill_level = 1
+			exists = var:treasure_weight
+			exists = var:pressure_plate_limit
+		}
+
+		if = {
+			limit = {
+				weight_till_trap_triggered > first_weight_checkpoint
+			}
+
+			random_list = {
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+				60 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > second_weight_checkpoint
+			}
+
+			random_list = {
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				20 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered > third_weight_checkpoint
+			}
+
+			random_list = {
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				35 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				15 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				weight_till_trap_triggered < third_weight_checkpoint
+				weight_till_trap_triggered > 0
+			}
+
+			random_list = {
+				40 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:little_more
+					}
+				}
+				55 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:more
+					}
+				}
+				5 = {
+					save_scope_value_as = {
+						name = advice
+						value = flag:alot_more
+					}
+				}
+			}
+		}
 	}
 
 }
