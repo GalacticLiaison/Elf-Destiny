@@ -79,6 +79,23 @@ THEN once (if) we have it working
 - start adding back features until it either works or breaks to identify the issue!
 
 
+ACTION 1: sort_vizier_candidates_to_list_effect => sort_aeluran_candidates_to_list_effect 
+- used by the character interaction when assigning diarch, the result is it allowed me to assign hannah but not vassal elandra
+- results in Stable Hannah as both regent and adviser!
+- creating a new aeluran character and assigning "worked", but most of the time put her in the spouse adviser slot, may just need to remove that vizier functionality
+
+ACTION 2: Setting gender preference back to male has made all aelurans not possible...
+- We should keep checking to see if there is somewhere we can overwrite this
+- the ui says they are regent of a specific title, maybe we can create a new title law!
+- if all else fails we may want to consider gender equal... can try to add gender limitations manually from there.
+
+lets try changing title law to female
+- tried changing title AND realm law and neither seemed to matter..
+- Does culture have a gender preference?
+- investigate religion...
+   - swapping/commenting out doctrine parameters did absolutly nothing... could be hard coded with doctrine name
+
+### is_diarch_valid!!!!
 
 
 Should implement twins/triplets/quad/etc naming on twins perk
