@@ -6,6 +6,45 @@
 # - TODO: Aeluran Advisor puts themself forward as candidate, event chain
 # - TODO: Special high matraiarch pairing event chain
 
+
+# Current Workflow
+# - Checks which possiblities are available
+# - rigidly decides to assign description blocks
+# - rigidly assigns portraits
+
+# Work towards a new random selector!
+# random_list = {
+# 	0 = {
+# 		modifier = {
+# 			add = x # rarity
+# 			is_this_match_type_available
+# 		}
+# 	}
+# }
+
+# we really should ALWAYS have three options
+	# - if need be, generate a second or even third standard match
+# maybe have it go through the random_list three times, each time if a selction has already been picked, its modifier stays 0
+
+aeluran_matchmaking.101 = {
+	type = letter_event
+	opening = aeluran_matchmaking.101.title
+	desc = aeluran_matchmaking.101.desc
+	sender = scope:host
+
+	immediate = {
+
+	}
+
+	option = {
+		name = entrance.1021.ok
+
+		add_to_activity = scope:host.involved_activity
+	}
+}
+
+
+
 # Yearly approached by Advisor to find a spouse
 aeluran_matchmaking.001 = {
 	hidden = yes
@@ -156,918 +195,24 @@ aeluran_matchmaking.002 = {
 		# need to check if family optione xists before using that matchmaking event
 
 		# LOG DEBUG
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:aeluran_respect_level
-				}
-			}
 
-			debug_log = "NO Aeluran RESPECT DETECTED"
-		}
+		generate_matchmaking_candidates_effect = yes
+		debug_log = matchmaking_debug_match_options
 
-		if = {
-			limit = {
-				NOT = {
-					alliance_option_available = yes
-				}
-			}
 
-			debug_log = "MATCHMAKING - No Alliance Available"
-		}
-		if = {
-			limit = {
-				NOT = {
-					family_option_available = yes
-				}
-			}
+		# resolve_duplicate_character_match_effect = yes
 
-			debug_log = "MATCHMAKING - No Family Available"
-		}
 
-		if = { # Very High Respect
-			limit = {
-				scope:aeluran_respect_level = 5
-			}
-			random_list = {
-				# TODO VVVVVVV for all tiers
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					debug_log = "FALLBACK CHOSEN HIGH"
-				
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
 
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-						}
-						alliance_option_available = yes
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = { 
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}  
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						is_female = no
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}  
-					}
-				}
-				100 = { # Aeluran/Twins
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					}
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					}
- 
-				}
-				100 = { # Aeluran/Triplets
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:triplets
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					} 
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:triplets
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					} 
- 
-				}
-			}
-		}
-
-		if = { # High Respect
-			limit = {
-				scope:aeluran_respect_level = 4
-			}
-			random_list = { 
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				100 = { # Aeluran/Twins
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					}
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					}
- 
-				}
-			}
-		}
-
-		if = { # Neutral Respect
-			limit = {
-				scope:aeluran_respect_level = 3
-			}
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-			}
-		}
-
-		if = { # Low Respect
-			limit = {
-				scope:aeluran_respect_level = 2
-			}
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-			}
-		}
-
-		if = { # No Respect
-			limit = {
-				scope:aeluran_respect_level = 1
-			}
-
-			debug_log = "NO RESPECT"
-
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					debug_log = "Match - Fallback Chosen"
-					
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					modifier = {
-						is_female = no
-						alliance_option_available = yes
-						add = 200
-					}
-
-					debug_log = "Match - Aeluran/Breeder/Alliance Chosen"
-
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-				}
-				0 = { # Aeluran/Breeder/Family
-					modifier = {
-						is_female = no
-						root = {
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-						add = 100
-					}
-
-					debug_log = "Match - Aeluran/Breeder/Family"
-					
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-
-				}
-				0 = { # Breeder/Family/Alliance
-					modifier = {
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-						add = 100
-					}
-
-					debug_log = "Match - Breeder/Family/Alliance"
-
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-				}
-				0 = { # Aeluran/Family/Alliance
-					modifier = {
-						is_female = no
-						root = {
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-
-						add = 100
-					}
-
-					debug_log = "Match - Aeluran/Family/Alliance"
-				
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-				}
-			}
-		}
-
-		# Find Match Characters
-		find_match_choices_effect = yes
-
-		#Debug
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_1
-				}
-			}
-			debug_log = "scope:match_choice_1 unassigned...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_2
-				}
-			}
-			debug_log = "scope:match_choice_2 unassigned...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_3
-				}
-			}
-			debug_log = "scope:match_choice_3 unassigned...."
-		}
-		if = {
-			limit = {
-				exists = scope:match_choice_1
-				exists = scope:match_choice_2
-				exists = scope:match_choice_3
-			}
-			debug_log = "all scopes have value"
-			debug_log = matchmaking_debug_match_options
-		}
-
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_alliance
-				}
-			}
-			debug_log = "scope:match_option_alliance unassigned...."
-		}
-		else = {
-			debug_log = "scope:match_option_alliance assigned!...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_aeluran
-				}
-			}
-			debug_log = "match_option_aeluran unassigned...."
-		}
-		else = {
-			debug_log = "match_option_aeluran assigned!...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_family
-				}
-			}
-			debug_log = "scope:match_option_family unassigned...."
-		}
-		else = {
-			debug_log = "scope:match_option_family assigned!...."
-		}
-
-		
 		# debug_log_scopes = yes
 
 		trigger_event = aeluran_matchmaking.0021
 	}
+}
+
+# TESTING EVENT WINDOW!
+aeluran_matchmaking.0022 = {
+	title = aeluran_matchmaking.0021.title
 }
 
 ### Match Making Choose Candidates Event Window ###
@@ -1675,6 +820,7 @@ aeluran_matchmaking.0021 = {
 		desc = aeluran_matchmaking.choose_match
 	}
 	
+	window = tour_arrival_event
 	theme = seduction
 	content_source = elf_destiny
 
@@ -1700,6 +846,23 @@ aeluran_matchmaking.0021 = {
 	}
 
 	immediate = {
+
+		# NEW WORKFLOW
+		# - you have three match_choice_x_type
+		# - each with a scope match_choice_X / match_choice_X_X for multis
+
+		# WE NEED
+		# - to assign portraits
+		# - to assign option names
+			# - custom loc file?
+		# - to assign event descriptions
+			# - custom loc file?
+		# - on selection marry spouse
+		# - on selection clean up newly generated characters
+
+
+
+
 		# debug_log_scopes = yes
 
 		# Find Match Characters and Assign Match Options To Portraits

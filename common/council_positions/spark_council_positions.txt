@@ -1,167 +1,217 @@
-﻿councillor_aeluran_advisor = {
-	skill = learning
+﻿# councillor_aeluran_advisor = {
+# 	skill = learning
 
-	auto_fill = no
-	fill_from_pool = no
-	inherit = no
+# 	auto_fill = no
+# 	fill_from_pool = no
+# 	inherit = no
 	
-	pool_character_config = pool_aeluran_advisor
+# 	pool_character_config = pool_aeluran_advisor
 	
-	valid_character = {
-		exists = root.liege_or_court_owner
-		can_be_court_aeluran_advisor_trigger = { COURT_OWNER = root.liege_or_court_owner }
-	}
+# 	valid_character = {
+# 		exists = root.liege_or_court_owner
+# 		can_be_court_aeluran_advisor_trigger = { COURT_OWNER = root.liege_or_court_owner }
+# 	}
+
+# 	valid_position = {
+# 		faith = {
+# 			has_doctrine = tenet_aeluran_sisters 
+# 		}
+# 	}
+
+# 	can_fire = {
+# 		custom_description = {
+# 			text = "court_aeluran_advisor_cant_fire_doctrines"
+# 			faith = {
+# 				NOT = {
+# 					has_doctrine = tenet_aeluran_sisters 
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	can_reassign = {
+# 		custom_description = {
+# 			text = "court_chaplain_cant_reassign_doctrines"
+# 			faith = {
+# 				has_doctrine_parameter = clerical_appointment_ruler
+# 			}
+# 		}
+# 	}
+	
+# 	can_change_once = {
+# 		faith = {
+# 			has_doctrine_parameter = clerical_appointment_fixed
+# 		}
+# 	}
+	
+# 	councillor_cooldown_days = {
+# 		value = 0
+# 		if = {
+# 			limit = {
+# 				faith = {
+# 					NOT = {
+# 						has_doctrine_parameter = clerical_appointment_fixed
+# 					}
+# 				}
+# 			}
+# 			add = 3650
+# 		}
+# 	}
+	
+# 	name = {
+# 		desc = councillor_aeluran_advisor
+# 	}
+
+# 	tooltip = {
+# 		first_valid = {
+# 			triggered_desc = {
+# 				trigger = {
+# 					scope:councillor_liege.faith = { has_doctrine = doctrine_theocracy_temporal }
+# 				}
+# 				desc = game_concept_realm_priest_desc
+# 			}
+# 			desc = game_concept_court_chaplain_desc
+# 		}
+# 	}
+
+# 	modifier = {
+# 		name = councillor_court_chaplain_modifier
+# 		county_opinion_add = 5
+# 		monthly_learning_lifestyle_xp_gain_mult = 0.05
+# 		scale = council_scaled_by_liege_tier
+# 	}
+
+# 	modifier = {
+# 		name = councillor_court_chaplain_modifier
+# 		monthly_piety = 1
+# 		scale = council_scaled_monthly_income
+# 	}
+
+# 	council_owner_modifier = {
+# 		name = learn_on_the_job_modifier
+# 		learning = 1
+# 		scale = court_chaplain_learn_on_the_job_scale
+# 	}
+
+# 	council_owner_modifier = {
+# 		name = reliable_house_modifier
+# 		learning = 1
+# 		scale = court_chaplain_reliable_house_scale
+# 	}
+
+# 	on_get_position = {
+# 		root.liege = {
+# 			set_variable = {
+# 				name = religious_advisor
+# 				value = root
+# 			}
+# 		}
+# 		got_council_position_effect = yes
+# 		if = {
+# 			limit = {
+# 				years_from_game_start >= 1
+# 			}
+# 			if = {
+# 				limit = {
+# 					exists = this
+# 					exists = liege.culture
+# 					NOT = {
+# 						knows_language_of_culture = liege.culture
+# 					}
+# 				}
+# 				random_list = {
+# 					10 = {
+# 						modifier = {
+# 							add = learning
+# 						}
+# 						learn_language_of_culture = liege.culture
+# 					}
+# 					5 = {
+# 						trigger = {
+# 							can_start_scheme = { type = learn_language target = liege }
+# 						}
+# 						start_scheme = {
+# 							type = learn_language
+# 							target = liege
+# 						}
+# 					}
+# 					5 = {
+# 						trigger = {
+# 							OR = {
+# 								has_trait = arrogant
+# 								has_trait = arbitrary
+# 								has_trait = lazy
+# 								has_trait = fickle
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	on_fired_from_position = {
+# 		remove_variable = religious_advisor
+# 		fired_from_council_position_effect = yes
+# 	}
+
+# 	portrait_animation = chaplain
+
+# 	barbershop_data = {
+# 		position = { 1618.0 172.0  }
+# 		click_to_front = no
+# 	}
+# }
+
+
+councillor_aeluran_advisor = {
+	auto_fill = yes
+	can_fire = yes
+	can_reassign = yes
+	
+	name = councillor_vizier
+	tooltip = councillor_vizier_desc
 
 	valid_position = {
-		faith = {
-			has_doctrine = tenet_aeluran_sisters 
-		}
+		has_diarchy_active_parameter = vizier_sits_in_the_council_instead_of_spouse
 	}
 
-	can_fire = {
-		custom_description = {
-			text = "court_aeluran_advisor_cant_fire_doctrines"
-			faith = {
-				NOT = {
-					has_doctrine = tenet_aeluran_sisters 
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_councillor_basics_trigger = yes
+		save_temporary_scope_as = confidant
+
+		liege = {
+			OR = {
+				scope:confidant = diarch
+				any_consort = {
+					scope:confidant = this
 				}
 			}
 		}
-	}
-	
-	can_reassign = {
-		custom_description = {
-			text = "court_chaplain_cant_reassign_doctrines"
-			faith = {
-				has_doctrine_parameter = clerical_appointment_ruler
-			}
-		}
-	}
-	
-	can_change_once = {
-		faith = {
-			has_doctrine_parameter = clerical_appointment_fixed
-		}
-	}
-	
-	councillor_cooldown_days = {
-		value = 0
-		if = {
-			limit = {
-				faith = {
-					NOT = {
-						has_doctrine_parameter = clerical_appointment_fixed
-					}
-				}
-			}
-			add = 3650
-		}
-	}
-	
-	name = {
-		desc = councillor_aeluran_advisor
-	}
-
-	tooltip = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:councillor_liege.faith = { has_doctrine = doctrine_theocracy_temporal }
-				}
-				desc = game_concept_realm_priest_desc
-			}
-			desc = game_concept_court_chaplain_desc
-		}
-	}
-
-	modifier = {
-		name = councillor_court_chaplain_modifier
-		county_opinion_add = 5
-		monthly_learning_lifestyle_xp_gain_mult = 0.05
-		scale = council_scaled_by_liege_tier
-	}
-
-	modifier = {
-		name = councillor_court_chaplain_modifier
-		monthly_piety = 1
-		scale = council_scaled_monthly_income
-	}
-
-	council_owner_modifier = {
-		name = learn_on_the_job_modifier
-		learning = 1
-		scale = court_chaplain_learn_on_the_job_scale
-	}
-
-	council_owner_modifier = {
-		name = reliable_house_modifier
-		learning = 1
-		scale = court_chaplain_reliable_house_scale
 	}
 
 	on_get_position = {
-		root.liege = {
-			set_variable = {
-				name = religious_advisor
-				value = root
-			}
+		set_variable = {
+			name = councillor_vizier_lifestyle_progress
+			value = 0
 		}
-		got_council_position_effect = yes
-		if = {
-			limit = {
-				years_from_game_start >= 1
-			}
-			if = {
-				limit = {
-					exists = this
-					exists = liege.culture
-					NOT = {
-						knows_language_of_culture = liege.culture
-					}
-				}
-				random_list = {
-					10 = {
-						modifier = {
-							add = learning
-						}
-						learn_language_of_culture = liege.culture
-					}
-					5 = {
-						trigger = {
-							can_start_scheme = { type = learn_language target = liege }
-						}
-						start_scheme = {
-							type = learn_language
-							target = liege
-						}
-					}
-					5 = {
-						trigger = {
-							OR = {
-								has_trait = arrogant
-								has_trait = arbitrary
-								has_trait = lazy
-								has_trait = fickle
-							}
-						}
-					}
-				}
-			}
-		}
+	}
+
+	on_lose_position = {
+		remove_variable = councillor_vizier_lifestyle_progress
 	}
 
 	on_fired_from_position = {
-		remove_variable = religious_advisor
-		fired_from_council_position_effect = yes
+		remove_variable = councillor_vizier_lifestyle_progress
 	}
-
-	portrait_animation = chaplain
 
 	barbershop_data = {
-		position = { 1618.0 172.0  }
-		click_to_front = no
+		position = { 763.0 261.00  }
+		click_to_front = yes
 	}
 }
+
 
 
 # OVERRIDE: need to change this to be invalid when a ruler has an aeluran advisor
@@ -441,7 +491,7 @@ councillor_court_chaplain = {
 
 		debug_log_scopes = yes
 
-		if = {
+		if = { #Converted Faith
 			limit = {
 				scope:liege = {
 					faith = {

@@ -1,0 +1,709 @@
+types OVERRIDE
+{
+	type legitimacy_hud_tooltip = elf_dest_object_tooltip_pop_out
+	{
+		blockoverride "title_text"
+		{
+			margin = { 0 8 }
+			text = "aeluran_hud_tt"
+			default_format = "#T"
+		}
+
+		blockoverride "concept_link"
+		{
+			text = "[legitimacy|E]"
+		}
+
+		blockoverride "subheading"
+		{
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				autoresize = yes
+				fontsize_min = 14
+				using = Font_Size_Small
+				text = "aeluran_hud_tt_subheading"
+				default_format = "#weak"
+				fonttintcolor = "[TooltipInfo.GetTintColor]"
+				max_width = 400
+
+				margin_top = -4
+			}
+		}
+
+		blockoverride "header_additions"
+		{
+			widget = {
+				size = { 120 74 }
+
+				widget = {
+					size = { 240 74 }
+					position = { -16 0 }
+
+					icon = {
+						size = { 100% 100% }
+						visible = "[GreaterThanOrEqualTo_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex )]"
+						texture = "gfx/interface/window_legend_chronicle/expected_legitimacy_decoration.dds"
+
+						using = Mask_Rough_Edges
+
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_right.dds"
+							blend_mode = alphaMultiply
+						}
+					}
+
+					icon = {
+						size = { 100% 100% }
+						visible = "[LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex )]"
+						texture = "gfx/interface/window_legend_chronicle/under_expected_legitimacy_decoration.dds"
+
+						using = Mask_Rough_Edges
+
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_right.dds"
+							blend_mode = alphaMultiply
+						}
+					}
+				}
+			}
+		}
+
+
+		blockoverride "main_description"
+		{
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_right = 10
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+
+					cooltip_paragraph = {
+						text = "LEGITIMACY_EFFECTS"
+						max_width = 500
+					}
+					expand = {
+						layoutpolicy_horizontal = expanding
+					}
+				}
+				spacer = {
+					size = { 0 15 }
+				}
+
+				hbox = {
+					name = "track_header"
+					layoutpolicy_horizontal = expanding
+					spacing = 5
+					margin_left = -10
+
+					background = {
+						using = Background_Area
+						margin = { -5 -5 }
+
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_right.dds"
+							blend_mode = alphaMultiply
+						}
+					}
+
+					icon_legitimacy_flat = {}
+
+					text_single = {
+						text = "LEGITIMACY_TRACK_TITLE"
+						layoutpolicy_horizontal = expanding
+						align = nobaseline
+					}
+				}
+
+				margin_widget = {
+					size = { 500 50 }
+					margin = { 10 0 }
+
+					datacontext = "[Character.GetLegitimacyType]"
+					datacontext = "[Character.GetLegitimacyLevel]"
+
+					hbox_complex_bar_progress = {
+						layoutpolicy_horizontal = expanding
+						margin_top = 30
+					}
+
+					hbox_complex_bar_levels = {
+						layoutpolicy_horizontal = expanding
+						position = { 0 -10 }
+						blockoverride "marker"
+						{
+							widget_level_marker = {
+								scale = 0.75
+
+								# Hide last one, it is the maximum not an actual level
+								visible = "[LessThan_int32( PdxGuiWidget.GetIndexInDataModel, GetDataModelSize( LegitimacyType.GetLevels ) )]"
+
+								blockoverride "marker_addon" {
+									icon = {
+										texture = "gfx/interface/colors/white.dds"
+										using = Mask_Rough_Edges
+										position = { -4 28 }
+										size = { 8 40 }
+										alpha = 0.4
+
+										visible = "[GreaterThan_int32( PdxGuiWidget.GetIndexInDataModel, '(int32)0' )]"
+									}
+
+									widget = {
+										size = { 52 52 }
+										position = { -26 24 }
+										visible = "[EqualTo_int32( Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex, PdxGuiWidget.GetIndexInDataModel )]"
+
+										icon = {
+											size = { 100% 100% }
+											visible = "[Not(LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex ))]"
+											texture = "gfx/interface/window_legend_chronicle/pin_expected_legitimacy.dds"
+										}
+
+										icon = {
+											size = { 100% 100% }
+											visible = "[LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex )]"
+											texture = "gfx/interface/window_legend_chronicle/pin_under_expected_legitimacy.dds"
+										}
+
+										widget = {
+											parentanchor = center
+											size = { 28 28 }
+
+											icon_flat_standard_red = {
+												size = { 100% 100% }
+												visible = "[LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex )]"
+												texture = "gfx/interface/icons/flat_icons/legitimacy_small.dds"
+											}
+
+											icon_flat_standard = {
+												size = { 100% 100% }
+												visible = "[Not(LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex ))]"
+												texture = "gfx/interface/icons/flat_icons/legitimacy_small.dds"
+											}
+										}
+									}
+								}
+
+								blockoverride "visible_active"
+								{
+									visible = "[EqualTo_int32( LegitimacyLevel.GetIndex, PdxGuiWidget.GetIndexInDataModel )]"
+								}
+
+								blockoverride "visible_inactive"
+								{
+									visible = "[NotEqualTo_int32( LegitimacyLevel.GetIndex, PdxGuiWidget.GetIndexInDataModel )]"
+								}
+
+								blockoverride "marker_tooltip"
+								{
+									datacontext_from_model = {
+										datamodel = "[LegitimacyType.GetLevels]"
+										index = "[PdxGuiWidget.GetIndexInDataModel]"
+									}
+									tooltip = "LEGITIMACY_TRACK_TOOLTIP"
+									using = tooltip_se
+								}
+
+								blockoverride "marker_text"
+								{
+									text = "[PdxGuiWidget.GetIndexInDataModel|V]"
+								}
+							}
+						}
+					}
+				}
+
+				spacer = {
+					size = { 0 15 }
+				}
+				hbox = {
+					layoutpolicy_horizontal = expanding
+
+					vbox = {
+						visible = "[Character.HasVassals]"
+						spacing = 10
+						layoutpolicy_horizontal = expanding
+
+						cooltip_paragraph = {
+							text = "LEGITIMACY_AVERAGE_EXPECTATIONS"
+						}
+
+						cooltip_paragraph = {
+							visible = "[LessThan_int32( LegitimacyLevel.GetIndex, Character.GetAveragePowerfulVassalLegitimacyExpectation.GetIndex )]"
+							text = "LEGITIMACY_BELOW_AVERAGE_EXPECTATIONS"
+						}
+					}
+					expand = {
+						layoutpolicy_horizontal = expanding
+					}
+				}
+			}
+		}
+	}
+
+	type elf_dest_object_tooltip_pop_out = widget {
+		name = "ObjectTooltipDefault"
+		using = GeneralTooltipSetup
+		alwaystransparent = no
+
+		using = DefaultTooltipBackground
+
+		vbox = {
+			set_parent_size_to_minimum = yes
+			margin = { 20 5 }
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				spacing = 10
+
+				background = {
+					name = "header"
+					texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+					spriteType = Corneredstretched
+					margin = { 15 0 }
+					texture_density = 2
+
+					modify_texture = {
+						name = "mask"
+						texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+						spriteType = Corneredstretched
+						spriteborder = { 160 0 }
+						blend_mode = alphamultiply
+						alpha = 0.5
+					}
+				}
+
+				block "header_tt" {
+					margin_bottom = 12
+				}
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+
+					block "header_additions" {
+						hbox = {}
+					}
+
+					vbox = {
+						name = "FancyHeader"
+						layoutpolicy_horizontal = expanding
+						alwaystransparent = no
+
+						text_single = {
+							layoutpolicy_horizontal = expanding
+							autoresize = yes
+							name = "title"
+
+							fontsize_min = 14
+							using = Font_Size_Medium
+
+							block "title_text" {
+								margin = { 0 8 }
+							}
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						# use subtitle_text blockoverride or replace this entire block
+						block "subheading"
+						{
+							text_single = {
+								layoutpolicy_horizontal = expanding
+								autoresize = yes
+								fontsize_min = 14
+								using = Font_Size_Small
+								block "subtitle_text" {
+									text = ""
+								}
+								fonttintcolor = "[TooltipInfo.GetTintColor]"
+								max_width = 400
+							}
+						}
+					}
+				}
+
+				expand = {}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					text_single = {
+						name = "concept_link"
+						layoutpolicy_horizontal = expanding
+						block "concept_link" {
+							raw_text = "#D Missing concept link!#!"
+						}
+
+						fonttintcolor = "[TooltipInfo.GetTintColor]"
+					}
+				}
+			}
+
+			# Override main_description if you plan to build a fully custom pop out, otherwise override the components
+			block "main_description"
+			{
+				block "extra_data" {}
+
+				textbox = {
+					name = "warning_description"
+
+					using = DefaultTooltipText
+					layoutpolicy_horizontal = expanding
+					multiline = yes
+					block "warning_description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				textbox = {
+					name = "above_description"
+
+					max_width = 400
+					using = DefaultTooltipText
+					layoutpolicy_horizontal = expanding
+					multiline = yes
+					block "above_description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				# NOTE: This edit box is filled by TooltipInfo.GetTintColor from code in order to set the correct size when the tooltip is created and positioned and then it uses the text property specified here in the next frames
+				textbox = {
+					name = "Description"
+					layoutpolicy_horizontal = expanding
+					max_width = 400
+					using = DefaultTooltipText
+					multiline = yes
+					block "description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				block "extra_data_after_description" {}
+
+				# Things like "click to X", hotkeys etc
+				textbox = {
+					name = "input_info"
+					layoutpolicy_horizontal = expanding
+					margin_top = 10
+					using = DefaultTooltipText
+					multiline = yes
+					block "input_info_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+				}
+			}
+
+			textbox = {
+				name = "TooltipTextShortcut"
+				layoutpolicy_horizontal = expanding
+				using = DefaultTooltipText
+				margin = { 10 5 }
+				margin_top = 10
+			}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				spacing = 10
+
+				background = {
+					name = "header"
+					texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+					spriteType = Corneredstretched
+					margin = { 15 0 }
+					texture_density = 2
+
+					modify_texture = {
+						name = "mask"
+						texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+						spriteType = Corneredstretched
+						spriteborder = { 160 0 }
+						blend_mode = alphamultiply
+						alpha = 0.5
+					}
+				}
+
+				block "header_tt" {
+					margin_bottom = 12
+				}
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+
+					block "header_additions" {
+						hbox = {}
+					}
+
+					vbox = {
+						name = "FancyHeader"
+						layoutpolicy_horizontal = expanding
+						alwaystransparent = no
+
+						text_single = {
+							layoutpolicy_horizontal = expanding
+							autoresize = yes
+							name = "title"
+
+							fontsize_min = 14
+							using = Font_Size_Medium
+
+							block "title_text" {
+								margin = { 0 8 }
+							}
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						# use subtitle_text blockoverride or replace this entire block
+						block "subheading"
+						{
+							text_single = {
+								layoutpolicy_horizontal = expanding
+								autoresize = yes
+								fontsize_min = 14
+								using = Font_Size_Small
+								block "subtitle_text" {
+									text = ""
+								}
+								fonttintcolor = "[TooltipInfo.GetTintColor]"
+								max_width = 400
+							}
+						}
+					}
+				}
+
+				expand = {}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					text_single = {
+						name = "concept_link"
+						layoutpolicy_horizontal = expanding
+						block "concept_link" {
+							raw_text = "#D Missing concept link!#!"
+						}
+
+						fonttintcolor = "[TooltipInfo.GetTintColor]"
+					}
+				}
+			}
+
+			# Override main_description if you plan to build a fully custom pop out, otherwise override the components
+			block "main_description"
+			{
+				block "extra_data" {}
+
+				textbox = {
+					name = "warning_description"
+
+					using = DefaultTooltipText
+					layoutpolicy_horizontal = expanding
+					multiline = yes
+					block "warning_description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				textbox = {
+					name = "above_description"
+
+					max_width = 400
+					using = DefaultTooltipText
+					layoutpolicy_horizontal = expanding
+					multiline = yes
+					block "above_description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				# NOTE: This edit box is filled by TooltipInfo.GetTintColor from code in order to set the correct size when the tooltip is created and positioned and then it uses the text property specified here in the next frames
+				textbox = {
+					name = "Description"
+					layoutpolicy_horizontal = expanding
+					max_width = 400
+					using = DefaultTooltipText
+					multiline = yes
+					block "description_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					alwaystransparent = no
+				}
+
+				block "extra_data_after_description" {}
+
+				# Things like "click to X", hotkeys etc
+				textbox = {
+					name = "input_info"
+					layoutpolicy_horizontal = expanding
+					margin_top = 10
+					using = DefaultTooltipText
+					multiline = yes
+					block "input_info_text" {}
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+				}
+			}
+
+			textbox = {
+				name = "TooltipTextShortcut"
+				layoutpolicy_horizontal = expanding
+				using = DefaultTooltipText
+				margin = { 10 5 }
+				margin_top = 10
+			}
+		}
+	
+		# vbox = {
+		# 	set_parent_size_to_minimum = yes
+		# 	margin = { 20 5 }
+
+		# 	hbox = {
+		# 		layoutpolicy_horizontal = expanding
+		# 		spacing = 10
+
+		# 		background = {
+		# 			name = "header"
+		# 			texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+		# 			spriteType = Corneredstretched
+		# 			margin = { 15 0 }
+		# 			texture_density = 2
+
+		# 			modify_texture = {
+		# 				name = "mask"
+		# 				texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+		# 				spriteType = Corneredstretched
+		# 				spriteborder = { 160 0 }
+		# 				blend_mode = alphamultiply
+		# 				alpha = 0.5
+		# 			}
+		# 		}
+
+		# 		block "header_tt" {
+		# 			margin_bottom = 12
+		# 		}
+
+		# 		hbox = {
+		# 			layoutpolicy_horizontal = expanding
+
+		# 			block "header_additions" {
+		# 				hbox = {}
+		# 			}
+
+		# 			vbox = {
+		# 				name = "FancyHeader"
+		# 				layoutpolicy_horizontal = expanding
+		# 				alwaystransparent = no
+
+		# 				text_single = {
+		# 					layoutpolicy_horizontal = expanding
+		# 					autoresize = yes
+		# 					name = "title"
+
+		# 					fontsize_min = 14
+		# 					using = Font_Size_Medium
+
+		# 					block "title_text" {
+		# 						margin = { 0 8 }
+		# 					}
+		# 					fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 				}
+
+		# 				# use subtitle_text blockoverride or replace this entire block
+		# 				block "subheading"
+		# 				{
+		# 					text_single = {
+		# 						layoutpolicy_horizontal = expanding
+		# 						autoresize = yes
+		# 						fontsize_min = 14
+		# 						using = Font_Size_Small
+		# 						block "subtitle_text" {
+		# 							text = ""
+		# 						}
+		# 						fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 						max_width = 400
+		# 					}
+		# 				}
+		# 			}
+		# 		}
+
+		# 		expand = {}
+
+		# 		vbox = {
+		# 			layoutpolicy_vertical = expanding
+
+		# 			text_single = {
+		# 				name = "concept_link"
+		# 				layoutpolicy_horizontal = expanding
+		# 				block "concept_link" {
+		# 					raw_text = "#D Missing concept link!#!"
+		# 				}
+
+		# 				fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 			}
+		# 		}
+		# 	}
+
+		# 	# Override main_description if you plan to build a fully custom pop out, otherwise override the components
+		# 	block "main_description"
+		# 	{
+		# 		block "extra_data" {}
+
+		# 		textbox = {
+		# 			name = "warning_description"
+
+		# 			using = DefaultTooltipText
+		# 			layoutpolicy_horizontal = expanding
+		# 			multiline = yes
+		# 			block "warning_description_text" {}
+		# 			fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 			alwaystransparent = no
+		# 		}
+
+		# 		textbox = {
+		# 			name = "above_description"
+
+		# 			max_width = 400
+		# 			using = DefaultTooltipText
+		# 			layoutpolicy_horizontal = expanding
+		# 			multiline = yes
+		# 			block "above_description_text" {}
+		# 			fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 			alwaystransparent = no
+		# 		}
+
+		# 		# NOTE: This edit box is filled by TooltipInfo.GetTintColor from code in order to set the correct size when the tooltip is created and positioned and then it uses the text property specified here in the next frames
+		# 		textbox = {
+		# 			name = "Description"
+		# 			layoutpolicy_horizontal = expanding
+		# 			max_width = 400
+		# 			using = DefaultTooltipText
+		# 			multiline = yes
+		# 			block "description_text" {}
+		# 			fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 			alwaystransparent = no
+		# 		}
+
+		# 		block "extra_data_after_description" {}
+
+		# 		# Things like "click to X", hotkeys etc
+		# 		textbox = {
+		# 			name = "input_info"
+		# 			layoutpolicy_horizontal = expanding
+		# 			margin_top = 10
+		# 			using = DefaultTooltipText
+		# 			multiline = yes
+		# 			block "input_info_text" {}
+		# 			fonttintcolor = "[TooltipInfo.GetTintColor]"
+		# 		}
+		# 	}
+
+		# 	textbox = {
+		# 		name = "TooltipTextShortcut"
+		# 		layoutpolicy_horizontal = expanding
+		# 		using = DefaultTooltipText
+		# 		margin = { 10 5 }
+		# 		margin_top = 10
+		# 	}
+		# }
+	
+	}
+
+
+}

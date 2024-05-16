@@ -259,3 +259,28 @@ Special "Aeluran Vassal" type. Maybe gives extra tax/piety/control but theres so
 mythic artifact, hammer that gives insane building speed bonus 
 
 myhtril coat
+
+take the hired mercenary concept from iberian penninsula to the extreme
+
+combine aeluran respect with legitamacy window, just add a second bar!
+- i wonder if you can make invisible traits with tracks and still track values on it?
+
+future dynasty or perk that increases odds of loyal trait in matchmaking matches
+
+for the warg spell "send animal spys", use map selector like finding hook, increase range for each magic skill elvel 1-3
+
+form network of spies event/unlockable councilor task
+
+Man just realized even Harry Potter has elves lol, bad ending for elves is they become house elf servants to humans?
+
+some effect that gives a ONE TIME bonus of +1 Dynasty Renown fo each living ruler of your dynasty
+- maybe an event that occurs randomly on expeditions.
+- maybe a consumable artifacty 
+- maybe also only counts elf rulers if its something specific to elf supremacists
+
+battle of wills discord app
+- player challenges another channel member
+- bot displays challenge in same format and percentage chance as ck3
+- both players emoji to confirm battle
+
+could make available culture tradition slots its own reward you find on expeditions!

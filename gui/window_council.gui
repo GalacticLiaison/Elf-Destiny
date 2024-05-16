@@ -7,7 +7,7 @@ window = {
 	# I believe this is init with [ToggleGameViewData('council_window', GetPlayer.GetID)]
 	# so has player id as datacontext
 	name = "council_window"
-	widgetid = "council_window_id"
+	widgetid = "council_window"
 	parentanchor = top|right
 	layer = windows_layer
 	movable = no
@@ -362,9 +362,9 @@ types CouncilWindow
 		size = { 260 250 }
 
 		### Required Datacontexts
-		# A council position type - from use above: [CouncilWindow.GetCouncillor('councillor_marshal')]
-		# The councillor - from use above: [ActiveCouncilTask.GetCouncillor]
-		# The active council task: - from use above: [GuiCouncilPosition.GetActiveCouncilTask]
+		# A council position type
+		# The councillor
+		# The active council task
 		widget = {
 			visible = "[Not(GuiCouncilPosition.ArePotentialTasksVisible)]"
 			size = { 100% 100% }
@@ -594,7 +594,8 @@ types CouncilWindow
 
 					blockoverride "tooltip"
 					{
-						tooltip_enabled = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
+						# tooltip_enabled = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
+						tooltip_visible = "[And( ActiveCouncilTask.HasMainSkill, ActiveCouncilTask.HasCouncillor )]"
 						tooltip = "[SkillItem.GetSkillBreakdownTooltip]"
 					}
 				}
@@ -988,10 +989,11 @@ types CouncilWindow
 					layoutpolicy_horizontal = expanding
 				}
 
-				block "spouse_task" {}
+				block "assist_task" {}
 			}
 		}
 	}
+
 
 	type widget_aeluran_councillor_item = widget {
 		size = { 260 250 }
@@ -1753,21 +1755,22 @@ types CouncilTaskTypes
 			maximumsize = { -1 932 }
 			spacing = 5
 
-			# Row 1 Spouse and Chaplin
+			# Row 1 Spouse/Vizier and Chaplin/Aeluran
 			hbox = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
 				margin = { 10 0 }
 				spacing = 5
 
-				# SPOUSE
+				# SPOUSE AND VIZIER
 				widget_councillor_item = {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_vizier')]"
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+					visible = "[CouncilOwnerHasVizier]"
 
 					background =  {
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
@@ -1789,17 +1792,17 @@ types CouncilTaskTypes
 						size = { 260 286 }
 					}
 
-					blockoverride "replace_councillor"
-					{
-						spacer = {
-							visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
-							size = { 5 5 }
-						}
-					}
+					# blockoverride "replace_councillor"
+					# {
+					# 	spacer = {
+					# 		visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+					# 		size = { 5 5 }
+					# 	}
+					# }
 
 					blockoverride "regular_task" {}
 
-					blockoverride "spouse_task"
+					blockoverride "assist_task"
 					{
 						hbox = {
 							visible = "[Character.IsValid]"
@@ -1838,7 +1841,7 @@ types CouncilTaskTypes
 							visible = "[And( Not(Character.IsValid), CouncilWindow.IsPlayerCouncilShown )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
-							text = "COUNCILLOR_MISSING_SPOUSE"
+							text = "COUNCILLOR_MISSING_VIZIER"
 							default_format = "#low;italic"
 						}
 
@@ -1846,7 +1849,7 @@ types CouncilTaskTypes
 							visible = "[And( Not(Character.IsValid), CouncilWindow.IsLiegeCouncilShown )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
-							text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
+							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
 							default_format = "#low;italic"
 							max_width = 250
 							fontsize_min = 14
@@ -1854,10 +1857,119 @@ types CouncilTaskTypes
 					}
 				}
 
-				# SPARK Try GetPlayer.
-				# Generic Chaplin
 				widget_councillor_item = {
-					visible = "[Not(CouncilOwnerHasAeluran)]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
+					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+					datacontext = "[ActiveCouncilTask.GetPositionType]"
+					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+					visible = "[Not( CouncilOwnerHasVizier )]"
+
+					background =  {
+						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
+						fittype = centercrop
+						using = Mask_Rough_Edges
+						alpha = 0.8
+					}
+
+					background = {
+						texture = "gfx/interface/component_masks/mask_vignette.dds"
+						color = { 0.15 0.15 0.15 1 }
+						alpha = 0.3
+					}
+
+					# make spouse portrait unique size, so it doesn't reuse
+					# textures from other councilors during hide animation
+					blockoverride "portrait_size"
+					{
+						size = { 260 286 }
+					}
+
+					blockoverride "replace_councillor"
+					{
+						spacer = {
+							visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+							size = { 5 5 }
+						}
+					}
+
+					blockoverride "regular_task" {}
+
+					blockoverride "assist_task"
+					{
+						hbox = {
+							visible = "[Character.IsValid]"
+							layoutpolicy_horizontal = expanding
+							margin = { 5 5 }
+							spacing = 3
+
+							button_standard = {
+								size = { 190 25 }
+								onclick = "[GuiCouncilPosition.ShowHideTasks]"
+								tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
+								down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
+
+								text_single = {
+									datacontext = "[ActiveCouncilTask.GetTaskTypeOrDefault]"
+									parentanchor = vcenter
+									position = { 10 0 }
+									text = "[CouncilTaskType.GetName]"
+									align = nobaseline
+								}
+
+								button_change = {
+									name = "show_tasks"
+									parentanchor = right|vcenter
+									position = { -5 0 }
+									alwaystransparent = yes
+									size = { 25 25 }
+								}
+							}
+						}
+					}
+
+					blockoverride "missing_councillor"
+					{
+						text_label_center = {
+							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
+							parentanchor = bottom|hcenter
+							position = { 0 -10 }
+							text = "COUNCILLOR_MISSING_SPOUSE"
+							default_format = "#low;italic"
+						}
+
+						text_label_center = {
+							visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
+							parentanchor = bottom|hcenter
+							position = { 0 -10 }
+							text = "COUNCILLOR_MISSING_VIZIER"
+							default_format = "#low;italic"
+						}
+
+						text_label_center = {
+							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
+							parentanchor = bottom|hcenter
+							position = { 0 -10 }
+							text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
+							default_format = "#low;italic"
+							max_width = 250
+							fontsize_min = 14
+						}
+
+						text_label_center = {
+							visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
+							parentanchor = bottom|hcenter
+							position = { 0 -10 }
+							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
+							default_format = "#low;italic"
+							max_width = 250
+							fontsize_min = 14
+						}
+					}
+				}
+
+				widget_councillor_item = {
 
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
@@ -1865,12 +1977,13 @@ types CouncilTaskTypes
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+					visible = "[Not(CouncilOwnerHasAeluran)]"
 					name = "tutorial_court_chaplain"
 
-					datacontext = "[GetIllustration( 'religion_interior' )]"
+					datacontext = "[GetIllustration( 'character_religion_interior' )]"
 
 					background =  {
-						texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillor.GetFaith.MakeScope )]"
+						texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillor.MakeScope )]"
 						fittype = centercrop
 						alpha = 0.7
 						using = Mask_Rough_Edges
@@ -1885,7 +1998,6 @@ types CouncilTaskTypes
 
 				# Aeluran Advisor
 				widget_aeluran_councillor_item = {
-					visible = "[CouncilOwnerHasAeluran]"
 
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
@@ -1893,6 +2005,8 @@ types CouncilTaskTypes
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+					visible = "[CouncilOwnerHasAeluran]"
+
 					name = "tutorial_aeluran_advisor"
 
 					datacontext = "[GetIllustration( 'religion_interior' )]"
@@ -1910,7 +2024,6 @@ types CouncilTaskTypes
 						alpha = 0.3
 					}
 				}
-				
 			}
 
 			# Row 2 Chancellor and Steward
