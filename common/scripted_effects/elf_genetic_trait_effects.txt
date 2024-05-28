@@ -383,28 +383,6 @@ pure_blooded_inheritance_effect = {
 		}
 	}
 
-	else_if = { # both parents purer_blooded, not related
-		limit = {
-			AND = {
-				scope:real_father = {
-					has_trait = purer_blooded
-				}
-				scope:mother = {
-					has_trait = purer_blooded
-				}
-			}
-		}
-		remove_pure_blooded = yes
-		random_list = {
-			70 = {
-				add_trait = pure_blooded
-			}
-			30 = {
-				add_trait = purer_blooded
-			}
-		}
-	}
-
 	else_if = { # both parents purest_blooded & related
 		limit = {
 			AND = {
@@ -445,8 +423,6 @@ pure_blooded_inheritance_effect = {
 	}
 
 
-
-
 	else_if = { # greater than pure_blooded
 		limit = {
 			AND = {
@@ -472,7 +448,7 @@ pure_blooded_inheritance_effect = {
 	}
 
 
-	else_if = { # greater than pure_blooded, not related
+	else_if = { # At least one parent purer+, not related
 		limit = {
 			blood_score > 3
 		}
