@@ -466,23 +466,26 @@ pure_blooded_inheritance_effect = {
 
 else_if = { # One last edge case to make purer/purest at least equivalent to pure
 		limit = {
-			OR = {
-				scope:mother = {
-					OR = {
-						has_trait = purest_blooded
-						has_trait = purer_blooded
+			AND = {
+				NOT = {
+            		has_trait = pure_blooded
+        		}
+        		OR = {
+					scope:mother = {
+						OR = {
+							has_trait = purest_blooded
+							has_trait = purer_blooded
+						}
 					}
-				}
-				scope:real_father = {
-					OR = {
-						has_trait = purest_blooded
-						has_trait = purer_blooded
+					scope:real_father = {
+						OR = {
+							has_trait = purest_blooded
+							has_trait = purer_blooded
+						}
 					}
 				}
 			}
-
 		}
-		remove_pure_blooded = yes
 		random_list = {
 			45 = {
 				add_trait = pure_blooded
