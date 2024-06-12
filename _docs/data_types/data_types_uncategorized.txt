@@ -5224,6 +5224,12 @@ Return type: [unregistered]
 
 -----------------------
 
+diplomacy_lifestyle_i
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
 diplomacy_skill
 Definition type: Global function
 Return type: [unregistered]
@@ -7588,6 +7594,12 @@ Return type: [unregistered]
 
 -----------------------
 
+intrigue_lifestyle_i
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
 intrigue_lqwuljxh
 Definition type: Global function
 Return type: [unregistered]
@@ -7780,6 +7792,12 @@ Return type: [unregistered]
 
 -----------------------
 
+learning_lifestyle_i
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
 learning_skill
 Definition type: Global function
 Return type: [unregistered]
@@ -7859,6 +7877,12 @@ Return type: [unregistered]
 -----------------------
 
 legend_legitimizing
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
+legend_library
 Definition type: Global function
 Return type: [unregistered]
 
@@ -8296,6 +8320,12 @@ Return type: [unregistered]
 
 -----------------------
 
+martial_lifestyle_i
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
 martial_skill
 Definition type: Global function
 Return type: [unregistered]
@@ -8693,6 +8723,18 @@ Return type: [unregistered]
 -----------------------
 
 organized
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
+owned_legend
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
+owning_legend
 Definition type: Global function
 Return type: [unregistered]
 
@@ -10427,6 +10469,12 @@ Return type: [unregistered]
 -----------------------
 
 stewardship_lifestyle
+Definition type: Global function
+Return type: [unregistered]
+
+-----------------------
+
+stewardship_lifestyle_i
 Definition type: Global function
 Return type: [unregistered]
 
@@ -12213,7 +12261,7 @@ Definition type: Global macro
 -----------------------
 
 CouncilOwnerHasAeluran
-Macro replacement: CouncilWindow.GetCouncillor('councillor_aeluran_advisor').GetActiveCouncilTask.GetCouncillor.IsValid
+Macro replacement: CouncilWindow.GetCharacter.GetFaith.HasDoctrineByKey( 'tenet_aeluran_sisters' )
 Description: Does the council owner have an aeluran advisor on their council?
 Definition type: Global macro
 
@@ -12341,6 +12389,13 @@ Definition type: Global macro
 GetWitContestTypeAptitude
 Macro replacement: GetContestAptitude( 'contest_type_aptitude_wit' )
 Description: Gets the script value of the datacontexted character's aptitude for the specified contest
+Definition type: Global macro
+
+-----------------------
+
+GovenmentIsFeudalOrElfFeudalEquivalent
+Macro replacement: Or(Or(Character.GetGovernment.IsType('feudal_government'), Character.GetGovernment.IsType('aeluran_weavers_government')), Character.GetGovernment.IsType('advanced_tribal_government'))
+Description: Is The Government Type Feudal, Aeluran Or Ascended Tribal?
 Definition type: Global macro
 
 -----------------------
@@ -24162,6 +24217,12 @@ Return type: [unregistered]
 
 -----------------------
 
+Character.AddToLegendLibrary( Arg0 )
+Definition type: Function
+Return type: Command
+
+-----------------------
+
 Character.AdoptCourtLanguage( Arg0 )
 Definition type: Function
 Return type: void
@@ -24318,6 +24379,12 @@ Return type: CString
 
 -----------------------
 
+Character.CustomFixedRandom( Arg0 )
+Definition type: Function
+Return type: CString
+
+-----------------------
+
 Character.EmploysCourtPositionType( Arg0 )
 Definition type: Function
 Return type: bool
@@ -24463,6 +24530,12 @@ Return type: CString
 -----------------------
 
 Character.GetAnimatedPortrait( Arg0, Arg1, Arg2, Arg3 )
+Definition type: Function
+Return type: [unregistered]
+
+-----------------------
+
+Character.GetAnimatedPortraitEvenIfDead( Arg0, Arg1, Arg2, Arg3 )
 Definition type: Function
 Return type: [unregistered]
 
@@ -24816,12 +24889,6 @@ Return type: [unregistered]
 
 -----------------------
 
-Character.GetContextTooltip( Arg0, Arg1 )
-Definition type: Function
-Return type: CString
-
------------------------
-
 Character.GetCouncilTitle
 Definition type: Function
 Return type: CString
@@ -25143,12 +25210,6 @@ Return type: [unregistered]
 Character.GetCurrentWeight
 Definition type: Function
 Return type: int32
-
------------------------
-
-Character.GetDeadRelatives
-Definition type: Function
-Return type: [unregistered]
 
 -----------------------
 
@@ -28605,6 +28666,12 @@ Return type: CString
 Character.RealmSize
 Definition type: Function
 Return type: int32
+
+-----------------------
+
+Character.RemoveFromLegendLibrary( Arg0 )
+Definition type: Function
+Return type: Command
 
 -----------------------
 
@@ -44464,6 +44531,12 @@ Return type: bool
 
 -----------------------
 
+Entry.IsFlatIcon
+Definition type: Function
+Return type: bool
+
+-----------------------
+
 Entry.IsSelected
 Definition type: Function
 Return type: bool
@@ -49708,6 +49781,18 @@ Return type: void
 -----------------------
 
 FrontEndMainView.OnNudge
+Definition type: Function
+Return type: void
+
+-----------------------
+
+FrontEndMainView.OnOpenDiscordUrl
+Definition type: Function
+Return type: void
+
+-----------------------
+
+FrontEndMainView.OnOpenYoutubeUrl
 Definition type: Function
 Return type: void
 
@@ -59592,9 +59677,21 @@ Definition type: Type
 
 -----------------------
 
+Legend.GetCompletionDate
+Definition type: Promote
+Return type: Date
+
+-----------------------
+
 Legend.GetCreationDate
 Definition type: Promote
 Return type: Date
+
+-----------------------
+
+Legend.GetLastOwner
+Definition type: Promote
+Return type: Character
 
 -----------------------
 
@@ -59664,6 +59761,12 @@ Return type: CString
 
 -----------------------
 
+Legend.GetCompletionDate
+Definition type: Function
+Return type: [unregistered]
+
+-----------------------
+
 Legend.GetCreationDate
 Definition type: Function
 Return type: [unregistered]
@@ -59685,6 +59788,12 @@ Return type: CString
 Legend.GetImpactModifiers( Arg0 )
 Definition type: Function
 Return type: CString
+
+-----------------------
+
+Legend.GetLastOwner
+Definition type: Function
+Return type: [unregistered]
 
 -----------------------
 
@@ -59721,6 +59830,12 @@ Return type: CString
 Legend.GetOwner
 Definition type: Function
 Return type: [unregistered]
+
+-----------------------
+
+Legend.GetPortraitAnimation
+Definition type: Function
+Return type: CString
 
 -----------------------
 
@@ -59802,6 +59917,12 @@ Return type: bool
 
 -----------------------
 
+Legend.IsInPlayerLibrary( Arg0 )
+Definition type: Function
+Return type: bool
+
+-----------------------
+
 Legend.IsSelected
 Definition type: Function
 Return type: bool
@@ -59826,6 +59947,12 @@ Return type: void
 
 -----------------------
 
+Legend.PanCameraTo
+Definition type: Function
+Return type: void
+
+-----------------------
+
 Legend.Self
 Definition type: Function
 Return type: [unregistered]
@@ -59835,6 +59962,12 @@ Return type: [unregistered]
 Legend.WasPromotedOnCompletionInProvince( Arg0 )
 Definition type: Function
 Return type: bool
+
+-----------------------
+
+Legend.ZoomCameraTo
+Definition type: Function
+Return type: void
 
 -----------------------
 
@@ -60050,6 +60183,12 @@ Return type: CString
 
 -----------------------
 
+LegendSeed.GetNameWithProtagonist( Arg0, Arg1 )
+Definition type: Function
+Return type: CString
+
+-----------------------
+
 LegendSeed.GetQualityLevel
 Definition type: Function
 Return type: CString
@@ -60162,13 +60301,25 @@ Return type: [unregistered]
 
 -----------------------
 
+LegendsWindow.ClearFocusedLegend
+Definition type: Function
+Return type: void
+
+-----------------------
+
 LegendsWindow.Close
 Definition type: Function
 Return type: void
 
 -----------------------
 
-LegendsWindow.GetDynastyCompletedLegends
+LegendsWindow.GetDistantActiveLegends
+Definition type: Function
+Return type: [unregistered]
+
+-----------------------
+
+LegendsWindow.GetDistantCompletedLegends
 Definition type: Function
 Return type: [unregistered]
 
@@ -60180,13 +60331,7 @@ Return type: [unregistered]
 
 -----------------------
 
-LegendsWindow.GetOtherCompletedLegends
-Definition type: Function
-Return type: [unregistered]
-
------------------------
-
-LegendsWindow.GetOtherLegends
+LegendsWindow.GetLibraryLegends
 Definition type: Function
 Return type: [unregistered]
 
@@ -60198,7 +60343,13 @@ Return type: [unregistered]
 
 -----------------------
 
-LegendsWindow.GetRealmLegends
+LegendsWindow.GetRealmActiveLegends
+Definition type: Function
+Return type: [unregistered]
+
+-----------------------
+
+LegendsWindow.GetRealmCompletedLegends
 Definition type: Function
 Return type: [unregistered]
 
@@ -60207,6 +60358,12 @@ Return type: [unregistered]
 LegendsWindow.Self
 Definition type: Function
 Return type: [unregistered]
+
+-----------------------
+
+LegendsWindow.SetCurrentTab( Arg0 )
+Definition type: Function
+Return type: void
 
 -----------------------
 
@@ -78624,6 +78781,12 @@ Return type: CString
 -----------------------
 
 TriggeredLegendSeed.GetName( Arg0 )
+Definition type: Function
+Return type: CString
+
+-----------------------
+
+TriggeredLegendSeed.GetNameWithProtagonist( Arg0, Arg1 )
 Definition type: Function
 Return type: CString
 

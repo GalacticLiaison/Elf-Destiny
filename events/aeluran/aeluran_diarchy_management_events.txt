@@ -1,0 +1,166 @@
+﻿namespace = aeluran_diarchy_management
+
+# Shift Vassal Contract
+# this one is automatic so just send a notification event to diarch and leige if they are players (maybe affected vassal too?)
+aeluran_diarchy_management.1000 = {
+	hidden = yes
+
+	immediate = {
+		debug_log = "Shifting Contracts Event"
+		debug_log_scopes = yes
+
+		root.diarch = {
+			save_scope_as = the_diarch
+		}
+
+		if = {
+			limit = {
+				exists = scope:the_diarch
+			}
+			scope:the_diarch = {
+				trigger_event = aeluran_diarchy_management.1001
+			}
+		}
+		else = {
+			debug_log = "WTF"
+		}
+	}
+}
+
+# # Diarch is recipient
+# aeluran_diarchy_management.1000 = {
+# 	type = character_event
+# 	title = aeluran_diarchy_management.1000.title
+# 	desc = aeluran_diarchy_management.1000.desc
+
+# 	theme = aeluran_standard
+# 	content_source = elf_destiny
+
+# 	immediate = {
+# 		debug_log = "Shifting Contracts Event"
+# 		debug_log_scopes = yes
+# 	}
+
+# 	option = {
+# 		name = aeluran_diarchy_management.1000.adjust_contracts
+
+# 		debug_log = "Shifting..."
+# 		liege = {
+# 			shift_aeluran_contracts_effect = yes
+
+# 			if = {
+# 				limit = {
+# 					is_ai = no
+# 				}
+# 				trigger_event = aeluran_diarchy_management.1001
+# 			}
+
+# 			# Notify Aeluran Vassals
+# 			every_vassal = {
+# 				limit = {
+# 					has_government = aeluran_weavers_government
+# 					is_ai = no
+# 				}
+# 				trigger_event = aeluran_diarchy_management.1002
+# 			}
+# 		}
+
+# 		ai_chance = {
+# 			base = 100
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_diarchy_management.1000.nvm
+
+# 		ai_chance = {
+# 			base = 0
+# 		}
+# 	}
+# }
+
+aeluran_diarchy_management.1001 = {
+	type = character_event
+	title = aeluran_diarchy_management.1001.title
+	desc = aeluran_diarchy_management.1001.desc
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	theme = aeluran_standard
+	content_source = elf_destiny
+
+	immediate = {
+		# could add a custom tooltip to explain what happened
+		debug_log = "aeluran_diarchy_management.1001"
+		debug_log_scopes = yes
+
+		liege = {
+			shift_aeluran_contracts_effect = yes
+			trigger_event = aeluran_diarchy_management.1002
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_management.1001.ok
+	}
+}
+
+aeluran_diarchy_management.1002 = {
+	type = character_event
+	title = aeluran_diarchy_management.1002.title
+	desc = aeluran_diarchy_management.1002.desc
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	theme = aeluran_standard
+	content_source = elf_destiny
+
+	immediate = {
+		# could add a custom tooltip to explain what happened
+	}
+
+	option = {
+		name = aeluran_diarchy_management.1002.ok
+	}
+}
+
+aeluran_diarchy_management.2001 = {
+	hidden = yes
+
+	immediate = {
+		shift_aeluran_loyalties_effect = yes
+	}
+
+	option = {
+		name = aeluran_diarchy_management.2001.ok
+	}
+}
+
+
+aeluran_diarchy_management.3001 = {
+	type = character_event
+	title = aeluran_diarchy_management.3001.title
+	desc = aeluran_diarchy_management.3001.desc
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	theme = court
+	content_source = elf_destiny
+
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_diarchy_management.3001.ok
+	}
+}

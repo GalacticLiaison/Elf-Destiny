@@ -4,6 +4,8 @@ https://discord.com/channels/1179053540161880074/1219397987491512400/12296044194
 
 cheat menu?
 
+"It’s because you have endless lord, the first brown will always be elf blooded."
+
 add_endless_lord_genetic_traits - endless lord doesnt include bloodline traits?
 
 Aeluran Matching Making 

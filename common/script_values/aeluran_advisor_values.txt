@@ -27,3 +27,68 @@ aeluran_advisor_aeluran_magistration_modifier_base_scale = {
 	add = intrigue
 	divide = 2
 }
+
+
+aeluran_realm_size = {
+	value = sub_realm_size
+}
+
+aeluran_vassal_contribution = {
+	value = aeluran_realm_size
+
+	if = {
+		limit = {
+			vassal_contract_obligation_level:aeluran_government_magi = 0
+		}
+		multiply = 0
+	}
+	if = {
+		limit = {
+			vassal_contract_obligation_level:aeluran_government_magi = 1
+		}
+		multiply = 0.5
+	}
+	if = {
+		limit = {
+			vassal_contract_obligation_level:aeluran_government_magi = 2
+		}
+		multiply = 1
+	}
+	if = {
+		limit = {
+			vassal_contract_obligation_level:aeluran_government_magi = 3
+		}
+		multiply = 1.5
+	}
+	if = {
+		limit = {
+			vassal_contract_obligation_level:aeluran_government_magi = 4
+		}
+		multiply = 2
+	}
+}
+
+total_aeluran_magi_reinforcements = {
+	value = 0
+
+	every_vassal = {
+		limit = {
+			has_government = aeluran_weavers_government
+		}
+
+		# First determine how many counties they control
+		add = aeluran_vassal_contribution
+	}
+}
+
+aeluran_war_magi_reinforcements = {
+	value = total_aeluran_magi_reinforcements
+
+
+	multiply = 0.66
+}
+
+aeluran_magi_artillery_reinforcements = {
+	value = total_aeluran_magi_reinforcements
+	multiply = 0.33
+}

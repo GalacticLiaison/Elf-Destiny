@@ -7,10 +7,11 @@
 				is_ai = yes
 				# liege = {
 				# 	is_ai = no
-				# 	# is_betrothed = no
-				# 	# is_married = no
-				# 	# is_adult = yes
+				# 	is_betrothed = no
+				# 	is_married = no
+				# 	is_adult = yes
 				# }
+				has_character_modifier = organizing_matchmaking
 			}
 		}
 	}
@@ -58,7 +59,7 @@
 			text = not_valid_matchmaking_location
 			AND = {
 				exists = barony	
-				# barony = host.liege.capital_barony
+				barony = scope:host.liege.capital_barony
 			}
 		}
 	}
@@ -74,7 +75,7 @@
 		add = 888
 	}
 
-	cooldown = { years = 3 }
+	cooldown = { years = 1 }
 
 	ai_check_interval = 1
 	
@@ -95,13 +96,16 @@
 
 		}
 		defaults = {
-			1 = activity_invite_rule_liege
+			1 = activity_invite_rule_liege_and_liege_family
 		}
 	}
 
 	can_be_activity_guest = {
 		is_adult = yes
-		is_liege_or_above_of = scope:host
+		OR = {
+			scope:host.liege = root
+			is_close_family_of = scope:host.liege
+		}
 	}
 
 	host_intents = {
@@ -115,7 +119,7 @@
 	}
 
 	guest_join_chance = {
-		base = 100
+		base = 1000
 
 		# Scripted Modifiers
 		# activity_guest_shared_ai_accept_modifier = yes 
@@ -128,17 +132,48 @@
 			is_shown = { 
 				# scope:special_option = flag:feast_type_generic
 			}
-
-			# scope:host = {
-			# 	var:entrancer = {
-			# 		save_scope_as = entrance_schemer
-			# 	}
-			# }
 	
 			select_character = {
-				liege = {
-					save_scope_as = character
+				if = {
+					limit = {
+						exists = var:matchmaking_character
+					}
+					var:matchmaking_character = {
+						save_scope_as = character
+					}
 				}
+
+				# if = {
+				# 	limit = {
+				# 		liege = {
+				# 			is_adult = yes
+				# 			is_betrothed = no
+				# 			is_married = no
+				# 		}
+				# 	}
+
+				# 	debug_log = "CAN I SELECT 1"
+
+				# 	liege = {
+				# 		save_scope_as = character
+				# 	}
+				# }
+				# else_if = {
+				# 	limit = {
+				# 		liege.player_heir = {
+				# 			# is_child_of = prev
+				# 			is_adult = yes
+				# 			is_betrothed = no
+				# 			is_married = no
+				# 		}
+				# 	}
+
+				# 	debug_log = "CAN I SELECT 2"
+
+				# 	liege.player_heir = {
+				# 		save_scope_as = character
+				# 	}
+				# }
 			}
 
 			can_pick = {
@@ -147,12 +182,20 @@
 			}
 
 			on_invite = {
-				if = {
-					limit = {
-						is_ai = no
-					}
+				## maybe we auto make ai characters join?
+				
+				scope:host.liege = {
 					trigger_event = aeluran_matchmaking.101
-				}	
+				}
+				# if = {
+				# 	limit = {
+				# 		is_ai = no
+				# 	}
+				# 	debug_log = "SENDING INVITE"					
+				# 	scope:host.liege = {
+				# 		trigger_event = aeluran_matchmaking.101
+				# 	}
+				# }	
 			}
 			
 			ai_will_do = {
@@ -825,12 +868,12 @@
 	background = {
 		trigger = {
 			OR = {
-				scope:activity = {
-					has_activity_option = {
-						category = special_type
-						option = feast_type_generic
-					}
-				}
+				# scope:activity = {
+				# 	has_activity_option = {
+				# 		category = special_type
+				# 		option = feast_type_generic
+				# 	}
+				# }
 				scope:activity.special_guest:honorary_guest ?= { is_alive = yes }
 			}
 		}
@@ -1728,7 +1771,8 @@
 	# PHASES
 	###################
 
-	max_guest_arrival_delay_time = { months = 2 }
+	# wait_time_before_start = { days = 2 }
+	# max_guest_arrival_delay_time = { months = 2 }
 
 	phases = {
 		matchmake = {		
@@ -1745,7 +1789,31 @@
 				if = {
 					limit = { this = scope:host }
 
-					scope:activity = { progress_activity_phase_after = { weeks = 2 } }
+					scope:activity = { progress_activity_phase_after = { days = 2 } }
+				}
+
+				if = {
+
+					# BIG TODO: if heir is in activity this will eb fired once, so set liege and heir scopes and only fire for leige
+					# - I could probably also reference using activty.specialguest stuff
+					limit = {
+						this = scope:activity.special_guest:match_recipient
+					}
+
+					scope:activity.special_guest:match_recipient = {
+						save_scope_as = match_recipient
+					}
+				}
+
+				if = {
+					limit = { 
+						is_ai = no	
+					}
+
+					trigger_event = {
+						on_action = matchmaking_events
+						days = 1
+					}
 				}
 			}
 			
@@ -1799,6 +1867,14 @@
 		if = {
 			limit = { this = scope:host }
 
+			scope:host = {
+				if = {
+					limit = {
+						exists = var:matchmaking_character
+					}
+					remove_variable = matchmaking_character
+				}
+			}
 		}
 		# Conclusion event for guests
 		else = {

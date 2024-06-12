@@ -5,7 +5,7 @@ quarterly_playable_pulse = {
 	on_actions = {
 		form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
-		# distribute_aeluran_advisors_pulse
+		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
 		beguiling_nature_pulse
 		gain_varangian_adventure_innovation_pulse
@@ -32,70 +32,70 @@ aeluran_order_maintenance = {
 	}
 }
 
-# TODO: make an actual election vote among the matrons
-matriarch_election = {
-	trigger = {
-		NOT = {
-			any_living_character = {
-				has_trait = aeluran_high_matriarch
-			}
-		}
-	}
+# # TODO: make an actual election vote among the matrons
+# matriarch_election = {
+# 	trigger = {
+# 		NOT = {
+# 			any_living_character = {
+# 				has_trait = aeluran_high_matriarch
+# 			}
+# 		}
+# 	}
 
-	effect = {
-		debug_log = "ELECTING NEW MATRIARCH"
+# 	effect = {
+# 		debug_log = "ELECTING NEW MATRIARCH"
 
-		random_living_character = {
-			limit = {
-				has_trait = aeluran_matron
-			}
-			save_scope_as = new_matriarch
-		}
+# 		random_living_character = {
+# 			limit = {
+# 				has_trait = aeluran_matron
+# 			}
+# 			save_scope_as = new_matriarch
+# 		}
 
-		scope:new_matriarch = {
-			remove_trait = aeluran_matron
-			add_trait = aeluran_high_matriarch
-		}
+# 		scope:new_matriarch = {
+# 			remove_trait = aeluran_matron
+# 			add_trait = aeluran_high_matriarch
+# 		}
 
-		# TODO Trigger notification event
-		# - give title
-		# - move character to the deep woods
-	}
-}
+# 		# TODO Trigger notification event
+# 		# - give title
+# 		# - move character to the deep woods
+# 	}
+# }
 
-matron_counting = {
-	effect = {
-		set_global_variable = {
-			name = total_matrons
-			value = total_current_matrons
-		}
-	}
-}
+# matron_counting = {
+# 	effect = {
+# 		set_global_variable = {
+# 			name = total_matrons
+# 			value = total_current_matrons
+# 		}
+# 	}
+# }
 
-# TODO: Make actual Matron choice event
-matron_choosing = {
-	trigger = {
-		global_var:total_matrons < 7
-	}
+# # TODO: Make actual Matron choice event
+# matron_choosing = {
+# 	trigger = {
+# 		global_var:total_matrons < 7
+# 	}
 
-	effect = {
-		debug_log = "CHOOSING NEW MATRON"
+# 	effect = {
+# 		debug_log = "CHOOSING NEW MATRON"
 
-		random_living_character = {
-			limit = {
-				has_trait = aeluran_sister
-			}
-			save_scope_as = new_matron
-		}
+# 		random_living_character = {
+# 			limit = {
+# 				has_trait = aeluran_sister
+# 			}
+# 			save_scope_as = new_matron
+# 		}
 
-		scope:new_matron = {
-			remove_trait = aeluran_sister
-			add_trait = aeluran_matron
-		}
+# 		scope:new_matron = {
+# 			remove_trait = aeluran_sister
+# 			add_trait = aeluran_matron
+# 		}
 
-		# TODO Trigger notification event
-	}
-}
+# 		# TODO Trigger notification event
+# 	}
+# }
 
 elf_daughters_to_school = {
 	trigger = {
@@ -498,11 +498,15 @@ distribute_aeluran_advisors_pulse = {
 		}
 		NOT = {
 			exists = root.cp:councillor_aeluran_advisor
+			# exists = diarch
+		}
+		NOT = {
+			has_character_flag = aeluran_adviser_is_on_the_way
 		}
 	}
 
 	effect = {
-		# debug_log = "Asigning Aeluran Advisor"
+		debug_log = "Asigning Aeluran Advisor"
 		if = {
 			limit = {
 				NOT = {
@@ -510,7 +514,7 @@ distribute_aeluran_advisors_pulse = {
 				}
 			}
 
-			create_and_assign_aeluran_advisor_effect = yes
+			trigger_event = aeluran_diarchy.100
 		}
 	}
 }

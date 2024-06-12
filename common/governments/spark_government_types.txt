@@ -10,8 +10,8 @@ aeluran_weavers_government = {
 		is_aeluran_sister_or_higher = yes
 	}
 
-	primary_holding = { tribal_holding city_holding castle_holding church_holding }
-	valid_holdings = { tribal_holding city_holding castle_holding church_holding }
+	primary_holding = church_holding
+	valid_holdings = { tribal_holding city_holding castle_holding }
 	required_county_holdings = { }
 
 	preferred_religions = { spark_religion }
@@ -26,7 +26,7 @@ aeluran_weavers_government = {
 	ai = {
 		use_lifestyle = yes
 		imprison = yes
-		start_murders = yes
+		# start_murders = yes
 		arrange_marriage = no # we will handle programatically
 		use_goals = yes
 		use_decisions = yes	# Use minor decisions
@@ -43,16 +43,27 @@ aeluran_weavers_government = {
 	# - magistration strength is effected by how many counties aeluran vassals control!
 	# - respect determines if vassal tries to expand their domain?
 
-	vassal_contract = { 
-		aeluran_government_taxes # piety gain, low or no gold at all
-		aeluran_government_levies # contribute X many magi to magi core
-
 		# aeluran_government_succession_rights # title returns to ruler, should then be handed out to new adviser
 		# aeluran_war_declaration_rights # Wont declare most wars or something
+		# aeluran_government_taxes # piety gain, low or no gold at all
+		# aeluran_government_levies # contribute X many magi to magi core
+
+	vassal_contract = { 
+		aeluran_government_taxes
+		aeluran_government_levies
+		aeluran_government_magi
+		special_contract
+		religious_rights
+		fortification_rights
+		coinage_rights
+		succession_rights
+		war_declaration_rights
+		council_rights
+		title_revocation_rights
 	}
 
 	# Use flags instead of has_government for moddability if possible (i.e., wherever not visible to the player).
 	# flag = government_is_republic
-	flag = government_is_feudal
+	# flag = government_is_feudal
 	color = { 72 61 139 }	
 }

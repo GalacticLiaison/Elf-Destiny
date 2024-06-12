@@ -137,6 +137,13 @@ is_acceptable_standard_elf_match_choice = {
 	has_any_positive_genetic_trait = yes
 }
 
+# ===== AELURAN ADVISER =====
+
+is_acceptable_aeluran_adviser_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+}
+
 # ===== AELURAN SISTER =====
 
 preexisting_aeluran_sister_exists = {
@@ -160,7 +167,7 @@ preexisting_aeluran_matron_exists = {
 }
 
 is_acceptable_aeluran_matron_match_choice = {
-	meets_basic_match_requirements = yes
+	is_ai = yes
 	has_trait = aeluran_matron
 	is_suitable_female_elf_spouse = yes
 }
@@ -174,7 +181,7 @@ preexisting_aeluran_matriarch_exists = {
 }
 
 is_acceptable_aeluran_matriarch_match_choice = {
-	meets_basic_match_requirements = yes
+	is_ai = yes
 	has_trait = aeluran_high_matriarch
 	is_suitable_female_elf_spouse = yes
 }
@@ -188,7 +195,7 @@ preexisting_family_member_exists = {
 }
 
 is_acceptable_family_member_match_choice = {
-	meets_basic_match_requirements = yes
+	is_ai = yes
 	is_suitable_elf_spouse = yes
 	is_close_or_extended_family_of = scope:match_recipient
 }
@@ -202,7 +209,7 @@ preexisting_bloodline_holder_exists = {
 }
 
 is_acceptable_bloodline_holder_match_choice = {
-	meets_basic_match_requirements = yes
+	is_ai = yes
 	is_suitable_elf_spouse = yes
 	is_of_any_royal_elf_bloodline = yes
 }
@@ -216,7 +223,7 @@ preexisting_alliance_exists = {
 }
 
 is_acceptable_alliance_match_choice = {
-	meets_basic_match_requirements = yes
+	is_ai = yes
 	trigger_if = { # Player Is Emperor
 		limit = {
 			scope:match_recipient = {
@@ -372,79 +379,45 @@ family_option_available = {
 # TODO: any_living_character is probably not performant, can we do something more specific?
 # TODO: if we update alliance to include heirs of title holders, update here too
 alliance_option_available = {
-	trigger_if = { # Male Emperor
+
+	trigger_if = { # Emperor
 		limit = {
 			highest_held_title_tier = tier_empire
-			scope:match_recipient = {
-				is_female = no
-			}
 		}
 		any_living_character = {
-			highest_held_title_tier = tier_empire
+			NOT = {
+				scope:match_recipient = this
+			}
 			OR = {
-				is_suitable_female_elf_spouse = yes
+				highest_held_title_tier = tier_empire
+				highest_held_title_tier = tier_kingdom
+			}
+			OR = {
+				is_suitable_elf_spouse = yes
 				any_child = {
-					is_suitable_female_elf_spouse = yes
+					is_suitable_elf_spouse = yes
 				}
 			}
 		}
 	}
 
-	trigger_if = { # Female Empress 
-		limit = {
-			highest_held_title_tier = tier_empire
-			scope:match_recipient = {
-				is_female = yes
-			}
-		}
-		any_living_character = {
-			highest_held_title_tier = tier_empire
-			OR = {
-				is_suitable_male_elf_spouse = yes
-				any_child = {
-					is_suitable_male_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Male King
+	trigger_if = { # King
 		limit = {
 			highest_held_title_tier = tier_kingdom
-			scope:match_recipient = {
-				is_female = no
-			}
 		}
 		any_living_character = {
+			NOT = {
+				scope:match_recipient = this
+			}
 			OR = {
 				highest_held_title_tier = tier_kingdom
 				highest_held_title_tier = tier_empire
+				highest_held_title_tier = tier_duchy
 			}
 			OR = {
-				is_suitable_female_elf_spouse = yes
+				is_suitable_elf_spouse = yes
 				any_child = {
-					is_suitable_female_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Female Queen
-		limit = {
-			highest_held_title_tier = tier_kingdom
-			scope:match_recipient = {
-				is_female = yes
-			}
-		}
-		any_living_character = {
-			OR = {
-				highest_held_title_tier = tier_kingdom
-				highest_held_title_tier = tier_empire
-			}
-			OR = {
-				is_suitable_male_elf_spouse = yes
-				any_child = {
-					is_suitable_male_elf_spouse = yes
+					is_suitable_elf_spouse = yes
 				}
 			}
 		}
@@ -453,48 +426,26 @@ alliance_option_available = {
 	trigger_if = { # Male Duke
 		limit = {
 			highest_held_title_tier = tier_duchy
-			scope:match_recipient = {
-				is_female = no
-			}
 		}
 		any_living_character = {
-			OR = {
-				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_kingdom
-				highest_held_title_tier = tier_empire
+			NOT = {
+				scope:match_recipient = this
 			}
 			OR = {
-				is_suitable_female_elf_spouse = yes
+				highest_held_title_tier = tier_kingdom
+				highest_held_title_tier = tier_duchy
+				highest_held_title_tier = tier_county
+			}
+			OR = {
+				is_suitable_elf_spouse = yes
 				any_child = {
-					is_suitable_female_elf_spouse = yes
+					is_suitable_elf_spouse = yes
 				}
 			}
 		}
 	}
 
-	trigger_if = { # Female Duchess
-		limit = {
-			highest_held_title_tier = tier_duchy
-			scope:match_recipient = {
-				is_female = yes
-			}
-		}
-		any_living_character = {
-			OR = {
-				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_kingdom
-				highest_held_title_tier = tier_empire
-			}
-			OR = {
-				is_suitable_male_elf_spouse = yes
-				any_child = {
-					is_suitable_male_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Male Count
+	trigger_if = { # Count
 		limit = {
 			highest_held_title_tier = tier_county
 			scope:match_recipient = {
@@ -502,35 +453,17 @@ alliance_option_available = {
 			}
 		}
 		any_living_character = {
+			NOT = {
+				scope:match_recipient = this
+			}
 			OR = {
 				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_kingdom
+				highest_held_title_tier = tier_county
 			}
 			OR = {
-				is_suitable_female_elf_spouse = yes
+				is_suitable_elf_spouse = yes
 				any_child = {
-					is_suitable_female_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Female Countess
-		limit = {
-			highest_held_title_tier = tier_county
-			scope:match_recipient = {
-				is_female = yes
-			}
-		}
-		any_living_character = {
-			OR = {
-				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_kingdom
-			}
-			OR = {
-				is_suitable_male_elf_spouse = yes
-				any_child = {
-					is_suitable_male_elf_spouse = yes
+					is_suitable_elf_spouse = yes
 				}
 			}
 		}
@@ -538,194 +471,3 @@ alliance_option_available = {
 }
 
 
-is_elf_empress = {
-	is_female = yes
-	highest_held_title_tier = tier_empire
-}
-
-is_elf_emperor = {
-	is_female = no
-	highest_held_title_tier = tier_empire
-}
-
-is_elf_queen = {
-	is_female = yes
-	highest_held_title_tier = tier_kingdom
-}
-
-is_elf_king = {
-	is_female = no
-	highest_held_title_tier = tier_kingdom
-}
-
-is_elf_duchess = {
-	is_female = yes
-	highest_held_title_tier = tier_duchy
-}
-
-is_elf_duke = {
-	is_female = no
-	highest_held_title_tier = tier_duchy
-}
-
-is_elf_countess = {
-	is_female = yes
-	highest_held_title_tier = tier_kingdom
-}
-
-is_elf_count = {
-	is_female = no
-	highest_held_title_tier = tier_kingdom
-}
-
-alliance_compatible_female_empress = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 35
-		age > 13
-	}
-	highest_held_title_tier = tier_empire
-}
-
-alliance_compatible_male_emperor = {
-	is_female = no
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 55
-		age > 13
-	}
-	highest_held_title_tier = tier_empire
-}
-
-alliance_compatible_female_queen_or_higher = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 35
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_kingdom
-		highest_held_title_tier = tier_empire
-	}
-}
-
-alliance_compatible_male_king_or_higher = {
-	is_female = no
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 55
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_kingdom
-		highest_held_title_tier = tier_empire
-	}
-}
-
-alliance_compatible_female_duchess_or_higher = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 35
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_duchy
-		highest_held_title_tier = tier_kingdom
-		highest_held_title_tier = tier_empire
-	}
-}
-
-alliance_compatible_male_duke_or_higher = {
-	is_female = no
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 55
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_duchy
-		highest_held_title_tier = tier_kingdom
-		highest_held_title_tier = tier_empire
-	}
-}
-
-alliance_compatible_female_duchess_to_queen = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 35
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_duchy
-		highest_held_title_tier = tier_kingdom
-
-	}
-}
-
-alliance_compatible_male_duke_to_king = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 55
-		age > 13
-	}
-	OR = {
-		highest_held_title_tier = tier_duchy
-		highest_held_title_tier = tier_kingdom
-
-	}
-}
-
-# Match Options
-
-match_choice_2_is_valid = {
-	OR = {
-		AND = {
-			scope:match_choice_2 = flag:family
-			exists = scope:match_option_family
-		}
-		AND = {
-			scope:match_choice_2 = flag:alliance
-			exists = scope:match_option_alliance
-		}
-		AND = {
-			scope:match_choice_2 = flag:aeluran_matron
-			exists = scope:match_option_aeluran
-		}
-		AND = {
-			scope:match_choice_2 = flag:aeluran_sister
-			exists = scope:match_option_aeluran
-		}
-		AND = {
-			scope:match_choice_2 = flag:breeding_stock
-			exists = scope:match_option_breeding_stock
-		}
-		AND = {
-			scope:match_choice_2 = flag:twins
-			AND = {
-				exists = scope:match_option_twins_1
-				exists = scope:match_option_twins_2
-			}
-		}
-		AND = {
-			scope:match_choice_2 = flag:triplets
-			AND = {
-				exists = scope:match_option_triplets_1
-				exists = scope:match_option_triplets_2
-				exists = scope:match_option_triplets_3
-			}
-		}
-	}
-}

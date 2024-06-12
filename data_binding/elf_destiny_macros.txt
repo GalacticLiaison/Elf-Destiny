@@ -1,0 +1,25 @@
+﻿macro = {
+	description = "Does the council owner have an aeluran advisor on their council?"
+	definition = "CouncilOwnerHasAeluran"
+	replace_with = "CouncilWindow.GetCharacter.GetFaith.HasDoctrineByKey( 'tenet_aeluran_sisters' )"
+}
+
+macro = {
+	description = "Is The Government Type Feudal, Aeluran Or Ascended Tribal?"
+	definition = "GovenmentIsFeudalOrElfFeudalEquivalent"
+	replace_with = "Or(Or(Character.GetGovernment.IsType('feudal_government'), Character.GetGovernment.IsType('aeluran_weavers_government')), Character.GetGovernment.IsType('advanced_tribal_government'))"
+}
+
+macro = {
+	description = "Is The Regency An Aeluran Regency?"
+	definition = "IsAeluranRegency"
+	replace_with = "EqualTo_string(Character.GetDiarchyTypeNameNoTooltip, 'Aeluran Regency')"
+}
+
+macro = {
+	description = "Is the MAA a siege and normal unit?"
+	definition = "IsMixedSiegeAndFighterMAA"
+	# replace_with = "Not( MenAtArmsType.FightsInMainPhase )"
+	replace_with = "Or( Not( MenAtArmsType.FightsInMainPhase ), EqualTo_string(MenAtArmsType.GetNameNoTooltip, 'Aeluran Artillery') )"
+}
+

@@ -169,8 +169,13 @@ councillor_aeluran_advisor = {
 	can_fire = yes
 	can_reassign = yes
 	
-	name = councillor_vizier
-	tooltip = councillor_vizier_desc
+	name = {
+		desc = councillor_aeluran_advisor
+	}
+
+	tooltip = {
+		desc = game_concept_aeluran_advisor_desc
+	}
 
 	valid_position = {
 		# has_diarchy_active_parameter = vizier_sits_in_the_council_instead_of_spouse
@@ -482,14 +487,11 @@ councillor_court_chaplain = {
 	}
 
 	on_lose_position = {
-		debug_log = "LOST REALM PRIEST"
 		remove_variable = religious_advisor
 
 		root.liege = {
 			save_scope_as = liege
 		}
-
-		debug_log_scopes = yes
 
 		if = { #Converted Faith
 			limit = {
@@ -507,7 +509,7 @@ councillor_court_chaplain = {
 
 			root.liege = {
 				debug_log_scopes = yes
-				create_and_assign_aeluran_advisor_effect = yes
+				trigger_event = aeluran_diarchy.100
 			}
 		}
 	}

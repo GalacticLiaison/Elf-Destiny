@@ -1,0 +1,174 @@
+﻿shift_aeluran_contracts_effect = {
+	every_vassal = {
+		limit = {
+			# vassal_contract_has_modifiable_obligations = yes
+			has_government = aeluran_weavers_government
+		}
+
+		# debug_log = "YEE Changing contract"
+		# debug_log_scopes = yes
+		# vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 0 }
+		# vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 0 }
+
+		if = { # Highest Respect Level
+			limit = {
+				liege = {
+					aeluran_domination_level_full_deference = yes
+				}
+			}
+			vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 4 }
+			vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 4 }
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_high_deference = yes
+				}
+			}
+			vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 3 }
+			vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 3 }
+		}
+		else_if = {
+			limit = {
+				liege = {
+					OR = {
+						aeluran_domination_level_low_deference = yes
+						aeluran_domination_level_neutral = yes
+						aeluran_domination_level_low_dominated = yes
+					}
+				}
+			}
+			vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 2 }
+			vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 2 }
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_highly_dominated = yes
+				}
+			}
+			vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 1 }
+			vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 1 }
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_fully_dominated = yes
+				}
+			}
+			vassal_contract_set_obligation_level = { type = aeluran_government_taxes level = 0 }
+			vassal_contract_set_obligation_level = { type = aeluran_government_levies level = 0 }
+		}
+	}
+}
+
+shift_aeluran_loyalties_effect = {
+	every_vassal = {
+		limit = {
+			has_government = aeluran_weavers_government
+		}
+
+		if = { # Highest Respect Level
+			limit = {
+				liege = {
+					aeluran_domination_level_full_deference = yes
+					NOT = {
+						has_trait = loyal
+					}
+				}
+			}
+			random = {
+				chance = 75
+				if = {
+					limit = {
+						has_trait = disloyal
+					}
+					remove_trait = disloyal
+				}
+
+				add_trait = loyal
+			}
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_high_deference = yes
+				}
+			}
+			random = {
+				chance = 20
+				if = {
+					limit = {
+						has_trait = disloyal
+					}
+					remove_trait = disloyal
+				}
+
+				add_trait = loyal
+			}
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_low_deference = yes
+				}
+			}
+			if = {
+				limit = {
+					has_trait = disloyal
+				}
+				remove_trait = disloyal
+			}
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_low_dominated = yes
+				}
+			}
+			if = {
+				limit = {
+					has_trait = loyal
+				}
+				remove_trait = loyal
+			}
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_highly_dominated = yes
+				}
+			}
+			random = {
+				chance = 20
+				if = {
+					limit = {
+						has_trait = loyal
+					}
+					remove_trait = loyal
+				}
+
+				add_trait = disloyal
+			}
+		}
+		else_if = {
+			limit = {
+				liege = {
+					aeluran_domination_level_fully_dominated = yes
+				}
+			}
+			random = {
+				chance = 75
+				if = {
+					limit = {
+						has_trait = loyal
+					}
+					remove_trait = loyal
+				}
+
+				add_trait = disloyal
+			}
+		}
+	}
+}
+

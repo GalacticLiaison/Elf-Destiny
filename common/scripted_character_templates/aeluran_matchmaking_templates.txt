@@ -586,28 +586,13 @@ wiseman_match = {
 	trait = lifestyle_mystic
 
 	random_traits_list = {
-		count = { 0 1 2}
+		count = { 0 2}
 		witch = {}
 		lifestyle_herbalist = {}
 		lifestyle_physician = {}
 	}
 
 	after_creation = {
-		if = {
-			limit = {
-				has_trait = lifestyle_herbalist
-			}
-			add_trait_xp = {
-				trait = lifestyle_herbalist
-				value = {
-					integer_range = {
-						min = 30
-						max = 100
-					}
-				}
-			}
-		}
-
 		if = {
 			limit = {
 				has_trait = lifestyle_physician
@@ -647,7 +632,7 @@ bastard_claimant_match = {
 			trigger = {
 				NOT = {
 					scope:bastard_claimant_parent = {
-						is_any_elf_type
+						is_any_elf_type = yes
 					}
 				}
 			}
@@ -655,7 +640,7 @@ bastard_claimant_match = {
 		elf_mortal = {
 			trigger = {
 				scope:bastard_claimant_parent = {
-					is_any_elf_type
+					is_any_elf_type = yes
 				}
 			}
 		}
@@ -684,9 +669,7 @@ bastard_claimant_match = {
 
 inferior_dowry_elf_match = {
 	age = { 21 45 }
-	add_trait = elf_blood
-
-	random_traits = no
+	trait = elf_blood
 }
 
 foreign_elf_match = {
@@ -871,6 +854,7 @@ triplets_match = {
 
 	after_creation = {
 		copy_inheritable_appearance_from = scope:match_choice_multi_mother
+		add_character_flag = is_triplet
 	}
 }
 

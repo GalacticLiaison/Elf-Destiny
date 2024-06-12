@@ -1,10 +1,21 @@
 # Beta_v1.4.5
 
+CONSIDER RECORDING A VIDEO DEV DIARY FOR THIS PATCH DEMONSTARTING NEW FETAURES!!!!
+- make youtube number go up
+
+### IN DEV DIARY explain that although tyour adviser will do these things like matchmaking, they are currently AI only. I will one day make Aeluran Adviser a 100% playable role
+
+## Should We create Aleuran Inquisitor Discord role now?
+
 Tinkered with some of the Artifacts 
 - adjusted bonus modifiers
 - fixed rarity/bonus mismatch (need to test)
 
 Fixed broken Vizier functionality
+
+Acended Tribal should now have access to feudal tax and levy contracts
+
+Took yet another stab at fixing the elf blood child bug
 
 Aeluran Matching Making 
  - offering already married women
@@ -12,6 +23,17 @@ Aeluran Matching Making
  - can marry self
  - heir text is wrong
 
+# Action Plan
+- finish skeleton and fill it in
+- dont put anything "questionable/too far" yet, just basic features for now!
+
+## Tasks
+- UI respect score tooltip
+- flush out aeluran government
+- matchmaking: "request for child" character interaction
+- matchmaking: finish intro quality score widget
+   - grant hook bonus
+- regency: balance respect score swing values
 
 ## Polish Ideas
 
@@ -45,15 +67,36 @@ Aeluran Matching Making
 
    NEED NEW VASSAL CONTRACT!
 
+   New education type? Aeluran Servant?
+
    Maybe giving in to aelurans grants 
    - stress loss
    - fertility
    - better genetic chance
    - cheaper ascension and blessing cost!
 
+   maybe if there are enough unhappy aeluran rulers close togethe (even across lieges), they band together to form a new kingdom apointing a more worthy male 
+
+   could turn players government into an aeluran servant gov
+
+   event where aeluran sister arrests leiege and keeps him/her in their prison!
+
+   make fecund an actual aeluran ability, turn on at will!
+
+   enable matchmaking for AI, it can be handled differently but send a message if players children are chosen, penalities for refusing
+
+   having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
+
    events:
    - SHAME naked walk througn capital, maybe for vassals too
 
+   the build new church holding for adviser still is selecting vassals owned counties
+
+   the red sister and aelurana dviser need game concept tool tips like vassal does in the character profile UI
+
+   aeluron sisters have little autonomy in their own matchmaking
+
+   aelrona rtillery are mandatory
 
 # REGENCY NOTES
 
@@ -78,22 +121,10 @@ NOTE: we may need to alter the council gui again to be identical to vizier
 THEN once (if) we have it working
 - start adding back features until it either works or breaks to identify the issue!
 
+test the new aeluran adviser arriving event
 
-ACTION 1: sort_vizier_candidates_to_list_effect => sort_aeluran_candidates_to_list_effect 
-- used by the character interaction when assigning diarch, the result is it allowed me to assign hannah but not vassal elandra
-- results in Stable Hannah as both regent and adviser!
-- creating a new aeluran character and assigning "worked", but most of the time put her in the spouse adviser slot, may just need to remove that vizier functionality
+try to use swing scale score as points on the legitamacy board
 
-ACTION 2: Setting gender preference back to male has made all aelurans not possible...
-- We should keep checking to see if there is somewhere we can overwrite this
-- the ui says they are regent of a specific title, maybe we can create a new title law!
-- if all else fails we may want to consider gender equal... can try to add gender limitations manually from there.
-
-lets try changing title law to female
-- tried changing title AND realm law and neither seemed to matter..
-- Does culture have a gender preference?
-- investigate religion...
-   - swapping/commenting out doctrine parameters did absolutly nothing... could be hard coded with doctrine name
 
 ### is_diarch_valid!!!!
 
@@ -112,3 +143,30 @@ NEW Character Interactions:
 if you have open extra slots, request matchmaking
 for any children without matches, character interaction to request matchmaking
 
+
+
+# Aeluran Respect
+
+maybe "domination" is the regent scale checkpoints but respect is what shifts it to those checkpoints
+
+if cant control of reference current scale value
+- we cant check flags set at each balance of power mile stone
+OR
+- we can manage respect seperate from the scales and then change balance to that value
+
+
+Create a "story" that updates "monthly swing" like Dynamic regency does
+- this monthly swing will be the aeluran respect score variable assigned to that ruler
+- aeluran respect score variable could maybe just be used in the legitamacy tooltip
+
+regency tools
+- game_concept_strife_opinion
+diarch_loyalty - trigger can get trigger as value using )"
+diarchy_swing - trigger - this may literally be the scale value
+
+
+Step 1: On Red Sister appointment assign that ruler an aeluran respect variable.
+Step 2: On Regenncy/Red Sister Appointment start a monthly "Story" for that ruler
+Step 3: The Story aggregates ALL diferent positive and negative Aeluran Respect values into a single +/- value (Create a Scripted Value)
+   - we may need to save the change value each month as a static value to display in the UI
+Step 4: change_diarchy_swing = diarchy_swing(current value) + change_value

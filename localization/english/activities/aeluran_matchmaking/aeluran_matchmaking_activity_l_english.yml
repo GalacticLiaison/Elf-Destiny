@@ -1,5 +1,188 @@
 ﻿l_english:
-  plant_seed_attempt_phase:0 "Plant Seed of Entrancement"
-
+  #aeluran_matchmaking
+  activity_aeluran_matchmaking:0 "Aeluran Matchmaking"
+  aeluran_matchmaking_phase_desc:0 "Meet the candidates"
+  activity_aeluran_matchmaking_name:0 "[ACTIVITY.GetOwner.GetNamePossessiveOrMy|U] Aeluran Matchmaking"
+  activity_aeluran_matchmaking_desc:4 "The Aeluran Order demands that Elf Lords find suitable marriages. It is customary to allow them to assist in this"
+  activity_aeluran_matchmaking_owner:0 "Red Sister"
 
   not_valid_matchmaking_location:0 "This county is not your liege's capital."
+  activity_invite_rule_liege_and_liege_family:0 "Liege And Their Family"
+  activity_invite_rule_liege_and_liege_family_no_default:0 "$activity_invite_rule_liege_and_liege_family$"
+
+  ### EVENTS
+  aeluran_matchmaking.101.title:0 "The Line Must Be Maintained"
+  aeluran_matchmaking.101.desc:0 "Your latest council meeting has just finished, but before you can head for the halls your advisor [host.GetName] corners you in the chamber. \n\n\"M'[ROOT.Char.GetLadyLord|U], a moment of your time for a more #italic sensitive#! matter.\n\n"
+
+  aeluran_matchmaking.101.desc.lord:0 "I speak of the succesion, its long past time you find a mate and secure your bloodline. As you know, it is proper for Elven lords to look to the Aeluran Order for help with such an important decision.\n\nI have been in touch with my Sisters of The Order and we have secured some very promising candidates. Meet me this afternoon in my study and we shall review your prospective suitors.\""
+
+  aeluran_matchmaking.101.desc.heir:0 "Your heir [match_recipient.GetFirstName] remains unmarried and must find a mate to secure your bloodline. As you know, it is proper for Elven lords to look to the Aeluran Order for help with such an important decision.\n\nI have been in touch with my Sisters of The Order and we have secured some very promising candidates. Meet me this afternoon in my study and we shall review your heir's prospective suitors.\"
+
+  aeluran_matchmaking.101.ok:0 "As you wish Lady [host.GetFirstName]"
+  aeluran_matchmaking.101.snooze:0 "I do not need the advice of The Order at this time"
+  aeluran_matchmaking.101.never_again:0 "I alone decide the the fate of my line, never bother me with this again"
+
+  aeluran_matchmaking.0021.title:0 "Review The Suitor Dossiers"
+  aeluran_matchmaking.0021.desc:0 "#credits_entries You find [aeluran_adviser.GetName] in her study awaiting you arrival.#!\n\n#BER \"M'[ROOT.Char.GetLadyLord|U], thank you for coming. The Order and I have gathered together a collection of candidates we think#!"
+  aeluran_matchmaking.0021.desc.lord:0 "#BER suitable for one of your station. Come, Let us review your options.\"#!" 
+  aeluran_matchmaking.0021.desc.heir:0 "#BER suitable for your heir. Come, let us review their options.\"#!"
+  aeluran_matchmaking.0021.desc.stats:0 "\n\n#tooltip_heading Quality Of Suitors -#! #strong_glow #color_green Top Quality (5)#!#!  \n$EFFECT_LIST_BULLET$#positive_value +3#! | #tooltip_subheading Aeluran Respect -#! [SCOPE.Custom('AeluranMatchmakingRespectScore')] #emphasis (+3.75/month)#!\n$EFFECT_LIST_BULLET$#positive_value +2#! | #tooltip_subheading @spark_crystal_icon! Gifted Spark Crystal #!\n\n#tooltip_heading Allowed Choices -#! #T #medium_glow #color_green 3#!#!#!\n$EFFECT_LIST_BULLET$#positive_value +3#! | #tooltip_subheading Domination Level -#! [SCOPE.Custom('AeluranMatchmakingDominationScore')]"
+  aeluran_matchmaking.0021.ok:0 "Please proceed."
+
+# can grab any script value
+# [EmptyScope.ScriptValue('tournament_contest_cost_low_discount_value')|%0P]
+
+  aeluran_very_low_respect:0 "#XB No Respect#!"
+  aeluran_low_respect:0 "#difficulty_hard Low#!"
+  aeluran_neutral_respect:0 "#difficulty_medium Neutral#!"
+  aeluran_high_respect:0 "#difficulty_easy High#!"
+  aeluran_very_high_respect:0 "#BOL #G Very High#!#!"
+
+  aeluran_domination_min_3:0 "#XB Fully Dominated#!"
+  aeluran_domination_min_2:0 "#difficulty_hard High Domination#!"
+  aeluran_domination_min_1:0 "#difficulty_hard Some Domination#!"
+  aeluran_domination_neutral:0 "#difficulty_medium Neutral Domination#!"
+  aeluran_domination_plus_1:0 "#difficulty_easy Some Control#!"
+  aeluran_domination_plus_2:0 "#difficulty_easy High Control#!"
+  aeluran_domination_plus_3:0 "#BOL #G Full Control#!#!"
+
+  aeluran_matchmaking.0022.title:0 "[SCOPE.Custom('AeluranMatchmakingCandidateTitle')]"
+  aeluran_matchmaking.0022.desc.lord:0 "$matchmaking_candidate_tag$ \n\n[SCOPE.Custom('AeluranMatchmakingCandidateDescription')]"
+  aeluran_matchmaking.0022.ok:0 "#Bold Next Candidate#!"
+
+  aeluran_matchmaking.0023.title:0 "[SCOPE.Custom('AeluranMatchmakingCandidateTitle')]"
+  aeluran_matchmaking.0023.desc.lord:0 "$matchmaking_candidate_tag$ \n\n[SCOPE.Custom('AeluranMatchmakingCandidateDescription')]"
+  aeluran_matchmaking.0023.ok:0 "#Bold Next Candidate#!"
+
+  aeluran_matchmaking.0024.title:0 "[SCOPE.Custom('AeluranMatchmakingCandidateTitle')]"
+  aeluran_matchmaking.0024.desc.lord:0 "$matchmaking_candidate_tag$ \n\n[SCOPE.Custom('AeluranMatchmakingCandidateDescription')]"
+  aeluran_matchmaking.0024.ok:0 "#Bold Review Options#!"
+
+  aeluran_matchmaking.0025.title:0 "A Choice Of The Heart"
+  aeluran_matchmaking.0025.desc:0 "Well M'[ROOT.Char.GetLadyLord|U]? Which suitor best suits you?"
+  aeluran_matchmaking.0025.option_1:0 "[SCOPE.Custom('AeluranMatchmakingCandidateOneSelectionText')]"
+  aeluran_matchmaking.0025.option_2:0 "[SCOPE.Custom('AeluranMatchmakingCandidateTwoSelectionText')]"
+  aeluran_matchmaking.0025.option_3:0 "[SCOPE.Custom('AeluranMatchmakingCandidateThreeSelectionText')]"
+
+  aeluran_matchmaking.0026.title:0 "The Line Secured"
+  aeluran_matchmaking.0026.desc:0 "A fine choice M'[ROOT.Char.GetLadyLord|U], may your dynasty grow ever stronger. What manner of ceremony shall we have?"
+  aeluran_matchmaking.0026.ok:0 "Let us settle the matter now!"
+  aeluran_matchmaking.0026.grand_wedding:0 "Only a Grand Wedding would do!"
+
+  matchmaking_standard_elf_candidate_title:0 "An Ordinary Elf"
+  matchmaking_aeluran_sister_candidate_title:0 "A Red Sister"
+  matchmaking_aeluran_matron_candidate_title:0 "A Red Mother"
+  matchmaking_aeluran_matriarch_candidate_title:0 "Her Highness, Most Divine Of The Red"
+  matchmaking_genetic_project_candidate_title:0 "A Genetic Hypothesis"
+  matchmaking_family_candidate_title:0 "A Match Most Familiar"
+  matchmaking_bloodline_trait_candidate_title:0 "One Of Strong Blood"
+  matchmaking_alliance_candidate_title:0 "A Potential Ally"
+  matchmaking_warrior_candidate_title:0 "A Fierce Warrior"
+  matchmaking_wisemen_candidate_title:0 "One Most Wise"
+  matchmaking_bastard_claimant_candidate_title:0 "An Ambitious Bastard"
+  matchmaking_inferior_dowry_candidate_title:0 "A Dowry Bringer"
+  matchmaking_foreign_elf_candidate_title:0 "An Elf Of A Distant Land"
+  matchmaking_twins_candidate_title:0 "Twin Spirits"
+  matchmaking_triplets_candidate_title:0 "The Power Of Three"
+
+  matchmaking_candidate_tag:0 "#tooltip_heading [SCOPE.Custom('AeluranMatchmakingCandidateTagging')]#!"
+  matchmaking_candidate_tag_standard_elf:0 "@standard_elf_icon! - Ordinary Elf"
+  matchmaking_candidate_tag_aeluran_sister:0 "@aeluran_sister_icon! - Aeluran Sister"
+  matchmaking_candidate_tag_aeluran_matron:0 "@aeluran_matron_icon! - Aeluran Matron"
+  matchmaking_candidate_tag_aeluran_matriarch:0 "@aeluran_matriarch_icon! - Aeluran High Matriarch"
+  matchmaking_candidate_tag_genetic_project:0 "@aeluran_experiment_icon! - Genetic Experiment"
+  matchmaking_candidate_tag_family:0 "@family_choice_icon! - Family"
+  matchmaking_candidate_tag_bloodline:0 "@bloodline_icon! - Bloodline"
+  matchmaking_candidate_tag_alliance:0 "@alliance_icon! - Alliance"
+  matchmaking_candidate_tag_warrior:0 "@warrior_icon! - Warrior"
+  matchmaking_candidate_tag_wiseman:0 "@wiseman_icon! - Wiseman"
+  matchmaking_candidate_tag_bastard_claimant:0 "@bastard_icon! - Bastard Claimant"
+  matchmaking_candidate_tag_dowry:0 "@gold_icon! - Dowry"
+  matchmaking_candidate_tag_foreigner:0 "@foreigner_icon! - Foreign Elf"
+  matchmaking_candidate_tag_twins:0 "@twins_icon! - Twins"
+  matchmaking_candidate_tag_triplets:0 "@triplets_icon! - Triplets"
+
+  # NEED TO ADD
+  # - Player vs Player Heir
+  # - Put the actual matches name in the Description!!
+  # - some things like twins/triplet descriptions need to be updated to handle dynamic gender!
+
+  matchmaking_standard_elf_candidate_desc:0 "In order to strengthen your bloodline, The Order has found a maiden of good stock, your children would no doubt be most impressive."
+
+  matchmaking_aeluran_sister_candidate_desc:0 "An Aeluran Sister is available and The Order would grant you the privilege of wedding such a powerful spouse. [candidate.GetTitledFirstName] is a talented magi, and increasing the influence of The Order in these lands is always welcome. Wouldn't you agree?"
+  
+  matchmaking_aeluran_matron_candidate_desc:0 "If you would prefer to strengthen your bond with our Order, I have been given the privilege of announcing that our esteemed Matron [candidate.GetTitledFirstName] has offered herself up as candidate. This is quite a rare honour indeed... A spouse so powerful and wise at your side would raise the standing of both you and The Order in these lands."
+
+  matchmaking_aeluran_matriarch_candidate_desc:0 "M'[ROOT.Char.GetLadyLord|U] it is with the greatest pleasure that I inform you that High Matriarch [candidate.GetTitledFirstName] has sent me notice. She would do you the highest honor of offering herself as candidate! There is would be no other spouse as wise and powerful in this realm as her, truly a match without equal! The fate of your Dynasty would be bound with Aeluran Order!"
+
+  matchmaking_genetic_project_candidate_desc:0 "As you know, my order continually seeks to elevate the Elven races through the pursuit of prophetic genetic excellence. To that end, on occasion we may experiment with the lineage of our flock in an attempt to forge new bloodlines. [candidate.GetName] here is example of such experimentation. If you can see past superficial abnormalities you will find this union offers great genetic potential for your line!"
+
+  matchmaking_family_candidate_desc:0 "Let us not forget your own house, a closer match would no doubt maintain or even enhance the purity of your bloodline."
+
+  matchmaking_bloodline_trait_candidate_desc:0 "You are quite fortunate indeed M'[ROOT.Char.GetLadyLord|U]. [candidate.GetName] is descendant of one of the great Elven Dynasties and their House's Bloodline resonates strongly in [candidate.GetHerHim]. This union could add great power to your line!"
+
+  matchmaking_alliance_candidate_desc:0 "Through vigorous negotiations we have found another powerful Elven house open to alliance. Your union would be greatly beneficial to both of your peoples"
+
+  matchmaking_warrior_candidate_desc:0 "A sister from one of our most remote tribes made the Order aware of this specimen. [candidate.GetName] is a fine warrior and quite genetically gifted. Your union would no doubt bring great strength and honor to your line."
+
+  matchmaking_wisemen_candidate_desc:0 "If wise council in a partner is what you seek most look no further than [candidate.GetName]. [candidate.GetSheHe|U] is quite learned and a gifted healer as well. This union could help seed your line with great minds for generations to come."
+
+  matchmaking_bastard_claimant_candidate_desc:0 "[candidate.GetName] came to our order seeking protection from their vile Human lord father. [candidate.GetSheHe|U] is a [GetTrait('bastard').GetName( GetNullCharacter )] and only of [GetTrait('elf_blood').GetName( GetNullCharacter )] true. However with a righteous claim to [candidate.GetHerHis] father's title, this union could give you an opportunity to expand your realm"
+
+  matchmaking_inferior_dowry_candidate_desc:0 "Normally we wouldn't pay mind to a match petitioner of such little Elven grace. However [candidate.GetName] has made a generous donation to our Order and has offered to provide you a dowry for this match as well. A fiscally pragmatic option I must say"
+
+  matchmaking_foreign_elf_candidate_desc:0 "[candidate.GetName] here is an adventurer from a distant land and quite the experienced traveler. [candidate.GetHerHis|U] ways be be foreign and strange, but this union could help introduce new ways of thinking into your realm."
+
+  matchmaking_twins_candidate_desc:0 "You're seen as a ruler of high value to The Order, and so we wish to bestow you with a suitable union. These two maidens are twins blessed by the spark. They are both of great stock and trained in the ways of the magi. A rare and worthy match!"
+
+  matchmaking_triplets_candidate_desc:0 "You are seen as a ruler of the highest value to The Order. As such, we wish to bless you with a sacred union worthy of your position! Here stand three maiden sisters; Triplets clearly blessed by the spark. They are of exceptional stock and trained in the ways of the magi. A grand match for a grand ruler!"
+
+  matchmaking_standard_elf_candidate_selection_1:0 "@standard_elf_icon! I Choose [match_choice_1.GetName]"
+  matchmaking_aeluran_sister_candidate_selection_1:0 "@aeluran_sister_icon! I Choose Sister [match_choice_1.GetFirstName]"
+  matchmaking_aeluran_matron_candidate_selection_1:0 "@aeluran_matron_icon! I Choose Mother [match_choice_1.GetFirstName]"
+  matchmaking_aeluran_matriarch_candidate_selection_1:0 "@aeluran_matriarch_icon! I Choose Her Holiness [match_choice_1.GetName]"
+  matchmaking_genetic_project_candidate_selection_1:0 "@aeluran_experiment_icon! I Choose [match_choice_1.GetFirstName], I trust the Aeluran's plan!"
+  matchmaking_family_candidate_selection_1:0 "@family_choice_icon! I Choose my dear [match_choice_1.GetFirstName], keep the blood pure!"
+  matchmaking_bloodline_trait_candidate_selection_1:0 "@bloodline_icon! I Choose [match_choice_1.GetFirstName], a most noble bloodline indeed!"
+  matchmaking_alliance_candidate_selection_1:0 "@alliance_icon! A strong alliance will benefit all Elves. I will do my duty. I Choose [match_choice_1.GetName]"
+  matchmaking_warrior_candidate_selection_1:0 "@warrior_icon! I Choose The Brute, [match_choice_1.GetName]. Might is Power!"
+  matchmaking_wisemen_candidate_selection_1:0 "@wiseman_icon! I Choose The Wise One, [match_choice_1.GetName]."
+  matchmaking_bastard_claimant_candidate_selection_1:0 "@bastard_icon! I Choose The Bastard Claimant, [match_choice_1.GetName]. An opportunity to expand my realm may lie there"
+  matchmaking_inferior_dowry_candidate_selection_1:0 "@gold_icon! I Choose The Gold Of [match_choice_1.GetName]"
+  matchmaking_foreign_elf_candidate_selection_1:0 "@foreigner_icon! I Choose The Traveler From Afar, [match_choice_1.GetName]"
+  matchmaking_twins_candidate_selection_1:0 "@twins_icon! I Choose The Two Of Them!"
+  matchmaking_triplets_candidate_selection_1:0 "@triplets_icon! I Choose All Three!"
+
+  matchmaking_standard_elf_candidate_selection_2:0 "@standard_elf_icon! I Choose [match_choice_2.GetName]"
+  matchmaking_aeluran_sister_candidate_selection_2:0 "@aeluran_sister_icon! I Choose Sister [match_choice_2.GetFirstName]"
+  matchmaking_aeluran_matron_candidate_selection_2:0 "@aeluran_matron_icon! I Choose Mother [match_choice_2.GetFirstName]"
+  matchmaking_aeluran_matriarch_candidate_selection_2:0 "@aeluran_matriarch_icon! I Choose Her Holiness [match_choice_2.GetName]"
+  matchmaking_genetic_project_candidate_selection_2:0 "@aeluran_experiment_icon! I Choose [match_choice_2.GetFirstName], I trust the Aeluran's plan!"
+  matchmaking_family_candidate_selection_2:0 "@family_choice_icon! I Choose my dear [match_choice_2.GetFirstName], keep the blood pure!"
+  matchmaking_bloodline_trait_candidate_selection_2:0 "@bloodline_icon! I Choose [match_choice_2.GetFirstName], a most noble bloodline indeed!"
+  matchmaking_alliance_candidate_selection_2:0 "@alliance_icon! A strong alliance will benefit all Elves. I will do my duty. I Choose [match_choice_2.GetName]"
+  matchmaking_warrior_candidate_selection_2:0 "@warrior_icon! I Choose The Brute, [match_choice_2.GetName]. Might is Power!"
+  matchmaking_wisemen_candidate_selection_2:0 "@wiseman_icon! I Choose The Wise One, [match_choice_2.GetName]."
+  matchmaking_bastard_claimant_candidate_selection_2:0 "@bastard_icon! I Choose The Bastard Claimant, [match_choice_2.GetName]. An opportunity to expand my realm may lie there"
+  matchmaking_inferior_dowry_candidate_selection_2:0 "@gold_icon! I Choose The Gold Of [match_choice_2.GetName]"
+  matchmaking_foreign_elf_candidate_selection_2:0 "@foreigner_icon! I Choose The Traveler From Afar, [match_choice_2.GetName]"
+  matchmaking_twins_candidate_selection_2:0 "@twins_icon! I Choose The Two Of Them!"
+  matchmaking_triplets_candidate_selection_2:0 "@triplets_icon! I Choose All Three!"
+
+  matchmaking_standard_elf_candidate_selection_3:0 "@standard_elf_icon! I Choose [match_choice_3.GetName]"
+  matchmaking_aeluran_sister_candidate_selection_3:0 "@aeluran_sister_icon! I Choose Sister [match_choice_3.GetFirstName]"
+  matchmaking_aeluran_matron_candidate_selection_3:0 "@aeluran_matron_icon! I Choose Mother [match_choice_3.GetFirstName]"
+  matchmaking_aeluran_matriarch_candidate_selection_3:0 "@aeluran_matriarch_icon! I Choose Her Holiness [match_choice_3.GetName]"
+  matchmaking_genetic_project_candidate_selection_3:0 "@aeluran_experiment_icon! I Choose [match_choice_3.GetFirstName], I trust the Aeluran's plan!"
+  matchmaking_family_candidate_selection_3:0 "@family_choice_icon! I Choose my dear [match_choice_3.GetFirstName], keep the blood pure!"
+  matchmaking_bloodline_trait_candidate_selection_3:0 "@bloodline_icon! I Choose [match_choice_3.GetFirstName], a most noble bloodline indeed!"
+  matchmaking_alliance_candidate_selection_3:0 "@alliance_icon! A strong alliance will benefit all Elves. I will do my duty. I Choose [match_choice_3.GetName]"
+  matchmaking_warrior_candidate_selection_3:0 "@warrior_icon! I Choose The Brute, [match_choice_3.GetName]. Might is Power!"
+  matchmaking_wisemen_candidate_selection_3:0 "@wiseman_icon! I Choose The Wise One, [match_choice_3.GetName]."
+  matchmaking_bastard_claimant_candidate_selection_3:0 "@bastard_icon! I Choose The Bastard Claimant, [match_choice_3.GetName]. An opportunity to expand my realm may lie there"
+  matchmaking_inferior_dowry_candidate_selection_3:0 "@gold_icon! I Choose The Gold Of [match_choice_3.GetName]"
+  matchmaking_foreign_elf_candidate_selection_3:0 "@foreigner_icon! I Choose The Traveler From Afar, [match_choice_3.GetName]"
+  matchmaking_twins_candidate_selection_3:0 "@twins_icon! I Choose The Two Of Them!"
+  matchmaking_triplets_candidate_selection_3:0 "@triplets_icon! I Choose All Three!"
+
+  matchmaking_debug_match_options:0 "Match 1 - [match_choice_1.GetName] | Match 2 - [match_choice_2.GetName] | Match 3 - [match_choice_3.GetName]"

@@ -63,17 +63,33 @@ elf_destiny_on_game_start = {
 			deactivate_holy_site = wratislaw_magi_academy
 		}
 
+		if = {
+			limit = {
+				exists = character:belanor_valerith
+			}
+
+			create_vanas_foeglass_effect = { OWNER = character:belanor_valerith }
+		}
+		if = {
+			limit = {
+				exists = character:belanor_valerith_1066
+			}
+
+			create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1066 }
+		}
+
+
 		# Assign missing Aeluran Regents
 		# every_ruler = {
 		# 	limit = {
 		# 		has_council_position = councillor_aeluran_advisor
 		# 		exists = cp:councillor_aeluran_advisor
 		# 		NOT = {
-		# 			has_diarchy_type = aleuran_regency
+		# 			has_diarchy_type = aeluran_regency
 		# 		}
 		# 	}
 
-		# 	start_diarchy = aleuran_regency
+		# 	start_diarchy = aeluran_regency
 		# 	set_diarch = cp:councillor_aeluran_advisor
 		# }
 
@@ -82,7 +98,8 @@ elf_destiny_on_game_start = {
 
 on_game_start_after_lobby = { 
     on_actions = {
-        correct_elf_mortality_trait 
+        correct_elf_mortality_trait
+		register_aeluran_heirarchy
     } 
 }
 
@@ -98,6 +115,38 @@ correct_elf_mortality_trait = {
 			remove_elf_immortality_effect = yes
 
 			debug_log = "fixed elf"
+		}
+	}
+}
+
+register_aeluran_heirarchy = {
+	effect = {
+		debug_log = "register_aeluran_heirarchy"
+
+		every_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+			}
+
+			debug_log = "Register Matron"
+
+			add_to_global_variable_list = {
+				name = aeluran_matrons
+				target = this
+			}
+		}
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_high_matriarch
+			}
+
+			debug_log = "Register High Matriarch"
+
+			set_global_variable = {
+				name = high_matriarch
+				value = this
+			}
 		}
 	}
 }

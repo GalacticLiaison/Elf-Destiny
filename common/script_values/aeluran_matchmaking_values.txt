@@ -4,6 +4,12 @@
 		## Beauty ##
 		if = {
 			limit = {
+				has_trait = beauty_good_4
+			}
+			add = 4
+		}
+		if = {
+			limit = {
 				has_trait = beauty_good_3
 			}
 			add = 3
@@ -41,6 +47,12 @@
 		## Intellect ##
 		if = {
 			limit = {
+				has_trait = intellect_good_4
+			}
+			add = 4
+		}
+		if = {
+			limit = {
 				has_trait = intellect_good_3
 			}
 			add = 3
@@ -76,6 +88,12 @@
 			add = -1
 		}
 		## Physique ##
+		if = {
+			limit = {
+				has_trait = physique_good_4
+			}
+			add = 4
+		}
 		if = {
 			limit = {
 				has_trait = physique_good_3
@@ -210,7 +228,7 @@
 matchmaking_female_gender_chance = {
 	if = {
 		limit = {
-			scope:match_recipient = {
+			scope:activity.special_guest:match_recipient = {
 				is_female = yes
 			}
 		}
@@ -218,7 +236,7 @@ matchmaking_female_gender_chance = {
 	}
 	else_if = {
 		limit = {
-			scope:match_recipient = {
+			scope:activity.special_guest:match_recipient = {
 				is_female = no
 			}
 		}
@@ -228,3 +246,94 @@ matchmaking_female_gender_chance = {
 	 	add = 50
 	}
 }
+
+matchmaking_candidate_quality = {
+	# Aeluran Respect
+	value = 0
+	add = {
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:very_high
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:high
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:neutral
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:low_respect
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:no_respect
+			}
+			add = 0
+		}
+		# Crystal "Donation"
+		if = {
+			limit = {
+				exists = var:spark_crystal_used
+			}
+			add = 2
+		}
+
+	}
+
+}
+
+aeluran_order_match_choice_piety_bonus = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_adviser
+			}
+			add = 500
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_sister
+			}
+			add = 250
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_matron
+			}
+			add = 1000
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_matriarch
+			}
+			add = 2000
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:genetic_project
+			}
+			add = 500
+		}
+	}
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+
+inferior_elf_match_dowry = {
+	value = 500
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+

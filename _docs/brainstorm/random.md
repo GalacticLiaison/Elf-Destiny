@@ -275,8 +275,11 @@ Man just realized even Harry Potter has elves lol, bad ending for elves is they 
 
 some effect that gives a ONE TIME bonus of +1 Dynasty Renown fo each living ruler of your dynasty
 - maybe an event that occurs randomly on expeditions.
-- maybe a consumable artifacty 
+- maybe a consumable artifact
 - maybe also only counts elf rulers if its something specific to elf supremacists
+
+If renown is becoming a worthless currency with how big your dynasty is, maybe create a whole new way to spend it!
+- ELITE MAA MERCENARIES!!!
 
 battle of wills discord app
 - player challenges another channel member
@@ -284,3 +287,25 @@ battle of wills discord app
 - both players emoji to confirm battle
 
 could make available culture tradition slots its own reward you find on expeditions!
+
+create new fairy forest terrain type for Socotra
+
+already wrote somewhere but new bloddline event, preg mother who needs shelter, child has two bloodlines 
+
+born in the red version of all the twin traits?
+
+artifact that gives plague resistance, maybe aeluran related
+
+aeluran servant maybe should include a loyalty oath that binds them. Aelurans have additonal control over them
+
+maybe for the dune genetic prophecy traits you find prophecy tablets that unlock them as a possibility?
+
+for quests maybe make a decision that has dynamic localization text based on where along in the quest you are and its disabled till quest complete
+- could be useful for genetic prophecies, as yuo find tablets they suddenly appear in your decisions tab
+
+cull the weak: haze comes over elves when the pop gets to big and it increases the murdernous in their personalities
+- maybe a religious tenet! changes murder doctrine to allowed for awhile: purge
+
+mysterious young refugee arrives and starts slowing gaining control
+
+rare stone statue boss variant

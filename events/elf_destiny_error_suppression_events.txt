@@ -1,0 +1,203 @@
+﻿
+namespace = elf_destiny_error_suppression
+
+
+elf_destiny_error_suppression.0001 = {
+	hidden = yes
+	orphan = yes
+	
+	trigger = {
+
+	}
+	
+	option = {
+		name = OK_BUTTON
+		
+		add_character_modifier = {
+			modifier = matilda_of_canossa_modifier
+		}
+		add_character_modifier = {
+			modifier = police_chief_of_baghdad_modifier
+		}
+		add_character_modifier = {
+			modifier = guiscard_modifier
+		}
+
+		
+		# "Variable 'has_scripted_appearance' is used but is never set"
+		# It's used in history, but we read the history after we check for these unused variable errors.
+		add_character_flag = GH_is_stone_statue
+		add_character_flag = portal
+		add_character_flag = GH_is_copper_statue
+		add_character_flag = portal_schematics
+		add_character_flag = GH_is_gold_statue
+		add_character_flag = GH_is_copper_rust_statue
+		add_character_flag = portal_key
+		add_character_flag = GH_is_limestone_statue
+		add_character_flag = 01_other_ruins_location_found
+		add_character_flag = block_entrance_attempts
+		add_character_flag = recent_expedition_held
+		add_character_flag = portal_spark_capacitor
+		add_character_flag = sigil_of_the_realm_lord
+		add_character_flag = 01_bloodstone_sceptor_found
+		add_character_flag = 01_culture_discovery_found
+		add_character_flag = portal_navigation_relay
+		add_character_flag = GH_is_marble_statue
+		add_character_flag = had_improve_magi_side_effect
+
+		if = { limit = {
+			# "Variable 'has_scripted_appearance' is set but is never used"
+			# In no-graphics we never read the portrait script that uses these flags, so then the above fix causes issues.
+			has_character_flag = helmet
+			has_character_flag = expedition_is_over
+			has_character_flag = ring
+			has_character_flag = portalCheater
+			has_character_flag = title_grand_portal_transported
+			has_character_flag = longbow
+			has_character_flag = aeluran_training
+			has_character_flag = regalia
+			has_character_flag = tribal_warrior_match
+			has_character_flag = commoner
+			has_character_flag = necklace
+			# has_character_flag = breeding_stock
+			# has_character_flag = breeding_stock_2
+			has_character_flag = unique_lords_sexed_count_value
+			has_character_flag = composite
+			has_character_flag = title_grand_portal_restored
+			has_character_flag = sex_partner_number
+			has_character_flag = crossbow
+
+			is_target_in_variable_list = {
+				name = artifact_rewards
+				target = root
+			}
+			is_target_in_variable_list = {
+				name = trait_rewards
+				target = root
+			}
+			exists = var:reichskrone
+			exists = var:pope_hat
+		} }
+	}
+}
+
+#Suppression of properties
+elf_destiny_error_suppression.0002 = {
+	hidden = yes
+	orphan = yes
+	
+	trigger = {
+		var:dummy ?= flag:ancient_fortress_of_mahasthangarh
+		var:dummy ?= flag:standard_elf
+		var:dummy ?= flag:bloodline_trait
+		var:dummy ?= flag:ancient_faerie_groves
+		var:dummy ?= flag:hunting_grounds_of_the_greater_drakes
+		var:dummy ?= flag:the_grand_portal
+		var:dummy ?= flag:citadel_of_bear_king_thul
+		var:dummy ?= flag:inital
+		var:dummy ?= flag:labyrinth_gateway_of_the_altamirans
+		var:dummy ?= flag:ancient_holy_city_of_madurai
+		var:dummy ?= flag:the_grand_blood_alter
+		var:dummy ?= flag:volcanic_forge
+		var:dummy ?= flag:labyrinth_gateway_of_the_ajantas
+		var:dummy ?= flag:tomb_of_ale_the_dragon_slayer
+		var:dummy ?= flag:temple_of_the_mages_court
+		var:dummy ?= flag:inferior_dowry
+		var:dummy ?= flag:seat_of_the_storm_king
+		var:dummy ?= flag:skip_gates_of_camelot
+		var:dummy ?= flag:east_flaria
+		var:dummy ?= flag:light_reach_citadel
+		var:dummy ?= flag:false
+		var:dummy ?= flag:wisemen
+		var:dummy ?= flag:archipelago_of_duck_duke_vega
+		var:dummy ?= flag:wraith_wood
+		var:dummy ?= flag:tomb_of_the_lights_champions
+		var:dummy ?= flag:spire_citadel
+		var:dummy ?= flag:fortress_tomb_of_the_dead_emperor
+		var:dummy ?= flag:overwatch_fortress
+		var:dummy ?= flag:sealed_magic_armoury
+		var:dummy ?= flag:great_obelisk_of_the_pictish
+		var:dummy ?= flag:whisper_wood
+		var:dummy ?= flag:foreign_elf
+		var:dummy ?= flag:ruins_of_valfuria
+		var:dummy ?= flag:domain_of_the_forest_spirit_eleke_sazy
+		var:dummy ?= flag:apadana_palace
+		var:dummy ?= flag:black_palace_of_dark_queen_hekla
+		var:dummy ?= flag:burrens_bastion
+		var:dummy ?= flag:genetic_project
+		var:dummy ?= flag:proving_fields
+		var:dummy ?= flag:shattered_spire_of_veldric
+		var:dummy ?= flag:library_of_alexandria
+		var:dummy ?= flag:ancient_mega_city_of_myropillya
+		var:dummy ?= flag:wratislaw_magi_academy
+		var:dummy ?= flag:west_flaria
+		var:dummy ?= flag:bastard_claimant
+		var:dummy ?= flag:ancient_city_of_glanum
+		var:dummy ?= flag:ancient_city_of_bosra
+		var:dummy ?= flag:aeluran_matriarch
+		var:dummy ?= flag:matrons_hollow
+		var:dummy ?= flag:mythical_spiritual_kingdom_of_shambhala
+		var:dummy ?= flag:grazing_villages_of_the_great_herds
+		var:dummy ?= flag:newgrange_temple
+		var:dummy ?= flag:ruins_of_the_runic_city_of_anundshog
+		var:dummy ?= flag:harkonnens_foley
+		var:dummy ?= flag:ancient_city_of_babylon
+		var:dummy ?= flag:cradle_of_the_first_elves
+		var:dummy ?= flag:high_harbor
+	}
+
+	option = {
+		set_variable = {
+			name = error_suppress
+			value = flag:necklace
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:helmet
+		}
+		# set_variable = {
+		# 	name = error_suppress
+		# 	value = flag:breeding_stock
+		# }
+		set_variable = {
+			name = error_suppress
+			value = flag:expedition_is_over
+		}
+		# set_variable = {
+		# 	name = error_suppress
+		# 	value = flag:breeding_stock_2
+		# }
+		set_variable = {
+			name = error_suppress
+			value = flag:ring
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:composite
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:longbow
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:regalia
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:commoner
+		}
+		set_variable = {
+			name = error_suppress
+			value = flag:crossbow
+		}
+	}
+	
+	option = {
+		name = OK_BUTTON
+		set_variable = {
+			name = dummy
+			value = 1
+		}
+	}
+}

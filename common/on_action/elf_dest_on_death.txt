@@ -1,0 +1,46 @@
+﻿# character just about to die is root scope
+# if a killer is known, it's set as scope:killer
+on_death = { 
+    on_actions = {
+        aeluran_heirarchy_management 
+    } 
+}
+
+aeluran_heirarchy_management = {
+	trigger = {
+		OR = {
+			AND = {
+				exists = global_var:high_matriarch
+				global_var:high_matriarch = root
+			}
+			is_target_in_global_variable_list = {
+				name = aeluran_matrons
+				target = root
+			}
+		}
+	}
+
+	effect = {
+		debug_log = "Aeluran has died"
+
+		if = {
+			limit = {
+				global_var:high_matriarch = root
+			}
+			debug_log = "Replacing Matriarch"
+
+			appoint_new_aeluron_matriarch_effect = yes
+		}
+		else_if = {
+			limit = {
+				is_target_in_global_variable_list = {
+					name = aeluran_matrons
+					target = root
+				}
+			}
+			debug_log = "Replacing Matron"
+
+			appoint_new_aeluran_matron_effect = yes
+		}
+	}
+}
