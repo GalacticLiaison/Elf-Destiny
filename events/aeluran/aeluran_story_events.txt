@@ -163,16 +163,40 @@ aeluran_story.004 = {
 }
 
 aeluran_story.005 = {
-	hidden = yes
+	type = character_event
+
+	title = aeluran_story.005.title
+	desc = aeluran_story.005.desc
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
 
 	trigger = {
 		root.faith = faith:aeluran_weavers
+		exists = cp:councillor_aeluran_advisor
+	}
+
+	left_portrait = {
+		character = scope:advisor
+		animation = flirtation
 	}
 
 	immediate = {
+		cp:councillor_aeluran_advisor = {
+			save_scope_as = advisor
+		}
+	}
+
+	option = {
+		name = aeluran_story.005.accept
 		root.culture = {
 			add_culture_tradition = tradition_aeluran_etiquette
 		}
+	}
+
+	option = {
+		name = aeluran_story.005.no
+		# TODO: battle of wills
 	}
 }
 
@@ -274,7 +298,7 @@ aeluran_story.0061 = { # Given Reformation Quest
 	immediate = {
 		trigger_event = {
 			id = aeluran_story.005
-			years = 10
+			years = 1
 		}
 	}
 

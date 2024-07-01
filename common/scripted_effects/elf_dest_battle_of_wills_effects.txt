@@ -1,0 +1,118 @@
+﻿## NOTES
+
+# I think default version should be maybe learning only, but you unlock additional versions.
+# + diplomacy skill
+# + intrigue skill
+# + prowess
+# all of them at once?
+
+# maybe special things like enchantress unlock diplo + intrigue and cut out learning
+# could create a custom UI that features all possible options, with disabled for not yet unlocked
+
+# Defense should be able to use their own strongest method, OR
+# does it always just mirror the choice of the challenger giving the challenger a big advantage?
+# could even give add a "defender" bonus to compensate
+
+# certain artifacts and other bonuses should come into play
+
+battle_of_wills_effect = {
+	$TYPE$ = {
+		save_scope_as = battle_type
+	}
+
+	$CHALLENGER$ = {
+		save_scope_as = challenger
+	}
+
+	$DEFENDER$ = {
+		save_scope_as = defender
+	}
+
+	if = {
+		limit = {
+			exists = scope:battle_type
+			exists = scope:challenger
+			exists = scope:defender
+		}
+
+		switch = {
+			trigger = scope:battle_type
+			flag:learning = {
+				battle_of_wills_default = { 
+					CHALLENGER_WINS_EFFECT_TOOLTIP = $CHALLENGER_WINS_EFFECT_TOOLTIP$
+					CHALLENGER_LOSES_EFFECT_TOOLTIP = $CHALLENGER_LOSES_EFFECT_TOOLTIP$
+					SKILLS = "{ learning }"
+				}
+			}
+			flag:intrigue_diplomacy = {
+				battle_of_wills_default = { 
+					CHALLENGER_WINS_EFFECT_TOOLTIP = $CHALLENGER_WINS_EFFECT_TOOLTIP$
+					CHALLENGER_LOSES_EFFECT_TOOLTIP = $CHALLENGER_LOSES_EFFECT_TOOLTIP$
+					SKILLS = "{ intrigue diplomacy}"
+				}
+			}
+		}
+	}
+}
+
+# TODO: lets try passing a scope value for "learning"
+battle_of_wills_default = {
+
+	duel = {
+		# skills = { learning }
+		skills = $SKILLS$ 
+		
+		target = scope:defender
+
+		# 00_diarch_interactions.txt 2841
+		# value =
+
+		50 = { # Challenger Wins
+			compare_modifier = {
+				value = scope:duel_value
+				multiplier = 3.5
+				min = -49
+			}
+
+			modifier = {
+				always = yes
+				add = battle_of_wills_modifier_value		
+			}
+
+			desc = you_win_battle_of_wills
+
+			save_scope_value_as = {
+				name = challenger_wins
+				value = yes
+			}
+
+			custom_tooltip = {
+				text = $CHALLENGER_WINS_EFFECT_TOOLTIP$
+			}
+		}
+		50 = {  # Defender Wins
+			compare_modifier = {
+				value = scope:duel_value
+				multiplier = -3.5
+				min = -49
+			}
+
+			min = 2
+
+			desc = you_lose_battle_of_wills
+
+			save_scope_value_as = {
+				name = challenger_wins
+				value = no
+			}
+
+			custom_tooltip = {
+				text = $CHALLENGER_LOSES_EFFECT_TOOLTIP$
+			}
+		}
+
+	}
+	
+
+}
+

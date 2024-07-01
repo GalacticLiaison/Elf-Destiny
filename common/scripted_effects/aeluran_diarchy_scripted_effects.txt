@@ -172,3 +172,32 @@ shift_aeluran_loyalties_effect = {
 	}
 }
 
+get_aeluran_mandate_level_effect = {
+	if = {
+		limit = {
+			diarch = { has_active_mandate = realm_supervision }
+		}
+		save_scope_value_as = {
+			name = aeluran_mandate_level
+			value = 1
+		}
+	}
+	else_if = {
+		limit = {
+			diarch = { has_active_mandate = realm_subjugation }
+		}
+		save_scope_value_as = {
+			name = aeluran_mandate_level
+			value = 2
+		}
+	}
+	else_if = {
+		limit = {
+			diarch = { has_active_mandate = realm_domination }
+		}
+		save_scope_value_as = {
+			name = aeluran_mandate_level
+			value = 3
+		}
+	}
+}

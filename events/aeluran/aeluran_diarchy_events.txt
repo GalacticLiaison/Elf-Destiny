@@ -1,6 +1,6 @@
 ﻿namespace = aeluran_diarchy
 
-# Aeluran Matriarch assigns new Adviser, sends letter
+# Aeluran Matriarch assigns new Advisor, sends letter
 aeluran_diarchy.100 = {
 	type = letter_event
 	opening = aeluran_diarchy.100.title
@@ -10,19 +10,19 @@ aeluran_diarchy.100 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = { 
-					scope:adviser_type = flag:vassal
+					scope:advisor_type = flag:vassal
 				}
 				desc = aeluran_diarchy.100.desc.vassal
 			}
 			triggered_desc = {
 				trigger = { 
-					scope:adviser_type = flag:courtier
+					scope:advisor_type = flag:courtier
 				}
 				desc = aeluran_diarchy.100.desc.courtier
 			}
 			triggered_desc = {
 				trigger = { 
-					scope:adviser_type = flag:sent_from_deepwood
+					scope:advisor_type = flag:sent_from_deepwood
 				}
 				desc = aeluran_diarchy.100.desc.sent_from_deepwood
 			}
@@ -36,7 +36,7 @@ aeluran_diarchy.100 = {
 		# 	has_trait = aeluran_high_matriarch
 		# }
 		NOT = {
-			has_character_flag = aeluran_adviser_is_on_the_way
+			has_character_flag = aeluran_advisor_is_on_the_way
 		}
 	}
 
@@ -61,7 +61,7 @@ aeluran_diarchy.100 = {
 			}
 
 			save_scope_value_as = {
-				name = adviser_type
+				name = advisor_type
 				value = flag:vassal
 			}
 
@@ -82,7 +82,7 @@ aeluran_diarchy.100 = {
 			}
 
 			save_scope_value_as = {
-				name = adviser_type
+				name = advisor_type
 				value = flag:courtier
 			}
 
@@ -107,12 +107,12 @@ aeluran_diarchy.100 = {
 			}
 
 			save_scope_value_as = {
-				name = adviser_type
+				name = advisor_type
 				value = flag:sent_from_deepwood
 			}
 
 			save_scope_value_as = {
-				name = aeluran_adviser_coming_from_sanctum
+				name = aeluran_advisor_coming_from_sanctum
 				value = yes
 			}
 
@@ -138,46 +138,48 @@ aeluran_diarchy.100 = {
 
 			if = {
 				limit = {
-					exists = scope:aeluran_adviser_coming_from_sanctum
-					scope:aeluran_adviser_coming_from_sanctum = yes
+					exists = scope:aeluran_advisor_coming_from_sanctum
+					scope:aeluran_advisor_coming_from_sanctum = yes
 				}
 				add_character_flag = {
-					flag = aeluran_adviser_is_on_the_way
+					flag = aeluran_advisor_is_on_the_way
 					years = 4
 				}
 
-				save_scope_as = lord_receiving_adviser
+				save_scope_as = lord_receiving_advisor
 
-				aeluran_adviser_sent_from_deep_wood_effect = yes
+				aeluran_advisor_sent_from_deep_wood_effect = yes
 			}
 			else = {
-				trigger_event = aeluran_diarchy.101
+				trigger_event = aeluran_diarchy.1011
 			}
 
 		}
 	}
 }
 
-# Adviser Arrives
+# Advisor Arrives
 
 # TODO: make cost of new constructed church holding scale by aeluran respect level
-# If new adviser is vassal with land already just convert them to Aeluran Government (in theory they probably should already be aeluran government)
+# If new advisor is vassal with land already just convert them to Aeluran Government (in theory they probably should already be aeluran government)
 
 aeluran_diarchy.101 = {
 	type = character_event
 	title = aeluran_diarchy.101.title
 	desc = aeluran_diarchy.101.desc
 
+	# left_portrait = {
+	# 	character = root
+	# 	animation = personality_bold
+	# }
 	left_portrait = {
-		character = root
-		animation = worry
-	}
-	right_portrait = {
 		character = scope:aeluran_sister_advisor
-		animation = personality_zealous
+		animation = personality_content
+		camera = camera_body_left_slight
 	}
 
-	theme = court
+	theme = aeluran_advisor
+	override_background = { reference = council_chamber }
 	content_source = elf_destiny
 
 	# cooldown = { years = 1 }
@@ -186,9 +188,9 @@ aeluran_diarchy.101 = {
 		debug_log = "start aeluran regency"
 		debug_log_scopes = yes
 
-		remove_character_flag = aeluran_adviser_is_on_the_way
+		remove_character_flag = aeluran_advisor_is_on_the_way
 
-		# make regent/adviser
+		# make regent/advisor
 		if = {
 			limit = {
 				scope:aeluran_sister_advisor = {
@@ -206,6 +208,15 @@ aeluran_diarchy.101 = {
 				has_active_diarchy = no
 			}
 			start_diarchy = aeluran_regency
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			set_diarchy_type = aeluran_regency
 		}
 
 		set_diarch = scope:aeluran_sister_advisor
@@ -239,7 +250,99 @@ aeluran_diarchy.101 = {
 
 		trigger_event = {
 			id = aeluran_diarchy.102
-			days = { 730 1460 }
+			days = { 5 10 }
+		}
+	}
+}
+
+aeluran_diarchy.1011 = {
+	type = character_event
+	title = aeluran_diarchy.1011.title
+	desc = aeluran_diarchy.1011.desc
+
+	# left_portrait = {
+	# 	character = root
+	# 	animation = personality_bold
+	# }
+	left_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_content
+		camera = camera_body_left_slight
+	}
+
+	theme = aeluran_advisor
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	# cooldown = { years = 1 }
+
+	immediate = {
+		debug_log = "start aeluran regency"
+		debug_log_scopes = yes
+
+		remove_character_flag = aeluran_advisor_is_on_the_way
+
+		# make regent/advisor
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+					NOT = {
+						is_courtier_of = root
+					}
+				}
+			}
+			add_courtier = scope:aeluran_sister_advisor
+		}
+
+		if = {
+			limit = {
+				has_active_diarchy = no
+			}
+			start_diarchy = aeluran_regency
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			set_diarchy_type = aeluran_regency
+		}
+
+		set_diarch = scope:aeluran_sister_advisor
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = yes
+				}
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+			scope:aeluran_sister_advisor = {
+				change_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1011.ok
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+				}
+			}
+			trigger_event = aeluran_diarchy.103
+		}
+
+		trigger_event = {
+			id = aeluran_diarchy.102
+			days = { 5 10 }
 		}
 	}
 }
@@ -250,16 +353,43 @@ aeluran_diarchy.102 = {
 
 	trigger = {
 		has_active_diarchy = yes
-		# Because we were apparently occasionally catching gaps in diarch succession.
 		exists = diarch
 	}
 
 	immediate = {
-		# We don't have fine control of mandates yet, so we just randomly pick a pool and push from it.
 		if = {
 			limit = {
-				# Filtering out landless lieges, since they're too much to control for.
 				is_landed = yes
+			}
+			random_list = {
+				100 = {
+					trigger = { has_active_mandate = realm_supervision }
+
+					
+					add_character_modifier = {
+						modifier = realm_is_supervised
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
+				}
+				100 = {
+					trigger = { has_active_mandate = realm_subjugation }
+
+					add_character_modifier = {
+						modifier = realm_is_subjugated
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_subjugation_random }
+				}
+				100 = {
+					trigger = { has_active_mandate = realm_domination }
+
+					add_character_modifier = {
+						modifier = realm_is_dominated
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_domination_random }
+				}
 			}
 			diarch = {
 
@@ -277,23 +407,7 @@ aeluran_diarchy.102 = {
 				# - could make new pools that focus on aspects though like "succession meddling"
 
 				# trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
-				random_list = {
-					100 = {
-						trigger = { has_active_mandate = realm_supervision }
 
-						# Here maybe add the +1 domain limit character modifier!
-
-						trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
-					}
-					100 = {
-						trigger = { has_active_mandate = realm_subjugation }
-						trigger_event = { on_action = diarchy_mandate_realm_subjugation_random }
-					}
-					100 = {
-						trigger = { has_active_mandate = realm_domination }
-						trigger_event = { on_action = diarchy_mandate_realm_domination_random }
-					}
-				}
 			}
 		}
 		trigger_event = {
@@ -316,15 +430,22 @@ aeluran_diarchy.103 = {
 	type = character_event
 	title = aeluran_diarch.103.title
 	desc = aeluran_diarch.103.desc
-	# if first aeluran adviser, find a new church holding to take.
+	# if first aeluran advisor, find a new church holding to take.
 	# assign that barony to ruler as character variable
 	# on aeluran death, holding returns to leige
-	# new adviser automatically settles old barony and depending on respect, maybe other lands
+	# new advisor automatically settles old barony and depending on respect, maybe other lands
 
-	# if leige gives away county with an adviser, adviser angrily seizes new land
+	# if leige gives away county with an advisor, advisor angrily seizes new land
 	# if aeluran cant be landed, leige suffers a penalty modifier until its rectified
 
 	# for tribal, just say the order sponsors the holding construction
+
+	trigger = {
+		scope:aeluran_sister_advisor = {
+			is_alive = yes
+		}
+	}
+
 
 	left_portrait = {
 		character = root
@@ -403,7 +524,6 @@ aeluran_diarchy.103 = {
 
 				save_scope_as = undeveloped_holding
 			}
-			
 		}
 
 			# begin_create_holding
@@ -504,6 +624,8 @@ aeluran_diarchy.103 = {
 	# let player know they have 1 year to find holding or consequences
 	option = { # I will assign you land
 		name = aeluran_diarch.103.will_asign
+
+		add_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
 	}
 
 }
@@ -512,15 +634,21 @@ aeluran_diarchy.1031 = {
 	type = character_event
 	title = aeluran_diarch.1031.title
 	desc = aeluran_diarch.1031.desc
-	# if first aeluran adviser, find a new church holding to take.
+	# if first aeluran advisor, find a new church holding to take.
 	# assign that barony to ruler as character variable
 	# on aeluran death, holding returns to leige
-	# new adviser automatically settles old barony and depending on respect, maybe other lands
+	# new advisor automatically settles old barony and depending on respect, maybe other lands
 
-	# if leige gives away county with an adviser, adviser angrily seizes new land
+	# if leige gives away county with an advisor, advisor angrily seizes new land
 	# if aeluran cant be landed, leige suffers a penalty modifier until its rectified
 
 	# for tribal, just say the order sponsors the holding construction
+
+	trigger = {
+		scope:aeluran_sister_advisor = {
+			is_alive = yes
+		}
+	}
 
 	left_portrait = {
 		character = root

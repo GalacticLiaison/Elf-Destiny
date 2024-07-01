@@ -1,0 +1,1675 @@
+﻿namespace = aeluran_diarchy_mandate
+
+# TODO: make sure player has choices and agency whenever possible
+# aeluran_diarchy_mandate.1001 = { # Gain modifier increasing vassal tax and levies, increase domain limit +1,+2,+3 
+# 	type = character_event
+# 	title = aeluran_diarchy_mandate.1001.title
+# 	desc = aeluran_diarchy_mandate.1001.desc
+
+# 	trigger = {
+# 		NOR = {
+# 			has_character_modifier = realm_is_supervised
+# 			has_character_modifier = realm_is_subjugated
+# 			has_character_modifier = realm_is_dominated
+# 		}
+# 	}
+
+# 	left_portrait = {
+# 		character = diarch
+# 		animation = personality_bold
+# 	}
+
+# 	theme = aeluran_advisor
+# 	content_source = elf_destiny
+
+# 	immediate = {
+# 		get_aeluran_mandate_level_effect = yes
+
+# 		if = {
+# 			limit = {
+# 				scope:aeluran_mandate_level = 1
+# 			}
+# 			add_character_modifier = {
+# 				modifier = realm_is_supervised
+# 				years = 10
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				scope:aeluran_mandate_level = 2
+# 			}
+# 			add_character_modifier = {
+# 				modifier = realm_is_subjugated
+# 				years = 10
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = {
+# 				scope:aeluran_mandate_level = 3
+# 			}
+# 			add_character_modifier = {
+# 				modifier = realm_is_dominated
+# 				years = 10
+# 			}
+# 		}
+# 	}
+
+# 	option = {
+# 		name = aeluran_diarchy_mandate.1001.ok
+# 	}
+# }
+
+# TODO: Exclude aeluran vassals from events, or at least your advisor herself
+
+aeluran_diarchy_mandate.1002 = { # Find vassal secrets
+	type = character_event
+	title = aeluran_diarchy_mandate.1002.title
+	desc = aeluran_diarchy_mandate.1002.desc
+
+	trigger = {
+		any_vassal = {
+			has_secret_unknown_by_root_trigger = yes
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+
+		if = {
+			limit = {
+				any_vassal = {
+					has_secret_unknown_by_root_trigger = yes
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					has_secret_unknown_by_root_trigger = yes
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+
+				save_scope_as = vassal
+	
+				random_secret = {
+					limit = {
+						NOT = { is_known_by = root }
+					}
+
+					save_scope_as = vassal_secret
+
+					reveal_to = root
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1002.ok
+	}
+}
+
+aeluran_diarchy_mandate.1003 = { # Random County Gains Some Control
+	type = character_event
+	title = aeluran_diarchy_mandate.1003.title
+	desc = aeluran_diarchy_mandate.1003.desc
+
+	trigger = {
+		OR = {
+			any_realm_county = {
+				county_control < full_county_control
+			}
+			any_sub_realm_county = {
+				county_control < full_county_control
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_realm_county = {
+					county_control < full_county_control
+				}
+			}
+			random_realm_county = {
+				limit = {
+					county_control < full_county_control
+				}
+	
+				save_scope_as = county_to_control
+	
+				change_county_control = full_county_control
+			}
+		}
+		else_if = {
+			limit = {
+				any_sub_realm_county = {
+					county_control < full_county_control
+				}
+			}
+			random_sub_realm_county = {
+				limit = {
+					county_control < full_county_control
+				}
+	
+				save_scope_as = county_to_control
+	
+				change_county_control = full_county_control
+			}
+		}
+
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1003.ok
+	}
+}
+
+aeluran_diarchy_mandate.1004 = { # Shift non aeluran vassals contract
+	type = character_event
+	title = aeluran_diarchy_mandate.1004.title
+	desc = aeluran_diarchy_mandate.1004.desc
+
+	trigger = {
+		any_vassal = {
+			OR = {
+				vassal_contract_obligation_level_can_be_increased = feudal_government_taxes
+				vassal_contract_obligation_level_can_be_increased = feudal_government_levies
+			}
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					OR = {
+						vassal_contract_obligation_level_can_be_increased = feudal_government_taxes
+						vassal_contract_obligation_level_can_be_increased = feudal_government_levies
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					OR = {
+						vassal_contract_obligation_level_can_be_increased = feudal_government_taxes
+						vassal_contract_obligation_level_can_be_increased = feudal_government_levies
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+
+				save_scope_as = vassal
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1004.contract
+
+		scope:vassal = {
+			random_list = {
+				0 = {
+					modifier = {
+						add = 100
+						vassal_contract_obligation_level_can_be_increased = feudal_government_taxes
+					}
+
+					vassal_contract_increase_obligation_level = feudal_government_taxes
+				}
+				0 = {
+					modifier = {
+						add = 100
+						vassal_contract_obligation_level_can_be_increased = feudal_government_levies
+					}
+
+					vassal_contract_increase_obligation_level = feudal_government_levies
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1004.hook
+
+		add_hook = {
+			type = overlooked_infraction
+			target = scope:vassal
+		}
+
+		add_opinion = {
+			target = scope:vassal
+			modifier = grateful_opinion
+			opinion = 20
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1005 = { # Chance a vassal gains loyal trait
+	type = character_event
+	title = aeluran_diarchy_mandate.1005.title
+	desc = aeluran_diarchy_mandate.1005.desc
+
+	trigger = {
+		any_vassal = {
+			OR = {
+				has_trait = disloyal
+				NOT = {
+					has_trait = loyal
+				}
+			}
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_content
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		# animation = personality_bold 
+		# animation = admiration
+		# camera = camera_event_right
+		camera = camera_event_right
+		animation = throne_room_kneel_1
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					OR = {
+						has_trait = disloyal
+						NOT = {
+							has_trait = loyal
+						}
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					OR = {
+						has_trait = disloyal
+						NOT = {
+							has_trait = loyal
+						}
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+
+				save_scope_as = vassal
+
+				if = {
+					limit = {
+						has_trait = disloyal
+					}
+					remove_trait = disloyal
+				}
+				else_if = {
+					limit = {
+						NOT = {
+							has_trait = loyal
+						}
+					}
+					add_trait = loyal
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1005.ok
+	}
+}
+
+aeluran_diarchy_mandate.1006 = { # Vassal had a "surplus" and decided to gift it to you, + gold
+	type = character_event
+	title = aeluran_diarchy_mandate.1006.title
+	desc = aeluran_diarchy_mandate.1006.desc
+
+	trigger = {
+		any_vassal = {
+			gold >= minor_gold_value
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		animation = shame
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		get_aeluran_mandate_level_effect = yes
+
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						scope:aeluran_mandate_level = 1
+						any_vassal = {
+							gold >= minor_gold_value
+							NOT = {
+								has_government = aeluran_weavers_government
+							}
+						}
+					}
+					AND = {
+						scope:aeluran_mandate_level = 2
+						any_vassal = {
+							gold >= medium_gold_value
+							NOT = {
+								has_government = aeluran_weavers_government
+							}
+						}
+					}
+					AND = {
+						scope:aeluran_mandate_level = 3
+						any_vassal = {
+							gold >= major_gold_value
+							NOT = {
+								has_government = aeluran_weavers_government
+							}
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					scope:aeluran_mandate_level = 1
+				}
+				random_vassal = {
+					limit = { 
+						gold >= minor_gold_value
+						NOT = {
+							has_government = aeluran_weavers_government
+						}
+					}
+					save_scope_as = vassal
+				}
+			}
+			if = {
+				limit = {
+					scope:aeluran_mandate_level = 2
+				}
+				random_vassal = {
+					limit = { 
+						gold >= medium_gold_value
+						NOT = {
+							has_government = aeluran_weavers_government
+						} 
+					}
+					save_scope_as = vassal
+				}
+			}
+			if = {
+				limit = {
+					scope:aeluran_mandate_level = 3
+				}
+				random_vassal = {
+					limit = { 
+						gold >= major_gold_value
+						NOT = {
+							has_government = aeluran_weavers_government
+						}
+					}
+					save_scope_as = vassal
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1006.accept_tribute
+
+		if = {
+			limit = {
+				scope:aeluran_mandate_level = 1
+			}
+			scope:vassal ?= {
+				pay_short_term_gold = {
+					target = root
+					gold = minor_gold_value
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:aeluran_mandate_level = 2
+			}
+			scope:vassal ?= {
+				pay_short_term_gold = {
+					target = root
+					gold = medium_gold_value
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:aeluran_mandate_level = 3
+			}
+			scope:vassal ?= {
+				pay_short_term_gold = {
+					target = root
+					gold = major_gold_value
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1006.decline_tribute
+		if = {
+			limit = {
+				exists = scope:vassal
+				NOR = {
+					has_relation_friend = scope:vassal
+					has_relation_potential_friend = scope:vassal
+				}
+			}
+			set_relation_potential_friend = scope:vassal
+		}
+
+		scope:vassal = {
+			add_opinion = {
+				target = root
+				modifier = kindness_opinion
+				opinion = 15
+			}
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1007 = { # Something that shifts development from vassals capital to your capital
+	type = character_event
+	title = aeluran_diarchy_mandate.1007.title
+	desc = aeluran_diarchy_mandate.1007.desc
+
+	trigger = {
+		any_vassal = {
+			capital_county = {
+				development_level > 1
+			}
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	lower_right_portrait = {
+		character = scope:vassal
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					capital_county = {
+						development_level > 1
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+			}
+		}
+		random_vassal = {
+			limit = {
+				capital_county = {
+					development_level > 1
+				}
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+
+			save_scope_as = vassal
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1007.yes
+
+		scope:vassal = {
+			capital_county = {
+				change_development_level = -1
+			}
+		}
+		capital_county = {
+			change_development_level = 1
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1007.no
+
+		if = {
+			limit = {
+				exists = scope:vassal
+				NOR = {
+					has_relation_friend = scope:vassal
+					has_relation_potential_friend = scope:vassal
+				}
+			}
+			set_relation_potential_friend = scope:vassal
+		}
+
+		scope:vassal = {
+			add_opinion = {
+				target = root
+				modifier = kindness_opinion
+				opinion = 15
+			}
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1008 = { # non aeluran vassal converted OR have a title taken
+	type = character_event
+	title = aeluran_diarchy_mandate.1008.title
+	desc = aeluran_diarchy_mandate.1008.desc
+
+	trigger = {
+		any_vassal = {
+			NOT = {
+				religion = { is_in_family = rf_spark }
+			}
+		}
+	}
+
+	left_portrait = {
+		character = root.diarch
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					NOT = {
+						religion = { is_in_family = rf_spark }
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					NOT = {
+						religion = { is_in_family = rf_spark }
+					}
+				}
+
+				save_scope_as = vassal
+			}
+		}
+
+		if = {
+			limit = {
+				any_courtier = {
+					is_aeluran_sister_or_higher = yes
+					NOT = {
+						this = root.diarch
+					}	
+				}
+			}
+			random_courtier = {
+				limit = {
+					is_aeluran_sister_or_higher = yes
+					NOT = {
+						this = root.diarch
+					}	
+				}
+
+				save_scope_as = aeluran_to_gift_title
+			}
+		}
+		else = {
+			create_character = {
+				template = aeluran_sister_advisor
+				dynasty = none
+				location = root.capital_province
+				faith = diarch.faith
+				culture = root.culture
+				save_scope_as = aeluran_to_gift_title
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1008.convert
+
+		random_list = {
+			70 = {
+				scope:vassal = {
+					set_character_faith = root.faith
+				}
+			}
+			30 = {
+				custom_tooltip = {
+					text = fail_to_convert
+				}
+			}
+		}
+	}
+	option = {
+		name = aeluran_diarchy_mandate.1008.take_title
+
+		scope:vassal = {
+			create_title_and_vassal_change = {
+				type = revoked
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+
+			every_sub_realm_county = {
+				change_title_holder = {
+					holder = scope:aeluran_to_gift_title
+					change = scope:title_change
+				}
+			}
+
+			every_sub_realm_duchy = {
+				change_title_holder = {
+					holder = scope:aeluran_to_gift_title
+					change = scope:title_change
+				}
+			}
+
+			resolve_title_and_vassal_change = scope:title_change
+		}
+
+		if = {
+			limit = {
+				scope:aeluran_to_gift_title = {
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+			}
+			scope:aeluran_to_gift_title = {
+				change_government = aeluran_weavers_government
+			}
+		}
+
+	}
+	option = {
+		name = aeluran_diarchy_mandate.1008.no
+
+		if = {
+			limit = {
+				exists = scope:vassal
+				NOR = {
+					has_relation_friend = scope:vassal
+					has_relation_potential_friend = scope:vassal
+				}
+			}
+			set_relation_potential_friend = scope:vassal
+		}
+
+		scope:vassal = {
+			add_opinion = {
+				target = root
+				modifier = kindness_opinion
+				opinion = 15
+			}
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1009 = { # Detect murder or abduction plots from vassals
+	type = character_event
+	title = aeluran_diarchy_mandate.1009.title
+	desc = aeluran_diarchy_mandate.1009.desc
+
+	trigger = {
+		any_targeting_scheme = {
+			OR = {
+				scheme_type = murder
+				scheme_type = abduct
+			}
+			scheme_owner = {
+				is_vassal_of = root
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = disapproval
+	}
+
+	lower_right_portrait = {
+		character = scope:traitor
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_targeting_scheme = {
+					OR = {
+						scheme_type = murder
+						scheme_type = abduct
+					}
+					scheme_owner = {
+						is_vassal_of = root
+						NOT = {
+							has_government = aeluran_weavers_government
+						}
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					OR = {
+						is_scheming_against = {
+							target = root
+							type = murder
+						}
+						is_scheming_against = {
+							target = root
+							type = abduct
+						}
+					}
+					NOT = {
+						has_government = aeluran_weavers_government
+					}
+				}
+
+				save_scope_as = traitor
+
+			}
+
+			if = {
+				limit = {
+					scope:traitor = {
+						is_scheming_against = {
+							target = root
+							type = murder
+						}
+					}
+				}
+				scope:traitor = {
+					add_secret = {
+						type = secret_murder_attempt
+						target = root
+					}
+					random_secret = {
+						limit = {
+							secret_type = secret_murder_attempt
+							secret_target = root
+						}
+						reveal_to_without_events_effect = {
+							CHARACTER = root
+						}
+					}
+				}
+
+				add_opinion = {
+					target = scope:traitor
+					modifier = attempted_murder_me_crime
+				}
+			}
+			else_if = {
+				limit = {
+					scope:traitor = {
+						is_scheming_against = {
+							target = root
+							type = abduct
+						}
+					}
+				}
+				
+				add_opinion = {
+					target = scope:traitor
+					modifier = attempted_abduct_me_crime_execute
+				}
+			}
+
+
+
+			# any_scheme
+			# is_scheming_against
+			# has_owned_scheme
+			# scheme_is_character_agent
+		}
+	}
+
+	option = { # imprison
+		name = aeluran_diarchy_mandate.1009.imprison
+		rightfully_imprison_character_effect = {
+			TARGET = scope:traitor
+			IMPRISONER = root
+		}
+	}
+
+	option = { # execute
+		name = aeluran_diarchy_mandate.1009.execute
+
+		scope:traitor = {
+			add_trait = denounced
+		}
+
+		execute_prisoner_effect = {
+			VICTIM =  scope:traitor
+			EXECUTIONER = root
+		}
+	}
+
+	option = { # forgive
+		name = aeluran_diarchy_mandate.1009.forgive
+	}
+}
+
+aeluran_diarchy_mandate.1010 = { # break up factions
+	type = character_event
+	title = aeluran_diarchy_mandate.1010.title
+	desc = aeluran_diarchy_mandate.1010.desc
+
+	trigger = {
+		# root = {
+		# 	any_targeting_faction = {
+		# 		# faction_is_type = populist_faction
+		# 		faction_is_at_war = no
+		# 	}
+
+		# 	has_targeting_faction = yes
+		# }
+
+		has_targeting_faction = yes
+
+		any_targeting_faction = {
+			faction_leader = {
+				is_vassal_or_below_of = root
+			}
+		}
+
+		# OR = {
+		# 	any_targeting_faction = {
+		# 		# exists = yes
+		# 		OR = {
+		# 			faction_is_type = claimant_faction
+		# 			faction_is_type = liberty_faction
+		# 			faction_is_type = independence_faction
+		# 			faction_is_type = nation_fracturing_faction
+		# 		}
+
+		# 		faction_is_at_war = no
+
+		# 		faction_leader = {
+		# 			is_vassal_or_below_of = root
+		# 		}
+		# 	}
+		# 	any_targeting_faction = {
+		# 		faction_is_type = populist_faction
+		# 		faction_is_at_war = no
+		# 	}
+		# }
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:traitor
+		animation = prisonhouse
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+
+		random_targeting_faction = {
+			limit = {
+				faction_leader = {
+					is_vassal_or_below_of = root
+				}
+			}
+
+			save_scope_as = faction
+
+			faction_leader = {
+				save_scope_as = traitor
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1010.ok
+
+		scope:faction = {
+			destroy_faction = yes
+		}
+
+		if = {
+			limit = {
+				exists = scope:traitor
+			}
+			rightfully_imprison_character_effect = {
+				TARGET = scope:traitor
+				IMPRISONER = root
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1010.stong_hook
+
+		add_hook = {
+			type = forgiven_traitor
+			target = scope:traitor
+		}
+
+		scope:faction = {
+			destroy_faction = yes
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1011 = { # dread gain
+	type = character_event
+	title = aeluran_diarchy_mandate.1011.title
+	desc = aeluran_diarchy_mandate.1011.desc
+
+	trigger = {
+		dread < 100
+		NOT = {
+			has_character_modifier = hard_but_fair_lord_modifier
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		
+	}
+	
+	option = {
+		name = aeluran_diarchy_mandate.1011.ok
+		add_dread = medium_dread_gain
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1011.nvm
+		add_character_modifier = {
+			modifier = hard_but_fair_lord_modifier
+			years = 10
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1012 = { # offer to take powerful vassals child as hostage
+	type = character_event
+	title = aeluran_diarchy_mandate.1012.title
+	desc = aeluran_diarchy_mandate.1012.desc
+
+	trigger = {
+		any_vassal = {
+			is_powerful_vassal = yes
+			opinion = {
+				target = root
+				value < 0
+			}
+			any_child = {
+				is_primary_heir_of = prev
+				NOT = {
+					is_hostage_of = root
+				}
+				is_landed = no
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	lower_right_portrait = {
+		character = scope:vassal
+		animation = worry
+	}
+	lower_center_portrait = {
+		character = scope:unliked_powerful_vassal_heir
+		animation = worry
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					is_powerful_vassal = yes
+					opinion = {
+						target = root
+						value < 0
+					}
+					any_child = {
+						is_primary_heir_of = prev
+						NOT = {
+							is_hostage_of = root
+						}
+						is_landed = no
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					is_powerful_vassal = yes
+					opinion = {
+						target = root
+						value < 0
+					}
+					any_child = {
+						is_primary_heir_of = prev
+						NOT = {
+							is_hostage_of = root
+						}
+						is_landed = no
+					}
+				}
+
+				save_scope_as = vassal
+			}
+
+			scope:vassal = {
+				random_child = {
+					limit = {
+						is_primary_heir_of = prev
+					}
+	
+					save_scope_as = unliked_powerful_vassal_heir
+				}
+			}
+	
+
+		}
+	}
+	
+	option = {
+		name = aeluran_diarchy_mandate.1012.hostage
+
+		if = {
+			limit = {
+				exists = scope:unliked_powerful_vassal_heir
+			}
+			take_hostage = scope:unliked_powerful_vassal_heir
+		}
+		
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1012.undermine
+
+		# add_gold = {
+		# 	value = 0
+		# 	subtract = minor_gold_value
+		# }
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:vassal = {
+			add_character_modifier = {
+				modifier = undermined_supplies_modifier
+				years = 5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = increased_supplies_modifier
+			years = 5
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1012.murder
+		trait = sadistic
+
+		trigger = {
+			can_start_scheme = {
+				type = murder
+				target = scope:vassal
+			}
+
+			has_trait = sadistic
+		}
+
+		send_interface_toast = {
+			title = start_murder_interaction_notification
+
+			left_icon = root				
+			right_icon = scope:vassal
+
+			start_scheme = {
+				type = murder
+				target = scope:vassal
+			}
+
+			custom_tooltip = {
+				text = murder_Scheme_progresses_half_way
+				random_scheme = {
+					limit = {
+						scheme_type = murder
+						scheme_target = scope:vassal
+					}
+					add_scheme_progress = 5
+				}
+			}
+
+			show_as_tooltip = {
+				stress_impact = {
+					compassionate = major_stress_impact_gain
+					honest = medium_stress_impact_gain
+					just = medium_stress_impact_gain
+					sadistic = medium_stress_impact_loss
+				}
+			}
+		}
+
+
+	}
+}
+
+# Note for this one maybe have the follow up event trigger a year later, explaining how it went
+aeluran_diarchy_mandate.1013 = { # change personality trait of vassal like ambitious
+	type = character_event
+	title = aeluran_diarchy_mandate.1013.title
+	desc = aeluran_diarchy_mandate.1013.desc
+
+	trigger = {
+		any_vassal = {
+			OR = {
+				has_trait = ambitious
+				has_trait = greedy
+				has_trait = arrogant
+				has_trait = deceitful
+				has_trait = paranoid
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	lower_right_portrait = {
+		character = scope:vassal
+		animation = personality_bold
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					OR = {
+						has_trait = ambitious
+						has_trait = greedy
+						has_trait = arrogant
+						has_trait = deceitful
+						has_trait = paranoid
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					OR = {
+						has_trait = ambitious
+						has_trait = greedy
+						has_trait = arrogant
+						has_trait = deceitful
+						has_trait = paranoid
+					}
+				}
+
+				save_scope_as = vassal
+			}
+		}
+	}
+	
+	option = {
+		name = aeluran_diarchy_mandate.1013.ok
+		custom_tooltip = {
+			text = vassal_enters_aeluran_counseling
+
+			trigger_event = {
+				id = aeluran_diarchy_mandate.1113
+				years = 1
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1013.nvm
+	}
+}
+
+aeluran_diarchy_mandate.1113 = {
+	type = character_event
+	title = aeluran_diarchy_mandate.1113.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:counseling_succeeded
+					scope:counseling_succeeded = yes
+				}
+				desc = aeluran_diarchy_mandate.1113.desc.success
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:counseling_succeeded
+					scope:counseling_succeeded = no
+				}
+				desc = aeluran_diarchy_mandate.1113.desc.fail
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		triggered_animation = {
+			trigger = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = yes
+			}
+			animation = personality_bold
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = no
+			}
+			animation = disapproval
+		}
+	}
+
+	right_portrait = {
+		character = scope:vassal
+		triggered_animation = {
+			trigger = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = yes
+			}
+			animation = happiness
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = no
+			}
+			animation = rage
+		}
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		random_list = {
+			99 = {
+				save_scope_value_as = {
+					name = counseling_succeeded
+					value = yes
+				}
+			}
+			1 = {
+				save_scope_value_as = {
+					name = counseling_succeeded
+					value = no
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = yes
+			}
+
+			scope:vassal = {
+				random_list = {
+					0 = {
+						modifier = {
+							add = 100
+							has_trait = ambitious
+						}
+						remove_trait = ambitious
+						add_trait = content
+					}
+					0 = {
+						modifier = {
+							add = 100
+							has_trait = greedy
+						}
+						remove_trait = greedy
+						add_trait = generous
+					}
+					0 = {
+						modifier = {
+							add = 100
+							has_trait = arrogant
+						}
+						remove_trait = arrogant
+						add_trait = humble
+					}
+					0 = {
+						modifier = {
+							add = 100
+							has_trait = deceitful
+						}
+						remove_trait = deceitful
+						add_trait = honest
+					}
+					0 = {
+						modifier = {
+							add = 100
+							has_trait = paranoid
+						}
+						remove_trait = paranoid
+						add_trait = trusting
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:counseling_succeeded
+				scope:counseling_succeeded = no
+			}
+
+			scope:vassal = {
+				add_trait = disloyal
+				add_opinion = {
+					target = root
+					modifier = resented_aeluran_counseling
+				}
+				set_relation_rival = {
+					target = root
+					reason = resented_aeluran_counseling
+				}
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			exists = scope:counseling_succeeded
+			scope:counseling_succeeded = yes
+		}
+
+		name = aeluran_diarchy_mandate.1113.success
+	}
+
+	option = {
+		trigger = {
+			exists = scope:counseling_succeeded
+			scope:counseling_succeeded = no
+		}
+
+		name = aeluran_diarchy_mandate.1113.fail
+	}
+}
+
+aeluran_diarchy_mandate.1014 = { # offers you their strongest knight
+	type = character_event
+	title = aeluran_diarchy_mandate.1014.title
+	desc = aeluran_diarchy_mandate.1014.desc
+
+	trigger = {
+		any_vassal = {
+			any_knight = {
+				is_landed = no
+				is_ai = yes
+				prowess > 10 
+			}
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	lower_right_portrait = {
+		character = scope:vassal
+		animation = personality_bold
+	}
+	lower_left_portrait = {
+		character = scope:knight
+		animation = personality_bold
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+		if = {
+			limit = {
+				any_vassal = {
+					any_knight = {
+						is_landed = no
+						prowess > 10 
+					}
+				}
+			}
+
+			random_vassal = {
+				limit = {
+					any_knight = {
+						is_landed = no
+						prowess > 10
+						is_ai = yes
+					}
+				}
+
+				save_scope_as = vassal
+				
+				ordered_knight = {
+					limit = {
+						is_landed = no
+						is_ai = yes 
+					}
+					order_by = prowess
+					save_scope_as = knight
+				}
+			}
+
+		}
+	}
+	
+	option = {
+		name = aeluran_diarchy_mandate.1014.ok
+
+		if = {
+			limit = {
+				exists = scope:knight
+			}
+			add_courtier = scope:knight
+		}
+
+		scope:vassal = {
+			add_opinion = {
+				target = root
+				modifier = poached_knight
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1014.nvm
+
+		add_character_modifier = {
+			modifier = focused_knight_training_modifier
+			years = 5
+		}
+	}
+}
+
+aeluran_diarchy_mandate.1015 = { # gain absolute_control_perk even if doesnt have it
+	type = character_event
+	title = aeluran_diarchy_mandate.1015.title
+	desc = aeluran_diarchy_mandate.1015.desc
+
+	trigger = {
+		NOT = {
+			has_perk = absolute_control_perk
+		}
+	}
+
+	left_portrait = {
+		character = diarch
+		animation = personality_bold
+	}
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	immediate = {
+
+	}
+	
+	option = {
+		name = aeluran_diarchy_mandate.1015.ok
+		remove_short_term_gold = massive_gold_value
+
+		if = {
+			limit = {
+				NOT = {
+					has_perk = absolute_control_perk
+				}
+			}
+			add_perk = absolute_control_perk
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy_mandate.1015.nvm
+		if = {
+			limit = {
+				NOT = {
+					has_perk = popular_figurehead_perk
+				}
+			}
+			add_perk = popular_figurehead_perk
+		}
+
+		capital_county = {
+			change_county_control = -30
+		}
+	}
+}
+

@@ -545,6 +545,7 @@ expedition.00691 = {
 							}
 						}
 						add_trait = elf
+						add_trait = magic_talent_1
 					}
 				}
 
@@ -560,6 +561,7 @@ expedition.00691 = {
 					}
 					character:julia_melwood = {
 						add_trait = elf
+						add_trait = magic_talent_1
 					}
 				}
 				else_if = {
@@ -573,6 +575,7 @@ expedition.00691 = {
 					}
 					character:julia_melwood_1066 = {
 						add_trait = elf
+						add_trait = magic_talent_1
 					}
 				}
 			}
@@ -2152,35 +2155,35 @@ expedition.00513 = { # Trial Of Greed
 		triggered_desc = {
 			trigger = {
 				exists = scope:greed_advisor
-				scope:adviser_skill_level = 1
+				scope:advisor_skill_level = 1
 			}
 			desc = expedition.00513.stewardship_check.rating.lowest
 		}
 		triggered_desc = {
 			trigger = {
 				exists = scope:greed_advisor
-				scope:adviser_skill_level = 2
+				scope:advisor_skill_level = 2
 			}
 			desc = expedition.00513.stewardship_check.rating.low
 		}
 		triggered_desc = {
 			trigger = {
 				exists = scope:greed_advisor
-				scope:adviser_skill_level = 3
+				scope:advisor_skill_level = 3
 			}
 			desc = expedition.00513.stewardship_check.rating.mid
 		}
 		triggered_desc = {
 			trigger = {
 				exists = scope:greed_advisor
-				scope:adviser_skill_level = 4
+				scope:advisor_skill_level = 4
 			}
 			desc = expedition.00513.stewardship_check.rating.good
 		}
 		triggered_desc = {
 			trigger = {
 				exists = scope:greed_advisor
-				scope:adviser_skill_level = 5
+				scope:advisor_skill_level = 5
 			}
 			desc = expedition.00513.stewardship_check.rating.best
 		}
@@ -2298,7 +2301,7 @@ expedition.00513 = { # Trial Of Greed
 		}
 
 		scope:activity = {
-			debug_log = "Selecting Greed Adviser"
+			debug_log = "Selecting Greed Advisor"
 
 			every_attending_character = {
 				limit = {
@@ -2326,7 +2329,7 @@ expedition.00513 = { # Trial Of Greed
 				scope:greed_advisor.stewardship <= 5
 			}
 			save_scope_value_as = {
-				name = adviser_skill_level
+				name = advisor_skill_level
 				value = 1
 			}
 		}
@@ -2338,7 +2341,7 @@ expedition.00513 = { # Trial Of Greed
 				}
 			}
 			save_scope_value_as = {
-				name = adviser_skill_level
+				name = advisor_skill_level
 				value = 2
 			}
 		}
@@ -2350,7 +2353,7 @@ expedition.00513 = { # Trial Of Greed
 				}
 			}
 			save_scope_value_as = {
-				name = adviser_skill_level
+				name = advisor_skill_level
 				value = 3
 			}
 		}
@@ -2362,7 +2365,7 @@ expedition.00513 = { # Trial Of Greed
 				}
 			}
 			save_scope_value_as = {
-				name = adviser_skill_level
+				name = advisor_skill_level
 				value = 4
 			}
 		}
@@ -2371,12 +2374,12 @@ expedition.00513 = { # Trial Of Greed
 				scope:greed_advisor.stewardship > 25
 			}
 			save_scope_value_as = {
-				name = adviser_skill_level
+				name = advisor_skill_level
 				value = 5
 			}
 		}
 
-		determine_greed_adviser_advice = yes
+		determine_greed_advisor_advice = yes
 	}
 
 	# HUGE IDEA: in the event description, 
@@ -2665,7 +2668,7 @@ expedition.005131 = { # Trial Of Greed Loop
 	immediate = {
 		debug_log = "GREED LOOP"
 		debug_log_scopes = yes
-		determine_greed_adviser_advice = yes
+		determine_greed_advisor_advice = yes
 
 		if = {
 			limit = {
@@ -2910,12 +2913,6 @@ expedition.005132 = { # Trial Of Greed Trap Triggered
 
 	option = {
 		name = expedition.005132.ouch
-
-		if = {
-			limit = {
-				exists = scope:trial_of_greed_artifacts
-			}
-		}
 
 		custom_tooltip = {
 			text = all_found_gold_lost

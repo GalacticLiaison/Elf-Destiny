@@ -1792,22 +1792,26 @@
 					scope:activity = { progress_activity_phase_after = { days = 2 } }
 				}
 
-				if = {
+				# if = {
 
-					# BIG TODO: if heir is in activity this will eb fired once, so set liege and heir scopes and only fire for leige
-					# - I could probably also reference using activty.specialguest stuff
-					limit = {
-						this = scope:activity.special_guest:match_recipient
-					}
+				# 	# BIG TODO: if heir is in activity this will eb fired once, so set liege and heir scopes and only fire for leige
+				# 	# - I could probably also reference using activty.specialguest stuff
+				# 	limit = {
+				# 		this = scope:activity.special_guest:match_recipient
+				# 	}
 
-					scope:activity.special_guest:match_recipient = {
-						save_scope_as = match_recipient
-					}
-				}
+				# 	scope:activity.special_guest:match_recipient = {
+				# 		save_scope_as = match_recipient
+				# 	}
+				# }
 
 				if = {
 					limit = { 
 						is_ai = no	
+					}
+
+					scope:activity.special_guest:match_recipient = {
+						save_scope_as = match_recipient
 					}
 
 					trigger_event = {

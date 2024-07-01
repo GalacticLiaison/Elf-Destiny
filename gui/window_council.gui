@@ -1210,6 +1210,17 @@ types CouncilWindow
 						tooltip = "[ActiveCouncilTask.GetPositionTooltip]"
 						autoresize = no
 						fontsize_min = 13
+						visible = "[Not(PrimarySpouseIsAeluranAdvisor)]"
+					}
+
+					text_single = {
+						name = "title"
+						layoutpolicy_horizontal = expanding
+						text = "aeluran_adviser_and_spouse"
+						tooltip = "[ActiveCouncilTask.GetPositionTooltip]"
+						autoresize = no
+						fontsize_min = 13
+						visible = "[PrimarySpouseIsAeluranAdvisor]"
 					}
 
 					text_single = {
@@ -1517,6 +1528,40 @@ types CouncilWindow
 						}
 					}
 
+					# TODO: the below hbox is the support spouse task selection box
+					# - spouse uses actual tasks for this but since Im fairly sure you can only have one task active (still need to test) we could fake the text selections and then use character flags to decide which one should be active.
+					# - then during one of the other tasks on_actions, we also fire off the support spouse task equivalent.
+
+					# hbox = {
+					# 	visible = "[Character.IsValid]"
+					# 	layoutpolicy_horizontal = expanding
+					# 	margin = { 5 5 }
+					# 	spacing = 3
+	
+					# 	button_standard = {
+					# 		size = { 190 25 }
+					# 		onclick = "[GuiCouncilPosition.ShowHideTasks]"
+					# 		tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
+					# 		down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
+	
+					# 		text_single = {
+					# 			datacontext = "[ActiveCouncilTask.GetTaskTypeOrDefault]"
+					# 			parentanchor = vcenter
+					# 			position = { 10 0 }
+					# 			text = "[CouncilTaskType.GetName]"
+					# 			align = nobaseline
+					# 		}
+	
+					# 		button_change = {
+					# 			name = "show_tasks"
+					# 			parentanchor = right|vcenter
+					# 			position = { -5 0 }
+					# 			alwaystransparent = yes
+					# 			size = { 25 25 }
+					# 		}
+					# 	}
+					# }
+
 					# flowcontainer = {
 					# 	name = "council_position_tasks"
 					# 	visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
@@ -1771,6 +1816,7 @@ types CouncilTaskTypes
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
 					visible = "[CouncilOwnerHasVizier]"
+					# visible = yes
 
 					background =  {
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
@@ -1864,7 +1910,8 @@ types CouncilTaskTypes
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					visible = "[Not( CouncilOwnerHasVizier )]"
+					visible = "[And( Not( CouncilOwnerHasVizier ), Not( PrimarySpouseIsAeluranAdvisor ) )]"
+					# visible = no
 
 					background =  {
 						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"

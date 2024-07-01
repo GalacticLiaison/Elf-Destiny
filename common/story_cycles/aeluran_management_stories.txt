@@ -25,7 +25,7 @@
 
 
 	effect_group = {
-		months = 1
+		months = 1 #Todo break out matchmaking logic to space it out more?
 
 		triggered_effect = {
 			trigger = {
@@ -70,10 +70,37 @@
 									has_character_modifier = organizing_matchmaking
 								}
 							}
+
+							NOT = {
+								has_character_flag = refused_matchmaking
+							}
 						}
 					}
 
 					if = {
+						limit = {
+							story_owner.diarch = {
+								 has_variable = requested_matchmaking_character
+							}
+						}
+
+						story_owner.diarch = {
+							add_character_modifier = {
+								modifier = organizing_matchmaking
+								months = 2
+							}
+	
+							set_variable = {
+								name = matchmaking_character
+								value = var:requested_matchmaking_character
+								# years = 5
+							}
+	
+							remove_variable = requested_matchmaking_character
+						}
+
+					}
+					else_if = {
 						limit = {
 							story_owner = {
 								is_adult = yes
@@ -95,7 +122,6 @@
 							}
 						}
 					}
-
 					else_if = {
 						limit = {
 							story_owner.player_heir = {
@@ -129,7 +155,6 @@
 
 				}
 
-
 				# VERY IMPORTANT NOTE: there is alot of calculations here, maybe only update AI every 6 months-1 year
 				# Swing Scales
 				story_owner = {
@@ -143,6 +168,29 @@
 					# -0.25 in green happens too
 
 					change_diarchy_swing = var:aeluran_respect_change
+
+					# if = {
+					# 	limit = {
+					# 		has_diarchy_active_parameter = aeluran_domination_min_3
+					# 		NOT = { has_active_mandate = realm_domination }
+					# 	}
+
+					# 	set_diarchy_mandate = realm_domination
+					# }
+					# else_if = {
+					# 	limit = {
+					# 		has_diarchy_active_parameter = aeluran_domination_plus_1
+					# 		NOT = { has_active_mandate = realm_subjugation }
+					# 	}
+
+					# 	set_diarchy_mandate = realm_subjugation
+					# }
+					# else_if = {
+					# 	limit = {
+					# 		NOT = { has_active_mandate = realm_supervision }
+					# 	}
+					# 	set_diarchy_mandate = realm_supervision
+					# }
 				}
 
 			}
@@ -174,7 +222,51 @@
 	# 	}
 	# }
 
-	effect_group = {
+	effect_group = { # AI Matchmaking
+		years = { 1 5 }
+
+		triggered_effect = {
+			trigger = {
+				story_owner = {
+					is_ai = yes
+					OR = {
+						AND = {
+							is_adult = yes
+							is_betrothed = no
+							is_married = no
+						}
+						player_heir = {
+							OR = {
+								is_child_of = prev
+								AND = {
+									is_close_family_of = prev
+									is_ruler = no
+								}
+							}
+							is_adult = yes
+							is_betrothed = no
+							is_married = no
+						}
+					}
+
+					NOT = {
+						diarch = {
+							has_character_modifier = organizing_matchmaking
+						}
+					}
+
+					NOT = {
+						has_character_flag = refused_matchmaking
+					}
+				}
+			}
+			effect = {
+				# ai_matchmaking_effect = yes
+			}
+		}
+	}
+
+	effect_group = { # Shift Aeluran Loyalties
 		years = { 1 5 }
 
 		triggered_effect = {

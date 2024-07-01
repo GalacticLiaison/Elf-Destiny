@@ -66,6 +66,15 @@ aeluran_vassal_contribution = {
 		}
 		multiply = 2
 	}
+
+	if = {
+		limit = {
+			NOT = {
+				vassal_contract_obligation_level:aeluran_government_magi = 0
+			}
+		}
+		min = 3
+	}
 }
 
 total_aeluran_magi_reinforcements = {
@@ -79,16 +88,125 @@ total_aeluran_magi_reinforcements = {
 		# First determine how many counties they control
 		add = aeluran_vassal_contribution
 	}
+
 }
 
 aeluran_war_magi_reinforcements = {
-	value = total_aeluran_magi_reinforcements
+	value = aeluran_reinforcements_war_magi_share
 
+	if = {
+		limit = { # have a decimal remainder
+			NOT = { aeluran_war_magi_reinforcements_modulo = 0 }
+		}
 
-	multiply = 0.66
+		if = {
+			limit = { # modulo numerator was smaller than the denominator
+				aeluran_war_magi_reinforcements_modulo = total_aeluran_magi_reinforcements
+			}
+
+			if = {
+				limit = {
+					aeluran_reinforcements_war_magi_share <= 0.5
+				}
+				floor = yes
+			}
+			else = {
+				ceiling = yes
+			}
+		}
+		else = {
+			if = {
+				limit = { aeluran_war_magi_reinforcements_decimal_remainder <= 0.5 }
+				floor = yes
+			}
+			else = {
+				ceiling = yes
+			}
+		}
+	}
+
+	min = 1
 }
 
-aeluran_magi_artillery_reinforcements = {
+aeluran_war_magi_reinforcements_modulo = {
 	value = total_aeluran_magi_reinforcements
-	multiply = 0.33
+
+	if = {
+		limit = {
+			NOT = { total_aeluran_magi_reinforcements = 0 }
+		}
+
+		modulo = 1.333 #75%
+	}
+}
+
+aeluran_war_magi_reinforcements_decimal_remainder = {
+	value = aeluran_war_magi_reinforcements_modulo
+	divide = 1.333
+}
+
+aeluran_reinforcements_war_magi_share =  {
+	value = total_aeluran_magi_reinforcements
+	divide = 1.333 #75%
+}
+
+# ======================================
+
+aeluran_magi_artillery_reinforcements = {
+	value = aeluran_reinforcements_magi_artillery_share
+
+	if = {
+		limit = { # have a decimal remainder
+			NOT = { aeluran_magi_artillery_reinforcements_modulo = 0 }
+		}
+
+		if = {
+			limit = { # modulo numerator was smaller than the denominator
+				aeluran_magi_artillery_reinforcements_modulo = total_aeluran_magi_reinforcements
+			}
+
+			if = {
+				limit = {
+					aeluran_reinforcements_magi_artillery_share <= 0.5
+				}
+				floor = yes
+			}
+			else = {
+				ceiling = yes
+			}
+		}
+		else = {
+			if = {
+				limit = { aeluran_magi_artillery_reinforcements_decimal_remainder <= 0.5 }
+				floor = yes
+			}
+			else = {
+				ceiling = yes
+			}
+		}
+	}
+
+	min = 1
+}
+
+aeluran_magi_artillery_reinforcements_modulo = {
+	value = total_aeluran_magi_reinforcements
+
+	if = {
+		limit = {
+			NOT = { total_aeluran_magi_reinforcements = 0 }
+		}
+
+		modulo = 4 # 25%
+	}
+}
+
+aeluran_magi_artillery_reinforcements_decimal_remainder = {
+	value = aeluran_magi_artillery_reinforcements_modulo
+	divide = 4
+}
+
+aeluran_reinforcements_magi_artillery_share =  {
+	value = total_aeluran_magi_reinforcements
+	divide = 4 # 25%
 }

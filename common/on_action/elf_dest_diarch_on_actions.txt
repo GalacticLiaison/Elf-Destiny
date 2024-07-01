@@ -18,6 +18,7 @@ aeluran_regent_on_entered_diarchy = {
 		# set_diarchy_swing = root.initial_aeluran_respect_value
 		# debug_log = "ENTERING DIARCHY!"
 		debug_log = "ITS AELURAN REGENCY!"
+		debug_log_scopes = yes
 
 		if = {
 			limit = {
@@ -25,6 +26,13 @@ aeluran_regent_on_entered_diarchy = {
 			}
 
 			set_diarchy_swing = 50
+
+			if = {
+				limit = {
+					NOT = { has_active_mandate = realm_supervision }
+				}
+				set_diarchy_mandate = realm_supervision
+			}
 
 			create_story = {
 				type = aeluran_regency_story
@@ -40,12 +48,6 @@ aeluran_regent_on_entered_diarchy = {
 		# }
 	}
 }
-
-# aeluran_diarchy_shift_contracts = {
-# 	random_events = {
-# 		100 = aeluran_diarchy_management.1000
-# 	}
-# }
 
 aeluran_diarchy_shift_loyalties = {
 	random_events = {

@@ -1,4 +1,4 @@
-#### GAIN RESPECT VALUES ####
+﻿#### GAIN RESPECT VALUES ####
 
 is_elf_respect_bonus = 0
 is_high_elf_respect_bonus = 0.1
@@ -30,13 +30,20 @@ genetics_fecund_bonus = 0.01
 genetics_giant_bonus = 0.01
 genetics_albino_bonus = 0.01
 
+genetics_twin_bonus = 0.01
+genetics_triplet_bonus = 0.015
+genetics_quadruplet_bonus = 0.02
+genetics_quintuplet_bonus = 0.025
+genetics_sextuplet_bonus = 0.03
+genetics_septuplet_bonus = 0.035
+
 # Title Tier
 is_count_respect_bonus = 0
 is_duke_respect_bonus = 0.075
 is_king_respect_bonus = 0.15
 is_emperor_respect_bonus = 0.3
 
-level_1_spark_talent_bonus = 0.25
+level_1_spark_talent_bonus = 0.025
 level_2_spark_talent_bonus = 0.05
 level_3_spark_talent_bonus = 0.1
 
@@ -47,15 +54,15 @@ is_aeluran_matron_bonus = 0.5
 is_aeluran_matriarch_bonus = 1
 is_born_in_the_red_bonus = 0.2
 
-has_bloodline_bonus = 0.5 # X5
+has_bloodline_respect_bonus = 0.1 # X5
 
-has_weak_hook_on_adviser_bonus = 0.15
-has_strong_hook_on_adviser_bonus = 0.3 
-has_weak_hook_on_matriarch_bonus = 0.15 
-has_strong_hook_on_matriarch_bonus = 0.3 
+has_weak_hook_on_advisor_bonus = 0.15
+has_strong_hook_on_advisor_bonus = 0.3 
+has_weak_hook_on_matriarch_bonus = 0.3 
+has_strong_hook_on_matriarch_bonus = 0.5 
 
-aeluran_adviser_opinion_best_bonus =  0.03
-aeluran_adviser_opinion_good_bonus = 0.01
+aeluran_advisor_opinion_best_bonus =  0.03
+aeluran_advisor_opinion_good_bonus = 0.01
 high_matriarch_opinion_best_bonus = 0.03
 high_matriarch_opinion_good_bonus = 0.01
 
@@ -67,7 +74,7 @@ high_matriarch_opinion_good_bonus = 0.01
 is_human_respect_penalty = 1
 is_elf_blooded_respect_penalty = 0.5
 
-has_no_spark_talent_penalty = 0.25
+has_no_spark_talent_penalty = 0.025
 
 aeluran_servant_penalty = 0.5
 female_non_aeluran_ruler_penalty = 0.1
@@ -115,23 +122,23 @@ eunuch_penalty = 0.2
 
 refused_matchmaking_penalty = 0.2
 refused_matriarchs_summons_penalty = 0.5
-has_unlanded_aeluran_adviser_penalty = 0.3
+has_unlanded_aeluran_advisor_penalty = 0.3
 
-adviser_has_weak_hook_on_liege_penalty = 0.1 
-adviser_has_strong_hook_on_liege_penalty = 0.3
-matriarch_has_weak_hook_penalty = 0.1 
-matriarch_has_strong_hook_penalty = 0.3
-imprisoned_by_adviser_penalty = 0.3
+advisor_has_weak_hook_on_liege_penalty = 0.2
+advisor_has_strong_hook_on_liege_penalty = 0.4
+matriarch_has_weak_hook_penalty = 0.4
+matriarch_has_strong_hook_penalty = 0.75
+imprisoned_by_advisor_penalty = 0.5
 
-aeluran_adviser_opinion_bad_penalty = 0.015
-aeluran_adviser_opinion_worst_penalty = 0.03
+aeluran_advisor_opinion_bad_penalty = 0.015
+aeluran_advisor_opinion_worst_penalty = 0.03
 high_matriarch_opinion_bad_penalty = 0.015
 high_matriarch_opinion_worst_penalty = 0.03
 
 
 # Elf Level
 # - there may even be a special wrapper in trait definitions for religious bonuses!
-# - maybe just do level compared to adviser's? Or just make this a seperate calculation
+# - maybe just do level compared to advisor's? Or just make this a seperate calculation
 # Aeluran Regent Task Level
 # character modifiers
 	# - maybe the aeluran matriarch gives you her blessing
@@ -147,7 +154,6 @@ high_matriarch_opinion_worst_penalty = 0.03
 # TODOs
 
 # - twin/triplets/etc
-# - bloodlines
 # - go back through penalties, one offs we should add to status maybe 
 
 #### CALCULATE AELURAN RESPECT
@@ -228,6 +234,27 @@ aeluran_respect_from_genetics = {
 
 	add = {
 		if = {
+			limit = { has_trait = royal_elf_valerith }
+			add = has_bloodline_respect_bonus
+		}
+		if = {
+			limit = { has_trait = royal_elf_serelion }
+			add = has_bloodline_respect_bonus
+		}
+		if = {
+			limit = { has_trait = royal_elf_gwynthorn }
+			add = has_bloodline_respect_bonus
+		}
+		if = {
+			limit = { has_trait = royal_elf_daelurin }
+			add = has_bloodline_respect_bonus
+		}
+		if = {
+			limit = { has_trait = royal_elf_thundarael }
+			add = has_bloodline_respect_bonus
+		}
+
+		if = {
 			limit = { has_trait = beauty_good_1 }
 			add = genetics_beauty_good_1_bonus
 		}
@@ -298,6 +325,31 @@ aeluran_respect_from_genetics = {
 		if = {
 			limit = { has_trait = albino }
 			add = genetics_albino_bonus
+		}
+
+		if = {
+			limit = { has_character_flag = is_triplet }
+			add = genetics_triplet_bonus
+		}
+		else_if = {
+			limit = { has_character_flag = is_quadruplet }
+			add = genetics_quadruplet_bonus
+		}
+		else_if = {
+			limit = { has_character_flag = is_quintuplet }
+			add = genetics_quintuplet_bonus
+		}
+		else_if = {
+			limit = { has_character_flag = is_sextuplet }
+			add = genetics_sextuplet_bonus
+		}
+		else_if = {
+			limit = { has_character_flag = is_septuplet }
+			add = genetics_septuplet_bonus
+		}
+		else_if = {
+			limit = { has_trait = twin }
+			add = genetics_twin_bonus
 		}
 
 		if = {
@@ -432,7 +484,7 @@ aeluran_respect_from_spark_manipulation = {
 			limit = {
 				is_spark_talented = no
 			}
-			subtract = has_no_spark_talent_penalty
+			add = has_no_spark_talent_penalty
 		}
 	}
 	add = {
@@ -515,104 +567,114 @@ aeluran_respect_from_aeluran_opinion = {
 	subtract = {
 		if = {
 			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					opinion = {
-						target = root
-						value <= -50
+				exists = root
+			}
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						opinion = {
+							target = prev
+							value <= -50
+						}
 					}
 				}
+				add = aeluran_advisor_opinion_worst_penalty
 			}
-			add = aeluran_adviser_opinion_worst_penalty
-		}
-		else_if = {
-			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					opinion = {
-						target = root
-						value <= -25
+			else_if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						opinion = {
+							target = prev
+							value <= -25
+						}
 					}
 				}
+				add = aeluran_advisor_opinion_bad_penalty
 			}
-			add = aeluran_adviser_opinion_bad_penalty
-		}
 
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					opinion = {
-						target = root
-						value <= -50
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						opinion = {
+							target = prev
+							value <= -50
+						}
 					}
 				}
+				add = high_matriarch_opinion_worst_penalty
 			}
-			add = high_matriarch_opinion_worst_penalty
-		}
-		else_if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					opinion = {
-						target = root
-						value <= -25
+			else_if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						opinion = {
+							target = prev
+							value <= -25
+						}
 					}
 				}
+				add = high_matriarch_opinion_bad_penalty
 			}
-			add = high_matriarch_opinion_bad_penalty
 		}
 	}
 
 	add = {
 		if = {
 			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					opinion = {
-						target = root
-						value >= 50
+				exists = root
+			}
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						opinion = {
+							target = prev
+							value >= 50
+						}
 					}
 				}
+				add = aeluran_advisor_opinion_best_bonus
 			}
-			add = aeluran_adviser_opinion_best_bonus
-		}
-		else_if = {
-			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					opinion = {
-						target = root
-						value >= 25
+			else_if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						opinion = {
+							target = prev
+							value >= 25
+						}
 					}
 				}
+				add = aeluran_advisor_opinion_good_bonus
 			}
-			add = aeluran_adviser_opinion_good_bonus
-		}
 
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					opinion = {
-						target = root
-						value >= 50
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						opinion = {
+							target = prev
+							value >= 50
+						}
 					}
 				}
+				add = high_matriarch_opinion_best_bonus
 			}
-			add = high_matriarch_opinion_best_bonus
-		}
-		else_if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					opinion = {
-						target = root
-						value >= 25
+			else_if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						opinion = {
+							target = prev
+							value >= 25
+						}
 					}
 				}
+				add = high_matriarch_opinion_good_bonus
 			}
-			add = high_matriarch_opinion_good_bonus
 		}
 	}
 }
@@ -623,72 +685,82 @@ aeluran_respect_from_hooks = {
 	subtract = {
 		if = {
 			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					has_weak_hook = root
-				}
+				exists = root
 			}
-			add = adviser_has_weak_hook_on_liege_penalty
-		}
-		if = {
-			limit = {
-				exists = cp:councillor_aeluran_advisor
-				cp:councillor_aeluran_advisor = {
-					has_strong_hook = root
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						has_weak_hook = prev
+					}
 				}
+				add = advisor_has_weak_hook_on_liege_penalty
 			}
-			add = adviser_has_strong_hook_on_liege_penalty
-		}
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					has_weak_hook = root
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					cp:councillor_aeluran_advisor = {
+						has_strong_hook = prev
+					}
 				}
+				add = advisor_has_strong_hook_on_liege_penalty
 			}
-			add = matriarch_has_weak_hook_penalty
-		}
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = {
-					has_strong_hook = root
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						has_weak_hook = prev
+					}
 				}
+				add = matriarch_has_weak_hook_penalty
 			}
-			add = matriarch_has_strong_hook_penalty
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					global_var:high_matriarch = {
+						has_strong_hook = prev
+					}
+				}
+				add = matriarch_has_strong_hook_penalty
+			}
 		}
 	}
 
 	add = {
 		if = {
 			limit = {
-				exists = cp:councillor_aeluran_advisor
-				has_weak_hook = cp:councillor_aeluran_advisor
+				exists = root
+			}			
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					has_weak_hook = cp:councillor_aeluran_advisor
+				}
+				
+				add = has_weak_hook_on_advisor_bonus
 			}
-			
-			add = has_weak_hook_on_adviser_bonus
-		}
-		if = {
-			limit = {
-				exists = cp:councillor_aeluran_advisor
-				has_strong_hook = cp:councillor_aeluran_advisor
+			if = {
+				limit = {
+					exists = cp:councillor_aeluran_advisor
+					has_strong_hook = cp:councillor_aeluran_advisor
+				}
+				add = has_strong_hook_on_advisor_bonus
 			}
-			add = has_strong_hook_on_adviser_bonus
-		}
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				has_weak_hook = global_var:high_matriarch
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					has_weak_hook = global_var:high_matriarch
+				}
+				
+				add = has_weak_hook_on_matriarch_bonus
 			}
-			
-			add = has_weak_hook_on_matriarch_bonus
-		}
-		if = {
-			limit = {
-				exists = global_var:high_matriarch
-				has_strong_hook = global_var:high_matriarch
+			if = {
+				limit = {
+					exists = global_var:high_matriarch
+					has_strong_hook = global_var:high_matriarch
+				}
+				add = has_strong_hook_on_matriarch_bonus
 			}
-			add = has_strong_hook_on_matriarch_bonus
 		}
 	}
 }
@@ -724,21 +796,21 @@ aeluran_respect_from_sins = {
 
 		if = {
 			limit = {
-				has_character_flag = aeluran_penalty_refused_matchmaking
+				has_character_flag = refused_matchmaking
 			}
 			add = refused_matchmaking_penalty
 		}
+		# if = {
+		# 	limit = {
+		# 		has_character_flag = aeluran_penalty_refused_matriarchs_summons
+		# 	}
+		# 	add = refused_matriarchs_summons_penalty
+		# }
 		if = {
 			limit = {
-				has_character_flag = aeluran_penalty_refused_matriarchs_summons
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
 			}
-			add = refused_matriarchs_summons_penalty
-		}
-		if = {
-			limit = {
-				has_character_flag = aeluran_penalty_has_unlanded_aeluran_adviser
-			}
-			add = has_unlanded_aeluran_adviser_penalty
+			add = has_unlanded_aeluran_advisor_penalty
 		}
 	}
 }
@@ -755,9 +827,10 @@ aeluran_respect_from_status = {
 		}
 		if = {
 			limit = {
+				exists = cp:councillor_aeluran_advisor 
 				is_imprisoned_by = cp:councillor_aeluran_advisor 
 			}
-			add = imprisoned_by_adviser_penalty
+			add = imprisoned_by_advisor_penalty
 		}
 	}
 }

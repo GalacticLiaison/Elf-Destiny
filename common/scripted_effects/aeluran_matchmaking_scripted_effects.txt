@@ -1,5 +1,5 @@
 ﻿determine_match_candidate_count = {
-	# Crystal "Donation"
+	
 }
 
 # determine_match_quality = {
@@ -12,56 +12,26 @@
 # }
 
 determine_aeluran_respect_score = {
-	# check if the character has a score set as var, if not generate the score
-	if = {
-		limit = {
-			NOT = {
-				exists = var:aeluran_respect_change
-			}
-		}
-		set_variable = {
-			name = aeluran_respect_change
-			value = aeluran_respect_score
-		}
+	set_variable = {
+		name = aeluran_respect_change
+		value = aeluran_respect_score_actual
 	}
 
 	# TODO: lets refactor respect change thresholds to scripted values so they are easily maintainable
 	# esepcially since the change values are not final yet
 	if = {
 		limit = {
-			var:aeluran_respect_change <= -3
+			var:aeluran_respect_change <= -0.75
 		}
 
 		save_scope_value_as = {
 			name = aeluran_matchmaking_respect_score
-			value = flag:very_high
+			value = flag:no_respect
 		}
 	}
-	if = {
+	else_if = {
 		limit = {
-			var:aeluran_respect_change <= -1
-		}
-
-		save_scope_value_as = {
-			name = aeluran_matchmaking_respect_score
-			value = flag:high
-		}
-	}
-	if = {
-		limit = {
-			var:aeluran_respect_change > -1
-			var:aeluran_respect_change < 1
-		}
-
-		save_scope_value_as = {
-			name = aeluran_matchmaking_respect_score
-			value = flag:neutral
-		}
-	}
-	if = {
-		limit = {
-			var:aeluran_respect_change >= 1
-			var:aeluran_respect_change < 3
+			var:aeluran_respect_change <= -0.25
 		}
 
 		save_scope_value_as = {
@@ -69,14 +39,36 @@ determine_aeluran_respect_score = {
 			value = flag:low_respect
 		}
 	}
-	if = {
+	else_if = {
 		limit = {
-			var:aeluran_respect_change >= 3
+			var:aeluran_respect_change > -0.25
+			var:aeluran_respect_change < 0.25
 		}
 
 		save_scope_value_as = {
 			name = aeluran_matchmaking_respect_score
-			value = flag:no_respect
+			value = flag:neutral
+		}
+	}
+	else_if = {
+		limit = {
+			var:aeluran_respect_change >= 0.25
+			var:aeluran_respect_change < 0.75
+		}
+
+		save_scope_value_as = {
+			name = aeluran_matchmaking_respect_score
+			value = flag:high
+		}
+	}
+	else_if = {
+		limit = {
+			var:aeluran_respect_change >= 0.75
+		}
+
+		save_scope_value_as = {
+			name = aeluran_matchmaking_respect_score
+			value = flag:very_high
 		}
 	}
 }
@@ -95,8 +87,19 @@ map_match_candidate = {
 
 generate_matchmaking_candidates_effect = {
 	generate_new_matchmaking_candidate = { MATCHID = 1 }
-	generate_new_matchmaking_candidate = { MATCHID = 2 }
-	generate_new_matchmaking_candidate = { MATCHID = 3 }
+
+	if = {
+		limit = {
+			matchmaking_candidate_quantity > 1
+		}
+		generate_new_matchmaking_candidate = { MATCHID = 2 }
+	}
+	if = {
+		limit = {
+			matchmaking_candidate_quantity > 2
+		}
+		generate_new_matchmaking_candidate = { MATCHID = 3 }
+	}
 
 
 	# if = {
@@ -126,7 +129,7 @@ generate_matchmaking_candidates_effect = {
 }
 
 # TODO:
-# - adviser herself
+# - advisor herself
 # - jailed rogue
 
 # - marry_matrilineal should maybe be respect related, think about alliances
@@ -193,34 +196,98 @@ generate_new_matchmaking_candidate = {
 
 			find_standard_elf_match_choice = { MATCHID = $MATCHID$ }
 		}
-		0 = { # Aeluran Adviser Herself
+		0 = { # Genetic Good Elf
 			modifier = {
-				add = 100
-				is_female = no
-
-				# TODO: this wont work for landed heir's adviser
-				cp:councillor_aeluran_advisor = {
-					is_acceptable_aeluran_adviser_match_choice = yes
-				}
-
+				add = 70
 				NOT = {
 					any_in_list = {
 						list = selected_match_types
-						this = flag:aeluran_adviser
+						OR = {
+							this = flag:genetic_good_elf
+						}
 					}
 				}
+				var:candidate_quality = 2
+			}
+			modifier = {
+				add = 25
+				any_in_list = {
+					list = selected_match_types
+					this = flag:genetic_good_elf
+				}
+				var:candidate_quality = 2
 			}
 
 			save_scope_value_as = {
 				name = match_choice_$MATCHID$_type
-				value = flag:aeluran_adviser
+				value = flag:genetic_good_elf
 			}
 
 			scope:match_choice_$MATCHID$_type = {
 				add_to_list = selected_match_types
 			}
 
-			find_aeluran_adviser_as_match_choice = { MATCHID = $MATCHID$ }
+			find_genetic_good_elf_match_choice = { MATCHID = $MATCHID$ }
+		}
+		0 = { # Genetic Great Elf
+			modifier = {
+				add = 70
+				NOT = {
+					any_in_list = {
+						list = selected_match_types
+						this = flag:genetic_great_elf
+					}
+				}
+				var:candidate_quality >= 3
+			}
+			modifier = {
+				add = 25
+				any_in_list = {
+					list = selected_match_types
+					this = flag:genetic_great_elf
+				}
+				var:candidate_quality >= 3
+			}
+
+			save_scope_value_as = {
+				name = match_choice_$MATCHID$_type
+				value = flag:genetic_great_elf
+			}
+
+			scope:match_choice_$MATCHID$_type = {
+				add_to_list = selected_match_types
+			}
+
+			find_genetic_great_elf_match_choice = { MATCHID = $MATCHID$ }
+		}
+		0 = { # Aeluran Advisor Herself
+			modifier = {
+				add = 100
+				is_female = no
+
+				# TODO: this wont work for landed heir's advisor
+				cp:councillor_aeluran_advisor = {
+					is_acceptable_aeluran_advisor_match_choice = yes
+				}
+
+				NOT = {
+					any_in_list = {
+						list = selected_match_types
+						this = flag:aeluran_advisor
+					}
+				}
+			}
+
+			save_scope_value_as = {
+				name = match_choice_$MATCHID$_type
+				value = flag:aeluran_advisor
+			}
+
+			scope:match_choice_$MATCHID$_type = {
+				add_to_list = selected_match_types
+			}
+
+			find_aeluran_advisor_as_match_choice = { MATCHID = $MATCHID$ }
 		}
 		0 = { # Aeluran Sister
 			modifier = {
@@ -405,7 +472,7 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Alliance
 			modifier = {
-				add = 75
+				add = 999
 				preexisting_alliance_exists = yes
 				var:candidate_quality >= 2
 				NOT = {
@@ -416,7 +483,7 @@ generate_new_matchmaking_candidate = {
 				}
 			}
 			modifier = {
-				add = 25
+				add = 80
 				preexisting_alliance_exists = yes
 				var:candidate_quality >= 2
 				any_in_list = {
@@ -438,7 +505,7 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Warrior
 			modifier = {
-				add = 100
+				add = 50
 				var:candidate_quality >= 2
 				NOT = {
 					any_in_list = {
@@ -461,7 +528,7 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Wisewomen/man, skilled healer
 			modifier = {
-				add = 100
+				add = 30
 				var:candidate_quality >= 2
 				NOT = {
 					any_in_list = {
@@ -481,6 +548,52 @@ generate_new_matchmaking_candidate = {
 			}
 
 			find_wiseman_match_choice = { MATCHID = $MATCHID$ }
+		}
+		0 = { # Imprisoned Rogue
+			modifier = {
+				add = 40
+				var:candidate_quality >= 1
+				NOT = {
+					any_in_list = {
+						list = selected_match_types
+						this = flag:imprisoned_rogue
+					}
+				}
+			}
+
+			save_scope_value_as = {
+				name = match_choice_$MATCHID$_type
+				value = flag:imprisoned_rogue
+			}
+
+			scope:match_choice_$MATCHID$_type = {
+				add_to_list = selected_match_types
+			}
+
+			find_imprisoned_rogue_choice = { MATCHID = $MATCHID$ }
+		}
+		0 = { # Shy Scholar
+			modifier = {
+				add = 40
+				var:candidate_quality >= 1
+				NOT = {
+					any_in_list = {
+						list = selected_match_types
+						this = flag:shy_scholar
+					}
+				}
+			}
+
+			save_scope_value_as = {
+				name = match_choice_$MATCHID$_type
+				value = flag:shy_scholar
+			}
+
+			scope:match_choice_$MATCHID$_type = {
+				add_to_list = selected_match_types
+			}
+
+			find_shy_scholar_choice = { MATCHID = $MATCHID$ }
 		}
 		0 = { # Bastard Claimant
 			modifier = {
@@ -556,14 +669,14 @@ generate_new_matchmaking_candidate = {
 				add = 100
 				var:candidate_quality >= 4
 
-				NOT = {
-					$MATCHID$ = 3 
-				}
-
-				NOT = {
+				NOR = {
 					any_in_list = {
 						list = selected_match_types
 						this = flag:twins
+					}
+					any_in_list = {
+						list = selected_match_types
+						this = flag:triplets
 					}
 				}
 			}
@@ -581,15 +694,14 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Triplets
 			modifier = {
-				add = 100
+				add = 60
 				var:candidate_quality >= 5
 
 				NOR = {
-					$MATCHID$ = 2
-					$MATCHID$ = 3
-				}
-
-				NOT = {
+					any_in_list = {
+						list = selected_match_types
+						this = flag:twins
+					}
 					any_in_list = {
 						list = selected_match_types
 						this = flag:triplets
@@ -611,7 +723,7 @@ generate_new_matchmaking_candidate = {
 	}
 }
 
-assign_matchmaking_candidate_portraits_effect = {
+assign_matchmaking_candidate_portraits_effect = {	
 	if = {
 		limit = {
 			exists = scope:candidate_type
@@ -621,7 +733,10 @@ assign_matchmaking_candidate_portraits_effect = {
 			}
 		}
 		scope:match_choice_$MATCHID$ = {
-			save_scope_as = right_portrait_match
+			save_scope_as = right_portrait_match_$MATCHID$
+		}
+		scope:host = {
+			save_scope_as = left_portrait_match_$MATCHID$
 		}
 	}
 	if = {
@@ -633,10 +748,10 @@ assign_matchmaking_candidate_portraits_effect = {
 			}
 		}
 		scope:match_choice_$MATCHID$_1 = {
-			save_scope_as = left_portrait_match
+			save_scope_as = left_portrait_match_$MATCHID$
 		}
 		scope:match_choice_$MATCHID$_2 = {
-			save_scope_as = right_portrait_match
+			save_scope_as = right_portrait_match_$MATCHID$
 		}
 	}
 	if = {
@@ -645,12 +760,12 @@ assign_matchmaking_candidate_portraits_effect = {
 			scope:candidate_type = flag:triplets
 		}
 		scope:match_choice_$MATCHID$_3 = {
-			save_scope_as = center_portrait_match
+			save_scope_as = center_portrait_match_$MATCHID$
 		}
 	}
 }
 
-assign_matchmaking_candidate_portraits_final_selection_effect = {
+assign_matchmaking_candidate_portraits_final_selection_effect = {	
 	# Right Portrait
 	if = {
 		limit = {
@@ -662,12 +777,12 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 		}
 		scope:match_choice_3 = {
-			save_scope_as = right_portrait_match
+			save_scope_as = right_portrait_match_final
 		}
 	}
 	else_if = {
 		limit = {
-			exists = scope:match_choice_3
+			exists = scope:match_choice_3_1
 			exists = scope:match_choice_3_type
 			OR = {
 				scope:match_choice_3_type = flag:twins
@@ -679,10 +794,10 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 				scope:match_choice_3_type = flag:twins
 			}
 			scope:match_choice_3_1 = {
-				save_scope_as = right_portrait_match
+				save_scope_as = right_portrait_match_final
 			}
 			scope:match_choice_3_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 		}
 		else_if = {
@@ -691,13 +806,13 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 
 			scope:match_choice_3_1 = {
-				save_scope_as = right_portrait_match
+				save_scope_as = right_portrait_match_final
 			}
 			scope:match_choice_3_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 			scope:match_choice_3_3 = {
-				save_scope_as = lower_left_portrait_match
+				save_scope_as = lower_left_portrait_match_final
 			}
 		}
 	}
@@ -714,12 +829,12 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 		}
 
 		scope:match_choice_2 = {
-			save_scope_as = center_portrait_match
+			save_scope_as = center_portrait_match_final
 		}
 	}
 	else_if = {
 		limit = {
-			exists = scope:match_choice_2
+			exists = scope:match_choice_2_1
 			exists = scope:match_choice_2_type
 			OR = {
 				scope:match_choice_2_type = flag:twins
@@ -732,10 +847,10 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 
 			scope:match_choice_2_1 = {
-				save_scope_as = center_portrait_match
+				save_scope_as = center_portrait_match_final
 			}
 			scope:match_choice_2_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 		}
 		else_if = {
@@ -744,13 +859,13 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 
 			scope:match_choice_2_1 = {
-				save_scope_as = center_portrait_match
+				save_scope_as = center_portrait_match_final
 			}
 			scope:match_choice_2_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 			scope:match_choice_2_3 = {
-				save_scope_as = lower_left_portrait_match
+				save_scope_as = lower_left_portrait_match_final
 			}
 		}
 	}
@@ -766,12 +881,12 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 		}
 		scope:match_choice_1 = {
-			save_scope_as = left_portrait_match
+			save_scope_as = left_portrait_match_final
 		}
 	}
 	else_if = {
 		limit = {
-			exists = scope:match_choice_1
+			exists = scope:match_choice_1_1
 			exists = scope:match_choice_1_type
 			OR = {
 				scope:match_choice_1_type = flag:twins
@@ -784,38 +899,55 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 			}
 
 			scope:match_choice_1_1 = {
-				save_scope_as = left_portrait_match
+				save_scope_as = left_portrait_match_final
 			}
 			scope:match_choice_1_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 		}
 		else_if = {
 			limit = {
-				scope:match_choice_2_type = flag:triplets
+				scope:match_choice_1_type = flag:triplets
 			}
 
 			scope:match_choice_1_1 = {
-				save_scope_as = left_portrait_match
+				save_scope_as = left_portrait_match_final
 			}
 			scope:match_choice_1_2 = {
-				save_scope_as = lower_center_portrait_match
+				save_scope_as = lower_center_portrait_match_final
 			}
 			scope:match_choice_1_3 = {
-				save_scope_as = lower_left_portrait_match
+				save_scope_as = lower_left_portrait_match_final
 			}
 		}
 	}
 }
 
+# Unfortunately clear_saved_scope doesnt seem to work...
+# clear_previous_portrait_assignments = {
+	# if = {
+	# 	limit = { exists = scope:left_portrait_match }
+	# 	clear_saved_scope = left_portrait_match
+	# }
+	# if = {
+	# 	limit = { exists = scope:right_portrait_match }
+	# 	clear_saved_scope = right_portrait_match
+	# }
+	# if = {
+	# 	limit = { exists = scope:center_portrait_match }
+	# 	clear_saved_scope = center_portrait_match
+	# }
+# }
+
 selection_option_bonus_effects = {
+	
 	$MATCH_CHOICE_TYPE$ = { save_scope_as = match_choice_type }
 
 	if = {
 		limit = {
-			scope:match_choice_type = flag:aeluran_adviser
+			scope:match_choice_type = flag:aeluran_advisor
 		}
-		aeluran_adviser_match_choice_effect = { MATCH_CHOICE_TYPE = scope:match_choice_type }
+		aeluran_advisor_match_choice_effect = { MATCH_CHOICE_TYPE = scope:match_choice_type }
 	}
 	if = {
 		limit = {
@@ -846,6 +978,116 @@ selection_option_bonus_effects = {
 			scope:match_choice_type = flag:inferior_dowry
 		}
 		inferior_dowry_elf_match_choice_effect = yes
+	}
+	if = {
+		limit = {
+			scope:match_choice_type = flag:alliance
+		}
+
+		alliance_match_choice_effect = yes
+	}
+}
+
+cleanup_unpicked_generated_candidates_effect = {
+	debug_log = "In cleanup_unpicked_generated_candidates_effect"
+
+	if = {
+		limit = {
+			NOT = {
+				exists = scope:selected_match_choice
+			}
+		}
+
+		debug_log = "scope:selected_match_choice is MIA"
+	}
+
+	if = {
+		limit = { exists = scope:match_choice_1 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_1 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_1_1 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_1_1 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_1_2 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_1_2 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_1_3 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_1_3 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_2 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_2 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_2_1 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_2_1 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_2_2 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_2_2 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_2_3 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_2_3 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_3 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_3 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_3_1 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_3_1 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_3_2 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_3_2 }
+	}
+	if = {
+		limit = { exists = scope:match_choice_3_3 }
+		cleanup_unpicked_generated_candidate = { MATCH_CANDIDATE = scope:match_choice_3_3 }
+	}
+}
+
+cleanup_unpicked_generated_candidate = {
+	debug_log = "In cleanup_unpicked_generated_candidate"
+
+	$MATCH_CANDIDATE$ = {
+		save_scope_as = candidate
+	}
+
+	if = {
+		limit = {
+			exists = scope:selected_match_choice
+			NOT = {
+				scope:selected_match_choice = scope:candidate
+			}
+			scope:candidate = {
+				has_character_flag = match_generation
+			}
+
+			trigger_if = {
+				limit = {
+					scope:selected_match_choice = { has_trait = twin}
+				}
+
+				NOT = {
+					scope:candidate = {
+						has_trait = twin
+					}
+				}
+			}
+		}
+
+		debug_log = "MADE IT"
+
+		scope:candidate = {
+			death = {
+				death_reason = death_vanished
+			}
+		}
 	}
 }
 
@@ -884,28 +1126,98 @@ generate_new_standard_elf = {
 	}
 }
 
-# ===== AELURAN ADVISER =====
-# TODO:
-# - adviser chosen for heir
-# - if heir is lord, make their adviser an option
-find_aeluran_adviser_as_match_choice = {
+# ===== GENETIC GOOD ELF =====
+
+find_genetic_good_elf_match_choice = {
 	if = {
 		limit = {
-			cp:councillor_aeluran_advisor = {
-				is_acceptable_aeluran_adviser_match_choice = yes
-			}
+			preexisting_genetic_good_elf_exists = yes
 		}
-		assign_lords_aeluran_adviser = { MATCHID = $MATCHID$ }
+		assign_preexisting_genetic_good_elf = { MATCHID = $MATCHID$ }
+	}
+	else = {
+		generate_new_genetic_good_elf = { MATCHID = $MATCHID$ }
 	}
 }
 
-assign_lords_aeluran_adviser = {
+assign_preexisting_genetic_good_elf = {
+	random_living_character = {
+		limit = {
+			is_acceptable_genetic_good_elf_match_choice = yes
+		}
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+generate_new_genetic_good_elf = {
+	create_character = {
+		template = genetic_good_elf_match
+		gender_female_chance = matchmaking_female_gender_chance
+		dynasty = none
+		location = root.location
+		faith = root.faith
+		culture = root.culture
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+# ===== GENETIC GREAT ELF =====
+
+find_genetic_great_elf_match_choice = {
+	if = {
+		limit = {
+			preexisting_genetic_great_elf_exists = yes
+		}
+		assign_preexisting_genetic_great_elf = { MATCHID = $MATCHID$ }
+	}
+	else = {
+		generate_new_genetic_great_elf = { MATCHID = $MATCHID$ }
+	}
+}
+
+assign_preexisting_genetic_great_elf = {
+	random_living_character = {
+		limit = {
+			is_acceptable_genetic_great_elf_match_choice = yes
+		}
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+generate_new_genetic_great_elf = {
+	create_character = {
+		template = genetic_great_elf_match
+		gender_female_chance = matchmaking_female_gender_chance
+		dynasty = none
+		location = root.location
+		faith = root.faith
+		culture = root.culture
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+# ===== AELURAN ADVISOR =====
+# TODO:
+# - advisor chosen for heir
+# - if heir is lord, make their advisor an option
+find_aeluran_advisor_as_match_choice = {
+	if = {
+		limit = {
+			cp:councillor_aeluran_advisor = {
+				is_acceptable_aeluran_advisor_match_choice = yes
+			}
+		}
+		assign_lords_aeluran_advisor = { MATCHID = $MATCHID$ }
+	}
+}
+
+assign_lords_aeluran_advisor = {
 	cp:councillor_aeluran_advisor = {
 		save_scope_as = match_choice_$MATCHID$
 	}
 }
 
-aeluran_adviser_match_choice_effect = {
+aeluran_advisor_match_choice_effect = {
 	$MATCH_CHOICE_TYPE$ = { save_scope_as = match_choice_type }
 
 	add_piety = aeluran_order_match_choice_piety_bonus
@@ -1202,6 +1514,43 @@ generate_new_wiseman = {
 	}
 }
 
+# ===== IMPRISONED ROGUE =====
+
+find_imprisoned_rogue_choice = {
+	generate_new_imprisoned_rogue = { MATCHID = $MATCHID$ }
+}
+
+generate_new_imprisoned_rogue = {
+	create_character = {
+		template = imprisoned_rogue_match
+		gender_female_chance = matchmaking_female_gender_chance
+		dynasty = none
+		location = root.location
+		faith = root.faith
+		culture = root.culture
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+# ===== SHY SCHOLAR =====
+
+find_shy_scholar_choice = {
+	generate_new_shy_scholar = { MATCHID = $MATCHID$ }
+}
+
+generate_new_shy_scholar = {
+	create_character = {
+		template = shy_scholar_match
+		gender_female_chance = matchmaking_female_gender_chance
+		dynasty = none
+		location = root.location
+		faith = root.faith
+		culture = root.culture
+		save_scope_as = match_choice_$MATCHID$
+	}
+}
+
+
 # ===== BASTARD CLAIMANT =====
 
 find_bastard_claimant_match_choice = {
@@ -1294,6 +1643,48 @@ generate_new_inferior_dowry_elf = {
 
 inferior_dowry_elf_match_choice_effect = {
 	add_gold = inferior_elf_match_dowry
+}
+
+alliance_match_choice_effect = {
+	
+	if = {
+		limit = {
+			exists = scope:selected_match_choice
+		}
+		if = {
+			limit = {
+				scope:selected_match_choice.father = {
+					is_landed = yes
+					highest_held_title_tier >= tier_county
+				}
+			}
+			scope:selected_match_choice.father = {
+				save_scope_as = alliance_partner
+			}
+		}
+		else_if = {
+			limit = {
+				scope:selected_match_choice.mother = {
+					is_landed = yes
+					highest_held_title_tier >= tier_county
+				}
+			}
+			scope:selected_match_choice.mother = {
+				save_scope_as = alliance_partner
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:alliance_partner
+		}
+		create_alliance = {
+			target = scope:alliance_partner
+			allied_through_owner = scope:match_recipient
+			allied_through_target = scope:selected_match_choice
+		}
+	}
 }
 
 # ===== FOREIGN ELF =====
@@ -1496,13 +1887,257 @@ marry_match_option = {
 				is_female = yes
 			}
 		}
+
 		scope:activity.special_guest:match_recipient = {
 			marry_matrilineal = scope:selected_match_choice
+		}
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_type = flag:twins
+					scope:match_choice_type = flag:triplets
+				}
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_1_2
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_2_2
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_3_2
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				scope:match_choice_type = flag:triplets
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_1_3
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_2_3
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry_matrilineal = scope:match_choice_3_3
+				}
+			}
 		}
 	}
 	else = {
 		scope:activity.special_guest:match_recipient = {
 			marry = scope:selected_match_choice
+		}
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_type = flag:twins
+					scope:match_choice_type = flag:triplets
+				}
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_1_2
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_2_2
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_3_2
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				scope:match_choice_type = flag:triplets
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_1_3
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_2_3
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					marry = scope:match_choice_3_3
+				}
+			}
+		}
+	}
+}
+
+betroth_match_option = {
+	if = {
+		limit = {
+			scope:activity.special_guest:match_recipient = {
+				is_female = yes
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_type = flag:twins
+					scope:match_choice_type = flag:triplets
+				}
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal_matrilineal = scope:match_choice_1_1
+					create_betrothal_matrilineal = scope:match_choice_1_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal_matrilineal = scope:match_choice_1_3
+					}
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal_matrilineal = scope:match_choice_2_1
+					create_betrothal_matrilineal = scope:match_choice_2_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal_matrilineal = scope:match_choice_2_3
+					}
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal_matrilineal = scope:match_choice_3_1
+					create_betrothal_matrilineal = scope:match_choice_3_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal_matrilineal = scope:match_choice_3_3
+					}
+				}
+			}
+		}
+		else = {
+			scope:activity.special_guest:match_recipient = {
+				create_betrothal_matrilineal = scope:selected_match_choice
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_type = flag:twins
+					scope:match_choice_type = flag:triplets
+				}
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal = scope:match_choice_1_1
+					create_betrothal = scope:match_choice_1_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal = scope:match_choice_1_3
+					}
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal = scope:match_choice_2_1
+					create_betrothal = scope:match_choice_2_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal = scope:match_choice_2_3
+					}
+				}
+
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+
+				scope:activity.special_guest:match_recipient = {
+					create_betrothal = scope:match_choice_3_1
+					create_betrothal = scope:match_choice_3_2
+					if = {
+						limit = {
+							scope:match_choice_type = flag:triplets
+						}
+						create_betrothal = scope:match_choice_3_3
+					}
+				}
+			}
+		}
+		else = {
+			scope:activity.special_guest:match_recipient = {
+				create_betrothal = scope:selected_match_choice
+			}
 		}
 	}
 }
@@ -1510,3 +2145,140 @@ marry_match_option = {
 # =======> random_traits = no, <=========
 # learning = { 14 22 }
 
+ai_matchmaking_effect = {
+	if = {
+		limit = {
+			story_owner = {
+				is_adult = yes
+				is_betrothed = no
+				is_married = no
+				is_any_elf_type = yes
+			}
+		}
+
+		debug_log = "==== AI MATCHMAKING ===="
+
+		
+		if = { #1 If they have a bloodline find another bloodline
+			limit = {
+				story_owner = {
+					is_of_any_royal_elf_bloodline = yes
+				}
+
+				any_living_character = {
+					is_of_any_royal_elf_bloodline = yes
+					ai_matchmaking_is_suitable_spouse = { MATCH_RECIPIENT = story_owner }
+				}
+			}
+
+			random_living_character = {
+				limit = {
+					is_of_any_royal_elf_bloodline = yes
+					ai_matchmaking_is_suitable_spouse = { MATCH_RECIPIENT = story_owner }
+				}
+
+				save_temporary_scope_as = new_spouse
+			}
+		}
+		else_if = { #2 If they have a title, try to find an appropriate alliance
+			limit = { 
+				story_owner = {
+					highest_held_title_tier >= tier_county 
+				}
+
+				any_living_character = {
+					highest_held_title_tier >= tier_county 
+					is_any_elf_type = yes
+					any_child = {
+						is_alive = yes
+						ai_matchmaking_is_suitable_spouse = { MATCH_RECIPIENT = story_owner }
+					}
+				}
+			}
+
+			random_living_character = {
+				limit = {
+					highest_held_title_tier >= tier_county 
+					is_any_elf_type = yes
+					any_child = {
+						is_alive = yes
+						ai_matchmaking_is_suitable_spouse = { MATCH_RECIPIENT = story_owner }
+					}
+				}
+
+				random_child = {
+					limit = {
+						is_alive = yes
+						ai_matchmaking_is_suitable_spouse = { MATCH_RECIPIENT = story_owner }
+					}
+					save_temporary_scope_as = new_spouse
+				}
+			}
+		}
+
+		debug_log_scopes = yes
+
+		if = {
+			limit = {
+				exists = scope:new_spouse
+			}
+			if = { # Marry
+				limit = {
+					story_owner = {
+						is_male = yes
+					}
+				}
+	
+				story_owner = {
+					marry = scope:new_spouse
+				}
+			}
+			else = {
+				story_owner = {
+					marry_matrilineal = scope:new_spouse
+				}
+			}
+	
+			if = { # Alliance
+				limit = {
+					scope:new_spouse.father = {
+						is_landed = yes
+						is_ruler = yes
+						highest_held_title_tier >= tier_county
+					}
+				}
+	
+				story_owner = {
+					create_alliance = {
+						target = scope:new_spouse.father
+						allied_through_owner = this
+						allied_through_target = scope:new_spouse
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					scope:new_spouse.mother = {
+						is_landed = yes
+						is_ruler = yes
+						highest_held_title_tier >= tier_county
+					}
+				}
+	
+				story_owner = {
+					create_alliance = {
+						target = scope:new_spouse.mother
+						allied_through_owner = this
+						allied_through_target = scope:new_spouse
+					}
+				}
+			}
+		}
+		else = {
+			debug_log = "Failed to Find AI SPOUSE!"
+		}
+
+
+		#3 else, find a common elf
+	}
+}

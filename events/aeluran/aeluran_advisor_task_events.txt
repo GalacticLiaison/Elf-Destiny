@@ -201,7 +201,7 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 # - Will have the following rows
 	# - Total Aeluran Vassal Contribution +X
 		# - X will be Tool tip that shows a table of every aeluran vassal, each row: [Vassal Name] [Vassal Contract Obligation Level] [Vassal County Count] = [Total Contribution]
-	# - Adviser Skill multiplier
+	# - Advisor Skill multiplier
 
 # datamodel = "[GetPlayer.MakeScope.GetList('funeral_activity_targets')]"
 # Here funeral_activity_targets is managed by funeral_fill_available_targets_gui a scripted gui
@@ -244,6 +244,15 @@ aeluran_advisor_task.01011 = { # Magi Core is reinforced
 				add_to_variable_list = {
 					name = aeluran_vassals
 					target = prev
+				}
+			}
+		}
+
+		#error suppresion
+		if = {
+			limit = {
+				any_in_list = {
+					list = aeluran_vassals
 				}
 			}
 		}

@@ -328,7 +328,7 @@ window = {
 										}
 
 										icon = {
-											visible = "[DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )]"
+											visible = "[And( DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ), Not(IsAeluranRegency) )]"
 											parentanchor = center
 											size = { 45 45 }
 
@@ -339,13 +339,36 @@ window = {
 										}
 
 										icon = {
-											visible = "[Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ))]"
+											visible = "[And( Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )), Not(IsAeluranRegency) )]"
 											parentanchor = center
 											size = { 35 35 }
 
 											texture = "gfx/interface/window_regency/regency_level_bg_inactive.dds"
 
 											tooltip = "DIARCHY_WINDOW_SCALES_OF_POWER_LEVEL_TOOLTIP"
+											using = tooltip_se
+										}
+
+
+										icon = {
+											visible = "[And( DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ), IsAeluranRegency)]"
+											parentanchor = center
+											size = { 45 45 }
+
+											texture = "gfx/interface/window_regency/regency_level_bg.dds"
+
+											tooltip = "DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP"
+											using = tooltip_se
+										}
+
+										icon = {
+											visible = "[And( Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )), IsAeluranRegency)]"
+											parentanchor = center
+											size = { 35 35 }
+
+											texture = "gfx/interface/window_regency/regency_level_bg_inactive.dds"
+
+											tooltip = "DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP"
 											using = tooltip_se
 										}
 
@@ -392,7 +415,7 @@ window = {
 							visible = "[IsAeluranRegency]"
 							layoutpolicy_horizontal = expanding
 
-							text = "Monthly Aeluran Respect Shift"
+							text = "Monthly Aeluran Respect"
 							# default_format = "#I"
 							align = center
 							autoresize = yes
@@ -430,7 +453,7 @@ window = {
 
 						button_battle_of_wills = {
 							datacontext = "[DiarchyWindow.GetDisplayedDiarch]"
-							datacontext = "[DiarchyWindow.GetDiarchyOwner]"
+							# datacontext = "[DiarchyWindow.GetDiarchyOwner]"
 							
 							visible = "[IsAeluranRegency]"
 						}
@@ -1223,17 +1246,18 @@ types DiarchyWindowTypes {
 	type button_battle_of_wills = button_standard {
 		size = { 250 33 }
 
-		onclick = "[Character.OpenPlayerInteraction( 'swing_scales_currency_interaction' )]"
-		enabled = "[Character.IsPlayerInteractionValid( 'swing_scales_currency_interaction' )]"
+		onclick = "[Character.OpenPlayerInteraction( 'swing_aeluran_control_interaction' )]"
+		# enabled = "[Character.IsPlayerInteractionValid( 'swing_aeluran_control_interaction' )]"
+		# enabled = ""
 
 		text = "Battle Of Wills"
 
-		tooltip = "[Character.GetPlayerInteractionTooltip( 'swing_scales_currency_interaction' )]"
+		tooltip = "[Character.GetPlayerInteractionTooltip( 'swing_aeluran_control_interaction' )]"
 
 		icon = {
 			position = { 4 4 }
 			size = { 27 27 }
-			texture = "[GetCharacterInteraction( 'swing_scales_currency_interaction' ).GetIcon]"
+			texture = "[GetCharacterInteraction( 'swing_aeluran_control_interaction' ).GetIcon]"
 		}
 	}
 

@@ -1,10 +1,48 @@
 ﻿standard_elf_match = {
-	age = { 18 40 }
+	age = { 16 40 }
+
+	trait = aeluran_servant
+	
+	random_traits_list = { # Random magic
+		count = { 0 1 }
+		magic_talent_1 = {
+			weight = {
+				base = 85
+			}
+		}
+		magic_talent_2 = {
+			weight = {
+				base = 15
+			}
+		}
+	}
+
+	random_traits_list = { # Elf
+		count = 1
+		elf = {
+			weight = {
+				base = 95
+			}
+		}
+		high_elf = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
+}
+
+genetic_good_elf_match = {
+	age = { 16 40 }
 
 	trait = aeluran_servant
 	
 	random_traits_list = { # Random Good Genetic
-		count = 1
+		count = { 1 2 }
 		beauty_good_1 = {
 			weight = {
 				base = 5
@@ -45,22 +83,92 @@
 		count = 1
 		elf = {
 			weight = {
-				base = 95
+				base = 75
 			}
 		}
 		high_elf = {
+			weight = {
+				base = 25
+			}
+		}
+	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
+}
+
+genetic_great_elf_match = {
+	age = { 16 40 }
+
+	trait = aeluran_servant
+	
+	random_traits_list = { # Random Good Genetic
+		count = 2
+		beauty_good_2 = {
+			weight = {
+				base = 5
+			}
+		}
+		intellect_good_2 = {
+			weight = {
+				base = 10
+			}
+		}
+		physique_good_2 = {
+			weight = {
+				base = 15
+			}
+		}
+		pure_blooded = {
 			weight = {
 				base = 5
 			}
 		}
 	}
 
-	random_traits = no
+	random_traits_list = { # Random magic
+		count = { 0 1 }
+		magic_talent_1 = {
+			weight = {
+				base = 85
+			}
+		}
+		magic_talent_2 = {
+			weight = {
+				base = 15
+			}
+		}
+		magic_talent_3 = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	random_traits_list = { # Elf
+		count = 1
+		elf = {
+			weight = {
+				base = 35
+			}
+		}
+		high_elf = {
+			weight = {
+				base = 65
+			}
+		}
+	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
+
 
 aeluran_sister_match = {
 	gender = female
-	age = { 18 22 }
+	age = { 16 22 }
 	faith = root.faith
 
 	trait = aeluran_sister
@@ -117,11 +225,15 @@ aeluran_sister_match = {
 			}
 		}
 	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 aeluran_matron_match = {
 	gender = female
-	age = { 18 22 }
+	age = { 16 22 }
 	faith = root.faith
 
 	trait = aeluran_matron
@@ -178,10 +290,14 @@ aeluran_matron_match = {
 			}
 		}
 	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 aeluran_genetic_project_match = {
-	age = { 18 22 }
+	age = { 16 22 }
 
 	trait = eccentric
 	trait = fickle
@@ -198,12 +314,16 @@ aeluran_genetic_project_match = {
 		giant = {}
 	}
 
-	random_traits = no
+	# random_traits = no
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 bloodline_holder_match = {
 	# NOTE - Requires scope:bloodline_holder_type be set before using
-	age = { 18 22 }
+	age = { 16 22 }
 
 	random_traits_list = {
 		count = 1
@@ -439,10 +559,14 @@ bloodline_holder_match = {
 	}
 
 	random_traits = no
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 tribal_warrior_match = {
-	age = { 18 35 }
+	age = { 16 35 }
 
 	random_traits_list = {
 		count = 3
@@ -510,13 +634,14 @@ tribal_warrior_match = {
 		}
 
 		add_character_flag = tribal_warrior_match
+		add_character_flag = match_generation
 	}
 
 	random_traits = no
 }
 
 wiseman_match = {
-	age = { 18 55 }
+	age = { 16 55 }
 
 	random_traits_list = {
 		count = 3
@@ -592,6 +717,9 @@ wiseman_match = {
 		lifestyle_physician = {}
 	}
 
+	random_traits = no
+
+
 	after_creation = {
 		if = {
 			limit = {
@@ -617,9 +745,245 @@ wiseman_match = {
 				}
 			}
 		}
+
+		add_character_flag = match_generation
+	}
+}
+
+imprisoned_rogue_match = {
+	age = { 16 35 }
+
+	intrigue = high_skill_rating
+
+	random_traits_list = {
+		count = 3
+		wrathful = {}
+		lustful = {}
+		lazy = {}
+		vengeful = {}
+		greedy = {}
+		gregarious = {}
+		deceitful = {}
+		impatient = {}
+		cynical = {}
+		fickle = {}
+		stubborn = {}
+		callous = {}
+		eccentric = {}
+		sadistic = {}
 	}
 
+	trait = education_intrigue_5
+	trait = beauty_good_3
+	trait = lifestyle_reveler
+	trait = rakish
+
+	random_traits_list = { # Elf
+		count = 1
+		elf = {
+			weight = {
+				base = 95
+			}
+		}
+		high_elf = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		magic_talent_1 = {
+			weight = {
+				base = 85
+			}
+		}
+		magic_talent_2 = {
+			weight = {
+				base = 10
+			}
+		}
+		magic_talent_3 = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		strong = {}
+		one_eyed = {}
+		scarred = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		schemer = {}
+		seducer = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		fornicator = {}
+		murderer = {}
+		sodomite = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		hashishiyah = {}
+		drunkard = {}
+		deviant = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		bastard = {}
+		denounced = {}
+		disinherited = {}
+	}
+	
 	random_traits = no
+
+	after_creation = {		
+		add_trait_xp = {
+			trait = lifestyle_reveler
+			value = {
+				integer_range = {
+					min = 70
+					max = 100
+				}
+			}
+		}
+
+		set_sexuality = bisexual
+
+		imprison_character_effect = {
+			TARGET = this
+			IMPRISONER = scope:host
+		}
+		add_character_flag = match_generation
+	}
+}
+
+shy_scholar_match = {
+	age = { 16 35 }
+
+	learning = high_skill_rating
+
+	trait = shy
+	random_traits_list = {
+		count = 2
+		chaste = {}
+		calm = {}
+		content = {}
+		forgiving = {}
+		honest = {}
+		humble = {}
+		patient = {}
+		temperate = {}
+		trusting = {}
+		compassionate = {}
+		craven = {}
+		eccentric = {}
+	}
+
+	trait = education_learning_5
+	trait = scholar
+	trait = reclusive
+
+	random_traits_list = {
+		count = { 0 2 }
+		journaller = {}
+		poet = {}
+		tourney_participant = {}
+		loyal = {}
+		shrewd = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		depressed_1 = {}
+		stuttering = {}
+		lisping = {}
+	}
+
+	random_traits_list = {
+		count = { 0 1 }
+		physique_bad_1 = {}
+		weak = {}
+	}
+
+	random_traits_list = { # Elf
+		count = 1
+		elf = {
+			weight = {
+				base = 95
+			}
+		}
+		high_elf = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	random_traits_list = {
+		count = 1
+		intellect_good_1 = {
+			weight = {
+				base = 80
+			}
+		}
+		intellect_good_2 = {
+			weight = {
+				base = 15
+			}
+		}
+		intellect_good_3 = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+
+	random_traits_list = {
+		count = 1
+		magic_talent_2 = {
+			weight = {
+				base = 10
+			}
+		}
+		magic_talent_3 = {
+			weight = {
+				base = 5
+			}
+		}
+	}
+	
+	random_traits = no
+
+	after_creation = {		
+		if = {
+			limit = { 
+				has_trait = tourney_participant
+			}
+			add_trait_xp = {
+				trait = tourney_participant
+				track = wit
+				value = {
+					integer_range = {
+						min = 8
+						max = 90
+					}
+				}
+			}
+		}
+
+		add_character_flag = match_generation
+	}
 }
 
 bastard_claimant_match = {
@@ -665,11 +1029,19 @@ bastard_claimant_match = {
 			}
 		}
 	}
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 inferior_dowry_elf_match = {
 	age = { 21 45 }
 	trait = elf_blood
+
+	after_creation = {
+		add_character_flag = match_generation
+	}
 }
 
 foreign_elf_match = {
@@ -760,6 +1132,8 @@ foreign_elf_match = {
 				}
 			}
 		}
+
+		add_character_flag = match_generation
 	}
 }
 
@@ -788,6 +1162,10 @@ match_choice_multi_mother = {
 				}
 			}
 		}
+	}
+
+	after_creation = {
+		add_character_flag = match_generation
 	}
 }
 
@@ -821,6 +1199,7 @@ twins_match = {
 
 	after_creation = {
 		copy_inheritable_appearance_from = scope:match_choice_multi_mother
+		add_character_flag = match_generation
 	}
 }
 
@@ -855,425 +1234,7 @@ triplets_match = {
 	after_creation = {
 		copy_inheritable_appearance_from = scope:match_choice_multi_mother
 		add_character_flag = is_triplet
+		add_character_flag = match_generation
 	}
 }
 
-# Breeders
-outstanding_breeding_stock_female = {
-	gender = female
-	age = { 18 22 }
-
-	trait = aeluran_servant
-	trait = loyal
-
-	random_traits_list = { # House Bloodlines
-		count = 1
-		pure_blooded = {
-			weight = {
-				base = 85
-			}
-		}
-		royal_elf_valerith = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_serelion = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_gwynthorn = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_thundarael = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_daelurin = {
-			weight = {
-				base = 3
-			}
-		}
-	}
-
-	random_traits_list = { # Random Good Genetic
-		count = 2
-		beauty_good_3 = {
-			weight = {
-				base = 5
-			}
-		}
-		intellect_good_2 = {
-			weight = {
-				base = 10
-			}
-		}
-		fecund = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits_list = { # Random magic
-		count = 1
-		magic_talent_1 = {
-			weight = {
-				base = 5
-			}
-		}
-		magic_talent_2 = {
-			weight = {
-				base = 50
-			}
-		}
-		magic_talent_3 = {
-			weight = {
-				base = 45
-			}
-		}
-	}
-
-	random_traits_list = { # Elf
-		count = 1
-		elf = {
-			weight = {
-				base = 90
-			}
-		}
-		high_elf = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-}
-
-mediocre_breeding_stock_female = {
-	gender = female
-	age = { 18 26 }
-
-	trait = aeluran_servant
-
-	random_traits_list = { # Random Good Genetic
-		count = 2
-		beauty_good_2 = {
-			weight = {
-				base = 5
-			}
-		}
-		intellect_good_1 = {
-			weight = {
-				base = 10
-			}
-		}
-		fecund = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits_list = { # Random magic
-		count = 1
-		magic_talent_1 = {
-			weight = {
-				base = 55
-			}
-		}
-		magic_talent_2 = {
-			weight = {
-				base = 35
-			}
-		}
-		magic_talent_3 = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-
-	random_traits_list = { # Elf
-		count = 1
-		elf = {
-			weight = {
-				base = 90
-			}
-		}
-		high_elf = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-}
-
-standard_elf_female_match = {
-	gender = female
-	age = { 18 26 }
-
-	trait = aeluran_servant
-
-	random_traits_list = { # Random Good Genetic
-		count = 1
-		beauty_good_1 = {
-			weight = {
-				base = 15
-			}
-		}
-		intellect_good_1 = {
-			weight = {
-				base = 5
-			}
-		}
-		physique_good_1 = {
-			weight = {
-				base = 5
-			}
-		}
-		pure_blooded = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits_list = { # Random magic
-		count = { 0 1 }
-		magic_talent_1 = {
-			weight = {
-				base = 85
-			}
-		}
-		magic_talent_2 = {
-			weight = {
-				base = 15
-			}
-		}
-	}
-
-	random_traits_list = { # Elf
-		count = 1
-		elf = {
-			weight = {
-				base = 95
-			}
-		}
-		high_elf = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits = no
-}
-
-outstanding_breeding_stock_male = {
-	gender = male
-	age = { 18 22 }
-
-	trait = aeluran_servant
-	trait = loyal
-
-	random_traits_list = { # House Bloodlines
-		count = 1
-		pure_blooded = {
-			weight = {
-				base = 85
-			}
-		}
-		royal_elf_valerith = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_serelion = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_gwynthorn = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_thundarael = {
-			weight = {
-				base = 3
-			}
-		}
-		royal_elf_daelurin = {
-			weight = {
-				base = 3
-			}
-		}
-	}
-
-	random_traits_list = { # Random Good Genetic
-		count = 2
-		beauty_good_3 = {
-			weight = {
-				base = 5
-			}
-		}
-		intellect_good_2 = {
-			weight = {
-				base = 10
-			}
-		}
-		fecund = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits_list = { # Random magic
-		count = 1
-		magic_talent_1 = {
-			weight = {
-				base = 5
-			}
-		}
-		magic_talent_2 = {
-			weight = {
-				base = 50
-			}
-		}
-		magic_talent_3 = {
-			weight = {
-				base = 45
-			}
-		}
-	}
-
-	random_traits_list = { # Elf
-		count = 1
-		elf = {
-			weight = {
-				base = 90
-			}
-		}
-		high_elf = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-}
-
-mediocre_breeding_stock_male = {
-	gender = male
-	age = { 18 26 }
-
-	trait = aeluran_servant
-
-	random_traits_list = { # Random Good Genetic
-		count = 2
-		beauty_good_2 = {
-			weight = {
-				base = 5
-			}
-		}
-		intellect_good_1 = {
-			weight = {
-				base = 10
-			}
-		}
-		fecund = {
-			weight = {
-				base = 5
-			}
-		}
-	}
-
-	random_traits_list = { # Random magic
-		count = 1
-		magic_talent_1 = {
-			weight = {
-				base = 55
-			}
-		}
-		magic_talent_2 = {
-			weight = {
-				base = 35
-			}
-		}
-		magic_talent_3 = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-
-	random_traits_list = { # Elf
-		count = 1
-		elf = {
-			weight = {
-				base = 90
-			}
-		}
-		high_elf = {
-			weight = {
-				base = 10
-			}
-		}
-	}
-}
-
-
-# Special
-twins_female = {
-	gender = female
-	age = 18
-
-	trait = aeluran_servant
-	trait = twin
-	trait = beauty_good_2
-	trait = intellect_good_1
-	trait = magic_talent_2
-	trait = elf
-}
-
-twins_male = {
-	gender = male
-	age = 18
-
-	trait = aeluran_servant
-	trait = twin
-	trait = beauty_good_2
-	trait = intellect_good_1
-	trait = magic_talent_2
-	trait = elf
-}
-
-triplets_female = {
-	gender = female
-	age = 16
-
-	trait = aeluran_servant
-	trait = twin
-	trait = beauty_good_3
-	trait = fecund
-	trait = intellect_good_2
-	trait = magic_talent_2
-	trait = elf
-}
-
-triplets_male = {
-	gender = male
-	age = 20
-
-	trait = aeluran_servant
-	trait = twin
-	trait = beauty_good_3
-	trait = fecund
-	trait = intellect_good_2
-	trait = magic_talent_2
-	trait = elf
-}

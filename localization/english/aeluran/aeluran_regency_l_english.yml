@@ -13,39 +13,75 @@
     game_concept_aeluran_regencies:0 "Aeluran Regencies"
     game_concept_aeluran_regency_desc:3 "Your Aeluran Advisor is your second in command and shares some control of your realm.\n\nThe benefits the [regent|E] gets from the [scales_of_power|E] become much more powerful the more Dominance they have over you.\n\nAn $game_concept_aeluran_regency$ can only be ended by leaving the faith. To gain back control you need to prove yourself as a ruler and gain Dominance back!"
 
-    aeluran_vassal_contracts_level_5:0 "[aeluran_weavers_government|E] vassals will set their [tax|E] and [levy|E] [vassal_obligations|E] to #positive_value_toast #BOL Extortionate#!#! levels"
-    aeluran_vassal_contracts_level_4:0 "[aeluran_weavers_government|E] vassals will set their [tax|E] and [levy|E] [vassal_obligations|E] to #positive_value #BOL High#!#! levels"
-    aeluran_vassal_contracts_level_3:0 "[aeluran_weavers_government|E] vassals will set their [tax|E] and [levy|E] [vassal_obligations|E] to #highlight #BOL Balanced#!#! levels"
-    aeluran_vassal_contracts_level_2:0 "[aeluran_weavers_government|E] vassals will set their [tax|E] and [levy|E] [vassal_obligations|E] to #difficulty_hard Low#!#! levels"
-    aeluran_vassal_contracts_level_1:0 "[aeluran_weavers_government|E] vassals will declare themselves #negative_value #BOL Exempt#!#! from [tax|E] and [levy|E] [vassal_obligations|E]"
+    game_concept_aeluran_magi_regiments:0 "#strong_glow #attacker_color Aeluran Magi#!#!"
+    game_concept_aeluran_magi_regiments_desc:0 "It is the duty of all [GetGovernment( 'aeluran_weavers_government' ).GetName] rulers to retain a coven of Aeluran Sisters. Trained [GetTrait('magi').GetName( GetNullCharacter )] sent by their order to help shepherd the peasantry and secure the realm. As a vassal, their [vassal_obligations|E] mandate them to supply their [lieges|E] with regiments of Aeluran Magi [men_at_arms|E].\n#BOL You may receive the following MAA:#!\n$EFFECT_LIST_BULLET$[GetMaA('aeluran_war_magi').GetName]\n$EFFECT_LIST_BULLET$[GetMaA('aeluran_artillery').GetName]"
+
+    game_concept_aeluran_magi_regiments_blue:0 "Aeluran Magi"
+    game_concept_aeluran_magi_regiments_blue_desc:0 "It is the duty of all [GetGovernment( 'aeluran_weavers_government' ).GetName] rulers to retain a coven of Aeluran Sisters. Trained [GetTrait('magi').GetName( GetNullCharacter )] sent by their order to help shepherd the peasantry and secure the realm. As a vassal, their [vassal_obligations|E] mandate them to supply their [lieges|E] with regiments of Aeluran Magi [men_at_arms|E].\n#BOL You may receive the following MAA:#!\n$EFFECT_LIST_BULLET$[GetMaA('aeluran_war_magi').GetName]\n$EFFECT_LIST_BULLET$[GetMaA('aeluran_artillery').GetName]"
+
+    game_concept_aeluran_matchmaking:0 "Aeluran Matchmaking"
+    game_concept_aeluran_matchmaking_desc:0 "Securing the propagation of the most powerful Elf Lords possible is of paramount importance to the Aeluran Order. To that End, it is customary for Lords of the faith to seek the Order's council when selecting a prospective spouse. If a Lord delays to long in finding a mate, the Order will #BOL strongly encourage#! them to choose from a list of curated candidates."
+
+
+    realm_supervision_mandate:0 "Vassal Supervision"
+    realm_supervision_mandate_desc:1 "#BOL With this [mandate|E] level she may:#!\n$EFFECT_LIST_BULLET$ Discover Vassal [secrets|E]\n$EFFECT_LIST_BULLET$ Increase county [county_control|E]\n$EFFECT_LIST_BULLET$ Adjust Non-Aeluran Vassal [feudal_contracts|E] in the [liege|E]'s favor\n$EFFECT_LIST_BULLET$ Non-Aeluran Vassals may gain the loyal trait\n$EFFECT_LIST_BULLET$ Convert or depose non-faithful Vassals\n\n#WEAK Your Aeluran Advisor [regent|E] asserts #Bold some#! control over the management of your Vassals."
+    realm_subjugation_mandate:0 "Vassal Subjugation"
+    realm_subjugation_mandate_desc:1 "#BOL With this [mandate|E] level she may assert all of the previous level's methods of control, in addition she may:#!\n$EFFECT_LIST_BULLET$ Detect your Vassal's murder or abduction plots against you.\n$EFFECT_LIST_BULLET$ Break up hostile [factions|E] created against you.\n$EFFECT_LIST_BULLET$ Foster your reputation as a strong leader among your Vassals increasing your [dread|E] \n\n#WEAK Your Aeluran Advisor [regent|E] asserts #Bold significant#! control over your Vassals."
+    realm_domination_mandate:0 "Vassal Domination"
+    realm_domination_mandate_desc:1 "#BOL With this [mandate|E] level she may assert all of the previous level's methods of control, in addition she may:#!\n$EFFECT_LIST_BULLET$ Offer to take hostile powerful Vassals heirs as hostage.\n$EFFECT_LIST_BULLET$ Realign troublesome Vassals through reeducation mentorship\n$EFFECT_LIST_BULLET$ Transfer skilled courtiers from Vassal to there Liege\n\n#WEAK Your Aeluran Advisor [regent|E] asserts #N absolute#! control over your Vassals."
+
+    DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP:4 "#T Your Control Level: $aeluran_level_of_control_display_value$#!\n[DiarchyWindow.GetPowerLevelStatus( ComplexBarItem.GetValue )]\n\nEffects:\n[DiarchyWindow.GetPowersForLevel( ComplexBarItem.GetValue )][SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)1' ), '', '#weak All previous levels also apply#!' )]\n\n[DiarchyWindow.GetSwingChangeDescription]"
+
+    aeluran_level_of_control_display_value:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)1' ), 'aeluran_domination_plus_3', 'aeluran_level_of_control_display_value_2' )]"
+    aeluran_level_of_control_display_value_2:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)2' ), 'aeluran_domination_plus_2', 'aeluran_level_of_control_display_value_3' )]"
+    aeluran_level_of_control_display_value_3:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)3' ), 'aeluran_domination_plus_1', 'aeluran_level_of_control_display_value_4' )]"
+    aeluran_level_of_control_display_value_4:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)4' ), 'aeluran_domination_neutral', 'aeluran_level_of_control_display_value_5' )]"
+    aeluran_level_of_control_display_value_5:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)5' ), 'aeluran_domination_min_1', 'aeluran_level_of_control_display_value_6' )]"
+    aeluran_level_of_control_display_value_6:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)6' ), 'aeluran_domination_min_2', 'aeluran_level_of_control_display_value_7' )]"
+    aeluran_level_of_control_display_value_7:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)7' ), 'aeluran_domination_min_3', '' )]"
+
+
+    ELF_DLC_ENABLED:0 "[SelectLocalization(EqualTo_string(DlcItem.GetDlc.GetName, 'Elf Destiny'), 'ELF_DLC_ENABLED_MSG', 'VANILLA_DLC_ENABLED_MSG' )]"
+
+    aeluran_vassal_contracts_level_5:0 "[aeluran_weavers_government|E] vassals will set their [tax|E], [levy|E], and [aeluran_magi_regiments_blue|E] [vassal_obligations|E] to #positive_value_toast #BOL Extortionate#!#! levels"
+    aeluran_vassal_contracts_level_4:0 "[aeluran_weavers_government|E] vassals will set their [tax|E], [levy|E], and [aeluran_magi_regiments_blue|E] [vassal_obligations|E] to #positive_value #BOL High#!#! levels"
+    aeluran_vassal_contracts_level_3:0 "[aeluran_weavers_government|E] vassals will set their [tax|E], [levy|E], and [aeluran_magi_regiments_blue|E] [vassal_obligations|E] to #highlight #BOL Balanced#!#! levels"
+    aeluran_vassal_contracts_level_2:0 "[aeluran_weavers_government|E] vassals will set their [tax|E], [levy|E], and [aeluran_magi_regiments_blue|E] [vassal_obligations|E] to #negative_value #BOL Low#!#! levels"
+    aeluran_vassal_contracts_level_1:0 "[aeluran_weavers_government|E] vassals will declare themselves #medium_glow #attacker_color #BOL Exempt#!#!#! from [tax|E], [levy|E], and [aeluran_magi_regiments_blue|E] [vassal_obligations|E]"
 
     aeluran_vassals_magi_contract_level_5:0 "[aeluran_weavers_government|E] vassals will set their [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E] to #positive_value_toast #BOL Extortionate#!#! levels"
     aeluran_vassals_magi_contract_level_4:0 "[aeluran_weavers_government|E] vassals will set their [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E] to #positive_value #BOL High#!#! levels"
     aeluran_vassals_magi_contract_level_3:0 "[aeluran_weavers_government|E] vassals will set their [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E] to #highlight #BOL Balanced#!#! levels"
-    aeluran_vassals_magi_contract_level_2:0 "[aeluran_weavers_government|E] vassals will set their [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E] to #difficulty_hard Low#!#! levels"
-    aeluran_vassals_magi_contract_level_1:0 "[aeluran_weavers_government|E] vassals will declare themselves #negative_value #BOL Exempt#!#! from [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E]"
+    aeluran_vassals_magi_contract_level_2:0 "[aeluran_weavers_government|E] vassals will set their [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E] to #negative_value #BOL Low#!#! levels"
+    aeluran_vassals_magi_contract_level_1:0 "[aeluran_weavers_government|E] vassals will declare themselves #medium_glow #attacker_color #BOL Exempt#!#!#! from [GetMaA('aeluran_war_magi').GetName] [vassal_obligations|E]"
 
-    matchmaking_no_control:0 ""
-    matchmaking_less_options:0 ""
-    matchmaking_full_options:0 ""
+    matchmaking_fewer_options_1:0 "Receive #negative_value #BOL Fewer#!#! choices during [aeluran_matchmaking|E]"
+    matchmaking_fewer_options_2:0 "Receive #medium_glow #attacker_color #BOL Even Fewer#!#!#! choices during [aeluran_matchmaking|E]"
 
-    greater_chance_aeluran_councillor_becomes_disloyal:0 "[diarchs|E] have a greater chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    small_chance_aeluran_councillor_becomes_disloyal:0 "[diarchs|E] have a small chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    aeluran_councillor_loses_loyal:0 "[diarchs|E] may start to lose the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
-    aeluran_councillor_loses_disloyal:0 "[diarchs|E] may start to lose the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    small_chance_aeluran_councillor_becomes_loyal:0 "[diarchs|E] have a small chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
-    greater_chance_aeluran_councillor_becomes_loyal:0 "[diarchs|E] have a greater chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    regent_mandate_level_2:0 "Regent's Vassal Management [mandate|E] will upgrade to #difficulty_hard [GetMandate('realm_subjugation').GetName] #!"
+    regent_mandate_level_3:0 "Regent's Vassal Management [mandate|E] will upgrade to #medium_glow #attacker_color #BOL [GetMandate('realm_domination').GetName]#!#!#!"
+
+    greater_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #medium_glow #attacker_color #BOL Greater#!#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    small_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #negative_value #BOL Small#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    aeluran_councillor_loses_loyal:0 "[aeluran_weavers_government|E] vassals #difficulty_hard Might Lose#! the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    aeluran_councillor_loses_disloyal:0 "[aeluran_weavers_government|E] vassals #difficulty_easy Might Lose#! the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    small_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value #BOL Small#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    greater_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value_toast #BOL Greater#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+
+    aeluran_councillor_challenges_level_1:0 "Your $game_concept_aeluran_regent$ will #difficulty_hard Sometimes#! challenge your decisions."
+    aeluran_councillor_challenges_level_2:0 "Your $game_concept_aeluran_regent$ will #negative_value #BOL More Often#!#! challenge your decisions."
+    aeluran_councillor_challenges_level_3:0 "Your $game_concept_aeluran_regent$ will #medium_glow #attacker_color #BOL Frequently#!#!#! challenge your decisions."
     
     aeluran_councillor_heavily_meddles_with_succesion:0 ""
     aeluran_councillor_meddles_with_succesion:0 ""
     aeluran_councillor_lightly_meddles_with_succesion:0 ""
 
     aeluran_councillor_replaces_councillors:0 ""
-    aeluran_adviser_unshackled_ambition:0 ""
+    aeluran_advisor_unshackled_ambition:0 ""
 
     aeluran_councillor_replaces_court_positions:0 ""
-    aeluran_adviser_seeks_dutchy:0 ""
-    aeluran_adviser_seeks_county:0 ""
+    aeluran_advisor_seeks_dutchy:0 ""
+    aeluran_advisor_seeks_county:0 ""
 
     ## RESPECT BREAKDOWN ##
     from_elf_tier:0 "From Elf Tier:"
@@ -69,7 +105,20 @@
     aeluran_respect_from_elf_tier_ainur_tier:0 "@ainur_tier_icon! Ainur Tier Elf"
 
     # Genetic Excellence
-    aeluran_respect_from_genetics:0 "[Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Pure_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Purer_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Purest_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Fecund')][Character.Custom('Aeluran_Respect_From_Genetics_Giant')][Character.Custom('Aeluran_Respect_From_Genetics_Albino')][Character.Custom('Aeluran_Respect_From_Genetics_Clubfooted')][Character.Custom('Aeluran_Respect_From_Genetics_Hunchbacked')][Character.Custom('Aeluran_Respect_From_Genetics_Lisping')][Character.Custom('Aeluran_Respect_From_Genetics_Stuttering')][Character.Custom('Aeluran_Respect_From_Genetics_Dwarf')][Character.Custom('Aeluran_Respect_From_Genetics_Inbred')][Character.Custom('Aeluran_Respect_From_Genetics_Spindly')][Character.Custom('Aeluran_Respect_From_Genetics_Scaly')][Character.Custom('Aeluran_Respect_From_Genetics_Wheezing')][Character.Custom('Aeluran_Respect_From_Genetics_Bleeder')][Character.Custom('Aeluran_Respect_From_Genetics_Infertile')]"
+    aeluran_respect_from_genetics:0 "[Character.Custom('Aeluran_Respect_From_Genetics_Royal_Elf_Valerith')][Character.Custom('Aeluran_Respect_From_Genetics_Royal_Elf_Serelion')][Character.Custom('Aeluran_Respect_From_Genetics_Royal_Elf_Gwynthorn')][Character.Custom('Aeluran_Respect_From_Genetics_Royal_Elf_Thundarael')][Character.Custom('Aeluran_Respect_From_Genetics_Royal_Elf_Daelurin')][Character.Custom('Aeluran_Respect_From_Genetics_Multi_Birth')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_1')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_2')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_3')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Good_4')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Beauty_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Physique_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_1')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_2')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_3')][Character.Custom('Aeluran_Respect_From_Genetics_Intellect_Bad_4')][Character.Custom('Aeluran_Respect_From_Genetics_Pure_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Purer_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Purest_Blooded')][Character.Custom('Aeluran_Respect_From_Genetics_Fecund')][Character.Custom('Aeluran_Respect_From_Genetics_Giant')][Character.Custom('Aeluran_Respect_From_Genetics_Albino')][Character.Custom('Aeluran_Respect_From_Genetics_Clubfooted')][Character.Custom('Aeluran_Respect_From_Genetics_Hunchbacked')][Character.Custom('Aeluran_Respect_From_Genetics_Lisping')][Character.Custom('Aeluran_Respect_From_Genetics_Stuttering')][Character.Custom('Aeluran_Respect_From_Genetics_Dwarf')][Character.Custom('Aeluran_Respect_From_Genetics_Inbred')][Character.Custom('Aeluran_Respect_From_Genetics_Spindly')][Character.Custom('Aeluran_Respect_From_Genetics_Scaly')][Character.Custom('Aeluran_Respect_From_Genetics_Wheezing')][Character.Custom('Aeluran_Respect_From_Genetics_Bleeder')][Character.Custom('Aeluran_Respect_From_Genetics_Infertile')]"
+
+    aeluran_respect_from_genetics_royal_elf_valerith:0 "@bloodline_valerith_icon! [GetTrait('royal_elf_valerith').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('has_bloodline_respect_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_royal_elf_serelion:0 "@bloodline_serelion_icon! [GetTrait('royal_elf_serelion').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('has_bloodline_respect_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_royal_elf_gwynthorn:0 "@bloodline_gwynthorn_icon! [GetTrait('royal_elf_gwynthorn').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('has_bloodline_respect_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_royal_elf_thundarael:0 "@bloodline_thundarael_icon! [GetTrait('royal_elf_thundarael').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('has_bloodline_respect_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_royal_elf_daelurin:0 "@bloodline_daelurin_icon! [GetTrait('royal_elf_daelurin').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('has_bloodline_respect_bonus')|2]#!\n"
+
+    aeluran_respect_from_genetics_twin:0 "@twin_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_twin_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_triplet:0 "@triplet_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_triplet_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_quadruplet:0 "@quadruplet_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_quadruplet_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_quintuplet:0 "@quintuplet_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_quintuplet_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_sextuplet:0 "@sextuplet_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_sextuplet_bonus')|2]#!\n"
+    aeluran_respect_from_genetics_septuplet:0 "@septuplet_icon! [GetTrait('twin').GetName( GetPlayer )]: #P +[EmptyScope.ScriptValue('genetics_septuplet_bonus')|2]#!\n"
 
     aeluran_respect_from_genetics_beauty_good_1:0 "@beauty_good_1_icon! [GetTrait('beauty_good_1').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('genetics_beauty_good_1_bonus')|2]#!\n"
     aeluran_respect_from_genetics_beauty_good_2:0 "@beauty_good_2_icon! [GetTrait('beauty_good_2').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('genetics_beauty_good_2_bonus')|2]#!\n"
@@ -133,6 +182,7 @@
     aeluran_respect_from_spark_manipulation_magic_talent_1:0 "@magic_talent_1_icon! [GetTrait('magic_talent_1').GetName( GetNullCharacter )]"
     aeluran_respect_from_spark_manipulation_magic_talent_2:0 "@magic_talent_2_icon! [GetTrait('magic_talent_2').GetName( GetNullCharacter )]"
     aeluran_respect_from_spark_manipulation_magic_talent_3:0 "@magic_talent_3_icon! [GetTrait('magic_talent_3').GetName( GetNullCharacter )]"
+    aeluran_respect_from_spark_manipulation_no_magic_talent:0 "Unable to manipulate Spark"
 
     # Fame
     aeluran_respect_from_fame:0 "[Character.Custom('Aeluran_Respect_From_Fame')]"
@@ -147,12 +197,12 @@
     aeluran_respect_from_aeluran_affiliation_born_in_the_red:0 "\n@born_in_the_red_icon! was [GetTrait('born_in_the_red').GetName( GetNullCharacter )]: #P +[EmptyScope.ScriptValue('is_born_in_the_red_bonus')|2]#!"
 
     # Aeluran Opinion 
-    aeluran_respect_from_aeluran_opinion:0 "[Character.Custom('Aeluran_Respect_From_Aeluran_Adviser_Opinion')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Opinion')]"
+    aeluran_respect_from_aeluran_opinion:0 "[Character.Custom('Aeluran_Respect_From_Aeluran_Advisor_Opinion')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Opinion')]"
 
-    aeluran_respect_from_aeluran_adviser_opinion_best_bonus:0 "@aeluran_experiment_icon! Aeluran Adviser opinion is High: #P +[EmptyScope.ScriptValue('aeluran_adviser_opinion_best_bonus')|2]#!\n"
-    aeluran_respect_from_aeluran_adviser_opinion_good_bonus:0 "@aeluran_experiment_icon! Aeluran Adviser opinion is Good: #P +[EmptyScope.ScriptValue('aeluran_adviser_opinion_good_bonus')|2]#!\n"
-    aeluran_respect_from_aeluran_adviser_opinion_bad_penalty:0 "@aeluran_experiment_icon! Aeluran Adviser opinion is Bad: #N -[EmptyScope.ScriptValue('aeluran_adviser_opinion_bad_penalty')|2]#!\n"
-    aeluran_respect_from_aeluran_adviser_opinion_worst_penalty:0 "@aeluran_experiment_icon! Aeluran Adviser opinion is Very Low: #N -[EmptyScope.ScriptValue('aeluran_adviser_opinion_worst_penalty')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_opinion_best_bonus:0 "@aeluran_experiment_icon! Aeluran Advisor opinion is High: #P +[EmptyScope.ScriptValue('aeluran_advisor_opinion_best_bonus')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_opinion_good_bonus:0 "@aeluran_experiment_icon! Aeluran Advisor opinion is Good: #P +[EmptyScope.ScriptValue('aeluran_advisor_opinion_good_bonus')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_opinion_bad_penalty:0 "@aeluran_experiment_icon! Aeluran Advisor opinion is Bad: #N -[EmptyScope.ScriptValue('aeluran_advisor_opinion_bad_penalty')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_opinion_worst_penalty:0 "@aeluran_experiment_icon! Aeluran Advisor opinion is Very Low: #N -[EmptyScope.ScriptValue('aeluran_advisor_opinion_worst_penalty')|2]#!\n"
 
     aeluran_respect_from_high_matriarch_opinion_best_bonus:0 "@aeluran_matriarch_icon! High Matriarch opinion is High: #P +[EmptyScope.ScriptValue('high_matriarch_opinion_best_bonus')|2]#!\n"
     aeluran_respect_from_high_matriarch_opinion_good_bonus:0 "@aeluran_matriarch_icon! High Matriarch opinion is Good: #P +[EmptyScope.ScriptValue('high_matriarch_opinion_good_bonus')|2]#!\n"
@@ -161,21 +211,21 @@
 
 
     # Hooks
-    aeluran_respect_from_hooks:0 "[Character.Custom('Aeluran_Respect_From_Character_Weak_Hook_On_Aeluran_Adviser')][Character.Custom('Aeluran_Respect_From_Character_Strong_Hook_On_Aeluran_Adviser')][Character.Custom('Aeluran_Respect_From_Aeluran_Adviser_Weak_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_Aeluran_Adviser_Strong_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_Character_Weak_Hook_On_High_Matriarch')][Character.Custom('Aeluran_Respect_From_Character_Strong_Hook_On_High_Matriarch')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Weak_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Strong_Hook_On_Character')]"
+    aeluran_respect_from_hooks:0 "[Character.Custom('Aeluran_Respect_From_Character_Weak_Hook_On_Aeluran_Advisor')][Character.Custom('Aeluran_Respect_From_Character_Strong_Hook_On_Aeluran_Advisor')][Character.Custom('Aeluran_Respect_From_Aeluran_Advisor_Weak_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_Aeluran_Advisor_Strong_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_Character_Weak_Hook_On_High_Matriarch')][Character.Custom('Aeluran_Respect_From_Character_Strong_Hook_On_High_Matriarch')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Weak_Hook_On_Character')][Character.Custom('Aeluran_Respect_From_High_Matriarch_Strong_Hook_On_Character')]"
 
-    aeluran_respect_from_character_weak_hook_on_aeluran_adviser:0 "@weak_hook_icon! [weak_hook|E] on Aeluran Adviser: #P +[EmptyScope.ScriptValue('has_weak_hook_on_adviser_bonus')|2]#!\n"
-    aeluran_respect_from_character_strong_hook_on_aeluran_adviser:0 "@unspent_strong_hook_icon! [strong_hook|E] on Aeluran Adviser: #P +[EmptyScope.ScriptValue('has_strong_hook_on_adviser_bonus')|2]#!\n"
+    aeluran_respect_from_character_weak_hook_on_aeluran_advisor:0 "@weak_hook_icon! [weak_hook|E] on Aeluran Advisor: #P +[EmptyScope.ScriptValue('has_weak_hook_on_advisor_bonus')|2]#!\n"
+    aeluran_respect_from_character_strong_hook_on_aeluran_advisor:0 "@unspent_strong_hook_icon! [strong_hook|E] on Aeluran Advisor: #P +[EmptyScope.ScriptValue('has_strong_hook_on_advisor_bonus')|2]#!\n"
 
     aeluran_respect_from_character_weak_hook_on_high_matriarch:0 "@weak_hook_icon! [weak_hook|E] on High Matriarch: #P +[EmptyScope.ScriptValue('has_weak_hook_on_matriarch_bonus')|2]#!\n"
     aeluran_respect_from_character_strong_hook_on_high_matriarch:0 "@unspent_strong_hook_icon! [strong_hook|E] on High Matriarch: #P +[EmptyScope.ScriptValue('has_strong_hook_on_matriarch_bonus')|2]#!\n"
 
-    aeluran_respect_from_aeluran_adviser_weak_hook_on_character:0 "@weak_hook_icon! Aeluran Adviser has [weak_hook|E]: #N -[EmptyScope.ScriptValue('adviser_has_weak_hook_on_liege_penalty')|2]#!\n"
-    aeluran_respect_from_aeluran_adviser_strong_hook_on_character:0 "@unspent_strong_hook_icon! Aeluran Adviser has [strong_hook|E]: #N -[EmptyScope.ScriptValue('adviser_has_strong_hook_on_liege_penalty')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_weak_hook_on_character:0 "@weak_hook_icon! Aeluran Advisor has [weak_hook|E]: #N -[EmptyScope.ScriptValue('advisor_has_weak_hook_on_liege_penalty')|2]#!\n"
+    aeluran_respect_from_aeluran_advisor_strong_hook_on_character:0 "@unspent_strong_hook_icon! Aeluran Advisor has [strong_hook|E]: #N -[EmptyScope.ScriptValue('advisor_has_strong_hook_on_liege_penalty')|2]#!\n"
 
     aeluran_respect_from_aeluran_matriarch_weak_hook_on_character:0 "@weak_hook_icon! High Matriarch has [weak_hook|E]: #N -[EmptyScope.ScriptValue('matriarch_has_weak_hook_penalty')|2]#!\n"
     aeluran_respect_from_aeluran_matriarch_strong_hook_on_character:0 "@unspent_strong_hook_icon! High Matriarch has [strong_hook|E]: #N -[EmptyScope.ScriptValue('matriarch_has_strong_hook_penalty')|2]#!\n"
 
-    aeluran_respect_from_sins:0 "[Character.Custom('Aeluran_Respect_From_Sin_Fornicator')][Character.Custom('Aeluran_Respect_From_Sin_Adulterer')][Character.Custom('Aeluran_Respect_From_Sin_Craven')][Character.Custom('Aeluran_Respect_From_Sin_Eunuch')][Character.Custom('Aeluran_Respect_From_Sin_Refused_Matchmaking')][Character.Custom('Aeluran_Respect_From_Sin_Refused_Matriarchs_Summons')][Character.Custom('Aeluran_Respect_From_Sin_Unlanded_Aeluran_Adviser')]"
+    aeluran_respect_from_sins:0 "[Character.Custom('Aeluran_Respect_From_Sin_Fornicator')][Character.Custom('Aeluran_Respect_From_Sin_Adulterer')][Character.Custom('Aeluran_Respect_From_Sin_Craven')][Character.Custom('Aeluran_Respect_From_Sin_Eunuch')][Character.Custom('Aeluran_Respect_From_Sin_Refused_Matchmaking')][Character.Custom('Aeluran_Respect_From_Sin_Unlanded_Aeluran_Advisor')]"
 
     aeluran_respect_from_sin_fornicator:0 "@fornicator_icon! [GetTrait('fornicator').GetName( GetNullCharacter )]: #N -[EmptyScope.ScriptValue('fornicator_sin_penalty')|2]#!\n"
     aeluran_respect_from_sin_adulterer:0 "@adulterer_icon! [GetTrait('adulterer').GetName( GetNullCharacter )]: #N -[EmptyScope.ScriptValue('adulterer_sin_penalty')|2]#!\n"
@@ -183,10 +233,18 @@
     aeluran_respect_from_sin_eunuch:0 "@eunuch_icon! [GetTrait('eunuch').GetName( GetNullCharacter )]: #N -[EmptyScope.ScriptValue('eunuch_penalty')|2]#!\n"
 
     aeluran_respect_from_sin_refused_matchmaking:0 "@aeluran_matriarch_icon! Refused Aeluran Matchmaking"
-    aeluran_respect_from_sin_refused_matriarchs_summons:0 "@aeluran_matriarch_icon! Refused High Matriarchs Summons"
-    aeluran_respect_from_sin_has_unlanded_aeluran_adviser:0 "@aeluran_matriarch_icon! Has Unlanded Aeluran Adviser"
+    # aeluran_respect_from_sin_refused_matriarchs_summons:0 "@aeluran_matriarch_icon! Refused High Matriarchs Summons"
+    aeluran_respect_from_sin_has_unlanded_aeluran_advisor:0 "@aeluran_matriarch_icon! Has Unlanded Aeluran Advisor"
 
-    aeluran_respect_from_status:0 "[Character.Custom('Aeluran_Respect_From_Status_Is_In_Debt')][Character.Custom('Aeluran_Respect_From_Status_Imprisoned_By_Aeluran_Adviser')]"
+    aeluran_respect_from_status:0 "[Character.Custom('Aeluran_Respect_From_Status_Is_In_Debt')][Character.Custom('Aeluran_Respect_From_Status_Imprisoned_By_Aeluran_Advisor')]"
 
     aeluran_respect_from_status_is_in_debt:0 "@gold_icon! In Debt: #N -[EmptyScope.ScriptValue('is_in_debt_penalty')|2]#!\n"
-    aeluran_respect_from_status_imprisoned_by_aeluran_adviser:0 "@prison_icon! Imprisoned By Aeluran Adviser: #N -[EmptyScope.ScriptValue('imprisoned_by_adviser_penalty')|2]#!\n"
+    aeluran_respect_from_status_imprisoned_by_aeluran_advisor:0 "@prison_icon! Imprisoned By Aeluran Advisor: #N -[EmptyScope.ScriptValue('imprisoned_by_advisor_penalty')|2]#!\n"
+
+    swing_aeluran_control_interaction:0 "Battle Of Wills For Aeluran Control"
+
+    BOW_LEARNING:1 "Battle Of Wills - Pure Will ([learning_i] [learning|E])"
+    BOW_LEARNING_DESC:0 "A pure battle of will leveraging the force of one's sheer mental will"
+
+    BOW_DIPLO_AND_INTRIGUE:1 "Battle Of Wills - Beguiling Force ([diplomacy_i] [diplomacy|E] and [intrigue_i] [intrigue|E])"
+    BOW_DIPLO_AND_INTRIGUE_DESC:0 "Unlocked From #BOL Beguiling Nature#! [culture_tradition|E] \n\nChallenger wields their seductive Spark aura for the defender to resist."

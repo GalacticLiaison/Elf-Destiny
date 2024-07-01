@@ -309,3 +309,25 @@ cull the weak: haze comes over elves when the pop gets to big and it increases t
 mysterious young refugee arrives and starts slowing gaining control
 
 rare stone statue boss variant
+
+praetor, justicar
+
+rare bld lin event, claims no father preg wmn with random amount of kids each with one random bld ln (preistess of vana that was blessed)
+
+Grand Skill Checks: your character must embody one of the skills (prowess/diplomacy/etc) and you can complete some ridiculously hard challenge and get some awsome reward.
+ideas:
+- prowess: master sword in the stone, but the zelda master sword in stone in england, the one who pulls it gains an Elven version of the King Of England title.
+
+someone mentioned AGOT has Heterochromia: https://www.reddit.com/r/CK3AGOT/comments/1dju96t/midweek_dev_diary_heterochromia_eyes/
+- could use this to handle elves of two eye bloodlines
+   - sometime all one, sometimes the other, sometimes one of each
+
+
+patch random:
+- maybe if there are enough unhappy aeluran rulers close together (even across lieges), they band together to form a new kingdom appointing a more worthy male 
+- could turn players government into an aeluran servant gov
+- event where aeluran sister arrests liege and keeps him/her in their prison!
+- make fecund an actual aeluran ability, turn on at will!
+- events: SHAME naked walk througn capital, maybe for vassals too
+- having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
+- maybe aeluron sisters have little autonomy in their own matchmaking

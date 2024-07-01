@@ -1,11 +1,15 @@
 ﻿aeluran_regency = {
 	# Handled via content - this is only for power sharing arrangements we want to start automatically.
+	
+	# is_diarch_valid!!!
+	
 	start = { always = yes }
 
 	end = {
 		# liege = {
 		# 	NOT = { government_has_flag = may_appoint_viziers }
 		# }
+		always = no
 	}
 	
 	# Scales of Power
@@ -15,10 +19,10 @@
 
 	# lets go with RESPECT for now, really should make polished game concepts explaining how this all works
 
-	# Design philosophy: Aeluran Advisers/Vassals are better than vanilla counterparts of you can keep control
+	# Design philosophy: Aeluran Advisors/Vassals are better than vanilla counterparts of you can keep control
 	# - low control should have its own appealing bonuses
 
-	# imagine a rare chance of getting an enchantress adviser...
+	# imagine a rare chance of getting an enchantress advisor...
 
 	## parameters ##
 	# - INHERITANCE/FAMILY
@@ -76,9 +80,7 @@
 		
 		# VASSAL CONTRACT
 		parameter = aeluran_vassal_contracts_level_5
-		parameter = aeluran_vassals_magi_contract_level_5
-		# MATCHMAKING
-		parameter = matchmaking_best_matches
+		hidden_parameter = aeluran_vassals_magi_contract_level_5
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = greater_chance_aeluran_councillor_becomes_loyal
 	}
@@ -88,7 +90,7 @@
 		
 		# VASSAL CONTRACT
 		parameter = aeluran_vassal_contracts_level_4
-		parameter = aeluran_vassals_magi_contract_level_4
+		hidden_parameter = aeluran_vassals_magi_contract_level_4
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = small_chance_aeluran_councillor_becomes_loyal
 	}
@@ -96,8 +98,6 @@
 		swing = 40
 		hidden_parameter = aeluran_domination_plus_1
 
-		# MATCHMAKING
-		parameter = matchmaking_better_matches
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = aeluran_councillor_loses_disloyal
 	}
@@ -107,19 +107,21 @@
 
 		# VASSAL CONTRACT
 		parameter = aeluran_vassal_contracts_level_3
-		parameter = aeluran_vassals_magi_contract_level_3
-		parameter = matchmaking_average_matches
+		hidden_parameter = aeluran_vassals_magi_contract_level_3
 	}
 	power_level = {
 		swing = 60
 		hidden_parameter = aeluran_domination_min_1
 
-		# MATCHMAKING
-		parameter = matchmaking_worse_options
+		parameter = regent_mandate_level_2
+
+
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = aeluran_councillor_loses_loyal 
-		parameter = aeluran_councillor_lightly_meddles_with_succesion # hidden?
-		parameter = aeluran_adviser_seeks_county
+		parameter = aeluran_councillor_challenges_level_1
+
+		hidden_parameter = aeluran_councillor_lightly_meddles_with_succesion # hidden?
+		hidden_parameter = aeluran_advisor_seeks_county
 
 	}
 	power_level = {
@@ -128,28 +130,36 @@
 
 		# VASSAL CONTRACT
 		parameter = aeluran_vassal_contracts_level_2
-		parameter = aeluran_vassals_magi_contract_level_2
+		hidden_parameter = aeluran_vassals_magi_contract_level_2
+		# MATCHMAKING
+		parameter = matchmaking_fewer_options_1
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = small_chance_aeluran_councillor_becomes_disloyal
-		parameter = aeluran_councillor_meddles_with_succesion
+		parameter = aeluran_councillor_challenges_level_2
+
+		hidden_parameter = aeluran_councillor_meddles_with_succesion
 		hidden_parameter = aeluran_councillor_replaces_court_positions
-		parameter = aeluran_adviser_seeks_dutchy
+		hidden_parameter = aeluran_advisor_seeks_dutchy
 
 	}
 	power_level = {
 		swing = 90
 		hidden_parameter = aeluran_domination_min_3
 
+		parameter = regent_mandate_level_3
+
 		# VASSAL CONTRACT
 		parameter = aeluran_vassal_contracts_level_1
-		parameter = aeluran_vassals_magi_contract_level_1
+		hidden_parameter = aeluran_vassals_magi_contract_level_1
 		# MATCHMAKING
-		parameter = matchmaking_no_control
+		parameter = matchmaking_fewer_options_2
 		# AELURAN COUNCILLOR BEHAVIOR
 		parameter = greater_chance_aeluran_councillor_becomes_disloyal
-		parameter = aeluran_councillor_heavily_meddles_with_succesion
+		parameter = aeluran_councillor_challenges_level_3
+
+		hidden_parameter = aeluran_councillor_heavily_meddles_with_succesion
 		hidden_parameter = aeluran_councillor_replaces_councillors
-		parameter = aeluran_adviser_unshackled_ambition
+		hidden_parameter = aeluran_advisor_unshackled_ambition
 	}
 
 
