@@ -21,6 +21,10 @@ Acended Tribal should now have access to feudal tax and levy contracts
 
 Took yet another stab at fixing the elf blood child bug
 
+Purer/Purest Blooded inheritance got a little easier thanks to @Slertd
+Daughters sent to be trained by the aelurans return a bit earlier to avoid some edge case bugs thanks to @Slertd
+If you havent moved the portal, now offered to move capital there when the portal is restored thanks to @Robmart | Northpointed
+
 Aeluran Matching Making 
  - offering already married women
  - "Wants my daughter to marry herself" https://discord.com/channels/1179053540161880074/1225101355606343735
