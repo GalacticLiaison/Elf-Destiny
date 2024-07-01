@@ -356,11 +356,17 @@ pure_blooded_inheritance_effect = {
 		limit = {
 			AND = {
 				scope:real_father = {
-					has_trait = purer_blooded
+					OR = {
+						has_trait = purer_blooded
+						has_trait = purest_blooded
+					}
 					is_twin_of = scope:mother
 				}
 				scope:mother = {
-					has_trait = purer_blooded
+					OR = {
+						has_trait = purer_blooded
+						has_trait = purest_blooded
+					}
 					is_twin_of = scope:real_father
 				}
 			}
@@ -376,6 +382,46 @@ pure_blooded_inheritance_effect = {
 			}
 		}
 	}
+
+	else_if = { # both parents purest_blooded & related
+		limit = {
+			AND = {
+				scope:real_father = {
+					has_trait = purest_blooded
+					is_close_or_extended_family_of = scope:mother
+				}
+				scope:mother = {
+					has_trait = purest_blooded
+					is_close_or_extended_family_of = scope:mother
+				}
+			}
+		}
+		remove_pure_blooded = yes
+		random_list = {
+			90 = {
+				add_trait = purer_blooded
+			}
+			10 = {
+				add_trait = purest_blooded
+			}
+		}
+	}
+
+	else_if = { # both parents purest_blooded, not related
+		limit = {
+			AND = {
+				scope:real_father = {
+					has_trait = purest_blooded
+				}
+				scope:mother = {
+					has_trait = purest_blooded
+				}
+			}
+		}
+		remove_pure_blooded = yes
+		add_trait = purer_blooded
+	}
+
 
 	else_if = { # greater than pure_blooded
 		limit = {
@@ -400,4 +446,54 @@ pure_blooded_inheritance_effect = {
 			}
 		}
 	}
+
+
+	else_if = { # At least one parent purer+, not related
+		limit = {
+			blood_score > 3
+		}
+		remove_pure_blooded = yes
+		random_list = {
+			70 = {
+				add_trait = pure_blooded
+			}
+			30 = {
+				add_trait = purer_blooded
+			}
+		}
+	}
+
+
+else_if = { # One last edge case to make purer/purest at least equivalent to pure
+		limit = {
+			AND = {
+				NOT = {
+					has_trait = pure_blooded
+				}
+				OR = {
+					scope:mother = {
+						OR = {
+							has_trait = purest_blooded
+							has_trait = purer_blooded
+						}
+					}
+					scope:real_father = {
+						OR = {
+							has_trait = purest_blooded
+							has_trait = purer_blooded
+						}
+					}
+				}
+			}
+		}
+		random_list = {
+			45 = {
+				add_trait = pure_blooded
+			}
+			55 = {
+				Do Nothing
+			}
+		}
+	}
+
 }
