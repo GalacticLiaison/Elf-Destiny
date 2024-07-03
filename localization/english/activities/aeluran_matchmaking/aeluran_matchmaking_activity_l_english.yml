@@ -10,6 +10,13 @@
   activity_invite_rule_liege_and_liege_family:0 "Liege And Their Family"
   activity_invite_rule_liege_and_liege_family_no_default:0 "$activity_invite_rule_liege_and_liege_family$"
 
+  activity_window_character_aeluran_adviser:0 "Aeluran Matchmaker"
+  activity_window_character_match_left:0 "Bride"
+  activity_window_character_match_right:0 "Groom"
+  activity_window_character_match_recipient_liege:0 "[host.liege.GetName]"
+
+  activity_aeluran_matchmaking_conclusion_desc:0 "[GetActivityType('activity_wedding').GetTextIcon] A Match Has Been Made!"
+
   ### EVENTS
   aeluran_matchmaking.001.title:0 "A Match To Be Made"
   aeluran_matchmaking.001.desc.lord:0 "You were tired of the Aeluran's insistent pestering to submit to their matchmaking, but perhaps you were to hasty in demanding they cease asking all together.\n\nYou seek out your [aeluran_advisor|E] [aeluran_adviser.GetName] to see if the Aeluran Order will once again help your family find suitable Elves to tie to your dynasty.\n\n\"You were wise to come to me m'[ROOT.Char.GetLadyLord]\" she says, \"we will set aside your previous stubbornness. My order will resume our matchmaking efforts. Give us some time and I will let you know when my Sisters have finished curating the spousal candidates\""
@@ -41,8 +48,8 @@
   aeluran_matchmaking.1011.learning:0 "Resist through pure will."
   aeluran_matchmaking.1011.intrigue_diplo:0 "Resist with your enchanting charm."
 
-  denied_aeluran_matchmaking_candidates:0 "Refused Aeluran Matchmaking"
-  refused_aeluran_matchmaking:0 "Rejected Aeluran Matchmaking Candidates"
+  denied_aeluran_matchmaking_candidates:0 "Rejected Aeluran Matchmaking Candidates"
+  refused_aeluran_matchmaking:0 "Refused Aeluran Matchmaking"
 
   lord_defeats_advisor_matchmaking_battle_of_wills:0 "[host.GetName] accepts your decision to refuse Matchmaking"
   lord_loses_to_advisor_matchmaking_battle_of_wills:0 "[host.GetName] overpowers your will and forces Matchmaking upon you"
@@ -64,7 +71,13 @@
   aeluran_matchmaking.0021.desc:0 "\n#zero_value \"M'[ROOT.Char.GetLadyLord|U], thank you for coming. The Order and I have gathered together a collection of candidates we think#!"
   aeluran_matchmaking.0021.desc.lord:0 "#zero_value suitable for one of your station. Come, Let us review your options.\"#!" 
   aeluran_matchmaking.0021.desc.heir:0 "#zero_value suitable for your heir. Come, let us review their options.\"#!"
-  aeluran_matchmaking.0021.desc.stats:0 "\n\n#tooltip_heading Quality Of Suitors -#! #strong_glow #color_green Top Quality ([SCOPE.ScriptValue('matchmaking_candidate_quality')|0+])#!#!  \n$EFFECT_LIST_BULLET$#positive_value +3#! | #tooltip_subheading Aeluran Respect -#! [SCOPE.Custom('AeluranMatchmakingRespectScore')] #emphasis ([GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|2+=]/month)#![SCOPE.Custom('AeluranMatchmakingGrantedHook')][SCOPE.Custom('AeluranMatchmakingGiftedCrystal')]\n\n#tooltip_heading Allowed Choices -#! [SCOPE.Custom('AeluranMatchmakingQuantityDescriptor')|0+]\n$EFFECT_LIST_BULLET$#positive_value +3#! | #tooltip_subheading Domination Level -#! [SCOPE.Custom('AeluranMatchmakingDominationScore')]"
+  aeluran_matchmaking.0021.desc.stats:0 "\n\n#tooltip_heading Quality Of Suitors -#! [SCOPE.Custom('AeluranMatchmakingQualityDesc')]\n$EFFECT_LIST_BULLET$#positive_value +[SCOPE.ScriptValue('matchmaking_respect_bonus_value')]#! | #tooltip_subheading Aeluran Respect -#! [SCOPE.Custom('AeluranMatchmakingRespectScore')] #emphasis ([GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|2+=]/month)#![SCOPE.Custom('AeluranMatchmakingGrantedHook')][SCOPE.Custom('AeluranMatchmakingGiftedCrystal')]\n\n#tooltip_heading Allowed Choices -#! [SCOPE.Custom('AeluranMatchmakingQuantityDescriptor')|0+]\n$EFFECT_LIST_BULLET$#positive_value +[SCOPE.ScriptValue('matchmaking_candidate_quantity')]#! | #tooltip_subheading Aeluran Control Level -#! [SCOPE.Custom('AeluranMatchmakingDominationScore')]"
+
+  matchmaking_candidate_quality_desc_1:0 "#strong_glow #attacker_color No Quality Bonus ([SCOPE.ScriptValue('matchmaking_candidate_quality')])#!#!"
+  matchmaking_candidate_quality_desc_2:0 "#strong_glow #color_red Minor Quality Bonus ([SCOPE.ScriptValue('matchmaking_candidate_quality')])#!#!"
+  matchmaking_candidate_quality_desc_3:0 "#strong_glow #color_yellow Decent Quality Bonus ([SCOPE.ScriptValue('matchmaking_candidate_quality')])#!#!"
+  matchmaking_candidate_quality_desc_4:0 "#strong_glow #color_green Good Quality Bonus ([SCOPE.ScriptValue('matchmaking_candidate_quality')])#!#!"
+  matchmaking_candidate_quality_desc_5:0 "#strong_glow #color_green Top Quality Bonus ([SCOPE.ScriptValue('matchmaking_candidate_quality')])#!#!"
 
   gift_spark_crystal_to_the_aeluran_order:0 "You gift your [spark_crystal.GetName] to the Aeluran order"
 
@@ -195,7 +208,7 @@
 
   matchmaking_family_candidate_desc:0 "Let us not forget your own house, a closer match would no doubt maintain or even enhance the purity of your bloodline."
 
-  matchmaking_bloodline_trait_candidate_desc:0 "You are quite fortunate indeed M'[ROOT.Char.GetLadyLord|U]. [candidate.GetName] is descendant of one of the great Elven Dynasties and their House's Bloodline resonates strongly in [candidate.GetHerHim]. This union could add great power to your line!"
+  matchmaking_bloodline_trait_candidate_desc:0 "You are quite fortunate indeed M'[ROOT.Char.GetLadyLord|U]. [candidate.GetName] is descendant of one of the great Elven Dynasties and their House's Bloodline resonates strongly within [candidate.GetHerHim]. This union could add great power to your line!"
 
   matchmaking_alliance_candidate_desc:0 "Through vigorous negotiations we have found another powerful Elven house open to alliance. Your union would be greatly beneficial to both of your peoples"
 

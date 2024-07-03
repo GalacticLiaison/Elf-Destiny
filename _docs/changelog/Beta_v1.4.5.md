@@ -3,6 +3,8 @@
 CONSIDER RECORDING A VIDEO DEV DIARY FOR THIS PATCH DEMONSTARTING NEW FETAURES!!!!
 - make youtube number go up
 
+maybe upload both a complete patch review video and sub-segments to youtube separately so you can share segments on redditt
+
 ### IN DEV DIARY explain that although your advisor will do these things like matchmaking, they are currently AI only. I will one day make Aeluran Advisor a 100% playable role
 
 ## Should We create Aleuran Inquisitor Discord role now?

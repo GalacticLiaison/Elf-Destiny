@@ -249,1303 +249,701 @@
 	map_entity = "building_western_feast_01_entity"
 
 	# Travel
-	background = { # Bridge
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				is_riverside_province = yes
-				geographical_region = world_europe
-				OR = {
-					terrain = farmlands
-					terrain = plains
-					terrain = mountains
-					terrain = hills
-				}
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_bridge.dds"
-		environment = "environment_travel_bridge"
-		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
-	}
+	# background = { # Bridge
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			is_riverside_province = yes
+	# 			geographical_region = world_europe
+	# 			OR = {
+	# 				terrain = farmlands
+	# 				terrain = plains
+	# 				terrain = mountains
+	# 				terrain = hills
+	# 			}
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_bridge.dds"
+	# 	environment = "environment_travel_bridge"
+	# 	ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	# }
 	
-	background = { # Farmland, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				terrain = farmlands
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_farm.dds"
-		environment = "environment_travel_farmlands"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
-	background = { # Farmland, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				terrain = farmlands
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/farms.dds"
-		environment = "environment_event_farms"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
+	# background = { # Farmland, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			terrain = farmlands
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_farm.dds"
+	# 	environment = "environment_travel_farmlands"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
+	# background = { # Farmland, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			terrain = farmlands
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/farms.dds"
+	# 	environment = "environment_event_farms"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
 
-	background = { #Desert, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_desert_trigger = yes
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_desert.dds"
-		environment = "environment_travel_desert"
-		ambience = "event:/SFX/Events/Backgrounds/desert_day"
-	}
-	background = { #Desert, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_desert_trigger = yes
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/desert.dds"
-		environment = "environment_event_bp1_desert"
-		ambience = "event:/SFX/Events/Backgrounds/desert_day"
-	}
+	# background = { #Desert, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_desert_trigger = yes
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_desert.dds"
+	# 	environment = "environment_travel_desert"
+	# 	ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	# }
+	# background = { #Desert, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_desert_trigger = yes
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/desert.dds"
+	# 	environment = "environment_event_bp1_desert"
+	# 	ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	# }
 
-	background = { #forest snowy
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location ?= { hunt_snowy_forest_trigger = yes }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_hunt_snowy_forest.dds"
-		environment = "environment_hunt_snowy_forest"
-		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
-	}
+	# background = { #forest snowy
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location ?= { hunt_snowy_forest_trigger = yes }
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_hunt_snowy_forest.dds"
+	# 	environment = "environment_hunt_snowy_forest"
+	# 	ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	# }
 
-	background = { #forest_pine
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_forest_pine_trigger = yes
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
-		environment = "environment_event_forest_pine"
-		ambience = "event:/SFX/Events/Backgrounds/coniferous_forest_day"
-	}
+	# background = { #forest_pine
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_forest_pine_trigger = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
+	# 	environment = "environment_event_forest_pine"
+	# 	ambience = "event:/SFX/Events/Backgrounds/coniferous_forest_day"
+	# }
 
-	background = { #forest
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_forest_trigger = yes
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/forest.dds"
-		environment = "environment_event_forest"
-		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
-	}
+	# background = { #forest
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_forest_trigger = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/forest.dds"
+	# 	environment = "environment_event_forest"
+	# 	ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	# }
 
-	background = { #mountains, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_mountains_trigger = yes
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_mountains.dds"
-		environment = "environment_travel_mountain_settlement"
-		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
-	}
-	background = { #mountains, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_mountains_trigger = yes
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
-		environment = "environment_event_mountains"
-		ambience = "event:/SFX/Events/Backgrounds/mountains_day"
-	}
+	# background = { #mountains, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_mountains_trigger = yes
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_mountains.dds"
+	# 	environment = "environment_travel_mountain_settlement"
+	# 	ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	# }
+	# background = { #mountains, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_mountains_trigger = yes
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
+	# 	environment = "environment_event_mountains"
+	# 	ambience = "event:/SFX/Events/Backgrounds/mountains_day"
+	# }
 
-	background = { #steppe, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_steppe_trigger = yes
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_steppe.dds"
-		environment = "environment_travel_steppe_settlement"
-		ambience = "event:/SFX/Events/Backgrounds/steppe_day"
-	}
-	background = { #steppe, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_steppe_trigger = yes
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
-		environment = "environment_event_steppe"
-		ambience = "event:/SFX/Events/Backgrounds/steppe_day"
-	}
+	# background = { #steppe, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_steppe_trigger = yes
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_steppe.dds"
+	# 	environment = "environment_travel_steppe_settlement"
+	# 	ambience = "event:/SFX/Events/Backgrounds/steppe_day"
+	# }
+	# background = { #steppe, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_steppe_trigger = yes
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
+	# 	environment = "environment_event_steppe"
+	# 	ambience = "event:/SFX/Events/Backgrounds/steppe_day"
+	# }
 
-	background = { #drylands (formerly desert)
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_drylands_trigger = yes
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/drylands.dds"
-		environment = "environment_event_desert"
-		ambience = "event:/SFX/Events/Backgrounds/desert_day"
-	}
+	# background = { #drylands (formerly desert)
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_drylands_trigger = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/drylands.dds"
+	# 	environment = "environment_event_desert"
+	# 	ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	# }
 
-	background = { #wetlands
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_wetlands_trigger = yes
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/bp1_wetlands.dds"
-		environment = "environment_event_bp1_wetlands" 
-		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
-	}
+	# background = { #wetlands
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_wetlands_trigger = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_wetlands.dds"
+	# 	environment = "environment_event_bp1_wetlands" 
+	# 	ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	# }
 
-	background = { #jungle
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_wilderness_jungle_trigger = yes
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/bp1_jungle.dds"
-		environment = "environment_event_bp1_jungle"
-		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
-	}
+	# background = { #jungle
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_wilderness_jungle_trigger = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_jungle.dds"
+	# 	environment = "environment_event_bp1_jungle"
+	# 	ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	# }
 
-	background = { #plains, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_plains_trigger = yes
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
-		environment = "environment_travel_hills_settlement"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
-	background = { #plains, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_plains_trigger = yes
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
-		environment = "environment_event_bp1_plains"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
+	# background = { #plains, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_plains_trigger = yes
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
+	# 	environment = "environment_travel_hills_settlement"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
+	# background = { #plains, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_plains_trigger = yes
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
+	# 	environment = "environment_event_bp1_plains"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
 
-	background = { #hills, settled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_hills_trigger = yes
-				exists = province_owner
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
-		environment = "environment_travel_hills_settlement"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
-	background = { #hills, unsettled
-		trigger = {
-			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				graphical_hills_trigger = yes
-				NOT = { exists = province_owner }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/bp1_hills.dds"
-		environment = "environment_event_bp1_hills"
-		ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
-	}
+	# background = { #hills, settled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_hills_trigger = yes
+	# 			exists = province_owner
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_travel_hills.dds"
+	# 	environment = "environment_travel_hills_settlement"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
+	# background = { #hills, unsettled
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			graphical_hills_trigger = yes
+	# 			NOT = { exists = province_owner }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_hills.dds"
+	# 	environment = "environment_event_bp1_hills"
+	# 	ambience = "event:/SFX/Events/Backgrounds/fields_farms_day"
+	# }
 
-	background = { #sea
+	# background = { #sea
+	# 	trigger = {
+	# 		OR = {
+	# 			NOT = {
+	# 				scope:host.location = scope:activity.activity_location
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				exists = scope:activity.special_guest:honorary_guest_regular.location
+	# 				NOT = {
+	# 					scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
+	# 				}
+	# 			}
+	# 		}
+	# 		scope:host.location = {
+	# 			is_sea_province = yes
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
+	# 	environment = "environment_event_fp1_ocean"
+	# 	ambience = "event:/DLC/FP1/SFX/Events/event_ocean_longship"
+	# }
+	# # End Travel
+
+	# background = {	# FP1
+	# 	trigger = {
+	# 		activity_location.culture = { has_building_gfx = norse_building_gfx }
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/fp1_viking_feast.dds"
+	# 	environment = "environment_event_fp1_viking_feast"
+	# 	ambience = "event:/DLC/FP1/SFX/Events/event_viking_feast"
+	# }
+	# background = {
+	# 	trigger = {
+	# 		activity_location.culture = { has_building_gfx = indian_building_gfx }
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_feast_indian.dds"
+	# 	environment = "environment_indian_feast"
+	# 	ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	# }
+	# background = {
+	# 	trigger = {
+	# 		OR = {
+	# 			activity_location.culture = { has_building_gfx = arabic_group_building_gfx }
+	# 			activity_location.culture = { has_building_gfx = berber_group_building_gfx }
+	# 			activity_location.culture = { has_building_gfx = iberian_building_gfx }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_feast_mena.dds"
+	# 	environment = "environment_mena_feast"
+	# 	ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	# }
+	# background = {
+	# 	trigger = {
+	# 		activity_location.culture = { has_building_gfx = steppe_building_gfx }
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_feast_steppe.dds"
+	# 	environment = "environment_steppe_feast"
+	# 	ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	# }
+	# background = {
+	# 	trigger = {
+	# 		activity_location.culture = { has_building_gfx = african_building_gfx }
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/ep2_feast_sub_saharan.dds"
+	# 	environment = "environment_sub-saharan_feast"
+	# 	ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	# }
+	background = {
 		trigger = {
 			OR = {
-				NOT = {
-					scope:host.location = scope:activity.activity_location
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-					}
-				}
-				AND = {
-					exists = scope:activity.special_guest:honorary_guest_regular.location
-					NOT = {
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-				}
-			}
-			scope:host.location = {
-				is_sea_province = yes
+				location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				location.culture ?= { has_building_gfx = iranian_building_gfx }
 			}
 		}
-		texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
-		environment = "environment_event_fp1_ocean"
-		ambience = "event:/DLC/FP1/SFX/Events/event_ocean_longship"
-	}
-	# End Travel
-
-	background = {	# FP1
-		trigger = {
-			activity_location.culture = { has_building_gfx = norse_building_gfx }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/fp1_viking_feast.dds"
-		environment = "environment_event_fp1_viking_feast"
-		ambience = "event:/DLC/FP1/SFX/Events/event_viking_feast"
+		texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
+		environment = "environment_event_bp1_relaxing_room_mena"
+		ambience = "event:/SFX/Events/Backgrounds/office_workplace"
+		music = "grandfeast_cue"
 	}
 	background = {
 		trigger = {
-			activity_location.culture = { has_building_gfx = indian_building_gfx }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_feast_indian.dds"
-		environment = "environment_indian_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
-	}
-	background = {
-		trigger = {
-			OR = {
-				activity_location.culture = { has_building_gfx = arabic_group_building_gfx }
-				activity_location.culture = { has_building_gfx = berber_group_building_gfx }
-				activity_location.culture = { has_building_gfx = iberian_building_gfx }
+			NOR = {
+				location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				location.culture ?= { has_building_gfx = iranian_building_gfx }
 			}
 		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_feast_mena.dds"
-		environment = "environment_mena_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
-	}
-	background = {
-		trigger = {
-			activity_location.culture = { has_building_gfx = steppe_building_gfx }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_feast_steppe.dds"
-		environment = "environment_steppe_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
-	}
-	background = {
-		trigger = {
-			activity_location.culture = { has_building_gfx = african_building_gfx }
-		}
-		texture = "gfx/interface/illustrations/event_scenes/ep2_feast_sub_saharan.dds"
-		environment = "environment_sub-saharan_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
-	}
-	background = {
-		trigger = {
-			OR = {
-				# scope:activity = {
-				# 	has_activity_option = {
-				# 		category = special_type
-				# 		option = feast_type_generic
-				# 	}
-				# }
-				scope:activity.special_guest:honorary_guest ?= { is_alive = yes }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/feast.dds"
-		environment = "environment_event_feast"
-		ambience = "event:/SFX/Events/Backgrounds/feasthall"
+		texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_western.dds"
+		environment = "environment_event_bp1_relaxing_room_western" 
+		ambience = "event:/SFX/Events/Backgrounds/office_workplace"
 		music = "grandfeast_cue"
 	}
 
 	window_characters = {
-		
-		guest = {
-			camera = camera_body_right
 
-			effect = {
-				if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						exists = scope:player
-						scope:player = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-						}
-					}
-					scope:player ?= { add_to_list = characters }
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						exists = scope:host.intent_target
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							this = scope:host.intent_target
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							this = scope:host.intent_target
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								has_relation_lover = scope:host
-								has_relation_friend = scope:host
-							}
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								has_relation_lover = scope:host
-								has_relation_friend = scope:host
-							}
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_consort_of = scope:host
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_consort_of = scope:host
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-						}
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
-				triggered_animation = {
-					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							has_activity_intent = woo_attendee_intent
-						}
-						scope:character = scope:host.intent_target
-					}
-					animation = { love flirtation }
-				}
-				triggered_animation = {
-					trigger = {
-						scope:character = { has_trait = shy }
-					}
-					animation = { sadness worry }
-				}
-				#Fallback
-				animation = toast
-			}
-		}
-		
-		host = {
+		aeluran_adviser = { # Aeluran Adviser
 			camera = camera_body
 			
 			effect = {
-				if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-					}
-					scope:host = {
-						add_to_list = characters
-					}
+				scope:host = {
+					add_to_list = characters
 				}
 			}
 
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						OR = {
-							AND = {
-								exists = scope:activity.special_guest:honorary_guest.location
-								NOT = {
-									scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-								}
-							}
-							AND = {
-								exists = scope:activity.special_guest:honorary_guest_regular.location
-								NOT = {
-									scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-								}
-							}
-						}
-					}
-					animation = { boredom }
-				}
-				triggered_animation = {
-					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							is_male = yes
-							has_activity_intent = befriend_attendee_intent
-						}
-						scope:host.intent_target.location = scope:activity.activity_location
-					}
-					animation = { personality_forgiving personality_compassionate }
-				}
-				triggered_animation = {
-					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							is_male = yes
-							has_activity_intent = woo_attendee_intent
-						}
-						scope:host.intent_target.location = scope:activity.activity_location
-					}
-					animation = { wedding_groom_right }
-				}
-				triggered_animation = {
-					trigger = {
-						exists = scope:host.intent_target
-						scope:host = {
-							is_female = yes
-							has_activity_intent = woo_attendee_intent
-						}
-						scope:host.intent_target.location = scope:activity.activity_location
-					}
-					animation = { reception_bride_right }
-				}
-				triggered_animation = {
-					trigger = {
-						always = yes
+						exists = scope:activity.var:selected_match_choice
 					}
 					animation = { toast_goblet }
 				}
-			}
-		}
-		
-		travel_host = {
-			camera = camera_body
-			
-			effect = {
-				if = {
-					limit = {
-						NOT = {
-							scope:host.location = scope:activity.activity_location
-						}
-					}
-					scope:host = {
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
-				triggered_animation = {
-					trigger = {
-						scope:character.location = { is_sea_province = yes }
-					}
-					animation = { idle }
-				}
-				triggered_animation = {
-					trigger = { scope:character = { has_trait = impatient } }
-					animation = { jockey_gallop }
-				}
-				animation = jockey_walk
-			}
-		}
-
-		honorary_guest_regular_traveling = {
-			camera = camera_body
-			
-			effect = {
-				if = {
-					limit = {
-						scope:activity.special_guest:honorary_guest_regular.involved_activity ?= scope:activity
-						NOT = {
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-					}
-					special_guest:honorary_guest_regular ?= {
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
-				triggered_animation = {
-					trigger = {
-						scope:character.location = { is_sea_province = yes }
-					}
-					animation = { idle }
-				}
-				triggered_animation = {
-					trigger = { scope:character = { has_trait = impatient } }
-					animation = { jockey_gallop }
-				}
-				animation = jockey_walk
-			}
-		}
-
-		honorary_guest_regular = {
-			camera = camera_body
-			
-			effect = {
-				if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-					}
-					special_guest:honorary_guest_regular ?= {
-						add_to_list = characters
-					}
-				}
-			}
-
-			scripted_animation = {
 				triggered_animation = {
 					trigger = {
 						always = yes
 					}
-					animation = { ecstasy wedding_priest chaplain personality_honorable personality_bold }
+					animation = { flirtation }
 				}
 			}
 		}
-		
-		guest = {
+
+		match_left = {
 			camera = camera_body
-			
+			# camera = camera_event_left_wedding
+
 			effect = {
 				if = {
 					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 2
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
+						exists = scope:activity.special_guest:match_recipient
+						scope:activity.special_guest:match_recipient = {
+							is_female = yes
 						}
 					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
-						}
+					scope:activity.special_guest:match_recipient = {
 						add_to_list = characters
 					}
 				}
 				else_if = {
 					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 2
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
+						exists = scope:activity.var:selected_match_choice
 					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 2
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 2
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-						}
+					scope:activity.var:selected_match_choice = {
 						add_to_list = characters
 					}
 				}
@@ -1554,187 +952,41 @@
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						scope:character = { has_trait = shy }
+						exists = scope:activity.var:selected_match_choice
 					}
-					animation = { stress }
+					animation = { love }
 				}
-
-				#Fallback
-				animation = toast 
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { worry }
+				}
 			}
 		}
-		
-		guest = {
-			camera = camera_body_left
-			
+
+		match_right = {
+			# camera = camera_body
+			camera = camera_body_flip
+			# camera = camera_event_left
+
 			effect = {
 				if = {
 					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 3
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
+						exists = scope:activity.special_guest:match_recipient
+						scope:activity.special_guest:match_recipient = {
+							is_male = yes
 						}
 					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							is_councillor_of = scope:host
-						}
+					scope:activity.special_guest:match_recipient = {
 						add_to_list = characters
 					}
 				}
 				else_if = {
 					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 3
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
+						exists = scope:activity.var:selected_match_choice
 					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_duchy
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 3
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							highest_held_title_tier >= tier_county
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-						any_attending_character = {
-							count >= 3
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-							OR = {
-								is_parent_of = scope:host
-								is_close_or_extended_family_of = scope:host
-							}
-						}
-						add_to_list = characters
-					}
-				}
-				else_if = {
-					limit = {
-						scope:host.location = scope:activity.activity_location
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest }
-							scope:activity.special_guest:honorary_guest.location ?= scope:activity.activity_location
-						}
-						OR = {
-							NOT = { exists = scope:activity.special_guest:honorary_guest_regular }
-							scope:activity.special_guest:honorary_guest_regular.location ?= scope:activity.activity_location
-						}
-					}
-					every_attending_character = {
-						limit = {
-							location = scope:activity.activity_location
-							NOR = {
-								this = scope:host
-								scope:activity.special_guest:honorary_guest ?= this
-								scope:activity.special_guest:honorary_guest_regular ?= this
-							}
-						}
+					scope:activity.var:selected_match_choice = {
 						add_to_list = characters
 					}
 				}
@@ -1743,19 +995,51 @@
 			scripted_animation = {
 				triggered_animation = {
 					trigger = {
-						scope:character = { has_trait = shy }
+						exists = scope:activity.var:selected_match_choice
 					}
-					animation = { paranoia }
+					animation = { love }
 				}
-				# triggered_animation = {
-				# 	trigger = {
-				# 	}
-				# 	animation = { drink eavesdrop wedding_drunk }
-				# }
-				#Fallback
-				animation = toast
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { worry }
+				}
 			}
 		}
+
+		match_recipient_liege = {
+			camera = camera_body
+
+			effect = {
+				if = {
+					limit = {
+						NOT = {
+							scope:host.liege = scope:activity.special_guest:match_recipient
+						}
+					}
+				}
+				scope:host.liege = {
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					animation = { toast_goblet }
+				}
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { personality_content }
+				}
+			}
+		}
+				
 	}
 
 	###################
