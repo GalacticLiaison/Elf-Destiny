@@ -199,3 +199,156 @@ aeluran_repeating.004 = { # Player Elected To Matron
 	}
 
 }
+
+
+aeluran_repeating.005 = { # Grant Title To Aelurans
+	type = character_event
+	title = aeluran_repeating.005.title
+	desc = aeluran_repeating.005.desc
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:scoped_ruler
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:aeluran_advisor
+		animation = personality_content
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = scoped_ruler
+
+		if = {
+			limit = {
+				exists = global_var:high_matriarch
+			}
+			global_var:high_matriarch = {
+				save_scope_as = matriarch
+			}
+		}
+		if = {
+			limit = {
+				exists = cp:councillor_aeluran_advisor
+			}
+			cp:councillor_aeluran_advisor = {
+				save_scope_as = aeluran_advisor
+			}
+			
+		}
+
+		# Select County
+		scope:barony ?= {
+			barony.county = {
+				save_scope_as = title_to_grant
+			}
+		}
+
+		# Select Aeluran
+		if = {
+			limit = {
+				any_courtier = {
+					is_aeluran_sister_or_higher = yes
+					is_landed = no
+				}
+			}
+			random_courtier = {
+				limit = {
+					is_aeluran_sister_or_higher = yes
+					is_landed = no
+				}
+	
+				save_scope_as = new_aeluran
+			}
+		}
+		else = {
+			create_character = {
+				template = aeluran_sister_advisor
+				dynasty = none
+				location = title:b_cykma.title_province
+				faith = root.faith
+				culture = root.culture
+				save_scope_as = new_aeluran
+			}
+		}
+	}
+
+	option = { # Confirm
+		name = aeluran_repeating.005.a
+
+		trigger = {
+
+		}
+
+		custom_tooltip = {
+			text = aeluran_repeating.005.receive_new_vassal
+
+			# Grant Title
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+			scope:title_to_grant = {
+				change_title_holder = {
+					holder = scope:new_aeluran
+					change = scope:title_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:title_change
+	
+			# Change Government
+			scope:new_aeluran = {
+				change_government = aeluran_weavers_government
+			}
+		}
+
+
+		# Give Piety
+		add_piety = 300
+
+		# Give Opinion With Advisor and Matriarch
+		scope:aeluran_advisor = {
+			add_opinion = {
+				target = root
+				modifier = donated_title_to_order
+			}
+		}
+
+		# Grant Modifier giving Elven Faith Opinion and Aeluran order Vassal opinion 
+		add_character_modifier = {
+			modifier = dutiful_to_the_aelurans_modifier
+			years = 5
+		}
+
+		change_diarchy_swing = -25
+
+		trigger_event = aeluran_repeating.0051
+	}
+
+	option = { # nvm
+		name = aeluran_repeating.005.b
+	}
+}
+
+aeluran_repeating.0051 = {
+	type = letter_event
+	opening = aeluran_repeating.0051.title
+	desc = aeluran_repeating.0051.desc
+	sender = scope:matriarch
+
+	option = {
+		name = aeluran_repeating.0051.a
+
+		scope:matriarch = {
+			add_opinion = {
+				target = root
+				modifier = donated_title_to_order
+			}	
+		} 
+	}
+}

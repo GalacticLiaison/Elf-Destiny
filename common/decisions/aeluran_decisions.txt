@@ -1,0 +1,80 @@
+﻿grant_aelurans_title = {
+	picture = "gfx/interface/illustrations/decisions/decision_aeluran_default.dds"
+
+	desc = grant_aelurans_title_decision_desc
+	selection_tooltip = grant_aelurans_title_decision_tooltip
+	major = no
+	ai_goal = no
+
+	sort_order = 500
+
+	is_shown = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		exists = cp:councillor_aeluran_advisor
+
+		# has_global_variable = 02_spoke_with_the_aeluran_order
+
+		# NOR = {  #Can only do it once and not after portal restored.
+		# 	is_target_in_global_variable_list = {
+		# 		name = unavailable_unique_decisions
+		# 		target = flag:flag_grand_portal_transported
+		# 	}
+		# 	is_target_in_global_variable_list = {
+		# 		name = unavailable_unique_decisions
+		# 		target = flag:flag_grand_portal_restored
+		# 	}
+		# }
+	}
+
+	widget = {
+		controller = create_holy_order
+		gui = "decision_view_widget_move_portal"
+		barony_valid = {
+			holder = scope:ruler
+			NOT = {
+				title_province = scope:ruler.capital_province
+			}
+		}
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		# custom_description = {
+		# 	text = restore_the_grand_portal_decision_has_sigil_of_the_realm_lord
+		# 	any_character_artifact = { has_variable = is_sigil_of_the_realm_lord }
+		# }
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		# TODO: implement side quests to reduce the price
+		# gold = 1000
+	}
+
+	effect = {
+		# show_as_tooltip = {
+		# 	desc = create_new_aeluran_order_vassal_effect
+		# }
+		custom_tooltip = create_new_aeluran_order_vassal_effect
+		trigger_event = aeluran_repeating.005
+
+	}
+	
+	ai_potential = {
+		always = no
+	}
+
+	# ai_will_do = {
+	# 	base = 15
+	# 	ai_value_modifier = {
+	# 		ai_boldness = 1.0
+	# 	}
+	# }
+}

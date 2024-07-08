@@ -43,6 +43,8 @@ Aeluran Matching Making
 - maybe add a few more story characters
 - put back legitmacy ui panel experiment
 
+- regency mandates should not work on aeluran vassals
+
 ## Tasks
 - flush out aeluran government
 - matchmaking: "request for child" character interaction

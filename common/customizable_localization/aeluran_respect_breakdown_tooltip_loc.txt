@@ -732,6 +732,17 @@ Aeluran_Respect_From_High_Matriarch_Opinion = {
 	}
 }
 
+Aeluran_Respect_From_Dutiful_To_The_Aelurans = {
+	type = character
+
+	text = {
+		trigger = {
+			has_character_modifier = dutiful_to_the_aelurans_modifier
+		}
+		localization_key = aeluran_respect_from_dutiful_to_the_aelurans
+	}
+}
+
 
 # Hooks
 Aeluran_Respect_From_Character_Weak_Hook_On_Aeluran_Advisor = {
@@ -929,14 +940,20 @@ Aeluran_Respect_From_Status_Is_In_Debt = {
 	}
 }
 
-Aeluran_Respect_From_Status_Imprisoned_By_Aeluran_Advisor = {
+Aeluran_Respect_From_Aeluran_Vassal_Percentage = {
 	type = character
 
 	text = {
 		trigger = {
-			exists = cp:councillor_aeluran_advisor 
-			is_imprisoned_by = cp:councillor_aeluran_advisor 
+			# percentage_of_aeluran_vassals >= 75
 		}
-		localization_key = aeluran_respect_from_status_imprisoned_by_aeluran_advisor
+		localization_key = aeluran_respect_from_status_very_high_aeluran_vassal_percentage
+	}
+
+	text = {
+		trigger = {
+			percentage_of_aeluran_vassals >= 50
+		}
+		localization_key = aeluran_respect_from_status_high_aeluran_vassal_percentage
 	}
 }

@@ -245,11 +245,11 @@ types MagiReinforcementTypes
 						text_single = {
 							name = "value_with_tooltip"
 							# visible = "[And(ValueBreakdown.HasTooltip, ValueBreakdown.ShouldShowValue)]"
-							text = "[Scope.Char.MakeScope.ScriptValue('aeluran_vassal_contribution')|0]"
+							text = "[Scope.Char.MakeScope.ScriptValue('aeluran_vassal_contribution')|0V]"
 							# text = "[Scope.Char.MakeScope.Var('realm_size').GetValue|1]"
 							# text = "Value"
 							align = right
-							default_format = "#high"
+							default_format = "#game_link"
 
 							using = tooltip_se
 
@@ -357,7 +357,7 @@ types MagiReinforcementTypes
 					layoutpolicy_horizontal = expanding
 					block "header_text" {
 						# text = "[ValueBreakdown.GetName]"
-						text = "TEST HEADER"
+						text = "magi_levy_county_contribution_breakdown"
 					}
 					default_format = "#T"
 					visible = "[Not( StringIsEmpty( ValueBreakdown.GetName ) )]"
@@ -404,10 +404,41 @@ types MagiReinforcementTypes
 				layoutpolicy_horizontal = expanding
 
 				text_single = {
-					name = "name"
+					name = "owned_counties"
 					layoutpolicy_horizontal = expanding
 					# text = "[ValueBreakdown.GetName]"
-					text = "Owned Counties"
+					text = "owned_counties"
+					min_width = 180
+					max_width = 275
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					margin_right = 10
+				}
+
+				text_single = {
+					layoutpolicy_horizontal = expanding
+	
+					# visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+					name = "value_with_no_tooltip"
+					# text = "[ValueBreakdown.GetValue]"
+					# text = "50%"
+					text = "[Scope.Char.MakeScope.ScriptValue('aeluran_realm_size')|0]"
+					align = right
+					# fonttintcolor = "[TooltipInfo.GetTintColor]"
+					# fonttintcolor = { 1.0 1.0 1.0 0.5 }
+	
+				}
+			}
+
+			hbox = {
+				name = "magi_per_county_count"
+				layoutpolicy_horizontal = expanding
+
+
+				text_single = {
+					name = "magi_per_county"
+					layoutpolicy_horizontal = expanding
+					# text = "[ValueBreakdown.GetName]"
+					text = "magi_per_county"
 					min_width = 180
 					max_width = 275
 					fonttintcolor = "[TooltipInfo.GetTintColor]"
@@ -421,7 +452,7 @@ types MagiReinforcementTypes
 					name = "value_with_no_tooltip"
 					# text = "[ValueBreakdown.GetValue]"
 					# text = "50%"
-					text = "[Scope.Char.MakeScope.ScriptValue('aeluran_realm_size')|0]"
+					text = "magi_per_county_value"
 					align = right
 					# fonttintcolor = "[TooltipInfo.GetTintColor]"
 					# fonttintcolor = { 1.0 1.0 1.0 0.5 }
