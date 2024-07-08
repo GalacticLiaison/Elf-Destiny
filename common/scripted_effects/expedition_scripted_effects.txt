@@ -1,0 +1,90 @@
+﻿register_expedition_site = {
+	title:$BARONY_NAME$ = {
+		set_variable = valid_expedition_location
+		set_variable = {
+			name = expedition_site_loc
+			value = flag:expedition_site_$SITE_NAME$_desc
+		}
+		set_variable = {
+			name = expedition_holy_site
+			value = flag:$SITE_NAME$
+		}
+	}
+}
+
+set_first_expedition_location = {
+	title:$BARONY_NAME$ = {
+		set_variable = starting_expedition_location
+	}
+}
+
+set_portal_location = {
+	title:$BARONY_NAME$ = {
+		set_variable = portal_location
+		set_global_variable = {
+			name = portal_location_barony
+			value = this
+		}
+	}
+}
+
+activate_discovered_holy_site_effect = {
+	activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor}
+	activate_holy_site_if_valid = { SITE_NAME = ruins_of_valfuria}
+	activate_holy_site_if_valid = { SITE_NAME = spire_citadel}
+	activate_holy_site_if_valid = { SITE_NAME = proving_fields}
+	activate_holy_site_if_valid = { SITE_NAME = volcanic_forge}
+	activate_holy_site_if_valid = { SITE_NAME = noble_wood}
+	activate_holy_site_if_valid = { SITE_NAME = high_harbor}
+	activate_holy_site_if_valid = { SITE_NAME = citadel_of_bear_king_thul}
+	activate_holy_site_if_valid = { SITE_NAME = archipelago_of_duck_duke_vega}
+	activate_holy_site_if_valid = { SITE_NAME = tomb_of_ale_the_dragon_slayer}
+	activate_holy_site_if_valid = { SITE_NAME = ruins_of_the_runic_city_of_anundshog}
+	activate_holy_site_if_valid = { SITE_NAME = tomb_of_the_lights_champions}
+	activate_holy_site_if_valid = { SITE_NAME = black_palace_of_dark_queen_hekla}
+	activate_holy_site_if_valid = { SITE_NAME = newgrange_temple}
+	activate_holy_site_if_valid = { SITE_NAME = burrens_bastion}
+	activate_holy_site_if_valid = { SITE_NAME = skip_gates_of_camelot}
+	activate_holy_site_if_valid = { SITE_NAME = great_obelisk_of_the_pictish}
+	activate_holy_site_if_valid = { SITE_NAME = labyrinth_gateway_of_the_altamirans}
+	activate_holy_site_if_valid = { SITE_NAME = grazing_villages_of_the_great_herds}
+	activate_holy_site_if_valid = { SITE_NAME = hunting_grounds_of_the_greater_drakes}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_glanum}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_mega_city_of_myropillya}
+	activate_holy_site_if_valid = { SITE_NAME = temple_of_the_mages_court}
+	activate_holy_site_if_valid = { SITE_NAME = seat_of_the_storm_king}
+	activate_holy_site_if_valid = { SITE_NAME = cradle_of_the_first_elves}
+	activate_holy_site_if_valid = { SITE_NAME = apadana_palace}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_bosra}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_babylon}
+	activate_holy_site_if_valid = { SITE_NAME = library_of_alexandria}
+	activate_holy_site_if_valid = { SITE_NAME = harkonnens_foley}
+	activate_holy_site_if_valid = { SITE_NAME = shattered_spire_of_veldric}
+	activate_holy_site_if_valid = { SITE_NAME = the_grand_blood_alter}
+	activate_holy_site_if_valid = { SITE_NAME = labyrinth_gateway_of_the_ajantas}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_holy_city_of_madurai}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_fortress_of_mahasthangarh}
+	activate_holy_site_if_valid = { SITE_NAME = mythical_spiritual_kingdom_of_shambhala}
+	activate_holy_site_if_valid = { SITE_NAME = domain_of_the_forest_spirit_eleke_sazy}
+	activate_holy_site_if_valid = { SITE_NAME = ancient_faerie_groves}
+	activate_holy_site_if_valid = { SITE_NAME = overwatch_fortress}
+	activate_holy_site_if_valid = { SITE_NAME = wraith_wood}
+	activate_holy_site_if_valid = { SITE_NAME = matrons_hollow}
+	activate_holy_site_if_valid = { SITE_NAME = sealed_magic_armoury}
+	activate_holy_site_if_valid = { SITE_NAME = whisper_wood}
+	activate_holy_site_if_valid = { SITE_NAME = light_reach_citadel}
+	activate_holy_site_if_valid = { SITE_NAME = east_flaria}
+	activate_holy_site_if_valid = { SITE_NAME = west_flaria}
+	activate_holy_site_if_valid = { SITE_NAME = wratislaw_magi_academy}
+}
+
+activate_holy_site_if_valid = {
+	if = {
+		limit = {
+			scope:activity.activity_location.barony.var:expedition_holy_site = flag:$SITE_NAME$
+		}
+		root.faith = {
+			activate_holy_site = $SITE_NAME$
+		}
+	}
+}
