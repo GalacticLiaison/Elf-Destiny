@@ -32,71 +32,6 @@ aeluran_order_maintenance = {
 	}
 }
 
-# # TODO: make an actual election vote among the matrons
-# matriarch_election = {
-# 	trigger = {
-# 		NOT = {
-# 			any_living_character = {
-# 				has_trait = aeluran_high_matriarch
-# 			}
-# 		}
-# 	}
-
-# 	effect = {
-# 		debug_log = "ELECTING NEW MATRIARCH"
-
-# 		random_living_character = {
-# 			limit = {
-# 				has_trait = aeluran_matron
-# 			}
-# 			save_scope_as = new_matriarch
-# 		}
-
-# 		scope:new_matriarch = {
-# 			remove_trait = aeluran_matron
-# 			add_trait = aeluran_high_matriarch
-# 		}
-
-# 		# TODO Trigger notification event
-# 		# - give title
-# 		# - move character to the deep woods
-# 	}
-# }
-
-# matron_counting = {
-# 	effect = {
-# 		set_global_variable = {
-# 			name = total_matrons
-# 			value = total_current_matrons
-# 		}
-# 	}
-# }
-
-# # TODO: Make actual Matron choice event
-# matron_choosing = {
-# 	trigger = {
-# 		global_var:total_matrons < 7
-# 	}
-
-# 	effect = {
-# 		debug_log = "CHOOSING NEW MATRON"
-
-# 		random_living_character = {
-# 			limit = {
-# 				has_trait = aeluran_sister
-# 			}
-# 			save_scope_as = new_matron
-# 		}
-
-# 		scope:new_matron = {
-# 			remove_trait = aeluran_sister
-# 			add_trait = aeluran_matron
-# 		}
-
-# 		# TODO Trigger notification event
-# 	}
-# }
-
 elf_daughters_to_school = {
 	trigger = {
 		is_ruler = yes
@@ -111,6 +46,7 @@ elf_daughters_to_school = {
 			NOT = {
 				has_character_flag = recruited_by_aelurans
 			}
+			is_spark_talented = yes
 		}
 	}
 
@@ -138,36 +74,6 @@ elf_daughters_back_from_school = {
 	}
 }
 
-
-
-
-# handle_elf_tradition_effects_pulse = {
-# 	trigger = {
-# 		scope:quarter = 4
-# 		is_any_elf_type = yes
-# 		culture = {
-# 			OR = {
-# 				has_cultural_parameter = form_advanced_tribal_government
-# 				has_cultural_parameter = advanced_shrewd
-# 				has_cultural_parameter = heroic_trait_unlocked
-# 			}
-# 		}
-# 	}
-
-# 	effect = {
-# 		if = {
-# 			root = {
-# 				culture = {
-# 					has_cultural_parameter = form_advanced_tribal_government
-# 				}
-# 				NOT = {
-# 					government_has_flag = government_is_advanced_tribal
-# 				}
-# 			}
-# 		}
-# 	}
-
-# }
 
 gain_varangian_adventure_innovation_pulse = {
 	trigger = {
