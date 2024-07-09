@@ -13,19 +13,16 @@
 		is_ruler = yes
 		is_landed = yes
 		exists = cp:councillor_aeluran_advisor
+		highest_held_title_tier > tier_county
 
-		# has_global_variable = 02_spoke_with_the_aeluran_order
-
-		# NOR = {  #Can only do it once and not after portal restored.
-		# 	is_target_in_global_variable_list = {
-		# 		name = unavailable_unique_decisions
-		# 		target = flag:flag_grand_portal_transported
-		# 	}
-		# 	is_target_in_global_variable_list = {
-		# 		name = unavailable_unique_decisions
-		# 		target = flag:flag_grand_portal_restored
+		# # any county that does not have an aeluran order barony
+		# any_sub_realm_barony = {
+		# 	holder = root
+		# 	NOT = {
+		# 		title_province = scope:ruler.capital_province
 		# 	}
 		# }
+		
 	}
 
 	widget = {
@@ -33,11 +30,23 @@
 		gui = "decision_view_widget_move_portal"
 		barony_valid = {
 			holder = scope:ruler
+			county = {
+				save_temporary_scope_as = county_to_check
+			}
 			NOT = {
-				title_province = scope:ruler.capital_province
+				scope:ruler.capital_county = scope:county_to_check
+			}
+			NOT = {
+				any_barony = {
+					county = scope:county_to_check
+					holder = {
+						has_government = aeluran_weavers_government
+					}
+				}
 			}
 		}
 	}
+	# Event target link 'capital_county' did not get a matching scope type. Expected 'character', but got 'landed_title'
 	
 	# Following conditions must be true to take decision, shown in requirements section
 	is_valid = {

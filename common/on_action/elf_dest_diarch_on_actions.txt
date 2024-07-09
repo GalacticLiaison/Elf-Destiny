@@ -11,6 +11,7 @@ on_entered_diarchy = {
 
 aeluran_regent_on_entered_diarchy = {
 	trigger = {
+		has_active_diarchy = yes
 		has_diarchy_type = aeluran_regency
 	}
 
@@ -29,9 +30,14 @@ aeluran_regent_on_entered_diarchy = {
 
 			if = {
 				limit = {
-					NOT = { has_active_mandate = realm_supervision }
+					exists = diarch
+					diarch = {
+						NOT = { has_active_mandate = realm_supervision }
+					}
 				}
-				set_diarchy_mandate = realm_supervision
+				diarch = {
+					set_diarchy_mandate = realm_supervision
+				}
 			}
 
 			create_story = {

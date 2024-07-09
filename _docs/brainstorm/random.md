@@ -328,6 +328,13 @@ patch random:
 - could turn players government into an aeluran servant gov
 - event where aeluran sister arrests liege and keeps him/her in their prison!
 - make fecund an actual aeluran ability, turn on at will!
-- events: SHAME naked walk througn capital, maybe for vassals too
+- events: game of thrones shame naked walk througn capital, maybe for vassals too
 - having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
 - maybe aeluron sisters have little autonomy in their own matchmaking
+
+
+put pantheon as a section in religion screen and show icons for valar you follow
+
+fowr 
+- make each chase segment an event with a variety of skill check options to either get closer or farther from succeeding
+- use camera = {} to zoom rabbit out, use it to put in hedge doorway or something and use an image with depth/distance

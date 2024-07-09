@@ -6,25 +6,26 @@ theocracy_lease = {
 		ruler_valid = {
 			faith = { has_doctrine = doctrine_theocracy_temporal }
 			NOT = { government_has_flag = government_is_theocracy }
+			NOT = { has_government = aeluran_weavers_government }
 		}
 		liege_or_vassal_valid = {
 			faith = scope:target.faith
 		}
 
 		lessee = var:religious_advisor
-
-		# if = {
-		# 	limit = {
-		# 		exists = cp:councillor_aeluran_advisor
-		# 	}
-		# 	lessee = cp:councillor_aeluran_advisor
-		# }
-		# else = {
-		# 	lessee = cp:councillor_court_chaplain
-		# }
 		
 		barony_valid = {
-			title_province = { has_holding_type = church_holding }
+			title_province = { 
+				has_holding_type = church_holding
+			}
+			trigger_if = {
+				limit = {
+					exists = holder
+				}
+				holder = {
+					NOT = { has_government = aeluran_weavers_government }
+				}
+			}
 		}
 	}
 

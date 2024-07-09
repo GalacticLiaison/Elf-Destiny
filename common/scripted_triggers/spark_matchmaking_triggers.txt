@@ -30,48 +30,46 @@ is_of_any_royal_elf_bloodline = {
 	}
 }
 
-is_suitable_female_breeder_has_bloodline = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 40
-		age > 15
+candidate_not_already_selected = {
+	trigger_if = {
+		limit = {
+			exists = scope:match_choice_1
+		}
+		NOT = {
+			this = scope:match_choice_1
+		}
 	}
-	is_of_any_royal_elf_bloodline = yes
+	trigger_if = {
+		limit = {
+			exists = scope:match_choice_2
+		}
+		NOT = {
+			this = scope:match_choice_2
+		}
+	}
 }
 
-is_suitable_male_breeder_has_bloodline = {
-	is_female = no
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 40
-		age > 15
+family_member_check = {
+	trigger_if = {
+		limit = {
+			scope:host.liege = { 
+				NOR = {
+					culture = {
+						has_cultural_parameter = allows_unrestricted_marriage
+					}
+					faith = {
+						OR = {
+							has_doctrine = doctrine_consanguinity_unrestricted
+							has_doctrine = tenet_divine_marriage
+						}
+					}
+				}
+			}
+		}
+		NOT = {
+			is_close_or_extended_family_of = scope:match_recipient
+		}
 	}
-	is_of_any_royal_elf_bloodline = yes
-}
-
-is_suitable_female_breeder_no_bloodline = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 30
-		age > 15
-	}
-	genetic_worthiness > 6
-}
-
-is_suitable_male_breeder_no_bloodline = {
-	is_female = yes
-	is_married = no
-	is_betrothed = no
-	AND = {
-		age < 30
-		age > 15
-	}
-	genetic_worthiness > 6
 }
 
 meets_basic_match_requirements = {
@@ -83,6 +81,8 @@ is_suitable_elf_spouse = {
 	is_married = no
 	is_betrothed = no
 	is_any_elf_type = yes
+	candidate_not_already_selected = yes
+	family_member_check = yes
 	exists = scope:match_recipient 
 	NOT = {
 		this = scope:match_recipient
@@ -90,7 +90,7 @@ is_suitable_elf_spouse = {
 	trigger_if = {
 		limit = {
 			scope:match_recipient = {
-				is_female = no
+				is_male = yes
 			}
 		}
 		is_suitable_female_elf_spouse = yes
@@ -114,7 +114,7 @@ is_suitable_female_elf_spouse = {
 }
 
 is_suitable_male_elf_spouse = {
-	is_female = no
+	is_male = yes
 	AND = {
 		age < 60
 		age > 16
@@ -141,7 +141,6 @@ ai_matchmaking_is_suitable_spouse = {
 }
 
 
-
 # ===== STANDARD ELF =====
 
 preexisting_standard_elf_exists = {
@@ -156,6 +155,7 @@ is_acceptable_standard_elf_match_choice = {
 	genetic_worthiness >= -1
 	genetic_worthiness < 2
 	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
 }
 
 # ===== GENETIC GOOD ELF =====
@@ -172,6 +172,7 @@ is_acceptable_genetic_good_elf_match_choice = {
 	genetic_worthiness >= 2
 	genetic_worthiness < 5
 	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
 }
 
 # ===== GENETIC GREAT ELF =====
@@ -187,6 +188,7 @@ is_acceptable_genetic_great_elf_match_choice = {
 	is_suitable_elf_spouse = yes
 	genetic_worthiness >= 5
 	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
 }
 
 # ===== AELURAN ADVISOR =====
@@ -338,8 +340,9 @@ preexisting_claimant_exists = {
 is_acceptable_claimant_match_choice = {
 	meets_basic_match_requirements = yes
 	is_suitable_elf_spouse = yes
-	has_trait = {
-		
+	OR = {
+		has_trait = bastard
+		has_trait = wild_oat
 	}
 }
 
@@ -350,11 +353,11 @@ preexisting_bastard_claimant_parent_exists = {
 }
 
 is_acceptable_bastard_claimant_parent = {
-	is_within_diplo_range = { CHARACTER = root }
+	is_within_diplo_range = { CHARACTER = scope:host.liege }
 	is_ai = yes
 	highest_held_title_tier = tier_county
 	NOT = {
-		is_vassal_of = root
+		is_vassal_of = scope:host.liege
 	}
 }
 
@@ -402,129 +405,3 @@ is_acceptable_foreign_elf_match_choice = {
 	is_of_any_royal_elf_bloodline = no
 	is_suitable_elf_spouse = yes
 }
-
-
-
-family_option_available = {
-	# TODO: any_living_character is probably not performant, can we do something more specific?
-	trigger_if = {
-		limit = { 
-			scope:match_recipient = {
-				is_female = no
-			}
-		}
-		any_living_character = {
-			is_suitable_female_elf_spouse = yes
-			is_close_or_extended_family_of = scope:match_recipient
-		}
-	}
-
-	trigger_if = {
-		limit = { 
-			scope:match_recipient = {
-				is_female = yes
-			}
-		}
-		any_living_character = {
-			is_suitable_male_elf_spouse = yes
-			is_close_or_extended_family_of = scope:match_recipient
-		}
-	}
-
-}
-
-# TODO: any_living_character is probably not performant, can we do something more specific?
-# TODO: if we update alliance to include heirs of title holders, update here too
-alliance_option_available = {
-
-	trigger_if = { # Emperor
-		limit = {
-			highest_held_title_tier = tier_empire
-		}
-		any_living_character = {
-			NOT = {
-				scope:match_recipient = this
-			}
-			OR = {
-				highest_held_title_tier = tier_empire
-				highest_held_title_tier = tier_kingdom
-			}
-			OR = {
-				is_suitable_elf_spouse = yes
-				any_child = {
-					is_suitable_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # King
-		limit = {
-			highest_held_title_tier = tier_kingdom
-		}
-		any_living_character = {
-			NOT = {
-				scope:match_recipient = this
-			}
-			OR = {
-				highest_held_title_tier = tier_kingdom
-				highest_held_title_tier = tier_empire
-				highest_held_title_tier = tier_duchy
-			}
-			OR = {
-				is_suitable_elf_spouse = yes
-				any_child = {
-					is_suitable_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Male Duke
-		limit = {
-			highest_held_title_tier = tier_duchy
-		}
-		any_living_character = {
-			NOT = {
-				scope:match_recipient = this
-			}
-			OR = {
-				highest_held_title_tier = tier_kingdom
-				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_county
-			}
-			OR = {
-				is_suitable_elf_spouse = yes
-				any_child = {
-					is_suitable_elf_spouse = yes
-				}
-			}
-		}
-	}
-
-	trigger_if = { # Count
-		limit = {
-			highest_held_title_tier = tier_county
-			scope:match_recipient = {
-				is_female = no
-			}
-		}
-		any_living_character = {
-			NOT = {
-				scope:match_recipient = this
-			}
-			OR = {
-				highest_held_title_tier = tier_duchy
-				highest_held_title_tier = tier_county
-			}
-			OR = {
-				is_suitable_elf_spouse = yes
-				any_child = {
-					is_suitable_elf_spouse = yes
-				}
-			}
-		}
-	}
-}
-
-

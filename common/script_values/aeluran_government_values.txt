@@ -25,9 +25,17 @@ quantity_of_vassals = {
 	}
 }
 
-
 percentage_of_aeluran_vassals = {
-	value = quantity_of_aeluran_vassals
-	divide = quantity_of_vassals
-	multiply = 100
+	value = 0
+	if = {
+		limit = {
+			NOR = {
+				quantity_of_aeluran_vassals = 0
+				quantity_of_vassals = 0
+			}
+		}
+		add = quantity_of_aeluran_vassals
+		divide = quantity_of_vassals
+		multiply = 100
+	}
 }

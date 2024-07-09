@@ -213,15 +213,12 @@ aeluran_advisor_task.01011 = { # Magi Core is reinforced
 	desc = aeluran_advisor_task.01011.desc
 
 	trigger = {
-		AND = {
-			exists = cp:councillor_aeluran_advisor
-			# root = {
-			# 	NOT = {
-			# 		any_memory = {
-			# 			has_memory_type = received_aeluran_magi_recently
-			# 		}
-			# 	}
-			# }
+		NOT = {
+			has_character_flag = received_aeluran_magi_recently
+		}
+		exists = cp:councillor_aeluran_advisor
+		cp:councillor_aeluran_advisor = {
+			is_landed = yes
 		}
 	}
 
@@ -284,10 +281,9 @@ aeluran_advisor_task.01011 = { # Magi Core is reinforced
 	option = {
 		name = aeluran_advisor_task.01011.a
 
-
-
-		create_character_memory = {
-			type = received_aeluran_magi_recently
+		add_character_flag = {
+			flag = received_aeluran_magi_recently
+			years = 5
 		}
 	}
 

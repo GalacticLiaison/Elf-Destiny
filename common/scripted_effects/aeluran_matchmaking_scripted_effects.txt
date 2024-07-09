@@ -100,32 +100,6 @@ generate_matchmaking_candidates_effect = {
 		}
 		generate_new_matchmaking_candidate = { MATCHID = 3 }
 	}
-
-
-	# if = {
-	# 	limit = {
-	# 		exists = scope:match_choice_1_type
-	# 		NOR = {
-	# 			scope:match_choice_1_type = flag:twins
-	# 			scope:match_choice_1_type = flag:triplets
-	# 		}
-	# 	}
-	# 	generate_new_matchmaking_candidate = { MATCHID = 2 }
-	# }
-
-	# if = {
-	# 	limit = {
-	# 		OR = {
-	# 			exists = scope:match_choice_2_type
-	# 			scope:match_choice_1_type = flag:twins
-	# 		}
-	# 		NOR = {
-	# 			scope:match_choice_1_type = flag:triplets
-	# 			scope:match_choice_2_type = flag:twins
-	# 		}
-	# 	}
-	# 	generate_new_matchmaking_candidate = { MATCHID = 3 }
-	# }
 }
 
 # TODO:
@@ -389,13 +363,16 @@ generate_new_matchmaking_candidate = {
 		0 = { # Family
 			modifier = {
 				add = 100
-				root = { 
+				scope:host.liege = { 
 					OR = {
 						culture = {
 							has_cultural_parameter = allows_unrestricted_marriage
 						}
 						faith = {
-							has_doctrine = tenet_divine_marriage
+							OR = {
+								has_doctrine = doctrine_consanguinity_unrestricted
+								has_doctrine = tenet_divine_marriage
+							}
 						}
 					}
 				}
@@ -410,13 +387,16 @@ generate_new_matchmaking_candidate = {
 			}
 			modifier = {
 				add = 30
-				root = { 
+				scope:host.liege = { 
 					OR = {
 						culture = {
 							has_cultural_parameter = allows_unrestricted_marriage
 						}
 						faith = {
-							has_doctrine = tenet_divine_marriage
+							OR = {
+								has_doctrine = doctrine_consanguinity_unrestricted
+								has_doctrine = tenet_divine_marriage
+							}
 						}
 					}
 				}
@@ -472,7 +452,7 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Alliance
 			modifier = {
-				add = 999
+				add = 200
 				preexisting_alliance_exists = yes
 				var:candidate_quality >= 2
 				NOT = {
@@ -669,6 +649,30 @@ generate_new_matchmaking_candidate = {
 				add = 100
 				var:candidate_quality >= 4
 
+				scope:match_recipient = {
+					faith = {
+						has_doctrine = doctrine_polygamy
+					}
+					is_landed = yes
+					highest_held_title_tier >= tier_county
+					trigger_if = {
+						limit = {
+							faith = {
+								has_doctrine = doctrine_gender_male_dominated
+							}
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							faith = {
+								has_doctrine = doctrine_gender_female_dominated
+							}
+						}
+						is_female = yes
+					}
+				}
+
 				NOR = {
 					any_in_list = {
 						list = selected_match_types
@@ -696,6 +700,30 @@ generate_new_matchmaking_candidate = {
 			modifier = {
 				add = 60
 				var:candidate_quality >= 5
+
+				scope:match_recipient = {
+					faith = {
+						has_doctrine = doctrine_polygamy
+					}
+					is_landed = yes
+					highest_held_title_tier >= tier_county
+					trigger_if = {
+						limit = {
+							faith = {
+								has_doctrine = doctrine_gender_male_dominated
+							}
+						}
+						is_male = yes
+					}
+					trigger_if = {
+						limit = {
+							faith = {
+								has_doctrine = doctrine_gender_female_dominated
+							}
+						}
+						is_female = yes
+					}
+				}
 
 				NOR = {
 					any_in_list = {
@@ -1587,6 +1615,7 @@ generate_new_bastard_claimant = {
 				set_mother = scope:bastard_claimant_parent
 			}
 			else = {
+				set_father = scope:bastard_claimant_parent
 				set_real_father = scope:bastard_claimant_parent
 			}
 	

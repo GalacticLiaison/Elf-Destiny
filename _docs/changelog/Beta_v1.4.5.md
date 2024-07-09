@@ -1,5 +1,19 @@
 # Beta_v1.4.5
 
+
+# New
+
+# Updated
+
+# Bug
+
+
+
+
+
+
+
+
 CONSIDER RECORDING A VIDEO DEV DIARY FOR THIS PATCH DEMONSTARTING NEW FETAURES!!!!
 - make youtube number go up
 
@@ -34,31 +48,15 @@ Aeluran Matching Making
  - heir text is wrong
 
 # TODOS to not forget
-- when you choose to take the aeluran faith or reform the faith, make sure all the appropriate people change too
-- EXTERNAL: Atlantis compat suggestion (see chat)
-- EXTERNAL GIthub pureblood PR
-- Invite to expedition character interaction: huge win
 - fill out events descs for matron/matriarch selection/ and also "give aeluran adviser holding" events
-- maybe add another special cycle in the aeluran story to have a battle of wills for the aelurans to seize a county
-- maybe add a few more story characters
-- put back legitmacy ui panel experiment
-
 - regency mandates should not work on aeluran vassals
 
-## Tasks
-- flush out aeluran government
-- matchmaking: "request for child" character interaction
-- matchmaking: finish intro quality score widget
-- regency: balance respect score swing values
-- regency: battle of wills interaction
-
 matchmaking for ai
+
 finish battle of wills
 finish aeluran reinforcement event/game concept
 finish aeluran units
 add remaining items to respect score
-only spark talented daughters get sent to school
-   - test
 FINISH: multi-birth naming event
    - test that your version of birth events are triggering. Seems vanilla is triggering until you save the mod's file
 

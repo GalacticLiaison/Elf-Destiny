@@ -1,0 +1,51 @@
+invite_to_expedition_interaction = {
+	category = interaction_category_friendly
+	interface_priority = 60
+	icon = icon_expedition
+
+	desc = invite_to_expedition_interaction_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			# has_activity_type = activity_expedition
+		}
+		any_activity = {
+			has_activity_type = activity_expedition
+			activity_host = scope:actor
+		}
+	}
+	
+	# cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+		any_activity = {
+			has_activity_type = activity_expedition
+			activity_host = scope:actor
+			scope:recipient = { can_join_activity = prev }
+		}
+	}
+	
+	on_accept = {
+		scope:recipient = {
+			add_to_activity = scope:actor.involved_activity
+		}
+	}
+	
+	cost = {
+		# prestige = {
+		# 	value = 10
+		# }
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}

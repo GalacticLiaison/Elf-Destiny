@@ -198,18 +198,29 @@ councillor_aeluran_advisor = {
 	}
 
 	on_get_position = {
-		set_variable = {
-			name = councillor_vizier_lifestyle_progress
-			value = 0
+		root.liege = {
+			set_variable = {
+				name = religious_advisor
+				value = root
+			}
+
+			add_character_flag = { # So ruler doesnt instantly get reinforcements
+				flag = received_aeluran_magi_recently
+				years = 2
+			}
 		}
 	}
 
 	on_lose_position = {
-		remove_variable = councillor_vizier_lifestyle_progress
+		root.liege = {
+			remove_variable = religious_advisor
+		}
 	}
 
 	on_fired_from_position = {
-		remove_variable = councillor_vizier_lifestyle_progress
+		root.liege = {
+			remove_variable = religious_advisor
+		}
 	}
 
 	barbershop_data = {
@@ -2424,9 +2435,16 @@ councillor_court_chaplain = {
 
 	on_get_position = {
 		root.liege = {
-			set_variable = {
-				name = religious_advisor
-				value = root
+			if = {
+				limit = {
+					NOT = {
+						exists = cp:councillor_aeluran_advisor
+					}
+				}
+				set_variable = {
+					name = religious_advisor
+					value = root
+				}
 			}
 		}
 		got_council_position_effect = yes
