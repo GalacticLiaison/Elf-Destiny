@@ -10,32 +10,11 @@ yearly_global_pulse = {
 	}
 
 	on_actions = {
-		aeluran_matchmaking_yearly_pulse
 		elf_destiny_main_story_events_yearly_pulse
 		elf_destiny_random_occurences_yearly_pulse
 		elf_destiny_modifier_management_yearly_pulse
 		the_rut_yearly_pulse
 		the_rut_cleanup_yearly_pulse
-	}
-}
-
-
-aeluran_matchmaking_yearly_pulse = {
-	# Note to self, setting triggers here cause all kinds of issues, just set them further down the pipeline
-	trigger = {
-		# AND = {
-		# 	faith = { has_doctrine = tenet_aeluran_sisters }
-		# 	exists = cp:councillor_aeluran_advisor
-		# 	is_adult = yes
-		# }
-		
-		# exists = cp:councillor_aeluran_advisor
-		# is_adult = yes
-		# is_ai = no
-	}
-
-	events = {
-		aeluran_matchmaking.001
 	}
 }
 
@@ -125,6 +104,7 @@ give_the_rut = {
 
 the_rut_cleanup_yearly_pulse = {
 	trigger = {
+		exists = global_var:rut_is_active
 		global_var:rut_is_active = yes
 		years_since_last_rut_value >= 2
 	}

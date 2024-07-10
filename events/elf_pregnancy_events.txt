@@ -61,35 +61,96 @@ elf_pregnancy_events.0002 = {
 	}
 
 	immediate = {
-		random = {
-			# 1 child
-			chance = 21
-			set_num_pregnancy_children = 1
+		# First remove any flags from previous pregnancies
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_triplets
+				}
+			}
+			scope:mother = {
+				remove_character_flag = having_triplets
+			}
 		}
-		random = {
-			chance = 40
-			set_num_pregnancy_children = 2
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_quadruplets
+				}
+			}
+			scope:mother = {
+				remove_character_flag = having_quadruplets
+			}
 		}
-		random = {
-			chance = 20
-			set_num_pregnancy_children = 3
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_quintuplets
+				}
+			}
+			scope:mother = {
+				remove_character_flag = having_quintuplets
+			}
 		}
-		random = {
-			chance = 10
-			set_num_pregnancy_children = 4
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_sextuplets
+				}
+			}
+			scope:mother = {
+				remove_character_flag = having_sextuplets
+			}
 		}
-		random = {
-			chance = 5
-			set_num_pregnancy_children = 5
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_septuplets
+				}
+			}
+			scope:mother = {
+				remove_character_flag = having_septuplets
+			}
 		}
-		random = {
-			chance = 3
-			set_num_pregnancy_children = 6
-		}
-		random = {
-			chance = 1
-			set_num_pregnancy_children = 7
-			# Initiate special magic of the seven event if have the incest culture
+
+		## Assign number of children
+		random_list  = {
+			21 = {
+				set_num_pregnancy_children = 1
+			}
+			40 = {
+				set_num_pregnancy_children = 2
+			}
+			20 = {
+				set_num_pregnancy_children = 3
+				scope:mother = {
+					add_character_flag = having_triplets
+				}
+			}
+			10 = {
+				set_num_pregnancy_children = 4
+				scope:mother = {
+					add_character_flag = having_quadruplets
+				}
+			}
+			5 = {
+				set_num_pregnancy_children = 5
+				scope:mother = {
+					add_character_flag = having_quintuplets
+				}
+			}
+			3 = {
+				set_num_pregnancy_children = 6
+				scope:mother = {
+					add_character_flag = having_sextuplets
+				}
+			}
+			1 = {
+				set_num_pregnancy_children = 7
+				scope:mother = {
+					add_character_flag = having_septuplets
+				}
+			}
 		}
 	}
 }

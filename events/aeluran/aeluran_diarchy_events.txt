@@ -1,72 +1,1064 @@
 ﻿namespace = aeluran_diarchy
 
-# aeluran_diarchy.0001 = {
-# 	# hidden = yes
-# 	type = character_event
-# 	title = aeluran_diarchy.0001.title
-# 	desc = aeluran_diarchy.0001.desc
-# 	theme = seduction
+# Aeluran Matriarch assigns new Advisor, sends letter
+aeluran_diarchy.100 = {
+	type = letter_event
+	opening = aeluran_diarchy.100.title
+	
+	desc = {
+		desc = aeluran_diarchy.100.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					scope:advisor_type = flag:vassal
+				}
+				desc = aeluran_diarchy.100.desc.vassal
+			}
+			triggered_desc = {
+				trigger = { 
+					scope:advisor_type = flag:courtier
+				}
+				desc = aeluran_diarchy.100.desc.courtier
+			}
+			triggered_desc = {
+				trigger = { 
+					scope:advisor_type = flag:sent_from_deepwood
+				}
+				desc = aeluran_diarchy.100.desc.sent_from_deepwood
+			}
+		}
+	}
 
-# 	left_portrait = {
-# 		character = cp:councillor_aeluran_advisor
-# 		animation = personality_zealous
-# 	}
+	sender = scope:aeluran_matriarch
 
-# 	trigger = {
-# 		# basic_eligible_for_diarchy_trigger = yes
-# 		# imprisonment_would_cause_regency_trigger = yes
-# 	}
+	trigger = {
+		# any_living_character = { # can we do better? make religious title and find holder?
+		# 	has_trait = aeluran_high_matriarch
+		# }
+		NOT = {
+			has_character_flag = aeluran_advisor_is_on_the_way
+		}
+	}
 
-# 	immediate = {
-# 		debug_log = "REGENCY STARTED"
+	# cooldown = { years = 1 } # is this global?
 
-# 		# start_diarchy = aeluran_regency
-# 	}
+	immediate = {
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_high_matriarch
+			}
+			
+			save_scope_as = aeluran_matriarch
+		}
 
-# 	option = {
-# 		name = aeluran_diarchy.0001.a
-# 	}
+		if = {
+			limit = {
+				any_vassal = {
+					is_aeluran_sister_or_higher = yes
+				}
+			}
+
+			save_scope_value_as = {
+				name = advisor_type
+				value = flag:vassal
+			}
+
+			random_vassal = {
+				limit = {
+					is_aeluran_sister_or_higher = yes
+				}
+
+				save_scope_as = aeluran_sister_advisor
+			}
+
+		}
+		else_if = {
+			limit = {
+				any_courtier = {
+					is_aeluran_sister_or_higher = yes
+				}
+			}
+
+			save_scope_value_as = {
+				name = advisor_type
+				value = flag:courtier
+			}
+
+			random_courtier = {
+				limit = {
+					is_aeluran_sister_or_higher = yes
+				}
+
+				save_scope_as = aeluran_sister_advisor
+			}
+		}
+		else_if = {
+			limit = {
+				NOR = {
+					any_courtier = {
+						is_aeluran_sister_or_higher = yes
+					}
+					any_vassal = {
+						is_aeluran_sister_or_higher = yes
+					}
+				}
+			}
+
+			save_scope_value_as = {
+				name = advisor_type
+				value = flag:sent_from_deepwood
+			}
+
+			save_scope_value_as = {
+				name = aeluran_advisor_coming_from_sanctum
+				value = yes
+			}
+
+			if = {
+				limit = {
+					exists = scope:aeluran_matriarch
+				}
+				create_aeluran_advisor_effect = { MATRIARCH = scope:aeluran_matriarch }
+			}
+		}
+
+	}
+
+	option = {
+		name = aeluran_diarchy.100.ok
+
+		debug_log_scope = yes
+
+		if = {
+			limit = {
+				exists = scope:aeluran_sister_advisor
+			}
+
+			# DEBUG: will make advisor instant travel to your realm
+			# if = {
+			# 	limit = {
+			# 		scope:aeluran_sister_advisor = {
+			# 			NOT = {
+			# 				is_courtier_of = root
+			# 			}
+			# 		}
+			# 	}
+			# 	add_courtier = scope:aeluran_sister_advisor
+			# }
+
+			if = {
+				limit = {
+					exists = scope:aeluran_advisor_coming_from_sanctum
+					scope:aeluran_advisor_coming_from_sanctum = yes
+				}
+				add_character_flag = {
+					flag = aeluran_advisor_is_on_the_way
+					years = 4
+				}
+
+				scope:aeluran_sister_advisor = {
+					set_variable = {
+						name = new_liege_to_advise
+						value = root
+						# years = 5
+					}
+				}
+
+				save_scope_as = lord_receiving_advisor
+
+				aeluran_advisor_sent_from_deep_wood_effect = yes
+			}
+			else = {
+				trigger_event = aeluran_diarchy.1011
+			}
+
+		}
+	}
+}
+
+# Advisor Arrives
+
+# TODO: make cost of new constructed church holding scale by aeluran respect level
+# If new advisor is vassal with land already just convert them to Aeluran Government (in theory they probably should already be aeluran government)
+
+aeluran_diarchy.101 = {
+	type = character_event
+	title = aeluran_diarchy.101.title
+	desc = aeluran_diarchy.101.desc
+
+	# left_portrait = {
+	# 	character = root
+	# 	animation = personality_bold
+	# }
+	left_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_content
+		camera = camera_body_left_slight
+	}
+
+	theme = aeluran_advisor
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	# cooldown = { years = 1 }
+
+	immediate = {
+		debug_log = "start aeluran regency"
+		debug_log_scopes = yes
+
+		remove_character_flag = aeluran_advisor_is_on_the_way
+
+		# scope:aeluran_sister_advisor = {
+		# 	set_location = root.location
+		# }
+
+		# make regent/advisor
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+					NOT = {
+						is_courtier_of = root
+					}
+				}
+			}
+			add_courtier = scope:aeluran_sister_advisor
+		}
+
+		if = {
+			limit = {
+				has_active_diarchy = no
+			}
+			start_diarchy = aeluran_regency
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			set_diarchy_type = aeluran_regency
+		}
+
+		set_diarch = scope:aeluran_sister_advisor
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = yes
+				}
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+			scope:aeluran_sister_advisor = {
+				change_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.101.ok
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+				}
+			}
+			trigger_event = aeluran_diarchy.103
+		}
+
+		trigger_event = {
+			id = aeluran_diarchy.102
+			days = { 25 40 }
+		}
+	}
+}
+
+aeluran_diarchy.1011 = {
+	type = character_event
+	title = aeluran_diarchy.1011.title
+	desc = aeluran_diarchy.1011.desc
+
+	# left_portrait = {
+	# 	character = root
+	# 	animation = personality_bold
+	# }
+	left_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_content
+		camera = camera_body_left_slight
+	}
+
+	theme = aeluran_advisor
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	# cooldown = { years = 1 }
+
+	immediate = {
+		debug_log = "start aeluran regency"
+		debug_log_scopes = yes
+
+		remove_character_flag = aeluran_advisor_is_on_the_way
+
+		# make regent/advisor
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+					NOT = {
+						is_courtier_of = root
+					}
+				}
+			}
+			add_courtier = scope:aeluran_sister_advisor
+		}
+
+		if = {
+			limit = {
+				has_active_diarchy = no
+			}
+			start_diarchy = aeluran_regency
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			set_diarchy_type = aeluran_regency
+		}
+
+		set_diarch = scope:aeluran_sister_advisor
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = yes
+				}
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+			scope:aeluran_sister_advisor = {
+				change_government = aeluran_weavers_government
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1011.ok
+
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor = {
+					is_ruler = no
+				}
+			}
+			trigger_event = aeluran_diarchy.103
+		}
+
+		trigger_event = {
+			id = aeluran_diarchy.102
+			days = { 25 40 }
+		}
+	}
+}
+
+# regent task management
+aeluran_diarchy.102 = {
+	hidden = yes
+
+	trigger = {
+		has_active_diarchy = yes
+		exists = diarch
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				# TODO: was this suppose to be for diarch? Maybe some events need it...
+				is_landed = yes
+			}
+			random_list = {
+				100 = {
+					trigger = { 
+						diarch = { has_active_mandate = realm_supervision }
+					}
+					
+					if = {
+						limit = { has_character_modifier = realm_is_subjugated_modifier }
+						remove_character_modifier = realm_is_subjugated_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_dominated_modifier }
+						remove_character_modifier = realm_is_dominated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_supervised_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_supervised_modifier
+						}
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
+				}
+				100 = {
+					trigger = { 
+						diarch = { has_active_mandate = realm_subjugation }
+					}
+
+					if = {
+						limit = { has_character_modifier = realm_is_supervised_modifier }
+						remove_character_modifier = realm_is_supervised_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_dominated_modifier }
+						remove_character_modifier = realm_is_dominated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_subjugated_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_subjugated_modifier
+						}
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_subjugation_random }
+				}
+				100 = {
+					trigger = { 
+						diarch = { has_active_mandate = realm_domination }
+					}
+
+					if = {
+						limit = { has_character_modifier = realm_is_supervised_modifier }
+						remove_character_modifier = realm_is_supervised_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_subjugated_modifier }
+						remove_character_modifier = realm_is_subjugated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_dominated_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_dominated_modifier
+						}
+					}
+
+					trigger_event = { on_action = diarchy_mandate_realm_domination_random }
+				}
+			}
+			diarch = {
+
+				# We should have events get passed to diarch, who then auto-handles as AI or manually as player
+				
+				# maybe we should just create a story for the diarch? or add to existing one
+				### Here we should put all of the events that arent specific to a realm management level, although management MAY effect severity
+				
+				# Loyalty Trait Shift
+				# Country Control Gains
+				# Tax and Levy modifier gain
+				# Find Secrets
+
+				# matter of fact, having seperate on-action pools may be compeltely unneeded
+				# - could make new pools that focus on aspects though like "succession meddling"
+
+				# trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
+
+			}
+		}
+		trigger_event = {
+			id = aeluran_diarchy.102
+			days = { 730 1460 }
+		}
+
+		# We can also potentially run the negative side effects as a seperate chain
+
+	}
+}
+
+
+# aeluran_diarchy.1101 = {
+
 # }
 
-# aeluran_diarchy.0101 = {
-# 	hidden = yes
+# Aeluran demands land
+aeluran_diarchy.103 = {
+	type = character_event
+	title = aeluran_diarchy.103.title
+	desc = aeluran_diarchy.103.desc
+	# if first aeluran advisor, find a new church holding to take.
+	# assign that barony to ruler as character variable
+	# on aeluran death, holding returns to leige
+	# new advisor automatically settles old barony and depending on respect, maybe other lands
 
-# 	trigger = {
-# 		has_active_diarchy = yes
-# 		# Because we were apparently occasionally catching gaps in diarch succession.
-# 		exists = diarch
-# 	}
+	# if leige gives away county with an advisor, advisor angrily seizes new land
+	# if aeluran cant be landed, leige suffers a penalty modifier until its rectified
 
-# 	immediate = {
-# 		# We don't have fine control of mandates yet, so we just randomly pick a pool and push from it.
-# 		if = {
-# 			limit = {
-# 				# Filtering out landless lieges, since they're too much to control for.
-# 				is_landed = yes
-# 			}
-# 			diarch = {
-# 				random_list = {
-# 					100 = {
-# 						trigger = { has_active_mandate = manage_treasury }
-# 						trigger_event = { on_action = diarchy_mandate_manage_treasury_random }
-# 					}
-# 					100 = {
-# 						trigger = { has_active_mandate = command_armies }
-# 						trigger_event = { on_action = diarchy_mandate_command_armies_random }
-# 					}
-# 					100 = {
-# 						trigger = { has_active_mandate = administrate_court }
-# 						trigger_event = { on_action = diarchy_mandate_administrate_court_random }
-# 					}
-# 				}
-# 			}
-# 		}
-# 		# And loop it in a bit.
-# 		trigger_event = {
-# 			id = aeluran_diarchy.0101
-# 			days = { 365 730 }
-# 		}
-# 		# Give out manipulation hooks to landless diarchs.
-# 		diarch = { trigger_event = diarchy.0121 }
-# 	}
-# }
+	# for tribal, just say the order sponsors the holding construction
+
+	trigger = {
+		scope:aeluran_sister_advisor = {
+			is_alive = yes
+		}
+	}
+
+	theme = aeluran_matriarch
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		random_sub_realm_barony = {
+			limit = {
+				title_province = {
+					# has_holding = no
+					# holder = root
+					has_holding_type = church_holding
+				}
+				county_controller = root
+
+			}
+
+			save_scope_as = church_barony_1
+		}
+
+		if = {
+			limit = {
+				exists = scope:church_barony_1
+			}
+
+			random_sub_realm_barony = {
+				limit = {
+					title_province = {
+						# has_holding = no
+						# holder = root
+						has_holding_type = church_holding
+					}
+					county_controller = root
+					NOT = {
+						this = scope:church_barony_1
+					}
+				}
+	
+				save_scope_as = church_barony_2
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:church_barony_2
+			}
+
+			random_sub_realm_barony = {
+				limit = {
+					title_province = {
+						# has_holding = no
+						# holder = root
+						has_holding_type = church_holding
+					}
+					county_controller = root
+					NOR = {
+						this = scope:church_barony_1
+						this = scope:church_barony_2
+					}
+				}
+	
+				save_scope_as = church_barony_3
+			}
+		}
+
+		if = {
+			limit = {
+				# NOT = {
+				# 	exists = scope:target_church_barony
+				# }
+			}
+
+			random_realm_province = {
+				limit = {
+					has_holding = no
+					county_controller = root
+				}
+
+				save_scope_as = undeveloped_holding
+			}
+		}
+
+			# begin_create_holding
+			# any_realm_province
+			# any_directly_owned_province
+	}
+
+	option = {
+		name = aeluran_diarchy.103.church_1
+		trigger = {
+			exists = scope:church_barony_1
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_1 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_1.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_1.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.103.church_2
+		trigger = {
+			exists = scope:church_barony_2
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_2 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_2.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_2.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.103.church_3
+		trigger = {
+			exists = scope:church_barony_3
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_3 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_3.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_3.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.103.undeveloped_holding
+		trigger = {
+			exists = scope:undeveloped_holding
+		}
+
+		scope:undeveloped_holding = {
+			begin_create_holding = {
+				type = church_holding
+			}
+		}
+
+		trigger_event = {
+			id = aeluran_diarchy.1031
+			days = 1826
+		}
+	}
+
+	# let player know they have 1 year to find holding or consequences
+	option = { # I will assign you land
+		name = aeluran_diarchy.103.will_assign
+
+		add_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+
+		trigger_event = aeluran_diarchy.1032
+	}
+
+}
+
+aeluran_diarchy.1031 = {
+	type = character_event
+	title = aeluran_diarchy.1031.title
+	desc = aeluran_diarchy.1031.desc
+
+	trigger = {
+		scope:aeluran_sister_advisor = {
+			is_alive = yes
+		}
+	}
+
+	theme = aeluran_matriarch
+
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_bold
+	}
+
+	option = {
+		name = aeluran_diarchy.1031.ok
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:undeveloped_holding.barony  = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:undeveloped_holding.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:undeveloped_holding.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+}
+
+aeluran_diarchy.1032 = {
+	type = character_event
+	title = aeluran_diarchy.1032.title
+	desc = aeluran_diarchy.1032.desc
+
+	theme = aeluran_matriarch
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = disapproval
+	}
+
+	option = {
+		name = aeluran_diarchy.1032.ok
+
+		trigger_event = {
+			id = aeluran_diarchy.1033
+			years = 3
+		}
+	}
+}
+
+aeluran_diarchy.1033 = {
+	type = character_event
+	title = aeluran_diarchy.1033.title
+	desc = aeluran_diarchy.1033.desc
+
+	trigger = {
+		scope:aeluran_sister_advisor = {
+			is_alive = yes
+		}
+	}
+
+	theme = aeluran_matriarch
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_zealous
+	}
+
+	immediate = {
+		random_sub_realm_barony = {
+			limit = {
+				title_province = {
+					# has_holding = no
+					# holder = root
+					has_holding_type = church_holding
+				}
+				county_controller = root
+
+			}
+
+			save_scope_as = church_barony_1
+		}
+
+		if = {
+			limit = {
+				exists = scope:church_barony_1
+			}
+
+			random_sub_realm_barony = {
+				limit = {
+					title_province = {
+						# has_holding = no
+						# holder = root
+						has_holding_type = church_holding
+					}
+					county_controller = root
+					NOT = {
+						this = scope:church_barony_1
+					}
+				}
+	
+				save_scope_as = church_barony_2
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:church_barony_2
+			}
+
+			random_sub_realm_barony = {
+				limit = {
+					title_province = {
+						# has_holding = no
+						# holder = root
+						has_holding_type = church_holding
+					}
+					county_controller = root
+					NOR = {
+						this = scope:church_barony_1
+						this = scope:church_barony_2
+					}
+				}
+	
+				save_scope_as = church_barony_3
+			}
+		}
+
+		if = {
+			limit = {
+				# NOT = {
+				# 	exists = scope:target_church_barony
+				# }
+			}
+
+			random_realm_province = {
+				limit = {
+					has_holding = no
+					county_controller = root
+				}
+
+				save_scope_as = undeveloped_holding
+			}
+		}
+
+			# begin_create_holding
+			# any_realm_province
+			# any_directly_owned_province
+	}
+
+	option = {
+		name = aeluran_diarchy.1033.church_1
+		trigger = {
+			exists = scope:church_barony_1
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_1 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_1.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_1.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1033.church_2
+		trigger = {
+			exists = scope:church_barony_2
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_2 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_2.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_2.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1033.church_3
+		trigger = {
+			exists = scope:church_barony_3
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		scope:church_barony_3 = {
+			change_title_holder = {
+				holder = scope:aeluran_sister_advisor
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		if = {
+			limit = {
+				NOT = {
+					scope:church_barony_3.county.faith = scope:aeluran_sister_advisor.faith
+				}
+			}
+			scope:church_barony_3.county = {
+				set_county_faith = scope:aeluran_sister_advisor.faith
+			}
+		}
+
+		scope:aeluran_sister_advisor = {
+			change_government = aeluran_weavers_government
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1033.undeveloped_holding
+		trigger = {
+			exists = scope:undeveloped_holding
+		}
+
+		scope:undeveloped_holding = {
+			begin_create_holding = {
+				type = church_holding
+			}
+		}
+
+		trigger_event = {
+			id = aeluran_diarchy.1031
+			days = 1826
+		}
+	}
+
+	option = { # I will assign you land
+		name = aeluran_diarchy.1033.will_assign
+
+		if = {
+			limit = {
+				NOT = {
+					has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+				}
+			}
+			add_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
+
+		change_diarchy_swing = 10
+
+		trigger_event = aeluran_diarchy.1032
+	}
+
+}

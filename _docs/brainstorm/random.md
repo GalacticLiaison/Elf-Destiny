@@ -259,3 +259,82 @@ Special "Aeluran Vassal" type. Maybe gives extra tax/piety/control but theres so
 mythic artifact, hammer that gives insane building speed bonus 
 
 myhtril coat
+
+take the hired mercenary concept from iberian penninsula to the extreme
+
+combine aeluran respect with legitamacy window, just add a second bar!
+- i wonder if you can make invisible traits with tracks and still track values on it?
+
+future dynasty or perk that increases odds of loyal trait in matchmaking matches
+
+for the warg spell "send animal spys", use map selector like finding hook, increase range for each magic skill elvel 1-3
+
+form network of spies event/unlockable councilor task
+
+Man just realized even Harry Potter has elves lol, bad ending for elves is they become house elf servants to humans?
+
+some effect that gives a ONE TIME bonus of +1 Dynasty Renown fo each living ruler of your dynasty
+- maybe an event that occurs randomly on expeditions.
+- maybe a consumable artifact
+- maybe also only counts elf rulers if its something specific to elf supremacists
+
+If renown is becoming a worthless currency with how big your dynasty is, maybe create a whole new way to spend it!
+- ELITE MAA MERCENARIES!!!
+
+battle of wills discord app
+- player challenges another channel member
+- bot displays challenge in same format and percentage chance as ck3
+- both players emoji to confirm battle
+
+could make available culture tradition slots its own reward you find on expeditions!
+
+create new fairy forest terrain type for Socotra
+
+already wrote somewhere but new bloddline event, preg mother who needs shelter, child has two bloodlines 
+
+born in the red version of all the twin traits?
+
+artifact that gives plague resistance, maybe aeluran related
+
+aeluran servant maybe should include a loyalty oath that binds them. Aelurans have additonal control over them
+
+maybe for the dune genetic prophecy traits you find prophecy tablets that unlock them as a possibility?
+
+for quests maybe make a decision that has dynamic localization text based on where along in the quest you are and its disabled till quest complete
+- could be useful for genetic prophecies, as yuo find tablets they suddenly appear in your decisions tab
+
+cull the weak: haze comes over elves when the pop gets to big and it increases the murdernous in their personalities
+- maybe a religious tenet! changes murder doctrine to allowed for awhile: purge
+
+mysterious young refugee arrives and starts slowing gaining control
+
+rare stone statue boss variant
+
+praetor, justicar
+
+rare bld lin event, claims no father preg wmn with random amount of kids each with one random bld ln (preistess of vana that was blessed)
+
+Grand Skill Checks: your character must embody one of the skills (prowess/diplomacy/etc) and you can complete some ridiculously hard challenge and get some awsome reward.
+ideas:
+- prowess: master sword in the stone, but the zelda master sword in stone in england, the one who pulls it gains an Elven version of the King Of England title.
+
+someone mentioned AGOT has Heterochromia: https://www.reddit.com/r/CK3AGOT/comments/1dju96t/midweek_dev_diary_heterochromia_eyes/
+- could use this to handle elves of two eye bloodlines
+   - sometime all one, sometimes the other, sometimes one of each
+
+
+patch random:
+- maybe if there are enough unhappy aeluran rulers close together (even across lieges), they band together to form a new kingdom appointing a more worthy male 
+- could turn players government into an aeluran servant gov
+- event where aeluran sister arrests liege and keeps him/her in their prison!
+- make fecund an actual aeluran ability, turn on at will!
+- events: game of thrones shame naked walk througn capital, maybe for vassals too
+- having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
+- maybe aeluron sisters have little autonomy in their own matchmaking
+
+
+put pantheon as a section in religion screen and show icons for valar you follow
+
+fowr 
+- make each chase segment an event with a variety of skill check options to either get closer or farther from succeeding
+- use camera = {} to zoom rabbit out, use it to put in hedge doorway or something and use an image with depth/distance

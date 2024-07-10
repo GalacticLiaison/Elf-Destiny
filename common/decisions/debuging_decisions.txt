@@ -1,67 +1,4 @@
-﻿# # diarchy_decision = {
-# # 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
-
-# # 	desc = "Launch Aeluran Regency"
-# # 	selection_tooltip = "Does it work?"
-# # 	major = yes
-
-# # 	ai_goal = no
-# # 	ai_will_do = {
-# # 		value = 0
-# # 	}
-# # 	ai_potential = {
-# # 		always = no
-# # 	}
-	
-# # 	ai_check_interval = 0
-
-# # 	is_shown = {
-# # 		is_ruler = yes
-# # 		is_landed = yes
-
-# # 		# NOT = {  # Can only do it once.
-# # 		# 	is_target_in_global_variable_list = {
-# # 		# 		name = unavailable_unique_decisions
-# # 		# 		target = flag:flag_what_is_an_archeologist_answered
-# # 		# 	}
-# # 		# }
-# # 	}
-	
-# # 	# Following conditions must be true to take decision, shown in requirements section
-# # 	is_valid = {
-
-# # 	}
-
-# # 	# Following conditions Will be shown as a validation error tooltip when False
-# # 	is_valid_showing_failures_only = {
-# # 		is_capable_adult = yes
-# # 		is_imprisoned = no
-# # 		is_independent_ruler = yes
-# # 		is_at_war = no
-# # 	}
-
-# # 	cost = {
-# # 		# TODO: implement side quests to reduce the price
-# # 		# gold = 3000
-# # 		# gold = 3
-# # 	}
-
-# # 	effect = {
-# # 		show_as_tooltip = {
-# # 			# TODO: see if this works
-# # 			# restore_the_grand_portal_scripted_effect = yes
-# # 		}
-# # 		trigger_event = {
-# # 			id = aeluran_diarchy.0001
-# # 		}
-# # 		# hidden_effect = {
-
-# # 		# }
-# # 	}
-	
-# # }
-
-
+﻿
 # debug_add_all_quest_items_decision = {
 # 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
 
@@ -135,5 +72,170 @@
 # 			target = flag:flag_grand_portal_restored
 # 		}
 # 		trigger_event = elf_destiny_main_story_events.002
+# 	}
+# }
+
+# debug_magi_reinforcements = {
+# 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+# 	desc = "Launch TEST Event"
+# 	selection_tooltip = "Does it work?"
+# 	major = yes
+
+# 	ai_goal = no
+# 	ai_will_do = {
+# 		value = 0
+# 	}
+# 	ai_potential = {
+# 		always = no
+# 	}
+	
+# 	ai_check_interval = 0
+
+# 	effect = {
+# 		trigger_event = aeluran_advisor_task.01011
+# 	}
+# }
+
+# debug_invert_gender_laws = {
+
+# 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+# 	desc = "Swap Gender Laws of All titles"
+# 	selection_tooltip = "Does it work?"
+# 	major = yes
+
+# 	ai_goal = no
+# 	ai_will_do = {
+# 		value = 0
+# 	}
+# 	ai_potential = {
+# 		always = no
+# 	}
+	
+# 	ai_check_interval = 0
+
+# 	effect = {
+# 		# Now realm law.
+# 		if = {
+# 			limit = { has_realm_law = male_only_law }
+# 			add_realm_law = female_only_law
+# 			if = {
+# 				limit = {
+# 					highest_held_title_tier >= tier_county
+# 					is_male = yes
+# 					is_ai = yes
+# 					any_heir = { is_female = yes }
+# 				}
+# 				depose = yes
+# 			}
+# 		}
+# 		else_if = {
+# 			limit = { has_realm_law = male_preference_law }
+# 			add_realm_law = female_preference_law
+# 			if = {
+# 				limit = {
+# 					highest_held_title_tier >= tier_county
+# 					is_male = yes
+# 					is_ai = yes
+# 					any_heir = { is_female = yes }
+# 				}
+# 				depose = yes
+# 			}
+# 		}
+
+
+# 		every_held_title = {
+# 			# Invert male-only.
+# 			if = {
+# 				limit = { has_title_law = male_only_law }
+# 				debug_log = "first condition hit"
+
+# 				remove_title_law = male_only_law
+# 				add_title_law = female_only_law
+# 			}
+# 			# Invert female-only.
+# 			else_if = {
+# 				limit = { has_title_law = female_only_law }
+# 				debug_log = "second condition hit"
+
+# 				remove_title_law = female_only_law
+# 				add_title_law = male_only_law
+# 			}
+# 			else = {
+# 				debug_log = "third condition hit"
+# 				add_title_law = female_only_law
+# 			}
+# 		}
+# 	}
+# }
+
+# debug_add_spark_crystal = {
+# 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+# 	desc = "Free Spark Crystal"
+# 	selection_tooltip = "Free Spark Crystal"
+# 	major = yes
+
+# 	ai_goal = no
+# 	ai_will_do = {
+# 		value = 0
+# 	}
+# 	ai_potential = {
+# 		always = no
+# 	}
+	
+# 	ai_check_interval = 0
+
+# 	effect = {
+# 		create_spark_crystal_effect = { OWNER = root }
+# 	}
+# }
+
+# debug_swing_scales_of_power = {
+# 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+# 	desc = "Swing the regency scales of power"
+# 	selection_tooltip = "Swing the regency scales of power"
+# 	major = yes
+
+# 	ai_goal = no
+# 	ai_will_do = {
+# 		value = 0
+# 	}
+# 	ai_potential = {
+# 		always = no
+# 	}
+	
+# 	ai_check_interval = 0
+
+# 	effect = {
+# 		trigger_event = debugging_events.001
+# 	}
+# }
+
+# debug_gain_lifestyle_points = {
+# 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
+
+# 	desc = "gain lifestyle points"
+# 	selection_tooltip = "gain lifestyle points"
+# 	major = yes
+
+# 	ai_goal = no
+# 	ai_will_do = {
+# 		value = 0
+# 	}
+# 	ai_potential = {
+# 		always = no
+# 	}
+	
+# 	ai_check_interval = 0
+
+# 	effect = {
+# 		add_diplomacy_lifestyle_perk_points = 1
+# 		add_martial_lifestyle_perk_points = 1
+# 		add_stewardship_lifestyle_perk_points = 1
+# 		add_intrigue_lifestyle_perk_points = 1
+# 		add_learning_lifestyle_perk_points = 1
 # 	}
 # }

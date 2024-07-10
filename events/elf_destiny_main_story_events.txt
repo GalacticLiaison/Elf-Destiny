@@ -164,7 +164,7 @@ elf_destiny_main_story_events.002 = { # Restore the Portal part 1
 			}
 		}
 		else = {
-			title:b_luch = {
+			global_var:portal_location_barony = {
 				restore_the_grand_portal_scripted_effect = yes
 			}
 
@@ -272,7 +272,12 @@ elf_destiny_main_story_events.0021 = { # Restore the Portal part 2
 	}
 
 	option = { # Receive Blessing Choice
-		name = elf_destiny_main_story_events.0021.ok_move_portal
+		name = elf_destiny_main_story_events.0021.ok_move_capital
+		trigger = {
+			NOT = {
+				has_global_variable = grand_portal_transported
+			}
+		}
 		set_realm_capital = title:c_martyuba
 		trigger_event = elf_destiny_main_story_events.0023
 	}
@@ -308,7 +313,7 @@ elf_destiny_main_story_events.0022 = { # Transport The Grand Portal
 
 		}
 
-		title:b_luch = {
+		global_var:portal_location_barony = {
 			remove_the_grand_portal_effect = yes
 		}
 

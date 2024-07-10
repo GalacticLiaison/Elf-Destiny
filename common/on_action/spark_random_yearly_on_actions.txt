@@ -81,15 +81,21 @@ elf_prego_pulse = {
 
 			debug_log_scopes = yes
 
-			random = {
-				chance = 20
-				debug_log = "pregnancy given"
-				scope:sex_partner = {
-					make_pregnant = {
-						father = root
+			if = {
+				limit = {
+					exists = scope:sex_partner
+				}
+				random = {
+					chance = 20
+					debug_log = "pregnancy given"
+					scope:sex_partner = {
+						make_pregnant = {
+							father = root
+						}
 					}
 				}
 			}
+
 		}
 
 	}

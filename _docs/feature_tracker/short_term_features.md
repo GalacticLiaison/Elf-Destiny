@@ -1,7 +1,7 @@
 # Note, launch the "Help me pick expedition sites" thread. "And what are some ideas for elf ruins you would like to see there?" 
 
 # Things to work on!
-- give aeluron matriarch/matrons.sisters a convert me interaction
+- give aeluran matriarch/matrons.sisters a convert me interaction
 
 - maybe transform all party members into elves. not just you and Julia
 

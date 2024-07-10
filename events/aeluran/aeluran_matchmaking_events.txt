@@ -6,132 +6,564 @@
 # - TODO: Aeluran Advisor puts themself forward as candidate, event chain
 # - TODO: Special high matraiarch pairing event chain
 
-# Yearly approached by Advisor to find a spouse
+# Current Workflow
+# - Checks which possiblities are available
+# - rigidly decides to assign description blocks
+# - rigidly assigns portraits
+
+# Work towards a new random selector!
+# random_list = {
+# 	0 = {
+# 		modifier = {
+# 			add = x # rarity
+# 			is_this_match_type_available
+# 		}
+# 	}
+# }
+
+# we really should ALWAYS have three options
+	# - if need be, generate a second or even third standard match
+# maybe have it go through the random_list three times, each time if a selction has already been picked, its modifier stays 0
+
 aeluran_matchmaking.001 = {
-	hidden = yes
-	scope = none
+	type = character_event
+	title = aeluran_matchmaking.001.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:actor = scope:recipient
+				}
+				desc = aeluran_matchmaking.001.desc.lord
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						scope:actor = scope:recipient
+					}
+				}
+				desc = aeluran_matchmaking.001.desc.family
+			}
+		}
+	}
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:recipient }
+		character = scope:recipient
+		animation = idle
+	}
+	right_portrait = {
+		trigger = { exists = scope:aeluran_adviser }
+		character = scope:aeluran_adviser
+		animation = flirtation
+	}
 
 	immediate = {
-		debug_log = "aeluran_matchmaking.001"
-
-		every_living_character = {
+		if = {
 			limit = {
-				is_ai = no
-				is_adult = yes
-				is_ruler = yes
-				is_any_elf_type = yes
-				faith = { has_doctrine = tenet_aeluran_sisters }
+				exists = diarch
 			}
 
-			save_scope_as = aeluran_ruler
+			diarch = {
+				save_scope_as = aeluran_adviser
+			}
+		}
+	}
 
+	option = {
+		name = aeluran_matchmaking.001.ok
+
+		if = {
+			limit = {
+				scope:actor = scope:recipient
+				has_character_flag = refused_matchmaking
+			}
+
+			remove_character_flag = refused_matchmaking
+		}
+		else = {
+			diarch = {
+				set_variable = {
+					name = requested_matchmaking_character
+					value = scope:recipient
+					# years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_matchmaking.001.nvm
+	}
+}
+
+aeluran_matchmaking.101 = {
+	type = character_event
+	title = aeluran_matchmaking.101.title
+	desc = {
+		desc = aeluran_matchmaking.101.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:lord_or_heir
+					scope:lord_or_heir = flag:lord
+				}
+				desc = aeluran_matchmaking.101.desc.lord
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:lord_or_heir
+					scope:lord_or_heir = flag:heir
+				}
+				desc = aeluran_matchmaking.101.desc.heir
+			}
+			desc = aeluran_matchmaking.101.desc.fallback
+		}
+	}
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		triggered_animation = {
+			trigger = {
+				root = scope:match_recipient
+			}
+			animation = war_defender
+		}
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					root = scope:match_recipient
+				}
+			}
+			animation = worry
+		}
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = flirtation
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:match_recipient
+			}
 			if = {
 				limit = {
-					scope:aeluran_ruler = {
-						is_betrothed = no
-						is_married = no
-						is_adult = yes
-					}
+					scope:match_recipient = root
 				}
-				scope:aeluran_ruler = {
-					save_scope_as = match_recipient
-					trigger_event = aeluran_matchmaking.0011
-				}
-			} 
-			else_if = {
-				limit = {
-					scope:aeluran_ruler.player_heir = {
-						AND = {
-							is_betrothed = no
-							is_married = no
-							is_adult = yes
-							faith = { has_doctrine = tenet_aeluran_sisters }
-						}
-					}
-				}
-				scope:aeluran_ruler = {
-					player_heir = {
-						save_scope_as = match_recipient
-					}
-					trigger_event = aeluran_matchmaking.0012
+				save_scope_value_as = {
+					name = lord_or_heir
+					value = flag:lord
 				}
 			}
-			else = {
-				debug_log = "aeluran_matchmaking.001 - WTF"
+			else_if = {
+				limit = {
+					scope:match_recipient = {
+						is_heir_of = root
+					}
+				}
+				save_scope_value_as = {
+					name = lord_or_heir
+					value = flag:heir
+				}
+			}
+		}
+		else = {
+			debug_log = "NO MATCH RECIPIENT!!"
+		}
+	}
+
+	option = { # Begin Matchmaking
+		name = aeluran_matchmaking.101.ok
+		add_to_activity = scope:host.involved_activity
+	}
+
+	option = { # I will put this off for 5 years
+		name = aeluran_matchmaking.101.snooze
+		flavor = current_aeluran_control_level
+
+		save_scope_value_as = {
+			name = refusal_type
+			value = flag:snooze
+		}
+
+		scope:host = {
+			add_opinion = {
+				target = root
+				modifier = refused_aeluran_matchmaking
 			}
 		}
 
+		random_list = {
+			100 = {
+				custom_tooltip = {
+					text = aeluran_accepts_decision
 
+					if = {
+						limit = {
+							exists = scope:activity
+						}
+						decline_activity_invite = scope:activity
+					}
+
+					trigger_event = aeluran_matchmaking.1014
+				}
+
+				custom_tooltip = matchmaking_postponed
+			}
+			0 = {
+				modifier = {
+					add = 75
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_1 
+				}
+				modifier = {
+					add = 75
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_2
+				}
+				modifier = {
+					add = 75
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_3 
+				}
+			
+				custom_tooltip = {
+					text = aeluran_challenges_decision
+					trigger_event = aeluran_matchmaking.1011
+				}
+			}
+		}
+	}
+
+	option = { # Dont attempt to matchmake me or my heir again
+		name = aeluran_matchmaking.101.never_again
+		flavor = current_aeluran_control_level
+
+		save_scope_value_as = {
+			name = refusal_type
+			value = flag:permanent
+		}
+
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			decline_activity_invite = scope:activity
+		}
+
+		random_list = {
+			100 = {
+				custom_tooltip = {
+					text = aeluran_accepts_decision
+
+					if = {
+						limit = {
+							exists = scope:activity
+						}
+						decline_activity_invite = scope:activity
+					}
+
+					trigger_event = aeluran_matchmaking.1014
+				}
+				custom_tooltip = matchmaking_postponed_permanently
+			}
+			0 = {
+				modifier = {
+					add = 200
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_1 
+				}
+				modifier = {
+					add = 200
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_2
+				}
+				modifier = {
+					add = 200
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_3 
+				}
+			
+				custom_tooltip = {
+					text = aeluran_challenges_decision
+					trigger_event = aeluran_matchmaking.1011
+				}
+			}
+		}
+
+		# Piety Penalty
+		# Battle of Wills
+			# win they listen
+			# lost they suggest their lord is not himself and needs a nap. They will ask again in a years time
 	}
 }
 
-# Matchmaking intro for player
-aeluran_matchmaking.0011 = {
+aeluran_matchmaking.1011 = { # Aeluran Challenges Player To Battle Of Wills
 	type = character_event
-	title = aeluran_matchmaking.0011.title
-	desc = aeluran_matchmaking.0011.desc
-	theme = seduction
+	title = aeluran_matchmaking.1011.title
+	desc = aeluran_matchmaking.1011.desc
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
 	content_source = elf_destiny
 
-	trigger = {
-		exists = cp:councillor_aeluran_advisor
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = disbelief
 	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = anger
+	}
+
+	immediate = {
+		save_scope_as = challenger
+
+		scope:host = {
+			save_scope_as = defender
+		}
+	}
+
+	option = { # Learning
+		name = aeluran_matchmaking.1011.learning
+		
+		flavor = battle_of_wills_modifiers_desc
+
+		save_scope_value_as = {
+			name = battle_of_wills_type
+			value = flag:learning
+		}
+
+		if = {
+			limit = {
+				exists = scope:battle_of_wills_type
+			}
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = root
+				DEFENDER = scope:host
+				CHALLENGER_WINS_EFFECT_TOOLTIP = lord_defeats_advisor_matchmaking_battle_of_wills
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = lord_loses_to_advisor_matchmaking_battle_of_wills
+			}
+
+			if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = yes
+				}
+
+				trigger_event = aeluran_matchmaking.1012
+			}
+			else_if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = no
+				}
+
+				trigger_event = aeluran_matchmaking.1013
+			}
+		}
+	}
+
+	option = { # Intrigue Diplo
+		name = aeluran_matchmaking.1011.intrigue_diplo
+		trigger = {
+			culture = {
+				has_cultural_parameter = entrance_scheme_unlocked
+			}
+		}
+		
+		flavor = battle_of_wills_modifiers_desc
+
+		save_scope_value_as = {
+			name = battle_of_wills_type
+			value = flag:intrigue_diplomacy
+		}
+
+		if = {
+			limit = {
+				exists = scope:battle_of_wills_type
+			}
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = root
+				DEFENDER = scope:host
+				CHALLENGER_WINS_EFFECT_TOOLTIP = lord_defeats_advisor_matchmaking_battle_of_wills
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = lord_loses_to_advisor_matchmaking_battle_of_wills
+			}
+
+			if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = yes
+				}
+
+				trigger_event = aeluran_matchmaking.1012
+			}
+			else_if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = no
+				}
+
+				trigger_event = aeluran_matchmaking.1013
+			}
+		}
+	}
+
+
+}
+
+aeluran_matchmaking.1012 = { # Player Wins Battle Of Wills
+	type = character_event
+	title = aeluran_matchmaking.1012.title
+	desc = aeluran_matchmaking.1012.desc
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
 
 	left_portrait = {
-		character = cp:councillor_aeluran_advisor
-		animation = flirtation
-	}
-
-	right_portrait = {
 		character = root
-		animation = personality_rational
+		animation = personality_bold
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = worry
 	}
 
 	immediate = {
-		debug_log = "aeluran_matchmaking.0011"
+
+		if = {
+			limit = {
+				exists = scope:refusal_type
+				scope:refusal_type = flag:snooze
+			}
+
+			add_character_flag = {
+				flag = refused_matchmaking
+				years = 5
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:refusal_type
+				scope:refusal_type = flag:permanent
+			}
+
+			add_character_flag = refused_matchmaking
+		}
 	}
 
 	option = {
-		name = aeluran_matchmaking.0011.ok
-		trigger_event = aeluran_matchmaking.002
-	}
+		name = aeluran_matchmaking.1012.ok
 
-	option = {
-		name = aeluran_matchmaking.0011.refuse
-		add_piety = -150
+		change_diarchy_swing = -20
 	}
 }
 
-# Matchmaking intro for players heir
-aeluran_matchmaking.0012 = {
+aeluran_matchmaking.1013 = { # Player Losess Battle Of Wills
 	type = character_event
-	title = aeluran_matchmaking.0012.title
-	desc = aeluran_matchmaking.0012.desc
-	theme = seduction
+	title = aeluran_matchmaking.1013.title
+	desc = aeluran_matchmaking.1013.desc
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
 	content_source = elf_destiny
 
 	left_portrait = {
-		character = cp:councillor_aeluran_advisor
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = worry
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
 		animation = flirtation
 	}
 
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_matchmaking.1013.ok
+		add_to_activity = scope:host.involved_activity
+
+		change_diarchy_swing = 20
+	}
+}
+
+aeluran_matchmaking.1014 = { # Aeluran Advicer Accepts The Matchmaking Refusal
+	type = character_event
+	title = aeluran_matchmaking.1014.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:refusal_type
+					scope:refusal_type = flag:snooze
+				}
+				desc = aeluran_matchmaking.1014.desc.snooze
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:refusal_type
+					scope:refusal_type = flag:permanent
+				}
+				desc = aeluran_matchmaking.1014.desc.permanent
+			}
+		}
+	}
+
+	theme = aeluran_matriarch
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = personality_bold
+	}
 	right_portrait = {
-		character = root.player_heir
+		trigger = { exists = scope:host }
+		character = scope:host
 		animation = personality_rational
 	}
 
 	immediate = {
-		debug_log = "aeluran_matchmaking.0012"
+		if = {
+			limit = {
+				exists = scope:refusal_type
+				scope:refusal_type = flag:snooze
+			}
+
+			add_character_flag = {
+				flag = refused_matchmaking
+				years = 5
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:refusal_type
+				scope:refusal_type = flag:permanent
+			}
+
+			add_character_flag = refused_matchmaking
+		}
 	}
 
 	option = {
-		name = aeluran_matchmaking.0012.ok
-		trigger_event = aeluran_matchmaking.002
-	}
-
-	option = {
-		name = aeluran_matchmaking.0012.refuse
-		add_piety = -150
+		name = aeluran_matchmaking.1014.ok
 	}
 }
 
@@ -140,2333 +572,1066 @@ aeluran_matchmaking.002 = {
 	hidden = yes
 
 	immediate = {
-		# Select Match Options Based on Aeluran Weavers Respect Level 
-		# and Random Luck
-		save_scope_value_as = {
-			name = aeluran_respect_level
-			value = aeluran_respect_score_by_title
-		}
-
-		### WIP TODO: Adding checks to the options is all well and good but we should only be presenting options that are possible
-		# - could try to find all possible matches and then randomly pick fully possible ones
-		#   - Downside: would be creating alot of chatachters that would never be used.
-		#   - really all we need to do is check if FAMILY and ALLIANCE exist or not....
-
-		# additional bug: real people have a chance to be selected for breeding stock, if they were not randomly generated then we need to make sure they are not deleted
 		# need to check if family optione xists before using that matchmaking event
 
-		# LOG DEBUG
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:aeluran_respect_level
-				}
-			}
+		# TODO: Mayebe having worse domination should actually increase the quality of matches! If the order has more control they can give better matches
+		# TODO: How about we use High Matriarch Opinion!
 
-			debug_log = "NO Aeluran RESPECT DETECTED"
-		}
+		# matchmaking_candidate_quality
 
-		if = {
-			limit = {
-				NOT = {
-					alliance_option_available = yes
-				}
-			}
+		generate_matchmaking_candidates_effect = yes
+		# debug_log = matchmaking_debug_match_options
 
-			debug_log = "MATCHMAKING - No Alliance Available"
-		}
-		if = {
-			limit = {
-				NOT = {
-					family_option_available = yes
-				}
-			}
-
-			debug_log = "MATCHMAKING - No Family Available"
-		}
-
-		if = { # Very High Respect
-			limit = {
-				scope:aeluran_respect_level = 5
-			}
-			random_list = {
-				# TODO VVVVVVV for all tiers
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					debug_log = "FALLBACK CHOSEN HIGH"
-				
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-						}
-						alliance_option_available = yes
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = { 
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}  
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						is_female = no
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}  
-					}
-				}
-				100 = { # Aeluran/Twins
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					}
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					}
- 
-				}
-				100 = { # Aeluran/Triplets
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:triplets
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					} 
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:triplets
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					} 
- 
-				}
-			}
-		}
-
-		if = { # High Respect
-			limit = {
-				scope:aeluran_respect_level = 4
-			}
-			random_list = { 
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_matron
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				100 = { # Aeluran/Twins
-					if = {
-						limit = {
-							is_female = no
-						}
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:aeluran_matron
-						}
-					}
-					else = {
-						save_scope_value_as = {
-							name = match_choice_1
-							value = flag:twins
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:breeding_stock
-						}
-					}
- 
-				}
-			}
-		}
-
-		if = { # Neutral Respect
-			limit = {
-				scope:aeluran_respect_level = 3
-			}
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						 root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-			}
-		}
-
-		if = { # Low Respect
-			limit = {
-				scope:aeluran_respect_level = 2
-			}
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Breeder/Family
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-						}
-					}
-				}
-				0 = { # Breeder/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-				0 = { # Aeluran/Family/Alliance
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-
-					modifier = {
-						add = 100
-						root = {
-							is_female = no
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-							family_option_available = yes
-							alliance_option_available = yes
-						}
-					}
-				}
-			}
-		}
-
-		if = { # No Respect
-			limit = {
-				scope:aeluran_respect_level = 1
-			}
-
-			debug_log = "NO RESPECT"
-
-			random_list = {
-				1 = { # Breeder/And maybe Alliance, will trigger if everything else fails or just extremely rarely
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-
-					debug_log = "Match - Fallback Chosen"
-					
-					if = {
-						limit = {
-							alliance_option_available = yes
-						}
-						save_scope_value_as = {
-							name = match_choice_2
-							value = flag:alliance
-						}
-					}
-
-				}
-				0 = { # Aeluran/Breeder/Alliance
-					modifier = {
-						is_female = no
-						alliance_option_available = yes
-						add = 200
-					}
-
-					debug_log = "Match - Aeluran/Breeder/Alliance Chosen"
-
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
- 
-				}
-				0 = { # Aeluran/Breeder/Family
-					modifier = {
-						is_female = no
-						root = {
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-						add = 100
-					}
-
-					debug_log = "Match - Aeluran/Breeder/Family"
-					
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:family
-					}
-
-
-
-				}
-				0 = { # Breeder/Family/Alliance
-					modifier = {
-						root = { 
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-						add = 100
-					}
-
-					debug_log = "Match - Breeder/Family/Alliance"
-
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:breeding_stock
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-				}
-				0 = { # Aeluran/Family/Alliance
-					modifier = {
-						is_female = no
-						root = {
-							OR = {
-								culture = {
-									has_cultural_parameter = allows_unrestricted_marriage
-								}
-								faith = {
-									has_doctrine = tenet_divine_marriage
-								}
-							}
-						}
-						family_option_available = yes
-						alliance_option_available = yes
-
-						add = 100
-					}
-
-					debug_log = "Match - Aeluran/Family/Alliance"
-				
-					save_scope_value_as = {
-						name = match_choice_1
-						value = flag:aeluran_sister
-					}
-					save_scope_value_as = {
-						name = match_choice_2
-						value = flag:family
-					}
-					save_scope_value_as = {
-						name = match_choice_3
-						value = flag:alliance
-					}
-
-				}
-			}
-		}
-
-		# Find Match Characters
-		find_match_choices_effect = yes
-
-		#Debug
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_1
-				}
-			}
-			debug_log = "scope:match_choice_1 unassigned...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_2
-				}
-			}
-			debug_log = "scope:match_choice_2 unassigned...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_choice_3
-				}
-			}
-			debug_log = "scope:match_choice_3 unassigned...."
-		}
-		if = {
-			limit = {
-				exists = scope:match_choice_1
-				exists = scope:match_choice_2
-				exists = scope:match_choice_3
-			}
-			debug_log = "all scopes have value"
-			debug_log = matchmaking_debug_match_options
-		}
-
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_alliance
-				}
-			}
-			debug_log = "scope:match_option_alliance unassigned...."
-		}
-		else = {
-			debug_log = "scope:match_option_alliance assigned!...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_aeluran
-				}
-			}
-			debug_log = "match_option_aeluran unassigned...."
-		}
-		else = {
-			debug_log = "match_option_aeluran assigned!...."
-		}
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:match_option_family
-				}
-			}
-			debug_log = "scope:match_option_family unassigned...."
-		}
-		else = {
-			debug_log = "scope:match_option_family assigned!...."
-		}
-
-		
 		# debug_log_scopes = yes
 
-		trigger_event = aeluran_matchmaking.0021
+		trigger_event = aeluran_matchmaking.0022
 	}
 }
 
-### Match Making Choose Candidates Event Window ###
+# aeluran_matchmaking.0121 = {
+# 	hidden = yes
+
+# 	immediate = {
+# 		determine_aeluran_respect_score = yes
+# 		determine_match_candidate_count = yes
+
+# 		trigger_event = aeluran_matchmaking.0021
+# 	}
+# }
+
+# Aeluran welcome to matchmaking
 aeluran_matchmaking.0021 = {
-	type = character_event
+	type = activity_event
 	title = aeluran_matchmaking.0021.title
+
+	# Domination will reduce choices to two/one at lower levels
+	# Respect effects quality
+
 	desc = {
-		desc = aeluran_matchmaking.matches_intro
-		triggered_desc = { # Aeluran Matron
-			trigger = {
-				AND = {
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:aeluran_matron
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:aeluran_matron
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:aeluran_matron
-						}
+		desc = aeluran_matchmaking.0021.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:activity.special_guest:match_recipient
+					scope:activity.special_guest:match_recipient = root
+				}
+				desc = aeluran_matchmaking.0021.desc.lord
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:activity.special_guest:match_recipient
+					scope:activity.special_guest:match_recipient = {
+						is_heir_of = root
 					}
 				}
+				desc = aeluran_matchmaking.0021.desc.heir
 			}
-			desc = aeluran_matchmaking.aeluran_matron_option.player.desc
 		}
-		triggered_desc = { # Aeluran Matron Heir
-			trigger = {
-				AND = {
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:aeluran_matron
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:aeluran_matron
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:aeluran_matron
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.aeluran_matron_option.heir.desc
-		}
-		triggered_desc = { # Aeluran Sister
-			trigger = {
-				AND = {
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:aeluran_sister
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:aeluran_sister
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:aeluran_sister
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.aeluran_sister_option.player.desc
-		}
-		triggered_desc = { # Aeluran Sister Heir
-			trigger = {
-				AND = {
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:aeluran_sister
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:aeluran_sister
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:aeluran_sister
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.aeluran_sister_option.heir.desc
-		}
-		triggered_desc = { # Breeding Stock Male Ruler
-			trigger = {
-				AND = {
-					is_female = no
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_option.player.male.desc
-		}
-		triggered_desc = { # Breeding Stock Male Ruler Heir
-			trigger = {
-				AND = {
-					is_female = no
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_option.heir.male.desc
-		}
-		triggered_desc = { # Breeding Stock Female Ruler
-			trigger = {
-				AND = {
-					is_female = yes
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_option.player.female.desc
-		}
-		triggered_desc = { # Breeding Stock Female Ruler Heir
-			trigger = {
-				AND = {
-					is_female = yes
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_option.player.female.desc
-		}
-		triggered_desc = { # Breeding Stock Male Ruler 2
-			trigger = {
-				AND = {
-					is_female = no
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock_2
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_2_option.player.male.desc
-		}
-		triggered_desc = { # Breeding Stock Male Ruler Heir 2
-			trigger = {
-				AND = {
-					is_female = no
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock_2
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_2_option.heir.male.desc
-		}
-		triggered_desc = { # Breeding Stock Female Ruler 2
-			trigger = {
-				AND = {
-					is_female = yes
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock_2
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_2_option.player.female.desc
-		}
-		triggered_desc = { # Breeding Stock Female Ruler Heir 2
-			trigger = {
-				AND = {
-					is_female = yes
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:breeding_stock_2
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:breeding_stock_2
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.breeding_stock_2_option.player.female.desc
-		}
-		triggered_desc = { # Alliance
-			trigger = {
-				AND = {
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:alliance
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:alliance
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:alliance
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.alliance_option.player.desc
-		}
-		triggered_desc = { # Alliance Heir
-			trigger = {
-				AND = {
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:alliance
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:alliance
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:alliance
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.alliance_option.heir.desc
-		}
-		triggered_desc = { # Family
-			trigger = {
-				AND = {
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:family
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:family
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:family
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.family_option.player.desc
-		}
-		triggered_desc = { # Family Heir
-			trigger = {
-				AND = {
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:family
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:family
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:family
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.family_option.heir.desc
-		}
-		triggered_desc = { # Twins Male Ruler
-			trigger = {
-				AND = {
-					is_female = no
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:twins
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.twins_option.player.male.desc
-		}
-		triggered_desc = { # Twins Male Ruler Heir
-			trigger = {
-				AND = {
-					is_female = no
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:twins
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.twins_option.heir.male.desc
-		}
-		triggered_desc = { # Twins Female Ruler
-			trigger = {
-				AND = {
-					is_female = yes
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:twins
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.twins_option.player.female.desc
-		}
-		triggered_desc = { # Twins Female Ruler Heir
-			trigger = {
-				AND = {
-					is_female = yes
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:twins
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:twins
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.twins_option.heir.female.desc
-		}
-		triggered_desc = { # Triplets Male Ruler
-			trigger = {
-				AND = {
-					is_female = no
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:triplets
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.triplets_option.player.male.desc
-		}
-		triggered_desc = { # Triplets Male Ruler Heir
-			trigger = {
-				AND = {
-					is_female = no
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:triplets
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.triplets_option.heir.male.desc
-		}
-		triggered_desc = { # Triplets Female Ruler
-			trigger = {
-				AND = {
-					is_female = yes
-					root = scope:match_recipient
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:triplets
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.triplets_option.player.female.desc
-		}
-		triggered_desc = { # Triplets Female Ruler Heir
-			trigger = {
-				AND = {
-					is_female = yes
-					NOT = {
-						root = scope:match_recipient
-					}
-					OR = {
-						AND = {
-							exists = scope:match_choice_1
-							scope:match_choice_1 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_2
-							scope:match_choice_2 = flag:triplets
-						}
-						AND = {
-							exists = scope:match_choice_3
-							scope:match_choice_3 = flag:triplets
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.triplets_option.heir.female.desc
-		}
-		triggered_desc = { # Only one match found message
-			trigger = {
-				OR = {
-					AND = {
-						exists = scope:match_choice_1
-						NOT = {
-							exists = scope:match_choice_2
-							exists = scope:match_choice_3
-						}
-					}
-					AND = {
-						exists = scope:match_choice_2
-						NOT = {
-							exists = scope:match_choice_1
-							exists = scope:match_choice_3
-						}
-					}
-					AND = {
-						exists = scope:match_choice_3
-						NOT = {
-							exists = scope:match_choice_1
-							exists = scope:match_choice_2
-						}
-					}
-				}
-			}
-			desc = aeluran_matchmaking.only_one_match.desc
-		}
-		desc = aeluran_matchmaking.choose_match
+		desc = aeluran_matchmaking.0021.desc.stats
 	}
-	
-	theme = seduction
+
+	window = tour_arrival_event
+	theme = aeluran_matriarch
 	content_source = elf_destiny
 
 	left_portrait = {
-		trigger = { exists = scope:left_portrait }
-		character = scope:left_portrait
+		character = root
 		animation = personality_content
+		camera = camera_body_right
+	}
+	center_portrait = {
+		trigger = { 
+			exists = scope:activity.special_guest:match_recipient
+			NOT = {
+				root = scope:activity.special_guest:match_recipient
+			}
+		}
+		character = scope:activity.special_guest:match_recipient
+		animation = worry
+		camera = camera_body_right
 	}
 	right_portrait = {
-		trigger = { exists = scope:right_portrait }
-		character = scope:right_portrait
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = personality_content
+		camera = camera_body_left_slight
+	}
+
+	immediate = {
+		scope:host = {
+			save_scope_as = aeluran_advisor
+		}
+
+		# debug_log_scopes = yes
+
+		determine_aeluran_respect_score = yes
+		determine_match_candidate_count = yes
+
+		if = {
+			limit = {
+				exists = scope:aeluran_advisor
+				NOT = {
+					scope:aeluran_advisor = {
+						has_hook = root
+					}
+				}
+			}
+			save_scope_value_as = {
+				name = hook_available
+				value = yes
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			exists = scope:hook_available
+			scope:hook_available = yes
+			NOT = {
+				exists = scope:granted_hook
+			}
+		}
+		name = aeluran_matchmaking.0021.hook
+
+		scope:aeluran_advisor = {
+			add_hook = {
+				type = matchmaking_favoritism
+				target = root
+			}
+		}
+
+		save_scope_value_as = {
+			name = granted_hook
+			value = yes
+		}
+
+		trigger_event = aeluran_matchmaking.0021
+	}
+
+	option = {
+		trigger = {
+			root = {
+				any_artifact = {
+					has_variable = is_spark_crystal
+				}
+			}
+			# NOT = {
+			# 	exists = scope:gifted_crystal
+			# }
+		}
+		name = aeluran_matchmaking.0021.crystal
+
+		random_artifact = {
+			limit = {
+				artifact_owner = root
+				has_variable = is_spark_crystal
+			}
+			save_scope_as = spark_crystal
+		}
+
+		custom_tooltip = {
+			text = gift_spark_crystal_to_the_aeluran_order
+			destroy_artifact = scope:spark_crystal
+		}
+
+		save_scope_value_as = {
+			name = gifted_crystal
+			value = yes
+		}
+
+		trigger_event = aeluran_matchmaking.0021
+	}
+
+	option = {
+		name = aeluran_matchmaking.0021.ok
+		trigger_event = aeluran_matchmaking.002
+	}
+}
+
+
+
+# START HERE
+# we are investigating why alliance doesnt work for heir and Im fairly sure you just need to verify "scope:matchmaking_recipient" is being set.
+# check event 0026 to see that its being selected from the activity, maybe you need to update all references to be like that
+# Finally nows probaly a good time to add the any child request matchmaking character interaction
+
+# First Candidate
+aeluran_matchmaking.0022 = {
+	type = activity_event
+	title = aeluran_matchmaking.0022.title
+	desc = aeluran_matchmaking.0022.desc.lord
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { 
+			exists = scope:left_portrait_match_1
+			NOT = {
+				scope:match_choice_1_type = flag:aeluran_advisor
+			}
+		}
+		character = scope:left_portrait_match_1
+		triggered_animation = {
+			trigger = {
+				scope:left_portrait_match_1 = scope:host
+			}
+			animation = flirtation
+		}
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					scope:left_portrait_match_1 = scope:host
+				}
+			}
+			animation = personality_content
+		}
+		camera = camera_body_right
+	}
+	center_portrait = {
+		trigger = { exists = scope:center_portrait_match_1 }
+		character = scope:center_portrait_match_1
+		animation = flirtation
+		camera = camera_body_left_slight
+	}
+	right_portrait = {
+		trigger = { exists = scope:right_portrait_match_1 }
+		character = scope:right_portrait_match_1
+		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_1_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
+		camera = camera_body_left_slight
+	}
+
+	immediate = {
+		map_match_candidate_type = { MATCH_TYPE = scope:match_choice_1_type}
+
+		if = {
+			limit = { exists = scope:match_choice_1 }
+			
+			map_match_candidate = { MATCH_CHOICE = scope:match_choice_1 }
+		}
+
+		assign_matchmaking_candidate_portraits_effect = { MATCHID = 1 }
+
+		debug_log_scopes = yes
+	}
+
+	option = {
+		name = aeluran_matchmaking.0022.ok
+
+		if = {
+			limit = {
+				matchmaking_candidate_quantity > 1
+			}
+			trigger_event = aeluran_matchmaking.0023
+		}
+		else = {
+			trigger_event = aeluran_matchmaking.0025
+		}
+	}
+}
+
+# Second Candidate
+aeluran_matchmaking.0023 = {
+	type = activity_event
+	title = aeluran_matchmaking.0023.title
+	desc = aeluran_matchmaking.0023.desc.lord
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { 
+			exists = scope:left_portrait_match_2
+			NOT = {
+				scope:match_choice_2_type = flag:aeluran_advisor
+			}
+		}
+		character = scope:left_portrait_match_2
+		triggered_animation = {
+			trigger = {
+				scope:left_portrait_match_2 = scope:host
+			}
+			animation = flirtation
+		}
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					scope:left_portrait_match_2 = scope:host
+				}
+			}
+			animation = personality_content
+		}
+		camera = camera_body_right
+	}
+	center_portrait = {
+		trigger = { exists = scope:center_portrait_match_2 }
+		character = scope:center_portrait_match_2
+		animation = flirtation
+		camera = camera_body_left_slight
+	}
+	right_portrait = {
+		trigger = { exists = scope:right_portrait_match_2 }
+		character = scope:right_portrait_match_2
+		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_2_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
+		camera = camera_body_left_slight
+	}
+
+	immediate = {
+		map_match_candidate_type = { MATCH_TYPE = scope:match_choice_2_type}
+
+		if = {
+			limit = { exists = scope:match_choice_2 }
+			
+			map_match_candidate = { MATCH_CHOICE = scope:match_choice_2 }
+		}
+
+		assign_matchmaking_candidate_portraits_effect = { MATCHID = 2 }
+	}
+
+	option = {
+		name = aeluran_matchmaking.0023.ok
+
+
+		if = {
+			limit = {
+				matchmaking_candidate_quantity > 2
+			}
+			trigger_event = aeluran_matchmaking.0024
+		}
+		else = {
+			trigger_event = aeluran_matchmaking.0025
+		}
+	}
+}
+
+# Third Candidate
+aeluran_matchmaking.0024 = {
+	type = activity_event
+	title = aeluran_matchmaking.0024.title
+	desc = aeluran_matchmaking.0024.desc.lord
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+	left_portrait = {
+		trigger = { 
+			exists = scope:left_portrait_match_3
+			NOT = {
+				scope:match_choice_3_type = flag:aeluran_advisor
+			}
+		}
+		character = scope:left_portrait_match_3
+		triggered_animation = {
+			trigger = {
+				scope:left_portrait_match_3 = scope:host
+			}
+			animation = flirtation
+		}
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					scope:left_portrait_match_3 = scope:host
+				}
+			}
+			animation = personality_content
+		}
+		camera = camera_body_right
+	}
+	center_portrait = {
+		trigger = { exists = scope:center_portrait_match_3 }
+		character = scope:center_portrait_match_3
+		animation = flirtation
+		camera = camera_body_left_slight
+	}
+	right_portrait = {
+		trigger = { exists = scope:right_portrait_match_3 }
+		character = scope:right_portrait_match_3
+		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_3_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
+		camera = camera_body_left_slight
+	}
+
+	immediate = {
+		map_match_candidate_type = { MATCH_TYPE = scope:match_choice_3_type}
+
+		if = {
+			limit = { exists = scope:match_choice_3 }
+			
+			map_match_candidate = { MATCH_CHOICE = scope:match_choice_3 }
+		}
+
+		assign_matchmaking_candidate_portraits_effect = { MATCHID = 3 }
+	}
+
+	option = {
+		name = aeluran_matchmaking.0024.ok
+		trigger_event = aeluran_matchmaking.0025
+	}
+}
+
+# TODO: Handle no choice - battle of wills to refuse? Maybe make BoW (and respect penalty) for all refusals
+### Match Making Choose Candidates Event Window ###
+aeluran_matchmaking.0025 = {
+	type = activity_event
+	title = aeluran_matchmaking.0025.title
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					matchmaking_candidate_quantity > 1
+				}
+				desc = aeluran_matchmaking.0025.desc
+			}
+			desc = aeluran_matchmaking.0025.no_choice
+		}
+	}
+	
+	window = tour_arrival_event
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:left_portrait_match_final }
+		character = scope:left_portrait_match_final
+		animation = personality_content
+	}
+	center_portrait = {
+		trigger = { exists = scope:center_portrait_match_final }
+		character = scope:center_portrait_match_final
+		animation = flirtation
+	}
+	right_portrait = {
+		trigger = { exists = scope:right_portrait_match_final }
+		character = scope:right_portrait_match_final
 		animation = personality_content
 	}
 	lower_center_portrait = {
-		trigger = { exists = scope:lower_center_portrait }
-		character = scope:lower_center_portrait
+		trigger = { exists = scope:lower_center_portrait_match_final }
+		character = scope:lower_center_portrait_match_final
 		animation = personality_content
 	}
 	lower_left_portrait = {
-		trigger = { exists = scope:lower_left_portrait }
-		character = scope:lower_left_portrait
+		trigger = { exists = scope:lower_left_portrait_match_final }
+		character = scope:lower_left_portrait_match_final
 		animation = personality_content
 	}
 
 	immediate = {
+
+		assign_matchmaking_candidate_portraits_final_selection_effect = yes
+
+		# NEW WORKFLOW
+		# - you have three match_choice_x_type
+		# - each with a scope match_choice_X / match_choice_X_X for multis
+
+		# WE NEED
+		# - to assign portraits
+		# - to assign option names
+			# - custom loc file?
+		# - to assign event descriptions
+			# - custom loc file?
+		# - on selection marry spouse
+		# - on selection clean up newly generated characters
+
 		# debug_log_scopes = yes
 
-		# Find Match Characters and Assign Match Options To Portraits
 
-		# match_choice_1
-		if = { # Alliance
-			limit = {
-				scope:match_choice_1 = flag:alliance
-			}
-
-			if = {
-				limit= {
-					exists = scope:match_option_alliance
-				}
-				scope:match_option_alliance = {
-					save_scope_as = left_portrait
-				}
-			}
-		}
-		else_if = { # Family
-			limit = {
-				scope:match_choice_1 = flag:family
-			}
-
-			if = {
-				limit = {
-					exists = scope:match_option_family
-				}
-				scope:match_option_family = {
-					save_scope_as = left_portrait
-				}
-			}
-		}
-		else_if = { # Aeluran
-			limit = {
-				OR = {
-					scope:match_choice_1 = flag:aeluran_matron
-					scope:match_choice_1 = flag:aeluran_sister
-				}
-			}
-
-			if = {
-				limit = {
-					exists = scope:match_option_aeluran
-				}
-				scope:match_option_aeluran = {
-					save_scope_as = left_portrait
-				}
-			}
-
-		}
-		else_if = { # Breeding Stock
-			limit = {
-				scope:match_choice_1 = flag:breeding_stock
-			}
-
-			if = {
-				limit = {
-					exists = scope:match_option_breeding_stock
-				}
-				scope:match_option_breeding_stock = {
-					save_scope_as = left_portrait
-				}
-			}
-		}
-		else_if = { # Twins
-			limit = {
-				scope:match_choice_1 = flag:twins
-			}
-
-			if = {
-				limit = {
-					exists = scope:match_option_twins_1
-				}
-				scope:match_option_twins_1 = {
-					save_scope_as = left_portrait
-				}
-			}
-			if = {
-				limit = {
-					exists = scope:match_option_twins_2
-				}
-				scope:match_option_twins_2 = {
-					save_scope_as = right_portrait
-				}
-			}
-		}
-		else_if = { # Triplets
-			limit = {
-				scope:match_choice_1 = flag:triplets
-			}
-
-			if = {
-				limit = {
-					exists = scope:match_option_triplets_1
-				}
-				scope:match_option_triplets_1 = {
-					save_scope_as = left_portrait
-				}
-			}
-			if = {
-				limit = {
-					exists = scope:match_option_triplets_2
-				}
-				scope:match_option_triplets_2 = {
-					save_scope_as = right_portrait
-				}
-			}
-			if = {
-				limit = {
-					exists = scope:match_option_triplets_3
-				}
-				scope:match_option_triplets_3 = {
-					save_scope_as = lower_center_portrait
-				}
-			}
-		}
-
-		# match_choice_2
-		if = {
-			limit = {
-				exists = scope:match_choice_2
-			}
-
-			if = { # Alliance
-				limit = {
-					scope:match_choice_2 = flag:alliance
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_alliance
-					}
-					scope:match_option_alliance = {
-						save_scope_as = right_portrait
-					}
-				}
-			}
-			else_if = { # Family
-				limit = {
-					scope:match_choice_2 = flag:family
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_family
-					}
-					scope:match_option_family = {
-						save_scope_as = right_portrait
-					}
-				}
-			}
-			else_if = { # Aeluran
-				limit = {
-					OR = {
-						scope:match_choice_2 = flag:aeluran_matron
-						scope:match_choice_2 = flag:aeluran_sister
-					}
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_aeluran
-					}
-					scope:match_option_aeluran = {
-						save_scope_as = right_portrait
-					}
-				}
-			}
-			else_if = { # Breeding Stock
-				limit = {
-					scope:match_choice_2 = flag:breeding_stock
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_breeding_stock
-					}
-					scope:match_option_breeding_stock = {
-						save_scope_as = right_portrait
-					}
-				}
-			}
-			else_if = { # Twins
-				limit = {
-					scope:match_choice_2 = flag:twins
-				}
-	
-				if = {
-					limit = {
-						exists = scope:match_option_twins_1
-					}
-					scope:match_option_twins_1 = {
-						save_scope_as = right_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_twins_2
-					}
-					scope:match_option_twins_2 = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Triplets
-				limit = {
-					scope:match_choice_2 = flag:triplets
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_1
-					}
-					scope:match_option_triplets_1 = {
-						save_scope_as = right_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_2 
-					}
-					scope:match_option_triplets_2 = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_3
-					}
-					scope:match_option_triplets_3 = {
-						save_scope_as = lower_left_portrait
-					}
-				}
-			}
-		} 
-		else = {
-			debug_log = "WARNING - No second matchmaking portrait"
-		}
-
-		# match_choice_3
-		if = {
-			limit = {
-				exists = scope:match_choice_3
-			}
-
-			if = { # Alliance
-				limit = {
-					scope:match_choice_3 = flag:alliance
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_alliance
-					}
-					scope:match_option_alliance = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Family
-				limit = {
-					scope:match_choice_3 = flag:family
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_family
-					}
-					scope:match_option_family = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Aeluran
-				limit = {
-					OR = {
-						scope:match_choice_3 = flag:aeluran_matron
-						scope:match_choice_3 = flag:aeluran_sister
-					}
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_aeluran
-					}
-					scope:match_option_aeluran = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Breeding Stock
-				limit = {
-					scope:match_choice_3 = flag:breeding_stock
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_breeding_stock
-					}
-					scope:match_option_breeding_stock = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Twins
-				limit = {
-					scope:match_choice_3 = flag:twins
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_twins_1 
-					}
-					scope:match_option_twins_1 = {
-						save_scope_as = lower_left_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_twins_2
-					}
-					scope:match_option_twins_2 = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-			}
-			else_if = { # Triplets
-				limit = {
-					scope:match_choice_3 = flag:triplets
-				}
-
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_1
-					}
-					scope:match_option_triplets_1 = {
-						save_scope_as = lower_left_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_2
-					}
-					scope:match_option_triplets_2 = {
-						save_scope_as = lower_center_portrait
-					}
-				}
-				if = {
-					limit = {
-						exists = scope:match_option_triplets_3
-					}
-					scope:match_option_triplets_3 = {
-						save_scope_as = lower_right_portrait
-					}
-				}
-			}
-		}
 	}
 
-	# Now Choose Your Spouse
+	# # Now Choose Your Spouse
 	option = { # match_choice_1
 		trigger = {
-			exists = scope:match_choice_1
 			OR = {
-				AND = {
-					scope:match_choice_1 = flag:family
-					exists = scope:match_option_family
+				exists = scope:match_choice_1
+				exists = scope:match_choice_1_1
+			}
+		}
+
+		name = aeluran_matchmaking.0025.option_1
+
+		highlight_portrait = scope:left_portrait_match_final
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_1_type = flag:twins
+					scope:match_choice_1_type = flag:triplets
 				}
-				AND = {
-					scope:match_choice_1 = flag:alliance
-					exists = scope:match_option_alliance
-				}
-				AND = {
-					scope:match_choice_1 = flag:aeluran_matron
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_1 = flag:aeluran_sister
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_1 = flag:breeding_stock
-					exists = scope:match_option_breeding_stock
-				}
-				AND = {
-					scope:match_choice_1 = flag:twins
-					AND = {
-						exists = scope:match_option_twins_1
-						exists = scope:match_option_twins_2
+			}
+			scope:match_choice_1_1 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
-				AND = {
-					scope:match_choice_1 = flag:triplets
-					AND = {
-						exists = scope:match_option_triplets_1
-						exists = scope:match_option_triplets_2
-						exists = scope:match_option_triplets_3
+			}
+		}
+		else = {
+			scope:match_choice_1 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
 			}
 		}
 
-		name = {
-			text = {
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							OR  = {
-								scope:match_choice_1 = flag:aeluran_matron
-								scope:match_choice_1 = flag:aeluran_sister
-							}
-						}
-						desc = aeluran_matchmaking_choice.aeluran
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_1 = flag:alliance
-						}
-						desc = aeluran_matchmaking_choice.alliance
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_1 = flag:breeding_stock
-						}
-						desc = aeluran_matchmaking_choice.breeder
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_1 = flag:family
-						}
-						desc = aeluran_matchmaking_choice.family
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_1 = flag:triplets
-						}
-						desc = aeluran_matchmaking_choice.twins
-					}
-					desc = something_went_wrong
-				}
-			} 
-		}
+		selection_option_bonus_effects = { MATCH_CHOICE_TYPE = scope:match_choice_1_type }
+
+		trigger_event = aeluran_matchmaking.0026
 
 		ai_chance = {
 			base = 50
 		}
+		
+		# new reasons can be made for the UI in character_event.gui line 1189
+		# could put match icon then tool tip has 
+		# a short desc - "A mighty warrior"
+		# Match Stats - "Rarity:Rare , Match Quality: Top Quality (5)"
 
-		if = {
-			limit = {
-				OR = {
-					scope:match_choice_1 = flag:aeluran_matron
-					scope:match_choice_1 = flag:aeluran_sister
-				}
-			}
-
-			choose_aeluran_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_1 = flag:alliance
-			}
-
-			choose_alliance_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_1 = flag:breeding_stock
-			}
-
-			choose_breeding_stock_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_1 = flag:family
-			}
-
-			choose_family_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_1 = flag:twins
-			}
-
-			choose_twins_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_1 = flag:triplets
-			}
-
-			choose_triplets_match_option_effect = yes
-		}
+		# reason = friend
+		# reason = faith
+		# reason = activity_intent
+		# reason = piety_level
+		# reason = prestige_level
 	}
 
 	option = { # match_choice_2
 		trigger = {
-			exists = scope:match_choice_2
 			OR = {
-				AND = {
-					scope:match_choice_2 = flag:family
-					exists = scope:match_option_family
+				exists = scope:match_choice_2
+				exists = scope:match_choice_2_1
+			}
+		}
+
+		
+		name = aeluran_matchmaking.0025.option_2
+
+		highlight_portrait = scope:center_portrait_match_final
+
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_2_type = flag:twins
+					scope:match_choice_2_type = flag:triplets
 				}
-				AND = {
-					scope:match_choice_2 = flag:alliance
-					exists = scope:match_option_alliance
-				}
-				AND = {
-					scope:match_choice_2 = flag:aeluran_matron
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_2 = flag:aeluran_sister
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_2 = flag:breeding_stock
-					exists = scope:match_option_breeding_stock
-				}
-				AND = {
-					scope:match_choice_2 = flag:twins
-					AND = {
-						exists = scope:match_option_twins_1
-						exists = scope:match_option_twins_2
+			}
+			scope:match_choice_2_1 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
-				AND = {
-					scope:match_choice_2 = flag:triplets
-					AND = {
-						exists = scope:match_option_triplets_1
-						exists = scope:match_option_triplets_2
-						exists = scope:match_option_triplets_3
+			}
+		}
+		else = {
+			scope:match_choice_2 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
 			}
 		}
 
-		name = {
-			text = {
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							OR  = {
-								scope:match_choice_2 = flag:aeluran_matron
-								scope:match_choice_2 = flag:aeluran_sister
-							}
-						}
-						desc = aeluran_matchmaking_choice.aeluran
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_2 = flag:alliance
-						}
-						desc = aeluran_matchmaking_choice.alliance
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_2 = flag:breeding_stock
-						}
-						desc = aeluran_matchmaking_choice.breeder
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_2 = flag:family
-						}
-						desc = aeluran_matchmaking_choice.family
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_2 = flag:triplets
-						}
-						desc = aeluran_matchmaking_choice.twins
-					}
-					desc = something_went_wrong
-				}
-			} 
-		}
+		selection_option_bonus_effects = { MATCH_CHOICE_TYPE = scope:match_choice_2_type }
+
+		trigger_event = aeluran_matchmaking.0026
 
 		ai_chance = {
 			base = 50
 		}
 
-		if = {
-			limit = {
-				OR = {
-					scope:match_choice_2 = flag:aeluran_matron
-					scope:match_choice_2 = flag:aeluran_sister
-				}
-			}
-
-			choose_aeluran_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_2 = flag:alliance
-			}
-
-			choose_alliance_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_2 = flag:breeding_stock
-			}
-
-			choose_breeding_stock_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_2 = flag:family
-			}
-
-			choose_family_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_2 = flag:twins
-			}
-
-			choose_twins_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_2 = flag:triplets
-			}
-
-			choose_triplets_match_option_effect = yes
-		}
 	}
 
 	option = { # match_choice_3
 		trigger = {
-			exists = scope:match_choice_3
-			# match_choice_2_is_valid = yes # tried just clearing match_choice_3 scope in immediate block but doesnt work
 			OR = {
-				AND = {
-					scope:match_choice_3 = flag:family
-					exists = scope:match_option_family
+				exists = scope:match_choice_3
+				exists = scope:match_choice_3_1
+			}
+		}
+
+		name = aeluran_matchmaking.0025.option_3
+
+		highlight_portrait = scope:right_portrait_match_final
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_3_type = flag:twins
+					scope:match_choice_3_type = flag:triplets
 				}
-				AND = {
-					scope:match_choice_3 = flag:alliance
-					exists = scope:match_option_alliance
-				}
-				AND = {
-					scope:match_choice_3 = flag:aeluran_matron
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_3 = flag:aeluran_sister
-					exists = scope:match_option_aeluran
-				}
-				AND = {
-					scope:match_choice_3 = flag:breeding_stock
-					exists = scope:match_option_breeding_stock
-				}
-				AND = {
-					scope:match_choice_3 = flag:twins
-					AND = {
-						exists = scope:match_option_twins_1
-						exists = scope:match_option_twins_2
+			}
+			scope:match_choice_3_1 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
-				AND = {
-					scope:match_choice_3 = flag:triplets
-					AND = {
-						exists = scope:match_option_triplets_1
-						exists = scope:match_option_triplets_2
-						exists = scope:match_option_triplets_3
+			}
+		}
+		else = {
+			scope:match_choice_3 = {
+				save_scope_as = selected_match_choice
+				scope:activity = {
+					set_variable = {
+						name = selected_match_choice
+						value = prev
 					}
 				}
 			}
 		}
 
-		name = {
-			text = {
-				first_valid = {
-					triggered_desc = {
-						trigger = {
-							OR  = {
-								scope:match_choice_3 = flag:aeluran_matron
-								scope:match_choice_3 = flag:aeluran_sister
-							}
-						}
-						desc = aeluran_matchmaking_choice.aeluran
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_3 = flag:alliance
-						}
-						desc = aeluran_matchmaking_choice.alliance
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_3 = flag:breeding_stock
-						}
-						desc = aeluran_matchmaking_choice.breeder
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_3 = flag:family
-						}
-						desc = aeluran_matchmaking_choice.family
-					}
-					triggered_desc = {
-						trigger = {
-							scope:match_choice_3 = flag:triplets
-						}
-						desc = aeluran_matchmaking_choice.twins
-					}
-					desc = something_went_wrong
-				}
-			} 
-		}
+		selection_option_bonus_effects = { MATCH_CHOICE_TYPE = scope:match_choice_3_type }
+
+		trigger_event = aeluran_matchmaking.0026
 
 		ai_chance = {
 			base = 50
 		}
 
-		if = {
-			limit = {
-				OR = {
-					scope:match_choice_3 = flag:aeluran_matron
-					scope:match_choice_3 = flag:aeluran_sister
-				}
-			}
-
-			choose_aeluran_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_3 = flag:alliance
-			}
-
-			choose_alliance_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_3 = flag:breeding_stock
-			}
-
-			choose_breeding_stock_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_3 = flag:family
-			}
-
-			choose_family_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_3 = flag:twins
-			}
-
-			choose_twins_match_option_effect = yes
-		}
-		else_if = {
-			limit = {
-				scope:match_choice_3 = flag:triplets
-			}
-
-			choose_triplets_match_option_effect = yes
-		}
 	}
 
 	option = { # none of them
+		trigger = {
+			NOT = {
+				exists = scope:refusal_failed
+			}
+		}
+
+		# TODO: IMPLEMENT REFUSAL CHALLENGE MECHANICS
 		name = aeluran_matchmaking_choice.none
+		flavor = current_aeluran_control_level
+
+		save_scope_value_as = {
+			name = refusal_type
+			value = flag:snooze
+		}
+
+		scope:host = {
+			add_opinion = {
+				target = root
+				modifier = denied_aeluran_matchmaking_candidates
+			}
+		}
+		
 		add_piety = -150
+
+		random_list = {
+			100 = {
+				custom_tooltip = {
+					text = aeluran_accepts_decision
+
+					if = {
+						limit = {
+							exists = scope:activity
+						}
+						decline_activity_invite = scope:activity
+					}
+
+					trigger_event = aeluran_matchmaking.0030
+				}
+
+				custom_tooltip = matchmaking_postponed_after_presented
+			}
+			0 = {
+				modifier = {
+					add = 125
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_1 
+				}
+				modifier = {
+					add = 125
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_2
+				}
+				modifier = {
+					add = 125
+					has_diarchy_active_parameter = aeluran_councillor_challenges_level_3 
+				}
+			
+				custom_tooltip = {
+					text = aeluran_challenges_decision
+					trigger_event = aeluran_matchmaking.0027
+				}
+			}
+		}
+	}
+
+	after = {
+		cleanup_unpicked_generated_candidates_effect = yes
 	}
 }
 
+aeluran_matchmaking.0026 = {
+	type = activity_event
+	title = aeluran_matchmaking.0026.title
+	desc = aeluran_matchmaking.0026.desc
+
+	window = tour_arrival_event
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { 
+			exists = scope:left_port
+			NOT = {
+				scope:selected_match_choice = scope:host
+			}
+		}
+		character = scope:left_port
+		# camera = camera_event_right_wedding
+		triggered_animation = {
+			trigger = { scope:left_port = scope:host } # its your advisor
+			# animation = personality_content
+			animation = flirtation
+		}
+		animation = admiration
+	}
+	center_portrait = {
+		character = scope:spouse_female
+		camera = camera_event_left_wedding
+		animation = wedding_bride_left
+	}
+	right_portrait = {
+		character = scope:spouse_male
+		camera = camera_event_right_wedding
+		animation = wedding_groom_right
+	}
+	lower_center_portrait = {
+		trigger = { exists = scope:lower_center_port }
+		character = scope:lower_center_port
+		animation = personality_content
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:activity.special_guest:match_recipient = {
+					is_female = yes
+				}
+			}
+			scope:activity.special_guest:match_recipient = {
+				save_scope_as = spouse_female
+			}
+			scope:selected_match_choice = {
+				save_scope_as = spouse_male
+			}
+		}
+		else = {
+			scope:activity.special_guest:match_recipient = {
+				save_scope_as = spouse_male
+			}
+			scope:selected_match_choice = {
+				save_scope_as = spouse_female
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					scope:match_choice_type = flag:twins
+					scope:match_choice_type = flag:triplets
+				}
+			}
+
+			if = {
+				limit = { scope:selected_match_choice = scope:match_choice_1_1 }
+				scope:match_choice_1_2 = { save_scope_as = left_port }
+
+				if = {
+					limit = {
+						scope:match_choice_type = flag:triplets
+					}
+					scope:match_choice_1_3 = { save_scope_as = lower_center_port }
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_2_1 }
+				scope:match_choice_2_2 = { save_scope_as = left_port }
+
+				if = {
+					limit = {
+						scope:match_choice_type = flag:triplets
+					}
+					scope:match_choice_2_3 = { save_scope_as = lower_center_port }
+				}
+			}
+			else_if = {
+				limit = { scope:selected_match_choice = scope:match_choice_3_1 }
+				scope:match_choice_3_2 = { save_scope_as = left_port }
+
+				if = {
+					limit = {
+						scope:match_choice_type = flag:triplets
+					}
+					scope:match_choice_3_3 = { save_scope_as = lower_center_port }
+				}
+			}
+		}
+		else = {
+			scope:host = {
+				save_scope_as = left_port
+			}
+		}
+
+		scope:selected_match_choice = {
+			if = {
+				limit = { is_imprisoned = yes }
+				release_from_prison = yes
+			}
+		}
+	}
+
+	option = {
+		name = aeluran_matchmaking.0026.ok
+		marry_match_option = yes
+	}
+	option = {
+		name = aeluran_matchmaking.0026.grand_wedding
+		betroth_match_option = yes
+	}
+}
+
+aeluran_matchmaking.0027 = { # Aeluran Challenges Player To Battle Of Wills
+	type = activity_event
+	title = aeluran_matchmaking.0027.title
+	desc = aeluran_matchmaking.0027.desc
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = worry
+	}
+
+	immediate = {
+		save_scope_as = challenger
+
+		scope:host = {
+			save_scope_as = defender
+		}
+	}
+
+	option = { # Learning
+		name = aeluran_matchmaking.0027.learning
+		
+		flavor = battle_of_wills_modifiers_desc
+
+		save_scope_value_as = {
+			name = battle_of_wills_type
+			value = flag:learning
+		}
+
+		if = {
+			limit = {
+				exists = scope:battle_of_wills_type
+			}
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = root
+				DEFENDER = scope:host
+				CHALLENGER_WINS_EFFECT_TOOLTIP = lord_defeats_advisor_matchmaking_battle_of_wills
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = lord_loses_to_advisor_matchmaking_battle_of_wills
+			}
+
+			if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = yes
+				}
+
+				trigger_event = aeluran_matchmaking.0028
+			}
+			else_if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = no
+				}
+
+				trigger_event = aeluran_matchmaking.0029
+			}
+		}
+	}
+
+	option = { # Intrigue Diplo
+		name = aeluran_matchmaking.0027.intrigue_diplo
+		trigger = {
+			culture = {
+				has_cultural_parameter = entrance_scheme_unlocked
+			}
+		}
+		
+		flavor = battle_of_wills_modifiers_desc
+
+		save_scope_value_as = {
+			name = battle_of_wills_type
+			value = flag:intrigue_diplomacy
+		}
+
+		if = {
+			limit = {
+				exists = scope:battle_of_wills_type
+			}
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = root
+				DEFENDER = scope:host
+				CHALLENGER_WINS_EFFECT_TOOLTIP = lord_defeats_advisor_matchmaking_battle_of_wills
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = lord_loses_to_advisor_matchmaking_battle_of_wills
+			}
+
+			if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = yes
+				}
+
+				trigger_event = aeluran_matchmaking.0028
+			}
+			else_if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = no
+				}
+
+				trigger_event = aeluran_matchmaking.0029
+			}
+		}
+	}
+}
+
+aeluran_matchmaking.0028 = { # Player Wins Battle Of Wills
+	type = activity_event
+	title = aeluran_matchmaking.0028.title
+	desc = aeluran_matchmaking.0028.desc
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = personality_bold
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = personality_rational
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = refused_matchmaking
+			years = 5
+		}
+	}
+
+	option = {
+		name = aeluran_matchmaking.0028.ok
+
+		change_diarchy_swing = -20
+	}
+}
+
+aeluran_matchmaking.0029 = { # Player losess Battle Of Wills
+	type = activity_event
+	title = aeluran_matchmaking.0029.title
+	desc = aeluran_matchmaking.0029.desc
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = worry
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = flirtation
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = aeluran_matchmaking.0029.ok
+
+		change_diarchy_swing = 20
+
+		save_scope_value_as = {
+			name = refusal_failed
+			value = yes
+		}
+
+		trigger_event = aeluran_matchmaking.0025
+	}
+}
+
+aeluran_matchmaking.0030 = { # Aeluran Accepts Candidate Rejection
+	type = activity_event
+	title = aeluran_matchmaking.0030.title
+	desc = aeluran_matchmaking.0030.desc
+
+	window = tour_arrival_event
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		trigger = { exists = scope:match_recipient }
+		character = scope:match_recipient
+		animation = personality_bold
+	}
+	right_portrait = {
+		trigger = { exists = scope:host }
+		character = scope:host
+		animation = personality_rational
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = refused_matchmaking
+			years = 5
+		}
+	}
+
+	option = {
+		name = aeluran_matchmaking.0030.ok
+	}
+}

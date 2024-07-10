@@ -1,0 +1,447 @@
+﻿aeluran_regency_story = {
+
+	on_setup = {
+		
+	}
+
+	on_end = {
+
+	}
+
+	#effect_group = {
+		#months = 1
+
+		#triggered_effect = {
+			#trigger = {
+				#always = no
+			#}
+			#effect = {
+				#story_owner = {
+				#}
+			#}
+		#}
+	#}
+
+
+
+	effect_group = {
+		months = 1 #Todo break out matchmaking logic to space it out more?
+
+		triggered_effect = {
+			trigger = {
+				story_owner = {
+					exists = this
+					exists = diarch
+					has_active_diarchy = yes
+				}
+			}
+			effect = {
+
+				# NOTE: We can add random delays to event triggers to make sure everything aint happening at once
+				# OR split into another "effect group"
+
+				## Aeluran Matchmaking
+				if = { 
+					limit = {
+						story_owner = {
+							is_ai = no
+							OR = {
+								AND = {
+									is_adult = yes
+									is_betrothed = no
+									is_married = no
+								}
+								player_heir = {
+									OR = {
+										is_child_of = prev
+										AND = {
+											is_close_family_of = prev
+											is_ruler = no
+										}
+									}
+									is_adult = yes
+									is_betrothed = no
+									is_married = no
+								}
+							}
+
+							NOT = {
+								diarch = {
+									has_character_modifier = organizing_matchmaking
+								}
+							}
+
+							NOT = {
+								has_character_flag = refused_matchmaking
+							}
+						}
+					}
+
+					if = {
+						limit = {
+							story_owner.diarch = {
+								 has_variable = requested_matchmaking_character
+							}
+						}
+
+						story_owner.diarch = {
+							add_character_modifier = {
+								modifier = organizing_matchmaking
+								months = 2
+							}
+	
+							set_variable = {
+								name = matchmaking_character
+								value = var:requested_matchmaking_character
+								# years = 5
+							}
+	
+							remove_variable = requested_matchmaking_character
+						}
+
+					}
+					else_if = {
+						limit = {
+							story_owner = {
+								is_adult = yes
+								is_betrothed = no
+								is_married = no
+							}
+						}
+						
+						story_owner.diarch = {
+							add_character_modifier = {
+								modifier = organizing_matchmaking
+								months = 2
+							}
+	
+							set_variable = {
+								name = matchmaking_character
+								value = prev.story_owner
+								# years = 5
+							}
+						}
+					}
+					else_if = {
+						limit = {
+							story_owner.player_heir = {
+								# OR = {
+								# 	is_child_of = prev
+								# 	AND = {
+								# 		is_close_family_of = prev
+								# 		is_ruler = no
+								# 	}
+								# }
+								is_adult = yes
+								is_betrothed = no
+								is_married = no
+							}
+						}
+						
+						story_owner.diarch = {
+							add_character_modifier = {
+								modifier = organizing_matchmaking
+								months = 2
+							}
+	
+							set_variable = {
+								name = matchmaking_character
+								value = prev.story_owner.player_heir
+								# years = 5
+							}
+						}
+					}
+
+
+				}
+
+				# VERY IMPORTANT NOTE: there is alot of calculations here, maybe only update AI every 6 months-1 year
+				# Swing Scales
+				story_owner = {
+					set_variable = {
+						name = aeluran_respect_change
+						value = aeluran_respect_score
+					}
+
+					# Im thinking that domination should be effectd  by more than respect
+					# example I have three aeluran spouses, they may respect me but the order should still gain domination
+					# -0.25 in green happens too
+
+					change_diarchy_swing = var:aeluran_respect_change
+
+					if = {
+						limit = {
+							has_diarchy_active_parameter = regent_mandate_level_3
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_domination
+								}
+							}
+						}
+
+						set_diarchy_mandate = realm_domination
+
+						if = {
+							limit = { has_character_modifier = realm_is_subjugated_modifier }
+							remove_character_modifier = realm_is_subjugated_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_supervised_modifier }
+							remove_character_modifier = realm_is_supervised_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_dominated_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_dominated_modifier
+							}
+						}
+					}
+					else_if = {
+						limit = {
+							has_diarchy_active_parameter = regent_mandate_level_2
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_subjugation
+								}
+							}
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_supervised_modifier }
+							remove_character_modifier = realm_is_supervised_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_dominated_modifier }
+							remove_character_modifier = realm_is_dominated_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_subjugated_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_subjugated_modifier
+							}
+						}
+
+						set_diarchy_mandate = realm_subjugation
+					}
+					else_if = {
+						limit = {
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_supervision
+								}
+							}
+						}
+						
+						set_diarchy_mandate = realm_supervision
+
+						if = {
+							limit = { has_character_modifier = realm_is_subjugated_modifier }
+							remove_character_modifier = realm_is_subjugated_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_dominated_modifier }
+							remove_character_modifier = realm_is_dominated_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_supervised_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_supervised_modifier
+							}
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	# effect_group = { # AI Matchmaking
+	# 	years = { 1 5 }
+
+	# 	triggered_effect = {
+	# 		trigger = {
+	# 			story_owner = {
+	# 				is_ai = yes
+	# 				OR = {
+	# 					AND = {
+	# 						is_adult = yes
+	# 						is_betrothed = no
+	# 						is_married = no
+	# 					}
+	# 					player_heir = {
+	# 						OR = {
+	# 							is_child_of = prev
+	# 							AND = {
+	# 								is_close_family_of = prev
+	# 								is_ruler = no
+	# 							}
+	# 						}
+	# 						is_adult = yes
+	# 						is_betrothed = no
+	# 						is_married = no
+	# 					}
+	# 				}
+
+	# 				NOT = {
+	# 					diarch = {
+	# 						has_character_modifier = organizing_matchmaking
+	# 					}
+	# 				}
+
+	# 				NOT = {
+	# 					has_character_flag = refused_matchmaking
+	# 				}
+	# 			}
+	# 		}
+	# 		effect = {
+	# 			# ai_matchmaking_effect = yes
+	# 		}
+	# 	}
+	# }
+
+	effect_group = { # Shift Aeluran Loyalties
+		years = { 1 5 }
+
+		triggered_effect = {
+			trigger = {
+				story_owner = {
+					exists = this
+					exists = diarch
+					has_active_diarchy = yes
+					# could add a check first to see if they have any aeluran vassals not at correct loyalty
+				}
+			}
+			effect = {
+				debug_log = "Shifting Aeluran Loyalties"
+
+				story_owner = {
+					trigger_event = {
+						on_action = aeluran_diarchy_shift_loyalties
+					}					
+				}
+			}
+		}
+	}
+	
+	on_owner_death = {
+		end_story = yes
+	}
+}
+
+# dr_swing_residual_story = {
+# 	on_setup = {
+# 		story_owner = {
+# 			if = {
+# 				limit = {
+# 					exists = this
+# 					has_variable = dr_current_swing
+# 				}
+# 				set_variable = {
+# 					name = dr_swing_residual
+# 					value = var:dr_current_swing
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	effect_group = {
+# 		months = 1
+		
+# 		triggered_effect = {
+# 			trigger = {
+# 				story_owner = {
+# 					exists = this
+# 					is_independent_ruler = yes
+# 				}
+# 			}
+# 			effect = {
+# 				root = { end_story = yes }
+# 			}
+# 		}
+# 	}
+
+# 	effect_group = {
+# 		months = 1
+		
+# 		triggered_effect = {
+# 			trigger = {
+# 				story_owner = {
+# 					exists = this
+# 					exists = liege
+# 					liege = { is_ai = no }
+# 				}
+# 			}
+# 			effect = {
+# 				story_owner = {
+# 					save_scope_value_as = {
+# 						name = dr_swing_residual_tick
+# 						value = dr_swing_residual_tick
+# 					}
+# 					set_variable = {
+# 						name = dr_swing_residual
+# 						value = scope:dr_swing_residual_tick
+# 					}
+# 					if = {
+# 						limit = {
+# 							OR = {
+# 								NOT = { liege = { this = root.var:rv_last_diarchy_liege } }
+# 								dr_swing_residual = 0
+# 							}
+# 						}
+# 						root = { end_story = yes }
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	effect_group = {
+# 		months = 3
+		
+# 		triggered_effect = {
+# 			trigger = {
+# 				story_owner = {
+# 					exists = this
+# 					exists = liege
+# 					liege = { is_ai = yes }
+# 				}
+# 			}
+# 			effect = {
+# 				story_owner = {
+# 					save_scope_value_as = {
+# 						name = dr_swing_residual_triple_tick
+# 						value = dr_swing_residual_triple_tick
+# 					}
+# 					set_variable = {
+# 						name = dr_swing_residual
+# 						value = scope:dr_swing_residual_triple_tick
+# 					}
+# 					if = {
+# 						limit = {
+# 							OR = {
+# 								NOT = { liege = { this = root.var:rv_last_diarchy_liege } }
+# 								dr_swing_residual = 0
+# 							}
+# 						}
+# 						root = { end_story = yes }
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	on_end = {
+# 		story_owner = {
+# 			remove_variable = dr_swing_residual
+# 		}
+# 	}
+
+# 	on_owner_death = {
+# 		end_story = yes
+# 	}
+# }

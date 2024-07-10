@@ -24,7 +24,7 @@ aeluran_character_interaction.001 = {
 
 	option = {
 		name = aeluran_character_interaction.001.convert
-		set_character_faith = faith:aeluran_weavers
+		set_character_faith = scope:recipient.faith
 		trigger_event = {
 			id = aeluran_story.005
 			years = 10
@@ -97,5 +97,169 @@ aeluran_character_interaction.002 = {
 
 	option = {
 		name = aeluran_character_interaction.002.nvm
+	}
+}
+
+# Swing Scales of Power - Battle of Wills
+aeluran_character_interaction.003 = {
+	type = character_event
+	title = aeluran_character_interaction.003.title
+	
+	desc = {
+		desc = aeluran_character_interaction.003.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:challenge_type_learning
+					scope:challenge_type_learning = yes
+				}
+				desc = aeluran_character_interaction.003.bow_learning
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:challenge_type_intrigue_diplomacy
+					scope:challenge_type_intrigue_diplomacy = yes
+				}
+				desc = aeluran_character_interaction.003.bow_intrigue_diplomacy
+			}
+		}
+	}
+	
+	theme = aeluran_advisor
+	content_source = elf_destiny
+	
+	left_portrait = {
+		character = root
+		animation = dismissal
+	}
+
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = challenger
+
+		scope:recipient = {
+			save_scope_as = aeluran_sister_advisor
+			save_scope_as = defender
+		}
+	}
+
+	option = {
+		name = aeluran_character_interaction.003.challenge
+		flavor = battle_of_wills_modifiers_desc
+
+		if = {
+			limit = {
+				exists = scope:challenge_type_learning
+				scope:challenge_type_learning = yes
+			}
+			save_scope_value_as = {
+				name = battle_of_wills_type
+				value = flag:learning
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:challenge_type_intrigue_diplomacy
+				scope:challenge_type_intrigue_diplomacy = yes
+			}
+			save_scope_value_as = {
+				name = battle_of_wills_type
+				value = flag:intrigue_diplomacy
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:battle_of_wills_type
+			}
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = root
+				DEFENDER = scope:aeluran_sister_advisor
+				CHALLENGER_WINS_EFFECT_TOOLTIP = lord_defeats_advisor_battle_of_wills
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = lord_loses_to_advisor_battle_of_wills
+			}
+
+			if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = yes
+				}
+
+				trigger_event = aeluran_character_interaction.0031
+			}
+			else_if = {
+				limit = {
+					exists = scope:challenger_wins
+					scope:challenger_wins = no
+				}
+
+				trigger_event = aeluran_character_interaction.0032
+			}
+		}
+
+	}
+
+	option = {
+		name = aeluran_character_interaction.003.nvm
+	}
+}
+
+aeluran_character_interaction.0031 = { # Battle of Wills Victory 
+	type = character_event
+	title = aeluran_character_interaction.0031.title
+	desc = aeluran_character_interaction.0031.desc
+	
+	theme = aeluran_advisor
+	content_source = elf_destiny
+	
+	left_portrait = {
+		character = root
+		animation = war_defender
+	}
+
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = shame
+	}
+
+	immediate = {
+		change_diarchy_swing = -20
+	}
+
+	option = {
+		name = aeluran_character_interaction.0031.ok
+	}
+}
+
+aeluran_character_interaction.0032 = { # Battle of Wills Loss 
+	type = character_event
+	title = aeluran_character_interaction.0032.title
+	
+	desc = aeluran_character_interaction.0032.desc
+	
+	theme = aeluran_advisor
+	content_source = elf_destiny
+	
+	left_portrait = {
+		character = root
+		animation = shame
+	}
+
+	right_portrait = {
+		character = scope:aeluran_sister_advisor
+		animation = war_defender
+	}
+
+	immediate = {
+		change_diarchy_swing = 20
+	}
+
+	option = {
+		name = aeluran_character_interaction.0032.ok
 	}
 }

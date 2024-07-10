@@ -1,0 +1,521 @@
+vbox = {
+	name = "event_window_widget_magi_reinforcements"
+	layoutpolicy_horizontal = expanding
+
+	background = {
+		# visible = "[MyRealmWindow.IsShowingVassals]"
+		# texture = "gfx/cursors/software_cursor_normal.dds"
+		# using = Status_Highlight
+		using = Background_Area
+	}
+
+	hbox = {
+		name = ""
+		layoutpolicy_horizontal = expanding
+		# min_width = 350
+		# max_width = 350
+		# background = {
+		# 	# visible = "[MyRealmWindow.IsShowingVassals]"
+		# 	using = Status_Highlight
+		# }
+	
+		flowcontainer = {
+			spacing = 5
+	
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "total_magi_reinforcements_header"
+				align = left
+			}
+	
+			text_single = {
+				# datacontext = "[MyRealmWindow.GetVassalsIncome]"
+				# text = "105"
+				text = "total_magi_reinforcements"
+				# text = "[ValueBreakdown.GetValue]"
+				min_width = 50
+				max_width = 50
+				align = right
+		
+			}
+			
+			tooltipwidget = {
+				widget_magi_reinforcement_breakdown_tooltip = {
+					blockoverride "income"
+					{
+						visible = no
+					}
+				}
+			}
+		}
+	}
+
+	divider_light = {
+		layoutpolicy_horizontal = expanding
+	}
+	
+	hbox = {
+		name = ""
+		layoutpolicy_horizontal = expanding
+	
+		background = {
+			# visible = "[MyRealmWindow.IsShowingVassals]"
+			using = Status_Highlight
+		}
+	
+		flowcontainer = {
+			spacing = 5
+	
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "regiment_breakdown_header"
+				# align = bottom
+			}
+		}
+	}
+
+	hbox = {
+		name = ""
+		layoutpolicy_horizontal = expanding
+		# margin = { 14 8 }
+		# margin_left = 0
+		# margin = { 0 0 }
+		# spacing = 14
+		margin_top = 5
+
+		min_width = 350
+		max_width = 350
+	
+		# background = {
+		# 	# visible = "[MyRealmWindow.IsShowingVassals]"
+		# 	using = Status_Highlight
+		# }
+	
+		flowcontainer = {
+			# spacing = 5
+	
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "regiment_breakdown_war_magi"
+				align = left
+
+				min_width = 250
+			}
+
+			text_single = {
+				text = "regiment_breakdown_war_magi_value"
+				min_width = 50
+				# max_width = 100
+				align = right
+		
+			}
+		}
+	}
+
+	hbox = {
+		name = ""
+		layoutpolicy_horizontal = expanding
+		margin = { 0 0 }
+	
+		# background = {
+		# 	# visible = "[MyRealmWindow.IsShowingVassals]"
+		# 	using = Status_Highlight
+		# }
+	
+		flowcontainer = {
+			# spacing = 5
+	
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "regiment_breakdown_magi_artillery"
+				min_width = 250
+
+
+				# align = bottom
+			}
+
+			text_single = {
+				text = "regiment_breakdown_magi_artillery_value"
+				min_width = 50
+				# max_width = 100
+				align = right
+		
+			}
+		}
+	}
+
+}
+
+types MagiReinforcementTypes
+{
+	## Gold Breakdown Tooltip
+	type widget_magi_reinforcement_breakdown_tooltip = widget {
+		alwaystransparent = no
+
+		block "background" { #### needed to solve the hack for tooltip in Realm View
+			using = DefaultTooltipBackground
+		}
+
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			set_parent_size_to_minimum = yes
+			margin = { 14 8 }
+			margin_bottom = 18
+			spacing = 14
+
+			block "my_gold" {}
+
+			vbox_magi_reinforcement_breakdown = {
+				name = "income"
+				layoutpolicy_horizontal = expanding
+				block "income" {}
+			}
+
+			vbox_magi_reinforcement_breakdown = {
+				name = "expenses"
+				layoutpolicy_horizontal = expanding
+				block "expenses" {}
+			}
+
+			block "gold_income" {}
+		}
+	}
+
+	type vbox_magi_reinforcement_breakdown = vbox {
+		spacing = 6
+		alwaystransparent = no
+
+		vbox = {
+			layoutpolicy_horizontal = expanding
+
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				text = "[ValueBreakdown.GetName]"
+				default_format = "#T"
+
+				background = {
+					using = Background_Area
+					margin = { 10 0 }
+					margin_bottom = 8
+				}
+			}
+
+			# vbox = {
+			# 	name = "character_grid"
+			# 	datamodel = "[GetPlayer.MakeScope.GetList('funeral_activity_targets')]"
+
+			# 	item = {
+			# 		potential_selectable_target_portrait_widget = {
+			# 			datacontext = "[Scope.Char]"
+
+			# 			size = { 475 100 }
+			# 			visible = "[FuneralIsBodyAvailable]"
+
+			# 			blockoverride "onclick"
+			# 			{
+			# 				onclick = "[ActivityPlanner.AddOrSetOnCreationObject( 'body_to_bury', Character.MakeScope )]"
+
+			# 				onclick = "[ToggleFuneralDeceasedSelection]"
+			# 				down = "[ObjectsEqual( GetFuneralDeceasedToHonorPlannerContext, Character.Self )]"
+			# 			}
+			# 		}
+			# 	}
+			# }
+
+			vbox = {
+				name = "values_grid"
+				datamodel = "[GetPlayer.MakeScope.GetList('aeluran_vassals')]"
+				layoutpolicy_horizontal = expanding
+				margin_top = 2
+
+				item = {
+					datacontext = "[Scope.Char]"
+					hbox = {
+						name = "value_breakdown"
+						layoutpolicy_horizontal = expanding
+						spacing = 10
+
+						text_single = {
+							name = "name"
+							layoutpolicy_horizontal = expanding
+							text = "[Scope.Char.GetUINameNoTooltip|U]"
+							# text = "TESTING VASSAL NAME VALUE"
+						}
+
+						text_single = {
+							name = "value_with_tooltip"
+							# visible = "[And(ValueBreakdown.HasTooltip, ValueBreakdown.ShouldShowValue)]"
+							text = "[Scope.Char.MakeScope.ScriptValue('aeluran_vassal_contribution')|0V]"
+							# text = "[Scope.Char.MakeScope.Var('realm_size').GetValue|1]"
+							# text = "Value"
+							align = right
+							default_format = "#game_link"
+
+							using = tooltip_se
+
+							tooltipwidget = {
+								widget_magi_reinforcement_vassal_value_breakdown_tooltip = {}
+							}
+						}
+
+						# text_single = {
+						# 	name = "value_with_no_tooltip"
+						# 	visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+						# 	text = "[ValueBreakdown.GetValue]"
+						# 	align = right
+						# }
+					}
+				}
+			}
+
+			# vbox = {
+			# 	name = "values_grid"
+			# 	datamodel = "[ValueBreakdown.GetSubValues]"
+			# 	layoutpolicy_horizontal = expanding
+			# 	margin_top = 2
+
+			# 	item = {
+			# 		hbox = {
+			# 			name = "value_breakdown"
+			# 			layoutpolicy_horizontal = expanding
+			# 			spacing = 10
+
+			# 			text_single = {
+			# 				name = "name"
+			# 				layoutpolicy_horizontal = expanding
+			# 				text = "[ValueBreakdown.GetName]"
+			# 			}
+
+			# 			text_single = {
+			# 				name = "value_with_tooltip"
+			# 				visible = "[And(ValueBreakdown.HasTooltip, ValueBreakdown.ShouldShowValue)]"
+			# 				text = "[ValueBreakdown.GetValue|L]"
+			# 				align = right
+			# 				default_format = "#high"
+
+			# 				using = tooltip_se
+
+			# 				tooltipwidget = {
+			# 					widget_value_breakdown_tooltip = {}
+			# 				}
+			# 			}
+
+			# 			text_single = {
+			# 				name = "value_with_no_tooltip"
+			# 				visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+			# 				text = "[ValueBreakdown.GetValue]"
+			# 				align = right
+			# 			}
+			# 		}
+			# 	}
+			# }
+
+			# text_single = {
+			# 	visible = "[Not(DataModelHasItems( ValueBreakdown.GetSubValues ))]"
+			# 	layoutpolicy_horizontal = expanding
+			# 	block "no_values" {
+			# 		text = "VALUE_BREAKDOWN_NO_VALUES"
+			# 	}
+			# 	default_format = "#weak"
+			# }
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 10
+
+				divider_light = {
+					layoutpolicy_horizontal = expanding
+				}
+
+				hbox = {
+					visible = "[DataModelHasItems( ValueBreakdown.GetSubValues )]"
+					layoutpolicy_horizontal = expanding
+
+					text_single = {
+						visible = "[ValueBreakdown.ShouldShowValue]"
+						layoutpolicy_horizontal = expanding
+						text = "VALUE_BREAKDOWN_TOTAL"
+					}
+
+					text_single = {
+						text = "[GetPlayer.MakeScope.ScriptValue('total_aeluran_magi_reinforcements')|+]"
+						default_format = "#high"
+					}
+				}
+			}
+		}
+	}
+
+	# Used in a 'top level' aka directly inside a `tooltipwidget = {}`
+	type widget_magi_reinforcement_vassal_value_breakdown_tooltip = widget_magi_reinforcement_vassal_value_breakdown_list
+	{
+		blockoverride "header"
+		{
+			# We have the header be the name, if it exists
+			block "header" {
+				text_label_left = {
+					layoutpolicy_horizontal = expanding
+					block "header_text" {
+						# text = "[ValueBreakdown.GetName]"
+						text = "magi_levy_county_contribution_breakdown"
+					}
+					default_format = "#T"
+					visible = "[Not( StringIsEmpty( ValueBreakdown.GetName ) )]"
+				}
+			}
+		}
+
+		blockoverride "background"
+		{
+			using = DefaultTooltipBackground
+		}
+
+		blockoverride "list"
+		{
+			# We want more spacing in bottom for this background
+			margin_bottom = 17
+		}
+	}
+
+	type widget_magi_reinforcement_vassal_value_breakdown_list = widget {
+		name = "values_grid"
+		size = { 50 50 }
+		alwaystransparent = no
+
+		block "background" {
+			background = {
+				using = Background_Area_Border_Solid
+			}
+		}
+
+		vbox = {
+			datamodel = "[ValueBreakdown.GetSubValues]"
+			alwaystransparent = no
+			set_parent_size_to_minimum = yes
+			margin = { 17 10 }
+			spacing = 3
+
+			block "list" {}
+
+			block "header" {}
+
+			hbox = {
+				name = "aeluran_vassal_county_count"
+				layoutpolicy_horizontal = expanding
+
+				text_single = {
+					name = "owned_counties"
+					layoutpolicy_horizontal = expanding
+					# text = "[ValueBreakdown.GetName]"
+					text = "owned_counties"
+					min_width = 180
+					max_width = 275
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					margin_right = 10
+				}
+
+				text_single = {
+					layoutpolicy_horizontal = expanding
+	
+					# visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+					name = "value_with_no_tooltip"
+					# text = "[ValueBreakdown.GetValue]"
+					# text = "50%"
+					text = "[Scope.Char.MakeScope.ScriptValue('aeluran_realm_size')|0]"
+					align = right
+					# fonttintcolor = "[TooltipInfo.GetTintColor]"
+					# fonttintcolor = { 1.0 1.0 1.0 0.5 }
+	
+				}
+			}
+
+			hbox = {
+				name = "magi_per_county_count"
+				layoutpolicy_horizontal = expanding
+
+
+				text_single = {
+					name = "magi_per_county"
+					layoutpolicy_horizontal = expanding
+					# text = "[ValueBreakdown.GetName]"
+					text = "magi_per_county"
+					min_width = 180
+					max_width = 275
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					margin_right = 10
+				}
+	
+				text_single = {
+					layoutpolicy_horizontal = expanding
+	
+					# visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+					name = "value_with_no_tooltip"
+					# text = "[ValueBreakdown.GetValue]"
+					# text = "50%"
+					text = "magi_per_county_value"
+					align = right
+					# fonttintcolor = "[TooltipInfo.GetTintColor]"
+					# fonttintcolor = { 1.0 1.0 1.0 0.5 }
+	
+				}
+			}
+
+			hbox = {
+				name = "aeluran_vassal_contract_modifier"
+				layoutpolicy_horizontal = expanding
+
+				text_single = {
+					name = "name"
+					layoutpolicy_horizontal = expanding
+					# text = "[ValueBreakdown.GetName]"
+					text = "Vassal Contract Modifier"
+					min_width = 180
+					max_width = 275
+					fonttintcolor = "[TooltipInfo.GetTintColor]"
+					margin_right = 10
+				}
+	
+				text_single = {
+					layoutpolicy_horizontal = expanding
+	
+					# visible = "[And( Not(ValueBreakdown.HasTooltip), ValueBreakdown.ShouldShowValue )]"
+					name = "value_with_no_tooltip"
+					# text = "[ValueBreakdown.GetValue]"
+					text = "[Scope.Char.Custom('Vassal_Contract_Magi_Contribute_Percent')]"
+					# text = "50%"
+					# text = "[Scope.Char.MakeScope.ScriptValue('aeluran_vassal_contribution')|0]"
+					align = right
+					# fonttintcolor = "[TooltipInfo.GetTintColor]"
+					# fonttintcolor = { 1.0 1.0 1.0 0.5 }
+	
+				}
+			}
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				margin_top = 10
+
+				divider_light = {
+					layoutpolicy_horizontal = expanding
+				}
+
+				hbox = {
+					visible = "[DataModelHasItems( ValueBreakdown.GetSubValues )]"
+					layoutpolicy_horizontal = expanding
+
+					text_single = {
+						visible = "[ValueBreakdown.ShouldShowValue]"
+						layoutpolicy_horizontal = expanding
+						text = "VALUE_BREAKDOWN_TOTAL"
+					}
+
+					text_single = {
+						# text = "[ValueBreakdown.GetValue|+]"
+						text = "[Scope.Char.MakeScope.ScriptValue('aeluran_vassal_contribution')|+]"
+						default_format = "#high"
+					}
+				}
+			}
+		}
+	}
+}

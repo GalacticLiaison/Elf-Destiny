@@ -195,27 +195,78 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 	}
 }
 
+# NOTES TO ORGANIZE THOUGHTS
+
+# We should create a new event widget
+# - Will have the following rows
+	# - Total Aeluran Vassal Contribution +X
+		# - X will be Tool tip that shows a table of every aeluran vassal, each row: [Vassal Name] [Vassal Contract Obligation Level] [Vassal County Count] = [Total Contribution]
+	# - Advisor Skill multiplier
+
+# datamodel = "[GetPlayer.MakeScope.GetList('funeral_activity_targets')]"
+# Here funeral_activity_targets is managed by funeral_fill_available_targets_gui a scripted gui
+
+
 aeluran_advisor_task.01011 = { # Magi Core is reinforced
 	type = character_event
 	title = aeluran_advisor_task.01011.t
 	desc = aeluran_advisor_task.01011.desc
 
 	trigger = {
-		AND = {
-			exists = cp:councillor_aeluran_advisor
-			root = {
-				NOT = {
-					any_memory = {
-						has_memory_type = received_aeluran_magi_recently
-					}
-				}
-			}
+		NOT = {
+			has_character_flag = received_aeluran_magi_recently
 		}
+		exists = cp:councillor_aeluran_advisor
+		cp:councillor_aeluran_advisor = {
+			is_landed = yes
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_magi_reinforcements"
+		container = "custom_widgets_container"
 	}
 
 	immediate = {
 		cp:councillor_aeluran_advisor ?= {
 			save_scope_as = councillor
+		}
+
+		every_vassal = {
+			limit = {
+				has_government = aeluran_weavers_government
+			}
+
+			prev = {
+				add_to_variable_list = {
+					name = aeluran_vassals
+					target = prev
+				}
+			}
+		}
+
+		#error suppresion
+		if = {
+			limit = {
+				any_in_list = {
+					list = aeluran_vassals
+				}
+			}
+		}
+
+		spawn_army = {
+			men_at_arms = {
+				type = aeluran_war_magi
+				stacks = aeluran_war_magi_reinforcements
+			}
+			men_at_arms = {
+				type = aeluran_artillery
+				stacks = aeluran_magi_artillery_reinforcements
+			}
+			inheritable = no
+			uses_supply = yes
+			location = root.capital_province
+			name = stationed_aeluran_magi
 		}
 	}
 
@@ -224,25 +275,15 @@ aeluran_advisor_task.01011 = { # Magi Core is reinforced
 
 	right_portrait = {
 		character = cp:councillor_aeluran_advisor
-		animation = personality_zealous
+		animation = war_defender
 	}
 
 	option = {
 		name = aeluran_advisor_task.01011.a
 
-		spawn_army = {
-			men_at_arms = {
-				type = aeluran_magi_core
-				stacks = 1
-			}
-			inheritable = yes
-			uses_supply = yes
-			location = root.capital_province
-			name = stationed_aeluran_magi
-		}
-
-		create_character_memory = {
-			type = received_aeluran_magi_recently
+		add_character_flag = {
+			flag = received_aeluran_magi_recently
+			years = 5
 		}
 	}
 
@@ -324,30 +365,35 @@ aeluran_advisor_task.0102 = { # Religious hook
 
 		### Now that we have a target, we will give them a hook.
 		### - Religious Exhaultation Hook
-		random_list = {
-			50 = { # advisor heals child devotee_target
-				trigger = {
-					scope:devotee_target = {
-						# Has any children?
-						any_child = {
-							count >= 1
+		if = {
+			limit = {
+				exists = scope:devotee_target
+			}
+			random_list = {
+				50 = { # advisor heals child devotee_target
+					trigger = {
+						scope:devotee_target = {
+							# Has any children?
+							any_child = {
+								count >= 1
+							}
 						}
 					}
+					trigger_event = aeluran_advisor_task.01021 
 				}
-				trigger_event = aeluran_advisor_task.01021 
-			}
-			50 = { # advisor has private session with devotee_target
-				# TODO: must be married
-				trigger = {
-					scope:devotee_target = {
-						is_married = yes
+				50 = { # advisor has private session with devotee_target
+					# TODO: must be married
+					trigger = {
+						scope:devotee_target = {
+							is_married = yes
+						}
 					}
+					trigger_event = aeluran_advisor_task.01022 
 				}
-				trigger_event = aeluran_advisor_task.01022 
-			}
-			10 = { # advisor mesmerizes crowd with spark
-				# TODO: generic fallback
-				trigger_event = aeluran_advisor_task.01023
+				10 = { # advisor mesmerizes crowd with spark
+					# TODO: generic fallback
+					trigger_event = aeluran_advisor_task.01023
+				}
 			}
 		}
 	}
@@ -564,7 +610,7 @@ aeluran_advisor_task.0304 = { # Convert Culture in county
 
 # ### UNDERMINE ###
 
-# scripted_effect court_aeluron_task_charge_prestige_or_gold_effect = {
+# scripted_effect court_aeluran_task_charge_prestige_or_gold_effect = {
 # 	# Either we charge prestige during certain struggle phases...
 # 		if = {
 # 			limit = {
@@ -600,7 +646,7 @@ aeluran_advisor_task.0301 = {
 
 	option = {
 		name = aeluran_advisor_task.0301.a
-		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluran_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -767,7 +813,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.a
-		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
+		# court_aeluran_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_county_cost }
 		add_unpressed_claim = scope:county
 		show_as_tooltip = {
 			scope:county_holder = {
@@ -833,7 +879,7 @@ aeluran_advisor_task.0302 = {
 
 	option = {
 		name = aeluran_advisor_task.0302.b
-		# court_aeluron_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
+		# court_aeluran_task_charge_prestige_or_gold_effect = { COST = scope:councillor.court_chaplain_fabricate_claim_duchy_cost }
 		add_unpressed_claim = scope:duchy
 		show_as_tooltip = {
 			scope:duchy_holder = {

@@ -1,0 +1,22 @@
+﻿diarchy_aeluran_regent_succession_score_value = {
+	if = {
+		# For performance reasons, you'll sometimes check this when you don't have a liege, so we need to check beforehand for error purposes.
+		limit = { exists = liege }
+
+		if = {
+			limit = {
+				is_aeluran_sister_or_higher = yes
+			}
+			add = {
+				value = 100
+				desc = aeluran_diarch_succession_score.is_advisor
+			}
+		}
+		else = {
+			add = {
+				value = -1000
+				desc = aeluran_diarch_succession_score.is_not_advisor
+			}
+		}
+	}
+}

@@ -4,10 +4,17 @@ https://discord.com/channels/1179053540161880074/1219397987491512400/12296044194
 
 cheat menu?
 
+"It’s because you have endless lord, the first brown will always be elf blooded."
+
+add_endless_lord_genetic_traits - endless lord doesnt include bloodline traits?
+
 Aeluran Matching Making 
  - offering already married women
  - "Wants my daughter to marry herself" https://discord.com/channels/1179053540161880074/1225101355606343735
  - can marry self
+
+ - turn into elf for crystal realm lord character interaction
+ - add crystals to trial of greed
 
 implement heroic courage compatibility upgrade
 rut takes away lustful
@@ -31,6 +38,8 @@ Investigate, may be fixed already: https://discord.com/channels/1179053540161880
 lover blocks entrance: https://discord.com/channels/1179053540161880074/1211753580797890560
 
 Doable? https://discord.com/channels/1179053540161880074/1232427017417523320
+
+Still no family converts automatically when u choose the religion 😭
 
 # Palantiri - That which looks far away
 https://www.youtube.com/watch?v=Z9TRcHkUL1w

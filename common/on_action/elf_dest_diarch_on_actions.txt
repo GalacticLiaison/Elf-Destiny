@@ -1,0 +1,62 @@
+﻿# Called when liege just entered the diarchy. Diarchy is already created
+# root - liege who just entered diarchy
+# scope:reason is the reason for starting it
+## scope:reason = flag:new_diarchy is the default case when liege becomes valid for diarchy
+## scope:reason = flag:inheritance when liege inherits a bigger realm with higher tier in a diarchy, and inherits it along the way
+on_entered_diarchy = {
+    on_actions = {
+        aeluran_regent_on_entered_diarchy 
+    }
+}
+
+aeluran_regent_on_entered_diarchy = {
+	trigger = {
+		has_active_diarchy = yes
+		has_diarchy_type = aeluran_regency
+	}
+
+	effect = {
+		# set_diarchy_swing = root.initial_aeluran_respect_value
+		# debug_log = "ENTERING DIARCHY!"
+		debug_log = "ITS AELURAN REGENCY!"
+		debug_log_scopes = yes
+
+		if = {
+			limit = {
+				has_diarchy_type = aeluran_regency
+			}
+
+			set_diarchy_swing = 50
+
+			if = {
+				limit = {
+					exists = diarch
+					diarch = {
+						NOT = { has_active_mandate = realm_supervision }
+					}
+				}
+				diarch = {
+					set_diarchy_mandate = realm_supervision
+				}
+			}
+
+			create_story = {
+				type = aeluran_regency_story
+				save_scope_as = aeluran_regency_story
+			}
+		}
+		else = {
+			# debug_log = "NOT AELURAN REGENCY!"
+		}
+		# trigger_event = {
+		# 	id = diarchy.0101
+		# 	months = { 3 9 }
+		# }
+	}
+}
+
+aeluran_diarchy_shift_loyalties = {
+	random_events = {
+		100 = aeluran_diarchy_management.2001
+	}
+}
