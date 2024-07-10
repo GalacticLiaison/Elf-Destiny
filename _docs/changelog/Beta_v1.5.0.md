@@ -33,6 +33,7 @@ NEW! "Aeluran Order" government type
 NEW! Aeluran MAA
    - "Aeluran Magi" have been renamed to "Aeluran War Magi" and has received new Art!
    - NEW! "Aeluran Magi Artillery" MAA, a seige and combat unit type mix
+   - NEW! regiment icons for all Elf Destiny MAAs!
 
 NEW Aeluran Magi Reinforcement System
    - event triggered roughly every 5 years where player receives a combination of "Aeluran War Magi" and "Aeluran Magi Artillery"
