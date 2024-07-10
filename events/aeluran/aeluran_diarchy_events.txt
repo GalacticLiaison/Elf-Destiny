@@ -43,8 +43,6 @@ aeluran_diarchy.100 = {
 	# cooldown = { years = 1 } # is this global?
 
 	immediate = {
-		debug_log = "WE IN"
-		debug_log_scopes = yes
 		random_living_character = {
 			limit = {
 				has_trait = aeluran_high_matriarch
@@ -136,6 +134,18 @@ aeluran_diarchy.100 = {
 				exists = scope:aeluran_sister_advisor
 			}
 
+			# DEBUG: will make advisor instant travel to your realm
+			# if = {
+			# 	limit = {
+			# 		scope:aeluran_sister_advisor = {
+			# 			NOT = {
+			# 				is_courtier_of = root
+			# 			}
+			# 		}
+			# 	}
+			# 	add_courtier = scope:aeluran_sister_advisor
+			# }
+
 			if = {
 				limit = {
 					exists = scope:aeluran_advisor_coming_from_sanctum
@@ -144,6 +154,14 @@ aeluran_diarchy.100 = {
 				add_character_flag = {
 					flag = aeluran_advisor_is_on_the_way
 					years = 4
+				}
+
+				scope:aeluran_sister_advisor = {
+					set_variable = {
+						name = new_liege_to_advise
+						value = root
+						# years = 5
+					}
 				}
 
 				save_scope_as = lord_receiving_advisor
@@ -189,6 +207,10 @@ aeluran_diarchy.101 = {
 		debug_log_scopes = yes
 
 		remove_character_flag = aeluran_advisor_is_on_the_way
+
+		# scope:aeluran_sister_advisor = {
+		# 	set_location = root.location
+		# }
 
 		# make regent/advisor
 		if = {
@@ -250,7 +272,7 @@ aeluran_diarchy.101 = {
 
 		trigger_event = {
 			id = aeluran_diarchy.102
-			days = { 5 10 }
+			days = { 25 40 }
 		}
 	}
 }
@@ -342,7 +364,7 @@ aeluran_diarchy.1011 = {
 
 		trigger_event = {
 			id = aeluran_diarchy.102
-			days = { 5 10 }
+			days = { 25 40 }
 		}
 	}
 }
@@ -359,33 +381,78 @@ aeluran_diarchy.102 = {
 	immediate = {
 		if = {
 			limit = {
+				# TODO: was this suppose to be for diarch? Maybe some events need it...
 				is_landed = yes
 			}
 			random_list = {
 				100 = {
-					trigger = { has_active_mandate = realm_supervision }
-
+					trigger = { 
+						diarch = { has_active_mandate = realm_supervision }
+					}
 					
-					add_character_modifier = {
-						modifier = realm_is_supervised
+					if = {
+						limit = { has_character_modifier = realm_is_subjugated_modifier }
+						remove_character_modifier = realm_is_subjugated_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_dominated_modifier }
+						remove_character_modifier = realm_is_dominated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_supervised_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_supervised_modifier
+						}
 					}
 
 					trigger_event = { on_action = diarchy_mandate_realm_supervision_random }
 				}
 				100 = {
-					trigger = { has_active_mandate = realm_subjugation }
+					trigger = { 
+						diarch = { has_active_mandate = realm_subjugation }
+					}
 
-					add_character_modifier = {
-						modifier = realm_is_subjugated
+					if = {
+						limit = { has_character_modifier = realm_is_supervised_modifier }
+						remove_character_modifier = realm_is_supervised_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_dominated_modifier }
+						remove_character_modifier = realm_is_dominated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_subjugated_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_subjugated_modifier
+						}
 					}
 
 					trigger_event = { on_action = diarchy_mandate_realm_subjugation_random }
 				}
 				100 = {
-					trigger = { has_active_mandate = realm_domination }
+					trigger = { 
+						diarch = { has_active_mandate = realm_domination }
+					}
 
-					add_character_modifier = {
-						modifier = realm_is_dominated
+					if = {
+						limit = { has_character_modifier = realm_is_supervised_modifier }
+						remove_character_modifier = realm_is_supervised_modifier
+					}
+					if = {
+						limit = { has_character_modifier = realm_is_subjugated_modifier }
+						remove_character_modifier = realm_is_subjugated_modifier
+					}
+					if = {
+						limit = {
+							NOT = {has_character_modifier = realm_is_dominated_modifier}
+						}
+						add_character_modifier = {
+							modifier = realm_is_dominated_modifier
+						}
 					}
 
 					trigger_event = { on_action = diarchy_mandate_realm_domination_random }

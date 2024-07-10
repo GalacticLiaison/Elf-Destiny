@@ -167,7 +167,7 @@
 councillor_aeluran_advisor = {
 	skill = learning
 
-	auto_fill = no
+	auto_fill = yes
 	fill_from_pool = no
 	inherit = no
 	
@@ -222,24 +222,6 @@ councillor_aeluran_advisor = {
 	on_fired_from_position = {
 		root.liege = {
 			remove_variable = religious_advisor
-		}
-	}
-
-	can_fire = {
-		custom_description = {
-			text = "court_aeluran_advisor_cant_fire_doctrines"
-			faith = {
-				NOT = {
-					has_doctrine = tenet_aeluran_sisters 
-				}
-			}
-		}
-	}
-
-	can_reassign = {
-		custom_description = {
-			text = "court_chaplain_cant_reassign_doctrines"
-			always = no
 		}
 	}
 
@@ -2245,9 +2227,11 @@ councillor_spouse = {
 		exists = liege
 		liege = {
 			NOT = {
-				has_active_diarchy = yes
-				has_diarchy_type = aeluran_regency
-				diarch = root
+				AND = {
+					has_active_diarchy = yes
+					has_diarchy_type = aeluran_regency
+					diarch = root
+				}
 			}
 		}
 		can_be_spouse_councillor_trigger = { COUNCIL_OWNER = liege }

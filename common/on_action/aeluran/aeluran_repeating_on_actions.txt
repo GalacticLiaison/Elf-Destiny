@@ -26,7 +26,7 @@ on_daughter_arrives_at_deepwood = {
 
 on_new_aeluran_advisor_is_on_way = {
 	effect = {
-		root = {
+		scope:lord_receiving_advisor = {
 			send_interface_toast = {
 				title = new_aeluran_advisor_is_on_the_way
 				left_icon = scope:aeluran_sister_advisor
@@ -37,12 +37,20 @@ on_new_aeluran_advisor_is_on_way = {
 	}
 }
 
-on_new_aeluran_advisor_travel_planner_exit = {}
+on_new_aeluran_advisor_travel_planner_exit = {
+	effect = {
+		debug_log = "TRAVEL PLAN GOT EXITED"
+	}
+}
 
 on_new_aeluran_advisor_arrives = {
 	effect = {
 		debug_log = "NEW SISTER ARRIVED"
 		debug_log_scopes = yes
+
+		# scope:aeluran_sister_advisor = {
+		# 	set_location = scope:aeluran_sister_advisor.var:new_liege_to_advise.capital_barony.title_province
+		# }
 
 		# lets test if we still have root scope of player here
 		scope:lord_receiving_advisor = {

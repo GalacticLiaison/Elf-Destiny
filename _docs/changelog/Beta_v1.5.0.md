@@ -1,7 +1,4 @@
-# Beta_v1.4.5
-
-
-# New
+# Beta_v1.5.0
 
 NEW! Aeluran Order Traits!
    - Updated Art!
@@ -74,6 +71,7 @@ Calmera Thalwyn
 
 Elandra Thalwyn
    - Tweaked Traits
+   - A little younger and new wardrobe
 
 Meldrid Serelion
    - NEW! DNA
@@ -106,17 +104,11 @@ Valindra Valerith
 Julia Melwood
    - is now Julia of house Melwood instead of full name as first name
 
-# Minor
-- new merged council UI when primary spouse is your Red Sister too
-
-# Updated
-
-Made expedition system much more compatible with submods, thanks to some help from Robmart and Zarays
-
-All adventurers on the first Expedition will now also receive the level 1 Spark Manipulation trait
-
 # Bugs/Balance
-
+- new merged council UI when primary spouse is your Red Sister too
+- upgraded "DLC" icon on main menu
+- Made expedition system much more compatible with submods, thanks to some help from @Robmart and @Zarays
+- All adventurers on the first Expedition will now also receive the level 1 Spark Manipulation trait
 - "Aeluran Convert Me" character interactions now convert to the faith of the requested sister, no longer hard coded to default Aeluran Weavers faith.
 - Player's entire family will now convert to Aeluran when asked by Matriarch.
 - Option added to move capital to portal site automatically when your restore it if you haven't transported it.
@@ -131,23 +123,3 @@ All adventurers on the first Expedition will now also receive the level 1 Spark 
 - Took a wild stab at fixing the elf blood bug
 - Removed genetic tag from Endless Lord trait, hopefully will help with some of the weird inheritance bugs
 - Fixed some broken Vizier functionality
-
-
-# FINAL TODOS
-- handle making swing scales/ battle of wills character interactions appear/disappear properly
-- test multibirth event is taking
-- test all match options but especially all aeluran options and family
-- update regency mandates description
-   - include the modifier players receive
-- Exclude aeluran vassals from mandate events, or at least your advisor herself
-- clean up debugging decisions
-- matchmaking for ai?
-- if you have open extra slots, request matchmaking?
-
-
-CONSIDER RECORDING A VIDEO DEV DIARY FOR THIS PATCH DEMONSTARTING NEW FETAURES!!!!
-- make youtube number go up
-
-maybe upload both a complete patch review video and sub-segments to youtube separately so you can share segments on redditt
-
-### IN DEV DIARY explain that although your advisor will do these things like matchmaking, they are currently AI only. I will one day make Aeluran Advisor a 100% playable role

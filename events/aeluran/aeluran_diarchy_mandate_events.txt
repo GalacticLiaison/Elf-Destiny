@@ -1,7 +1,5 @@
 ﻿namespace = aeluran_diarchy_mandate
 
-# TODO: Exclude aeluran vassals from events, or at least your advisor herself
-
 aeluran_diarchy_mandate.1002 = { # Find vassal secrets
 	type = character_event
 	title = aeluran_diarchy_mandate.1002.title
@@ -597,6 +595,9 @@ aeluran_diarchy_mandate.1008 = { # non aeluran vassal converted OR have a title 
 			NOT = {
 				religion = { is_in_family = rf_spark }
 			}
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
 		}
 	}
 
@@ -919,6 +920,9 @@ aeluran_diarchy_mandate.1010 = { # break up factions
 		any_targeting_faction = {
 			faction_leader = {
 				is_vassal_or_below_of = root
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
 			}
 		}
 
@@ -1053,6 +1057,9 @@ aeluran_diarchy_mandate.1012 = { # offer to take powerful vassals child as hosta
 	trigger = {
 		any_vassal = {
 			is_powerful_vassal = yes
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
 			opinion = {
 				target = root
 				value < 0
@@ -1234,6 +1241,9 @@ aeluran_diarchy_mandate.1013 = { # change personality trait of vassal like ambit
 				has_trait = arrogant
 				has_trait = deceitful
 				has_trait = paranoid
+			}
+			NOT = {
+				has_government = aeluran_weavers_government
 			}
 		}
 	}
@@ -1472,6 +1482,9 @@ aeluran_diarchy_mandate.1014 = { # offers you their strongest knight
 
 	trigger = {
 		any_vassal = {
+			NOT = {
+				has_government = aeluran_weavers_government
+			}
 			any_knight = {
 				is_landed = no
 				is_ai = yes

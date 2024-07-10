@@ -497,6 +497,7 @@ aeluran_matchmaking.1013 = { # Player Losess Battle Of Wills
 
 	option = {
 		name = aeluran_matchmaking.1013.ok
+		add_to_activity = scope:host.involved_activity
 
 		change_diarchy_swing = 20
 	}
@@ -748,14 +749,6 @@ aeluran_matchmaking.0021 = {
 }
 
 
-# TODO: if dont have family tenet, make sure family is not an option
-
-# TODO: BUGS - just had a round for hannah: baby girl alliance, high matriarch as "ordinary elf", male foreigner adventurer (ok not bug!)
-# TODO - Alliance should be more likely, no reason cant propose two in a single round.
-
-# TODO: REMOVE DIPLO RANGE REQUIREMENTS WHEREEVER APPROPRIATE
-
-# TODO: bastard claimant father not linking
 
 # START HERE
 # we are investigating why alliance doesnt work for heir and Im fairly sure you just need to verify "scope:matchmaking_recipient" is being set.
@@ -772,7 +765,12 @@ aeluran_matchmaking.0022 = {
 	content_source = elf_destiny
 
 	left_portrait = {
-		trigger = { exists = scope:left_portrait_match_1 }
+		trigger = { 
+			exists = scope:left_portrait_match_1
+			NOT = {
+				scope:match_choice_1_type = flag:aeluran_advisor
+			}
+		}
 		character = scope:left_portrait_match_1
 		triggered_animation = {
 			trigger = {
@@ -800,6 +798,12 @@ aeluran_matchmaking.0022 = {
 		trigger = { exists = scope:right_portrait_match_1 }
 		character = scope:right_portrait_match_1
 		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_1_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
 		camera = camera_body_left_slight
 	}
 
@@ -842,7 +846,12 @@ aeluran_matchmaking.0023 = {
 	content_source = elf_destiny
 
 	left_portrait = {
-		trigger = { exists = scope:left_portrait_match_2 }
+		trigger = { 
+			exists = scope:left_portrait_match_2
+			NOT = {
+				scope:match_choice_2_type = flag:aeluran_advisor
+			}
+		}
 		character = scope:left_portrait_match_2
 		triggered_animation = {
 			trigger = {
@@ -870,6 +879,12 @@ aeluran_matchmaking.0023 = {
 		trigger = { exists = scope:right_portrait_match_2 }
 		character = scope:right_portrait_match_2
 		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_2_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
 		camera = camera_body_left_slight
 	}
 
@@ -910,7 +925,12 @@ aeluran_matchmaking.0024 = {
 	theme = aeluran_matriarch
 	content_source = elf_destiny
 	left_portrait = {
-		trigger = { exists = scope:left_portrait_match_3 }
+		trigger = { 
+			exists = scope:left_portrait_match_3
+			NOT = {
+				scope:match_choice_3_type = flag:aeluran_advisor
+			}
+		}
 		character = scope:left_portrait_match_3
 		triggered_animation = {
 			trigger = {
@@ -938,6 +958,12 @@ aeluran_matchmaking.0024 = {
 		trigger = { exists = scope:right_portrait_match_3 }
 		character = scope:right_portrait_match_3
 		animation = personality_content
+		triggered_animation = {
+			trigger = {
+				scope:match_choice_3_type = flag:aeluran_advisor
+			}
+			animation = personality_bold
+		}
 		camera = camera_body_left_slight
 	}
 
@@ -1274,7 +1300,12 @@ aeluran_matchmaking.0026 = {
 	content_source = elf_destiny
 
 	left_portrait = {
-		trigger = { exists = scope:left_port }
+		trigger = { 
+			exists = scope:left_port
+			NOT = {
+				scope:selected_match_choice = scope:host
+			}
+		}
 		character = scope:left_port
 		# camera = camera_event_right_wedding
 		triggered_animation = {

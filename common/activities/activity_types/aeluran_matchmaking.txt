@@ -249,32 +249,30 @@
 	map_entity = "building_western_feast_01_entity"
 
 	# Travel
+	# background = {
+	# 	trigger = {
+	# 		OR = {
+	# 			location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+	# 			location.culture ?= { has_building_gfx = iranian_building_gfx }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
+	# 	environment = "environment_event_bp1_relaxing_room_mena"
+	# 	ambience = "event:/SFX/Events/Backgrounds/office_workplace"
+	# 	music = "grandfeast_cue"
+	# }
 	background = {
 		trigger = {
-			exists = location
-			OR = {
-				location.culture ?= { has_graphical_india_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_african_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
-				location.culture ?= { has_building_gfx = iranian_building_gfx }
-			}
-		}
-		texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
-		environment = "environment_event_bp1_relaxing_room_mena"
-		ambience = "event:/SFX/Events/Backgrounds/office_workplace"
-		music = "grandfeast_cue"
-	}
-	background = {
-		trigger = {
-			exists = location
-			NOR = {
-				location.culture ?= { has_graphical_india_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_african_culture_group_trigger = yes }
-				location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
-				location.culture ?= { has_building_gfx = iranian_building_gfx }
-			}
+			# NOR = {
+			# 	location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+			# 	location.culture ?= { has_building_gfx = iranian_building_gfx }
+			# }
 		}
 		texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_western.dds"
 		environment = "environment_event_bp1_relaxing_room_western" 
@@ -288,8 +286,23 @@
 			camera = camera_body
 			
 			effect = {
-				scope:host = {
-					add_to_list = characters
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								exists = scope:activity.var:selected_match_choice
+								NOT = {
+									scope:activity.var:selected_match_choice = scope:host
+								}
+							}
+							NOT = {
+								exists = scope:activity.var:selected_match_choice
+							}
+						}
+					}
+					scope:host = {
+						add_to_list = characters
+					}
 				}
 			}
 

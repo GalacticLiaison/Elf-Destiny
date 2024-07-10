@@ -169,102 +169,140 @@
 
 					change_diarchy_swing = var:aeluran_respect_change
 
-					# if = {
-					# 	limit = {
-					# 		has_diarchy_active_parameter = aeluran_domination_min_3
-					# 		NOT = { has_active_mandate = realm_domination }
-					# 	}
+					if = {
+						limit = {
+							has_diarchy_active_parameter = regent_mandate_level_3
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_domination
+								}
+							}
+						}
 
-					# 	set_diarchy_mandate = realm_domination
-					# }
-					# else_if = {
-					# 	limit = {
-					# 		has_diarchy_active_parameter = aeluran_domination_plus_1
-					# 		NOT = { has_active_mandate = realm_subjugation }
-					# 	}
+						set_diarchy_mandate = realm_domination
 
-					# 	set_diarchy_mandate = realm_subjugation
-					# }
-					# else_if = {
-					# 	limit = {
-					# 		NOT = { has_active_mandate = realm_supervision }
-					# 	}
-					# 	set_diarchy_mandate = realm_supervision
-					# }
+						if = {
+							limit = { has_character_modifier = realm_is_subjugated_modifier }
+							remove_character_modifier = realm_is_subjugated_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_supervised_modifier }
+							remove_character_modifier = realm_is_supervised_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_dominated_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_dominated_modifier
+							}
+						}
+					}
+					else_if = {
+						limit = {
+							has_diarchy_active_parameter = regent_mandate_level_2
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_subjugation
+								}
+							}
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_supervised_modifier }
+							remove_character_modifier = realm_is_supervised_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_dominated_modifier }
+							remove_character_modifier = realm_is_dominated_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_subjugated_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_subjugated_modifier
+							}
+						}
+
+						set_diarchy_mandate = realm_subjugation
+					}
+					else_if = {
+						limit = {
+							NOT = {
+								diarch = {
+									has_active_mandate = realm_supervision
+								}
+							}
+						}
+						
+						set_diarchy_mandate = realm_supervision
+
+						if = {
+							limit = { has_character_modifier = realm_is_subjugated_modifier }
+							remove_character_modifier = realm_is_subjugated_modifier
+						}
+						if = {
+							limit = { has_character_modifier = realm_is_dominated_modifier }
+							remove_character_modifier = realm_is_dominated_modifier
+						}
+						if = {
+							limit = {
+								NOT = {has_character_modifier = realm_is_supervised_modifier}
+							}
+							add_character_modifier = {
+								modifier = realm_is_supervised_modifier
+							}
+						}
+					}
 				}
 
 			}
 		}
 	}
 
-	# effect_group = {
-	# 	months = { 1 3 }
+	# effect_group = { # AI Matchmaking
+	# 	years = { 1 5 }
 
 	# 	triggered_effect = {
 	# 		trigger = {
 	# 			story_owner = {
-	# 				# is_ai = no
-	# 				exists = this
-	# 				exists = diarch
-	# 				has_active_diarchy = yes
-	# 				diarch_vassal_contract_not_at_proper_levels = yes
+	# 				is_ai = yes
+	# 				OR = {
+	# 					AND = {
+	# 						is_adult = yes
+	# 						is_betrothed = no
+	# 						is_married = no
+	# 					}
+	# 					player_heir = {
+	# 						OR = {
+	# 							is_child_of = prev
+	# 							AND = {
+	# 								is_close_family_of = prev
+	# 								is_ruler = no
+	# 							}
+	# 						}
+	# 						is_adult = yes
+	# 						is_betrothed = no
+	# 						is_married = no
+	# 					}
+	# 				}
+
+	# 				NOT = {
+	# 					diarch = {
+	# 						has_character_modifier = organizing_matchmaking
+	# 					}
+	# 				}
+
+	# 				NOT = {
+	# 					has_character_flag = refused_matchmaking
+	# 				}
 	# 			}
 	# 		}
 	# 		effect = {
-	# 			debug_log = "Vassal contracts aint right"
-
-	# 			story_owner = {
-	# 				trigger_event = {
-	# 					on_action = aeluran_diarchy_shift_contracts
-	# 				}					
-	# 			}
+	# 			# ai_matchmaking_effect = yes
 	# 		}
 	# 	}
 	# }
-
-	effect_group = { # AI Matchmaking
-		years = { 1 5 }
-
-		triggered_effect = {
-			trigger = {
-				story_owner = {
-					is_ai = yes
-					OR = {
-						AND = {
-							is_adult = yes
-							is_betrothed = no
-							is_married = no
-						}
-						player_heir = {
-							OR = {
-								is_child_of = prev
-								AND = {
-									is_close_family_of = prev
-									is_ruler = no
-								}
-							}
-							is_adult = yes
-							is_betrothed = no
-							is_married = no
-						}
-					}
-
-					NOT = {
-						diarch = {
-							has_character_modifier = organizing_matchmaking
-						}
-					}
-
-					NOT = {
-						has_character_flag = refused_matchmaking
-					}
-				}
-			}
-			effect = {
-				# ai_matchmaking_effect = yes
-			}
-		}
-	}
 
 	effect_group = { # Shift Aeluran Loyalties
 		years = { 1 5 }

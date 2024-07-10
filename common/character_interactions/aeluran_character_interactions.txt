@@ -408,10 +408,23 @@ swing_aeluran_control_interaction = {
 
 	is_shown = {
 		# You must be one of the partners in a diarchy.
-		# is_ai = no
+		scope:actor = {
+			is_ai = no
+		}
+
 		OR = {
-			scope:actor = { is_diarch_of_target = scope:recipient }
-			scope:recipient = { is_diarch_of_target = scope:actor }
+			AND = {
+				scope:actor = { is_diarch_of_target = scope:recipient }
+				scope:recipient = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			AND = {
+				scope:recipient = { is_diarch_of_target = scope:actor }
+				scope:actor = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
 		}
 	}
 

@@ -289,9 +289,11 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Aeluran Matron
 			modifier = {
-				add = 50
+				add = 75
 				is_female = no
 				var:candidate_quality >= 4
+
+				preexisting_aeluran_matron_exists = yes
 
 				NOT = {
 					any_in_list = {
@@ -317,6 +319,8 @@ generate_new_matchmaking_candidate = {
 				add = 50
 				var:candidate_quality >= 5
 				is_female = no
+
+				preexisting_aeluran_matriarch_exists = yes
 
 				NOT = {
 					any_in_list = {
@@ -362,7 +366,7 @@ generate_new_matchmaking_candidate = {
 		}
 		0 = { # Family
 			modifier = {
-				add = 100
+				add = 9999
 				scope:host.liege = { 
 					OR = {
 						culture = {
@@ -378,12 +382,12 @@ generate_new_matchmaking_candidate = {
 				}
 				preexisting_family_member_exists = yes
 
-				NOT = {
-					any_in_list = {
-						list = selected_match_types
-						this = flag:family
-					}
-				}
+				# NOT = {
+				# 	any_in_list = {
+				# 		list = selected_match_types
+				# 		this = flag:family
+				# 	}
+				# }
 			}
 			modifier = {
 				add = 30
@@ -951,22 +955,6 @@ assign_matchmaking_candidate_portraits_final_selection_effect = {
 	}
 }
 
-# Unfortunately clear_saved_scope doesnt seem to work...
-# clear_previous_portrait_assignments = {
-	# if = {
-	# 	limit = { exists = scope:left_portrait_match }
-	# 	clear_saved_scope = left_portrait_match
-	# }
-	# if = {
-	# 	limit = { exists = scope:right_portrait_match }
-	# 	clear_saved_scope = right_portrait_match
-	# }
-	# if = {
-	# 	limit = { exists = scope:center_portrait_match }
-	# 	clear_saved_scope = center_portrait_match
-	# }
-# }
-
 selection_option_bonus_effects = {
 	
 	$MATCH_CHOICE_TYPE$ = { save_scope_as = match_choice_type }
@@ -1300,7 +1288,8 @@ find_aeluran_matron_match_choice = {
 		assign_preexisting_aeluran_matron = { MATCHID = $MATCHID$ }
 	}
 	else = {
-		generate_new_aeluran_matron = { MATCHID = $MATCHID$ }
+		# Lets not do this for now, should never be needed
+		# generate_new_aeluran_matron = { MATCHID = $MATCHID$ }
 	}
 }
 
@@ -1682,6 +1671,7 @@ alliance_match_choice_effect = {
 		}
 		if = {
 			limit = {
+				exists = scope:selected_match_choice.father
 				scope:selected_match_choice.father = {
 					is_landed = yes
 					highest_held_title_tier >= tier_county
@@ -1693,6 +1683,7 @@ alliance_match_choice_effect = {
 		}
 		else_if = {
 			limit = {
+				exists = scope:selected_match_choice.mother
 				scope:selected_match_choice.mother = {
 					is_landed = yes
 					highest_held_title_tier >= tier_county
