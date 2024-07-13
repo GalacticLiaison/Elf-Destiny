@@ -338,3 +338,16 @@ put pantheon as a section in religion screen and show icons for valar you follow
 fowr 
 - make each chase segment an event with a variety of skill check options to either get closer or farther from succeeding
 - use camera = {} to zoom rabbit out, use it to put in hedge doorway or something and use an image with depth/distance
+
+For Group ritual spells
+- add spark users from your realm
+- the more users the more powerful/better results
+- use wheel of time mechanic, one male caster required for every seven female
+
+loyalty rework ideas
+- event that asks how you feel that aelurans have control
+   - decide to resist or not to maybe have aelurans gain loyal/disloyal
+
+
+diffrerent intent could lead to different expedition outcomes, maybe knowledge seeking for example
+
