@@ -15,7 +15,14 @@ tribal_ascension.0001 = {
 
 	option = {
 		name = tribal_ascension.0001.a
-		change_government = advanced_tribal_government
+		if = {
+			limit = {
+				NOT = {
+					has_government = aeluran_weavers_government
+				}
+			}
+			change_government = advanced_tribal_government
+		}
 		every_vassal = {
 			if = {
 				limit = {
@@ -27,6 +34,9 @@ tribal_ascension.0001 = {
 							}
 							NOT = {
 								government_has_flag = government_is_advanced_tribal
+							}
+							NOT = {
+								has_government = aeluran_weavers_government
 							}
 						}
 					}

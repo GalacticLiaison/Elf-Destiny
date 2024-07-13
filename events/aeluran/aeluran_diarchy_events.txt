@@ -639,6 +639,13 @@ aeluran_diarchy.103 = {
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
 		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
 	}
 
 	option = {
@@ -673,6 +680,13 @@ aeluran_diarchy.103 = {
 
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
+		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
 		}
 	}
 
@@ -709,6 +723,13 @@ aeluran_diarchy.103 = {
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
 		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
 	}
 
 	option = {
@@ -743,7 +764,25 @@ aeluran_diarchy.103 = {
 aeluran_diarchy.1031 = {
 	type = character_event
 	title = aeluran_diarchy.1031.title
-	desc = aeluran_diarchy.1031.desc
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+				}
+				desc = aeluran_diarchy.1031.desc
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+					}
+				}
+				desc = aeluran_diarchy.1031.desc.no_longer_owned
+			}
+		}
+	}
 
 	trigger = {
 		scope:aeluran_sister_advisor = {
@@ -756,10 +795,26 @@ aeluran_diarchy.1031 = {
 	right_portrait = {
 		character = scope:aeluran_sister_advisor
 		animation = personality_bold
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+				}
+			}
+			animation = disapproval
+		}
+	}
+
+	immediate = {
+		
 	}
 
 	option = {
 		name = aeluran_diarchy.1031.ok
+
+		trigger = {
+			new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+		}
 
 		create_title_and_vassal_change = {
 			type = granted
@@ -788,6 +843,23 @@ aeluran_diarchy.1031 = {
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
 		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
+	}
+
+	option = {
+		name = aeluran_diarchy.1031.no_longer_owned
+		trigger = {
+			NOT = {
+				new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+			}
+		}
+		trigger_event = aeluran_diarchy.1033
 	}
 }
 
@@ -836,7 +908,7 @@ aeluran_diarchy.1033 = {
 	}
 	right_portrait = {
 		character = scope:aeluran_sister_advisor
-		animation = personality_zealous
+		animation = disapproval
 	}
 
 	immediate = {
@@ -954,6 +1026,13 @@ aeluran_diarchy.1033 = {
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
 		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
 	}
 
 	option = {
@@ -989,6 +1068,13 @@ aeluran_diarchy.1033 = {
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
 		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+		}
 	}
 
 	option = {
@@ -1023,6 +1109,13 @@ aeluran_diarchy.1033 = {
 
 		scope:aeluran_sister_advisor = {
 			change_government = aeluran_weavers_government
+		}
+
+		if = {
+			limit = {
+				has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+			}
+			remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
 		}
 	}
 
