@@ -1,0 +1,66 @@
+﻿on_daughter_goes_to_deep_wood_for_parent = {
+	effect = {
+		root = {
+			send_interface_toast = {
+				title = daughter_departs_for_deepwood_title
+				left_icon = scope:daughter
+				# right_icon = scope:adopter # aeluran matriarch?
+				custom_tooltip = daughter_departs_for_deepwood_tt
+			}
+		}
+	}
+}
+
+on_daughter_goes_to_deep_wood_travel_planner_exit = {}
+
+on_daughter_arrives_at_deepwood = {
+	effect = {
+		# title:b_cykma.holder = {
+		# 	add_courtier = scope:daughter
+		# }
+		scope:daughter = {
+			add_character_flag = aeluran_training
+		}
+	}
+}
+
+on_new_aeluran_advisor_is_on_way = {
+	effect = {
+		scope:lord_receiving_advisor = {
+			send_interface_toast = {
+				title = new_aeluran_advisor_is_on_the_way
+				left_icon = scope:aeluran_sister_advisor
+				# right_icon = scope:adopter # aeluran matriarch?
+				custom_tooltip = new_aeluran_advisor_is_on_the_way_tt
+			}
+		}
+	}
+}
+
+on_new_aeluran_advisor_travel_planner_exit = {
+	effect = {
+		debug_log = "TRAVEL PLAN GOT EXITED"
+	}
+}
+
+on_new_aeluran_advisor_arrives = {
+	effect = {
+		debug_log = "NEW SISTER ARRIVED"
+		debug_log_scopes = yes
+
+		# scope:aeluran_sister_advisor = {
+		# 	set_location = scope:aeluran_sister_advisor.var:new_liege_to_advise.capital_barony.title_province
+		# }
+
+		# lets test if we still have root scope of player here
+		scope:lord_receiving_advisor = {
+			# add_courtier = scope:aeluran_sister_advisor
+			trigger_event = aeluran_diarchy.101
+		}
+
+		# assign_councillor_type = {
+		# 	type = councillor_aeluran_advisor
+		# 	target = scope:aeluran_sister_advisor
+		# }
+	}
+}

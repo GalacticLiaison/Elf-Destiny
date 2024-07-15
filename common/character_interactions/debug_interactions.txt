@@ -1,0 +1,59 @@
+﻿make_an_elf = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_elf
+
+	desc = make_an_elf_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		debug_only = yes
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			is_any_elf_type = no
+		}
+	}
+	
+	# cooldown = {
+
+	# }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		if = {
+			limit = {
+				scope:recipient = {
+					age < 20
+				}
+			}
+			scope:recipient = {
+				add_trait = elf_mortal
+			}
+		}
+		else = {
+			scope:recipient = {
+				add_trait = elf
+			}
+		}
+	}
+	
+	cost = {
+
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}

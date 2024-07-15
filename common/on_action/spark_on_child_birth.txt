@@ -1,10 +1,10 @@
 ﻿on_pregnancy_mother = {
+	# TODO on-actions?
 	events = {
-		# elf_pregnancy_events.0001
+		elf_pregnancy_events.0001
 		elf_pregnancy_events.0002
 	}
 }
-
 
 on_birth_child = {
 	# effect = {
@@ -12,31 +12,54 @@ on_birth_child = {
 	# }
 	on_actions = {
 		on_birth_elf_trait
-		# on_birth_higher_level_base_genetics
+		on_birth_higher_level_base_genetics
+		on_birth_endless_lord
+		on_birth_born_in_the_red
+		on_birth_add_multi_birth_tag
 	}
 }
 
 on_birth_elf_trait = {
+	trigger = {
+		# start here, add a filter to only elf children
+		# then do other on_actions too
+		OR = {
+			scope:mother = {
+				is_any_elf_type = yes
+			}
+			scope:real_father = {
+				is_any_elf_type = yes
+			}
+		}
+	}
 	effect = {
-		# debug_log = "IN ELF TRAITS ASSIGNMENT!!!!"
-		# average_elf_trait_score = 7
+		debug_log = "IN ELF TRAITS ASSIGNMENT!!!!"
+		
+		# Cleans up any natural genetic traits
+		remove_all_elf_traits_effect = yes
+
+		set_variable = { 
+			name = elf_trait_score
+			value = total_parent_elf_value
+		}
+
 		if = { # Both Parents Human
 			limit = {
-				average_elf_trait_score = 0
+				var:elf_trait_score = 0
 			}
 			# debug_log = "elf trait 0"
 			# Do nothing (Human)
 		}
 		else_if = { # Below Elf Blood
 			limit = {
-				average_elf_trait_score > 0
-				average_elf_trait_score < 1
+				var:elf_trait_score > 0
+				var:elf_trait_score < 2
 			}
 			# debug_log = "elf trait 1"
 			random_list = {
 				40 = {
 					debug_log = "elf trait 1: yes"
-					add_trait = elf_blood
+					add_trait = elf_blood_mortal
 				}
 				60 = {
 					debug_log = "elf trait 1: no"
@@ -44,283 +67,385 @@ on_birth_elf_trait = {
 				}
 			}
 		}
-		if = { # Both Parents Elf Blood
+		else_if = { # Both Parents Elf Blood
 			limit = {
-				average_elf_trait_score = 1
+				var:elf_trait_score = 2
 			}
 			# debug_log = "elf trait 2"
 			random_list = {
 				5 = {
 					# Ascencion!
 					debug_log = "elf trait 2: yes"
-					add_trait = elf
+					add_trait = elf_mortal
 				}
 				95 = {
 					debug_log = "elf trait 2: no"
-					add_trait = elf_blood
+					add_trait = elf_blood_mortal
 				}
 			}
 		}
-		if = { # Between Elf Blood and Elf
+		else_if = { # Between Elf Blood and Elf
 			limit = {
-				average_elf_trait_score > 1
-				average_elf_trait_score < 2
+				var:elf_trait_score > 2
+				var:elf_trait_score < 4
 			}
 			# debug_log = "elf trait 3"
 			random_list = {
 				70 = {
 					debug_log = "elf trait 3: yes"
-					add_trait = elf_blood
+					add_trait = elf_blood_mortal
 				}
 				30 = {
 					debug_log = "elf trait 3: No"
-					add_trait = elf
+					add_trait = elf_mortal
 				}
 			}
 		}
-		if = { # Both Parents Elf
+		else_if = { # Both Parents Elf
 			limit = {
-				average_elf_trait_score = 2
+				var:elf_trait_score = 4
 			}
 			# debug_log = "elf trait 4"
 			random_list = {
 				5 = {
 					# Ascencion!
 					debug_log = "elf trait 4: yes"
-					add_trait = high_elf
+					add_trait = high_elf_mortal
 				}
 				95 = {
 					debug_log = "elf trait 4: no"
-					add_trait = elf
+					add_trait = elf_mortal
 				}
 			}
 		}
-		if = { # Between Elf and High Elf
+		else_if = { # Between Elf and High Elf
 			limit = {
-				average_elf_trait_score > 2
-				average_elf_trait_score < 3
+				var:elf_trait_score > 4
+				var:elf_trait_score < 6
 			}
 			# debug_log = "elf trait 5"
 			random_list = {
 				70 = {
 					debug_log = "elf trait 5: yes"
-					add_trait = elf
+					add_trait = elf_mortal
 				}
 				30 = {
 					debug_log = "elf trait 5: no"
-					add_trait = high_elf
+					add_trait = high_elf_mortal
 				}
 			}
 		}
-		if = { # Both Parents High Elf
+		else_if = { # Both Parents High Elf
 			limit = {
-				average_elf_trait_score = 3
+				var:elf_trait_score = 6
 			}
 			# debug_log = "elf trait 6"
 			random_list = {
 				5 = {
 					# Ascencion!
 					debug_log = "elf trait 6: no"
-					add_trait = true_elf
+					add_trait = true_elf_mortal
 				}
 				95 = {
 					debug_log = "elf trait 6: yes"
-					add_trait = high_elf
+					add_trait = high_elf_mortal
 				}
 			}
 		}
-		if = { # Between High Elf and True Elf
+		else_if = { # Between High Elf and True Elf
 			limit = {
-				average_elf_trait_score > 3
-				average_elf_trait_score < 4
+				var:elf_trait_score > 6
+				var:elf_trait_score < 8
 			}
 			debug_log = "elf trait 7"
 			random_list = {
 				70 = {
 					debug_log = "elf trait 7: yes"
-					add_trait = high_elf
+					add_trait = high_elf_mortal
 				}
 				30 = {
 					debug_log = "elf trait 7: no"
-					add_trait = true_elf
+					add_trait = true_elf_mortal
 				}
 			}
 		}
-		if = { # Both Parents True Elf
+		else_if = { # Both Parents True Elf
 			limit = {
-				average_elf_trait_score = 4
+				var:elf_trait_score = 8
 			}
 			debug_log = "elf trait 8"
 			random_list = {
-				# 5 = {
-				# 	debug_log = "elf trait 8: yes"
-				# 	# Ascencion!
-				# 	add_trait = radiant_elf
-				# }
+				5 = {
+					debug_log = "elf trait 8: yes"
+					# Ascencion!
+					add_trait = fae_mortal
+				}
 				95 = {
 					debug_log = "elf trait 8: no"
-					add_trait = true_elf
+					add_trait = true_elf_mortal
 				}
 			}
 		}
-		# if = { # Between True Elf and Radiant Elf
-		# 	limit = {
-		# 		average_elf_trait_score > 4
-		# 		average_elf_trait_score < 5
-		# 	}
-		# 	debug_log = "elf trait 9"
-		# 	random_list = {
-		# 		70 = {
-		# 			debug_log = "elf trait 9: yes"
-		# 			add_trait = true_elf
-		# 		}
-		# 		30 = {
-		# 			debug_log = "elf trait 9: no"
-		# 			add_trait = radiant_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Both Parents Radiant Elf
-		# 	limit = {
-		# 		average_elf_trait_score = 5
-		# 	}
-		# 	debug_log = "elf trait 10"
-		# 	random_list = {
-		# 		5 = {
-		# 			# Ascencion!
-		# 			debug_log = "elf trait 10: yes"
-		# 			add_trait = celestial_elf
-		# 		}
-		# 		95 = {
-		# 			debug_log = "elf trait 10: no"
-		# 			add_trait = radiant_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Between Radiant Elf and Celestial Elf
-		# 	limit = {
-		# 		average_elf_trait_score > 5
-		# 		average_elf_trait_score < 6
-		# 	}
-		# 	debug_log = "elf trait 11"
-		# 	random_list = {
-		# 		70 = {
-		# 			debug_log = "elf trait 11: yes"
-		# 			add_trait = radiant_elf
-		# 		}
-		# 		30 = {
-		# 			debug_log = "elf trait 11: no"
-		# 			add_trait = celestial_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Both Parents Radiant Elf
-		# 	limit = {
-		# 		average_elf_trait_score = 6
-		# 	}
-		# 	debug_log = "elf trait 12"
-		# 	random_list = {
-		# 		5 = {
-		# 			# Ascencion!
-		# 			debug_log = "elf trait 12: yes"
-		# 			add_trait = ascendant_elf
-		# 		}
-		# 		95 = {
-		# 			debug_log = "elf trait 12: no"
-		# 			add_trait = celestial_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Between Celestial Elf and Ascendant Elf
-		# 	limit = {
-		# 		average_elf_trait_score > 6
-		# 		average_elf_trait_score < 7
-		# 	}
-		# 	debug_log = "elf trait 13"
-		# 	random_list = {
-		# 		70 = {
-		# 			debug_log = "elf trait 13: yes"
-		# 			add_trait = celestial_elf
-		# 		}
-		# 		30 = {
-		# 			debug_log = "elf trait 13: no"
-		# 			add_trait = ascendant_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Both Parents Radiant Elf
-		# 	limit = {
-		# 		average_elf_trait_score = 7
-		# 	}
-		# 	debug_log = "elf trait 14"
-		# 	random_list = {
-		# 		5 = {
-		# 			# Ascencion!
-		# 			debug_log = "elf trait 14: yes"
-		# 			add_trait = seraphic_elf
-		# 		}
-		# 		95 = {
-		# 			debug_log = "elf trait 14: no"
-		# 			add_trait = ascendant_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Between Ascendant Elf and Seraphic Elf
-		# 	limit = {
-		# 		average_elf_trait_score > 7
-		# 		average_elf_trait_score < 8
-		# 	}
-		# 	debug_log = "elf trait 15"
-		# 	random_list = {
-		# 		70 = {
-		# 			debug_log = "elf trait 15: yes"
-		# 			add_trait = ascendant_elf
-		# 		}
-		# 		30 = {
-		# 			debug_log = "elf trait 15: no"
-		# 			add_trait = seraphic_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Both Parents Seraphic Elf
-		# 	limit = {
-		# 		average_elf_trait_score = 8
-		# 	}
-		# 	debug_log = "elf trait 16"
-		# 	random_list = {
-		# 		5 = {
-		# 			# Ascencion!
-		# 			debug_log = "elf trait 16: yes"
-		# 			add_trait = regaliant
-		# 		}
-		# 		95 = {
-		# 			debug_log = "elf trait 16: no"
-		# 			add_trait = seraphic_elf
-		# 		}
-		# 	}
-		# }
-		# if = { # Between Seraphic Elf and Regaliant Elf
-		# 	limit = {
-		# 		average_elf_trait_score > 8
-		# 		average_elf_trait_score < 9
-		# 	}
-		# 	debug_log = "elf trait 17"
-		# 	random_list = {
-		# 		70 = {
-		# 			add_trait = seraphic_elf
-		# 		}
-		# 		30 = {
-		# 			add_trait = regaliant
-		# 		}
-		# 	}
-		# }
-		# if = { # Both Parents Regaliant
-		# 	limit = {
-		# 		average_elf_trait_score = 9
-		# 	}
-		# 	debug_log = "elf trait 18"
-		# 	add_trait = regaliant
-		# }
+		else_if = { # Between True Elf and Fae Elf
+			limit = {
+				var:elf_trait_score > 8
+				var:elf_trait_score < 10
+			}
+			debug_log = "elf trait 9"
+			random_list = {
+				70 = {
+					debug_log = "elf trait 9: yes"
+					add_trait = true_elf_mortal
+				}
+				30 = {
+					debug_log = "elf trait 9: no"
+					add_trait = fae_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Fae Elf
+			limit = {
+				var:elf_trait_score = 10
+			}
+			debug_log = "elf trait 10"
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 10: yes"
+					add_trait = fae_radiant_mortal
+				}
+				95 = {
+					debug_log = "elf trait 10: no"
+					add_trait = fae_mortal
+				}
+			}
+		}
+		else_if = { # Between Fae Elf and Fae Radiant Elf
+			limit = {
+				var:elf_trait_score > 10
+				var:elf_trait_score < 12
+			}
+			debug_log = "elf trait 11"
+			random_list = {
+				70 = {
+					debug_log = "elf trait 11: yes"
+					add_trait = fae_mortal
+				}
+				30 = {
+					debug_log = "elf trait 11: no"
+					add_trait = fae_radiant_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Fae Radiant Elf
+			limit = {
+				var:elf_trait_score = 12
+			}
+			debug_log = "elf trait 12"
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 12: yes"
+					add_trait = celestial_mortal
+				}
+				95 = {
+					debug_log = "elf trait 12: no"
+					add_trait = fae_radiant_mortal
+				}
+			}
+		}
+		else_if = { # Between Fae Radiant and Celestial Elf
+			limit = {
+				var:elf_trait_score > 12
+				var:elf_trait_score < 14
+			}
+			debug_log = "elf trait 13"
+			random_list = {
+				70 = {
+					debug_log = "elf trait 13: yes"
+					add_trait = fae_radiant_mortal
+				}
+				30 = {
+					debug_log = "elf trait 13: no"
+					add_trait = celestial_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Celestial Elf
+			limit = {
+				var:elf_trait_score = 14
+			}
+			debug_log = "elf trait 14"
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 14: yes"
+					add_trait = seraphic_celestial_mortal
+				}
+				95 = {
+					debug_log = "elf trait 14: no"
+					add_trait = celestial_mortal
+				}
+			}
+		}
+		else_if = { # Between Celestial Elf and Seraphic Celestial Elf
+			limit = {
+				var:elf_trait_score > 14
+				var:elf_trait_score < 16
+			}
+			debug_log = "elf trait 15"
+			random_list = {
+				70 = {
+					debug_log = "elf trait 15: yes"
+					add_trait = celestial_mortal
+				}
+				30 = {
+					debug_log = "elf trait 15: no"
+					add_trait = seraphic_celestial_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Seraphic Celestial Elf
+			limit = {
+				var:elf_trait_score = 16
+			}
+			debug_log = "elf trait 16"
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 16: yes"
+					add_trait = eldar_mortal
+				}
+				95 = {
+					debug_log = "elf trait 16: no"
+					add_trait = seraphic_celestial_mortal
+				}
+			}
+		}
+		else_if = { # Between Seraphic Celestial Elf and Eldar Elf
+			limit = {
+				var:elf_trait_score > 16
+				var:elf_trait_score < 18
+			}
+			debug_log = "elf trait 17"
+			random_list = {
+				70 = {
+					add_trait = seraphic_celestial_mortal
+				}
+				30 = {
+					add_trait = eldar_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Eldar
+			limit = {
+				var:elf_trait_score = 18
+			}
+			debug_log = "elf trait 18"
+
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 18: yes"
+					add_trait = maiar_mortal
+				}
+				95 = {
+					debug_log = "elf trait 18: no"
+					add_trait = eldar_mortal
+				}
+			}
+		}
+		else_if = { # Between Eldar and Maiar
+			limit = {
+				var:elf_trait_score > 18
+				var:elf_trait_score < 20
+			}
+			debug_log = "elf trait 19"
+			random_list = {
+				70 = {
+					add_trait = eldar_mortal
+				}
+				30 = {
+					add_trait = maiar_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Maiar
+			limit = {
+				var:elf_trait_score = 20
+			}
+			debug_log = "elf trait 20"
+
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 20: yes"
+					add_trait = valar_mortal
+				}
+				95 = {
+					debug_log = "elf trait 20: no"
+					add_trait = maiar_mortal
+				}
+			}
+		}
+		else_if = { # Between Maiar and Valar
+			limit = {
+				var:elf_trait_score > 20
+				var:elf_trait_score < 22
+			}
+			debug_log = "elf trait 21"
+			random_list = {
+				70 = {
+					add_trait = maiar_mortal
+				}
+				30 = {
+					add_trait = valar_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Valar
+			limit = {
+				var:elf_trait_score = 22
+			}
+			debug_log = "elf trait 22"
+
+			random_list = {
+				5 = {
+					# Ascencion!
+					debug_log = "elf trait 22: yes"
+					add_trait = aratar_mortal
+				}
+				95 = {
+					debug_log = "elf trait 22: no"
+					add_trait = valar_mortal
+				}
+			}
+		}
+		else_if = { # Between Valar and Aratar
+			limit = {
+				var:elf_trait_score > 22
+				var:elf_trait_score < 24
+			}
+			debug_log = "elf trait 21"
+			random_list = {
+				70 = {
+					add_trait = valar_mortal
+				}
+				30 = {
+					add_trait = aratar_mortal
+				}
+			}
+		}
+		else_if = { # Both Parents Aratar
+			limit = {
+				var:elf_trait_score = 24
+			}
+			debug_log = "elf trait 22"
+
+			add_trait = aratar_mortal
+		}
+
+        remove_variable = elf_trait_score
 	}
 }
 
@@ -342,18 +467,144 @@ on_birth_higher_level_base_genetics = {
 				}
 			}
 
-			physique_good_4_inheritance_effect = yes
-			beauty_good_4_inheritance_effect = yes
-			intellect_good_4_inheritance_effect = yes
+			# physique_good_4_inheritance_effect = yes
+			# beauty_good_4_inheritance_effect = yes
+			# intellect_good_4_inheritance_effect = yes
 		}
+		else = {
+			swap_tier_4_to_tier_3_genetic_traits = yes
+		}
+
 		if = {
 			limit = {
 				culture = {
-					has_cultural_parameter = familial_familiarity_pure_blood
+					OR = {
+						has_cultural_parameter = familial_familiarity_purer_blood
+						has_cultural_parameter = familial_familiarity_purest_blood
+					}
 				}
 			}
 
 			pure_blooded_inheritance_effect = yes
+		}
+	}
+}
+
+# TODO handle multi-birth!
+on_birth_endless_lord = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = endless_lord_active
+		}
+		OR = {
+			scope:real_father = {
+				is_ruler = yes
+			}
+			scope:mother = {
+				is_ruler = yes
+			}
+		}
+	}
+
+	effect = {
+		debug_log = "Beginning Endless Lord"
+
+		# Identify Mother or Father as lord
+		determine_endless_lord_parent = yes
+
+		if = {
+			limit = {
+				# Check if child is first child
+				NOT = {
+					scope:lord_to_copy = {
+						any_child = {
+							count > 1
+						}
+					}
+				}
+			}
+
+			remove_all_genetic_traits_from_child = yes
+			add_endless_lord_genetic_traits = yes
+			handle_endless_lord_trait_effect = yes
+
+			debug_log = "Do it!"
+			scope:child = {
+				# TODO: will handle this during naming event
+				# change_first_name = { template_character = scope:lord_to_copy }
+				copy_inheritable_appearance_from = scope:lord_to_copy
+				# TODO Gender?
+			}
+		}
+		else = {
+			debug_log = "FAILED TO TRIGGER ENDLESS LORD"
+		}
+	}
+}
+
+on_birth_born_in_the_red = {
+	trigger = {
+		scope:mother = {
+			has_trait = aeluran_high_matriarch
+		}
+	}
+
+	effect = {
+		add_trait = born_in_the_red
+	}
+}
+
+on_birth_add_multi_birth_tag = {
+	effect = {
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_triplets
+				}
+			}
+			scope:child = {
+				add_character_flag = is_triplet
+			}
+		}
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_quadruplets
+				}
+			}
+			scope:child = {
+				add_character_flag = is_quadruplet
+			}
+		}
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_quintuplets
+				}
+			}
+			scope:child = {
+				add_character_flag = is_quintuplet
+			}
+		}
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_sextuplets
+				}
+			}
+			scope:child = {
+				add_character_flag = is_sextuplet
+			}
+		}
+		if = {
+			limit = {
+				scope:mother = {
+					has_character_flag = having_septuplets
+				}
+			}
+			scope:child = {
+				add_character_flag = is_septuplet
+			}
 		}
 	}
 }

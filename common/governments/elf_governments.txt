@@ -3,6 +3,7 @@
 	rulers_should_have_dynasty = yes
 	regiments_prestige_as_gold = yes
 	royal_court = yes
+	legitimacy = yes
 	# affected_by_development = no
 	supply_limit_mult_for_others = -0.5
 	primary_holding = tribal_holding
@@ -12,9 +13,25 @@
 
 	prestige_opinion_override = { -10 0 3 5 10 20 }
 	always_use_patronym = yes	
-
-	vassal_contract = { tribal_government_obligations }
 	
+	ai = {
+		use_legends = yes
+	}
+
+	vassal_contract = {
+		tribal_government_obligations
+		feudal_government_taxes
+		feudal_government_levies
+		special_contract
+		religious_rights
+		fortification_rights
+		coinage_rights
+		succession_rights
+		war_declaration_rights
+		council_rights
+		title_revocation_rights
+	}
+
 	character_modifier = {
 		title_creation_cost_mult = -0.5
 		army_maintenance_mult = -0.5
@@ -32,5 +49,6 @@
 	flag = government_can_raid_rule
 	# Use flags instead of has_government for moddability if possible (i.e., wherever not visible to the player).
 	flag = government_is_advanced_tribal
+	flag = government_is_feudal
 	color = hsv{ 0.12 0.55 0.46 }
 }

@@ -1,5 +1,89 @@
-﻿# aeluran_regency_can_start = {
-# 	root = {
-# 		has_council_position = councillor_aeluran_advisor
-# 	}
-# }
+﻿# TODO: this doesnt take into consideration that multiple values are active at once! use swing scales values instead like the contract shift does!
+
+aeluran_domination_level_full_deference = {
+	diarchy_swing <= 10
+}
+
+aeluran_domination_level_high_deference = {
+	diarchy_swing > 10
+	diarchy_swing <= 25
+}
+
+aeluran_domination_level_low_deference = {
+	diarchy_swing > 25
+	diarchy_swing <= 40
+}
+
+aeluran_domination_level_neutral = {
+	diarchy_swing > 40
+	diarchy_swing < 60
+}
+
+aeluran_domination_level_low_dominated = {
+	diarchy_swing >= 60
+	diarchy_swing < 75
+}
+
+aeluran_domination_level_highly_dominated= {
+	diarchy_swing >= 75
+	diarchy_swing < 90
+}
+
+aeluran_domination_level_fully_dominated = {
+	diarchy_swing >= 90
+}
+
+
+diarch_vassal_contract_not_at_proper_levels = {
+	OR = {
+		AND = {
+			aeluran_domination_level_full_deference = yes
+			diarch = {
+				NOR = {
+					vassal_contract_obligation_level:aeluran_government_taxes = 0
+					vassal_contract_obligation_level:aeluran_government_levies = 0
+				}
+			}
+		}
+		AND = {
+			aeluran_domination_level_high_deference = yes
+			diarch = {
+				NOR = {
+					vassal_contract_obligation_level:aeluran_government_taxes = 1
+					vassal_contract_obligation_level:aeluran_government_levies = 1
+				}
+			}
+		}
+		AND = {
+			aeluran_domination_level_neutral = yes
+			diarch = {
+				NOR = {
+					vassal_contract_obligation_level:aeluran_government_taxes = 2
+					vassal_contract_obligation_level:aeluran_government_levies = 2
+				}
+			}
+		}
+		AND = {
+			aeluran_domination_level_highly_dominated = yes
+			diarch = {
+				NOR = {
+					vassal_contract_obligation_level:aeluran_government_taxes = 3
+					vassal_contract_obligation_level:aeluran_government_levies = 3 
+				}
+			}
+		}
+		AND = {
+			aeluran_domination_level_fully_dominated = yes
+			diarch = {
+				NOR = {
+					vassal_contract_obligation_level:aeluran_government_taxes = 4
+					vassal_contract_obligation_level:aeluran_government_levies = 4
+				}
+			}
+		}
+	}
+}
+
+new_temple_available_for_diarch = {
+	$COUNTY$.holder = root
+}

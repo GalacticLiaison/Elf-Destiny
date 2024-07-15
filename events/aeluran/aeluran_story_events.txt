@@ -7,7 +7,8 @@ aeluran_story.001 = {
 	title = aeluran_story.001.title
 	desc = aeluran_story.001.desc
 
-	theme = court
+	theme = aeluran_matriarch
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = root
@@ -24,14 +25,35 @@ aeluran_story.001 = {
 			save_scope_as = high_matriarch
 		}
 
-		random_living_character = {
+		if = {
 			limit = {
-				is_female = yes
-				has_trait = aeluran_matron
+				scope:high_matriarch = {
+					any_child = {
+						has_trait = aeluran_matron
+					}
+				}
 			}
-			
-			save_scope_as = aeluran_matron
+
+			scope:high_matriarch = {
+				random_child = {
+					limit = {
+						has_trait = aeluran_matron
+					}
+					save_scope_as = aeluran_matron
+				}
+			}
 		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+				}
+				
+				save_scope_as = aeluran_matron
+			}
+		}
+
 
 		if = {
 			limit = {
@@ -43,7 +65,7 @@ aeluran_story.001 = {
 				template = aeluran_matriarch
 				dynasty = none
 				location = root.location
-				faith = aeluran_weavers
+				faith = faith:aeluran_weavers
 				culture = root.culture
 				save_scope_as = high_matriarch
 			}
@@ -59,7 +81,7 @@ aeluran_story.001 = {
 				template = aeluran_matron
 				dynasty = none
 				location = root.location
-				faith = aeluran_weavers
+				faith = faith:aeluran_weavers
 				culture = root.culture
 				save_scope_as = aeluran_matron
 			}
@@ -78,7 +100,8 @@ aeluran_story.002 = {
 	title = aeluran_story.002.title
 	desc = aeluran_story.002.desc
 
-	theme = seduction
+	theme = aeluran_matriarch
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:high_matriarch
@@ -106,8 +129,9 @@ aeluran_story.003 = {
 	title = aeluran_story.003.title
 	desc = aeluran_story.003.desc
 
-	theme = seduction
-
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+	
 	left_portrait = {
 		character = scope:high_matriarch
 		animation = thinking
@@ -136,7 +160,8 @@ aeluran_story.004 = {
 	title = aeluran_story.004.title
 	desc = aeluran_story.004.desc
 
-	theme = seduction
+	theme = aeluran_matriarch
+	content_source = elf_destiny
 
 	left_portrait = {
 		character = scope:high_matriarch
@@ -149,10 +174,191 @@ aeluran_story.004 = {
 
 	option = {
 		name = aeluran_story.004.ok
-		set_character_faith = faith:aeluran_weavers
+
+		# set_character_faith = scope:high_matriarch.faith
+		save_scope_as = recipient
+		scope:high_matriarch = {
+			save_scope_as = actor
+		}
+
+		grab_spouses_and_family_to_convert_effect = yes
+		convert_family_to_faith_effect = {
+			FALSE_CONVERSION = no
+			FORCED = no
+		}
+
+		trigger_event = aeluran_story.0061
 	}
 
 	option = {
 		name = aeluran_story.004.no
 	}
 }
+
+aeluran_story.005 = {
+	type = character_event
+
+	title = aeluran_story.005.title
+	desc = aeluran_story.005.desc
+
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	trigger = {
+		root.faith = cp:councillor_aeluran_advisor.faith
+		exists = cp:councillor_aeluran_advisor
+	}
+
+	left_portrait = {
+		character = scope:advisor
+		animation = flirtation
+	}
+
+	immediate = {
+		cp:councillor_aeluran_advisor = {
+			save_scope_as = advisor
+		}
+	}
+
+	option = {
+		name = aeluran_story.005.accept
+		root.culture = {
+			add_culture_tradition = tradition_aeluran_etiquette
+		}
+	}
+
+	option = {
+		name = aeluran_story.005.no
+		# TODO: battle of wills
+	}
+}
+
+aeluran_story.006 = { # REFORMATION DECISION
+	type = character_event
+
+	title = aeluran_story.006.title
+	desc = aeluran_story.006.desc
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = throne_room_conversation_2
+	}
+
+	right_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+		random_living_character = {
+			limit = {
+				is_female = yes
+				has_trait = aeluran_high_matriarch
+			}
+			
+			save_scope_as = high_matriarch
+		}
+
+		if = {
+			limit = {
+				scope:high_matriarch = {
+					any_child = {
+						has_trait = aeluran_matron
+					}
+				}
+			}
+
+			scope:high_matriarch = {
+				random_child = {
+					limit = {
+						has_trait = aeluran_matron
+					}
+					save_scope_as = aeluran_matron
+				}
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+				}
+				
+				save_scope_as = aeluran_matron
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:high_matriarch
+				}
+			}
+			create_character = {
+				template = aeluran_matriarch
+				dynasty = none
+				location = root.location
+				faith = faith:aeluran_weavers
+				culture = root.culture
+				save_scope_as = high_matriarch
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:aeluran_matron
+				}
+			}
+			create_character = {
+				template = aeluran_matron
+				dynasty = none
+				location = root.location
+				faith = faith:aeluran_weavers
+				culture = root.culture
+				save_scope_as = aeluran_matron
+			}
+		}
+
+		## Free Reformation Discount
+		root = {
+			add_character_modifier = deference_of_the_aelurans
+		}
+	}
+
+	option = {
+		name = aeluran_story.006.ok
+	}
+}
+
+aeluran_story.0061 = { # Given Reformation Quest
+	type = character_event
+
+	title = aeluran_story.0061.title
+	desc = aeluran_story.0061.desc
+
+	theme = aeluran_matriarch
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:high_matriarch
+		animation = thinking
+	}
+
+	immediate = {
+		trigger_event = {
+			id = aeluran_story.005
+			years = 10
+		}
+	}
+
+	option = {
+		name = aeluran_story.0061.ok
+		custom_tooltip = unlocked_decision_to_find_holy_sites
+	}
+}
+
+

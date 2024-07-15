@@ -3,90 +3,77 @@
 # # scope:quarter is which quarter it's for, from 1 to 4. Note that scope:quarter = 1 isn't necessarily in Q1 by calendar time
 quarterly_playable_pulse = {
 	on_actions = {
-		# TODO: Just confirm the old quarterly pulses from base game still work
-		# Spark
-		the_rut_quarterly_pulse
-		the_rut_cleanup_quarterly_pulse
 		form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
+		beguiling_nature_pulse
 		gain_varangian_adventure_innovation_pulse
+		
+		aeluran_order_maintenance
 
 		# handle_elf_tradition_effects_pulse
 	}
 }
 
-the_rut_quarterly_pulse = {
-	trigger = {
-		scope:quarter = 2
-	}
+aeluran_order_maintenance = {
 	on_actions = {
-		give_the_rut
+		# Things to do
+		# 1.) If the matriarch has died, host an election to replace her
+		# matriarch_election
+		# 2.) If there arent enough matrons, elect new ones
+		# matron_counting
+			# - candidates should be picked from existing sisters if possible
+		# 3.) aeluran school for new sisters recruiting
+		elf_daughters_to_school
+		elf_daughters_back_from_school
+		# 4.) If not enough spare sisters, generate more
+
 	}
 }
 
-give_the_rut = {
+elf_daughters_to_school = {
 	trigger = {
-		# is_available_adult = yes
-		# is_any_elf_type = yes
-		# has_the_rut_tradition = yes
-		# is_pregnant = no
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		exists = cp:councillor_aeluran_advisor
+		any_child = {
+			is_female = yes
+			age < 8
+			age > 6
+			NOT = {
+				has_character_flag = recruited_by_aelurans
+			}
+			is_spark_talented = yes
+		}
 	}
-	random_events = {
-		100 = the_rut_events.0001
+
+	effect = {
+		trigger_event = aeluran_repeating.001
 	}
 }
 
-the_rut_cleanup_quarterly_pulse = {
+elf_daughters_back_from_school = {
 	trigger = {
-		scope:quarter = 3
+		is_ruler = yes
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		any_child = {
+			is_female = yes
+			age > 12
+			age < 16
+			has_character_flag = recruited_by_aelurans
+		}
 	}
-	on_actions = {
-		cleanup_the_rut
-	}
-}
 
-cleanup_the_rut = {
-	trigger = {
-		# is_available_adult = yes
-		# is_any_elf_type = yes
-		# has_the_rut_tradition = yes
-		# is_pregnant = no
-	}
-	random_events = {
-		100 = the_rut_events.0002
+	effect = {
+		trigger_event = aeluran_repeating.002
 	}
 }
 
-
-# handle_elf_tradition_effects_pulse = {
-# 	trigger = {
-# 		scope:quarter = 4
-# 		is_any_elf_type = yes
-# 		culture = {
-# 			OR = {
-# 				has_cultural_parameter = form_advanced_tribal_government
-# 				has_cultural_parameter = advanced_shrewd
-# 				has_cultural_parameter = heroic_trait_unlocked
-# 			}
-# 		}
-# 	}
-
-# 	effect = {
-# 		if = {
-# 			root = {
-# 				culture = {
-# 					has_cultural_parameter = form_advanced_tribal_government
-# 				}
-# 				NOT = {
-# 					government_has_flag = government_is_advanced_tribal
-# 				}
-# 			}
-# 		}
-# 	}
-
-# }
 
 gain_varangian_adventure_innovation_pulse = {
 	trigger = {
@@ -111,14 +98,15 @@ gain_varangian_adventure_innovation_pulse = {
 
 form_advanced_tribal_goverment_pulse = {
 	trigger = {
-		is_ai = no
-		root = {
-			culture = {
-				has_cultural_parameter = form_advanced_tribal_government
-			}
-			NOT = {
-				government_has_flag = government_is_advanced_tribal
-			}
+		# is_ai = no
+		culture = {
+			has_cultural_parameter = form_advanced_tribal_government
+		}
+		NOT = {
+			government_has_flag = government_is_advanced_tribal
+		}
+		NOT = {
+			has_government = aeluran_weavers_government
 		}
 	}
 	random_events = {
@@ -209,6 +197,13 @@ heroic_courage_pulse = {
 				}
 				enemies_slayed > 1
 			}
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 	
 			debug_log = "AWARDING BRAVE"
 
@@ -222,6 +217,13 @@ heroic_courage_pulse = {
 			}
 
 			debug_log = "AWARDING HEROIC"
+
+			if = {
+				limit = {
+					has_trait = craven
+				}
+				remove_trait = craven
+			}
 
 			remove_trait = brave
 			add_trait = heroic
@@ -278,6 +280,119 @@ heroic_courage_pulse = {
 	}
 }
 
+beguiling_nature_pulse = {
+	trigger = {
+		culture = {
+			has_cultural_parameter = passionate_trait_unlocked
+		}
+		times_had_sex_with_a_lord_count >= 2
+	}
+
+	effect = {
+		debug_log = "BEGUILING PULSE"
+		set_variable = {
+			name = sex_partner_number 
+			value = times_had_sex_with_a_lord_count
+		}
+
+		create_unique_lord_sex_partner_list_effect = yes
+		set_variable = {
+			name = unique_lords_sexed_count_value 
+			value = unique_lords_sexed_count
+		}
+
+		# Rulers
+		if = {
+			limit = {
+				NOT = {
+					has_trait = lustful
+					has_trait = passionate
+				}
+				unique_lords_sexed_count >= 2
+			}
+	
+			debug_log = "AWARDING LUSTFUL"
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			add_trait = lustful
+		}
+	
+		if = {
+			limit = {
+				has_trait = lustful
+				unique_lords_sexed_count >= 5
+			}
+
+			if = {
+				limit = {
+					has_trait = chaste
+				}
+				remove_trait = chaste
+			}
+
+			debug_log = "AWARDING PASSIONATE"
+
+			remove_trait = lustful
+			add_trait = passionate
+		}
+
+		# Courtiers
+		every_courtier = {
+			limit = {
+				enemies_slayed > 1
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						has_trait = lustful
+						has_trait = passionate
+					}
+					enemies_slayed > 1
+				}
+		
+				debug_log = "AWARDING LUSTFUL"
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				add_trait = lustful
+			}
+		
+			if = {
+				limit = {
+					has_trait = lustful
+					enemies_slayed > 4
+				}
+
+				if = {
+					limit = {
+						has_trait = chaste
+					}
+					remove_trait = chaste
+				}
+	
+				debug_log = "AWARDING PASSIONATE"
+	
+				remove_trait = lustful
+				add_trait = passionate
+			}
+		}
+
+
+	}
+}
+
 distribute_aeluran_advisors_pulse = {
 	trigger = {
 		is_ruler = yes
@@ -292,35 +407,29 @@ distribute_aeluran_advisors_pulse = {
 		}
 		NOT = {
 			exists = root.cp:councillor_aeluran_advisor
+			# exists = diarch
+		}
+		NOT = {
+			has_character_flag = aeluran_advisor_is_on_the_way
+		}
+		trigger_if = {
+			limit = { has_active_diarchy = yes }
+			NOT = {
+				has_diarchy_type = aeluran_regency
+			}
 		}
 	}
 
 	effect = {
-		# debug_log = "Asigning Aeluran Advisor"
+		debug_log = "Asigning Aeluran Advisor"
 		if = {
 			limit = {
 				NOT = {
 					exists = root.cp:councillor_aeluran_advisor
 				}
 			}
-			# debug_log = "Creating Aeluran Advisor"
-			create_character = {
-				template = aeluran_sister_advisor
-				dynasty = none
-				location = root.location
-				faith = root.faith
-				culture = root.culture
-				save_scope_as = aeluran_sister_advisor
-			}
 
-			# debug_log_scopes = yes
-
-			add_courtier = scope:aeluran_sister_advisor
-	
-			assign_councillor_type = {
-				type = councillor_aeluran_advisor
-				target = scope:aeluran_sister_advisor
-			}
+			trigger_event = aeluran_diarchy.100
 		}
 	}
 }

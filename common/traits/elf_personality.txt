@@ -4,12 +4,159 @@
 		brave
 		craven
 	}
+	opposite_opinion = 0
 
 	potential = {
 		culture = {
 			has_cultural_parameter = heroic_trait_unlocked
 		}
 		enemies_slayed > 4
+	}
+
+	martial = 4
+	prowess = 6
+	
+	attraction_opinion = 15
+	glory_hound_opinion = 20
+	same_opinion = 15
+	
+	culture_modifier = {
+		parameter = trait_county_opinion_modifiers
+		county_opinion_add = 10
+	}
+	
+	culture_modifier = {
+		parameter = mountain_trait_bonuses
+		mountains_max_combat_roll = 3
+		desert_mountains_max_combat_roll = 3
+	}
+	
+	culture_modifier = {
+		parameter = winter_trait_bonuses
+		winter_movement_speed = 0.1
+	}
+	
+	culture_modifier = {
+		parameter = hill_trait_bonuses
+		hills_advantage = 4
+		hills_attrition_mult = -0.25
+	}
+	
+	ruler_designer_cost = 60
+	
+	flag = higher_chance_of_dying_in_battle
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_brave_desc
+			}
+			desc = trait_brave_character_desc
+		}
+	}
+
+	ai_energy = low_positive_ai_value
+	ai_boldness = dominant_positive_ai_value
+	ai_rationality = low_negative_ai_value
+	ai_sociability = low_positive_ai_value
+	ai_amenity_target_baseline = 0.1
+	
+	#portrait_pose = {
+	#	name = "test_pose_brave"
+	#	score = 10
+	#}
+	compatibility = {
+		brave = @pos_compat_high
+		heroic = @pos_compat_high
+		ambitious = @pos_compat_medium
+		rowdy = @pos_compat_medium
+		gallant = @pos_compat_low
+		lifestyle_blademaster = @pos_compat_low
+		strategist = @pos_compat_low
+		overseer = @pos_compat_low
+		gallant = @pos_compat_low
+		craven = @neg_compat_high
+		lazy = @neg_compat_medium
+		calm = @neg_compat_low
+		content = @neg_compat_low
+	}
+}
+
+passionate = {
+	category = personality
+	opposites = {
+		chaste
+		lustful
+	}
+	opposite_opinion = 0
+
+	potential = {
+		culture = {
+			has_cultural_parameter = passionate_trait_unlocked
+		}
+		times_had_sex_with_a_lord_count >= 2
+	}
+
+	#Asexual characters may still have the lustful trait. This is intended to represent asexuals who, whilst not generally experiencing attraction to other people, might still have a high libido.
+	fertility = 0.35
+	intrigue = 4
+	seduce_scheme_power_add = 25
+
+	same_opinion = 10
+	
+	ruler_designer_cost = 50
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lustful_desc
+			}
+			desc = trait_lustful_character_desc
+		}
+	}
+	
+	ai_honor = very_low_negative_ai_value
+	ai_greed = low_positive_ai_value
+	ai_energy = very_low_positive_ai_value
+	ai_zeal = very_low_negative_ai_value
+	ai_sociability = medium_positive_ai_value
+	ai_amenity_target_baseline = 0.3
+	ai_amenity_spending = 0.15
+
+	compatibility = {
+		lustful = @pos_compat_high
+		passionate = @pos_compat_high
+		gregarious = @pos_compat_low
+		lifestyle_reveler = @pos_compat_low
+		seducer = @pos_compat_low
+		chaste = @neg_compat_high
+		celibate = @neg_compat_high
+		shy = @neg_compat_low
+	}
+}
+
+## VALAR VERSIONS
+
+heroic_valar = {
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+
+	icon = heroic.dds
+	category = personality
+	opposites = {
+		brave
+		craven
+	}
+	opposite_opinion = 0
+
+	potential = {
+		has_trait = valar
 	}
 
 	martial = 4
@@ -82,5 +229,63 @@
 		lazy = @neg_compat_medium
 		calm = @neg_compat_low
 		content = @neg_compat_low
+	}
+}
+
+passionate_valar = {
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+
+	icon = passionate.dds
+	category = personality
+	opposites = {
+		chaste
+		lustful
+	}
+	opposite_opinion = 0
+
+	potential = {
+		has_trait = valar
+	}
+
+	#Asexual characters may still have the lustful trait. This is intended to represent asexuals who, whilst not generally experiencing attraction to other people, might still have a high libido.
+	fertility = 0.35
+	intrigue = 4
+	seduce_scheme_power_add = 25
+
+	same_opinion = 10
+	opposite_opinion = -10
+	
+	ruler_designer_cost = 50
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lustful_desc
+			}
+			desc = trait_lustful_character_desc
+		}
+	}
+	
+	ai_honor = very_low_negative_ai_value
+	ai_greed = low_positive_ai_value
+	ai_energy = very_low_positive_ai_value
+	ai_zeal = very_low_negative_ai_value
+	ai_sociability = medium_positive_ai_value
+	ai_amenity_target_baseline = 0.3
+	ai_amenity_spending = 0.15
+
+	compatibility = {
+		lustful = @pos_compat_high
+		passionate = @pos_compat_high
+		gregarious = @pos_compat_low
+		lifestyle_reveler = @pos_compat_low
+		seducer = @pos_compat_low
+		chaste = @neg_compat_high
+		celibate = @neg_compat_high
+		shy = @neg_compat_low
 	}
 }

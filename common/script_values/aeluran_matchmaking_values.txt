@@ -1,0 +1,390 @@
+﻿matchmaking_candidate_quality = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:very_high
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:high
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:neutral
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:low_respect
+			}
+			add = 1
+		}
+
+		if = {
+			limit = {
+				exists = scope:granted_hook
+				scope:granted_hook = yes
+			}
+			add = 1
+		}
+
+		if = {
+			limit = {
+				exists = scope:gifted_crystal
+				scope:gifted_crystal = yes
+			}
+			add = 2
+		}
+	}
+}
+
+matchmaking_candidate_quantity = {
+	value = 0
+	add = {
+		if = { # Lowest Control Level
+			limit = {
+				has_diarchy_active_parameter = aeluran_domination_min_3
+			}
+			add = 1
+		}
+		else_if = {
+			limit = {
+				has_diarchy_active_parameter = aeluran_domination_min_2
+			}
+			add = 2
+		}
+		else = {
+			add = 3
+		}
+	}
+}
+
+matchmaking_respect_bonus_value = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:very_high
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:high
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:neutral
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				scope:aeluran_matchmaking_respect_score = flag:low_respect
+			}
+			add = 1
+		}
+	}
+}
+
+genetic_worthiness = {
+	value = 0
+	add = {
+		## Beauty ##
+		if = {
+			limit = {
+				has_trait = beauty_good_4
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				has_trait = beauty_good_3
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				has_trait = beauty_good_2
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				has_trait = beauty_good_1
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				has_trait = beauty_bad_3
+			}
+			add = -3
+		}
+		if = {
+			limit = {
+				has_trait = beauty_bad_2
+			}
+			add = -2
+		}
+		if = {
+			limit = {
+				has_trait = beauty_bad_1
+			}
+			add = -1
+		}
+		## Intellect ##
+		if = {
+			limit = {
+				has_trait = intellect_good_4
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				has_trait = intellect_good_3
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				has_trait = intellect_good_2
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				has_trait = intellect_good_1
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				has_trait = intellect_bad_3
+			}
+			add = -3
+		}
+		if = {
+			limit = {
+				has_trait = intellect_bad_2
+			}
+			add = -2
+		}
+		if = {
+			limit = {
+				has_trait = intellect_bad_1
+			}
+			add = -1
+		}
+		## Physique ##
+		if = {
+			limit = {
+				has_trait = physique_good_4
+			}
+			add = 4
+		}
+		if = {
+			limit = {
+				has_trait = physique_good_3
+			}
+			add = 3
+		}
+		if = {
+			limit = {
+				has_trait = physique_good_2
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				has_trait = physique_good_1
+			}
+			add = 1
+		}
+		if = {
+			limit = {
+				has_trait = physique_bad_3
+			}
+			add = -3
+		}
+		if = {
+			limit = {
+				has_trait = physique_bad_2
+			}
+			add = -2
+		}
+		if = {
+			limit = {
+				has_trait = physique_bad_1
+			}
+			add = -1
+		}
+		## Other Positive Genetic Traits ##
+		if = {
+			limit = {
+				has_trait = pure_blooded
+			}
+			add = 2
+		}
+		if = {
+			limit = {
+				has_trait = fecund
+			}
+			add = 2
+		}
+		if = { # Giant will always be a positive trait to me
+			limit = {
+				has_trait = giant
+			}
+			add = 2
+		}
+		if = { # Same with Albino!
+			limit = {
+				has_trait = albino
+			}
+			add = 1
+		}
+		## Other Negative Genetic Traits ##
+		if = {
+			limit = {
+				has_trait = clubfooted
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = hunchbacked
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = lisping
+			}
+			add = -3
+		}
+		if = {
+			limit = {
+				has_trait = stuttering
+			}
+			add = -3
+		}
+		if = {
+			limit = {
+				has_trait = dwarf
+			}
+			add = -5
+		}
+		if = {
+			limit = {
+				has_trait = inbred
+			}
+			add = -7
+		}
+		if = {
+			limit = {
+				has_trait = spindly
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = scaly
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = wheezing
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = bleeder
+			}
+			add = -4
+		}
+		if = {
+			limit = {
+				has_trait = infertile
+			}
+			add = -5
+		}
+	}
+}
+
+matchmaking_female_gender_chance = {
+	if = {
+		limit = {
+			scope:activity.special_guest:match_recipient = {
+				is_female = yes
+			}
+		}
+		add =  0
+	}
+	else_if = {
+		limit = {
+			scope:activity.special_guest:match_recipient = {
+				is_female = no
+			}
+		}
+		add =  100
+	}
+	else = {
+	 	add = 50
+	}
+}
+
+aeluran_order_match_choice_piety_bonus = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_advisor
+			}
+			add = 500
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_sister
+			}
+			add = 250
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_matron
+			}
+			add = 1000
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:aeluran_matriarch
+			}
+			add = 2000
+		}
+		if = {
+			limit = {
+				scope:match_choice_type = flag:genetic_project
+			}
+			add = 500
+		}
+	}
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+
+inferior_elf_match_dowry = {
+	value = 500
+	multiply = activity_cost_scale_by_tier
+	multiply = activity_cost_scale_by_era
+}
+

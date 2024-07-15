@@ -1,0 +1,103 @@
+﻿ritual_solo_cost = {
+    value = 0
+    if = {
+        limit = {
+            is_elf_blood = yes
+        }
+        add = 3000
+    }
+    if = {
+        limit = {
+            is_elf = yes
+        }
+        add = {
+            value = 5000
+        }
+    }
+    if = {
+        limit = {
+            is_high_elf = yes
+        }
+        add = {
+            value = 6000
+        }
+    }
+    if = {
+        limit = {
+            is_true_elf = yes
+        }
+        add = {
+            value = 7000
+        }
+    }
+    if = {
+        limit = {
+            is_fae = yes
+        }
+        add = {
+            value = 8000
+        }
+    }
+    if = {
+        limit = {
+            is_fae_radiant = yes
+        }
+        add = {
+            value = 9000
+        }
+    }
+    if = {
+        limit = {
+            is_celestial = yes
+        }
+        add = {
+            value = 10000
+        }
+    }
+    if = {
+        limit = {
+            is_seraphic_celestial = yes
+        }
+        add = {
+            value = 11000
+        }
+    }
+    if = {
+        limit = {
+            is_eldar = yes
+        }
+        add = {
+            value = 12000
+        }
+    }
+    if = {
+        limit = {
+            is_maiar = yes
+        }
+        add = {
+            value = 13000
+        }
+    }
+    if = {
+        limit = {
+            is_valar = yes
+        }
+        add = {
+            value = 15000
+        }
+    }
+}
+
+additional_ritual_participant_cost = {
+	value = 0
+	add = ritual_solo_cost
+	multiply = 0.2
+}
+
+total_extra_ritual_piety_cost = {
+	value = 0
+	every_in_list = {
+		list = other_ascenders
+		subtract = additional_ritual_participant_cost
+	}
+}

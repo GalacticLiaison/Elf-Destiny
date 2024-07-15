@@ -62,8 +62,32 @@ get_blessing_candidates = {
 			}
 			add_to_list = blessing_choice_candidates
 		}
-		
-		# add_to_list = blessing_choice_candidates
+		if = { # culture_tradition:tradition_endless_lord
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_endless_lord
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_endless_lord
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
+		if = { # culture_tradition:tradition_beguiling_nature
+			limit = {
+				AND = {
+					scope:blessing_candidate = culture_tradition:tradition_beguiling_nature
+					NOT = {
+						root.culture = {
+							has_cultural_tradition = culture_tradition:tradition_beguiling_nature
+						}
+					}
+				}
+			}
+			add_to_list = blessing_choice_candidates
+		}
 	}
 
 	# random_in_list = {
@@ -105,6 +129,7 @@ pick_random_elven_tradition = {
 						this = culture_tradition:tradition_open_hearted
 						this = culture_tradition:tradition_elf_superiority
 						this = culture_tradition:tradition_the_old_ways
+						this = culture_tradition:tradition_aeluran_etiquette
 					}
 				}
 			}
@@ -194,6 +219,61 @@ mark_tradition_as_discovered = {
 			add_to_global_variable_list = {
 				name = discovered_traditions
 				target = flag:tradition_familial_familiarity
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:tradition = culture_tradition:tradition_endless_lord
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_endless_lord
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:tradition = culture_tradition:tradition_beguiling_nature
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_beguiling_nature
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:tradition = culture_tradition:tradition_blessing_of_vana
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_blessing_of_vana
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:tradition = culture_tradition:tradition_blessing_of_tulkas_astaldo
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_blessing_of_tulkas_astaldo
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:tradition = culture_tradition:tradition_aeluran_etiquette
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_aeluran_etiquette
 			}
 		}
 	}

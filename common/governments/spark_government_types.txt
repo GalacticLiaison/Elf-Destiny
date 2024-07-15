@@ -1,21 +1,71 @@
-﻿aeluran_weavers_government = {
-	primary_holding = tribal_holding
-	valid_holdings = { tribal_holding city_holding castle_holding church_holding }
-	# required_county_holdings = { tribal_holding city_holding castle_holding church_holding }
+﻿## RANDOM
+# custom title for aeluran rulers, "Her Lady" or something better
+
+aeluran_weavers_government = {
+	# Not positive what this actually does, but one side effect is if you marry an heir to a religious vassal they stop being your heir
+	# religious = yes
+
+	rulers_should_have_dynasty = yes
+	council = yes
+
+	can_get_government = { 
+		is_aeluran_sister_or_higher = yes
+	}
+
+	primary_holding = church_holding
+	valid_holdings = { tribal_holding city_holding castle_holding }
+	required_county_holdings = { }
+
+	preferred_religions = { spark_religion }
+
+	court_generate_spouses = yes # Should spouses be generated in courts of this government? yes by default
+	court_generate_commanders = no	# Should commanders be generated in courts of this government? Can use a multiplier to the default number. yes = 1, no = 0
+
+	royal_court = yes
+
+	affected_by_development = yes
 
 	ai = {
-		arrange_marriage = no
-		# use_goals = no
-		# use_scripted_guis = no
+		use_lifestyle = yes
+		imprison = yes
+		# start_murders = yes
+		arrange_marriage = no # we will handle programatically
+		use_goals = yes
+		use_decisions = yes	# Use minor decisions
+		# use_scripted_guis = yes/no	# Will evaluate using scripted guis
+		use_legends = yes
 		perform_religious_reformation = no
 	}
 
-	character_modifier = {# Modifier applied to the ruler character with this government type
+	character_modifier = { # Modifier applied to the ruler character with this government type
+
 	}	
 
-	vassal_contract = { republic_government_obligations }
+	# Ideas: 
+	# - magistration strength is effected by how many counties aeluran vassals control!
+	# - respect determines if vassal tries to expand their domain?
+
+		# aeluran_government_succession_rights # title returns to ruler, should then be handed out to new advisor
+		# aeluran_war_declaration_rights # Wont declare most wars or something
+		# aeluran_government_taxes # piety gain, low or no gold at all
+		# aeluran_government_levies # contribute X many magi to magi core
+
+	vassal_contract = { 
+		aeluran_government_taxes
+		aeluran_government_levies
+		aeluran_government_magi
+		special_contract
+		religious_rights
+		fortification_rights
+		coinage_rights
+		succession_rights
+		war_declaration_rights
+		council_rights
+		title_revocation_rights
+	}
 
 	# Use flags instead of has_government for moddability if possible (i.e., wherever not visible to the player).
 	# flag = government_is_republic
+	# flag = government_is_feudal
 	color = { 72 61 139 }	
 }

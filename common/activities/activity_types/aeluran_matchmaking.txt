@@ -1,0 +1,572 @@
+﻿activity_aeluran_matchmaking = {
+	is_shown = {
+		OR = {
+			# is_ai = no
+			AND = {
+				has_council_position = councillor_aeluran_advisor
+				is_ai = yes
+				# liege = {
+				# 	is_ai = no
+				# 	is_betrothed = no
+				# 	is_married = no
+				# 	is_adult = yes
+				# }
+				has_character_modifier = organizing_matchmaking
+			}
+		}
+	}
+
+	can_start_showing_failures_only = {
+		# is_available_adult = yes
+	}
+
+	is_valid = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+		}
+		# # If no one shows up
+		# trigger_if = {
+		# 	limit = {
+		# 		is_current_phase_active = yes
+		# 	}
+		# 	has_attending_activity_guests = yes
+		# }
+	}
+	
+	on_host_death = {
+		debug_log = "Aeluran Matchmaking host died"
+	}
+
+	on_invalidated = {
+		debug_log = "Aeluran Matchmaking got invalidated"
+	}
+
+	###################
+	# PARAMETERS
+	###################
+
+	is_grand_activity = no
+	is_single_location = yes
+
+	province_filter = top_realm
+	ai_province_filter = top_realm
+
+	max_route_deviation_mult = 2.0
+
+	is_location_valid = {
+		custom_tooltip = {
+			text = not_valid_matchmaking_location
+			AND = {
+				exists = barony	
+				barony = scope:host.liege.capital_barony
+			}
+		}
+	}
+
+	province_description = {
+		desc = activity_feast_province_desc
+	}
+
+	max_province_icons = 1
+
+	province_score = {
+		value = 0
+		add = 888
+	}
+
+	cooldown = { years = 1 }
+
+	ai_check_interval = 1
+	
+	# desc is only shown in debug AI watch window
+	ai_will_do = {
+		value = 1000
+	}
+
+	###################
+	# GUEST HANDLING
+	###################
+
+	max_guests = 2
+	allow_zero_guest_invites = yes
+
+	guest_invite_rules = {
+		rules = {
+
+		}
+		defaults = {
+			1 = activity_invite_rule_liege_and_liege_family
+		}
+	}
+
+	can_be_activity_guest = {
+		is_adult = yes
+		OR = {
+			scope:host.liege = root
+			is_close_family_of = scope:host.liege
+		}
+	}
+
+	host_intents = {
+		intents = { reduce_stress_intent }
+		default = reduce_stress_intent
+	}
+
+	guest_intents = {
+		intents = { reduce_stress_intent }
+		default = reduce_stress_intent
+	}
+
+	guest_join_chance = {
+		base = 1000
+
+		# Scripted Modifiers
+		# activity_guest_shared_ai_accept_modifier = yes 
+	}
+
+	special_guests = {
+		match_recipient = {
+			is_required = yes
+
+			is_shown = { 
+				# scope:special_option = flag:feast_type_generic
+			}
+	
+			select_character = {
+				if = {
+					limit = {
+						exists = var:matchmaking_character
+					}
+					var:matchmaking_character = {
+						save_scope_as = character
+					}
+				}
+
+				# if = {
+				# 	limit = {
+				# 		liege = {
+				# 			is_adult = yes
+				# 			is_betrothed = no
+				# 			is_married = no
+				# 		}
+				# 	}
+
+				# 	debug_log = "CAN I SELECT 1"
+
+				# 	liege = {
+				# 		save_scope_as = character
+				# 	}
+				# }
+				# else_if = {
+				# 	limit = {
+				# 		liege.player_heir = {
+				# 			# is_child_of = prev
+				# 			is_adult = yes
+				# 			is_betrothed = no
+				# 			is_married = no
+				# 		}
+				# 	}
+
+				# 	debug_log = "CAN I SELECT 2"
+
+				# 	liege.player_heir = {
+				# 		save_scope_as = character
+				# 	}
+				# }
+			}
+
+			can_pick = {
+				NOT = { this = scope:host }
+				# is_liege_or_above_of = scope:host 
+			}
+
+			on_invite = {
+				## maybe we auto make ai characters join?
+				
+				scope:host.liege = {
+					trigger_event = aeluran_matchmaking.101
+				}
+				# if = {
+				# 	limit = {
+				# 		is_ai = no
+				# 	}
+				# 	debug_log = "SENDING INVITE"					
+				# 	scope:host.liege = {
+				# 		trigger_event = aeluran_matchmaking.101
+				# 	}
+				# }	
+			}
+			
+			ai_will_do = {
+				value = 1000
+			}
+		}
+	}
+
+	travel_entourage_selection = {
+		weight = {
+			value = standard_travel_entourage_additions
+		}
+		max = 18
+		invite_rule_order = 3
+	}
+
+	cost = {
+		gold = 0
+	}
+
+	ui_predicted_cost = {
+		gold = 0
+	}
+
+	###################
+	# GRAPHICS
+	###################
+
+	map_entity = {
+		trigger = {
+			activity_location.culture = {
+				OR = {
+					has_graphical_mena_culture_group_trigger = yes
+					has_graphical_steppe_culture_group_trigger = yes
+					has_graphical_african_culture_group_trigger = yes
+				}
+			}
+		}
+		reference = "building_mena_feast_01_entity"
+	}
+
+	map_entity = {
+		trigger = {
+			activity_location.culture = {
+				has_graphical_india_culture_group_trigger = yes
+			}
+		}
+		reference = "building_indian_feast_01_entity"
+	}
+	
+	map_entity = "building_western_feast_01_entity"
+
+	# Travel
+	# background = {
+	# 	trigger = {
+	# 		OR = {
+	# 			location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+	# 			location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+	# 			location.culture ?= { has_building_gfx = iranian_building_gfx }
+	# 		}
+	# 	}
+	# 	texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
+	# 	environment = "environment_event_bp1_relaxing_room_mena"
+	# 	ambience = "event:/SFX/Events/Backgrounds/office_workplace"
+	# 	music = "grandfeast_cue"
+	# }
+	background = {
+		trigger = {
+			# NOR = {
+			# 	location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+			# 	location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+			# 	location.culture ?= { has_building_gfx = iranian_building_gfx }
+			# }
+		}
+		texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_western.dds"
+		environment = "environment_event_bp1_relaxing_room_western" 
+		ambience = "event:/SFX/Events/Backgrounds/office_workplace"
+		music = "grandfeast_cue"
+	}
+
+	window_characters = {
+
+		aeluran_adviser = { # Aeluran Adviser
+			camera = camera_body
+			
+			effect = {
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								exists = scope:activity.var:selected_match_choice
+								NOT = {
+									scope:activity.var:selected_match_choice = scope:host
+								}
+							}
+							NOT = {
+								exists = scope:activity.var:selected_match_choice
+							}
+						}
+					}
+					scope:host = {
+						add_to_list = characters
+					}
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					animation = { toast_goblet }
+				}
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { flirtation }
+				}
+			}
+		}
+
+		match_left = {
+			camera = camera_body
+			# camera = camera_event_left_wedding
+
+			effect = {
+				if = {
+					limit = {
+						exists = scope:activity.special_guest:match_recipient
+						scope:activity.special_guest:match_recipient = {
+							is_female = yes
+						}
+					}
+					scope:activity.special_guest:match_recipient = {
+						add_to_list = characters
+					}
+				}
+				else_if = {
+					limit = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					scope:activity.var:selected_match_choice = {
+						add_to_list = characters
+					}
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					animation = { love }
+				}
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { worry }
+				}
+			}
+		}
+
+		match_right = {
+			# camera = camera_body
+			camera = camera_body_flip
+			# camera = camera_event_left
+
+			effect = {
+				if = {
+					limit = {
+						exists = scope:activity.special_guest:match_recipient
+						scope:activity.special_guest:match_recipient = {
+							is_male = yes
+						}
+					}
+					scope:activity.special_guest:match_recipient = {
+						add_to_list = characters
+					}
+				}
+				else_if = {
+					limit = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					scope:activity.var:selected_match_choice = {
+						add_to_list = characters
+					}
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					animation = { love }
+				}
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { worry }
+				}
+			}
+		}
+
+		match_recipient_liege = {
+			camera = camera_body
+
+			effect = {
+				if = {
+					limit = {
+						NOT = {
+							scope:host.liege = scope:activity.special_guest:match_recipient
+						}
+					}
+				}
+				scope:host.liege = {
+					add_to_list = characters
+				}
+			}
+
+			scripted_animation = {
+				triggered_animation = {
+					trigger = {
+						exists = scope:activity.var:selected_match_choice
+					}
+					animation = { toast_goblet }
+				}
+				triggered_animation = {
+					trigger = {
+						always = yes
+					}
+					animation = { personality_content }
+				}
+			}
+		}
+				
+	}
+
+	###################
+	# OPTIONS
+	###################
+
+	options = {
+
+	}
+
+
+	###################
+	# PHASES
+	###################
+
+	# wait_time_before_start = { days = 2 }
+	# max_guest_arrival_delay_time = { months = 2 }
+
+	phases = {
+		matchmake = {		
+			order = 1
+			is_predefined = yes
+
+			is_shown = { always = yes }
+			is_valid = {
+
+			}
+
+			on_phase_active = {
+				# Sort some stuff on the host.
+				if = {
+					limit = { this = scope:host }
+
+					scope:activity = { progress_activity_phase_after = { days = 2 } }
+				}
+
+				# if = {
+
+				# 	# BIG TODO: if heir is in activity this will eb fired once, so set liege and heir scopes and only fire for leige
+				# 	# - I could probably also reference using activty.specialguest stuff
+				# 	limit = {
+				# 		this = scope:activity.special_guest:match_recipient
+				# 	}
+
+				# 	scope:activity.special_guest:match_recipient = {
+				# 		save_scope_as = match_recipient
+				# 	}
+				# }
+
+				if = {
+					limit = { 
+						is_ai = no	
+					}
+
+					scope:activity.special_guest:match_recipient = {
+						save_scope_as = match_recipient
+					}
+
+					trigger_event = {
+						on_action = matchmaking_events
+						days = 1
+					}
+				}
+			}
+			
+			on_weekly_pulse = {
+				if = { #host
+					limit = {
+						this = scope:host
+					}
+					# trigger_event = { on_action = entrance_feast_new_event_selection_tombola }
+				}
+				else_if = { #guest
+					limit = {
+						NOT = { this = scope:host }
+					}
+					# trigger_event = { on_action = entrance_feast_default_event_selection }
+				}
+			}
+		}
+	}
+
+	ai_will_select_province = {
+		# Base
+		value = 469
+	}
+
+	###################
+	# ACTIVITY-SPECIFIC PULSES
+	###################
+	
+	pulse_actions = {
+		entries = {
+
+		}
+		chance_of_no_event = 5
+	}
+	
+	on_start = {
+		debug_log = "AELURAN MATCHMAKING IS STARTING"
+	}
+	
+	on_enter_passive_state = {
+		debug_log = "AELURAN MATCHMAKING IN PASSIVE STATE"
+	}
+
+	# Effects run when the activity completes after its last phase
+	# root = character in this phase
+	# scope:activity = the activity
+	# scope:host = host of the activity
+	on_complete = {
+		# Run conclusion stuff here
+		if = {
+			limit = { this = scope:host }
+
+			scope:host = {
+				if = {
+					limit = {
+						exists = var:matchmaking_character
+					}
+					remove_variable = matchmaking_character
+				}
+			}
+		}
+		# Conclusion event for guests
+		else = {
+
+		}
+
+	}
+}

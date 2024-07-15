@@ -1,0 +1,56 @@
+﻿@muscle_multiply = 1
+@muscle_max = 1.0
+
+muscularity = {
+
+	usage = game
+	
+	muscular = {
+		ignore_outfit_tags = yes
+		dna_modifiers = {
+			morph = {
+				mode = modify
+				gene = gene_bs_body_shape
+				value = {
+					value = 0
+
+					if = { 
+						limit = { exists = scope:ruler_designer }
+						add = scope:prowess
+					}
+					else_if = {
+						limit = { exists = this }
+						add = prowess_for_portrait
+					}
+					else = {
+						add = scope:prowess
+					}
+
+					multiply = 4
+
+					max = 1.0
+				}
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				has_game_rule = no_women_prowess_change_enabled
+				trigger_if = {
+					limit = { exists = root }
+					is_female = no
+				}
+				trigger_else = {
+					scope:female = no
+				}
+				add = 100
+			}
+
+			modifier = {
+				has_game_rule = no_women_prowess_change_disabled
+
+				add = 100
+			}
+		}
+	}
+}

@@ -1,0 +1,529 @@
+﻿transition_to_elf_adult_effect = {
+	add_elf_immortality_effect = yes
+	set_adult_immortal_age = yes
+}
+
+add_elf_immortality_effect = {
+	debug_log = "swapping to adult elf trait"
+	if = {
+		limit = {
+			has_trait = elf_blood_mortal
+		}
+		remove_trait = elf_blood_mortal
+		add_trait = elf_blood
+	}
+	if = {
+		limit = {
+			has_trait = elf_mortal
+		}
+		remove_trait = elf_mortal
+		add_trait = elf
+	}
+	if = {
+		limit = {
+			has_trait = high_elf_mortal
+		}
+		remove_trait = high_elf_mortal
+		add_trait = high_elf
+	}
+	if = {
+		limit = {
+			has_trait = true_elf_mortal
+		}
+		remove_trait = true_elf_mortal
+		add_trait = true_elf
+	}
+	if = {
+		limit = {
+			has_trait = fae_mortal
+		}
+		remove_trait = fae_mortal
+		add_trait = fae
+	}
+	if = {
+		limit = {
+			has_trait = fae_radiant_mortal
+		}
+		remove_trait = fae_radiant_mortal
+		add_trait = fae_radiant
+	}
+	if = {
+		limit = {
+			has_trait = celestial_mortal
+		}
+		remove_trait = celestial_mortal
+		add_trait = celestial
+	}
+	if = {
+		limit = {
+			has_trait = seraphic_celestial_mortal
+		}
+		remove_trait = seraphic_celestial_mortal
+		add_trait = seraphic_celestial
+	}
+	if = {
+		limit = {
+			has_trait = eldar_mortal
+		}
+		remove_trait = eldar_mortal
+		add_trait = eldar
+	}
+	if = {
+		limit = {
+			has_trait = maiar_mortal
+		}
+		remove_trait = maiar_mortal
+		add_trait = maiar
+	}
+	if = {
+		limit = {
+			has_trait = valar_mortal
+		}
+		remove_trait = valar_mortal
+		add_trait = valar
+	}
+	if = {
+		limit = {
+			has_trait = aratar_mortal
+		}
+		remove_trait = aratar_mortal
+		add_trait = aratar
+	}
+}
+
+remove_elf_immortality_effect = {
+	debug_log = "removing elf immortality"
+	if = {
+		limit = {
+			has_trait = elf_blood
+		}
+		remove_trait = elf_blood
+		add_trait = elf_blood_mortal
+	}
+	if = {
+		limit = {
+			has_trait = elf
+		}
+		remove_trait = elf
+		add_trait = elf_mortal
+	}
+	if = {
+		limit = {
+			has_trait = high_elf
+		}
+		remove_trait = high_elf
+		add_trait = high_elf_mortal
+	}
+	if = {
+		limit = {
+			has_trait = true_elf
+		}
+		remove_trait = true_elf
+		add_trait = true_elf_mortal
+	}
+	if = {
+		limit = {
+			has_trait = fae
+		}
+		remove_trait = fae
+		add_trait = fae_mortal
+	}
+	if = {
+		limit = {
+			has_trait = fae_radiant
+		}
+		remove_trait = fae_radiant
+		add_trait = fae_radiant_mortal
+	}
+	if = {
+		limit = {
+			has_trait = celestial
+		}
+		remove_trait = celestial
+		add_trait = celestial_mortal
+	}
+	if = {
+		limit = {
+			has_trait = seraphic_celestial
+		}
+		remove_trait = seraphic_celestial
+		add_trait = seraphic_celestial_mortal
+	}
+	if = {
+		limit = {
+			has_trait = eldar
+		}
+		remove_trait = eldar
+		add_trait = eldar_mortal
+	}
+	if = {
+		limit = {
+			has_trait = maiar
+		}
+		remove_trait = maiar
+		add_trait = maiar_mortal
+	}
+	if = {
+		limit = {
+			has_trait = valar
+		}
+		remove_trait = valar
+		add_trait = valar_mortal
+	}
+	if = {
+		limit = {
+			has_trait = aratar
+		}
+		remove_trait = aratar
+		add_trait = aratar_mortal
+	}
+}
+
+set_adult_immortal_age = {
+	debug_log = "setting immortal age 20"
+	set_immortal_age = 20
+}
+
+set_older_adult_immortal_age = {
+	debug_log = "setting immortal age 30"
+	set_immortal_age = 30
+}
+
+set_middle_age_immortal_age = {
+	debug_log = "setting immortal age 40"
+	set_immortal_age = 40
+}
+
+set_older_middle_age_immortal_age = {
+	debug_log = "setting immortal age 50"
+	set_immortal_age = 50
+}
+
+set_elder_immortal_age = {
+	debug_log = "setting immortal age 60"
+	set_immortal_age = 60
+}
+
+set_appropriate_elf_immortality_age = {
+	if = { # Elf Blood
+		limit = {
+			has_trait = elf_blood
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 30
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 30
+				age < 45
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 45
+				age < 55
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 55
+				age < 60
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 60
+				age < 80
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 80
+
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # Elf
+		limit = {
+			has_trait = elf
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 35
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 35
+				age < 50
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 50
+				age < 65
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 65
+				age < 80
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 80
+				age < 95
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 95
+
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # High Elf
+		limit = {
+			has_trait = high_elf
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 45
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 45
+				age < 65
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 65
+				age < 75
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 75
+				age < 90
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 90
+				age < 115
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 115
+
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # True Elf
+		limit = {
+			has_trait = true_elf
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 60
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 60
+				age < 90
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 90
+				age < 115
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 115
+				age < 140
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 140
+				age < 165
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 165
+
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # Fae
+		limit = {
+			has_trait = fae
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 90
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 90
+				age < 130
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 130
+				age < 160
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 160
+				age < 200
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 200
+				age < 265
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 265
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # Fae Radiant
+		limit = {
+			has_trait = fae_radiant
+		}
+		if = {
+			limit = {
+				age >= 20
+				age < 105
+			}
+			set_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 105
+				age < 150
+			}
+			set_older_adult_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 150
+				age < 200
+			}
+			set_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 200
+				age < 260
+			}
+			set_older_middle_age_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 260
+				age < 315
+			}
+			set_elder_immortal_age = yes
+		}
+		else_if = {
+			limit = {
+				age >= 315
+			}
+			remove_elf_immortality_effect = yes
+		}
+	}
+	if = { # CELESETIAL ELF TIERS AND ABOVE
+		limit = {
+			OR = {
+				has_trait = celestial
+				has_trait = seraphic_celestial
+				has_trait = eldar
+				has_trait = maiar
+				has_trait = valar
+				has_trait = aratar
+			}
+		}
+		set_adult_immortal_age = yes
+	}
+}
+
+people_of_the_bow_birthday_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_trait = tourney_participant
+			}	
+		}
+
+		add_trait = tourney_participant
+	}
+
+	if = {
+		limit = {
+			has_trait_xp = {
+				trait = tourney_participant
+				track = bow
+				value < 30
+			}
+		}
+
+		add_trait_xp = {
+			trait = tourney_participant
+			track = bow
+			value = 30
+		}
+	}
+}

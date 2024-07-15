@@ -1,0 +1,767 @@
+﻿## Can be used to reboot matchmaking after pausing it
+request_matchmaking_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_sister
+
+	desc = request_matchmaking_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		# NOT = { scope:recipient = scope:actor }
+
+		OR = {
+			AND = {
+				scope:recipient = scope:actor
+				scope:actor = {
+					has_character_flag = refused_matchmaking
+				}
+			}
+			AND = {
+				scope:recipient = {
+					is_close_or_extended_family_of = scope:actor
+					is_married = no
+					is_betrothed = no
+					is_adult = yes
+				}
+				scope:actor = {
+					is_liege_or_above_of = scope:recipient
+					exists = diarch
+					diarch = { # Diarch has to be landed to do matchmaking activity
+						is_landed = yes
+					}
+				}
+			}
+		}
+
+		scope:actor = {
+			is_ai = no
+			faith = {
+				has_doctrine = tenet_aeluran_sisters
+			}
+		}
+
+		# scope:recipient = {
+			
+		# 	# is_councillor_of = scope:host
+		# 	# OR = {
+		# 	# 	has_trait = aeluran_sister
+		# 	# 	has_trait = aeluran_matron
+		# 	# 	has_trait = aeluran_high_matriarch
+		# 	# }
+		# }
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_at_war = no
+		}
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_matchmaking.001
+			}
+		}
+	}
+	
+	cost = {
+		# prestige = {
+		# 	value = 10
+		# }
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+
+sister_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_sister
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = scope:recipient.faith
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_sister
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matron_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_matron
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = scope:recipient.faith
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_matron
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matriarch_convert_me_to_aeluran_interaction = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_high_matriarch
+
+	desc = convert_me_to_aeluran_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = {
+			is_ai = no
+			NOT = {
+				faith = scope:recipient.faith
+			}
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_high_matriarch
+		}
+	}
+	
+	cooldown = { years = 2 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.001
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+
+sister_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_sister
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_sister
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matron_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_matron
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_matron
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002 
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+matriarch_change_gender_of_unborn = {
+	category = interaction_category_religion
+	interface_priority = 60
+	icon = icon_aeluran_high_matriarch
+
+	desc = change_gender_of_unborn_desc
+	use_diplomatic_range = no
+	common_interaction = yes
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+		}
+
+		scope:recipient = {
+			has_trait = aeluran_high_matriarch
+			is_pregnant = yes
+			# TODO: baby is child of actor check
+		}
+	}
+	
+	cooldown = { years = 1 }
+
+	is_valid_showing_failures_only = {
+
+	}
+	
+	on_accept = {
+		hidden_effect = {
+			scope:actor = {
+				trigger_event = aeluran_character_interaction.002 
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			value = 10
+		}
+	}
+	
+	auto_accept = yes
+
+	# ai_potential = {
+	# 	is_ai = no
+	# }
+	ai_will_do = {
+		base = 0
+	}
+}
+
+swing_aeluran_control_interaction = {
+	category = interaction_category_diarch
+	common_interaction = yes
+	highlighted_reason = HIGHLIGHTED_CAN_SWING_SCALES
+	icon = scroll_scales
+
+	desc = swing_scales_currency_interaction_desc
+
+	interface_priority = 242
+
+	is_shown = {
+		# You must be one of the partners in a diarchy.
+		scope:actor = {
+			is_ai = no
+		}
+
+		OR = {
+			AND = {
+				scope:actor = { is_diarch_of_target = scope:recipient }
+				scope:recipient = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			AND = {
+				scope:recipient = { is_diarch_of_target = scope:actor }
+				scope:actor = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		# Forbid when we're at max swing...
+		## ... for the regent.
+		trigger_if = {
+			limit = {
+				scope:actor = { is_diarch_of_target = scope:recipient }
+			}
+			custom_tooltip = {
+				text = swing_scales_currency_interaction.tt.scales_max_swung
+				scope:recipient.diarchy_swing < 100
+			}
+		}
+		## ... and for the liege.
+		trigger_else = {
+			custom_tooltip = {
+				text = swing_scales_currency_interaction.tt.scales_max_swung
+				scope:actor.diarchy_swing > 0
+			}
+		}
+		# As long as you're able to give something even vaguely like an order to someone who might advocate on your behalf, you're gucci.
+		scope:actor = {
+			is_imprisoned = no
+			age >= 8
+		}
+		# Must select something.
+		trigger_if = {
+			# AI won't exploit and need this exception, as they don't actually open the windows, so they'll be blocked from taking the interaction otherwise.
+			limit = {
+				scope:actor = { is_ai = no }
+			}
+			custom_tooltip = {
+				text = interactions_general.tt.must_select_one_option
+				OR = {
+					scope:challenge_type_learning = yes
+					scope:challenge_type_intrigue_diplomacy = yes
+					# scope:swing_piety = yes
+					# scope:swing_gold = yes
+					# scope:swing_hook = yes
+					# scope:swing_hof = yes
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	cost = {
+		# prestige = {
+		# 	if = {
+		# 		limit = { always = scope:swing_prestige }
+		# 		value = scope:actor.swing_scales_prestige_cost_value
+		# 		# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+		# 		if = {
+		# 			limit = { scope:actor = { is_valid_for_legitimacy_change = yes } }
+		# 			multiply = legitimacy_regent_swing_scale_multipler_value
+		# 		}
+		# 	}
+		# }
+		# piety = {
+		# 	if = {
+		# 		limit = {
+		# 			OR = {
+		# 				always = scope:swing_piety
+		# 				always = scope:swing_hof
+		# 			}
+		# 		}
+		# 		value = scope:actor.swing_scales_piety_cost_value
+		# 		# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+		# 		if = {
+		# 			limit = { scope:actor = { is_valid_for_legitimacy_change = yes } }
+		# 			multiply = legitimacy_regent_swing_scale_multipler_value
+		# 		}
+		# 	}
+		# }
+		# gold = {
+		# 	if = {
+		# 		limit = {
+		# 			OR = {
+		# 				always = scope:swing_gold
+		# 				always = scope:swing_hof
+		# 			}
+		# 		}
+		# 		value = scope:actor.swing_scales_cash_cost_value
+		# 		# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+		# 		if = {
+		# 			limit = { scope:actor = { is_valid_for_legitimacy_change = yes } }
+		# 			multiply = legitimacy_regent_swing_scale_multipler_value
+		# 		}
+		# 	}
+		# }
+	}
+
+	send_option = { # Learning
+		starts_enabled = { always = yes }
+		flag = challenge_type_learning
+		localization = BOW_LEARNING
+		current_description = BOW_LEARNING_DESC
+	}
+
+	send_option = { # Intrigue and Diplomacy
+		# starts_enabled = { always = yes }
+		is_shown = {
+			scope:actor.culture = {
+				has_cultural_parameter = entrance_scheme_unlocked
+			}
+		}
+
+		is_valid = {
+			scope:actor.culture = {
+				has_cultural_parameter = entrance_scheme_unlocked
+			}
+		}
+
+		flag = challenge_type_intrigue_diplomacy
+		localization = BOW_DIPLO_AND_INTRIGUE
+		current_description = BOW_DIPLO_AND_INTRIGUE_DESC
+	}
+
+	# Prestige
+	# send_option = {
+	# 	starts_enabled = { scope:actor.prestige >= scope:actor.swing_scales_prestige_cost_value }
+	# 	flag = swing_prestige
+	# 	localization = SWING_PRESTIGE
+	# 	current_description = SWING_PRESTIGE_DESC
+	# }
+	# # Piety
+	# send_option = {
+	# 	is_valid = {
+	# 		# You must share a HoF to be able to petition one.
+	# 		custom_tooltip = {
+	# 			text = swing_scales_currency_interaction.tt.no_shared_hof
+	# 			# We're also secretly just testing if characters are the same faith.
+	# 			OR = {
+	# 				scope:actor.faith = scope:recipient.faith
+	# 				AND = {
+	# 					exists = scope:actor.faith.religious_head
+	# 					exists = scope:recipient.faith.religious_head
+	# 					scope:actor.faith.religious_head = scope:recipient.faith.religious_head
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# 	starts_enabled = { scope:actor.piety >= scope:actor.swing_scales_piety_cost_value }
+	# 	flag = swing_piety
+	# 	localization = SWING_PIETY
+	# 	current_description = SWING_PIETY_DESC
+	# }
+	# # Gold
+	# send_option = {
+	# 	is_shown = {
+	# 		# Filter out for the liege in vizierates - they can mulct the vizier, so we don't give them the chance to spend that gold back.
+	# 		interaction_actor_is_liege_with_vizierate_trigger = no
+	# 	}
+	# 	starts_enabled = { scope:actor.gold >= scope:actor.swing_scales_cash_cost_value }
+	# 	flag = swing_gold
+	# 	localization = SWING_GOLD
+	# 	current_description = SWING_GOLD_DESC
+	# }
+	# # Hook
+	# send_option = {
+	# 	is_valid = {
+	# 		scope:actor = { has_usable_hook = scope:recipient }
+	# 	}
+	# 	starts_enabled = {
+	# 		scope:actor = { has_usable_hook = scope:recipient }
+	# 	}
+	# 	flag = swing_hook
+	# 	localization = SWING_HOOK
+	# 	current_description = SWING_HOOK_DESC
+	# }
+	# # HoF
+	# send_option = {
+	# 	is_shown = {
+	# 		# Filter out for the liege in vizierates - they can mulct the vizier, so we don't give them the chance to spend that gold back.
+	# 		interaction_actor_is_liege_with_vizierate_trigger = no
+	# 	}
+	# 	is_valid = { diarch_swing_scales_valid_shared_hof_trigger = yes }
+	# 	# Top of the prio order for enablement.
+	# 	starts_enabled = { diarch_swing_scales_valid_shared_hof_trigger = yes }
+	# 	flag = swing_hof
+	# 	localization = SWING_HOF
+	# 	current_description = SWING_HOF_DESC
+	# }
+
+	on_accept = {
+
+		scope:actor = {
+			trigger_event = aeluran_character_interaction.003
+		}
+
+		# # Swing the scales in the direction of scope:actor.
+		# scope:recipient = {
+		# 	# Swing the scales down if this is the liege.
+		# 	if = {
+		# 		limit = { is_diarch_of_target = scope:actor }
+		# 		send_interface_message = {
+		# 			type = msg_mandate_results_bad_effect
+		# 			title = swing_scales_interaction_by_liege.t
+		# 			right_icon = scope:actor
+		# 			scope:actor = {
+		# 				# Viziers are give you more bang for your buck when swinging against 'em.
+		# 				if = {
+		# 					limit = { has_diarchy_active_parameter = lieges_swing_more_against_diarchs }
+		# 					update_diarchy_swing_with_perspective_effect = {
+		# 						SWING = major_sop_swing_liege_gain
+		# 						LIEGE = scope:actor
+		# 					}
+		# 				}
+		# 				else = {
+		# 					update_diarchy_swing_with_perspective_effect = {
+		# 						SWING = medium_sop_swing_liege_gain
+		# 						LIEGE = scope:actor
+		# 					}
+		# 				}
+		# 				diarch_swing_scales_guts_effect = yes
+		# 			}
+		# 		}
+		# 	}
+		# 	# And up if this is the diarch.
+		# 	else = {
+		# 		send_interface_message = {
+		# 			type = msg_mandate_results_bad_effect
+		# 			title = swing_scales_interaction_by_diarch.t
+		# 			right_icon = scope:actor
+		# 			update_diarchy_swing_with_perspective_effect = {
+		# 				SWING = medium_sop_swing_diarch_gain
+		# 				LIEGE = scope:recipient
+		# 			}
+		# 			scope:actor = { diarch_swing_scales_guts_effect = yes }
+		# 		}
+		# 	}
+		# }
+		# # Regardless of what happens, scope:recipient is a bit miffed.
+		# scope:recipient = {
+		# 	add_opinion = {
+		# 		target = scope:actor
+		# 		modifier = frustrated_opinion
+		# 		opinion = -10
+		# 	}
+		# }
+		# # Some diarchs might be swinging as a prelude to a coup attempt.
+		# ai_diarch_check_to_see_if_should_launch_coup_effect = yes
+
+		# # Debug & object explorer logging.
+		# ## Diarch swung.
+		# if = {
+		# 	limit = {
+		# 		exists = scope:recipient.diarch
+		# 		scope:actor = scope:recipient.diarch
+		# 	}
+		# 	debug_log = debug_log.swing_scales.diarch_swung
+		# 	scope:actor = {
+		# 		diarch_interaction_set_or_update_global_variable_effect = { VARIABLE = di_track_swung_diarch }
+		# 		diarch_interaction_add_to_global_list_effect = { VARIABLE_LIST = di_track_swung_diarch_list }
+		# 	}
+		# }
+		# ## Else liege swung.
+		# else = {
+		# 	debug_log = debug_log.swing_scales.liege_swung
+		# 	scope:actor = {
+		# 		diarch_interaction_set_or_update_global_variable_effect = { VARIABLE = di_track_swung_liege }
+		# 		diarch_interaction_add_to_global_list_effect = { VARIABLE_LIST = di_track_swung_liege_list }
+		# 	}
+		# }
+	}
+
+	auto_accept = yes
+
+	# AI
+	ai_targets = { ai_recipients = liege }
+	ai_targets = { ai_recipients = diarch }
+	ai_frequency = 24
+
+	ai_potential = {
+		OR = {
+			# Either they're a liege.
+			AND = {
+				has_active_diarchy = yes
+				# With some kind of valid cause to worry.
+				OR = {
+					# Lieges don't care unless your regency is entrenched _and_ it's looking to stay that way...
+					has_diarchy_active_parameter = regency_cant_be_ended_above_this_point
+					# ... unless they could get out of it.
+					can_leave_diarchy_trigger = yes
+				}
+			}
+			# Or they're the diarch.
+			AND = {
+				is_diarch = yes
+				# Loyal diarchs don't engage in skullduggery.
+				diarch_loyalty < diarch_loyalty_visibly_loyal_threshold
+			}
+		}
+	}
+
+	ai_will_do = {
+		base  = 0
+		# # We're generally ruthless here.
+		# base = @ai_secondary_powers_base_value
+
+		# # Additions.
+		# ## Flag management.
+		# ### Prestige.
+		# modifier = {
+		# 	add = 2
+		# 	scope:swing_prestige = yes
+		# }
+		# ### Piety.
+		# modifier = {
+		# 	add = 3
+		# 	scope:swing_piety = yes
+		# }
+		# ### Gold.
+		# modifier = {
+		# 	add = 1
+		# 	scope:swing_gold = yes
+		# }
+		# ### Hook.
+		# modifier = {
+		# 	add = 5
+		# 	scope:swing_hook = yes
+		# }
+		# ### HoF - combined Gold/Piety.
+		# modifier = {
+		# 	add = 4
+		# 	scope:swing_hof = yes
+		# }
+		# # Factors.
+		# ### x0 Don't go into prestige debt!
+		# modifier = {
+		# 	factor = 0
+		# 	scope:swing_prestige = yes
+		# 	prestige < 0
+		# }
+		# ## We take care of these in the ai_potential block, because otherwise the AI interacts very, very weirdly with them.
+	}
+}

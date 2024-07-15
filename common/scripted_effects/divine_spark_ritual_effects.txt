@@ -1,31 +1,364 @@
 ﻿elf_trait_ascension = {
-	if = {
+	if = { # Elf Blood
 		limit = {
-			has_trait = elf_blood
+			is_elf_blood = yes
 		}
-		add_trait = elf
-		remove_trait = elf_blood
+		if = {
+			limit = {
+				has_trait = elf_blood
+			}
+			remove_trait = elf_blood
+			add_trait = elf
+			set_appropriate_elf_immortality_age = yes
+		}
+		if = {
+			limit = {
+				has_trait = elf_blood_mortal
+			}
+			remove_trait = elf_blood_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_elf # End Of Life Elves
+					}
+				}
+				add_trait = elf_mortal
+			}
+			else = {
+				add_trait = elf
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
 	}
-	else_if = {
+	else_if = { # Elf
 		limit = {
-			has_trait = elf
+			is_elf = yes
 		}
-		add_trait = high_elf
-		remove_trait = elf
+		if = {
+			limit = {
+				has_trait = elf
+			}
+			remove_trait = elf
+			add_trait = high_elf
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = elf_mortal
+			}
+			remove_trait = elf_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_high_elf # End Of Life Elves
+					}
+				}
+				add_trait = high_elf_mortal
+			}
+			else = {
+				add_trait = high_elf
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
 	}
-	else_if = {
+	else_if = { # High Elf
 		limit = {
-			has_trait = elf
+			is_high_elf = yes
 		}
-		add_trait = high_elf
-		remove_trait = elf
+		if = {
+			limit = {
+				has_trait = high_elf
+			}
+			remove_trait = high_elf
+			add_trait = true_elf
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = high_elf_mortal
+			}
+			remove_trait = high_elf_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_true_elf # End Of Life Elves
+					}
+				}
+				add_trait = true_elf_mortal
+			}
+			else = {
+				add_trait = true_elf
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
 	}
-	else_if = {
+	else_if = { # True Elf
 		limit = {
-			has_trait = high_elf
+			is_true_elf = yes
 		}
-		add_trait = true_elf
-		remove_trait = high_elf
+		if = {
+			limit = {
+				has_trait = true_elf
+			}
+			remove_trait = true_elf
+			add_trait = fae
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = true_elf_mortal
+			}
+			remove_trait = true_elf_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_fae # End Of Life Elves
+					}
+				}
+				add_trait = fae_mortal
+			}
+			else = {
+				add_trait = fae
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Fae
+		limit = {
+			is_fae = yes
+		}
+		if = {
+			limit = {
+				has_trait = fae
+			}
+			remove_trait = fae
+			add_trait = fae_radiant
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = fae_mortal
+			}
+			remove_trait = fae_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_fae_radiant # End Of Life Elves
+					}
+				}
+				add_trait = fae_radiant_mortal
+			}
+			else = {
+				add_trait = fae_radiant
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Fae Radiant
+		limit = {
+			is_fae_radiant = yes
+		}
+		if = {
+			limit = {
+				has_trait = fae_radiant
+			}
+			remove_trait = fae_radiant
+			add_trait = celestial
+			set_appropriate_elf_immortality_age = yes
+		}	
+		
+		if = {
+			limit = {
+				has_trait = fae_radiant_mortal
+			}
+			remove_trait = fae_radiant_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_celestial # End Of Life Elves
+					}
+				}
+				add_trait = celestial_mortal
+			}
+			else = {
+				add_trait = celestial
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Celestial
+		limit = {
+			is_celestial = yes
+		}
+		if = {
+			limit = {
+				has_trait = celestial
+			}
+			remove_trait = celestial
+			add_trait = seraphic_celestial
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = celestial_mortal
+			}
+			remove_trait = celestial_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_seraphic_celestial # End Of Life Elves
+					}
+				}
+				add_trait = seraphic_celestial_mortal
+			}
+			else = {
+				add_trait = seraphic_celestial
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Seraphic Celestial
+		limit = {
+			is_seraphic_celestial = yes
+		}
+		if = {
+			limit = {
+				has_trait = seraphic_celestial
+			}
+			remove_trait = seraphic_celestial
+			add_trait = eldar
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = seraphic_celestial_mortal
+			}
+			remove_trait = seraphic_celestial_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_eldar # End Of Life Elves
+					}
+				}
+				add_trait = eldar_mortal
+			}
+			else = {
+				add_trait = eldar
+				set_appropriate_elf_immortality_age = yes
+			}
+		}	
+	}
+	else_if = { # Eldar
+		limit = {
+			is_eldar = yes
+		}
+		if = {
+			limit = {
+				has_trait = eldar
+			}
+			remove_trait = eldar
+			add_trait = maiar
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = eldar_mortal
+			}
+			remove_trait = eldar_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_maiar # End Of Life Elves
+					}
+				}
+				add_trait = maiar_mortal
+			}
+			else = {
+				add_trait = maiar
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Maiar
+		limit = {
+			is_maiar = yes
+		}
+		if = {
+			limit = {
+				has_trait = maiar
+			}
+			remove_trait = maiar
+			add_trait = valar
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = maiar_mortal
+			}
+			remove_trait = maiar_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_valar # End Of Life Elves
+					}
+				}
+				add_trait = valar_mortal
+			}
+			else = {
+				add_trait = valar
+				set_appropriate_elf_immortality_age = yes
+			}
+		}
+	}
+	else_if = { # Valar
+		limit = {
+			is_valar = yes
+		}
+		if = {
+			limit = {
+				has_trait = valar
+			}
+			remove_trait = valar
+			add_trait = aratar
+			set_appropriate_elf_immortality_age = yes
+		}
+
+		if = {
+			limit = {
+				has_trait = valar_mortal
+			}
+			remove_trait = valar_mortal
+			if = {
+				limit = {
+					OR = {
+						age < 20 # Elf Children
+						age > life_expectancy_aratar # End Of Life Elves
+					}
+				}
+				add_trait = aratar_mortal
+			}
+			else = {
+				add_trait = aratar
+				set_appropriate_elf_immortality_age = yes
+			}
+		}	
 	}
 }
-

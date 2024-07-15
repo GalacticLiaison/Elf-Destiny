@@ -1,0 +1,409 @@
+﻿has_any_positive_genetic_trait = {
+	OR = {
+		has_trait = intellect_good_1
+		has_trait = intellect_good_2
+		has_trait = intellect_good_3
+		has_trait = intellect_good_4
+		has_trait = beauty_good_1
+		has_trait = beauty_good_2
+		has_trait = beauty_good_3
+		has_trait = beauty_good_4
+		has_trait = physique_good_1
+		has_trait = physique_good_2
+		has_trait = physique_good_3
+		has_trait = physique_good_4
+		has_trait = fecund
+		has_trait = pure_blooded
+		has_trait = purer_blooded
+		has_trait = purest_blooded
+		
+	}
+}
+
+is_of_any_royal_elf_bloodline = {
+	OR = {
+		has_trait = royal_elf_valerith
+		has_trait = royal_elf_serelion
+		has_trait = royal_elf_gwynthorn
+		has_trait = royal_elf_thundarael
+		has_trait = royal_elf_daelurin
+	}
+}
+
+candidate_not_already_selected = {
+	trigger_if = {
+		limit = {
+			exists = scope:match_choice_1
+		}
+		NOT = {
+			this = scope:match_choice_1
+		}
+	}
+	trigger_if = {
+		limit = {
+			exists = scope:match_choice_2
+		}
+		NOT = {
+			this = scope:match_choice_2
+		}
+	}
+}
+
+family_member_check = {
+	trigger_if = {
+		limit = {
+			scope:host.liege = { 
+				NOR = {
+					culture = {
+						has_cultural_parameter = allows_unrestricted_marriage
+					}
+					faith = {
+						OR = {
+							has_doctrine = doctrine_consanguinity_unrestricted
+							has_doctrine = tenet_divine_marriage
+						}
+					}
+				}
+			}
+		}
+		NOT = {
+			is_close_or_extended_family_of = scope:match_recipient
+		}
+	}
+}
+
+meets_basic_match_requirements = {
+	is_within_diplo_range = { CHARACTER = root }
+	is_ai = yes
+}
+
+is_suitable_elf_spouse = {
+	is_married = no
+	is_betrothed = no
+	is_any_elf_type = yes
+	candidate_not_already_selected = yes
+	family_member_check = yes
+	exists = scope:match_recipient 
+	NOT = {
+		this = scope:match_recipient
+	}
+	trigger_if = {
+		limit = {
+			scope:match_recipient = {
+				is_male = yes
+			}
+		}
+		is_suitable_female_elf_spouse = yes
+	}
+	trigger_if = {
+		limit = {
+			scope:match_recipient = {
+				is_female = yes
+			}
+		}
+		is_suitable_male_elf_spouse = yes
+	}
+}
+
+is_suitable_female_elf_spouse = {
+	is_female = yes
+	AND = {
+		age < 40
+		age > 16
+	}
+}
+
+is_suitable_male_elf_spouse = {
+	is_male = yes
+	AND = {
+		age < 60
+		age > 16
+	}
+}
+
+
+ai_matchmaking_is_suitable_spouse = {
+	is_married = no
+	is_betrothed = no
+	is_any_elf_type = yes
+	is_adult = yes
+	trigger_if = {
+		limit = {
+			$MATCH_RECIPIENT$ = {
+				is_male = yes
+			}
+		}
+		is_female = yes
+	}
+	trigger_else = {
+		is_male = yes
+	}
+}
+
+
+# ===== STANDARD ELF =====
+
+preexisting_standard_elf_exists = {
+	any_living_character = {
+		is_acceptable_standard_elf_match_choice = yes
+	}
+}
+
+is_acceptable_standard_elf_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+	genetic_worthiness >= -1
+	genetic_worthiness < 2
+	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
+}
+
+# ===== GENETIC GOOD ELF =====
+
+preexisting_genetic_good_elf_exists = {
+	any_living_character = {
+		is_acceptable_genetic_good_elf_match_choice = yes
+	}
+}
+
+is_acceptable_genetic_good_elf_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+	genetic_worthiness >= 2
+	genetic_worthiness < 5
+	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
+}
+
+# ===== GENETIC GREAT ELF =====
+
+preexisting_genetic_great_elf_exists = {
+	any_living_character = {
+		is_acceptable_genetic_great_elf_match_choice = yes
+	}
+}
+
+is_acceptable_genetic_great_elf_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+	genetic_worthiness >= 5
+	is_of_any_royal_elf_bloodline = no
+	is_aeluran_sister_or_higher = no
+}
+
+# ===== AELURAN ADVISOR =====
+
+is_acceptable_aeluran_advisor_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+}
+
+# ===== AELURAN SISTER =====
+
+preexisting_aeluran_sister_exists = {
+	any_living_character = {
+		is_acceptable_aeluran_sister_match_choice = yes
+	}
+}
+
+is_acceptable_aeluran_sister_match_choice = {
+	meets_basic_match_requirements = yes
+	has_trait = aeluran_sister
+	is_suitable_female_elf_spouse = yes
+}
+
+# ===== AELURAN MATRON =====
+
+preexisting_aeluran_matron_exists = {
+	any_living_character = {
+		is_acceptable_aeluran_matron_match_choice = yes
+	}
+}
+
+is_acceptable_aeluran_matron_match_choice = {
+	is_ai = yes
+	has_trait = aeluran_matron
+	is_suitable_female_elf_spouse = yes
+}
+
+# ===== AELURAN MATRIARCH =====
+
+preexisting_aeluran_matriarch_exists = {
+	any_living_character = {
+		is_acceptable_aeluran_matriarch_match_choice = yes
+	}
+}
+
+is_acceptable_aeluran_matriarch_match_choice = {
+	is_ai = yes
+	has_trait = aeluran_high_matriarch
+	is_female = yes
+	is_married = no
+	is_betrothed = no
+}
+
+# ===== FAMILY MEMBER =====
+
+preexisting_family_member_exists = {
+	any_living_character = {
+		is_acceptable_family_member_match_choice = yes
+	}
+}
+
+is_acceptable_family_member_match_choice = {
+	is_ai = yes
+	is_suitable_elf_spouse = yes
+	is_close_or_extended_family_of = scope:match_recipient
+}
+
+# ===== BLOODLINE HOLDER =====
+
+preexisting_bloodline_holder_exists = {
+	any_living_character = {
+		is_acceptable_bloodline_holder_match_choice = yes
+	}
+}
+
+is_acceptable_bloodline_holder_match_choice = {
+	is_ai = yes
+	is_suitable_elf_spouse = yes
+	is_of_any_royal_elf_bloodline = yes
+}
+
+# ===== ALLIANCE =====
+
+preexisting_alliance_exists = {
+	any_living_character = {
+		is_acceptable_alliance_match_choice = yes
+	}
+}
+
+is_acceptable_alliance_match_choice = {
+	is_ai = yes
+	# trigger_if = { # Player Is Emperor
+	# 	limit = {
+	# 		exists = scope:match_recipient
+	# 		scope:match_recipient = {
+	# 			highest_held_title_tier = tier_empire
+	# 		}
+	# 	}
+	# 	OR = {
+	# 		highest_held_title_tier = tier_empire
+	# 		highest_held_title_tier = tier_kingdom
+	# 	}
+	# }
+	# trigger_if = { # Player Is King
+	# 	limit = {
+	# 		exists = scope:match_recipient
+	# 		scope:match_recipient = {
+	# 			highest_held_title_tier = tier_kingdom
+	# 		}
+	# 	}
+	# 	OR = {
+	# 		highest_held_title_tier = tier_empire
+	# 		highest_held_title_tier = tier_kingdom
+	# 		highest_held_title_tier = tier_duchy
+	# 	}
+	# }
+	# trigger_if = { # Player Is Duke Or Count
+	# 	limit = {
+	# 		exists = scope:match_recipient
+	# 		scope:match_recipient = {
+	# 			OR = {
+	# 				highest_held_title_tier = tier_duchy
+	# 				highest_held_title_tier = tier_county
+	# 			}
+	# 		}
+	# 	}
+	# 	OR = {
+	# 		highest_held_title_tier = tier_kingdom
+	# 		highest_held_title_tier = tier_duchy
+	# 		highest_held_title_tier = tier_county
+	# 	}
+	# }
+	is_landed = yes
+	highest_held_title_tier >= tier_county
+	OR = {
+		is_suitable_elf_spouse = yes
+		any_child = {
+			is_suitable_elf_spouse = yes
+		}
+	}
+}
+
+# ===== CLAIMANT =====
+
+preexisting_claimant_exists = {
+	any_living_character = {
+		is_acceptable_claimant_match_choice = yes
+	}
+}
+
+is_acceptable_claimant_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+	OR = {
+		has_trait = bastard
+		has_trait = wild_oat
+	}
+}
+
+preexisting_bastard_claimant_parent_exists = {
+	any_living_character = {
+		is_acceptable_bastard_claimant_parent = yes
+	}
+}
+
+is_acceptable_bastard_claimant_parent = {
+	is_within_diplo_range = { CHARACTER = scope:host.liege }
+	is_ai = yes
+	highest_held_title_tier = tier_county
+	NOT = {
+		is_vassal_of = scope:host.liege
+	}
+}
+
+# ===== INFERIOR DOWRY ELF =====
+
+preexisting_inferior_dowry_elf_exists = {
+	any_living_character = {
+		is_acceptable_inferior_dowry_elf_match_choice = yes
+	}
+}
+
+is_acceptable_inferior_dowry_elf_match_choice = {
+	meets_basic_match_requirements = yes
+	is_suitable_elf_spouse = yes
+	OR = {
+		is_x_elf_levels_higher = {
+			HIGHER_ELF = scope:match_recipient
+			LOWER_ELF = this
+			ELF_LEVELS = 2
+		}
+
+		AND = {
+			is_elf_blood = yes
+			scope:match_recipient.elf_trait_level > 1
+		}
+	}
+}
+
+# ===== FOREIGN ELF =====
+
+preexisting_foreign_elf_exists = {
+	any_living_character = {
+		is_acceptable_foreign_elf_match_choice = yes
+	}
+}
+
+is_acceptable_foreign_elf_match_choice = {
+	is_ai = yes
+	NOT = {
+		is_within_diplo_range = { CHARACTER = root }
+	}
+	NOT = {
+		culture = root.culture
+	}
+	is_of_any_royal_elf_bloodline = no
+	is_suitable_elf_spouse = yes
+}
