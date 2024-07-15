@@ -1,0 +1,52 @@
+﻿urf_for_all_phenotypes = {
+    $APPLY$ = { RACE = human SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    
+    #Elf Destiny
+    $APPLY$ = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    #End Elf Destiny
+}
+
+urf_game_start_init = {
+    every_living_character = {
+        if = {
+            limit = { NOT = { urf_race_initialized = yes } }
+            urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+        }
+    }
+}
+
+urf_game_start_lobby_init = {
+    every_living_character = {
+        if = {
+            limit = { NOT = { urf_has_sapience_presence = yes } }
+            urf_clear_sapience = yes
+        }
+        if = {
+            limit = { NOT = { urf_race_initialized = yes } }
+            urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+        }
+    }
+}
+
+urf_template_base_race_init = {
+    if = {
+        limit = { NOT = { urf_race_initialized = yes } }
+        urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+    }
+}
+
+urf_base_race_init = {
+    if = {
+        limit = { urf_race_$RACE$_trigger = yes }
+        urf_set_race_phenotype = {
+            RACE_PHENOTYPE = $RACE$
+        }
+        urf_set_genotype_base = { RACE = $RACE$ }
+        urf_base_modifier_init = { RACE = $RACE$ }
+        urf_set_sapience_init = { VAL = $SAPIENCE_VALUE$ LEVEL = $SAPIENCE_LEVEL$ }
+    }
+}
+
+urf_base_modifier_init = {
+    add_character_modifier = urf_phenotype_$RACE$_modifier
+}

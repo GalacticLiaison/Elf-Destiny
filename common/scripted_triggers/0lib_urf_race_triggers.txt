@@ -1,0 +1,53 @@
+﻿###########################
+### URF Racial Triggers ###
+###########################
+urf_race_initialized = {
+    has_variable = urf_phenotype
+}
+
+urf_for_all_phenotypes_trigger = {
+    OR = {
+        #Elf Destiny
+        $APPLY$ = { RACE = elf }
+        #End Elf Destiny
+
+        $APPLY$ = { RACE = human }
+    }
+}
+urf_for_all_phenotypes_comparator_trigger = {
+    OR = {
+        #Elf Destiny
+        $APPLY$ = { RACE = elf COMPARATOR = $COMPARATOR$ }
+        #End Elf Destiny
+
+        $APPLY$ = { RACE = human COMPARATOR = $COMPARATOR$ }
+    }
+}
+
+#Elf Destiny
+
+urf_race_elf_trigger = {
+    always = yes
+}
+
+urf_elf_phenotype_trigger = {
+    var:urf_phenotype = flag:elf
+}
+
+#End Elf Destiny
+
+urf_race_human_trigger = {
+    is_human_culture = yes
+}
+
+urf_human_phenotype_trigger = {
+    var:urf_phenotype = flag:human
+}
+
+urf_has_a_race_modifier = {
+    has_character_modifier = urf_phenotype_$RACE$_modifier
+}
+
+is_human_culture = {
+    always = yes
+}

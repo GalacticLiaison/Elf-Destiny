@@ -1,0 +1,25 @@
+﻿urf_on_birth_genotype_assignment = {
+    #Elf Destiny
+    urf_on_birth_potential_assignment = { CHILD = $CHILD$ FATHER = $FATHER$ MOTHER = $MOTHER$ RACE = elf }
+    #End Elf Destiny
+
+    urf_on_birth_potential_assignment = { CHILD = $CHILD$ FATHER = $FATHER$ MOTHER = $MOTHER$ RACE = human }
+
+    #Elf Destiny
+    urf_genotype_phenotype_threshold = { RACE = elf }
+    #End Elf Destiny
+
+    urf_genotype_phenotype_threshold = { RACE = human }
+}
+
+urf_on_birth_potential_assignment = {
+    if = {
+        limit = {
+            OR = {
+                $FATHER$ = { has_variable = urf_genotype_$RACE$ }
+                $MOTHER$ = { has_variable = urf_genotype_$RACE$ }
+            }
+        }
+        urf_inherit_genotype_assignment = { CHILD = $CHILD$ FATHER = $FATHER$ MOTHER = $MOTHER$ RACE = $RACE$ }
+    }
+}
