@@ -67,8 +67,35 @@ urf_inherit_genotype_assignment = {
         set_variable = {
             name = urf_genotype_$RACE$
             value = {
-                add = $MOTHER$.var:urf_genotype_$RACE$
-                add = $FATHER$.var:urf_genotype_$RACE$
+                value = 0
+                # Elf Destiny
+                if = {
+                    limit = {
+                        $MOTHER$ = {
+                            has_variable = urf_genotype_$RACE$
+                        }
+                    }
+
+                    add = $MOTHER$.var:urf_genotype_$RACE$
+                }
+                else = {
+                    add = 0
+                }
+
+                if = {
+                    limit = {
+                        $FATHER$ = {
+                            has_variable = urf_genotype_$RACE$
+                        }
+                    }
+
+                    add = $FATHER$.var:urf_genotype_$RACE$
+                }
+                else = {
+                    add = 0
+                }
+
+                #End Elf Destiny
                 divide = 2
             }
         }
