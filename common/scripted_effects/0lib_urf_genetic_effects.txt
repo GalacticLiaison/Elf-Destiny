@@ -35,7 +35,7 @@ remove_elf_flag = {
     remove_character_flag = race_aratar
 }
 
-# ENd Elf Destiny
+# End Elf Destiny
 
 urf_set_genotype_base = {
     urf_set_genotype = { RACE = $RACE$ VAL = 100.0 }
@@ -43,16 +43,22 @@ urf_set_genotype_base = {
 
 urf_genotype_phenotype_threshold = {
     if = {
-        limit = { urf_racial_threshold_trigger = { RACE = $RACE$ } }
+        limit = {
+            urf_race_initialized = no # Elf Destiny
+            urf_racial_threshold_trigger = { RACE = $RACE$ }
+        }
+        # Elf Destiny
         if = {
             limit = {
                 flag:$RACE$ = flag:elf
             }
             urf_elf_race_sub_init = yes
         }
+        # End Elf Destiny
         else = {
             urf_base_modifier_init = { RACE = $RACE$ }
         }
+
     }
 }
 
