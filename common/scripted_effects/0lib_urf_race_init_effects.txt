@@ -46,6 +46,7 @@ urf_elf_race_init = {
     if = {
         limit = { urf_race_$RACE$_trigger = yes }
         urf_elf_modifier_remove = yes
+        remove_character_flag = urf_sub_race_set
         urf_set_genotype_elf = yes
         urf_elf_race_sub_init = yes
         urf_set_sapience_init = { VAL = $SAPIENCE_VALUE$ LEVEL = $SAPIENCE_LEVEL$ }
@@ -77,6 +78,17 @@ urf_elf_race_set_sub = {
             RACE_PHENOTYPE = $SUB_RACE$
         }
         urf_elf_modifier_init = { SUB_RACE = $SUB_RACE$ }
+        if = {
+            limit = {
+                NOT = {
+                    flag:$SUB_RACE$ = flag:elf_blood
+                }
+                age >= 20
+                age < life_expectancy_$SUB_RACE$
+            }
+
+            add_trait = elven_immortality
+        }
         add_character_flag = urf_sub_race_set
     }
 }
