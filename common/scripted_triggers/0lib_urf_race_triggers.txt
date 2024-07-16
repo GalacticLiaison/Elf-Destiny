@@ -17,7 +17,7 @@ urf_for_all_phenotypes_trigger = {
 urf_for_all_phenotypes_comparator_trigger = {
     OR = {
         #Elf Destiny
-        $APPLY$ = { RACE = elf COMPARATOR = $COMPARATOR$ }
+        urf_elf_threshold = { RACE = $RACE$ }
         #End Elf Destiny
 
         $APPLY$ = { RACE = human COMPARATOR = $COMPARATOR$ }
@@ -27,17 +27,35 @@ urf_for_all_phenotypes_comparator_trigger = {
 #Elf Destiny
 
 urf_race_elf_trigger = {
-    always = yes
+    has_any_elf_flag_trigger = yes
 }
 
 urf_elf_phenotype_trigger = {
     var:urf_phenotype = flag:elf
 }
 
+has_any_elf_flag_trigger = {
+    OR = {
+        has_character_flag = race_elf_blood
+        has_character_flag = race_elf
+        has_character_flag = race_high_elf
+        has_character_flag = race_true_elf
+        has_character_flag = race_fae
+        has_character_flag = race_fae_radiant
+        has_character_flag = race_celestial
+        has_character_flag = race_seraphic_celestial
+        has_character_flag = race_eldar
+        has_character_flag = race_maiar
+        has_character_flag = race_valar
+        has_character_flag = race_aratar
+    }
+}
+
 #End Elf Destiny
 
 urf_race_human_trigger = {
     is_human_culture = yes
+    has_any_elf_flag_trigger = no
 }
 
 urf_human_phenotype_trigger = {

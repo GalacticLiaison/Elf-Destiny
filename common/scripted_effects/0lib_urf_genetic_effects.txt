@@ -1,0 +1,71 @@
+﻿urf_set_race_phenotype = {
+    set_variable = {
+        name = urf_phenotype
+        value = flag:$RACE_PHENOTYPE$
+    }
+}
+
+urf_set_genotype = {
+    set_variable = {
+        name = urf_genotype_$RACE$
+        value = $VAL$
+    }
+}
+
+# Elf Destiny
+
+urf_set_genotype_elf = {
+    urf_set_genotype = { RACE = $RACE$ VAL = elf_genetic_assignment_strength_value }
+    urf_set_genotype = { RACE = human VAL = human_genetic_assignment_strength_value }
+    remove_elf_flag = yes
+}
+
+remove_elf_flag = {
+    remove_character_flag = race_elf_blood
+    remove_character_flag = race_elf
+    remove_character_flag = race_high_elf
+    remove_character_flag = race_true_elf
+    remove_character_flag = race_fae
+    remove_character_flag = race_fae_radiant
+    remove_character_flag = race_celestial
+    remove_character_flag = race_seraphic_celestial
+    remove_character_flag = race_eldar
+    remove_character_flag = race_maiar
+    remove_character_flag = race_valar
+    remove_character_flag = race_aratar
+}
+
+# ENd Elf Destiny
+
+urf_set_genotype_base = {
+    urf_set_genotype = { RACE = $RACE$ VAL = 100.0 }
+}
+
+urf_genotype_phenotype_threshold = {
+    if = {
+        limit = { urf_racial_threshold_trigger = { RACE = $RACE$ } }
+        urf_set_race_phenotype = { RACE_PHENOTYPE = $RACE$ }
+        if = {
+            limit = {
+                flag:$RACE$ = flag:elf
+            }
+            urf_elf_modifier_init = yes
+        }
+        else = {
+            urf_base_modifier_init = { RACE = $RACE$ }
+        }
+    }
+}
+
+urf_inherit_genotype_assignment = {
+    $CHILD$ = {
+        set_variable = {
+            name = urf_genotype_$RACE$
+            value = {
+                add = $MOTHER$.var:urf_genotype_$RACE$
+                add = $FATHER$.var:urf_genotype_$RACE$
+                divide = 2
+            }
+        }
+    }
+}
