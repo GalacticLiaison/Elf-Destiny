@@ -28,54 +28,33 @@ has_the_rut_tradition = {
 
 is_any_elf_type = {
     OR = {
-        is_any_elf_immortal_type = yes
-        is_any_elf_mortal_type = yes
+        is_elf_blood = yes
+        is_elf = yes
+        is_high_elf = yes
+        is_true_elf = yes
+        is_fae = yes
+        is_fae_radiant = yes
+        is_celestial = yes
+        is_seraphic_celestial = yes
+        is_eldar = yes
+        is_maiar = yes
+        is_valar = yes
+        is_aratar = yes
     }
 }
 
 is_any_elf_immortal_type = {
-    OR = {
-        has_trait = elf_blood
-        has_trait = elf
-        has_trait = high_elf
-        has_trait = true_elf
-        has_trait = fae
-        has_trait = fae_radiant
-        has_trait = celestial
-        has_trait = seraphic_celestial
-        has_trait = eldar
-        has_trait = maiar
-        has_trait = valar
-        has_trait = aratar
-    }
+    has_character_modifier = elven_immortality
 }
 
 is_any_elf_mortal_type = {
-    OR = {
-        has_trait = elf_blood_mortal
-        has_trait = elf_mortal
-        has_trait = high_elf_mortal
-        has_trait = true_elf_mortal
-        has_trait = fae_mortal
-        has_trait = fae_radiant_mortal
-        has_trait = celestial_mortal
-        has_trait = seraphic_celestial_mortal
-        has_trait = eldar_mortal
-        has_trait = maiar_mortal
-        has_trait = valar_mortal
-        has_trait = aratar_mortal
-    }
+    is_any_elf_immortal_type = no
 }
 
 is_below_top_elf_type = {
     AND = {
         is_any_elf_type = yes
-        NOT = {
-            has_trait = aratar
-        }
-        NOT = {
-            has_trait = aratar_mortal
-        }
+        is_aratar = no
     }
 }
 
@@ -101,20 +80,7 @@ is_any_elf_type_desc = {
     custom_description = {
         text = is_an_elf
         subject = this
-        OR = {
-            has_trait = elf_blood
-            has_trait = elf
-            has_trait = high_elf
-            has_trait = true_elf
-            has_trait = fae
-            has_trait = fae_radiant
-            has_trait = celestial
-            has_trait = seraphic_celestial
-            has_trait = eldar
-            has_trait = maiar
-            has_trait = valar
-            has_trait = aratar
-        }
+        is_any_elf_type = yes
     }
 }
 
