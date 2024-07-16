@@ -1,6 +1,14 @@
 ﻿urf_for_all_phenotypes = {
     #Elf Destiny
-    urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    if = {
+        limit = {
+            flag:$APPLY$ = flag:urf_base_race_init
+        }
+        urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    }
+    else = {
+        $APPLY$ = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    }
     #End Elf Destiny
 
     if = {
@@ -45,7 +53,7 @@ urf_template_base_race_init = {
 urf_elf_race_init = {
     if = {
         limit = { urf_race_$RACE$_trigger = yes }
-        urf_elf_modifier_remove = yes
+        urf_remove_modifier = yes
         remove_character_flag = urf_sub_race_set
         urf_set_genotype_elf = yes
         urf_elf_race_sub_init = yes
@@ -97,7 +105,8 @@ urf_elf_modifier_init = {
     add_character_modifier = urf_phenotype_$SUB_RACE$_modifier
 }
 
-urf_elf_modifier_remove = {
+urf_remove_modifier = {
+    remove_character_modifier = urf_phenotype_human_modifier
     remove_character_modifier = urf_phenotype_elf_blood_modifier
     remove_character_modifier = urf_phenotype_elf_modifier
     remove_character_modifier = urf_phenotype_high_elf_modifier
