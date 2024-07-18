@@ -5,12 +5,24 @@
 
 add_elf_immortality_effect = {
 	debug_log = "swapping to adult elf trait"
-	add_trait = elven_immortality
+	if = {
+		limit = {
+			is_elf_blood = no
+		}
+		add_trait = elven_immortality
+		remove_trait = elven_mortality
+	}
 }
 
 remove_elf_immortality_effect = {
 	debug_log = "removing elf immortality"
-	remove_trait = elven_immortality
+	if = {
+		limit = {
+			is_elf_blood = no
+		}
+		remove_trait = elven_immortality
+		add_trait = elven_mortality
+	}
 }
 
 set_adult_immortal_age = {

@@ -91,11 +91,18 @@ urf_elf_race_set_sub = {
                 NOT = {
                     flag:$SUB_RACE$ = flag:elf_blood
                 }
-                age >= 20
-                age < life_expectancy_$SUB_RACE$
             }
 
-            add_trait = elven_immortality
+            if = {
+                limit = {
+                    age >= 20
+                    age < life_expectancy_$SUB_RACE$
+                }
+                add_trait = elven_immortality
+            }
+            else = {
+                add_trait = elven_mortality
+            }
         }
         add_character_flag = urf_sub_race_set
     }
