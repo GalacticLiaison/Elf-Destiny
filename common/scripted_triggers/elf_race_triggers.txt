@@ -28,54 +28,35 @@ has_the_rut_tradition = {
 
 is_any_elf_type = {
     OR = {
-        is_any_elf_immortal_type = yes
-        is_any_elf_mortal_type = yes
+        is_elf_blood = yes
+        is_elf = yes
+        is_high_elf = yes
+        is_true_elf = yes
+        is_fae = yes
+        is_fae_radiant = yes
+        is_celestial = yes
+        is_seraphic_celestial = yes
+        is_eldar = yes
+        is_maiar = yes
+        is_valar = yes
+        is_aratar = yes
     }
 }
 
 is_any_elf_immortal_type = {
-    OR = {
-        has_trait = elf_blood
-        has_trait = elf
-        has_trait = high_elf
-        has_trait = true_elf
-        has_trait = fae
-        has_trait = fae_radiant
-        has_trait = celestial
-        has_trait = seraphic_celestial
-        has_trait = eldar
-        has_trait = maiar
-        has_trait = valar
-        has_trait = aratar
-    }
+    is_any_elf_type = yes
+    has_trait = elven_immortality
 }
 
 is_any_elf_mortal_type = {
-    OR = {
-        has_trait = elf_blood_mortal
-        has_trait = elf_mortal
-        has_trait = high_elf_mortal
-        has_trait = true_elf_mortal
-        has_trait = fae_mortal
-        has_trait = fae_radiant_mortal
-        has_trait = celestial_mortal
-        has_trait = seraphic_celestial_mortal
-        has_trait = eldar_mortal
-        has_trait = maiar_mortal
-        has_trait = valar_mortal
-        has_trait = aratar_mortal
-    }
+    is_any_elf_type = yes
+    is_any_elf_immortal_type = no
 }
 
 is_below_top_elf_type = {
     AND = {
         is_any_elf_type = yes
-        NOT = {
-            has_trait = aratar
-        }
-        NOT = {
-            has_trait = aratar_mortal
-        }
+        is_aratar = no
     }
 }
 
@@ -101,132 +82,87 @@ is_any_elf_type_desc = {
     custom_description = {
         text = is_an_elf
         subject = this
-        OR = {
-            has_trait = elf_blood
-            has_trait = elf
-            has_trait = high_elf
-            has_trait = true_elf
-            has_trait = fae
-            has_trait = fae_radiant
-            has_trait = celestial
-            has_trait = seraphic_celestial
-            has_trait = eldar
-            has_trait = maiar
-            has_trait = valar
-            has_trait = aratar
-        }
+        is_any_elf_type = yes
     }
 }
 
 is_elf_blood = {
-    OR = {
-        has_trait = elf_blood
-        has_trait = elf_blood_mortal
-    }
+    has_character_modifier = urf_phenotype_elf_blood_modifier
 }
 
 is_elf = {
-    OR = {
-        has_trait = elf
-        has_trait = elf_mortal
-    }
+    has_character_modifier = urf_phenotype_elf_modifier
 }
 
 is_high_elf = {
-    OR = {
-        has_trait = high_elf
-        has_trait = high_elf_mortal
-    }
+    has_character_modifier = urf_phenotype_high_elf_modifier
 }
 
 is_true_elf = {
-    OR = {
-        has_trait = true_elf
-        has_trait = true_elf_mortal
-    }
+    has_character_modifier = urf_phenotype_true_elf_modifier
 }
 
 is_fae = {
-    OR = {
-        has_trait = fae
-        has_trait = fae_mortal
-    }
+    has_character_modifier = urf_phenotype_fae_modifier
 }
 
 is_fae_radiant = {
-    OR = {
-        has_trait = fae_radiant
-        has_trait = fae_radiant_mortal
-    }
+    has_character_modifier = urf_phenotype_fae_radiant_modifier
 }
 
 is_celestial = {
-    OR = {
-        has_trait = celestial
-        has_trait = celestial_mortal
-    }
+    has_character_modifier = urf_phenotype_celestial_modifier
 }
 
 is_seraphic_celestial = {
-    OR = {
-        has_trait = seraphic_celestial
-        has_trait = seraphic_celestial_mortal
-    }
+    has_character_modifier = urf_phenotype_seraphic_celestial_modifier
 }
 
 is_eldar = {
-    OR = {
-        has_trait = eldar
-        has_trait = eldar_mortal
-    }
+    has_character_modifier = urf_phenotype_eldar_modifier
 }
 
 is_maiar = {
-    OR = {
-        has_trait = maiar
-        has_trait = maiar_mortal
-    }
+    has_character_modifier = urf_phenotype_maiar_modifier
 }
 
 is_valar = {
-    OR = {
-        has_trait = valar
-        has_trait = valar_mortal
-    }
+    has_character_modifier = urf_phenotype_valar_modifier
 }
 
 is_aratar = {
-    OR = {
-        has_trait = aratar
-        has_trait = aratar_mortal
-    }
+    has_character_modifier = urf_phenotype_aratar_modifier
 }
 
 is_low_elf_tier = {
     OR = {
-        has_trait = elf_tier_1
-        has_trait = elf_tier_1_mortal
+        is_elf_blood = yes
+        is_elf = yes
+        is_high_elf = yes
     }
 }
 
 is_fae_elf_tier = {
     OR = {
-        has_trait = elf_tier_2
-        has_trait = elf_tier_2_mortal
+        is_true_elf = yes
+        is_fae = yes
+        is_fae_radiant = yes
     }
 }
 
 is_celestial_elf_tier = {
     OR = {
-        has_trait = elf_tier_3
-        has_trait = elf_tier_3_mortal
+        is_celestial = yes
+        is_seraphic_celestial = yes
+        is_eldar = yes
     }
 }
 
 is_ainur_elf_tier = {
     OR = {
-        has_trait = elf_tier_4
-        has_trait = elf_tier_4_mortal
+        is_maiar = yes
+        is_valar = yes
+        is_aratar = yes
     }
 }
 
