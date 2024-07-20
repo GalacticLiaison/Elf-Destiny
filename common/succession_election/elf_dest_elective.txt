@@ -1,0 +1,168 @@
+# The entry should be named in the same way that the elective succession law is named to define it's voter's logic.
+# Root scope - Elector, the character voting in the election.
+# scope:candidate scope - Candidate, Character considered for the title.
+# scope:title scope - Title, The title the nomination is for.
+# scope:holder scope - Ruler, The ruler currently holding the title.
+# scope:holder_candidate scope - Favored Candidate, The title owner's candidate.
+# The voter will vote for the top score candidate calculated from this script.
+
+elf_elective = {
+
+	# TODO: Aeluran Advisor and Aeluran Vassals get more votes the less control you have
+
+	elector_vote_strength = {
+		base = 1
+		modifier = { #Imperial Dignity
+			desc = tooltip_feudal_vote_strength_emperor_tier
+			add = 3
+			highest_held_title_tier = 5
+		}
+		modifier = { #Royal Dignity
+			desc = tooltip_feudal_vote_strength_king_tier
+			add = 2
+			highest_held_title_tier = 4
+		}
+		modifier = { #Princely Dignity
+			desc = tooltip_feudal_vote_strength_duke_tier
+			add = 1
+			highest_held_title_tier = 3
+		}
+		modifier = { #Powerful Vassal
+			desc = tooltip_feudal_vote_strength_powerful_vassal
+			add = {
+				value = 1
+				if = { #Additional point if the vassal is more powerful than the current ruler (Vassal King who meets this condition will have more voting power than the Emperor himself (1+1+1+2 = 5))
+					limit = {
+						max_military_strength > scope:holder.max_military_strength
+					}
+					add = 1
+				}
+			}
+			NOT = { this = scope:holder }
+			is_powerful_vassal = yes
+			liege = scope:holder
+		}
+
+		modifier = { #Clerical Influence
+			desc = tooltip_feudal_vote_strength_theocrat
+			add = 1
+			NOT = { this = scope:holder }
+			OR = {
+				government_has_flag = government_is_theocracy
+				has_council_position = councillor_court_chaplain
+			}
+			faith = scope:holder.faith
+			faith = { has_doctrine = doctrine_theocracy_lay_clergy }
+		}
+		modifier = { #Regent Influence
+			desc = tooltip_feudal_vote_strength_is_diarch
+			add = 1
+			is_diarch_of_target = scope:holder
+		}
+	}
+	
+	# TODO: All elf lords in realm period
+	# TODO: All close or extended family
+	# TODO: Aeluran Order vassals based on aeluran control
+	# TODO: maybe Realm Lord gets a few votes if kingdom or above!
+
+	electors = {
+		add = holder
+		add = {
+			type = title_dejure_vassals
+			limit = {
+				is_any_elf_type = yes
+				OR = { #1 or 2 tiers of difference for Electors.
+					scope:title = { tier = tier_county }
+					AND = {
+						scope:title = { tier = tier_duchy }
+						highest_held_title_tier >= 1
+					}
+					AND = {
+						scope:title = { tier = tier_kingdom }
+						highest_held_title_tier >= 2
+					}
+					AND = {
+						scope:title = { tier = tier_empire }
+						highest_held_title_tier >= 3
+					}
+				}
+				OR = { #Either de facto direct vassal, or independent ruler who is de jure vassal. (no sub-vassals)
+					is_vassal_of = scope:holder
+					is_independent_ruler = yes
+				}
+				any_held_title = { #Elector title must be a de jure vassal of the title being voted on; multi-Dukes (or similar) might have two duchies in multiple electoral domains, which they should be able to vote on. This is only valid for the highest-tier title (so a Duke-Elector who also owns a County which is an electoral title for another title does not get a vote from that county).
+					tier = root.highest_held_title_tier
+					exists = de_jure_liege
+					target_is_de_jure_liege_or_above = scope:title
+				}
+			}
+		}
+	}
+
+	candidate_score = {
+		base = 0
+		######################	Elector self-voting pattern	##########################
+		elf_elector_self_voting_pattern_elf_elective_modifier = yes
+
+		##########################	Holder voting pattern	##########################
+		elf_holder_voting_pattern_elf_elective_modifier = yes
+
+		##########################	Elector voting patterns (circumstances)	##########################
+		elf_elector_voting_pattern_circumstances_elf_elective_modifier = yes
+
+		##########################	Elector voting patterns (traits)	##########################
+		elf_elector_voting_pattern_traits_elf_elective_modifier = yes
+
+		##########################	Elector voting patterns (opinion)	##########################
+		elf_elector_voting_pattern_opinion_elf_elective_modifier = yes
+	}
+	
+	#scope:candidate = Candidate, scope:title = Title, scope:holder_candidate = Candidate currently selected by ruler.
+	# TODO: All dynasty members! obvious close family is prefered
+		# - maybe full dyansty for kingdom and above but extended family for dutchy?
+		# since dynasty can literally be ten thousand people... maybe filter for landowners in realm?
+	# TODO: all direct dejure vassals
+	candidates = {
+		add = {
+			type = holder_direct_vassals
+			limit = {
+				elf_elective_potential_landed_candidate_trigger = yes
+			}
+		}
+		add = {
+			type = holder_close_or_extended_family
+			limit = {
+				is_close_family_of = scope:holder
+				elf_elective_potential_landless_dynastic_candidate_trigger = yes
+			}
+		}
+	}
+}
+
+# THOUGHTS
+# - I think by default dynasty should be candidates...
+
+# 6 total
+# 	3 automatic
+# 	3 elective
+# or maybe just do electives....
+
+# maybe a spouse based elective... like spouses get a higher score
+
+# ELECTIONS
+# Elven Dynastic Succesion
+	# Candidates
+	# 	- all House members
+
+	# Candidate Strength
+	# 	- elf quality
+	# 	- title strength
+
+	# Electors
+	# 	- all elf vassals
+	# 	- aeluran advisor
+	# 	- player
+
+	# Elector Strength
+	# 	- Elf quality

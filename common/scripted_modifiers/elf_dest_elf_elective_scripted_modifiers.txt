@@ -1,0 +1,840 @@
+﻿elf_elector_self_voting_pattern_elf_elective_modifier = {
+	##########################	Elector voting himself	##########################
+	modifier = {
+		add = 15
+		desc = tooltip_feudal_elector_vote_myself
+		this = scope:candidate
+		NOR = {
+			has_trait = humble
+			has_trait = content
+			has_trait = craven
+			has_trait = lazy
+			has_trait = depressed
+			has_trait = ambitious
+		}
+		NOT = {
+			scope:holder = {
+				is_parent_of = root
+			}
+		}
+	}
+	modifier = {
+		add = -25
+		desc = tooltip_feudal_elector_vote_not_myself
+		this = scope:candidate
+		NOT = { has_trait = ambitious }
+		OR = {
+			has_trait = humble
+			has_trait = content
+			has_trait = craven
+			has_trait = lazy
+			has_trait = depressed
+		}
+	}
+	modifier = {
+		add = {
+			add = 40
+			if = {
+				limit = {
+					ai_boldness > 0
+				}
+				add = this.ai_boldness
+			}
+			if = {
+				limit = {
+					ai_greed > 0
+				}
+				add = this.ai_greed
+			}
+		}
+		desc = tooltip_feudal_elector_vote_myself_heir
+		this = scope:candidate
+		NOR = {
+			has_trait = humble
+			has_trait = content
+			has_trait = craven
+			has_trait = lazy
+			has_trait = depressed
+			has_trait = ambitious
+		}
+		scope:holder = {
+			is_parent_of = root
+		}
+	}
+	modifier = {
+		desc = tooltip_feudal_elector_vote_myself_ambitious
+		this = scope:candidate
+		has_trait = ambitious
+		is_adult = yes
+		add = {
+			add = 40
+			if = {
+				limit = {
+					ai_boldness > 0
+				}
+				add = this.ai_boldness
+			}
+			if = {
+				limit = {
+					ai_greed > 0
+				}
+				add = this.ai_greed
+			}
+		}
+	}
+	modifier = {
+		add = 100
+		desc = tooltip_feudal_elector_vote_myself_ruler_choice
+		this = scope:candidate
+		this = scope:holder_candidate
+		is_adult = yes
+	}
+	modifier = {
+		desc = tooltip_feudal_elector_vote_myself_ruling_dynasty
+		this = scope:candidate
+		exists = this.dynasty
+		exists = scope:holder.dynasty
+		this.dynasty = scope:holder.dynasty
+		is_adult = yes
+		add = {
+			value = 40
+			if = {
+				limit = {
+					scope:candidate.dynasty = { dynasty_prestige_level >= 10 }
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					scope:candidate.dynasty = { dynasty_prestige_level >= 7 }
+				}
+				add = 20
+			}
+		}
+	}
+
+	#Claims
+	modifier = {
+		add = {
+			value = 30
+			if = {
+				limit = {
+					has_strong_claim_on = scope:title
+				}
+				add = 30
+			}
+		}
+		desc = tooltip_feudal_elector_vote_myself_claimant
+		this = scope:candidate
+		scope:candidate = {
+			OR = {
+				has_strong_claim_on = scope:title
+				has_weak_claim_on = scope:title
+			}
+		}
+	}
+	# Political Circumstances
+	## Disloyal regents vote for themselves.
+	modifier = {
+		add = 50
+		desc = tooltip_feudal_elector_vote_myself_diarch
+		this = scope:candidate
+		is_diarch_of_target = scope:holder
+		# Loyal diarchs won't try to usurp the throne.
+		diarch_loyalty < diarch_loyalty_visibly_loyal_threshold
+	}
+	## Loyal regents vote for their liege's candidate.
+	modifier = {
+		add = 50
+		desc = tooltip_feudal_elector_vote_liege_candidate_diarch
+		is_diarch_of_target = scope:holder
+		scope:candidate = scope:holder_candidate
+		diarch_loyalty >= diarch_loyalty_visibly_loyal_threshold
+	}
+}
+
+elf_holder_voting_pattern_elf_elective_modifier = {
+	##########################	Holder voting pattern	##########################
+	modifier = { #Current ruler will always try to elect his player heir before everybody else.
+		add = 50
+		desc = tooltip_feudal_holder_elector_vote_player_heir
+		player_heir = scope:candidate
+		NOT = { player_heir = root }
+		scope:holder = {
+			this = root
+			NOT = {
+				has_relation_rival = scope:candidate #Unless is rival.
+			}
+		}
+	}
+	modifier = { #Current ruler should prefer his own children.
+		desc = tooltip_feudal_holder_elector_vote_not_child
+		add = {
+			subtract = 50
+			if = { #Even less so if not same House.
+				limit = {
+					exists = root.house
+					exists = scope:candidate.house
+					NOT = {
+						root.house = scope:candidate.house
+					}
+				}
+				subtract = 50
+			}
+			if = { #Even less so if not same Dynasty.
+				limit = {
+					exists = root.dynasty
+					exists = scope:candidate.dynasty
+					NOT = {
+						root.dynasty = scope:candidate.dynasty
+					}
+				}
+				subtract = 150
+			}
+		}
+		scope:holder = {
+			this = root
+			NOT = {
+				scope:candidate = {
+					is_child_of = scope:holder
+				}
+			}
+		}
+	}
+	modifier = { #Heir is unable to sire another heir.
+		add = -50
+		desc = tooltip_feudal_holder_elector_vote_infertile
+		scope:holder = root
+		scope:candidate = {
+			NOT = {
+				any_child = {
+					is_alive = yes
+				}
+			}
+			OR = {
+				has_trait = celibate
+				has_trait = eunuch
+				has_trait = infertile
+				has_trait = incapable
+			}
+		}
+	}
+}
+
+elf_elector_voting_pattern_circumstances_elf_elective_modifier = {
+	##########################	Elector voting patterns (circumstances)	##########################
+	#Sexism
+	modifier = { #Gender weights
+		desc = tooltip_feudal_elector_vote_agnatic_woman
+		OR = {
+			scope:title = { #Title might have different law than realm's.
+				has_title_law = male_preference_law
+			}
+			AND = { #If title has neither the required law nor its opposites, check for realm law.
+				scope:holder = { has_realm_law = male_preference_law }
+				scope:title = {
+					NOR = {
+						has_title_law = female_preference_law
+						has_title_law = equal_law
+					}
+				}
+			}
+			faith = { has_doctrine = doctrine_gender_male_dominated }
+		}
+		scope:candidate = { is_female = yes }
+		add = {
+			subtract = 100
+			if = { #Increase if both.
+				limit = {
+					OR = {
+						scope:title = { #Title might have different law than realm's.
+							has_title_law = male_preference_law
+						}
+						AND = { #If title has neither the required law nor its opposites, check for realm law.
+							scope:holder = { has_realm_law = male_preference_law }
+							scope:title = {
+								NOR = {
+									has_title_law = female_preference_law
+									has_title_law = equal_law
+								}
+							}
+						}
+					}
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+				}
+				multiply = 1.5
+			}
+			if = { #Halve if talking about myself.
+				limit = {
+					this = scope:candidate
+					scope:candidate = scope:holder_candidate
+				}
+				multiply = 0.5
+			}
+		}
+	}
+	modifier = { #Gender weights
+		desc = tooltip_feudal_elector_vote_enatic_man
+		OR = {
+			scope:title = { #Title might have different law than realm's.
+				has_title_law = female_preference_law
+			}
+			AND = { #If title has neither the required law nor its opposites, check for realm law.
+				scope:holder = { has_realm_law = female_preference_law }
+				scope:title = {
+					NOR = {
+						has_title_law = male_preference_law
+						has_title_law = equal_law
+					}
+				}
+			}
+			faith = { has_doctrine = doctrine_gender_female_dominated }
+		}
+		scope:candidate = {
+			is_female = no
+		}
+		add = {
+			subtract = 100
+			if = { #Increase if both.
+				limit = {
+					OR = {
+						scope:title = { #Title might have different law than realm's.
+							has_title_law = female_preference_law
+						}
+						AND = { #If title has neither the required law nor its opposites, check for realm law.
+							scope:holder = { has_realm_law = female_preference_law }
+							scope:title = {
+								NOR = {
+									has_title_law = male_preference_law
+									has_title_law = equal_law
+								}
+							}
+						}
+					}
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+				}
+				multiply = 1.5
+			}
+			if = { #Halve if talking about myself.
+				limit = {
+					this = scope:candidate
+					scope:candidate = scope:holder_candidate
+				}
+				multiply = 0.5
+			}
+		}
+	}
+
+	#Faithism
+	# TODO: If aeluran faith, prefer aeluran ruler
+	# modifier = { #Accepted but different faith. (Buddhism vs Hinduism)
+	# 	desc = tooltip_feudal_elector_vote_different_faith
+	# 	NOT = { root.faith = scope:candidate.faith }
+	# 	ai_zeal >= 0 #Does not care otherwise.
+	# 	faith = {
+	# 		faith_hostility_level = {
+	# 			target = scope:candidate.faith
+	# 			value = faith_fully_accepted_level
+	# 		}
+	# 	}
+	# 	add = {
+	# 		subtract = 25
+	# 		if = { #Further increased for Princely Elective.
+	# 			limit = {
+	# 				scope:title = { has_title_law = princely_elective_succession_law }
+	# 			}
+	# 			subtract = 25
+	# 		}
+	# 	}
+	# }
+
+	#Nepotism
+	modifier = {
+		add = 10
+		desc = tooltip_feudal_elector_vote_dynasty
+		NOT = { this = scope:candidate }
+		exists = root.dynasty
+		exists = scope:candidate.dynasty
+		root.dynasty = scope:candidate.dynasty
+		scope:candidate = {
+			NOT = { is_close_family_of = root }
+		}
+	}
+	modifier = {
+		add = 20
+		desc = tooltip_feudal_elector_vote_relative
+		NOT = { this = scope:candidate }
+		scope:candidate = {
+			is_close_family_of = root
+			NOT = { is_child_of = root }
+		}
+	}
+	modifier = {
+		desc = tooltip_feudal_elector_vote_parent
+		NOT = { this = scope:candidate }
+		scope:candidate = { is_child_of = root }
+		add = {
+			value = 30
+			if = { #Current Ruler should tend to often pick one of his own children as potential heirs.
+				limit = { this = scope:holder }
+				add = 30
+			}
+		}
+	}
+	# modifier = { #Elector AI should not pick current ruler's distant relatives
+	# 	add = -75
+	# 	desc = tooltip_feudal_elector_vote_distant_relative
+	# 	NOR = {
+	# 		this = scope:candidate
+	# 		is_close_family_of = root
+	# 		scope:candidate = scope:holder_candidate #Avoid if he's being specifically picked by the current ruler.
+	# 	}
+	# 	exists = scope:candidate.dynasty
+	# 	exists = scope:holder.dynasty
+	# 	scope:candidate = { #Candidate in question must not be of the same house as the Elector.
+	# 		dynasty = scope:holder.dynasty
+	# 		NOT = {
+	# 			house = root.house
+	# 		}
+	# 	}
+	# }
+
+	#Claims
+	modifier = {
+		add = 30
+		desc = tooltip_feudal_elector_vote_strong_claimant
+		NOT = { this = scope:candidate }
+		scope:candidate = { has_strong_claim_on = scope:title }
+	}
+	modifier = {
+		add = 15
+		desc = tooltip_feudal_elector_vote_weak_claimant
+		NOT = { this = scope:candidate }
+		scope:candidate = { has_weak_claim_on = scope:title }
+	}
+	# Political Circumstances
+	modifier = {
+		add = {
+			if = {
+				limit = {
+					scope:holder = { has_diarchy_parameter = diarchy_type_is_temporary_regency }
+				}
+				add = 20
+			}
+			else = { add = 40 }
+		}
+		desc = tooltip_feudal_elector_vote_regent_already_governs
+		NOT = { this = scope:candidate }
+		scope:candidate = { is_diarch_of_target = scope:holder }
+	}
+}
+
+elf_elector_voting_pattern_traits_elf_elective_modifier = {
+	# Genetic Worthiness
+	modifier = {
+		desc = basic_genetic_electability_modifier_bonus_desc
+
+		add = scope:candidate.basic_genetic_electability_modifier_bonus
+	}
+
+	modifier = {
+		desc = has_valerith_bloodline_modifier_bonus_desc
+		scope:candidate = { has_trait = royal_elf_valerith }
+		add = 25
+	}
+	modifier = {
+		desc = has_serelion_bloodline_modifier_bonus_desc
+		scope:candidate = { has_trait = royal_elf_serelion }
+		add = 25
+	}
+	modifier = {
+		desc = has_gwynthorn_bloodline_modifier_bonus_desc
+		scope:candidate = { has_trait = royal_elf_gwynthorn }
+		add = 25
+	}
+	modifier = {
+		desc = has_thundarael_bloodline_modifier_bonus_desc
+		scope:candidate = { has_trait = royal_elf_thundarael }
+		add = 25
+	}
+	modifier = {
+		desc = has_daelurin_bloodline_modifier_bonus_desc
+		scope:candidate = { has_trait = royal_elf_daelurin }
+		add = 25
+	}
+
+	modifier = { # Human... Gross
+		desc = is_human_modifier_bonus_desc
+		scope:candidate = {
+			NOT = {
+				is_any_elf_type = no
+			}
+		}
+		add = {
+			subtract = 50
+		}
+	}
+	modifier = {
+		desc = elf_blood_modifier_bonus_desc
+		scope:candidate = { is_elf_blood = yes }
+		add = 0
+	}
+	modifier = {
+		desc = elf_modifier_bonus_desc
+		scope:candidate = { is_elf = yes }
+		add = 5
+	}
+	modifier = {
+		desc = high_elf_modifier_bonus_desc
+		scope:candidate = { is_high_elf = yes }
+		add = 15
+	}
+	modifier = {
+		desc = true_elf_modifier_bonus_desc
+		scope:candidate = { is_true_elf = yes }
+		add = 25
+	}
+	modifier = {
+		desc = fae_modifier_bonus_desc
+		scope:candidate = { is_fae = yes }
+		add = 35
+	}
+	modifier = {
+		desc = fae_radiant_modifier_bonus_desc
+		scope:candidate = { is_fae_radiant = yes }
+		add = 45
+	}
+	modifier = {
+		desc = celestial_modifier_bonus_desc
+		scope:candidate = { is_celestial = yes }
+		add = 60
+	}
+	modifier = {
+		desc = seraphic_celestial_modifier_bonus_desc
+		scope:candidate = { is_seraphic_celestial = yes }
+		add = 75
+	}
+	modifier = {
+		desc = eldar_modifier_bonus_desc
+		scope:candidate = { is_eldar = yes }
+		add = 90
+	}
+	modifier = {
+		desc = maiar_modifier_bonus_desc
+		scope:candidate = { is_maiar = yes }
+		add = 100
+	}
+	modifier = {
+		desc = valar_modifier_bonus_desc
+		scope:candidate = { is_valar = yes }
+		add = 125
+	}
+	modifier = {
+		desc = aratar_modifier_bonus_desc
+		scope:candidate = { is_aratar = yes }
+		add = 150
+	}
+
+	#Deviancy
+	modifier = {
+		desc = tooltip_feudal_elector_vote_deviant
+		NOT = {
+			this = scope:candidate	#Do not judge yourself.
+			faith = { has_doctrine_parameter = deviancy_accepted }
+		}
+		OR = {
+			NOT = { has_trait = deviant }
+			has_trait = arbitrary #No need for consistency
+		}
+		scope:candidate = { has_trait = deviant }
+		add = {
+			subtract = 15
+			if = {
+				limit = {
+					faith = { has_doctrine_parameter = deviancy_shunned }
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					faith = { has_doctrine_parameter = deviancy_illegal }
+				}
+				subtract = 15
+			}
+			if = { #Religious gradients.
+				limit = { ai_zeal > 10 }
+				subtract = {
+					value = ai_zeal
+					multiply = 0.5
+				}
+			}
+		}
+	}
+	
+	#Attraction
+	modifier = {
+		desc = tooltip_feudal_elector_vote_attractive
+		NOT = { this = scope:candidate } #Do not judge yourself, you dirty AI.
+		is_adult = yes
+		scope:candidate = {
+			is_adult = yes
+			attraction >= 25
+		}
+		add = {
+			value = 1
+			multiply = scope:candidate.attraction
+			multiply = 0.1
+		}
+	}
+	modifier = {
+		desc = tooltip_feudal_elector_vote_ugly
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		is_adult = yes
+		scope:candidate = {
+			is_adult = yes
+			attraction <= -25
+		}
+		add = {
+			value = 0
+			multiply = scope:candidate.attraction
+			multiply = 0.1
+		}
+	}
+
+
+}
+
+elf_elector_voting_pattern_opinion_elf_elective_modifier = {
+	#Ruler is Dreaded, vote for his pick
+	modifier = {
+		desc = tooltip_feudal_elector_anti_vote_ruler_dreaded
+		scope:candidate = { this = scope:holder_candidate }
+		NOR = {
+			this = scope:holder  #But not if it's me.
+			this = scope:candidate  #But not if it's me.
+		}
+		NOR = {
+			has_trait = lunatic #Don't care
+			has_trait = arbitrary #Don't care
+		}
+		scope:holder = { dread >= low_dread	}
+		dread_modified_ai_boldness = {
+			dreaded_character = scope:holder
+			value <= -25
+		}
+		add = {
+			value = 10
+			if = {
+				limit = {
+					dread_modified_ai_boldness = {
+						dreaded_character = scope:holder
+						value <= -50
+					}
+				}
+				add = 15
+			}
+			if = {
+				limit = {
+					dread_modified_ai_boldness = {
+						dreaded_character = scope:holder
+						value <= -75
+					}
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					dread_modified_ai_boldness = {
+						dreaded_character = scope:holder
+						value <= -95
+					}
+				}
+				add = 25
+			}
+		}
+	}
+	##########################	Raw Opinion bonus towards Candidate	##########################
+	modifier = { #Raw Opinion bonus (negative)
+		desc = tooltip_feudal_elector_vote_opinion_negative
+		NOT = { this = scope:candidate } #Not on yourself.
+		save_temporary_opinion_value_as = {
+			name = opinion_of_candidate
+			target = scope:candidate
+		}
+		scope:opinion_of_candidate <= low_negative_opinion
+		add = {
+			subtract = 15
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_candidate <= medium_negative_opinion
+				}
+				subtract = 15 #-30 total
+			}
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_candidate <= high_negative_opinion
+				}
+				subtract = 20 #-50 total
+			}
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_candidate <= very_high_negative_opinion
+				}
+				subtract = 50 #-100 total
+			}
+			if = { #Even less so if rival.
+				limit = {
+					has_relation_rival = scope:candidate
+				}
+				subtract = 50 #-150 total
+			}
+			if = { #Further increased for Tanistry.
+				limit = {
+					scope:title = { has_title_law = gaelic_elective_succession_law }
+				}
+				multiply = 1.5
+			}
+		}
+	}
+	modifier = { #Raw Opinion bonus (positive)
+		desc = tooltip_feudal_elector_vote_opinion_positive
+		NOT = {
+			has_relation_rival = scope:candidate #Completely removed for rivals.
+		}
+		NOT = { this = scope:candidate } #Not on yourself.
+		save_temporary_opinion_value_as = {
+			name = opinion_of_candidate
+			target = scope:candidate
+		}
+		scope:opinion_of_candidate >= low_positive_opinion
+		add = {
+			value = 15
+			if = { #Even more so if higher opinion.
+				limit = {
+					scope:opinion_of_candidate >= medium_positive_opinion
+				}
+				add = 15 #30 total
+			}
+			if = { #Even more so if higher opinion.
+				limit = {
+					scope:opinion_of_candidate >= high_positive_opinion
+				}
+				add = 20 #50 total
+			}
+			if = { #Even more so if higher opinion.
+				limit = {
+					scope:opinion_of_candidate >= very_high_positive_opinion
+				}
+				add = 20 #70 total
+			}
+			if = { #Even more so if friend/lover.
+				limit = {
+					OR = {
+						has_relation_friend = scope:candidate
+						has_relation_lover = scope:candidate
+					}
+				}
+				add = 30 #100 total
+			}
+			if = { #Further increased for Tanistry.
+				limit = {
+					scope:title = { has_title_law = gaelic_elective_succession_law }
+				}
+				multiply = 1.5
+			}
+		}
+	}
+	##########################	Raw Opinion bonus towards Ruler	##########################
+	modifier = { #Vassal hates ruler, therefore votes against the ruler's candidate (scope:holder_candidate)
+		desc = tooltip_feudal_elector_anti_vote_ruler_opinion_negative
+		scope:candidate = scope:holder_candidate
+		NOR = {
+			this = scope:holder  #But not if it's me.
+			this = scope:candidate  #But not if it's me.
+		}
+		save_temporary_opinion_value_as = {
+			name = opinion_of_holder
+			target = scope:holder
+		}
+		scope:opinion_of_holder <= low_negative_opinion
+		add = {
+			subtract = 10
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_holder <= medium_negative_opinion
+				}
+				subtract = 15 #-25 total
+			}
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_holder <= high_negative_opinion
+				}
+				subtract = 25 #-50 total
+			}
+			if = { #Even less so if lower opinion.
+				limit = {
+					scope:opinion_of_holder <= very_high_negative_opinion
+				}
+				subtract = 50 #-100 total
+			}
+			if = { #Even less so if rival.
+				limit = {
+					has_relation_rival = scope:holder
+				}
+				subtract = 50 #-150 total
+			}
+		}
+	}
+	modifier = { #Vassal loves ruler, therefore votes for the ruler's candidate (scope:holder_candidate)
+		desc = tooltip_feudal_elector_pro_vote_ruler_opinion_positive
+		scope:candidate = scope:holder_candidate
+		NOR = {
+			this = scope:holder  #But not if it's me.
+			this = scope:candidate  #But not if it's me.
+		}
+		save_temporary_opinion_value_as = {
+			name = opinion_of_holder
+			target = scope:holder
+		}
+		scope:opinion_of_holder >= low_positive_opinion
+		add = {
+			value = 10
+			if = { #Even more so if higher opinion.
+				limit = {
+					opinion = {
+						target = scope:holder
+						value >= medium_positive_opinion
+					}
+				}
+				add = 15 #25 total
+			}
+			if = { #Even more so if higher opinion.
+				limit = {
+					opinion = {
+						target = scope:holder
+						value >= high_positive_opinion
+					}
+				}
+				add = 25 #50 total
+			}
+			if = { #Even more so if higher opinion.
+				limit = {
+					opinion = {
+						target = scope:holder
+						value >= very_high_positive_opinion
+					}
+				}
+				add = 50 #100 total
+			}
+			if = { #Even more so if friend/lover.
+				limit = {
+					OR = {
+						has_relation_friend = scope:holder
+						has_relation_lover = scope:holder
+					}
+				}
+				add = 50 #150 total
+			}
+		}
+	}
+}
