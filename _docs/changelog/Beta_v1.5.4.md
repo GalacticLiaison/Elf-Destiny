@@ -1,98 +1,81 @@
 # Beta_v1.5.4
 
+
+# NEW! Succesion Type - Elf Elective
+- Similar to feudal Elective but wit a focus on selecting the most powerful elf.
+- Aelurans will expect Elf rulers to adopt this Elective type and will gain more votes if you have low control!
+
+# Misc
+Julia Melwood:
+- hopefully wont have random children on game start
+- now shouldnt show up to first expedition dead
+
+Updated SPANISH Localization added, thanks @kordih!
+
+Elves SHOULD no longer become infirm or incapable from old age alone!
+
 Bug Fix: When being offered an Aeluran Sister in the matchmaking event, there was a chance you might be offered yourself.
 
-Succession Types
-
-Elf Inheritance Succession:
-    - Child is still chosen but most worthy child
-
-Elf Inheritance Succession Elective:
-    - heirs are candidates but must be voted for
-    - elf vassals get votes
-    - aeluran adviser gets extra vote!!!
-    - player gets extra votes
-
-Alt version where instead the best elf in the realm is chosen period
-
-maybe overwrite yearly_health_pulse to stop old elves from becoming infirm
-
-Julia needs to be added to the generate kids exemption list
-- big fix: now shouldnt show up to first expedition dead
-
-SPANISH!
-
-## Religious Resistance
-- I THINK ive made it so AI Aeluran Order members wont choose to convert to a non-elf faith automatically by themselves.
+## Religious Alignments
+- I THINK now AI Aeluran Order members wont choose to convert to a non-elf faith automatically by themselves.
 - Members of the Aeluran Order cant be forced to convert by Human Rulers
 
-now upon creating a new Aeluran faith, most Aeluran order members will convert with you.
+Now upon creating a new Aeluran faith, most Aeluran order members will convert with you.
 - Matriarch (100% of the time)
 - Matrons (75% of the time)
 - Sisters (90% of the time)
 
+- removed the Aelruan Order vassals shift in loyalty mechanic from Aeluran diarchies 
 
-# New Cultures
+# NEW! Alternate Elf Cultures
 new elf starter cultures! One for each ruling bloodline
-<list them>
+- Tuatha Dé Danann
+- Álfar
+- Romaviri
+- Astrion
+- Deepwood Elven
 
 Now elf cultures will have a mix of red/black/brown/blond hair instead of just blond. Each culture has a different ratio.
 
-TODO: update gwynthorn/verlline to have actual divorces and rivalries
+## NEW! CHARACTERS:
+### Valerith
+- Faelyn Valerith
+- Lia Valerith
+- Virion Valerith
+- Niala Valerith
 
-## CHARACTERS:
-## Valerith
-dh Virion 'the Dragon' Valerith
-dh Lia Valerith (engaged to Elros)
-d Faelyn Lancelot Valerith (change name if using him) Felicity younger brother (county Sosva)
-dh niala valerith
+### Gynthorn
+- Marilayne Gwynthorn
+- Elowyn Gwynthorn
+- Earan Gwynthorn
+- Emeryana Gwynthorn
+- Emera Gwynthorn
 
-Tannyll Miragolor (grandfather brother of Victaris?) maybe save for portal
+- Haiveloc Verlline
+- Rheddyr Verlline
+- Rebecca Verlline
+- Amelya Verlline
 
-## Gynthorn
-Aurora
-Dunstan
-d Rebecca Gwynthorn
+### Daelurin
+- Elros Daelurin
+- Thaleia Daelurin
+- Nienor Daelurin
+- Angbor Morozov
+- Rhozinna Morozov
+- Chezic Morozov
+- Zorya Morozov
+- Balin Morozov
+- Kallyna Morozov
+- Daleana Morozov
+- Evania Morozov
 
-d Byrice Verlline
-d Marilayne Gwynthorn (divorced wife of haiveloc, younger sister of Galanorial)
-dh Haiveloc Verlline (father)
-d Amelya Verlline (daughter)
-
-d Rheddyr Verlline (wanderer) figure out relation
-
-Names can be changed
-d Emeryana Gwynthorn
-d Earan Gwynthorn
-d Emera Gwynthorn
-
-c_pagania
-
-# Daelurin
-dh Elros Earendilionath, Vyatki's son, chilling with belanor engaged to Lia? (Koardegk)
-
-dh Thaleia (Pamora sister) Vyatki's court ("Vitim")
-dh Nienor (Pamora sister) Vyatki's court
-
-d Angbor
-d Kallyna primary spouse
-d Evania child
-d Daleana child
-
-d Rhozinna wife
-d Chezic child
-
-d Zorya wife
-d Balin child
-
-# Thundarael
-d Freyja daughter of Lancelot valerith
-d Adam son of nictheras
-
-d Taliana Thundarael
-
-c_massina
-
-# Wild cards
+### Thundarael
+- Freyja Thundarael
+- Adam Thundarael
+- Nolan Thundarael
+- Lyra Thundarael
+- Taliana Thundarael
+- Tyria Thundarael
+- Thrandire Thundarael
 
 
