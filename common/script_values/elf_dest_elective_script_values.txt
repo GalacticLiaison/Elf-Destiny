@@ -2,3 +2,32 @@ basic_genetic_electability_modifier_bonus = {
 	value = genetic_worthiness
 	multiply = 5
 }
+
+aeluran_order_vassal_votes_bonus = {
+	value = 0
+	
+	if = {
+		limit = {
+			scope:holder = {
+				has_diarchy_active_parameter = aeluran_domination_min_3 
+			}
+		}
+		add = 5
+	}
+	else_if = {
+		limit = {
+			scope:holder = {
+				has_diarchy_active_parameter = aeluran_domination_min_2 
+			}
+		}
+		add = 3
+	}
+	else_if = {
+		limit = {
+			scope:holder = {
+				has_diarchy_active_parameter = aeluran_domination_min_1
+			}
+		}
+		add = 1
+	}
+}

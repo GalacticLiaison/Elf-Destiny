@@ -363,3 +363,5 @@ To make the ascended tribal holding requirement make sense maybe we should have 
 
 An artifact that you can transfer levels of your elf ascension to and it grows stronger.
 - could lead to sapiant weapons. maybe telepathically linked to character
+
+plague resistance is used to determine success of spy animals scheme

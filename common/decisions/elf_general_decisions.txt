@@ -1,0 +1,69 @@
+﻿adopt_elven_elective = {
+	picture = "gfx/interface/illustrations/decisions/decision_adopt_elven_elective.dds"
+
+	desc = adopt_elven_elective_decision_desc
+	selection_tooltip = adopt_elven_elective_decision_tooltip
+	major = no
+	ai_goal = no
+
+	sort_order = 500
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		is_any_elf_type = yes
+		highest_held_title_tier > tier_county
+		primary_title = {
+			NOT = {
+				has_title_law = elf_elective_succession_law
+			}
+		}
+
+		# # any county that does not have an aeluran order barony
+		# any_sub_realm_barony = {
+		# 	holder = root
+		# 	NOT = {
+		# 		title_province = scope:ruler.capital_province
+		# 	}
+		# }
+		
+	}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		# custom_description = {
+		# 	text = restore_the_grand_portal_decision_has_sigil_of_the_realm_lord
+		# 	any_character_artifact = { has_variable = is_sigil_of_the_realm_lord }
+		# }
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		# TODO: implement side quests to reduce the price
+		# gold = 1000
+	}
+
+	effect = {
+		# custom_tooltip = adopt_elven_elective_effect
+		primary_title = {
+			add_title_law = elf_elective_succession_law
+		}
+
+	}
+	
+	ai_potential = {
+		always = no
+	}
+
+	# ai_will_do = {
+	# 	base = 15
+	# 	ai_value_modifier = {
+	# 		ai_boldness = 1.0
+	# 	}
+	# }
+}

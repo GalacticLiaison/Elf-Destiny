@@ -43,21 +43,19 @@ elf_elective = {
 			liege = scope:holder
 		}
 
-		modifier = { #Clerical Influence
-			desc = tooltip_feudal_vote_strength_theocrat
-			add = 1
-			NOT = { this = scope:holder }
-			OR = {
-				government_has_flag = government_is_theocracy
-				has_council_position = councillor_court_chaplain
-			}
-			faith = scope:holder.faith
-			faith = { has_doctrine = doctrine_theocracy_lay_clergy }
-		}
 		modifier = { #Regent Influence
 			desc = tooltip_feudal_vote_strength_is_diarch
 			add = 1
 			is_diarch_of_target = scope:holder
+		}
+
+		modifier = { #Aeluran Order Vassals
+			desc = tooltip_elven_vote_strength_aeluran_order_vassal
+			add = aeluran_order_vassal_votes_bonus
+			scope:holder.faith = {
+				has_doctrine = tenet_aeluran_sisters 
+			}
+			has_government = aeluran_weavers_government
 		}
 	}
 	
@@ -98,6 +96,15 @@ elf_elective = {
 				}
 			}
 		}
+		add = {
+			type = holder_direct_vassals
+			# limit = {
+			# 	is_any_elf_type = yes
+			# 	is_aeluran_sister_or_higher = yes
+			# 	has_government = aeluran_weavers_government
+			# }
+			limit = {}
+		}
 	}
 
 	candidate_score = {
@@ -125,15 +132,24 @@ elf_elective = {
 	# TODO: all direct dejure vassals
 	candidates = {
 		add = {
+			type = holder_close_family
+			limit = {
+				is_any_elf_type = yes
+				this.highest_held_title_tier <= scope:title.tier
+			}
+		}
+		add = {
 			type = holder_direct_vassals
 			limit = {
+				is_any_elf_type = yes
 				elf_elective_potential_landed_candidate_trigger = yes
 			}
 		}
 		add = {
 			type = holder_close_or_extended_family
 			limit = {
-				is_close_family_of = scope:holder
+				# is_close_family_of = scope:holder
+				is_any_elf_type = yes
 				elf_elective_potential_landless_dynastic_candidate_trigger = yes
 			}
 		}

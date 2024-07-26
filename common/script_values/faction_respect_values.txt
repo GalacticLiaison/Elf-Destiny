@@ -124,6 +124,7 @@ eunuch_penalty = 0.2
 refused_matchmaking_penalty = 0.2
 refused_matriarchs_summons_penalty = 0.5
 has_unlanded_aeluran_advisor_penalty = 0.3
+primary_title_no_elven_elective = 0.05
 
 advisor_has_weak_hook_on_liege_penalty = 0.2
 advisor_has_strong_hook_on_liege_penalty = 0.4
@@ -854,6 +855,18 @@ aeluran_respect_from_status = {
 				percentage_of_aeluran_vassals >= 50
 			}
 			add = high_aeluran_vassal_percentage_penalty
+		}
+
+		if = {
+			limit = {
+				highest_held_title_tier > tier_county
+				primary_title = {
+					NOT = {
+						has_title_law = elf_elective_succession_law
+					}
+				}
+			}
+			add = primary_title_no_elven_elective
 		}
 	}
 }
