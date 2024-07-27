@@ -1,6 +1,5 @@
 # Beta_v1.5.4
 
-
 # NEW! Succesion Type - Elf Elective
 - Similar to feudal Elective but wit a focus on selecting the most powerful elf.
 - Aelurans will expect Elf rulers to adopt this Elective type and will gain more votes if you have low control!
