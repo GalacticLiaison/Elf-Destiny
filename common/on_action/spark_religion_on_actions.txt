@@ -17,5 +17,40 @@ remove_free_reformation_modifier = {
 			}
 			remove_character_modifier = deference_of_the_aelurans
 		}
+
+		if = {
+			limit = {
+				scope:old_faith = faith:aeluran_weavers
+				is_ai = no
+			}
+
+			every_living_character = {
+				limit = {
+					is_aeluran_sister_or_higher = yes
+				}
+
+				if = {
+					limit = {
+						has_trait = aeluran_sister
+					}
+					random = {
+						chance = 90
+						set_character_faith = root.faith
+					}
+				}
+				if = {
+					limit = {
+						has_trait = aeluran_matron
+					}
+					random = {
+						chance = 75
+						set_character_faith = root.faith
+					}
+				}
+				else = { # Matriarch should always convert, her refusing would be a whole nother big thing
+					set_character_faith = root.faith
+				}
+			}
+		}
 	}
 }

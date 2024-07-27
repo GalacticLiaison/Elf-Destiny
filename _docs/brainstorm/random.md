@@ -349,5 +349,19 @@ loyalty rework ideas
    - decide to resist or not to maybe have aelurans gain loyal/disloyal
 
 
-diffrerent intent could lead to different expedition outcomes, maybe knowledge seeking for example
+different intent could lead to different expedition outcomes, maybe knowledge seeking for example
 
+To make the ascended tribal holding requirement make sense maybe we should have it instead require a completely new type of holding. It would be a better tribal holding.
+- maybe different versions to choose from!
+   - "Tribal Bastion"
+   - "Ethereal Grove"
+   - "X Sanctuary"
+   - "Arbor"
+- "one features tree integrated buildings"
+   - "maybe need a spark crystal to create?"
+
+
+An artifact that you can transfer levels of your elf ascension to and it grows stronger.
+- could lead to sapiant weapons. maybe telepathically linked to character
+
+plague resistance is used to determine success of spy animals scheme
