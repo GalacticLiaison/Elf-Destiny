@@ -1,0 +1,78 @@
+﻿urf_base_sapience_init = {
+    if = {
+        limit = { urf_has_sapience_presence = yes }
+        urf_set_sapience = { VAL = 200 }
+        urf_set_sapience_level = { LEVEL = mitle_sapient }
+    }
+}
+
+urf_set_sapience_init = {
+    if = {
+        limit = { urf_has_sapience_presence = yes }
+        urf_set_sapience = { VAL = $VAL$ }
+        urf_set_sapience_level = { LEVEL = $LEVEL$ }
+    }
+}
+
+urf_on_birth_sapience_assignment = {
+    if = {
+        limit = { urf_has_sapience_presence = yes }
+        urf_inherit_sapience_assignment = { CHILD = $CHILD$ MOTHER = $MOTHER$ FATHER = $FATHER$ }
+        urf_on_birth_sapience_level = yes
+    }
+}
+
+urf_inherit_sapience_assignment = {
+    $CHILD$ = {
+        set_variable = {
+            name = urf_sapience
+            value = {
+                add = $MOTHER$.var:urf_sapience
+                add = $FATHER$.var:urf_sapience
+                divide = 2
+            }
+        }
+    }
+}
+
+urf_set_sapience_level = {
+    set_variable = {
+        name = urf_sapience_level
+        value = flag:$LEVEL$
+    }
+    urf_remove_all_sapience_modifiers = yes
+    add_character_modifier = urf_$LEVEL$_modifier
+}
+
+urf_set_sapience = {
+    set_variable = {
+        name = urf_sapience
+        value = $VAL$
+    }
+}
+
+urf_clear_sapience = {
+    remove_variable = urf_sapience
+    remove_variable = urf_sapience_level
+}
+
+urf_on_birth_sapience_level = {
+    if = {
+        limit = { urf_is_low_sapient = yes }
+        urf_set_sapience_level = { LEVEL = low_sapient }
+    }
+    if = {
+        limit = { urf_is_mitle_sapient = yes }
+        urf_set_sapience_level = { LEVEL = mitle_sapient }
+    }
+    if = {
+        limit = { urf_is_ethereal_sapient = yes }
+        urf_set_sapience_level = { LEVEL = ethereal_sapient }
+    }
+}
+
+urf_remove_all_sapience_modifiers = {
+    remove_character_modifier = urf_low_sapient_modifier
+    remove_character_modifier = urf_mitle_sapient_modifier
+    remove_character_modifier = urf_ethereal_sapient_modifier
+}
