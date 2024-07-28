@@ -338,3 +338,30 @@ put pantheon as a section in religion screen and show icons for valar you follow
 fowr 
 - make each chase segment an event with a variety of skill check options to either get closer or farther from succeeding
 - use camera = {} to zoom rabbit out, use it to put in hedge doorway or something and use an image with depth/distance
+
+For Group ritual spells
+- add spark users from your realm
+- the more users the more powerful/better results
+- use wheel of time mechanic, one male caster required for every seven female
+
+loyalty rework ideas
+- event that asks how you feel that aelurans have control
+   - decide to resist or not to maybe have aelurans gain loyal/disloyal
+
+
+different intent could lead to different expedition outcomes, maybe knowledge seeking for example
+
+To make the ascended tribal holding requirement make sense maybe we should have it instead require a completely new type of holding. It would be a better tribal holding.
+- maybe different versions to choose from!
+   - "Tribal Bastion"
+   - "Ethereal Grove"
+   - "X Sanctuary"
+   - "Arbor"
+- "one features tree integrated buildings"
+   - "maybe need a spark crystal to create?"
+
+
+An artifact that you can transfer levels of your elf ascension to and it grows stronger.
+- could lead to sapiant weapons. maybe telepathically linked to character
+
+plague resistance is used to determine success of spy animals scheme

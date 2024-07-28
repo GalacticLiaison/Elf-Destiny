@@ -38,3 +38,75 @@ relation_with_character_is_incestuous_in_faith_trigger = {
 		#doctrine_consanguinity_unrestricted; all forms of incest is acceptable
 	}	
 }
+
+valid_demand_conversion_conditions_trigger = {
+	scope:recipient = { is_busy_in_events_localised = yes }
+	scope:recipient = { NOT = { has_strong_hook = scope:actor } }
+	scope:recipient = { NOT = { has_trait = devoted } }
+	scope:recipient = { NOT = { has_trait = order_member } }
+	scope:recipient = {
+		NOT = { is_imprisoned_by = scope:actor }
+	}
+	scope:recipient = {
+		NOT = { is_at_war_with = scope:actor }
+	}
+
+	# Elf Destiny
+	custom_tooltip = {
+		text = "CANT_CONVERT_AELURAN_ORDER_MEMBER"
+		NAND = {
+			scope:actor.faith.religion = {
+				NOT = {
+					is_in_family = rf_spark
+				}	
+			}
+			scope:recipient = {
+				is_aeluran_sister_or_higher = yes
+			} 
+		}
+	}
+
+	custom_description = {
+		text = "is_head_of_religion"
+		subject = scope:recipient
+		NOT = { scope:recipient.faith.religious_head = scope:recipient }
+	}
+
+	custom_description = {
+		text = "is_protected_via_contract"
+		subject = scope:recipient
+		NAND = { # Vassal Contract forbids meddling by liege
+			exists = scope:recipient.liege
+			scope:recipient.liege = scope:actor
+			scope:recipient = {
+				is_ruler = yes
+				vassal_contract_has_flag = religiously_protected
+			}
+		}
+	}
+	
+	trigger_if = {
+		limit = {
+			scope:recipient = {	
+				AND = {
+					has_variable = cannot_be_converted_by_value
+					var:cannot_be_converted_by_value = scope:actor	
+				}
+			}
+		}
+		custom_tooltip = {
+			text = promised_to_not_convert_character
+			scope:recipient = {	
+				NOR = {
+					has_variable = cannot_be_converted_by_value
+					var:cannot_be_converted_by_value = scope:actor
+				}
+			}
+		}
+	}
+
+	custom_tooltip = {
+		text = cannot_take_overt_hostile_actions_against_diarch.tt
+		NOT = { scope:recipient ?= scope:actor.diarch }
+	}
+}

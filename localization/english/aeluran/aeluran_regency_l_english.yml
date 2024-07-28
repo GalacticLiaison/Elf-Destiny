@@ -1,7 +1,7 @@
 ﻿l_english:
     ##################################################
     # #Diarchy Types
-    aeluran_regency_diarchy_type:1 "Aeluran Regency"
+    aeluran_regency_diarchy_type:0 "Aeluran Regency"
     aeluran_regency_diarch_title:0 "Aeluran Advisor"
 
     game_concept_aeluran_regency:0 "Aeluran Regency"
@@ -71,12 +71,16 @@
     regent_mandate_level_2:0 "Regent's Vassal Management [mandate|E] will upgrade to #difficulty_hard [GetMandate('realm_subjugation').GetName] #!"
     regent_mandate_level_3:0 "Regent's Vassal Management [mandate|E] will upgrade to #medium_glow #attacker_color #BOL [GetMandate('realm_domination').GetName]#!#!#!"
 
-    greater_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #medium_glow #attacker_color #BOL Greater#!#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    small_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #negative_value #BOL Small#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    aeluran_councillor_loses_loyal:0 "[aeluran_weavers_government|E] vassals #difficulty_hard Might Lose#! the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
-    aeluran_councillor_loses_disloyal:0 "[aeluran_weavers_government|E] vassals #difficulty_easy Might Lose#! the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
-    small_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value #BOL Small#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
-    greater_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value_toast #BOL Greater#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    # greater_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #medium_glow #attacker_color #BOL Greater#!#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    # small_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #negative_value #BOL Small#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    # aeluran_councillor_loses_loyal:0 "[aeluran_weavers_government|E] vassals #difficulty_hard Might Lose#! the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    # aeluran_councillor_loses_disloyal:0 "[aeluran_weavers_government|E] vassals #difficulty_easy Might Lose#! the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+    # small_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value #BOL Small#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+    # greater_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value_toast #BOL Greater#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+
+    aeluran_vassals_gain_votes_in_elven_elective_1:0 "[aeluran_weavers_government|E] vassals gain #difficulty_hard More#! votes in [GetLaw('elf_elective_succession_law').GetName]"
+    aeluran_vassals_gain_votes_in_elven_elective_2:0 "[aeluran_weavers_government|E] vassals gain #negative_value #BOL Even More#!#! votes in [GetLaw('elf_elective_succession_law').GetName]"
+    aeluran_vassals_gain_votes_in_elven_elective_3:0 "[aeluran_weavers_government|E] vassals gain #medium_glow #attacker_color #BOL Even More#!#!#! votes in [GetLaw('elf_elective_succession_law').GetName]"
 
     aeluran_councillor_challenges_level_1:0 "Your $game_concept_aeluran_regent$ will #difficulty_hard Sometimes#! challenge your decisions."
     aeluran_councillor_challenges_level_2:0 "Your $game_concept_aeluran_regent$ will #negative_value #BOL More Often#!#! challenge your decisions."
@@ -92,6 +96,13 @@
     aeluran_councillor_replaces_court_positions:0 ""
     aeluran_advisor_seeks_dutchy:0 ""
     aeluran_advisor_seeks_county:0 ""
+
+    aeluran_diarchy_monthly_respect_swing:0 "[Character.Custom('Aeluran_Respect_Score_Swing')]"
+    aeluran_diarchy_respect_shift_left_more:0 "@left_green_arrow_2! [GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|+]"
+    aeluran_diarchy_respect_shift_left:0 "@left_green_arrow_1! [GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|+]"
+    aeluran_diarchy_respect_shift_right:0 "[GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|+] @right_red_arrow_1!"
+    aeluran_diarchy_respect_shift_right_more:0 "[GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|+] @right_red_arrow_2!"
+    aeluran_diarchy_respect_fallback:0 "[GetPlayer.MakeScope.ScriptValue('aeluran_respect_score_actual')|+]"
 
     ## RESPECT BREAKDOWN ##
     from_elf_tier:0 "From Elf Tier:"
@@ -249,13 +260,14 @@
     aeluran_respect_from_sin_has_unlanded_aeluran_advisor:0 "@aeluran_matriarch_icon! Has Unlanded Aeluran Advisor"
 
     # Status
-    aeluran_respect_from_status:0 "[Character.Custom('Aeluran_Respect_From_Status_Is_In_Debt')][Character.Custom('Aeluran_Respect_From_Status_Imprisoned_By_Aeluran_Advisor')][Character.Custom('Aeluran_Respect_From_Aeluran_Vassal_Percentage')]"
+    aeluran_respect_from_status:0 "[Character.Custom('Aeluran_Respect_From_Status_Is_In_Debt')][Character.Custom('Aeluran_Respect_From_Status_Imprisoned_By_Aeluran_Advisor')][Character.Custom('Aeluran_Respect_From_Aeluran_Vassal_Percentage')][Character.Custom('Aeluran_Respect_From_Elven_Elective')]"
 
     aeluran_respect_from_status_is_in_debt:0 "@gold_icon! In Debt: #N -[EmptyScope.ScriptValue('is_in_debt_penalty')|2]#!\n"
     aeluran_respect_from_status_imprisoned_by_aeluran_advisor:0 "@prison_icon! Imprisoned By Aeluran Advisor: #N -[EmptyScope.ScriptValue('imprisoned_by_advisor_penalty')|2]#!\n"
 
     aeluran_respect_from_status_high_aeluran_vassal_percentage:0 "@aeluran_experiment_icon! 50% of vassals are Aeluran: #N -[GetPlayer.ScriptValue('high_aeluran_vassal_percentage_penalty')|2]#!\n"
     aeluran_respect_from_status_very_high_aeluran_vassal_percentage:0 "@aeluran_experiment_icon! 75% of vassals are Aeluran: #N -[GetPlayer.MakeScope.ScriptValue('very_high_aeluran_vassal_percentage_penalty')|2]#!\n"
+    aeluran_respect_from_status_no_elven_elective:0 "@law_icon! No [GetLaw('elf_elective_succession_law').GetName]: #N -[EmptyScope.ScriptValue('primary_title_no_elven_elective')|2]#!\n"
 
     swing_aeluran_control_interaction:0 "Battle Of Wills For Aeluran Control"
 
