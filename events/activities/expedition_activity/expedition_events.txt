@@ -540,40 +540,45 @@ expedition.00691 = {
 				every_attending_character = {
 					if = {
 						limit = {
-							NOT = {
-								is_any_elf_type = yes
+							OR = {
+								is_any_elf_type = no
+								is_elf_blood = yes
 							}
 						}
+						remove_all_elf_traits_effect = yes
 						add_trait = elf
 						add_trait = magic_talent_1
 					}
 				}
 
-				# Transform Julia as well
-				if = { 
+				# Find Julia
+				if = {
 					limit = {
 						exists = character:julia_melwood
-						character:julia_melwood  = {
-							NOT = {
-								is_any_elf_type = yes
-							}
-						}
 					}
 					character:julia_melwood = {
-						add_trait = elf
-						add_trait = magic_talent_1
+						save_scope_as = julia
 					}
 				}
 				else_if = {
 					limit = {
 						exists = character:julia_melwood_1066
-						character:julia_melwood_1066  = {
-							NOT = {
-								is_any_elf_type = yes
-							}
-						}
 					}
 					character:julia_melwood_1066 = {
+						save_scope_as = julia
+					}
+				}
+
+				# Transform Julia as well
+				scope:julia = {
+					if = {
+						limit = {
+							OR = {
+								is_any_elf_type = no
+								is_elf_blood = yes
+							}
+						}
+						remove_all_elf_traits_effect = yes
 						add_trait = elf
 						add_trait = magic_talent_1
 					}
