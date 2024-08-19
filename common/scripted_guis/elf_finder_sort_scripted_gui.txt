@@ -1,0 +1,28 @@
+﻿elf_finder_sort = {
+    scope = character
+
+    saved_scopes = {
+        ctrl_value  
+    }
+    effect = {
+        if = {
+            limit = { global_var:elf_finder_sort_by = scope:ctrl_value }
+            elf_finder_change_sort_order = yes
+        }
+        else = {
+            set_global_variable = {  name = elf_finder_sort_by value = scope:ctrl_value }
+            remove_global_variable = elf_finder_sort_by_ascending
+        }
+        elf_finder_create_elf_list = yes
+    }
+}
+
+
+elf_finder_change_sort_order = {
+    scope = character
+ 
+    effect = {
+        elf_finder_change_sort_order = yes
+        elf_finder_create_elf_list = yes
+    }
+}

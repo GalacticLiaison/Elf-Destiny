@@ -107,15 +107,318 @@ elf_destiny_on_game_start = {
 		culture:elf_culture_serelion = {
 			add_innovation = innovation_legionnaires
 		}
+
+
+		# Register Elf Great Houses
+		set_global_variable = {
+			name = house_gwynthorn 
+			value = character:galanoriel_gwynthorn.dynasty
+		}
+		set_global_variable = {
+			name = house_daelurin
+			value = character:galvin_daelurin.dynasty
+		}
+		set_global_variable = {
+			name = house_serelion
+			value = character:meldona_serelion.dynasty
+		}
+		set_global_variable = {
+			name = house_thundarael
+			value = character:nictheras_skyreaver.dynasty
+		}
+		set_global_variable = {
+			name = house_valerith
+			value = character:seraphine_valerith.dynasty
+		}
+
+		# Set Initial Elf Finder Filters
+		set_global_variable = {
+			name = elf_type_filter_elf_blood 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_elf 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_high_elf 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_true_elf 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_fae 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_fae_radiant 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_celestial 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_seraphic_celestial 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_eldar 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_maiar 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_valar 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_type_filter_aratar 
+			value = 1
+		}
+
+		set_global_variable = {
+			name = elf_dynasty_filter_daelurin 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_dynasty_filter_thundarael 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_dynasty_filter_gwynthorn 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_dynasty_filter_valerith 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_dynasty_filter_serelion 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_dynasty_filter_other
+			value = 1
+		}
+
+		set_global_variable = {
+			name = elf_bloodline_filter_daelurin 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_bloodline_filter_thundarael 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_bloodline_filter_gwynthorn 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_bloodline_filter_valerith 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_bloodline_filter_serelion 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_bloodline_filter_no_bloodline
+			value = 1
+		}
+
+		set_global_variable = {
+			name = elf_magic_ability_filter_magic_talent_1 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_magic_ability_filter_magic_talent_2
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_magic_ability_filter_magic_talent_3 
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_magic_ability_filter_magic_talentless
+			value = 1
+		}
+
+		set_global_variable = {
+			name = elf_aeluran_order_filter_aeluran_servant
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_aeluran_order_filter_aeluran_sister
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_aeluran_order_filter_aeluran_matron
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_aeluran_order_filter_aeluran_high_matriarch
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_aeluran_order_filter_born_in_the_red
+			value = 1
+		}
+		set_global_variable = {
+			name = elf_aeluran_order_filter_non_aeluran_elf
+			value = 1
+		}
 	}
 }
 
 on_game_start_after_lobby = { 
     on_actions = {
+		swap_out_elf_traits
         correct_elf_mortality_trait
 		register_aeluran_heirarchy
 		on_game_start_setup_expeditions
     } 
+}
+
+swap_out_elf_traits = {
+	effect = {
+		# Fix ruler designer elf children
+		every_living_character = {
+			limit = {
+				OR = {
+					has_trait = elf_blood
+					has_trait = elf
+					has_trait = high_elf
+					has_trait = true_elf
+					has_trait = fae
+					has_trait = fae_radiant
+					has_trait = celestial
+					has_trait = seraphic_celestial
+					has_trait = eldar
+					has_trait = maiar
+					has_trait = valar
+					has_trait = aratar
+				}
+			}
+
+			if = {
+				limit = {
+					has_trait = elf_blood
+				}
+				remove_trait = elf_blood
+				add_character_flag = race_elf
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = elf
+				}
+				remove_trait = elf
+				add_character_flag = race_elf
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = high_elf
+				}
+				remove_trait = high_elf
+				add_character_flag = race_high_elf
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = true_elf
+				}
+				remove_trait = true_elf
+				add_character_flag = race_true_elf
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = fae
+				}
+				remove_trait = fae
+				add_character_flag = race_fae
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = fae_radiant
+				}
+				remove_trait = fae_radiant
+				add_character_flag = race_fae_radiant
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = celestial
+				}
+				remove_trait = celestial
+				add_character_flag = race_celestial
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = seraphic_celestial
+				}
+				remove_trait = seraphic_celestial		
+				add_character_flag = race_seraphic_celestial
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = eldar
+				}
+				remove_trait = eldar
+				add_character_flag = race_eldar
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = maiar
+				}
+				remove_trait = maiar
+				add_character_flag = race_maiar
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = valar
+				}
+				remove_trait = valar
+				add_character_flag = race_valar
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			if = {
+				limit = {
+					has_trait = aratar
+				}
+				remove_trait = aratar
+				add_character_flag = race_aratar
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				set_appropriate_elf_immortality_age = yes
+			}
+			
+
+
+			debug_log = "swapped elf trait"
+		}
+	}
 }
 
 correct_elf_mortality_trait = {

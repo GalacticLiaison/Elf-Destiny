@@ -60,10 +60,47 @@ types Lists
             container = {
                 button = {
                     name = "race_button"
-                    texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                    # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
                     tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
                     using = tooltip_ws
                     size = { 40 40 }
+
+                    highlight_icon = {
+                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                        size = { 40 40 }
+                        position = { 0 1 }
+                        parentanchor = center
+    
+                        glow = {
+                            # color = { 0 0 0 0.8 }
+                            glow_radius = 4
+                            # using = Color_Blue
+                            using = Color_Bright_Yellow
+                            # using = Color_Green
+                            using = Glow_Standard
+                            # glow_alpha = 1
+                        }
+
+					    using = Animation_Glow_Pulse
+
+                        #     state = {
+                        #         name = a
+                        #         next = b
+                        #         alpha = 1
+                        #         trigger_on_create = yes
+                        #         duration = 2
+                        #         using = Animation_Curve_Default
+                        #     }
+
+                        #     state = {
+                        #         name = b
+                        #         next = a
+                        #         alpha = 0.5
+                        #         duration = 2
+                        #         using = Animation_Curve_Default
+                        #     }
+
+                    }
                 }
             }
         }
@@ -125,12 +162,32 @@ types Lists
                     maxhorizontalslots = 5
                     maxverticalslots = 1
 
+                    # item = {
+                    #     icon_trait = {
+                    #         blockoverride "icon_size"
+                    #         {
+                    #             size = { 55 55 }
+                    #         }
+                    #     }
+                    # }
+
                     item = {
-                        icon_trait = {
-                            blockoverride "icon_size"
-                            {
-                                size = { 55 55 }
+                        flowcontainer = {
+                            icon_trait = {
+                                # visible = "[Trait.GetGroup]"
+                                visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                                # visible = no
+                                blockoverride "icon_size"
+                                {
+                                    size = { 55 55 }
+                                }
+    
+                                # blockoverride "glow_radius"
+                                # {
+                                #     glow_radius = 4
+                                # }
                             }
+
                         }
                     }
                 }
@@ -145,17 +202,37 @@ types Lists
                     maxhorizontalslots = 7
                     maxverticalslots = 1
 
+                    # item = {
+                    #     icon_trait = {
+                    #         blockoverride "icon_size"
+                    #         {
+                    #             size = { 39 39 } ### URF
+                    #         }
+
+                    #         blockoverride "glow_radius"
+                    #         {
+                    #             glow_radius = 4
+                    #         }
+                    #     }
+                    # }
+
                     item = {
-                        icon_trait = {
-                            blockoverride "icon_size"
-                            {
-                                size = { 39 39 } ### URF
+                        flowcontainer = {
+                            icon_trait = {
+                                # visible = "[Trait.GetGroup]"
+                                visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                                # visible = no
+                                blockoverride "icon_size"
+                                {
+                                    size = { 39 39 }
+                                }
+    
+                                blockoverride "glow_radius"
+                                {
+                                    glow_radius = 4
+                                }
                             }
 
-                            blockoverride "glow_radius"
-                            {
-                                glow_radius = 4
-                            }
                         }
                     }
                 }
@@ -170,46 +247,126 @@ types Lists
                     maxhorizontalslots = 8 ### URF
                     maxverticalslots = 1
 
+                    # item = {
+                    #     icon_trait = {
+                    #         blockoverride "icon_size"
+                    #         {
+                    #             size = { 29 29 }
+                    #         }
+
+                    #         blockoverride "glow_radius"
+                    #         {
+                    #             glow_radius = 3
+                    #         }
+                    #     }
+                    # }
+
                     item = {
-                        icon_trait = {
-                            blockoverride "icon_size"
-                            {
-                                size = { 29 29 }
+                        flowcontainer = {
+                            icon_trait = {
+                                # visible = "[Trait.GetGroup]"
+                                visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                                # visible = no
+                                blockoverride "icon_size"
+                                {
+                                    size = { 29 29 }
+                                }
+    
+                                blockoverride "glow_radius"
+                                {
+                                    glow_radius = 3
+                                }
                             }
 
-                            blockoverride "glow_radius"
-                            {
-                                glow_radius = 3
-                            }
                         }
                     }
                 }
+                
 
-                fixedgridbox = {
-                    name = "traits_tiny"
-                    datamodel = "[TraitArrays.GetTraits]"
-                    visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8')]"
-                    flipdirection = yes
-                    addcolumn = 24
-                    addrow = 25
-                    maxhorizontalslots = 9 ### URF
-                    datamodel_wrap = 9 ### URF
-                    maxverticalslots = 2
 
-                    item = {
-                        icon_trait = {
-                            blockoverride "icon_size"
-                            {
-                                size = { 25 25 }
-                            }
+				scrollbox = {
+					name = "traits_scroller"
+					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)9')]"
+					size = { 0 55 }
+					layoutpolicy_vertical = fixed
+					layoutpolicy_horizontal = expanding
+					scrollbarpolicy_vertical = as_needed
+					blockoverride "scrollbox_margins" {
+							margin = { 0 5 }
+							margin_right = 10
+					}
+					using = Animation_Tab_Switch
+					blockoverride "scrollbox_content"
+					{
+                        # dynamicgridbox = {
+                        #     name = "traits_tiny"
+                        #     datamodel = "[TraitArrays.GetTraits]"
+                        #     flipdirection = yes
+                        #     addcolumn = 24
+                        #     addrow = 25
+                        #     maxhorizontalslots = 9 ### URF
+                        #     datamodel_wrap = 9 ### URF
+                        #     maxverticalslots = 2
+                        #     maxverticalslots = 7
+                        #     item = {
+                        #         widget = {
+                        #             # datacontext = "[ModifierItem.GetStaticModifier]"
+                        #             # visible = no
 
-                            blockoverride "glow_radius"
-                            {
-                                glow_radius = 2
+                        #             icon_trait = {
+                        #                 # visible = "[IsAnElfImmortalityTrait]"
+                        #                 blockoverride "icon_size"
+                        #                 {
+                        #                     size = { 25 25 }
+                        #                 }
+            
+                        #                 blockoverride "glow_radius"
+                        #                 {
+                        #                     glow_radius = 2
+                        #                 }
+                        #             }
+                        #         }
+                        #     }
+                        # }
+
+						spacing = 2
+                        dynamicgridbox = {
+                            name = "traits_tiny"
+                            # datamodel = "[TraitArrays.GetTraitsWithoutFlag(ElfImmortal)]"
+                            datamodel = "[TraitArrays.GetTraits]"
+                            # visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8')]"
+                            flipdirection = yes
+                            addcolumn = 24
+                            addrow = 25
+                            maxhorizontalslots = 9 ### URF
+                            datamodel_wrap = 9 ### URF
+                            # maxverticalslots = 2
+                            maxverticalslots = 7
+                            ignoreinvisible = yes
+        
+                            item = {
+                                flowcontainer = {
+                                    icon_trait = {
+                                        # visible = "[Trait.GetGroup]"
+                                        visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                                        # visible = no
+                                        blockoverride "icon_size"
+                                        {
+                                            size = { 25 25 }
+                                        }
+            
+                                        blockoverride "glow_radius"
+                                        {
+                                            glow_radius = 2
+                                        }
+                                    }
+
+                                }
                             }
                         }
-                    }
-                }
+					}
+				}
+
 
                 expand = {}
             }
@@ -316,31 +473,48 @@ types Lists
                     }
                 }
 
-                fixedgridbox = {
-                    name = "traits_tiny"
-                    datamodel = "[TraitArrays.GetTraits]"
-                    visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6')]" ### URF
-                    flipdirection = yes
-                    addcolumn = 24
-                    addrow = 25
-                    maxhorizontalslots = 6 ### URF
-                    datamodel_wrap = 6 ### URF
-                    maxverticalslots = 2
-
-                    item = {
-                        icon_trait = {
-                            blockoverride "icon_size"
-                            {
-                                size = { 25 25 }
-                            }
-
-                            blockoverride "glow_radius"
-                            {
-                                glow_radius = 2
+                scrollbox = {
+					name = "traits_scroller"
+					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6')]"
+					size = { 0 55 }
+					layoutpolicy_vertical = fixed
+					layoutpolicy_horizontal = expanding
+					scrollbarpolicy_vertical = as_needed
+					blockoverride "scrollbox_margins" {
+							margin = { 0 5 }
+							margin_right = 10
+					}
+					using = Animation_Tab_Switch
+					blockoverride "scrollbox_content"
+					{
+                        fixedgridbox = {
+                            name = "traits_tiny"
+                            datamodel = "[TraitArrays.GetTraits]"
+                            visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)6')]" ### URF
+                            flipdirection = yes
+                            addcolumn = 24
+                            addrow = 25
+                            maxhorizontalslots = 6 ### URF
+                            datamodel_wrap = 6 ### URF
+                            # maxverticalslots = 2
+                            maxverticalslots = 8
+        
+                            item = {
+                                icon_trait = {
+                                    blockoverride "icon_size"
+                                    {
+                                        size = { 25 25 }
+                                    }
+        
+                                    blockoverride "glow_radius"
+                                    {
+                                        glow_radius = 2
+                                    }
+                                }
                             }
                         }
-                    }
-                }
+					}
+				}
 
                 expand = {}
             }
@@ -595,4 +769,71 @@ types Lists
         }
         expand = {}
     }
+}
+
+types Scrollbar
+{
+
+	type scrollbox = scrollarea {
+		size = { 100 100 }
+
+		scrollbarpolicy_horizontal = always_off
+
+		scrollbar_vertical = {
+			using = Scrollbar_Vertical
+		}
+
+		block "scrollbox_background"
+		{
+			background = {
+				using = Background_Area
+			}
+		}
+
+		scrollwidget = {
+			block "scrollbox_replace_vbox"
+			{
+				vbox = {
+					block "scrollbox_margins"
+					{
+						using = Scrollbox_Margins
+					}
+
+					block "scrollbox_content"
+					{
+						debug_square = {}
+					}
+
+					text_single = {
+						layoutpolicy_vertical = expanding
+						default_format = "#weak"
+
+						block "scrollbox_empty"
+						{
+							visible = no
+						}
+					}
+
+					block "scrollbox_expand"
+					{
+						expand = {
+							layoutpolicy_vertical = growing
+						}
+					}
+				}
+			}
+		}
+
+		block "scrollbox_background_fade" {
+			icon = {
+				name = "scrollbar_fade"
+				texture = "gfx/interface/scrollbars/scrollbar_fade.dds"
+				size = { 100% 100% }
+				alwaystransparent = yes
+
+				spriteType = Corneredtiled
+				spriteborder = { 0 30 }
+			}
+		}
+	}
 }

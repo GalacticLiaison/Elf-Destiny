@@ -365,3 +365,7 @@ An artifact that you can transfer levels of your elf ascension to and it grows s
 - could lead to sapiant weapons. maybe telepathically linked to character
 
 plague resistance is used to determine success of spy animals scheme
+
+for direct spark trial use glow effect, use transparent pixels art if needed
+
+maybe we can create an event widget that is just glow orb to absolute position over the emperor's sigil

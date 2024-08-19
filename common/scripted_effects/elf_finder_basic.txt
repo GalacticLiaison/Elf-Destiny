@@ -1,0 +1,38 @@
+﻿elf_finder_set_new_empty_object = { # OBJECT_NAME : string -> scope:$OBJECT_NAME$ -> StoryCycle
+	if = {
+		limit = {
+			any_in_global_list = {
+				variable = elf_finder_gl_empty_objects
+				always = yes
+			}
+		}
+		random_in_global_list = {
+			variable = elf_finder_gl_empty_objects
+			save_scope_as = $OBJECT_NAME$
+		}
+		remove_list_global_variable = { name = elf_finder_gl_empty_objects target = scope:$OBJECT_NAME$ }
+	}
+	else = {
+		random_independent_ruler = {
+			create_story = {
+				type = elf_finder_sc_empty_object
+				save_scope_as = $OBJECT_NAME$
+			}
+		}
+	}
+}
+
+elf_finder_set_delete_empty_object = {
+	add_to_global_variable_list = { name = elf_finder_gl_empty_objects target = $OBJECT_NAME$ }
+}
+
+elf_finder_set_copy_list = {
+    $TO$ = { clear_variable_list = $LIST_NAME$ }
+    every_in_list = {
+        variable = $LIST_NAME$
+        save_temporary_scope_as = slot_value
+        $TO$ = {
+            add_to_variable_list = { name = $LIST_NAME$ target = scope:slot_value } 
+        }  
+    }
+}

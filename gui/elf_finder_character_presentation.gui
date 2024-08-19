@@ -1,0 +1,212 @@
+﻿types elf_finder_character_presentation_types {
+
+    type elf_finder_character_presentation = widget {
+        datacontext = "[Scope.GetCharacter]"
+        size = { 885 94 }
+
+        portrait_head_small = {
+            #size = { 85 90 }
+        }
+
+        widget = {
+            position = { 85 0 }
+            size = { 800 94 }
+
+            # Name and age
+            elf_finder_character_header = {}
+
+            ### BOTTOM ROW ###
+            widget = {
+
+                position = { 0 34 }
+                size = { 800 60 }
+                
+                flowcontainer = {
+                    direction = horizontal
+
+                    button = {
+                        name = "race_button"
+                        # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                        tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+                        using = tooltip_ws
+                        size = { 50 50 }
+    
+                        highlight_icon = {
+                            texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                            size = { 40 40 }
+                            position = { 0 1 }
+                            parentanchor = center
+        
+                            glow = {
+                                # color = { 0 0 0 0.8 }
+                                glow_radius = 4
+                                # using = Color_Blue
+                                using = Color_Bright_Yellow
+                                # using = Color_Green
+                                using = Glow_Standard
+                                # glow_alpha = 1
+                            }
+    
+                            using = Animation_Glow_Pulse
+    
+                            #     state = {
+                            #         name = a
+                            #         next = b
+                            #         alpha = 1
+                            #         trigger_on_create = yes
+                            #         duration = 2
+                            #         using = Animation_Curve_Default
+                            #     }
+    
+                            #     state = {
+                            #         name = b
+                            #         next = a
+                            #         alpha = 0.5
+                            #         duration = 2
+                            #         using = Animation_Curve_Default
+                            #     }
+    
+                        }
+                    }
+    
+                    divider_light = {
+                        layoutpolicy_vertical = expanding
+                    }
+    
+                    elf_finder_character_presentation_traits = {
+                        position = { 90 0 }
+                    }
+                    divider_light = {
+                        layoutpolicy_vertical = expanding
+                    }
+                    spacer = {
+                        size = { 10 0 }
+                    }
+                    # Dynasty
+                    widget = {
+                        size = { 45 40 }
+                        # margin = { 10 0}
+                        # parentanchor = vcenter|left
+                        # widgetanchor = vcenter|left
+                        coa_dynasty_small = {
+                            datacontext = "[Character.GetDynasty]"
+                            # parentanchor = center
+                            # scale = 0.8
+                        }
+                    }
+                    divider_light = {
+                        layoutpolicy_vertical = expanding
+                    }
+                    spacer = {
+                        size = { 20 0 }
+                    }
+
+                    flowcontainer = {
+                        direction = vertical
+                        text_single = {
+                            text = "[Character.GetDynasty.GetBaseNameNoTooltip] Dynasty"
+                            autoresize = yes
+                            maximumsize = { 0 60 }
+                            max_width = 390
+                            using = Font_Type_Flavor
+                            using = Font_Size_Big
+                            default_format = "#high"
+                        }
+
+                        flowcontainer = {
+                            direction = horizontal
+
+                            coa_house_tiny = {
+                                datacontext = "[Character.GetHouse]"
+                                scale = 0.8
+                            }
+    
+                            text_single = {
+                                layoutpolicy_vertical = expanding
+                                text = "House [Character.GetDynastyHouseNameNoTooltip]"
+                                max_width = 320
+    							margin_top = 5
+
+                                # autoresize = yes
+                                # fontsize_min = 14
+                                # align = left
+                                using = Font_Type_Flavor
+                                # using = Font_Size_Big
+                                # default_format = "#high"
+        
+                                state = {
+                                    name = "house_view_refresh"
+                                    using = Animation_Refresh_FadeOut
+                                }
+        
+                                state = {
+                                    using = Animation_Refresh_FadeIn
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                elf_finder_character_buttom_right = {
+                    parentanchor = top|right
+                    widgetanchor = top|right
+                }
+            }
+        }
+    }
+
+    type elf_finder_character_presentation_traits = widget {
+        
+        layoutpolicy_vertical = expanding
+        size = { 210 60 }
+
+        scrollbox = {
+            layoutpolicy_horizontal = fixed
+            layoutpolicy_vertical = expanding
+			scrollbarpolicy_vertical = as_needed
+            using = Animation_Tab_Switch
+			size = { 210 73 }
+
+            blockoverride "scrollbox_margins" {
+                margin = { 0 5 }
+                margin_right = 10
+            }
+
+            blockoverride "scrollbox_content"
+            {
+                dynamicgridbox = {
+                    datamodel = "[Character.GetTraitIndices]"
+                    spacing = 3
+                    addcolumn = 24
+                    addrow = 32
+                    maxhorizontalslots = 6 ### URF
+                    datamodel_wrap = 6 ### URF
+                    # maxverticalslots = 8
+                    flipdirection = yes
+
+                    item = {
+                        spacing = 2
+
+                        icon_trait = {
+                            # visible = "[Trait.GetGroup]"
+                            visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                            datacontext = "[GetTraitForIndex(int32.GetInt)]"
+                            # visible = no
+                            blockoverride "icon_size"
+                            {
+                                size = { 31 31 }
+                            }
+    
+                            blockoverride "glow_radius"
+                            {
+                                glow_radius = 2
+                            }
+                        }
+        
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,90 @@
+﻿window = {
+    name = "elf_finder_window"
+    size = { 980 88% }
+    parentanchor = top|right
+    position = { -300 65 }
+    allow_outside = yes
+    layer = middle
+    visible = "[GetVariableSystem.Exists('elf_finder_window_toggle')]"
+
+    using = Window_Background
+    using = Window_Decoration_Spike
+    
+    state = {
+        name = _show
+        trigger_on_create = yes
+        using = Animation_FadeIn_Quick
+        on_start = "[GetScriptedGui('elf_finder_window').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+    }
+
+    state = {
+        name = _hide
+        using = Animation_FadeOut_Quick
+        on_start = "[GetScriptedGui('close_elf_finder_window').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+    }
+
+    widget = {
+        size = { 980 100% }
+        allow_outside = yes
+        vbox = {
+            name = "elf_finder_character_list"
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            allow_outside = yes
+            using = Window_Margins
+            widget = {
+                size = { 1  95 }
+            }
+            scrollbox = {
+                layoutpolicy_vertical = expanding
+                layoutpolicy_horizontal = expanding
+    
+                blockoverride "scrollbox_content" {
+    
+                    fixedgridbox = {
+                        addcolumn = 900
+                        addrow = 102
+                        name = "characters_grid"
+                        datamodel = "[GetGlobalList('elf_finder_list')]"
+                        visible = "[GetScriptedGui('elf_finder_window').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+                        layoutpolicy_horizontal = expanding
+                        item = {
+                            elf_finder_character_presentation = {
+                                datacontext = "[Scope.GetCharacter]"
+                                # size = { 900 94 }
+                            }
+                        }
+                    }
+                }
+            }
+
+            widget = {
+                size = { 2  60 }
+            } 
+        }
+    
+        elf_finder_header_pattern = {
+            parentanchor = top|hcenter
+            widgetanchor = top|hcenter
+            size = { 910 56 }
+            position = { 12 18 }
+        }
+        elf_finder_hbox_list_sort_buttons = {
+            layoutpolicy_horizontal = expanding
+            position = { 0 56 }
+            size = { 910 56 }
+            parentanchor = top|hcenter
+            widgetanchor = top|hcenter
+            allow_outside = yes
+        }
+        elf_finder_footer = {
+            parentanchor = bottom|hcenter
+            widgetanchor = bottom|hcenter
+            size = { 910 56 }
+            position = { 0 -15 }
+        }
+    }
+    
+
+    elf_finder_window_character_filter = { }
+}

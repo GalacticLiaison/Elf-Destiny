@@ -1,0 +1,101 @@
+﻿character_race_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		race_selection
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED GUI"
+
+		if = {
+			limit = { scope:race_selection = 0 }
+			debug_log = "SCRIPTED GUI human"
+			add_character_flag = race_human
+			urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+		}
+		if = {
+			limit = { scope:race_selection = 1 }
+			debug_log = "SCRIPTED GUI elf_blood"
+
+			set_global_variable = {
+				name = elf_ruler_designer
+				value = yes
+			}
+
+			# add_character_flag = race_elf_blood
+
+			# add_trait = elf
+
+			# if = {
+			# 	limit = {
+			# 		has_character_flag = race_elf_blood
+			# 	}
+			# 	debug_log = "HAS FUKIN FLAG"
+
+			# }
+			# debug_log_scopes = yes
+
+
+			# urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+		}
+		else_if = {
+			limit = { scope:race_selection = 2 }
+			debug_log = "SCRIPTED GUI elf"
+			add_character_flag = race_elf
+			urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+		}
+		else_if = {
+			limit = { scope:race_selection = 3 }
+			debug_log = "SCRIPTED GUI high_elf"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 4 }
+			debug_log = "SCRIPTED GUI true_elf"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 5 }
+			debug_log = "SCRIPTED GUI fae"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 6 }
+			debug_log = "SCRIPTED GUI fae_radiant"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 7 }
+			debug_log = "SCRIPTED GUI celestial"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 8 }
+			debug_log = "SCRIPTED GUI seraphic_celestial"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 9 }
+			debug_log = "SCRIPTED GUI eldar"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 10 }
+			debug_log = "SCRIPTED GUI maiar"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 11 }
+			debug_log = "SCRIPTED GUI valar"	
+		}
+		else_if = {
+			limit = { scope:race_selection = 12 }
+			debug_log = "SCRIPTED GUI aratar"	
+		}
+
+
+        elf_finder_create_elf_list = yes
+
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}

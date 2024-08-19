@@ -1,0 +1,269 @@
+types ElfTooltips
+{
+    type override_race_tooltip = widget
+    {
+        using = GeneralTooltipSetup
+        alwaystransparent = no
+
+        widget = {
+            name = "background"
+            using = DefaultTooltipBackground
+            size = { 100% 100% }
+            alwaystransparent = no
+        }
+
+        vbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            set_parent_size_to_minimum = yes
+            margin = { 15 5 }
+            margin_bottom = 12
+
+            vbox = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                margin = { 6 4 }
+                margin_bottom = 12
+
+                background = {
+                    name = "header"
+                    texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+                    spriteType = Corneredstretched
+                    align = vcenter|left
+                    margin = { 15 0 }
+                    texture_density = 2
+
+                    modify_texture = {
+                        name = "mask"
+                        texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 160 0 }
+                        blend_mode = alphamultiply
+                        alpha = 0.5
+                    }
+
+                    modify_texture = {
+                        name = "overlay"
+                        texture = "gfx/interface/component_overlay/overlay_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 0 0 }
+                        blend_mode = overlay
+                    }
+                }
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+                            spacing = 10
+
+                            button = {
+                                name = "race_icon"
+
+                                block "tooltip_race_icon_texture" {
+                                    texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+                                }
+                                # texture = "[GetCultureInnovationType(urf_phenotype_elf).GetIcon]"
+                                size = { 45 45 }
+                            }
+
+                            text_single = {
+                                layoutpolicy_horizontal = expanding
+                                name = "header"
+                                # text = "RACE_COOLTIP_GETNAME"
+                                block "tooltip_race_icon_name" {
+                                    text = "RACE_COOLTIP_GETNAME"
+                                }
+                                fonttintcolor = "[TooltipInfo.GetTintColor]"
+                                align = top
+                                using = Font_Type_Flavor
+                                using = Font_Size_Big
+                            }
+
+                            expand = {}
+
+                            text_single = {
+                                layoutpolicy_horizontal = expanding
+                                layoutpolicy_vertical = expanding
+                                text = "[race|E]"
+                                fonttintcolor = "[TooltipInfo.GetTintColor]"
+                                align = vcenter|right
+                            }
+                        }
+                    }
+                }
+            }
+
+            vbox = {
+                spacing = 0
+                margin = { 0 10 }
+                layoutpolicy_horizontal = expanding
+
+                container = {
+                    layoutpolicy_horizontal = expanding
+
+                    background = {
+                        texture = "gfx/interface/component_tiles/tile_window_background_popup.dds"
+                        spriteType = Corneredtiled
+                        spriteborder = { 18 18 }
+                        margin_top = 15
+                        margin_bottom = 15
+                        texture_density = 2
+
+                        modify_texture = {
+                            name = "overlay"
+                            texture = "gfx/interface/component_overlay/overlay_effect.dds"
+                            spriteType = Corneredstretched
+                            spriteborder = { 0 0 }
+                            blend_mode = overlay
+                        }
+                    }
+
+                    text_single = {
+                        layoutpolicy_horizontal = expanding
+                        multiline = yes
+                        maximumsize = { 400 300 }
+                        block "tooltip_race_icon_desc" {
+                            text = "RACE_DESCRIPTION"
+                        }
+                        align = center
+                        margin_right = 20
+                        margin_left = 20
+                        margin_top = 5
+                        margin_bottom = 10
+                    }
+                }
+            }
+        }
+    }
+
+	type elf_filter_tooltip = widget
+    {
+        using = GeneralTooltipSetup
+        alwaystransparent = no
+
+        widget = {
+            name = "background"
+            using = DefaultTooltipBackground
+            size = { 100% 100% }
+            alwaystransparent = no
+        }
+
+        vbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            set_parent_size_to_minimum = yes
+            margin = { 15 5 }
+            margin_bottom = 12
+
+            vbox = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                margin = { 6 4 }
+                margin_bottom = 12
+
+                background = {
+                    name = "header"
+                    texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+                    spriteType = Corneredstretched
+                    align = vcenter|left
+                    margin = { 15 0 }
+                    texture_density = 2
+
+                    modify_texture = {
+                        name = "mask"
+                        texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 160 0 }
+                        blend_mode = alphamultiply
+                        alpha = 0.5
+                    }
+
+                    modify_texture = {
+                        name = "overlay"
+                        texture = "gfx/interface/component_overlay/overlay_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 0 0 }
+                        blend_mode = overlay
+                    }
+                }
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+                            spacing = 0
+
+							text_single = {
+                                layoutpolicy_horizontal = expanding
+                                block "elf_filter_tooltip_filter_category" {
+                                    text = ""
+                                }
+                                fonttintcolor = "[TooltipInfo.GetTintColor]"
+                                align = top
+                                using = Font_Size_Medium
+                                default_format = "#high;bold;glow_color:{0,0,0,1}"
+                            }
+
+                            expand = {}
+
+                        }
+
+                    }
+                }
+            }
+
+            vbox = {
+                spacing = 0
+                margin = { 0 10 }
+                layoutpolicy_horizontal = expanding
+
+                container = {
+                    layoutpolicy_horizontal = expanding
+
+                    background = {
+                        texture = "gfx/interface/component_tiles/tile_window_background_popup.dds"
+                        spriteType = Corneredtiled
+                        spriteborder = { 18 18 }
+                        margin_top = 15
+                        margin_bottom = 15
+                        texture_density = 2
+
+                        modify_texture = {
+                            name = "overlay"
+                            texture = "gfx/interface/component_overlay/overlay_effect.dds"
+                            spriteType = Corneredstretched
+                            spriteborder = { 0 0 }
+                            blend_mode = overlay
+                        }
+                    }
+
+                    
+                    text_single = {
+                        layoutpolicy_horizontal = expanding
+                        block "elf_filter_tooltip_filter_value" {
+                            text = ""
+                        }
+                        fonttintcolor = "[TooltipInfo.GetTintColor]"
+                        using = Font_Size_Small
+                        align = center
+                        margin_right = 20
+                        margin_left = 20
+                        margin_top = 5
+                        margin_bottom = 10
+                    }
+                }
+            }
+        }
+	}
+}
