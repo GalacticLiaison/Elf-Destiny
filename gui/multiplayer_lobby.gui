@@ -385,6 +385,22 @@ JominiMultiplayerLobby = {
 										button = {
 											name = "race_button"
 											texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+
+											tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+
+											using = tooltip_ws
+											size = { 40 40 }
+										}
+									}
+								}
+								hbox = {
+									visible = "[Not( Character.MakeScope.Var('urf_phenotype').IsSet)]"
+									container = {
+										button = {
+											name = "race_button"
+											# texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+											texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+
 											tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
 
 											using = tooltip_ws

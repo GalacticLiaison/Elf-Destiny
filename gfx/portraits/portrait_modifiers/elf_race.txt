@@ -1,134 +1,127 @@
 ﻿visual_traits_elves = {
-    full_elf_transform = {
-        dna_modifiers = {
-            # morph = {
-            # 	mode = modify_multiply
-            # 	gene = gene_age
-            # 	value = 1.0
-            # 	template = no_aging
-            # }
-            # morph = {
-            # 	mode = modify_multiply
-            # 	gene = gene_bs_body_type
-            # 	value = 1.0
-            # 	template = body_average
-            # }
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_1
-                template = elf_ears_1
-                value = 0.5
-            }
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_2
-                template = elf_ears_2
-                value = 0.5
-            }
-        }
-
-
+    elf_1_transform = {
+		trigger = {
+            always = yes
+		}
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_1
+				template = elf_ears_1
+				value = 0.5
+			}
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_2
+				template = elf_ears_2
+				value = 0.5
+			}
+		}
         weight = {
             base = 0
 
             modifier = {
                 add = 100
 
-                age > 25
-
                 OR = {
+                    is_elf_blood = yes
                     is_elf = yes
                     is_high_elf = yes
+                    has_trait = stone_automaton
+                    has_trait = marble_automaton
+                    AND = {
+                        NOT = {
+                            has_variable = urf_phenotype
+                        }
+                        global_var:ruler_designer_ear_type = flag:elf_1
+                    }
+                }
+            }
+        }
+	}
+	elf_2_transform = {
+		trigger = {
+            always = yes
+		}
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_1
+				template = elf_ears_1
+				value = 0.75
+			}
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_2
+				template = elf_ears_2
+				value = 0.75
+			}
+		}
+        weight = {
+            base = 0
+
+            modifier = {
+                add = 100
+
+                OR = {
                     is_true_elf = yes
                     is_fae = yes
                     is_fae_radiant = yes
+                    AND = {
+                        NOT = {
+                            has_variable = urf_phenotype
+                        }
+                        global_var:ruler_designer_ear_type = flag:elf_2
+                    }
+                }
+            }
+        }
+	}
+	elf_3_transform = {
+		trigger = {
+            always = yes
+		}
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_1
+				template = elf_ears_1
+				value = 1
+			}
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_2
+				template = elf_ears_2
+				value = 1
+			}
+		}
+        weight = {
+            base = 0
+
+            modifier = {
+                add = 100
+
+                OR = {
                     is_celestial = yes
                     is_seraphic_celestial = yes
                     is_eldar = yes
                     is_maiar = yes
                     is_valar = yes
                     is_aratar = yes
-                    has_trait = stone_automaton
-                    has_trait = marble_automaton
-                    has_trait = elf_ears_1
-                    has_trait = elf_ears_2
-                    has_trait = elf_ears_3
-                    # has_global_variable = 01_sigil_of_the_realm_lord_found
+                    AND = {
+                        NOT = {
+                            has_variable = urf_phenotype
+                        }
+                        global_var:ruler_designer_ear_type = flag:elf_3
+                    }
                 }
             }
+
+            # modifier = {
+            #     add = 100
+            # }
         }
-    }
-    elf_blood_transform = {
-        dna_modifiers = {
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_1
-                template = elf_ears_1
-                value = 0.5
-            }
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_2
-                template = default_1
-                value = 0.5
-            }
-        }
-
-        weight = {
-            base = 0
-
-            modifier = {
-                add = 100
-
-                is_elf_blood = yes
-            }
-        }
-    }
-    full_elf_ears_pre_adult = {
-        dna_modifiers = {
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_1
-                template = elf_ears_1
-                value = 0.5
-            }
-            morph = {
-                mode = replace
-                gene = race_gene_elf_ears_2
-                template = elf_ears_2
-                value = 0.5
-            }
-        }
-
-        weight = {
-            base = 0
-
-            modifier = {
-                add = 100
-
-                age <= 25
-
-                OR = {
-                    is_elf = yes
-                    is_high_elf = yes
-                    is_true_elf = yes
-                    is_fae = yes
-                    is_fae_radiant = yes
-                    is_celestial = yes
-                    is_seraphic_celestial = yes
-                    is_eldar = yes
-                    is_maiar = yes
-                    is_valar = yes
-                    is_aratar = yes
-                    has_trait = stone_automaton
-                    has_trait = marble_automaton
-                    has_trait = elf_ears_1
-                    has_trait = elf_ears_2
-                    has_trait = elf_ears_3
-                }
-            }
-        }
-    }
+	}
     human = {
         trigger = {
             always = yes

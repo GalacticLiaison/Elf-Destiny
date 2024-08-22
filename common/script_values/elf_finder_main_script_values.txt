@@ -260,7 +260,10 @@ magic_souce = {
 elf_finder_sort_value = {
     value = 0
     if = {
-        limit = { global_var:elf_finder_sort_by < 10 }
+        limit = {
+            exists = global_var:elf_finder_sort_by
+            global_var:elf_finder_sort_by < 10
+        }
         if = {
             limit = { global_var:elf_finder_sort_by < 5 }
             if = {
@@ -441,7 +444,13 @@ elf_finder_total_number_of_characters = {
 }
 
 elf_finder_select_count = {
-    value = global_var:elf_finder_select_count
+    value = 0
+    if = {
+        limit = {
+            exists = global_var:elf_finder_select_count
+        }
+        add = global_var:elf_finder_select_count
+    }
 }
 
 elf_finder_num_of_bad_genetic_traits_modified = {

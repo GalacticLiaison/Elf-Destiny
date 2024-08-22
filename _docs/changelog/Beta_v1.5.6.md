@@ -58,6 +58,10 @@ add a is at war button?
 - Elf Trait bonus background art
 - Fix Immortality
 - Finish character designer select race
-- Extended Elf Ears
+    - disable already selected race option
 - Aeluran Wardrobe
 - portrait_wear_no_armor_trigger
+- fix scrollable trait lists
+- clear out errors in error file
+- human icon should not glow in character window
+- race tooltip elf icons dont glow
