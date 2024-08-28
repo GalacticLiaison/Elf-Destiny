@@ -401,7 +401,7 @@ JominiMultiplayerLobby = {
 											# texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
 											texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
 
-											tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+											tooltipwidget = { multiplayer_lobby_race_fallback_tooltip = {} }
 
 											using = tooltip_ws
 											size = { 40 40 }
@@ -409,6 +409,7 @@ JominiMultiplayerLobby = {
 									}
 								}
 								text_single = {
+									visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
 									layoutpolicy_horizontal = expanding
 									text = "RACE_LOBBY_TEXT"
 									default_format = "#clickable;italic"
@@ -416,6 +417,18 @@ JominiMultiplayerLobby = {
 									max_width = 220
 
 									tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+
+									using = tooltip_ws
+								}
+								text_single = {
+									visible = "[Not( Character.MakeScope.Var('urf_phenotype').IsSet)]"
+									layoutpolicy_horizontal = expanding
+									text = "RACE_LOBBY_TEXT_CUSTOM_CHARACTER"
+									default_format = "#clickable;italic"
+									align = nobaseline
+									max_width = 220
+
+									tooltipwidget = { multiplayer_lobby_race_fallback_tooltip = {} }
 
 									using = tooltip_ws
 								}

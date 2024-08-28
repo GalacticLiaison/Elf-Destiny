@@ -72,6 +72,7 @@ types Lists
                         parentanchor = center
     
                         glow = {
+                            visible = "[Not(EqualTo_string(CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName, 'human') )]"
                             # color = { 0 0 0 0.8 }
                             glow_radius = 4
                             # using = Color_Blue
@@ -215,6 +216,8 @@ types Lists
                     #         }
                     #     }
                     # }
+                    
+
 
                     item = {
                         flowcontainer = {
@@ -286,7 +289,7 @@ types Lists
 
 				scrollbox = {
 					name = "traits_scroller"
-					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)9')]"
+					visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8')]"
 					size = { 0 55 }
 					layoutpolicy_vertical = fixed
 					layoutpolicy_horizontal = expanding
@@ -331,13 +334,13 @@ types Lists
 
 						spacing = 2
                         dynamicgridbox = {
-                            name = "traits_tiny"
+                            name = "traits_tiny_scroll"
                             # datamodel = "[TraitArrays.GetTraitsWithoutFlag(ElfImmortal)]"
                             datamodel = "[TraitArrays.GetTraits]"
                             # visible = "[GreaterThan_int32(GetDataModelSize(TraitArrays.GetTraits), '(int32)8')]"
                             flipdirection = yes
-                            addcolumn = 24
-                            addrow = 25
+                            # addcolumn = 24
+                            # addrow = 25
                             maxhorizontalslots = 9 ### URF
                             datamodel_wrap = 9 ### URF
                             # maxverticalslots = 2

@@ -280,23 +280,17 @@ window = {
 									vbox = {
 										name = "race"
 										layoutpolicy_vertical = expanding
+										spacing = 5
 
 
-										vbox = {
-											layoutpolicy_horizontal = expanding
 
-											hbox = {
-												layoutpolicy_horizontal = expanding
-
-												text_label_left = {
-													text = "Race"
-													max_width = 250
-													autoresize = yes
-													using = Font_Size_Medium
-												}
-											}
+										text_label_left = {
+											text = "RULER_DESIGNER_RACE_LIST_LABEL"
+											max_width = 250
+											autoresize = yes
+											using = Font_Size_Big
 										}
-
+										
 										elf_filter_button_small = {
 											blockoverride "elf_click_button_effect" {
 												datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
@@ -325,7 +319,7 @@ window = {
 												visible = no
 											}
 											blockoverride "elf_filter_button_tooltip" {
-												tooltipwidget = { override_race_tooltip = {} }
+												tooltipwidget = { multiplayer_lobby_race_fallback_tooltip = {} }
 											}
 											blockoverride "tooltip_race_icon_texture"  {
 												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
@@ -1130,6 +1124,8 @@ window = {
 								minimumsize = { 300 50% }
 								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
 
+								# enabled = no
+
 								state = {
 									name = _mouse_press
 									on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
@@ -1145,6 +1141,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human') )]"
 	
 									elf_filter_button_small = {
 				
@@ -1165,14 +1162,14 @@ window = {
 											texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
 										}
 										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
+
 										}
 										blockoverride "elf_icon_glow_enabled" {
 											# visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
 											visible = no
 										}
 										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' ) )]"
+											visible = no
 										}
 										blockoverride "elf_filter_button_tooltip" {
 											tooltipwidget = { override_race_tooltip = {} }
@@ -1217,6 +1214,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood') )]"
 	
 									elf_filter_button_small = {
 				
@@ -1288,6 +1286,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1358,6 +1357,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1429,6 +1429,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1498,6 +1499,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1567,6 +1569,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1638,6 +1641,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1707,6 +1711,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1777,6 +1782,8 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar') )]"
+
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
 											state = {
@@ -1847,6 +1854,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar') )]"
 	
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1916,6 +1924,7 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar') )]"
 									
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
@@ -1986,6 +1995,8 @@ window = {
 								flowcontainer = {
 									direction = horizontal
 									spacing = 10
+									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar') )]"
+
 									elf_filter_button_small = {
 										blockoverride "elf_click_button_effect" {
 											state = {
@@ -2087,7 +2098,7 @@ window = {
 
 					button_standard = {
 						parentanchor = bottom|hcenter
-						text = "Toggle Nudity"
+						text = "RULER_DESIGNER_TOGGLE_NUDITY"
 						datacontext = "[GetScriptedGui( 'undress_brd' )]"
 														
 						state = {
