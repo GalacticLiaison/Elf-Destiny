@@ -1,0 +1,275 @@
+﻿portrait_elf_no_armor_trigger = {
+    OR = {
+        has_trait = magi
+    }
+}
+
+
+portrait_wear_helmet_trigger = { # Different from Armor, as Counts+ should show their crowns!
+    exists = this
+    trigger_if = {
+        limit = { exists = involved_activity }
+        involved_activity = {
+            NOR = {
+                has_activity_type = activity_hunt
+                has_activity_type = activity_pilgrimage
+            }
+        }
+    }
+    OR = {
+        # Mercenaries
+        AND = {
+            is_ruler = yes
+            government_has_flag = government_is_mercenary
+        }
+        # Holy Orders
+        AND = {
+            is_ruler = yes
+            government_has_flag = government_is_holy_order
+        }
+        has_trait = order_member
+        # Commanding and lower than a Duke
+        AND = {
+            is_commanding_army = yes
+            OR = {
+                is_landed = no
+                AND = {
+                    exists = primary_title
+                    primary_title.tier < tier_duchy
+                }
+            }
+        }
+        # Knight in an army
+        exists = knight_army
+        # Non-Council Knight lower than Duke and liege is at war
+        AND = {
+            is_knight = yes
+            is_councillor = no
+            OR = {
+                is_landed = no
+                AND = {
+                    exists = primary_title
+                    primary_title.tier < tier_duchy
+                    liege = { is_at_war = yes }
+                }
+            }
+        }
+        # Marshal lower than Duke
+        AND = {
+            has_council_position = councillor_marshal
+            OR = {
+                is_landed = no
+                primary_title.tier < tier_duchy
+            }
+        }
+        has_character_flag = wear_armor
+        # Serving Varangian
+        has_character_flag = is_currently_varangian
+        # In a Duel
+        has_character_flag = single_combat_duel_armor
+        # In a Tournament
+        activity_tournament_armor_trigger = yes
+    }
+    NOR = {
+        activity_tournament_shirtless_trigger = yes
+        has_character_flag = no_hat
+    }
+    # Not peasants leading revolts
+    NAND = {
+        has_trait = peasant_leader
+        OR = {
+            is_ruler = no
+            is_leading_faction_type = peasant_faction
+            AND = {
+                is_ruler = yes
+                is_landed = no
+                OR = {
+                    government_has_flag = government_is_feudal
+                    government_has_flag = government_is_clan
+                }
+            }
+        }
+    }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_commoner_armor_trigger = {
+    portrait_commoner_trigger = {
+        CULTURE_INPUT = $CULTURE_INPUT$
+    }
+    OR = {
+        has_character_flag = need_military_outfit
+        portrait_wear_armor_trigger = yes
+    }
+    NOT = { portrait_accoladed_knight_trigger = yes }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_commoner_armor_in_army_trigger = {
+    portrait_commoner_trigger = {
+        CULTURE_INPUT = $CULTURE_INPUT$
+    }
+    portrait_wear_armor_currently_in_army_trigger = yes
+    NOT = { portrait_accoladed_knight_trigger = yes }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_low_nobles_armor_trigger = {
+    OR = {
+        portrait_low_nobles_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+        court_fashion_level_4_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+    }
+    OR = {
+        has_character_flag = need_military_outfit
+        portrait_wear_armor_trigger = yes
+    }
+    NOT = { portrait_accoladed_knight_trigger = yes }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_low_nobles_armor_in_army_trigger = {
+    OR = {
+        portrait_low_nobles_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+        court_fashion_level_4_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+    }
+    portrait_wear_armor_currently_in_army_trigger = yes
+    NOT = { portrait_accoladed_knight_trigger = yes }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_high_nobles_armor_trigger = {
+    OR = {
+        portrait_high_nobles_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+        AND = {
+            portrait_accoladed_knight_trigger = yes
+            portrait_$CULTURE_INPUT$_clothing_trigger = yes
+        }
+        court_fashion_level_5_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+    }
+    OR = {
+        has_character_flag = need_military_outfit
+        portrait_wear_armor_trigger = yes
+    }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_high_nobles_armor_in_army_trigger = {
+    OR = {
+        portrait_high_nobles_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+        court_fashion_level_5_trigger = {
+            CULTURE_INPUT = $CULTURE_INPUT$
+        }
+    }
+    portrait_wear_armor_currently_in_army_trigger = yes
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_royalty_armor_trigger = {
+    portrait_royalty_trigger = {
+        CULTURE_INPUT = $CULTURE_INPUT$
+    }
+    OR = {
+        has_character_flag = need_military_outfit
+        portrait_wear_armor_trigger = yes
+    }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_royalty_armor_in_army_trigger = {
+    portrait_royalty_trigger = {
+        CULTURE_INPUT = $CULTURE_INPUT$
+    }
+    portrait_wear_armor_currently_in_army_trigger = yes
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_war_nobles_helmet_trigger = {
+    exists = this
+    portrait_wear_helmet_trigger = yes
+    portrait_$CULTURE_INPUT$_clothing_trigger = yes
+    NOR = {
+        AND = {
+            religion = religion:christianity_religion
+            government_has_flag = government_is_holy_order
+        }
+        AND = {
+            religion = religion:christianity_religion
+            is_landed = no
+            portrait_wear_armor_trigger = yes
+            exists = liege
+            liege = {
+                government_has_flag = government_is_holy_order
+            }
+        }
+        AND = {
+            religion = religion:christianity_religion
+            portrait_wear_armor_trigger = yes
+            OR = {
+                any_character_war = {
+                    OR = {
+                        using_cb = undirected_great_holy_war
+                        using_cb = directed_great_holy_war
+                    }
+                    is_attacker = prev
+                }
+                any_liege_or_above = {
+                    faith = prev.faith
+                    any_character_war = {
+                        OR = {
+                            using_cb = undirected_great_holy_war
+                            using_cb = directed_great_holy_war
+                        }
+                        is_attacker = prev
+                    }
+                }
+            }
+        }
+    }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
+
+portrait_war_nobles_fancy_helmet_trigger = {
+    portrait_can_use_noble_headgear_trigger = yes
+    OR = { # This helmet is really fancy & gilded - it's nothing for commoners. We allow Dukes+ to use it sometimes, just because it suits them!
+        AND = {
+            has_council_position = councillor_marshal
+            OR = {
+                is_landed = no
+                primary_title.tier >= tier_duchy
+            }
+        }
+        AND = {
+            is_commanding_army = yes
+            AND = {
+                exists = primary_title
+                primary_title.tier >= tier_duchy
+            }
+        }
+    }
+    # Elf Destiny
+    portrait_elf_no_armor_trigger = no
+}
