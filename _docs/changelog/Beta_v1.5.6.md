@@ -2,7 +2,7 @@
 
 Added the United Race Framework to the Mod!
 - Elf will no longer be a trait but a race!
-- Made updates throughout the m,od to support this!
+- Made updates throughout the mod to support this!
 
 Added Elf Finder Tool!
 - Now players have a much easier way to find Elves!
