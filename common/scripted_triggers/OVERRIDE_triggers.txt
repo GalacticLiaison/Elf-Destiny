@@ -111,15 +111,6 @@ valid_demand_conversion_conditions_trigger = {
 	}
 }
 
-# portrait_wear_no_armor_trigger = {
-# 	OR = {
-# 		has_trait = magi
-# 		NOR = { 
-# 			portrait_wear_armor_trigger = yes
-# 			portrait_wear_armor_currently_in_army_trigger = yes
-# 		}
-# 	}
-# }
 
 portrait_wear_armor_trigger = {
 	exists = this
@@ -279,5 +270,18 @@ portrait_wear_helmet_trigger = { # Different from Armor, as Counts+ should show 
 				}
 			}
 		}
+	}
+}
+
+portrait_wear_armor_currently_in_army_trigger = {
+	exists = this
+	# Elf Destiny
+	NOT = { 
+		has_trait = magi
+	}
+	# Elf Destiny
+	OR = {
+		is_commanding_army = yes
+		exists = knight_army
 	}
 }
