@@ -1,0 +1,143 @@
+﻿urf_for_all_phenotypes = {
+    #Elf Destiny
+    if = {
+        limit = {
+            flag:$APPLY$ = flag:urf_base_race_init
+        }
+        urf_elf_race_init = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    }
+    else = {
+        $APPLY$ = { RACE = elf SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    }
+    #End Elf Destiny
+
+    if = {
+        limit = {
+            urf_race_initialized = no
+        }
+        $APPLY$ = { RACE = human SAPIENCE_VALUE = 200 SAPIENCE_LEVEL = mitle_sapient }
+    }
+}
+
+urf_game_start_init = {
+    every_living_character = {
+        if = {
+            limit = { NOT = { urf_race_initialized = yes } }
+            urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+        }
+    }
+}
+
+urf_game_start_lobby_init = {
+    every_living_character = {
+        if = {
+            limit = { NOT = { urf_has_sapience_presence = yes } }
+            urf_clear_sapience = yes
+        }
+        if = {
+            limit = { NOT = { urf_race_initialized = yes } }
+            urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+        }
+    }
+}
+
+urf_template_base_race_init = {
+    if = {
+        limit = { NOT = { urf_race_initialized = yes } }
+        urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+    }
+}
+
+# Elf Destiny
+
+urf_elf_race_init = {
+    if = {
+        limit = { urf_race_$RACE$_trigger = yes }
+        urf_remove_modifier = yes
+        remove_character_flag = urf_sub_race_set
+        urf_set_genotype_elf = yes
+        urf_elf_race_sub_init = yes
+        urf_set_sapience_init = { VAL = $SAPIENCE_VALUE$ LEVEL = $SAPIENCE_LEVEL$ }
+    }
+}
+urf_elf_race_sub_init = {
+    urf_elf_race_set_sub = { SUB_RACE = aratar }
+    urf_elf_race_set_sub = { SUB_RACE = valar }
+    urf_elf_race_set_sub = { SUB_RACE = maiar }
+    urf_elf_race_set_sub = { SUB_RACE = eldar }
+    urf_elf_race_set_sub = { SUB_RACE = seraphic_celestial }
+    urf_elf_race_set_sub = { SUB_RACE = celestial }
+    urf_elf_race_set_sub = { SUB_RACE = fae_radiant }
+    urf_elf_race_set_sub = { SUB_RACE = fae }
+    urf_elf_race_set_sub = { SUB_RACE = true_elf }
+    urf_elf_race_set_sub = { SUB_RACE = high_elf }
+    urf_elf_race_set_sub = { SUB_RACE = elf }
+    urf_elf_race_set_sub = { SUB_RACE = elf_blood }
+}
+urf_elf_race_set_sub = {
+    if = {
+        limit = {
+            NOT = {
+                has_character_flag = urf_sub_race_set
+            }
+            var:urf_genotype_elf >= $SUB_RACE$_genetic_threshold_value
+        }
+        urf_set_race_phenotype = {
+            RACE_PHENOTYPE = $SUB_RACE$
+        }
+        urf_base_modifier_init = { RACE = $SUB_RACE$ }
+        if = {
+            limit = {
+                NOT = {
+                    flag:$SUB_RACE$ = flag:elf_blood
+                }
+            }
+
+            if = {
+                limit = {
+                    age >= 20
+                    age < life_expectancy_$SUB_RACE$
+                }
+                add_trait = elven_immortality
+            }
+            else = {
+                add_trait = elven_mortality
+            }
+        }
+        add_character_flag = urf_sub_race_set
+    }
+}
+
+urf_remove_modifier = {
+    remove_character_modifier = urf_phenotype_human_modifier
+    remove_character_modifier = urf_phenotype_elf_blood_modifier
+    remove_character_modifier = urf_phenotype_elf_modifier
+    remove_character_modifier = urf_phenotype_high_elf_modifier
+    remove_character_modifier = urf_phenotype_true_elf_modifier
+    remove_character_modifier = urf_phenotype_fae_modifier
+    remove_character_modifier = urf_phenotype_fae_radiant_modifier
+    remove_character_modifier = urf_phenotype_celestial_modifier
+    remove_character_modifier = urf_phenotype_seraphic_celestial_modifier
+    remove_character_modifier = urf_phenotype_eldar_modifier
+    remove_character_modifier = urf_phenotype_maiar_modifier
+    remove_character_modifier = urf_phenotype_valar_modifier
+    remove_character_modifier = urf_phenotype_aratar_modifier
+}
+
+# End Elf Destiny
+
+urf_base_race_init = {
+    if = {
+        limit = { urf_race_$RACE$_trigger = yes }
+        urf_set_race_phenotype = {
+            RACE_PHENOTYPE = $RACE$
+        }
+        urf_set_genotype_base = { RACE = $RACE$ }
+        urf_base_modifier_init = { RACE = $RACE$ }
+        urf_set_sapience_init = { VAL = $SAPIENCE_VALUE$ LEVEL = $SAPIENCE_LEVEL$ }
+    }
+}
+
+urf_base_modifier_init = {
+    add_character_modifier = urf_phenotype_$RACE$_modifier
+}

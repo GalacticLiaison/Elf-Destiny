@@ -1,0 +1,56 @@
+﻿GetRacialDescription = {
+    type = character
+
+    text = {
+        trigger = {
+            urf_human_phenotype_trigger = yes
+        }
+        localization_key = game_concept_human_desc
+    }
+}
+
+GetRacialSapienceLevel = {
+    type = character
+
+	text = {
+		trigger = {
+			var:urf_sapience_level = flag:non_sapient
+		}
+		localization_key = RACE_SAPIENT
+	}
+
+    text = {
+        trigger = {
+            var:urf_sapience_level = flag:low_sapient
+        }
+        localization_key = RACE_LOW_SAPIENT
+    }
+
+    text = {
+        trigger = {
+            var:urf_sapience_level = flag:mitle_sapient
+        }
+        localization_key = RACE_MITLE_SAPIENT
+    }
+
+    text = {
+        trigger = {
+            var:urf_sapience_level = flag:ethereal_sapient
+        }
+        localization_key = RACE_ETHEREAL_SAPIENT
+    }
+}
+
+GetRacialModifiers = {
+    type = character
+
+    text = {
+        trigger = { urf_for_all_phenotypes_trigger = { APPLY = urf_has_a_race_modifier } }
+        localization_key = RACE_MODIFIERS_DISPLAYED
+    }
+    text = {
+        trigger = { always = no }
+        fallback = yes
+        localization_key = RACE_MODIFIERS_EMPTY
+    }
+}

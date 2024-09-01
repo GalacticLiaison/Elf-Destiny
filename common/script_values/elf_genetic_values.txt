@@ -1,0 +1,140 @@
+﻿@genetic_base_value = 8.333
+
+elf_blood_genetic_threshold_value = {
+    value = @genetic_base_value
+}
+
+elf_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 2
+}
+
+high_elf_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 3
+}
+
+true_elf_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 4
+}
+
+fae_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 5
+}
+
+fae_radiant_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 6
+}
+
+celestial_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 7
+}
+
+seraphic_celestial_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 8
+}
+
+eldar_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 9
+}
+
+maiar_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 10
+}
+
+valar_genetic_threshold_value = {
+    value = @genetic_base_value
+    multiply = 11
+}
+
+aratar_genetic_threshold_value = {
+    value = 100
+}
+
+elf_genetic_assignment_strength_value = {
+    value = 0
+    if = {
+        limit = {
+            has_character_flag = race_elf_blood
+        }
+        add = elf_blood_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_elf
+        }
+        add = elf_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_high_elf
+        }
+        add = high_elf_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_true_elf
+        }
+        add = true_elf_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_fae
+        }
+        add = fae_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_fae_radiant
+        }
+        add = fae_radiant_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_celestial
+        }
+        add = celestial_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_seraphic_celestial
+        }
+        add = seraphic_celestial_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_eldar
+        }
+        add = eldar_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_maiar
+        }
+        add = maiar_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_valar
+        }
+        add = valar_genetic_threshold_value
+    }
+    else_if = {
+        limit = {
+            has_character_flag = race_aratar
+        }
+        add = aratar_genetic_threshold_value
+    }
+}
+
+human_genetic_assignment_strength_value = {
+    value = 100
+    subtract = elf_genetic_assignment_strength_value
+}

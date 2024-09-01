@@ -1,137 +1,21 @@
-﻿# elf_tier_1 = {
-# 	elf_slow_aging = {
-# 		traits = {
-# 			elf_blood
-# 		}
-# 		dna_modifiers = {
-# 			morph = {
-# 				mode = modify_multiply
-# 				gene = gene_age
-# 				value = 1.0
-# 				template = old_beauty_1
-# 			}
-# 		}
-# 	}
-
-# 	elf_ageless = {
-# 		traits = {
-# 			elf
-# 			high_elf
-# 		}
-# 		dna_modifiers = {
-# 			morph = {
-# 				mode = modify_multiply
-# 				gene = gene_age
-# 				value = 1.0
-# 				template = no_aging
-# 			}
-# 		}
-# 	}	
-# }
-
-# ksd_glamour = {
-# 	ksd_glamour = {
-# 		traits = {
-# 			ksd_glamour
-# 		}
-# 		dna_modifiers = {
-# 			morph = {
-# 				mode = modify_multiply
-# 				gene = gene_bs_body_type
-# 				value = 1.0
-# 				template = body_average
-# 			}
-# 		}
-# 	}
-# }
-
-# // TODO investigae this code for bust size
-# morph = {
-# 	mode = modify_multiply
-# 	gene = gene_bs_bust
-# 	value = 0.8 # Setting this lower to reduce the exaggerated effect of large bust size when wearing clothes
-# 	template = bust_clothes
-# }   
-
-# aeluran_clothes = {
-# 	aeluran_high_matriarch_clothes = {
-# 		traits = {
-# 			aeluran_high_matriarch
-# 		}
-# 		dna_modifiers = {
-#             accessory = {
-#                 mode = add
-#                 gene = clothes
-#                 template = aeluran_high_matriarch_clothes
-#                 # range = { 0 1 }
-#             }
-# 			accessory = {
-#                 mode = add
-#                 gene = cloaks
-#                 template = ep2_cloak_western_era1_low_nobility
-#                 # range = { 0 1 }
-#             }
-# 			accessory = {
-#                 mode = add
-#                 gene = headgear
-#                 template = aeluran_high_matriarch_veils
-#                 # range = { 0 1 }
-#             }
-# 		}
-# 	}
-# }
-
-visual_traits_elves = {
-	full_elf_transform = {
+﻿# Ruler Designer Only
+elf_ruler_designer_ears = {
+	elf_1_transform = {
 		traits = { 
-			elf
-			high_elf
-			true_elf
-			fae
-			fae_radiant
-			celestial
-			seraphic_celestial
-			eldar
-			maiar
-			valar
-			aratar
-			elf_mortal
-			high_elf_mortal
-			true_elf_mortal
-			fae_mortal
-			fae_radiant_mortal
-			celestial_mortal
-			seraphic_celestial_mortal
-			eldar_mortal
-			maiar_mortal
-			valar_mortal
-			aratar_mortal
-			stone_automaton
-			marble_automaton
+
 		}
 		trigger = {
+			# portrait_ruler_designer_trigger = yes
+
 			trigger_if = {
 				limit = {
-					exists = root
+					exists = global_var:ruler_designer_ear_type
 				}
-				root = {
-					age > 25
-				}
+				global_var:ruler_designer_ear_type = flag:elf_1
 			}
+
 		}
 		dna_modifiers = {
-			# morph = {
-			# 	mode = modify_multiply
-			# 	gene = gene_age
-			# 	value = 1.0
-			# 	template = no_aging
-			# }
-			# morph = {
-			# 	mode = modify_multiply
-			# 	gene = gene_bs_body_type
-			# 	value = 1.0
-			# 	template = body_average
-			# }
 			morph = {
 				mode = replace
 				gene = race_gene_elf_ears_1
@@ -146,65 +30,60 @@ visual_traits_elves = {
 			}
 		}
 	}
-	elf_blood_transform = {
+	elf_2_transform = {
 		traits = { 
-			elf_blood
-			elf_blood_mortal
+
+		}
+		trigger = {
+			portrait_ruler_designer_trigger = yes
+			trigger_if = {
+				limit = {
+					exists = global_var:ruler_designer_ear_type
+				}
+				global_var:ruler_designer_ear_type = flag:elf_2
+			}
+
 		}
 		dna_modifiers = {
 			morph = {
 				mode = replace
 				gene = race_gene_elf_ears_1
 				template = elf_ears_1
-				value = 0.5
-			}
-			morph = {
-				mode = replace
-				gene = race_gene_elf_ears_2
-				template = default_1
-				value = 0.5
-			}
-		}
-	}
-	full_elf_ears_pre_adult = {
-		traits = { 
-			elf
-			high_elf
-			true_elf
-			fae
-			fae_radiant
-			celestial
-			seraphic_celestial
-			eldar
-			maiar
-			valar
-			aratar
-			elf_mortal
-			high_elf_mortal
-			true_elf_mortal
-			fae_mortal
-			fae_radiant_mortal
-			celestial_mortal
-			seraphic_celestial_mortal
-			eldar_mortal
-			maiar_mortal
-			valar_mortal
-			aratar_mortal
-			stone_automaton
-			marble_automaton
-		}
-		dna_modifiers = {
-			morph = {
-				mode = replace
-				gene = race_gene_elf_ears_1
-				template = elf_ears_1
-				value = 0.5
+				value = 0.75
 			}
 			morph = {
 				mode = replace
 				gene = race_gene_elf_ears_2
 				template = elf_ears_2
-				value = 0.5
+				value = 0.75
+			}
+		}
+	}
+	elf_3_transform = {
+		traits = { 
+
+		}
+		trigger = {
+			portrait_ruler_designer_trigger = yes
+			trigger_if = {
+				limit = {
+					exists = global_var:ruler_designer_ear_type
+				}
+				global_var:ruler_designer_ear_type = flag:elf_3
+			}
+		}
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_1
+				template = elf_ears_1
+				value = 1
+			}
+			morph = {
+				mode = replace
+				gene = race_gene_elf_ears_2
+				template = elf_ears_2
+				value = 1
 			}
 		}
 	}

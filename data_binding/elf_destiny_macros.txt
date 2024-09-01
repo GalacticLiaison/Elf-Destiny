@@ -25,7 +25,12 @@ macro = {
 macro = {
 	description = "Is the MAA a siege and normal unit?"
 	definition = "IsMixedSiegeAndFighterMAA"
-	# replace_with = "Not( MenAtArmsType.FightsInMainPhase )"
 	replace_with = "Or( Not( MenAtArmsType.FightsInMainPhase ), EqualTo_string(MenAtArmsType.GetNameNoTooltip, 'Aeluran Magi Artillery') )"
+}
+
+macro = {
+	description = "Is a race modifier"
+	definition = "IsRaceModifier"
+	replace_with = "Or( Or( Or( Or( Or( Or( Or( Or( Or( Or( Or( EqualTo_string(StaticModifier.GetName, 'Human'), EqualTo_string(StaticModifier.GetName, 'Elf') ), EqualTo_string(StaticModifier.GetName, 'High Elf') ), EqualTo_string(StaticModifier.GetName, 'True Elf') ), EqualTo_string(StaticModifier.GetName, 'Fae') ), EqualTo_string(StaticModifier.GetName, 'Fae Radiant') ), EqualTo_string(StaticModifier.GetName, 'Celestial') ), EqualTo_string(StaticModifier.GetName, 'Seraphic Celestial') ), EqualTo_string(StaticModifier.GetName, 'Eldar') ), EqualTo_string(StaticModifier.GetName, 'Maia') ), EqualTo_string(StaticModifier.GetName, 'Vala') ), EqualTo_string(StaticModifier.GetName, 'Aratar') )"  
 }
 

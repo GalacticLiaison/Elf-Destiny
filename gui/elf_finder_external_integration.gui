@@ -1,0 +1,40 @@
+﻿types elf_finder_external_integration_types {
+
+    type elf_destiny_elf_search_button = button {
+        name = "elf_finder_button"
+        tooltip = "Find Elves"
+
+        texture = "gfx/interface/icons/traits/just_elf_icon.dds"                    
+
+        icon = {
+            parentanchor = bottom|right
+            size = { 30 30 }
+            position = { 10 0 }
+            texture = "gfx/interface/icons/flat_icons/search.dds"
+            using = Master_Button_Modify_Texture
+        }
+
+        state = {
+            name = "init_mod_variable"
+            trigger_on_create = yes
+            on_start = "[GetScriptedGui( 'elf_finder_sg_init' ).Execute( GuiScope.End )]"
+        }
+        
+        onclick = "[GetVariableSystem.Toggle( 'elf_finder_window_toggle' )]"
+    }
+}
+widget = {
+    name = "elf_finder_button_large"
+    parentanchor = bottom|right
+    widgetanchor = bottom|right
+    position = { -685 0 }
+    size = { 80 80 }
+    visible = yes
+    layer = bottom
+
+    elf_destiny_elf_search_button = {
+        size = { 80 80 }
+        visible = yes
+    }
+}
+

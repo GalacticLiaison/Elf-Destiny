@@ -1,0 +1,149 @@
+﻿elf_finder_sg_init = {
+    effect = {
+        # set_global_variable = { name = mod_elf_finder_active value = yes }
+
+        if = {
+            limit = {
+                NOT = { has_global_variable = elf_finder_first_time_setup_v9_2 }
+            }
+            # if = {
+            #     limit = { has_global_variable = elf_finder_first_time_setup_v9 }
+            #     elf_finder_set_reset_save_slot_to_default = { SLOT = global_var:elf_finder_gv_main_filters }
+            #     global_var:elf_finder_gv_main_filters = {
+            #         remove_variable = elf_finder_v_current_slot
+            #     }
+            #     every_in_global_list = {
+            #         list = elf_finder_gvl_save_slot
+            #         remove_variable = elf_finder_v_is_used 
+            #     }
+            #     while = { 
+            #         limit = { has_global_variable = asc_gv_undo_first }
+            #         global_var:asc_gv_undo_first = { 
+            #             save_scope_as = used_slot
+            #             if = {
+            #                 limit = { has_variable = elf_finder_v_next }
+            #                 var:elf_finder_v_next = {
+            #                     save_scope_as = next_scope
+            #                     set_global_variable = { name = asc_gv_undo_first value = scope:next_scope }
+            #                     remove_variable = elf_finder_v_prev
+            #                 }
+            #             }
+            #             else = {
+            #                 remove_global_variable = asc_gv_undo_first
+            #                 remove_global_variable = asc_gv_undo_last
+            #                 remove_global_variable = asc_save_slot_undo_0_used
+            #             }
+            #         }
+            #         elf_finder_set_clear_undo_slot = { SLOT = scope:used_slot }
+            #         elf_finder_set_delete_empty_object = { OBJECT_NAME = scope:used_slot }
+            #     }
+            #     elf_finder_se_set_current_slot = yes
+            # }
+            # else = {
+            #     elf_finder_set_new_empty_object = { OBJECT_NAME = temp }
+            #     set_global_variable = { name = elf_finder_gv_main_filters value = scope:temp }
+    
+            #     set_local_variable = { name = elf_finder_lv_counter value = 0 }
+                
+            #     while = {
+            #         limit = {
+            #             local_var:elf_finder_lv_counter < 13
+            #         }
+            #         elf_finder_set_new_empty_object = { OBJECT_NAME = temp }
+            #         scope:temp = {
+            #             set_variable = { name = elf_finder_v_index value = local_var:elf_finder_lv_counter }
+            #         }
+            #         add_to_global_variable_list = { name = elf_finder_gvl_save_slot target = scope:temp }
+            #         change_local_variable = { name = elf_finder_lv_counter add = 1 }
+            #     }
+    
+            #     set_global_variable = { name = elf_finder_sort_by value = 0  }
+            #     set_global_variable = elf_finder_sort_by_ascending
+            #     set_global_variable = { name = elf_finder_select_count value = 100 }
+            #     elf_finder_set_reset_save_slot_to_default = { SLOT = global_var:elf_finder_gv_main_filters }
+            #     elf_finder_set_copy_from_save_slot_to_all_rf = yes
+            #     set_global_variable = elf_finder_gv_auto_apply_sorting_and_filters
+            #     elf_finder_se_set_current_slot = yes
+            # }
+
+            elf_finder_set_new_empty_object = { OBJECT_NAME = temp }
+            set_global_variable = { name = elf_finder_gv_main_filters value = scope:temp }
+
+            set_local_variable = { name = elf_finder_lv_counter value = 0 }
+            
+            while = {
+                limit = {
+                    local_var:elf_finder_lv_counter < 13
+                }
+                elf_finder_set_new_empty_object = { OBJECT_NAME = temp }
+                scope:temp = {
+                    set_variable = { name = elf_finder_v_index value = local_var:elf_finder_lv_counter }
+                }
+                add_to_global_variable_list = { name = elf_finder_gvl_save_slot target = scope:temp }
+                change_local_variable = { name = elf_finder_lv_counter add = 1 }
+            }
+
+            set_global_variable = { name = elf_finder_sort_by value = 0  }
+            set_global_variable = elf_finder_sort_by_ascending
+            set_global_variable = { name = elf_finder_select_count value = 100 }
+            # elf_finder_set_reset_save_slot_to_default = { SLOT = global_var:elf_finder_gv_main_filters }
+            # elf_finder_set_copy_from_save_slot_to_all_rf = yes
+            set_global_variable = elf_finder_gv_auto_apply_sorting_and_filters
+            # elf_finder_se_set_current_slot = yes
+
+            set_global_variable = elf_finder_first_time_setup_v9_2
+        }
+    }
+}
+
+elf_finder_window = {
+    scope = character
+    
+    is_shown = { 
+        NOT = { has_variable = is_elf_finder_building_list }
+    }
+
+    effect = {
+        elf_finder_create_elf_list = yes
+    }
+}
+
+close_elf_finder_window = {
+    scope = character
+    
+    effect = {
+        clear_elf_finder_list = yes
+    }
+}
+
+elf_finder_reset_filters_and_sorting = {
+    effect = {
+        elf_finder_reset_filters_and_sorting = yes
+        elf_finder_create_elf_list = yes
+    }
+}
+
+elf_finder_sg_auto_apply_sorting_and_filters = {
+    scope = character
+         
+    is_shown = { 
+        has_global_variable = elf_finder_gv_auto_apply_sorting_and_filters
+    }
+        
+    effect = {
+        if = {
+            limit = { has_global_variable = elf_finder_gv_auto_apply_sorting_and_filters }
+            remove_global_variable = elf_finder_gv_auto_apply_sorting_and_filters
+        }
+        else = {
+            set_global_variable = elf_finder_gv_auto_apply_sorting_and_filters
+        }
+        elf_finder_create_elf_list = yes
+    }
+}
+
+elf_finder_undo_filters = {
+    effect = {
+        elf_finder_se_load_undo = yes
+    }
+}

@@ -1,0 +1,640 @@
+﻿elf_finder_create_elf_list = {
+    if = {
+        limit = {
+            NOT = { has_global_variable = is_elf_finder_building_list }
+        }
+        set_global_variable = is_elf_finder_building_list
+                
+        clear_elf_finder_list = yes
+        random_player = {
+            save_scope_as = elf_finder_filter_diplomatic_range_root
+            save_scope_as = elf_finder_filter_hooks_root
+            faith = { save_scope_as = elf_finder_filter_faith }
+            religion = { save_scope_as = elf_finder_filter_religion }
+            save_scope_as = elf_finder_filter_culture_root
+            save_scope_as = elf_finder_filter_dynasty_root
+            save_scope_as = elf_finder_sort_root
+            save_scope_as = elf_finder_invite_to_court
+
+            every_living_character = {
+                limit = {
+                    is_any_elf_type = yes
+                }
+
+                if = {
+                    limit = {
+                        ### GENDER ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_gender_filter_female
+                            }
+                            is_female = yes
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_gender_filter_male
+                            }
+                            is_male = yes
+                        }
+    
+                        ### DIPLO RANGE ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_diplo_range
+                                global_var:elf_filter_diplo_range = 1
+                            }
+                            in_diplomatic_range = scope:elf_finder_filter_diplomatic_range_root
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_diplo_range
+                                global_var:elf_filter_diplo_range = 2
+                            }
+                            NOT = {
+                                in_diplomatic_range = scope:elf_finder_filter_diplomatic_range_root
+                            }
+                        }
+    
+                        ### COURTIER ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_courtier
+                                global_var:elf_filter_is_courtier = 1
+                            }
+                            is_courtier_of = scope:elf_finder_sort_root
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_courtier
+                                global_var:elf_filter_is_courtier = 2
+                            }
+                            NOT = {
+                                is_courtier_of = scope:elf_finder_sort_root
+                            }
+                        }
+    
+                        ### RULER ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_ruler
+                                global_var:elf_filter_is_ruler = 1
+                            }
+                            is_ruler = yes
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_ruler
+                                global_var:elf_filter_is_ruler = 2
+                            }
+                            is_ruler = no
+                        }
+    
+                        ### ARTIFACTS ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_artifacts
+                            }
+                            any_character_artifact = {
+                                has_variable = is_special_elf_artifact
+                            }
+                        }
+    
+                        ### CAN MARRY ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_can_marry
+                                global_var:elf_filter_can_marry = 1
+                            }
+                            allowed_more_spouses = yes
+                            is_adult = yes
+                            is_betrothed = no
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_can_marry
+                                global_var:elf_filter_can_marry = 2
+                            }
+                            OR = {
+                                allowed_more_spouses = no
+                                is_adult = no
+                                is_betrothed = yes
+                            }
+                        }
+    
+                        ### LOVER ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_lover
+                                global_var:elf_filter_is_lover = 1
+                            }
+                            OR = {
+                                has_relation_lover = scope:elf_finder_sort_root
+                                has_relation_soulmate = scope:elf_finder_sort_root
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_lover
+                                global_var:elf_filter_is_lover = 2
+                            }
+                            NOR = {
+                                has_relation_lover = scope:elf_finder_sort_root
+                                has_relation_soulmate = scope:elf_finder_sort_root
+                            }
+                        }
+    
+                        ### FRIEND ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_friend
+                                global_var:elf_filter_is_friend = 1
+                            }
+                            OR = {
+                                has_relation_friend = scope:elf_finder_sort_root
+                                has_relation_best_friend  = scope:elf_finder_sort_root
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_friend
+                                global_var:elf_filter_is_friend = 2
+                            }
+                            NOR = {
+                                has_relation_friend = scope:elf_finder_sort_root
+                                has_relation_best_friend  = scope:elf_finder_sort_root
+                            }
+                        }
+    
+                        ### ENEMY ###
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_enemy
+                                global_var:elf_filter_is_enemy = 1
+                            }
+                            OR = {
+                                has_relation_rival = scope:elf_finder_sort_root
+                                has_relation_nemesis  = scope:elf_finder_sort_root
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_filter_is_enemy
+                                global_var:elf_filter_is_enemy = 2
+                            }
+                            NOR = {
+                                has_relation_rival = scope:elf_finder_sort_root
+                                has_relation_nemesis  = scope:elf_finder_sort_root
+                            }
+                        }
+    
+    
+                        ### ELF TYPE ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_elf_blood
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:elf_blood
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_elf
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:elf
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_high_elf
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:high_elf
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_true_elf
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:true_elf
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_fae
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:fae
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_fae_radiant
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:fae_radiant
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_celestial
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:celestial
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_seraphic_celestial
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:seraphic_celestial
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_eldar
+                                }
+                            }
+                            NOT = {   
+                                var:urf_phenotype = flag:eldar
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_maiar
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:maiar
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_valar
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:valar
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_type_filter_aratar
+                                }
+                            }
+                            NOT = {
+                                var:urf_phenotype = flag:aratar
+                            }
+                        }
+    
+                        ### DYNASTY ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_daelurin
+                                }
+                            }
+                            NOT = {
+                                dynasty = dynasty:696971 # Daelurin
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_thundarael
+                                }
+                            }
+                            NOT = {
+                                dynasty = dynasty:696974 # Thundarael
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_gwynthorn
+                                }
+                            }
+                            NOT = {
+                                dynasty = dynasty:696973 # Gwynthorn
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_valerith
+                                }
+                            }
+                            NOT = {
+                                dynasty = dynasty:696970 # Valerith
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_serelion
+                                }
+                            }
+                            NOT = {
+                                dynasty = dynasty:696972 # Serelion
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_dynasty_filter_other
+                                }
+                            }
+                            OR = {
+                                dynasty = dynasty:696972 # Serelion
+                                dynasty = dynasty:696970 # Valerith
+                                dynasty = dynasty:696973 # Gwynthorn
+                                dynasty = dynasty:696974 # Thundarael
+                                dynasty = dynasty:696971 # Daelurin
+                            }
+                        }
+    
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_player_dynasty_filter
+                                global_var:elf_player_dynasty_filter = 1
+                            }
+                            dynasty = scope:elf_finder_sort_root.dynasty
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_player_dynasty_filter
+                                global_var:elf_player_dynasty_filter = 2
+                            }
+                            NOT = {
+                                dynasty = scope:elf_finder_sort_root.dynasty
+                            }
+                        }
+    
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_player_house_filter
+                                global_var:elf_player_house_filter = 1
+                            }
+                            house = scope:elf_finder_sort_root.house
+                        }
+                        trigger_if = {
+                            limit = {
+                                exists = global_var:elf_player_house_filter
+                                global_var:elf_player_house_filter = 2
+                            }
+                            NOT = {
+                                house = scope:elf_finder_sort_root.house
+                            }
+                        }
+    
+    
+                        ### Bloodline ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_daelurin
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_daelurin
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_thundarael
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_thundarael
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_gwynthorn
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_gwynthorn
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_valerith
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_valerith
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_serelion
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_serelion
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_no_bloodline
+                                }
+                            }
+                            is_of_any_royal_elf_bloodline = yes
+                        }
+    
+                        ### Magic ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_magic_ability_filter_magic_talent_1
+                                }
+                            }
+                            NOT = {
+                                has_trait = magic_talent_1
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_magic_ability_filter_magic_talent_2
+                                }
+                            }
+                            NOT = {
+                                has_trait = magic_talent_2
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_magic_ability_filter_magic_talent_3
+                                }
+                            }
+                            NOT = {
+                                has_trait = magic_talent_3
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_magic_ability_filter_magic_talentless
+                                }
+                            }
+                            OR = {
+                                has_trait = magic_talent_1
+                                has_trait = magic_talent_2
+                                has_trait = magic_talent_3
+                            }
+                        }
+    
+                        ### Aeluran ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_aeluran_servant
+                                }
+                            }
+                            NOT = {
+                                has_trait = aeluran_servant
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_aeluran_sister
+                                }
+                            }
+                            NOT = {
+                                has_trait = aeluran_sister
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_aeluran_matron
+                                }
+                            }
+                            NOT = {
+                                has_trait = aeluran_matron
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_aeluran_high_matriarch
+                                }
+                            }
+                            NOT = {
+                                has_trait = aeluran_high_matriarch
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_born_in_the_red
+                                }
+                            }
+                            NOT = {
+                                has_trait = born_in_the_red
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_aeluran_order_filter_non_aeluran_elf
+                                }
+                            }
+                            OR = {
+                                has_trait = born_in_the_red
+                                has_trait = aeluran_servant
+                                has_trait = aeluran_sister
+                                has_trait = aeluran_matron
+                                has_trait = aeluran_high_matriarch
+                            }
+                        }
+                    }
+                    add_to_temporary_list = elf_finder_to_sort
+                }
+
+            }
+
+        }
+          
+        set_global_variable = {  
+            name = elf_finder_selected_count 
+            value = {
+                value = 0
+                every_in_list = { list = elf_finder_to_sort add = 1 }
+            }  
+        } 
+        set_global_variable = {
+            name = elf_finder_total_number_of_characters
+            value = elf_finder_total_number_of_characters
+        }
+
+        ordered_in_list = {
+            list = elf_finder_to_sort
+            order_by = elf_finder_sort_value
+            max = global_var:elf_finder_select_count
+            check_range_bounds = no
+
+            add_to_global_variable_list = { name = elf_finder_list target = this }
+        }    
+        
+        remove_global_variable = is_elf_finder_building_list
+    }
+}
+
+clear_elf_finder_list = {
+    if = {
+        limit = { has_global_variable_list = elf_finder_list }
+        every_in_global_list = {
+            list = elf_finder_list
+            clear_claim_data = yes
+        }
+        clear_global_variable_list = elf_finder_list
+    }
+}
+
+elf_finder_change_sort_order = {
+    if = {
+        limit = { has_global_variable = elf_finder_sort_by_ascending }
+        remove_global_variable = elf_finder_sort_by_ascending
+    }
+    else = {
+        set_global_variable = elf_finder_sort_by_ascending
+    }
+}
+
+
+
+
+

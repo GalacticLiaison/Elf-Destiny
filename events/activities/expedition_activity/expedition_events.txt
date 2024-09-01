@@ -545,8 +545,8 @@ expedition.00691 = {
 								is_elf_blood = yes
 							}
 						}
-						remove_all_elf_traits_effect = yes
-						add_trait = elf
+						add_character_flag = race_elf
+						urf_for_all_phenotypes = { APPLY = urf_base_race_init }
 						add_trait = magic_talent_1
 					}
 				}
@@ -557,7 +557,9 @@ expedition.00691 = {
 						exists = character:julia_melwood
 					}
 					character:julia_melwood = {
-						save_scope_as = julia
+						add_character_flag = race_elf
+						urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+						add_trait = magic_talent_1
 					}
 				}
 				else_if = {
@@ -565,21 +567,8 @@ expedition.00691 = {
 						exists = character:julia_melwood_1066
 					}
 					character:julia_melwood_1066 = {
-						save_scope_as = julia
-					}
-				}
-
-				# Transform Julia as well
-				scope:julia = {
-					if = {
-						limit = {
-							OR = {
-								is_any_elf_type = no
-								is_elf_blood = yes
-							}
-						}
-						remove_all_elf_traits_effect = yes
-						add_trait = elf
+						add_character_flag = race_elf
+						urf_for_all_phenotypes = { APPLY = urf_base_race_init }
 						add_trait = magic_talent_1
 					}
 				}
@@ -626,7 +615,7 @@ expedition.00692 = { # Convert To Elf Culture?
 		convert_family_culture_and_notify_vassals_effect = {
 			CONVERTER = root
 			OLD_CULTURE = root.culture
-			NEW_CULTURE = culture:elf
+			NEW_CULTURE = culture:culture_elf
 		}
 
 		trigger_event = expedition.00693

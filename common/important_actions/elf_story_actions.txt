@@ -1,0 +1,60 @@
+action_what_is_an_archeologist = {
+	type = alert
+	
+	check_create_action = {
+		if = {
+			limit = {
+				NOT = {  #Can only do it once.
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:flag_what_is_an_archelogist_answered
+					}
+				}
+			}
+			try_create_important_action = {
+				important_action_type = action_what_is_an_archeologist
+				actor = root
+			}
+		}
+	}
+	effect = {
+		scope:actor = {
+			decision:what_is_an_archeologist_decision = { open_view_data = decision_detail }
+		}
+	}
+}
+
+action_start_an_expedition = {
+	type = alert
+	
+	check_create_action = {
+		if = {
+			limit = {
+				is_target_in_global_variable_list = {
+					name = unavailable_unique_decisions
+					target = flag:flag_what_is_an_archelogist_answered
+				}
+				NOT = {
+					has_global_variable = 01_sigil_of_the_realm_lord_found
+				}
+				can_host_activity = activity_type:activity_expedition
+				NOT = {
+					has_character_flag = expedition_popup_clicked
+				}
+			}
+			try_create_important_action = {
+				important_action_type = action_start_an_expedition
+				actor = root
+			}
+		}
+	}
+	effect = {
+		scope:actor = {
+			add_character_flag = expedition_popup_clicked
+			open_view_data = {
+				view = activity_list_detail_host_window
+				data = activity_type:activity_expedition
+			}
+		}
+	}
+}

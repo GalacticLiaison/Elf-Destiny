@@ -1,0 +1,784 @@
+types RaceTooltips
+{
+    type multiplayer_lobby_race_tooltip = widget
+    {
+        using = GeneralTooltipSetup
+        alwaystransparent = no
+
+        widget = {
+            name = "background"
+            using = DefaultTooltipBackground
+            size = { 100% 100% }
+            alwaystransparent = no
+        }
+
+        vbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            set_parent_size_to_minimum = yes
+            margin = { 15 5 }
+            margin_bottom = 12
+
+            vbox = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                margin = { 6 4 }
+                margin_bottom = 12
+
+                background = {
+                    name = "header"
+                    texture = "gfx/interface/component_tiles/tile_title_big_top_01.dds"
+                    spriteType = Corneredstretched
+                    align = vcenter|left
+                    margin = { 15 0 }
+                    texture_density = 2
+
+                    modify_texture = {
+                        name = "mask"
+                        texture = "gfx/interface/component_masks/mask_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 160 0 }
+                        blend_mode = alphamultiply
+                        alpha = 0.5
+                    }
+
+                    modify_texture = {
+                        name = "overlay"
+                        texture = "gfx/interface/component_overlay/overlay_title_big_top.dds"
+                        spriteType = Corneredstretched
+                        spriteborder = { 0 0 }
+                        blend_mode = overlay
+                    }
+                }
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+
+                    vbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        hbox = {
+                            layoutpolicy_horizontal = expanding
+                            spacing = 10
+
+                            button = {
+                                name = "race_icon"
+                                texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                                size = { 45 45 }
+                            }
+
+                            text_single = {
+                                layoutpolicy_horizontal = expanding
+                                name = "header"
+                                text = "RACE_COOLTIP_GETNAME"
+                                fonttintcolor = "[TooltipInfo.GetTintColor]"
+                                align = top
+                                using = Font_Type_Flavor
+                                using = Font_Size_Big
+                            }
+
+                            expand = {}
+
+                            text_single = {
+                                layoutpolicy_horizontal = expanding
+                                layoutpolicy_vertical = expanding
+                                text = "[race|E]"
+                                fonttintcolor = "[TooltipInfo.GetTintColor]"
+                                align = vcenter|right
+                            }
+                        }
+                    }
+                }
+            }
+
+            vbox = {
+                spacing = 0
+                margin = { 0 10 }
+                layoutpolicy_horizontal = expanding
+
+                container = {
+                    layoutpolicy_horizontal = expanding
+
+                    background = {
+                        texture = "gfx/interface/component_tiles/tile_window_background_popup.dds"
+                        spriteType = Corneredtiled
+                        spriteborder = { 18 18 }
+                        margin_top = 15
+                        margin_bottom = 15
+                        texture_density = 2
+
+                        modify_texture = {
+                            name = "overlay"
+                            texture = "gfx/interface/component_overlay/overlay_effect.dds"
+                            spriteType = Corneredstretched
+                            spriteborder = { 0 0 }
+                            blend_mode = overlay
+                        }
+                    }
+
+                    text_single = {
+                        layoutpolicy_horizontal = expanding
+                        multiline = yes
+                        maximumsize = { 400 300 }
+                        text = "RACE_DESCRIPTION"
+                        align = center
+                        margin_right = 20
+                        margin_left = 20
+                        margin_top = 5
+                        margin_bottom = 10
+                    }
+                }
+
+                spacer = {
+                    size = { 0 20 }
+                }
+
+                divider_light = {
+                    layoutpolicy_horizontal = expanding
+                }
+
+                spacer = {
+                    size = { 0 5 }
+                }
+
+                vbox = {
+                    layoutpolicy_horizontal = expanding
+                    margin_top = 6
+                    margin_bottom = 6
+
+                    background = {
+                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_gui_illustration_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                        alpha = 0.3
+                        fittype = centercrop
+                        using = Mask_Rough_Edges
+                    }
+
+                    text_label_center = {
+                        margin = { 10 2 }
+                        text = "[race|E] [modifiers|E]"
+                        align = center|nobaseline
+                        default_format = "#low"
+                    }
+                    hbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        text_single = {
+                            layoutpolicy_horizontal = expanding
+                            text = "RACE_MODIFIERS"
+                            align = center
+                        }
+                    }
+                }
+
+                spacer = {
+                    size = { 0 5 }
+                }
+
+                divider_light = {
+                    layoutpolicy_horizontal = expanding
+                    visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+                }
+
+                vbox = {
+                    layoutpolicy_horizontal = expanding
+                    margin_top = 6
+                    margin_bottom = 6
+
+                    background = {
+                        using = Background_Area
+                        using = Mask_Rough_Edges
+
+                        modify_texture = {
+                            texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                            blend_mode = alphamultiply
+                            mirror = vertical
+                        }
+                    }
+
+                    text_label_center = {
+                        margin = { 10 2 }
+                        text = "RACE_SAPIENCE_BONUS_TITLE"
+                        align = center|nobaseline
+                        default_format = "#low"
+                        visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+                    }
+                    hbox = {
+                        layoutpolicy_horizontal = expanding
+                        layoutpolicy_vertical = expanding
+
+                        text_single = {
+                            layoutpolicy_horizontal = expanding
+                            text = "RACE_SAPIENCE_BONUSES"
+                            align = center
+                        }
+                    }
+                }
+
+                spacer = {
+                    size = { 0 5 }
+                }
+
+                divider_light = {
+                    layoutpolicy_horizontal = expanding
+                    visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+                }
+
+                spacer = {
+                    size = { 0 5 }
+                }
+
+                text_label_center = {
+                    margin = { 10 2 }
+                    text = "RACE_SAPIENCE_LEVEL"
+                    align = center|nobaseline
+                    default_format = "#low"
+                    visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+                }
+
+                hbox = {
+                    layoutpolicy_horizontal = expanding
+                    layoutpolicy_vertical = expanding
+
+                    visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+
+                    widget = {
+                        parentanchor = center
+                        size = { 400 40 }
+                        allow_outside = yes
+
+                        widget = {
+                            name = sapience_progressbar
+                            size = { 400 40 }
+
+                            progressbar_sapience = {
+                                name = "background"
+                                size = { 400 40 }
+                                value = 0
+                            }
+
+                            progressbar_sapience = {
+                                name = "below_low_sapience"
+                                size = { 15 40 }
+                                value = "[Character.MakeScope.Var('urf_sapience').GetValue]"
+                                min = 0
+                                max = 50
+
+                                visible = "[LessThanOrEqualTo_CFixedPoint( Character.MakeScope.Var('urf_sapience').GetValue, '(CFixedPoint)50' )]"
+
+                                noprogresstexture = "gfx/interface/progressbars/blank.dds"
+                                progresstexture = "gfx/interface/progressbars/progress_grandeur_increase.dds"
+
+                                marker = {
+                                    name = "current_value"
+                                    widget = {
+                                        icon = {
+                                            size = { 25 36 }
+                                            position = { -20 2 }
+                                            texture = "gfx/interface/progressbars/progressbar_center_glow.dds"
+                                            color = { 0.80 0.96 0.82 0.9 }
+                                        }
+                                    }
+                                }
+                            }
+                            progressbar_sapience = {
+                                name = "low_sapience"
+                                size = { 100 40 }
+                                value = "[Character.MakeScope.Var('urf_sapience').GetValue]"
+                                min = 0
+                                max = 200
+
+                                visible = "[GreaterThanOrEqualTo_CFixedPoint( Character.MakeScope.Var('urf_sapience').GetValue, '(CFixedPoint)51' )]"
+
+                                noprogresstexture = "gfx/interface/progressbars/blank.dds"
+                                progresstexture = "gfx/interface/progressbars/progress_grandeur_increase.dds"
+
+                                marker = {
+                                    name = "current_value"
+                                    widget = {
+                                        icon = {
+                                            size = { 25 36 }
+                                            position = { -20 2 }
+                                            texture = "gfx/interface/progressbars/progressbar_center_glow.dds"
+                                            color = { 0.80 0.96 0.82 0.9 }
+                                        }
+                                    }
+                                }
+                            }
+                            progressbar_sapience = {
+                                name = "mitle_sapience"
+                                size = { 225 40 }
+                                value = "[Character.MakeScope.Var('urf_sapience').GetValue]"
+                                min = 0
+                                max = 750
+
+                                visible = "[GreaterThanOrEqualTo_CFixedPoint( Character.MakeScope.Var('urf_sapience').GetValue, '(CFixedPoint)201' )]"
+
+                                noprogresstexture = "gfx/interface/progressbars/blank.dds"
+                                progresstexture = "gfx/interface/progressbars/progress_grandeur_increase.dds"
+
+                                marker = {
+                                    name = "current_value"
+                                    widget = {
+                                        icon = {
+                                            size = { 25 36 }
+                                            position = { -20 2 }
+                                            texture = "gfx/interface/progressbars/progressbar_center_glow.dds"
+                                            color = { 0.80 0.96 0.82 0.9 }
+                                        }
+                                    }
+                                }
+                            }
+                            progressbar_sapience = {
+                                name = "ethereal_sapience"
+                                size = { 400 40 }
+                                value = "[Character.MakeScope.Var('urf_sapience').GetValue]"
+                                min = 0
+                                max = 2000
+
+                                visible = "[GreaterThanOrEqualTo_CFixedPoint( Character.MakeScope.Var('urf_sapience').GetValue, '(CFixedPoint)751' )]"
+
+                                noprogresstexture = "gfx/interface/progressbars/blank.dds"
+                                progresstexture = "gfx/interface/progressbars/progress_grandeur_increase.dds"
+
+                                marker = {
+                                    name = "current_value"
+                                    widget = {
+                                        icon = {
+                                            size = { 25 36 }
+                                            position = { -20 2 }
+                                            texture = "gfx/interface/progressbars/progressbar_center_glow.dds"
+                                            color = { 0.80 0.96 0.82 0.9 }
+                                        }
+                                    }
+                                }
+                            }
+                            widget = {
+                                name = "level_divider_1"
+                                size = { 0 30 }
+                                allow_outside = yes
+
+                                icon = {
+                                    size = { 3 36 }
+                                    position = { 15 20 }
+                                    widgetanchor = center
+                                    texture = "gfx/interface/colors/white.dds"
+                                    color = { 1 1 1 1 }
+                                    alpha = 0.2
+                                    spriteType = Corneredtiled
+
+                                    ## EDGE FADE
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_edge_3px.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 4 4 }
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    ### SCRATCHES
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_scratches.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 0 0 }
+                                        blend_mode = alphamultiply
+                                    }
+                                }
+                            }
+                            widget = {
+                                name = "level_divider_2"
+                                size = { 0 30 }
+                                allow_outside = yes
+
+                                icon = {
+                                    size = { 3 36 }
+                                    position = { 100 20 }
+                                    widgetanchor = center
+                                    texture = "gfx/interface/colors/white.dds"
+                                    color = { 1 1 1 1 }
+                                    alpha = 0.2
+                                    spriteType = Corneredtiled
+
+                                    ## EDGE FADE
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_edge_3px.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 4 4 }
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    ### SCRATCHES
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_scratches.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 0 0 }
+                                        blend_mode = alphamultiply
+                                    }
+                                }
+                            }
+                            widget = {
+                                name = "level_divider_3"
+                                size = { 0 30 }
+                                allow_outside = yes
+
+                                icon = {
+                                    size = { 3 36 }
+                                    position = { 225 20 }
+                                    widgetanchor = center
+                                    texture = "gfx/interface/colors/white.dds"
+                                    color = { 1 1 1 1 }
+                                    alpha = 0.2
+                                    spriteType = Corneredtiled
+
+                                    ## EDGE FADE
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_edge_3px.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 4 4 }
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    ### SCRATCHES
+                                    modify_texture = {
+                                        texture = "gfx/interface/component_masks/mask_scratches.dds"
+                                        spriteType = Corneredtiled
+                                        spriteborder = { 0 0 }
+                                        blend_mode = alphamultiply
+                                    }
+                                }
+                            }
+                            icon = {
+                                name = "grandeur_bar_bracket_left"
+                                texture = "gfx/interface/window_roco_grandeur/grandeur_bar_bracket_left.dds"
+                                size = { 29 60 }
+                                position = { -10 -10 }
+                                parentanchor = left
+                            }
+
+                            icon = {
+                                name = "grandeur_bar_bracket_right"
+                                texture = "gfx/interface/window_roco_grandeur/grandeur_bar_bracket_right.dds"
+                                size = { 29 60 }
+                                position = { 10 -10 }
+                                parentanchor = right
+                            }
+                        }
+                        widget = {
+                            name = "level_item_1"
+                            size = { 0 20 }
+                            # position = { 15 50 }
+                            allow_outside = yes
+
+                            widget = {
+                                size = { 60 80 }
+                                position = { 0 10 }
+                                widgetanchor = center
+
+                                icon = {
+                                    name = "highlight_current_level"
+                                    size = { 80 80 }
+                                    position = { 0 -10 }
+                                    parentanchor = center
+                                    texture = "gfx/interface/window_roco_grandeur/pin_highlight.dds"
+                                    visible = "[EqualTo_string(Character.MakeScope.Var('urf_sapience_level').GetFlagName, 'low_sapient')]"
+
+                                    state = {
+                                        name = _show
+                                        using = Animation_Curve_Default
+                                        duration = 0.3
+                                        alpha = 0.7
+                                    }
+
+                                    state = {
+                                        name = _hide
+                                        using = Animation_Curve_Default
+                                        duration = 0.6
+                                        alpha = 0
+                                    }
+
+                                    state = {
+                                        name = "a"
+                                        next = "b"
+                                        trigger_on_create = yes
+                                        alpha = 0.7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 0
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 0
+                                        }
+                                    }
+
+                                    state = {
+                                        name = "b"
+                                        next = "a"
+                                        duration = 7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 360
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 360
+                                        }
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_1"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_2"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                        mirror = horizontal
+                                    }
+                                }
+                            }
+
+                            widget = {
+                                name = "level_backgrounds"
+                                size = { 60 60 }
+                                widgetanchor = center
+
+                                ### Level background level 1
+                                icon_grandeur_level = {
+                                    texture = "gfx/interface/window_roco_grandeur/pin_grandeur_rank_01.dds"
+                                }
+
+                                tooltip = "RACE_SAPIENCE_LEVEL_1"
+                            }
+
+                            ### LEVEL ###
+                            text_single = {
+                                raw_text = "1"
+                                align = center
+                                widgetanchor = center
+                                parentanchor = center
+                                position = { 0 -13 }
+                            }
+                        }
+                        widget = {
+                            name = "level_item_2"
+                            size = { 0 20 }
+                            # position = { 100 50 }
+                            allow_outside = yes
+
+                            widget = {
+                                size = { 60 80 }
+                                position = { 0 10 }
+                                widgetanchor = center
+
+                                icon = {
+                                    name = "highlight_current_level"
+                                    size = { 80 80 }
+                                    position = { 0 -10 }
+                                    parentanchor = center
+                                    texture = "gfx/interface/window_roco_grandeur/pin_highlight.dds"
+                                    visible = "[EqualTo_string(Character.MakeScope.Var('urf_sapience_level').GetFlagName, 'mitle_sapient')]"
+
+                                    state = {
+                                        name = _show
+                                        using = Animation_Curve_Default
+                                        duration = 0.3
+                                        alpha = 0.7
+                                    }
+
+                                    state = {
+                                        name = _hide
+                                        using = Animation_Curve_Default
+                                        duration = 0.6
+                                        alpha = 0
+                                    }
+
+                                    state = {
+                                        name = "a"
+                                        next = "b"
+                                        trigger_on_create = yes
+                                        alpha = 0.7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 0
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 0
+                                        }
+                                    }
+
+                                    state = {
+                                        name = "b"
+                                        next = "a"
+                                        duration = 7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 360
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 360
+                                        }
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_1"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_2"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                        mirror = horizontal
+                                    }
+                                }
+                            }
+
+                            widget = {
+                                name = "level_backgrounds"
+                                size = { 60 60 }
+                                widgetanchor = center
+
+                                ### Level background level 2
+                                icon_grandeur_level = {
+                                    texture = "gfx/interface/window_roco_grandeur/pin_grandeur_rank_02.dds"
+                                }
+                                tooltip = "RACE_SAPIENCE_LEVEL_2"
+                            }
+
+                            ### LEVEL ###
+                            text_single = {
+                                raw_text = "2"
+                                align = center
+                                widgetanchor = center
+                                parentanchor = center
+                                position = { 0 -13 }
+                            }
+                        }
+                        widget = {
+                            name = "level_item_3"
+                            size = { 0 20 }
+                            # position = { 225 50 }
+                            allow_outside = yes
+
+                            widget = {
+                                size = { 60 80 }
+                                position = { 0 10 }
+                                widgetanchor = center
+
+                                icon = {
+                                    name = "highlight_current_level"
+                                    size = { 80 80 }
+                                    position = { 0 -10 }
+                                    parentanchor = center
+                                    texture = "gfx/interface/window_roco_grandeur/pin_highlight.dds"
+                                    visible = "[EqualTo_string(Character.MakeScope.Var('urf_sapience_level').GetFlagName, 'ethereal_sapient')]"
+
+                                    state = {
+                                        name = _show
+                                        using = Animation_Curve_Default
+                                        duration = 0.3
+                                        alpha = 0.7
+                                    }
+
+                                    state = {
+                                        name = _hide
+                                        using = Animation_Curve_Default
+                                        duration = 0.6
+                                        alpha = 0
+                                    }
+
+                                    state = {
+                                        name = "a"
+                                        next = "b"
+                                        trigger_on_create = yes
+                                        alpha = 0.7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 0
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 0
+                                        }
+                                    }
+
+                                    state = {
+                                        name = "b"
+                                        next = "a"
+                                        duration = 7
+
+                                        modify_texture = {
+                                            name = "glow_1"
+                                            rotate_uv = 360
+                                        }
+
+                                        modify_texture = {
+                                            name = "glow_2"
+                                            rotate_uv = 360
+                                        }
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_1"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                    }
+
+                                    modify_texture = {
+                                        name = "glow_2"
+                                        texture = "gfx/interface/component_masks/mask_glow.dds"
+                                        blend_mode = alphamultiply
+                                        mirror = horizontal
+                                    }
+                                }
+                            }
+
+                            widget = {
+                                name = "level_backgrounds"
+                                size = { 60 60 }
+                                widgetanchor = center
+
+                                ### Level background level 2
+                                icon_grandeur_level = {
+                                    texture = "gfx/interface/window_roco_grandeur/pin_grandeur_rank_02.dds"
+                                }
+
+                                tooltip = "RACE_SAPIENCE_LEVEL_3"
+                            }
+
+                            ### LEVEL ###
+                            text_single = {
+                                raw_text = "3"
+                                align = center
+                                widgetanchor = center
+                                parentanchor = center
+                                position = { 0 -13 }
+                            }
+                        }
+                    }
+                }
+                spacer = {
+                    size = { 0 35 }
+                    visible = "[Character.MakeScope.Var('urf_sapience').IsSet]"
+                }
+            }
+        }
+    }
+
+}

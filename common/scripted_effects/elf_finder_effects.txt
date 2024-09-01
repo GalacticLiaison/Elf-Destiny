@@ -1,0 +1,579 @@
+﻿toggle_all_filters = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_type_filter_elf_blood
+			}
+		}
+		reset_all_elf_filters = yes
+	}
+	else = {
+		clear_all_filters = yes
+	}
+}
+
+reset_all_elf_filters = {
+	set_global_variable = { name = elf_type_filter_elf_blood value = 1 }
+	set_global_variable = { name = elf_type_filter_elf value = 1 }
+	set_global_variable = { name = elf_type_filter_high_elf value = 1 }
+	set_global_variable = { name = elf_type_filter_true_elf value = 1 }
+	set_global_variable = { name = elf_type_filter_fae value = 1 }
+	set_global_variable = { name = elf_type_filter_fae_radiant value = 1 }
+	set_global_variable = { name = elf_type_filter_celestial value = 1 }
+	set_global_variable = { name = elf_type_filter_seraphic_celestial value = 1 }
+	set_global_variable = { name = elf_type_filter_eldar value = 1 }
+	set_global_variable = { name = elf_type_filter_maiar value = 1 }
+	set_global_variable = { name = elf_type_filter_valar value = 1 }
+	set_global_variable = { name = elf_type_filter_aratar value = 1 }
+
+	set_global_variable = { name = elf_dynasty_filter_daelurin value = 1 }
+	set_global_variable = { name = elf_dynasty_filter_thundarael value = 1 }
+	set_global_variable = { name = elf_dynasty_filter_gwynthorn value = 1 }
+	set_global_variable = { name = elf_dynasty_filter_valerith value = 1 }
+	set_global_variable = { name = elf_dynasty_filter_serelion value = 1 }
+	set_global_variable = { name = elf_dynasty_filter_other value = 1 }
+
+	set_global_variable = { name = elf_bloodline_filter_daelurin value = 1 }
+	set_global_variable = { name = elf_bloodline_filter_thundarael value = 1 }
+	set_global_variable = { name = elf_bloodline_filter_gwynthorn value = 1 }
+	set_global_variable = { name = elf_bloodline_filter_valerith value = 1 }
+	set_global_variable = { name = elf_bloodline_filter_serelion value = 1 }
+	set_global_variable = { name = elf_bloodline_filter_no_bloodline value = 1 }
+
+	set_global_variable = { name = elf_magic_ability_filter_magic_talent_1 value = 1 }
+	set_global_variable = { name = elf_magic_ability_filter_magic_talent_2 value = 1 }
+	set_global_variable = { name = elf_magic_ability_filter_magic_talent_3 value = 1 }
+	set_global_variable = { name = elf_magic_ability_filter_magic_talentless value = 1 }
+
+	set_global_variable = { name = elf_aeluran_order_filter_aeluran_servant value = 1 }
+	set_global_variable = { name = elf_aeluran_order_filter_aeluran_sister value = 1 }
+	set_global_variable = { name = elf_aeluran_order_filter_aeluran_matron value = 1 }
+	set_global_variable = { name = elf_aeluran_order_filter_aeluran_high_matriarch value = 1 }
+	set_global_variable = { name = elf_aeluran_order_filter_born_in_the_red value = 1 }
+	set_global_variable = { name = elf_aeluran_order_filter_non_aeluran_elf value = 1 }
+
+}
+
+clear_all_filters = {
+	remove_global_variable = elf_type_filter_elf_blood
+	remove_global_variable = elf_type_filter_elf
+	remove_global_variable = elf_type_filter_high_elf
+	remove_global_variable = elf_type_filter_true_elf
+	remove_global_variable = elf_type_filter_fae
+	remove_global_variable = elf_type_filter_fae_radiant
+	remove_global_variable = elf_type_filter_celestial
+	remove_global_variable = elf_type_filter_seraphic_celestial
+	remove_global_variable = elf_type_filter_eldar
+	remove_global_variable = elf_type_filter_maiar
+	remove_global_variable = elf_type_filter_valar
+	remove_global_variable = elf_type_filter_aratar
+
+	remove_global_variable = elf_dynasty_filter_daelurin
+	remove_global_variable = elf_dynasty_filter_thundarael
+	remove_global_variable = elf_dynasty_filter_gwynthorn
+	remove_global_variable = elf_dynasty_filter_valerith
+	remove_global_variable = elf_dynasty_filter_serelion
+	remove_global_variable = elf_dynasty_filter_other
+
+	remove_global_variable = elf_bloodline_filter_daelurin
+	remove_global_variable = elf_bloodline_filter_thundarael
+	remove_global_variable = elf_bloodline_filter_gwynthorn
+	remove_global_variable = elf_bloodline_filter_valerith
+	remove_global_variable = elf_bloodline_filter_serelion
+	remove_global_variable = elf_bloodline_filter_no_bloodline
+
+	remove_global_variable = elf_magic_ability_filter_magic_talent_1
+	remove_global_variable = elf_magic_ability_filter_magic_talent_2
+	remove_global_variable = elf_magic_ability_filter_magic_talent_3
+	remove_global_variable = elf_magic_ability_filter_magic_talentless
+
+	remove_global_variable = elf_aeluran_order_filter_aeluran_servant
+	remove_global_variable = elf_aeluran_order_filter_aeluran_sister
+	remove_global_variable = elf_aeluran_order_filter_aeluran_matron
+	remove_global_variable = elf_aeluran_order_filter_aeluran_high_matriarch
+	remove_global_variable = elf_aeluran_order_filter_born_in_the_red
+	remove_global_variable = elf_aeluran_order_filter_non_aeluran_elf
+}
+
+toggle_all_mortal_elf_tier_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_type_filter_elf_blood
+				exists = global_var:elf_type_filter_elf
+				exists = global_var:elf_type_filter_high_elf
+			}
+		}
+		set_global_variable = { name = elf_type_filter_elf_blood value = 1 }
+		set_global_variable = { name = elf_type_filter_elf value = 1 }
+		set_global_variable = { name = elf_type_filter_high_elf value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_type_filter_elf_blood
+		remove_global_variable = elf_type_filter_elf
+		remove_global_variable = elf_type_filter_high_elf
+	}
+}
+
+toggle_all_fae_elf_tier_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_type_filter_true_elf
+				exists = global_var:elf_type_filter_fae
+				exists = global_var:elf_type_filter_fae_radiant
+			}
+		}
+		set_global_variable = { name = elf_type_filter_true_elf value = 1 }
+		set_global_variable = { name = elf_type_filter_fae value = 1 }
+		set_global_variable = { name = elf_type_filter_fae_radiant value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_type_filter_true_elf
+		remove_global_variable = elf_type_filter_fae
+		remove_global_variable = elf_type_filter_fae_radiant
+	}
+}
+
+toggle_all_celestial_elf_tier_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_type_filter_celestial
+				exists = global_var:elf_type_filter_seraphic_celestial
+				exists = global_var:elf_type_filter_eldar
+			}
+		}
+		set_global_variable = { name = elf_type_filter_celestial value = 1 }
+		set_global_variable = { name = elf_type_filter_seraphic_celestial value = 1 }
+		set_global_variable = { name = elf_type_filter_eldar value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_type_filter_celestial
+		remove_global_variable = elf_type_filter_seraphic_celestial
+		remove_global_variable = elf_type_filter_eldar
+	}
+}
+
+toggle_all_ainur_elf_tier_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_type_filter_maiar
+				exists = global_var:elf_type_filter_valar
+				exists = global_var:elf_type_filter_aratar
+			}
+		}
+		set_global_variable = { name = elf_type_filter_maiar value = 1 }
+		set_global_variable = { name = elf_type_filter_valar value = 1 }
+		set_global_variable = { name = elf_type_filter_aratar value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_type_filter_maiar
+		remove_global_variable = elf_type_filter_valar
+		remove_global_variable = elf_type_filter_aratar
+	}
+}
+
+toggle_all_elf_bloodlines_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_bloodline_filter_daelurin
+				exists = global_var:elf_bloodline_filter_gwynthorn
+				exists = global_var:elf_bloodline_filter_thundarael
+				exists = global_var:elf_bloodline_filter_valerith
+				exists = global_var:elf_bloodline_filter_serelion
+				exists = global_var:elf_bloodline_filter_no_bloodline
+			}
+		}
+		set_global_variable = { name = elf_bloodline_filter_daelurin value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_gwynthorn value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_thundarael value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_valerith value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_serelion value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_no_bloodline value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_bloodline_filter_daelurin
+		remove_global_variable = elf_bloodline_filter_gwynthorn
+		remove_global_variable = elf_bloodline_filter_thundarael
+		remove_global_variable = elf_bloodline_filter_valerith
+		remove_global_variable = elf_bloodline_filter_serelion
+		remove_global_variable = elf_bloodline_filter_no_bloodline
+	}
+}
+
+toggle_all_elf_dynasties_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_dynasty_filter_daelurin
+				exists = global_var:elf_dynasty_filter_gwynthorn
+				exists = global_var:elf_dynasty_filter_thundarael
+				exists = global_var:elf_dynasty_filter_valerith
+				exists = global_var:elf_dynasty_filter_serelion
+				exists = global_var:elf_dynasty_filter_other
+			}
+		}
+		set_global_variable = { name = elf_dynasty_filter_daelurin value = 1 }
+		set_global_variable = { name = elf_dynasty_filter_gwynthorn value = 1 }
+		set_global_variable = { name = elf_dynasty_filter_thundarael value = 1 }
+		set_global_variable = { name = elf_dynasty_filter_valerith value = 1 }
+		set_global_variable = { name = elf_dynasty_filter_serelion value = 1 }
+		set_global_variable = { name = elf_dynasty_filter_other value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_dynasty_filter_daelurin
+		remove_global_variable = elf_dynasty_filter_gwynthorn
+		remove_global_variable = elf_dynasty_filter_thundarael
+		remove_global_variable = elf_dynasty_filter_valerith
+		remove_global_variable = elf_dynasty_filter_serelion
+		remove_global_variable = elf_dynasty_filter_other
+	}
+}
+
+toggle_all_elf_magic_ability_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_magic_ability_filter_magic_talent_1
+				exists = global_var:elf_magic_ability_filter_magic_talent_2
+				exists = global_var:elf_magic_ability_filter_magic_talent_3
+				exists = global_var:elf_magic_ability_filter_magic_talentless
+			}
+		}
+		set_global_variable = { name = elf_magic_ability_filter_magic_talent_1 value = 1 }
+		set_global_variable = { name = elf_magic_ability_filter_magic_talent_2 value = 1 }
+		set_global_variable = { name = elf_magic_ability_filter_magic_talent_3 value = 1 }
+		set_global_variable = { name = elf_magic_ability_filter_magic_talentless value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_magic_ability_filter_magic_talent_1
+		remove_global_variable = elf_magic_ability_filter_magic_talent_2
+		remove_global_variable = elf_magic_ability_filter_magic_talent_3
+		remove_global_variable = elf_magic_ability_filter_magic_talentless
+	}
+}
+
+toggle_all_elf_aeluran_order_filter = {
+	if = {
+		limit = {
+			NOT = {
+				exists = global_var:elf_aeluran_order_filter_aeluran_servant
+				exists = global_var:elf_aeluran_order_filter_aeluran_sister
+				exists = global_var:elf_aeluran_order_filter_aeluran_matron
+				exists = global_var:elf_aeluran_order_filter_aeluran_high_matriarch
+				exists = global_var:elf_aeluran_order_filter_born_in_the_red
+				exists = global_var:elf_aeluran_order_filter_non_aeluran_elf
+			}
+		}
+		set_global_variable = { name = elf_aeluran_order_filter_aeluran_servant value = 1 }
+		set_global_variable = { name = elf_aeluran_order_filter_aeluran_sister value = 1 }
+		set_global_variable = { name = elf_aeluran_order_filter_aeluran_matron value = 1 }
+		set_global_variable = { name = elf_aeluran_order_filter_aeluran_high_matriarch value = 1 }
+		set_global_variable = { name = elf_aeluran_order_filter_born_in_the_red value = 1 }
+		set_global_variable = { name = elf_aeluran_order_filter_non_aeluran_elf value = 1 }
+	}
+	else = {
+		remove_global_variable = elf_aeluran_order_filter_aeluran_servant
+		remove_global_variable = elf_aeluran_order_filter_aeluran_sister
+		remove_global_variable = elf_aeluran_order_filter_aeluran_matron
+		remove_global_variable = elf_aeluran_order_filter_aeluran_high_matriarch
+		remove_global_variable = elf_aeluran_order_filter_born_in_the_red
+		remove_global_variable = elf_aeluran_order_filter_non_aeluran_elf
+	}
+}
+
+
+set_male_only_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_gender_filter_male
+		}
+		remove_global_variable = elf_gender_filter_male
+	}
+	else = {
+		set_global_variable = { name = elf_gender_filter_male value = 1 }
+		if = {
+			limit = {
+				exists = global_var:elf_gender_filter_female
+			}
+			remove_global_variable = elf_gender_filter_female
+		}
+	}
+}
+
+set_female_only_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_gender_filter_female
+		}
+		remove_global_variable = elf_gender_filter_female
+	}
+	else = {
+		set_global_variable = { name = elf_gender_filter_female value = 1 }
+		if = {
+			limit = {
+				exists = global_var:elf_gender_filter_male
+			}
+			remove_global_variable = elf_gender_filter_male
+		}
+	}
+}
+
+toggle_diplo_range_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_diplo_range
+			global_var:elf_filter_diplo_range = 1
+		}
+		set_global_variable = { name = elf_filter_diplo_range value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_diplo_range
+			global_var:elf_filter_diplo_range = 2
+		}
+		remove_global_variable = elf_filter_diplo_range
+	}
+	else = {
+		set_global_variable = { name = elf_filter_diplo_range value = 1 }
+	}
+}
+
+toggle_is_courtier_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_is_courtier
+			global_var:elf_filter_is_courtier = 1
+		}
+		set_global_variable = { name = elf_filter_is_courtier value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_is_courtier
+			global_var:elf_filter_is_courtier = 2
+		}
+		remove_global_variable = elf_filter_is_courtier
+	}
+	else = {
+		set_global_variable = { name = elf_filter_is_courtier value = 1 }
+	}
+}
+
+toggle_is_ruler_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_is_ruler
+			global_var:elf_filter_is_ruler = 1
+		}
+		set_global_variable = { name = elf_filter_is_ruler value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_is_ruler
+			global_var:elf_filter_is_ruler = 2
+		}
+		remove_global_variable = elf_filter_is_ruler
+	}
+	else = {
+		set_global_variable = { name = elf_filter_is_ruler value = 1 }
+	}
+}
+
+toggle_elf_artifacts_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_artifacts
+		}
+		remove_global_variable = elf_filter_artifacts
+	}
+	else = {
+		set_global_variable = { name = elf_filter_artifacts value = 1 }
+	}
+}
+
+toggle_can_marry_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_can_marry
+			global_var:elf_filter_can_marry = 1
+		}
+		set_global_variable = { name = elf_filter_can_marry value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_can_marry
+			global_var:elf_filter_can_marry = 2
+		}
+		remove_global_variable = elf_filter_can_marry
+	}
+	else = {
+		set_global_variable = { name = elf_filter_can_marry value = 1 }
+	}
+}
+
+toggle_is_lover_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_is_lover
+			global_var:elf_filter_is_lover = 1
+		}
+		set_global_variable = { name = elf_filter_is_lover value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_is_lover
+			global_var:elf_filter_is_lover = 2
+		}
+		remove_global_variable = elf_filter_is_lover
+	}
+	else = {
+		set_global_variable = { name = elf_filter_is_lover value = 1 }
+	}
+}
+
+toggle_is_friend_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_is_friend
+			global_var:elf_filter_is_friend = 1
+		}
+		set_global_variable = { name = elf_filter_is_friend value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_is_friend
+			global_var:elf_filter_is_friend = 2
+		}
+		remove_global_variable = elf_filter_is_friend
+	}
+	else = {
+		set_global_variable = { name = elf_filter_is_friend value = 1 }
+		remove_global_variable = elf_filter_is_enemy
+	}
+}
+
+toggle_is_enemy_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_filter_is_enemy
+			global_var:elf_filter_is_enemy = 1
+		}
+		set_global_variable = { name = elf_filter_is_enemy value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_filter_is_enemy
+			global_var:elf_filter_is_enemy = 2
+		}
+		remove_global_variable = elf_filter_is_enemy
+	}
+	else = {
+		set_global_variable = { name = elf_filter_is_enemy value = 1 }
+		remove_global_variable = elf_filter_is_friend
+	}
+}
+
+toggle_elf_type_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_type_filter_$ELF_TYPE$
+		}
+		remove_global_variable = elf_type_filter_$ELF_TYPE$
+	}
+	else = {
+		set_global_variable = { name = elf_type_filter_$ELF_TYPE$ value = 1 }
+	}
+}
+
+toggle_elf_dynasty_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_dynasty_filter_$ELF_DYNASTY$
+		}
+		remove_global_variable = elf_dynasty_filter_$ELF_DYNASTY$
+	}
+	else = {
+		set_global_variable = { name = elf_dynasty_filter_$ELF_DYNASTY$ value = 1 }
+	}
+}
+
+toggle_elf_player_dynasty_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_player_dynasty_filter
+			global_var:elf_player_dynasty_filter = 1
+		}
+		set_global_variable = { name = elf_player_dynasty_filter value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_player_dynasty_filter
+			global_var:elf_player_dynasty_filter = 2
+		}
+		remove_global_variable = elf_player_dynasty_filter
+	}
+	else = {
+		set_global_variable = { name = elf_player_dynasty_filter value = 1 }
+		remove_global_variable = elf_player_house_filter
+	}
+}
+
+toggle_elf_player_house_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_player_house_filter
+			global_var:elf_player_house_filter = 1
+		}
+		set_global_variable = { name = elf_player_house_filter value = 2 }
+	}
+	else_if = {
+		limit = {
+			exists = global_var:elf_player_house_filter
+			global_var:elf_player_house_filter = 2
+		}
+		remove_global_variable = elf_player_house_filter
+	}
+	else = {
+		set_global_variable = { name = elf_player_house_filter value = 1 }
+		remove_global_variable = elf_player_dynasty_filter
+	}
+}
+
+toggle_elf_bloodline_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_bloodline_filter_$ELF_BLOODLINE$
+		}
+		remove_global_variable = elf_bloodline_filter_$ELF_BLOODLINE$
+	}
+	else = {
+		set_global_variable = { name = elf_bloodline_filter_$ELF_BLOODLINE$ value = 1 }
+	}
+}
+
+toggle_elf_magic_ability_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_magic_ability_filter_$ELF_MAGIC_ABILITY$
+		}
+		remove_global_variable = elf_magic_ability_filter_$ELF_MAGIC_ABILITY$
+	}
+	else = {
+		set_global_variable = { name = elf_magic_ability_filter_$ELF_MAGIC_ABILITY$ value = 1 }
+	}
+}
+
+toggle_elf_aeluran_order_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_aeluran_order_filter_$AELURAN_ORDER_RANK$
+		}
+		remove_global_variable = elf_aeluran_order_filter_$AELURAN_ORDER_RANK$
+	}
+	else = {
+		set_global_variable = { name = elf_aeluran_order_filter_$AELURAN_ORDER_RANK$ value = 1 }
+	}
+}

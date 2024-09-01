@@ -1,0 +1,3220 @@
+﻿types elf_finder_filters_types {
+    type elf_finder_window_character_filter = window {
+        name = "character_filter_window"
+        visible = "[Not( GetVariableSystem.Exists( 'elf_finder_filter_toggle' ) ) ]"
+        parentanchor = top|right
+        position = { -965 20 }
+        size = { 325 915 }
+        movable = yes
+        focuspolicy = click
+        allow_outside = yes
+
+        using = Window_Background_Subwindow
+
+        state = {
+            name = _show
+            using = Animation_FadeIn_Quick
+        }
+
+        state = {
+            name = _hide
+            using = Animation_FadeOut_Quick
+        }
+        
+        widget = { # filters Scrollbox
+            size = { 325 750 }
+            # position = { 0 4 }
+            allow_outside = yes
+            vbox = {
+                margin = { 0 4 }
+    
+                spacing = 10
+                allow_outside = yes
+                elf_finder_header_pattern = {
+                    layoutpolicy_horizontal = expanding
+                    name = "header"
+                    size = { 100 56 }
+    
+                    blockoverride "header_text"
+                    {
+                        text = "CHARACTER_LIST_FILTERS"
+                    }
+                    blockoverride "button_close"
+                    {
+                        onclick = "[GetVariableSystem.Toggle( 'elf_finder_filter_toggle' )]"
+                    }
+                    blockoverride "reload_visible" {
+                        visible = no
+                    }
+                }
+
+                scrollbox = {
+                    layoutpolicy_horizontal = expanding
+                    layoutpolicy_vertical = expanding
+                    maximumsize = { 325 653 }
+                    blockoverride "scrollbox_content" {
+                        flowcontainer = {
+                            layoutpolicy_horizontal = expanding
+                            layoutpolicy_vertical = expanding
+                            direction = vertical
+                            spacing = 5
+                            
+                            state = {
+                                name = idle
+                                alpha = 1
+                            }
+                    
+                            state = {
+                                name = elf_finder_sort
+                                on_start = "[PdxGuiWidget.FindChild('elf_finder_dropdown_block').StackBottom]"
+                                on_finish = "[PdxGuiWidget.FindChild('elf_finder_jitter').TriggerAnimation('elf_finder_sort')]"
+                                alpha = 1
+                                duration = 0.001
+                                next = idle
+                            }
+
+                            widget = {
+                                layoutpolicy_horizontal = expanding
+
+                                size = { 160 40 }
+                                
+                                flowcontainer = {
+                                    direction = horizontal
+                                    # layoutpolicy_horizontal = expanding
+                                    
+                                    text_single = {
+                                        # margin_left = 8
+                                        text = "elf_finder_label_mortal_tier"
+                                        # default_format = "#high"
+
+                                        default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                        using = Font_Size_Big
+                                        # align = center
+                                    }
+                                    spacer = {
+                                        size = { 8 8 }
+                                    }
+                                    button = {
+                                        datacontext = "[GetScriptedGui( 'toggle_all_mortal_tier_elf_filters_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+    
+                                        highlight_icon = {
+                                            # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                            using = Master_Button_Modify_Texture
+    
+                                            size = { 24 24 }
+                        
+                                            position = { 0 9 }
+                                            # parentanchor = center
+                        
+                                            tooltipwidget = {
+                                                # using = character_trait_tooltip
+                                            }
+                                            glow = {
+                                                glow_radius = 1
+                                                using = Color_Bright_Yellow
+                                                using = Glow_Standard
+                                            }
+                                            
+                                            using = Animation_Glow_Pulse                    
+                                        }
+    
+                                        size = { 24 24 }
+                                    }
+                                }
+                            }
+
+                            flowcontainer = {
+                                direction = horizontal
+        
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_elf_blood') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_elf_blood_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_elf') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_elf_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_high_elf') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_high_elf_desc') ]"
+                                    }
+                                }
+                            }
+
+                            flowcontainer = {
+                                direction = horizontal
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_fae_tier"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_fae_tier_elf_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 5 5 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+        
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_true_elf') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_true_elf_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_fae') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_fae_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_fae_radiant') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+                                    }
+                                }
+                            }
+
+                            flowcontainer = {
+                                direction = horizontal
+
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_celestial_tier"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_celestial_tier_elf_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 5 5 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+        
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_celestial') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_celestial_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_seraphic_celestial') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_seraphic_celestial_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_eldar') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_eldar_desc') ]"
+                                    }
+                                }
+                            }
+
+                            flowcontainer = {
+                                direction = horizontal
+                                
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_ainur_tier"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_ainur_tier_elf_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 5 5 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+        
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_maiar') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_maiar_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_valar') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_valar_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'game_concept_aratar') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'game_concept_aratar_desc') ]"
+                                    }
+                                }
+                            }
+
+                            # Bloodlines
+                            flowcontainer = {
+                                direction = horizontal
+
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_elven_bloodlines"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+
+                                button = {
+                                        datacontext = "[GetScriptedGui( 'toggle_all_elf_bloodline_filters_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 10 10 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                margin = { 5 0 }
+                                spacing = 30 
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_daelurin' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_daelurin' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_daelurin' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_daelurin' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_daelurin' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_daelurin' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_thundarael' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_thundarael' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_thundarael' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_thundarael' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_thundarael' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_thundarael' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_gwynthorn' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_gwynthorn' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_gwynthorn' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_gwynthorn' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_gwynthorn' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_gwynthorn' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_valerith' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_valerith' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_valerith' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_valerith' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_valerith' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_valerith' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                            }
+                            spacer = {
+                                size = { 20 20 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                margin = { 5 0 }
+                                spacing = 25 
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_serelion' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_serelion' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_serelion' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_serelion' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_serelion' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_serelion' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+
+                                    highlight_icon = {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/traits/no_bloodline.dds"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        alpha = 0.7
+                                        tooltip = "elf_finder_label_no_elf_bloodline"
+
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "gfx/interface/icons/traits/no_bloodline.dds"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        
+                                        tooltip = "elf_finder_label_no_elf_bloodline"
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+
+                            }
+                            spacer = {
+                                size = { 25 25 }
+                            }
+                            
+
+                            # Great Houses
+                            flowcontainer = {
+                                direction = horizontal
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_great_house_dynasties"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_elf_dyansty_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 10 10 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_daelurin').Dynasty]"
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+    
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_daelurin' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+    
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_daelurin').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }            
+                                }
+                                spacer = {
+                                    size = { 25 25 }
+                                }
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_thundarael').Dynasty]"
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_thundarael' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_thundarael').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }
+                                }
+                            }
+                            spacer = {
+                                size = { 20 20 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_gwynthorn').Dynasty]"
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_gwynthorn' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_gwynthorn').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }
+                                }
+                                spacer = {
+                                    size = { 25 25 }
+                                }
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_valerith').Dynasty]"
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_valerith' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_valerith').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }                            
+                                }
+                            }
+                            spacer = {
+                                size = { 20 20 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_serelion').Dynasty]"
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_serelion' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_serelion').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }
+                                }
+                                spacer = {
+                                    size = { 25 25 }
+                                }
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+
+                                        highlight_icon = {
+                                            # datacontext = "[GetTrait( 'elf_blood' )]"
+                                            # datacontext = "[GetNullCharacter]"
+                                            # datacontext = "[Character.MakeScope.Faith]"
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_other' ).GetValue, '(CFixedPoint)1' )]"
+                                            # visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' ))]"
+    
+                                            texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+    
+                                            size = { 72 72 }
+                        
+                                            position = { 0 1 }
+                                            parentanchor = center
+                        
+                                            tooltipwidget = {
+                                                using = character_trait_tooltip
+                                            }
+                                            
+                                            # glow = {
+                                            #     glow_radius = 3
+                                            #     using = Color_Red
+                                            #     using = Glow_Standard
+                                            # }
+                                            
+                                            using = Animation_Glow_Pulse                    
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "elf_finder_label_other_elves"
+                                        default_format = "#high"
+                                    }
+                                }
+                                
+                            }
+                            spacer = {
+                                size = { 10 10 }
+                            }
+
+                            # Magic Ability
+                            flowcontainer = {
+                                direction = horizontal
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_spark_manipulation"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_elf_magic_ability_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 10 10 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                spacing = 25 
+                                margin = { 5 0 }
+
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_magic_ability_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'magic_talent', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_1' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_1' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_1' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_1' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_1' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_magic_ability_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'magic_talent', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_2' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_2' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_2' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_2' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_2' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_magic_ability_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'magic_talent', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_3' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_3' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'magic_talent_3' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_3' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talent_3' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_magic_ability_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'magic_talent', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+
+                                    highlight_icon = {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talentless' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/traits/magic_talentless.dds"
+
+                                        size = { 72 72 }
+                                        alpha = 0.7
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltip = "elf_finder_label_no_spark_talent"
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talentless' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_magic_ability_filter_magic_talentless' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/traits/magic_talentless.dds"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltip = "elf_finder_label_no_spark_talent"
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                            }
+                            
+                            spacer = {
+                                size = { 25 25 }
+                            }
+
+                            # Aeluran
+
+                            flowcontainer = {
+                                direction = horizontal
+                                text_single = {
+                                    # margin_left = 8
+                                    text = "elf_finder_label_aeluran_order"
+                                    # default_format = "#high"
+
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                    # align = center
+                                }
+                                spacer = {
+                                    size = { 8 8 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'toggle_all_elf_aeluran_order_filters_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                                        using = Master_Button_Modify_Texture
+
+                                        size = { 24 24 }
+                    
+                                        position = { 0 9 }
+                                        # parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            # using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 1
+                                            using = Color_Bright_Yellow
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 24 24 }
+                                }
+                            }
+                            spacer = {
+                                size = { 10 10 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                spacing = 25    
+                                margin = { 5 0 }
+
+
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_servant' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_servant' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_servant' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_servant' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_servant' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_sister' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_sister' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_sister' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_sister' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_sister' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_matron' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_matron' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_matron' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_matron' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_matron' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_high_matriarch' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_high_matriarch' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'aeluran_high_matriarch' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_high_matriarch' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_aeluran_high_matriarch' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                            }
+                            spacer = {
+                                size = { 20 20 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                spacing = 25    
+
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'born_in_the_red' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+                                        # enabled = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 4
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'born_in_the_red' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 4
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_aeluran_order_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'aeluran_rank', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+
+
+                                    highlight_icon = {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_non_aeluran_elf' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/traits/non_aeluran_elf.dds"
+
+                                        size = { 72 72 }
+                                        alpha = 0.7
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltip = "elf_finder_label_non_aeluran_elves"
+                                        glow = {
+                                            glow_radius = 4
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_non_aeluran_elf' ).GetValue, '(CFixedPoint)1' ))]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_non_aeluran_elf' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "gfx/interface/icons/traits/non_aeluran_elf.dds"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltip = "elf_finder_label_non_aeluran_elves"
+                                        glow = {
+                                            glow_radius = 4
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                            }
+
+                            spacer = {
+                                size = { 25 25 }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+        flowcontainer = { # Bottom bar Filter Buttons
+            direction = vertical
+            parentanchor = bottom|hcenter
+            # widgetanchor = bottom|hcenter
+                    # layoutpolicy_horizontal = expanding
+
+            flowcontainer = {
+                direction = vertical
+                spacing = 5
+                button = {
+
+                    datacontext = "[GetScriptedGui( 'toggle_all_elf_filters_button' )]"
+                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                    parentanchor = center
+    
+                    highlight_icon = {
+                        # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_aeluran_order_filter_born_in_the_red' ).GetValue, '(CFixedPoint)1' )]"
+    
+                        texture = "gfx/interface/icons/flat_icons/select_all.dds"
+                        using = Master_Button_Modify_Texture
+    
+                        size = { 40 40 }
+    
+                        glow = {
+                            glow_radius = 2
+                            using = Color_Courtier_Blue
+                            using = Glow_Standard
+                        }
+                        
+                        using = Animation_Glow_Pulse                    
+                    }
+    
+                    size = { 40 40 }
+                }
+                spacer = {
+                    size = { 10 10 }
+                }
+
+                flowcontainer = {
+                    direction = horizontal
+                    spacing = 3
+
+                    elf_filter_button_small = {
+                        position = { 0 -20 }
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_male_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            using = Master_Button_Modify_Texture
+        
+                            texture = "gfx/interface/icons/flat_icons/male.dds"
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_female' ).GetValue, '(CFixedPoint)1' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_male' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 6
+                            using = Color_Courtier_Blue
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_female' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_gender"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_gender"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    elf_filter_button_small = {
+                        position = { 0 -20 }
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_female_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            using = Master_Button_Modify_Texture
+        
+                            texture = "gfx/interface/icons/flat_icons/female.dds"
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_male' ).GetValue, '(CFixedPoint)1' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_female' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 6
+                            using = Color_Intense_Purple
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_gender_filter_male' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_gender"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_gender"
+                                    }
+                                }
+                            }
+                        }
+                    }
+        
+                    button = {
+                        size = { 45 48 }
+
+                        highlight_icon = {
+                            size = { 35 35 }
+                            position = { 0 1 }
+                            parentanchor = center
+                            texture = "gfx/interface/icons/flat_icons/invisible_circle.dds"
+                            
+                            visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_dynasty_filter' ).GetValue, '(CFixedPoint)2' ) )]"
+
+                            coa_dynasty_widget = {
+                                size = { 39 38 }
+                                using = CoA_Dynasty_Defaults
+                                parentanchor = center
+                                datacontext = "[GetPlayer.GetDynasty]"
+                                datacontext = "[GetScriptedGui( 'elf_player_dynasty_filter_button' )]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                    
+                                coat_of_arms_icon = {
+                                    # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_dynasty_filter' ).GetValue, '(CFixedPoint)1' )]"
+        
+                                    parentanchor = center
+                                    size = { 28 28 }
+                                    coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)56','(int32)56')]"
+                                    coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)56','(int32)56')]"
+                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                    
+                                    modify_texture = {
+                                        texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                        blend_mode = overlay
+                                        # alpha = @overlay_alpha
+                                    }
+                                }
+                    
+                                coa_dynasty_frame = {
+                                    framesize = { 43 42 }
+                                    size = { 43 42 }
+                                    texture = "gfx/interface/coat_of_arms/dynasty_28.dds"
+                                }
+    
+                            }
+        
+                            glow = {
+                                visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_dynasty_filter' ).GetValue, '(CFixedPoint)1' )]"
+                                # color = { 0 0 0 0.8 }
+                                glow_radius = 15
+                                # using = Color_Blue
+                                # using = Color_Bright_Yellow
+                                # using = Color_Red
+                                using = Color_Green
+                                using = Glow_Standard
+                                # glow_alpha = 1
+                            }
+        
+                            using = Animation_Glow_Pulse
+                        }
+
+                        highlight_icon = {
+                            size = { 35 35 }
+                            position = { 0 1 }
+                            parentanchor = center
+                            texture = "gfx/interface/icons/flat_icons/invisible_circle.dds"
+                            
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_dynasty_filter' ).GetValue, '(CFixedPoint)2' )]"
+
+                            coa_dynasty_widget = {
+                                size = { 39 38 }
+                                using = CoA_Dynasty_Defaults
+                                parentanchor = center
+                                datacontext = "[GetPlayer.GetDynasty]"
+                                datacontext = "[GetScriptedGui( 'elf_player_dynasty_filter_button' )]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                    
+                                coat_of_arms_icon = {
+                                    enabled = no
+        
+                                    parentanchor = center
+                                    size = { 28 28 }
+                                    coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)56','(int32)56')]"
+                                    coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)56','(int32)56')]"
+                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                    
+                                    modify_texture = {
+                                        texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                        blend_mode = overlay
+                                        # alpha = @overlay_alpha
+                                    }
+                                }
+                    
+                                coa_dynasty_frame = {
+                                    framesize = { 43 42 }
+                                    size = { 43 42 }
+                                    texture = "gfx/interface/coat_of_arms/dynasty_28.dds"
+                                }
+    
+                            }
+        
+                            glow = {
+                                visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_dynasty_filter' ).GetValue, '(CFixedPoint)2' )]"
+                                # color = { 0 0 0 0.8 }
+                                glow_radius = 15
+                                # using = Color_Blue
+                                # using = Color_Bright_Yellow
+                                using = Color_Red
+                                using = Glow_Standard
+                                # glow_alpha = 1
+                            }
+        
+                            using = Animation_Glow_Pulse
+                        }
+
+                        # tooltipwidget = { 
+                        #     elf_filter_tooltip = {
+                        #         blockoverride "elf_filter_tooltip_filter_category" {
+                        #             text = "elf_finder_label_your_dynasty"
+                        #         }
+                        #         blockoverride "elf_filter_tooltip_filter_value" {
+                        #             text = "selected_elf_filter_player_dynasty"
+                        #         }
+                        #     }
+                        # }
+                    }
+
+                    button = {
+                        size = { 45 48 }
+                        # background = {
+                        #     texture = "gfx/interface/icons/flat_icons/elf_finder_icon_bg.dds"
+                        # }
+
+                        highlight_icon = {
+                            size = { 35 35 }
+                            position = { 0 1 }
+                            parentanchor = center
+                            texture = "gfx/interface/icons/flat_icons/invisible_circle.dds"
+                            
+                            visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)2' ) )]"
+
+                            coa_house_widget = {
+                                position = { -2 0 }
+
+                                size = { 39 38 }
+                                using = CoA_House_Defaults
+                                datacontext = "[GetPlayer.GetHouse]"
+                                datacontext = "[GetScriptedGui( 'elf_player_house_filter_button' )]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                
+                                coat_of_arms_icon = {
+                                    # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)1' )]"
+        
+                                    parentanchor = center
+                                    size = { 28 28 }
+                                    coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)56','(int32)56')]"
+                                    coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)56','(int32)56')]"
+                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                
+                                    modify_texture = {
+                                        texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                        blend_mode = overlay
+                                        # alpha = @overlay_alpha
+                                    }
+                                }
+                
+                                coa_house_frame = {
+                                    framesize = { 39 38 }
+                                    size = { 39 38 }
+                                    texture = "gfx/interface/coat_of_arms/house_28.dds"
+                                }
+                            }    
+                            
+
+
+                            glow = {
+                                visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)1' )]"
+
+                                # color = { 0 0 0 0.8 }
+                                glow_radius = 15
+                                # using = Color_Blue
+                                # using = Color_Bright_Yellow
+                                # using = Color_Red
+                                using = Color_Green
+                                using = Glow_Standard
+                                # glow_alpha = 1
+                            }
+        
+                            using = Animation_Glow_Pulse
+                        }
+
+                        highlight_icon = {
+                            # size = { 50 50 }
+                            size = { 35 35 }
+                            position = { 0 1 }
+                            parentanchor = center
+                            texture = "gfx/interface/icons/flat_icons/invisible_circle.dds"
+                            
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)2' )]"
+
+                            coa_house_widget = {
+                                position = { -2 0 }
+
+                                size = { 39 38 }
+                                using = CoA_House_Defaults
+                                datacontext = "[GetPlayer.GetHouse]"
+                                datacontext = "[GetScriptedGui( 'elf_player_house_filter_button' )]"
+                                onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                
+                                coat_of_arms_icon = {
+                                    # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)1' )]"
+                                    enabled = no
+        
+                                    parentanchor = center
+                                    size = { 28 28 }
+                                    coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)56','(int32)56')]"
+                                    coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)56','(int32)56')]"
+                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                
+                                    modify_texture = {
+                                        texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                        blend_mode = overlay
+                                        # alpha = @overlay_alpha
+                                    }
+                                }
+                
+                                coa_house_frame = {
+                                    framesize = { 39 38 }
+                                    size = { 39 38 }
+                                    texture = "gfx/interface/coat_of_arms/house_28.dds"
+                                }
+                            }    
+                            
+
+                            glow = {
+                                visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_player_house_filter' ).GetValue, '(CFixedPoint)2' )]"
+
+                                # color = { 0 0 0 0.8 }
+                                glow_radius = 15
+                                # using = Color_Blue
+                                # using = Color_Bright_Yellow
+                                using = Color_Red
+                                using = Glow_Standard
+                                # glow_alpha = 1
+                            }
+        
+                            using = Animation_Glow_Pulse
+                        }
+
+                        # tooltipwidget = { 
+                        #     elf_filter_tooltip = {
+                        #         blockoverride "elf_filter_tooltip_filter_category" {
+                        #             text = "elf_finder_label_your_house"
+                        #         }
+                        #         blockoverride "elf_filter_tooltip_filter_value" {
+                        #             text = "selected_elf_filter_player_house"
+                        #         }
+                        #     }
+                        # }
+                    }
+
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: Is Your Courtier"
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_is_courtier_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            texture = "gfx/interface/skinned/hud_maintab/maintab_court.dds"
+                            
+                            scale = 1.1
+                            # position = { 0 1 }
+                            # using = Master_Button_Modify_Texture
+
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_courtier' ).GetValue, '(CFixedPoint)2' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_courtier' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_courtier' ).GetValue, '(CFixedPoint)2' )]"
+                            # visible = no
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_your_courtiers"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_is_courtier"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: Is Ruler"
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_is_ruler_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            texture = "gfx/interface/icons/flat_icons/crown.dds"
+                            scale = 1.1
+                            # position = { 0 1 }
+                            # using = Master_Button_Modify_Texture
+
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_ruler' ).GetValue, '(CFixedPoint)2' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_ruler' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_ruler' ).GetValue, '(CFixedPoint)2' )]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_elf_rulers"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_is_ruler"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+        
+                flowcontainer = {
+                    direction = horizontal
+                    spacing = 3
+
+                    elf_filter_button_small = {
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_diplo_range_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            texture = "gfx/interface/icons/icon_skill_diplomacy.dds"
+                            # size = { 35 35 }
+                            framesize = { 60 60 }
+                            frame = 1    
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_diplo_range' ).GetValue, '(CFixedPoint)2' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_diplo_range' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_diplo_range' ).GetValue, '(CFixedPoint)2' )]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_diplomacy_range"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_diplomacy_range"
+                                    }
+                                }
+                            }
+                        }
+                    }
+    
+                    elf_filter_button_small = {
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_can_marry_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            texture = "gfx/interface/icons/activities/activity_wedding.dds"
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_can_marry' ).GetValue, '(CFixedPoint)2' ) )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_can_marry' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_can_marry' ).GetValue, '(CFixedPoint)2' ) ]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_can_marry"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_can_marry"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: Lovers"
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_lovers_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            # texture = "gfx/interface/icons/character_interactions/hook_strong.dds"
+                            texture = "gfx/interface/icons/portraits/lover_soulmate.dds"
+                            frame = 1
+                            framesize = { 40 40 }
+                            scale = 0.9
+                            # position = { 0 1 }
+                            # using = Master_Button_Modify_Texture
+
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_lover' ).GetValue, '(CFixedPoint)2' ))]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_lover' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_lover' ).GetValue, '(CFixedPoint)2' ) ]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_romance"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_is_lover"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: Friends"
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_friends_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            # texture = "gfx/interface/icons/character_interactions/hook_strong.dds"
+                            texture = "gfx/interface/icons/portraits/friend_bestfriend.dds"
+                            frame = 1
+                            framesize = { 40 40 }
+                            scale = 0.9
+                            # position = { 0 1 }
+                            # using = Master_Button_Modify_Texture
+
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_friend' ).GetValue, '(CFixedPoint)2' ) )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_friend' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_friend' ).GetValue, '(CFixedPoint)2' ) ]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_friends"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_is_friend"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: Rival"
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_enemies_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            # texture = "gfx/interface/icons/character_interactions/hook_strong.dds"
+                            texture = "gfx/interface/icons/portraits/rival_nemesis.dds"
+                            frame = 1
+                            framesize = { 40 40 }
+                            scale = 0.9
+                            # position = { 0 1 }
+                            # using = Master_Button_Modify_Texture
+
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            enabled = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_enemy' ).GetValue, '(CFixedPoint)2' ) )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_enemy' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_is_enemy' ).GetValue, '(CFixedPoint)2' ) ]"
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_enemies"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_is_enemy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    elf_filter_button_small = {
+                        # tooltip = "TEST: elf artifact"
+
+                        blockoverride "elf_click_button_effect" {
+                            datacontext = "[GetScriptedGui( 'elf_artifacts_filter_button' )]"
+                            onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                        }
+                        blockoverride "elf_filter_button_texture" {
+                            # texture = "gfx/interface/skinned/hud_maintab/maintab_my_realm.dds"
+                            texture = "gfx/interface/icons/flat_icons/artifact.dds"
+                            scale = 1.1
+                        }
+                        blockoverride "elf_filter_button_selected" {
+                            # enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_artifacts' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled" {
+                            visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_artifacts' ).GetValue, '(CFixedPoint)1' )]"
+                        }
+                        blockoverride "elf_icon_glow_enabled_config" {
+                            glow_radius = 5
+                            using = Color_Green
+                            # using = Glow_Standard
+                        }
+                        blockoverride "elf_icon_glow_disabled" {
+                            visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_filter_artifacts' ).GetValue, '(CFixedPoint)1' ) )]"
+                        }
+                        blockoverride "elf_icon_glow_disabled_config" {
+                            glow_radius = 2
+                            using = Color_Intense_Purple
+                            # using = Glow_Standard
+                        }
+                        blockoverride "elf_filter_button_tooltip" {
+                            tooltipwidget = { 
+                                elf_filter_tooltip = {
+                                    blockoverride "elf_filter_tooltip_filter_category" {
+                                        text = "elf_finder_label_unique_elven_artifacts"
+                                    }
+                                    blockoverride "elf_filter_tooltip_filter_value" {
+                                        text = "selected_elf_filter_elf_artifacts"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                spacer = {
+                    size = { 5 5 }
+                }
+            }
+        }
+
+    }
+
+}
+
+types ElfSearchTypes {
+
+    type elf_filter_button = widget {
+        size = { 92 92 }
+        # margin = {5 5}
+    
+        icon = {
+            # visible = "[DiarchyWindow.IsMandateActive( Mandate.Self )]"
+            parentanchor = center
+            size = { 116 116 }
+            
+            texture = "gfx/particles/halo.dds"
+            color = { 1 0.85 0.6 1 }
+        }
+    
+        button_round = {
+            name = "mandate_item"
+            size = { 92 92 }
+            # .7931 is the ratio
+            # original values were half this
+            # disabled = yes
+
+            gfxtype = togglepushbuttongfx
+            effectname = "NoHighlight"
+
+            block "elf_click_button_effect" {
+                
+            }
+            block "elf_filter_button_tooltip" {
+                tooltipwidget = { override_race_tooltip = {} }
+            }
+
+            downframe = 1
+
+            button = {
+                name = "race_button"
+                parentanchor = center
+                widgetanchor = center
+                using = tooltip_ws
+                # size = { 70 70 }
+                size = { 76 76 }
+                block "elf_click_button_effect" { }
+
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {}
+                    # size = { 76 76 }
+                    size = { 72 72 }
+
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    glow = {
+                        block "elf_icon_glow_enabled" {
+                        }
+                        using = Color_Bright_Yellow
+                        # color = { 0 0 0 0.8 }
+                        glow_radius = 4
+                        # using = Color_Blue
+                        # using = Color_Bright_Yellow
+                        # using = Color_Red
+                        # using = Color_Green
+                        using = Glow_Standard
+                        # glow_alpha = 1
+                    }
+
+                    using = Animation_Glow_Pulse
+
+                    #     state = {
+                    #         name = a
+                    #         next = b
+                    #         alpha = 1
+                    #         trigger_on_create = yes
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                    #     state = {
+                    #         name = b
+                    #         next = a
+                    #         alpha = 0.5
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                }
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {
+                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                    }
+
+                    
+                    size = { 72 72 }
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    # glow = {
+                    #     block "elf_icon_glow_enabled" {
+                    #     }
+                    #     using = Color_Bright_Yellow
+                    #     # color = { 0 0 0 0.8 }
+                    #     glow_radius = 4
+                    #     # using = Color_Blue
+                    #     # using = Color_Bright_Yellow
+                    #     # using = Color_Red
+                    #     # using = Color_Green
+                    #     using = Glow_Standard
+                    #     # glow_alpha = 1
+                    # }
+
+                    glow = {
+                        block "elf_icon_glow_disabled" { 
+                            visible = no
+                        }
+                        # color = { 0 0 0 0.8 }
+                        glow_radius = 4
+                        # using = Color_Blue
+                        # using = Color_Bright_Yellow
+                        using = Color_Red
+                        # using = Color_Green
+                        using = Glow_Standard
+                        # glow_alpha = 1
+                    }
+
+                    using = Animation_Glow_Pulse
+
+                    #     state = {
+                    #         name = a
+                    #         next = b
+                    #         alpha = 1
+                    #         trigger_on_create = yes
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                    #     state = {
+                    #         name = b
+                    #         next = a
+                    #         alpha = 0.5
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                }
+            }
+        }
+    }
+
+    type elf_filter_button_small = widget {
+        size = { 46 46 }
+        # margin = {5 5}
+    
+        icon = {
+            # visible = "[DiarchyWindow.IsMandateActive( Mandate.Self )]"
+            parentanchor = center
+            size = { 58 58 }
+            
+            texture = "gfx/particles/halo.dds"
+            color = { 1 0.85 0.6 1 }
+        }
+    
+        button_round = {
+            name = "mandate_item"
+            size = { 46 46 }
+            # .7931 is the ratio
+            # original values were half this
+            # disabled = yes
+
+            gfxtype = togglepushbuttongfx
+            effectname = "NoHighlight"
+
+            block "elf_click_button_effect" {
+                
+            }
+            block "elf_filter_button_tooltip" {
+                # tooltipwidget = { override_race_tooltip = {} }
+            }
+
+            downframe = 1
+    
+            button = {
+                name = "race_button"
+                # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                # tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+                parentanchor = center
+                widgetanchor = center
+                using = tooltip_ws
+                # size = { 70 70 }
+                size = { 38 38 }
+                block "elf_click_button_effect" { }
+
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {
+                        # texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                    }
+
+                    # size = { 76 76 }
+                    size = { 36 36 }
+
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    glow = {
+                        block "elf_icon_glow_enabled" {
+                        }
+                        block "elf_icon_glow_enabled_config" {
+                            using = Color_Bright_Yellow
+                            # color = { 0 0 0 0.8 }
+                            glow_radius = 4
+                            using = Glow_Standard
+                        }
+                    }
+
+                    using = Animation_Glow_Pulse
+
+                }
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {
+                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                    }
+
+                    
+                    size = { 36 36 }
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    glow = {
+                        block "elf_icon_glow_disabled" { 
+                            # visible = no
+                        }
+                        block "elf_icon_glow_disabled_config" {
+                            glow_radius = 4
+                            using = Color_Red
+                            using = Glow_Standard
+                        }
+
+                    }
+
+                    using = Animation_Glow_Pulse
+                }
+            }
+        }
+    }
+
+    type elf_filter_button_tiny = widget {
+        size = { 34 34 }
+        # margin = {5 5}
+        margin_top = 50
+        # parentanchor = center
+        # widgetanchor = center
+
+    
+        icon = {
+            # visible = "[DiarchyWindow.IsMandateActive( Mandate.Self )]"
+            parentanchor = center
+            size = { 44 44 }
+            
+            texture = "gfx/particles/halo.dds"
+            color = { 1 0.85 0.6 1 }
+        }
+    
+        button_round = {
+            name = "mandate_item"
+            size = { 34 34 }
+            # .7931 is the ratio
+            # original values were half this
+            # disabled = yes
+
+            gfxtype = togglepushbuttongfx
+            effectname = "NoHighlight"
+
+            block "elf_click_button_effect" {
+                
+            }
+            block "elf_filter_button_tooltip" {
+                tooltipwidget = { override_race_tooltip = {} }
+            }
+
+            downframe = 1
+    
+            button = {
+                name = "race_button"
+                # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                # tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+                parentanchor = center
+                widgetanchor = center
+                using = tooltip_ws
+                # size = { 70 70 }
+                size = { 19 19 }
+                block "elf_click_button_effect" { }
+
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {
+                        # texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                    }
+
+                    # size = { 76 76 }
+                    size = { 18 18 }
+
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    glow = {
+                        block "elf_icon_glow_enabled" {
+                        }
+                        block "elf_icon_glow_enabled_config" {
+                            using = Color_Bright_Yellow
+                            # color = { 0 0 0 0.8 }
+                            glow_radius = 4
+                            # using = Color_Blue
+                            # using = Color_Bright_Yellow
+                            # using = Color_Red
+                            # using = Color_Green
+                            using = Glow_Standard
+                            # glow_alpha = 1
+                        }
+                    }
+
+                    using = Animation_Glow_Pulse
+
+                    #     state = {
+                    #         name = a
+                    #         next = b
+                    #         alpha = 1
+                    #         trigger_on_create = yes
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                    #     state = {
+                    #         name = b
+                    #         next = a
+                    #         alpha = 0.5
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                }
+
+                highlight_icon = {
+                    block "elf_filter_button_texture" {
+                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                    }
+
+                    
+                    size = { 18 18 }
+                    position = { 0 1 }
+                    parentanchor = center
+
+                    block "elf_filter_button_selected" { }
+
+                    glow = {
+                        block "elf_icon_glow_disabled" { 
+                            # visible = no
+                        }
+                        # color = { 0 0 0 0.8 }
+                        glow_radius = 4
+                        # using = Color_Blue
+                        # using = Color_Bright_Yellow
+                        using = Color_Red
+                        # using = Color_Green
+                        using = Glow_Standard
+                        # glow_alpha = 1
+                    }
+
+                    using = Animation_Glow_Pulse
+
+                    #     state = {
+                    #         name = a
+                    #         next = b
+                    #         alpha = 1
+                    #         trigger_on_create = yes
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                    #     state = {
+                    #         name = b
+                    #         next = a
+                    #         alpha = 0.5
+                    #         duration = 2
+                    #         using = Animation_Curve_Default
+                    #     }
+
+                }
+            }
+        }
+    }
+}
