@@ -7,6 +7,7 @@ window = {
 	widgetid = "character_window"
 	datacontext = "[GetVariableSystem]"
 	datacontext = "[CharacterWindow.GetCharacter]"
+	datacontext = "[GetScriptedGui( 'init_urf_race_fallback' )]"
 	movable = no
 	layer = middle
 	allow_outside = yes
@@ -21,6 +22,8 @@ window = {
 		position_x = 0
 
 		on_start = "[GetVariableSystem.Set( 'hide_bottom_left_HUD', 'true' )]"
+
+		on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
 	}
 
 	state = {
@@ -30,6 +33,12 @@ window = {
 		position_x = -60
 
 		on_start = "[GetVariableSystem.Clear( 'hide_bottom_left_HUD' )]"
+	}
+
+	state = {
+		name = _mouse_hierarchy_enter
+
+		on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
 	}
 
 	vbox = {
