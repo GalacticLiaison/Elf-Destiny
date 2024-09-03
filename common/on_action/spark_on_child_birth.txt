@@ -4,6 +4,47 @@
 		elf_pregnancy_events.0001
 		elf_pregnancy_events.0002
 	}
+
+	on_actions = {
+		on_pregnancy_mother_handle_unassigned_race
+	}
+}
+
+on_pregnancy_mother_handle_unassigned_race = {
+	trigger = {
+		OR = {
+			scope:mother = {
+				urf_race_initialized = no
+			}
+			scope:real_father = {
+				urf_race_initialized = no
+			}
+		}
+	}
+	effect = {
+		debug_log = "Fixing parents race on_pregnancy_mother"
+		debug_log_scopes = yes
+		if = {
+			limit = {
+				scope:mother = {
+					urf_race_initialized = no
+				}
+			}
+			scope:mother = {
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+			}
+		}
+		if = {
+			limit = {
+				scope:real_father = {
+					urf_race_initialized = no
+				}
+			}
+			scope:real_father = {
+				urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+			}
+		}
+	}
 }
 
 on_birth_child = {

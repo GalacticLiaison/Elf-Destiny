@@ -2063,8 +2063,6 @@ window = {
 				}
 			}
 
-
-
 			widget = {
 				name = "middle_portrait"
 				layoutpolicy_horizontal = expanding
@@ -2089,40 +2087,34 @@ window = {
 					}
 				}
 
-
-				flowcontainer = {
-					direction = horizontal
-					spacing = 10
-					position = { 550 930 }
-
-
-					button_standard = {
-						parentanchor = bottom|hcenter
-						text = "RULER_DESIGNER_TOGGLE_NUDITY"
-						datacontext = "[GetScriptedGui( 'undress_brd' )]"
-														
-						state = {
-							name = _mouse_press
-							on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-						}
-						state = {
-							name = _mouse_release
-							on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-							on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-						}
-					}
-
-					button_standard = {
-						parentanchor = bottom|hcenter
-						size = { 250 45 }
-						position = { 0 -5 }
-						text = "RULER_DESIGNER_CHANGE_PORTRAIT"
-						onclick = "[VariableSystem.Set( 'appearance_customization_window_open', 'ethnicity_selection' )]"
-						onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'full_body' )]"
-					}
-					
+				button_standard = {
+					parentanchor = bottom|hcenter
+					size = { 250 45 }
+					position = { 0 -5 }
+					text = "RULER_DESIGNER_CHANGE_PORTRAIT"
+					onclick = "[VariableSystem.Set( 'appearance_customization_window_open', 'ethnicity_selection' )]"
+					onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'full_body' )]"
 				}
 
+				
+				button_standard = {
+					parentanchor = bottom|hcenter
+					text = "RULER_DESIGNER_TOGGLE_NUDITY"
+					size = { 250 45 }
+					position = { -260 -5 }
+
+					datacontext = "[GetScriptedGui( 'undress_brd' )]"
+													
+					state = {
+						name = _mouse_press
+						on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+					}
+					state = {
+						name = _mouse_release
+						on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
+						on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
+					}
+				}
 
 				text_label_center = {
 					parentanchor = bottom|hcenter
@@ -2135,11 +2127,7 @@ window = {
 					visible = "[Not( StringIsEmpty( RulerDesignerWindow.GetFirstName ) )]"
 					using = Animation_ShowHide_Standard
 				}
-				
-
 			}
-
-
 
 			# button_standard = {
 			# 	button_checkbox = {
