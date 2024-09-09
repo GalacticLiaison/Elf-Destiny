@@ -53,7 +53,9 @@ _Mutation Pits_
         - Greater Serpents
             - Basilisk Variant
                 - Even where if serelion you get a greater basilisk egg and go through an event chain that ultimately ends with a massive 1/1 unit.
-    - raptor riders
+    - raptor riders?
 level 3
     - Wyvern
 
+_Enchanted Tattoos_
+- hijack and iterate on the viking tat0oo mod
