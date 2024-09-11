@@ -73,13 +73,17 @@ aeluran_diarchy_mandate.1003 = { # Random County Gains Some Control
 	desc = aeluran_diarchy_mandate.1003.desc
 
 	trigger = {
-		OR = {
-			any_realm_county = {
-				county_control < full_county_control
-			}
-			any_sub_realm_county = {
-				county_control < full_county_control
-			}
+		# OR = {
+		# 	any_realm_county = {
+		# 		county_control < full_county_control
+		# 	}
+		# 	any_sub_realm_county = {
+		# 		county_control < full_county_control
+		# 	}
+		# }
+
+		any_sub_realm_county = {
+			county_control < full_county_control
 		}
 	}
 
@@ -93,22 +97,6 @@ aeluran_diarchy_mandate.1003 = { # Random County Gains Some Control
 
 	immediate = {
 		if = {
-			limit = {
-				any_realm_county = {
-					county_control < full_county_control
-				}
-			}
-			random_realm_county = {
-				limit = {
-					county_control < full_county_control
-				}
-	
-				save_scope_as = county_to_control
-	
-				change_county_control = full_county_control
-			}
-		}
-		else_if = {
 			limit = {
 				any_sub_realm_county = {
 					county_control < full_county_control
@@ -1309,7 +1297,7 @@ aeluran_diarchy_mandate.1013 = { # change personality trait of vassal like ambit
 	}
 }
 
-aeluran_diarchy_mandate.1113 = {
+aeluran_diarchy_mandate.1113 = { # council vassal
 	type = character_event
 	title = aeluran_diarchy_mandate.1113.title
 	desc = {
