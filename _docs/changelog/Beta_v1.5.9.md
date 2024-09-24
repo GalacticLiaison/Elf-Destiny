@@ -1,49 +1,28 @@
 # Beta_v1.5.9
 
-Robmarts PR: https://github.com/GalacticLiaison/Elf-Destiny/pull/53
+## Features
+- NEW Bloodline event!
 
-_Getting an Aeluran Red Sister as a catholic_
-https://discord.com/channels/1179053540161880074/1282018510741966849
+## Tweaks
+Belanor is now a full Elf
+Aelurans changing the gender of their unborn child now costs 1000 piety
 
-_Minor grammatical error_
-https://discord.com/channels/1179053540161880074/1280938891171594293
-
-## Making Temple be built removes the Aeluran Advisor from their position
-https://discord.com/channels/1179053540161880074/1287257187961278484
-
-_Aeluran Matchmaking is not based on race_
-https://discord.com/channels/1179053540161880074/1280999542753464531
-
-## Lesbian Matchmaking
-https://discord.com/channels/1179053540161880074/1286456176418230343
-
-## Elf Bastard not an Elf
-https://discord.com/channels/1179053540161880074/1286695890756829354
-
-# Seclusion and Regency
-https://discord.com/channels/1179053540161880074/1286695466498654338
-
-# Aeluran Vassals
-https://discord.com/channels/1179053540161880074/1286444762773323786
-
-## Red sister asks for "Aeluran Etiquette" tradition even after I already have it
-https://discord.com/channels/1179053540161880074/1280966483144347775
-
-## Character goes infertile after the 100-something year mark
-https://discord.com/channels/1179053540161880074/1276897989608214539
-
-## Elf Power Sharing is bugged
-https://discord.com/channels/1179053540161880074/1286774230649667595
-
-## Test - Regency mechanics broken
-https://discord.com/channels/1179053540161880074/1277053442954629160
-
-## [Multiplayer] Changing race in Ruler Designer changes it for all players
-https://discord.com/channels/1179053540161880074/1284942528227049584
-
-## nerf change abby gender character interaction, add piety cost
+## Bugs
+- Fixed Aeluran Regent changing the mandate every couple days (Thx Robmart)
+- Non Aeluran Faiths shouldn't receive an Aeluran Advisor any longer
+- Grammar fixes in places
+- Aeluran Matchmaking
+    - Humans wont be offered Aeluran matchmaking any more
+    - Females wont be offered female match options any more
+    - The bastard match option wasnt being made an Elf
+- Made Aeluran Adviser more stable, now shouldn't receive a random male replacement if they become incapable.
+- Now can take the "Create New Aeluran Vassal" decision for counties that already have an Aeluran baron in them.
+- Now you shouldnt be offered the Aeluran Etiquette tradition if your culture already has it.
+- Fixed issue with Aeluran respect where Human/Elf Blood were giving respect instead of subtracting it.
+- Fixed bug where mandate buttons were enabled when they shouldnt be.
 
 
-Fixed human Aeluran respect score
 
-Fixed bug where mandate buttons were enabled when they shouldnt be
+
+## Hide hidden ruler designer traits
+
