@@ -1,7 +1,7 @@
 # Beta_v1.5.9
 
 ## Features
-- NEW Bloodline event!
+- NEW random Bloodline event!
 
 ## Tweaks
 Belanor is now a full Elf
@@ -20,9 +20,5 @@ Aelurans changing the gender of their unborn child now costs 1000 piety
 - Now you shouldnt be offered the Aeluran Etiquette tradition if your culture already has it.
 - Fixed issue with Aeluran respect where Human/Elf Blood were giving respect instead of subtracting it.
 - Fixed bug where mandate buttons were enabled when they shouldnt be.
-
-
-
-
-## Hide hidden ruler designer traits
+- Ruler designer should properly hide traits that should be hidden
 

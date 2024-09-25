@@ -158,6 +158,11 @@
 
 	is_valid_showing_failures_only = {
 
+		custom_description = {
+			text = under_construction
+			always = no
+		}
+
 		scope:actor = {
 			custom_description = {
 				text = not_spark_talented
@@ -166,13 +171,13 @@
 			}
 		}
 
-		scope:actor = {
-			NOT = { is_at_war_with = scope:recipient }
-			can_start_scheme = {
-				type = entrance
-				target = scope:recipient
-			}
-		}
+		# scope:actor = {
+		# 	NOT = { is_at_war_with = scope:recipient }
+		# 	can_start_scheme = {
+		# 		type = entrance
+		# 		target = scope:recipient
+		# 	}
+		# }
 
 		scope:recipient = {
 			custom_description = {
@@ -190,45 +195,45 @@
 	on_accept = {
 		debug_log = "Accepted Entrance intereaction"
 
-		seduce_interaction_stress_effect = yes
+		# seduce_interaction_stress_effect = yes
 
-		hidden_effect = {
-			scope:actor = {
-				send_interface_toast = {
-					title = seduce_interaction_notification
+		# hidden_effect = {
+		# 	scope:actor = {
+		# 		send_interface_toast = {
+		# 			title = seduce_interaction_notification
 
-					left_icon = scope:actor					
-					right_icon = scope:recipient
+		# 			left_icon = scope:actor					
+		# 			right_icon = scope:recipient
 
-					start_scheme = {
-						type = entrance
-						target = scope:recipient
-					}
+		# 			start_scheme = {
+		# 				type = entrance
+		# 				target = scope:recipient
+		# 			}
 
-					show_as_tooltip = { seduce_interaction_stress_effect = yes }
-				}
-				# if = {
-				# 	limit = {
-				# 		has_trait = education_intrigue_5
-				# 	}
-				# 	random_scheme = {
-				# 		limit = {
-				# 			scheme_type = entrance
-				# 			scheme_target = scope:recipient
-				# 		}
-				# 		add_scheme_progress = 3
-				# 	}
-				# }
-			}
-		}
-		scope:actor = {
-			if = {
-				limit = {
-					NOT = { is_attracted_to_gender_of = scope:recipient }
-				}
-				custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
-			}
-		}
+		# 			show_as_tooltip = { seduce_interaction_stress_effect = yes }
+		# 		}
+		# 		# if = {
+		# 		# 	limit = {
+		# 		# 		has_trait = education_intrigue_5
+		# 		# 	}
+		# 		# 	random_scheme = {
+		# 		# 		limit = {
+		# 		# 			scheme_type = entrance
+		# 		# 			scheme_target = scope:recipient
+		# 		# 		}
+		# 		# 		add_scheme_progress = 3
+		# 		# 	}
+		# 		# }
+		# 	}
+		# }
+		# scope:actor = {
+		# 	if = {
+		# 		limit = {
+		# 			NOT = { is_attracted_to_gender_of = scope:recipient }
+		# 		}
+		# 		custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
+		# 	}
+		# }
 	}
 	
 	ai_potential = {
