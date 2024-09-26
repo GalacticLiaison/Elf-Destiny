@@ -276,7 +276,7 @@ window = {
 
 										expand = {}
 									}
-
+									
 									vbox = {
 										name = "race"
 										layoutpolicy_vertical = expanding
@@ -696,8 +696,10 @@ window = {
 									datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
 									datacontext = "[Character.GetPrimaryTitle]"
 									datacontext = "[RulerDesignerWindow.GetTitleCoatOfArms]"
+									visible = "[Not( RulerDesignerWindow.IsDesigningLandless )]"
 
 									vbox = {
+										name = "realm_header"
 										layoutpolicy_horizontal = expanding
 
 										hbox = {
@@ -711,74 +713,82 @@ window = {
 										}
 									}
 
-									vbox = {
+									hbox = {
+										name = "title_and_government"
+										layoutpolicy_vertical = expanding
 										layoutpolicy_horizontal = expanding
-										margin_top = 5
 
-										hbox = {
+										vbox = {
+											name = "title"
 											layoutpolicy_horizontal = expanding
-											margin_right = 30
+											margin_top = 5
 
-											text_multi = {
+											hbox = {
 												layoutpolicy_horizontal = expanding
-												text = "RULER_DESIGNER_TITLE_NAME"
-												default_format = "#high"
-												using = Font_Size_Big
-												max_width = 470
-												autoresize = yes
-												align = center
-											}
-										}
+												margin_right = 30
 
-										hbox = {
-											margin_left = 30
-
-											coa_realm_huge_crown = {
-												name = "default_coa"
-												visible = "[Not( DesignerCoA.IsSet )]"
-												blockoverride "coa_button" {}
-											}
-
-											container = {
-												visible = "[DesignerCoA.IsSet]"
-
-												coa_preview_realm_huge_crown = {
-													name = "custom_coa"
-													datacontext = "[DesignerCoA.GetCoA]"
-
-													blockoverride "frame_override"
-													{
-														frame = "[Title.GetTierFrame]"
-													}
-													blockoverride "realm_mask_texture"
-													{
-														texture = "[Character.GetGovernment.GetRealmMask]"
-													}
-													blockoverride "realm_frame_texture"
-													{
-														texture = "[Character.GetGovernment.GetRealmFrame('(int32)115')]"
-													}
+												text_multi = {
+													layoutpolicy_horizontal = expanding
+													text = "RULER_DESIGNER_TITLE_NAME"
+													default_format = "#high"
+													using = Font_Size_Big
+													max_width = 470
+													autoresize = yes
+													align = center
 												}
 											}
 
-											button_edit_text = {
-												onclick = "[RulerDesignerWindow.OpenTitleCoatOfArmsDesigner]"
-												onclick = "[VariableSystem.Set( 'coat_of_arms_customization_open', 'title' )]"
-												tooltip = RULER_DESIGNER_CUSTOMIZE_TITLE
-												using = tooltip_se
-											}
+											hbox = {
+												margin_left = 30
 
-											button_revert = {
-												onclick = "[RulerDesignerWindow.ResetTitleToHistorical]"
-												tooltip = RULER_DESIGNER_RESET_TITLE
-												using = tooltip_se
+												coa_realm_huge_crown = {
+													name = "default_coa"
+													visible = "[Not( DesignerCoA.IsSet )]"
+													blockoverride "coa_button" {}
+												}
+
+												container = {
+													visible = "[DesignerCoA.IsSet]"
+
+													coa_preview_realm_huge_crown = {
+														name = "custom_coa"
+														datacontext = "[DesignerCoA.GetCoA]"
+
+														blockoverride "frame_override"
+														{
+															frame = "[Title.GetTierFrame]"
+														}
+														blockoverride "realm_mask_texture"
+														{
+															texture = "[Character.GetGovernment.GetRealmMask]"
+														}
+														blockoverride "realm_frame_texture"
+														{
+															texture = "[Character.GetGovernment.GetRealmFrame('(int32)115')]"
+														}
+													}
+												}
+
+												button_edit_text = {
+													onclick = "[RulerDesignerWindow.OpenTitleCoatOfArmsDesigner]"
+													onclick = "[VariableSystem.Set( 'coat_of_arms_customization_open', 'title' )]"
+													tooltip = RULER_DESIGNER_CUSTOMIZE_TITLE
+													using = tooltip_se
+												}
+
+												button_revert = {
+													visible = "[Not( RulerDesignerWindow.IsDesigningLandless )]"
+													onclick = "[RulerDesignerWindow.ResetTitleToHistorical]"
+													tooltip = RULER_DESIGNER_RESET_TITLE
+													using = tooltip_se
+												}
 											}
 										}
 									}
 
 									widget = {
 										size = {520 1}
-									}
+									}									
 								}
 
 								expand = {}
@@ -827,7 +837,6 @@ window = {
 					}
 				}
 			}
-			
 
 			vbox = {
 				name = "faith_selection"
@@ -2096,7 +2105,6 @@ window = {
 					onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'full_body' )]"
 				}
 
-				
 				button_standard = {
 					parentanchor = bottom|hcenter
 					text = "RULER_DESIGNER_TOGGLE_NUDITY"
@@ -2128,448 +2136,6 @@ window = {
 					using = Animation_ShowHide_Standard
 				}
 			}
-
-			# button_standard = {
-			# 	button_checkbox = {
-			# 		checked = "[GetGlobalVariable('undress_brd').IsSet]"
-			# 		alwaystransparent = yes
-			# 		position = { 1 0 }
-			# 		parentanchor = vcenter
-			# 	}
-
-			# 	text = "undress_brd"
-			# 	down = "[GetGlobalVariable('undress_brd').IsSet]"
-			# 	margin_left = 30
-			# 	# onclick = "[GetScriptedGui('undress_brd').Execute( ).End]"
-
-			# 	datacontext = "[GetScriptedGui( 'undress_brd' )]"
-			# 	# onclick = "[ScriptedGui.Execute( GuiScope.AddScope( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-			# 	# onclick = "[GetScriptedGui('undress_brd').Execute()]"
-
-			# 	state = {
-			# 		name = _mouse_press
-			# 		on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-			# 	}
-			# 	state = {
-			# 		name = _mouse_release
-			# 		on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-			# 		on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-			# 	}
-			# }
-
-			# flowcontainer = {
-			# 	direction = vertical
-			# 	margin_right = 6
-			# 	datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
-
-			# 	elf_filter_button_small = {
-			# 	datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
-
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
-
-			# 			datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-			# 			# onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
-
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_human') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_human_desc') ]"
-			# 		}
-			# 	}
-
-			# 	elf_filter_button_small = {
-			# 	datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
-
-			# 		blockoverride "elf_click_button_effect" {
-			# 		datacontext = "[RulerDesignerWindow.GetCharacterToOverwrite]"
-
-			# 			datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_elf_blood') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_elf_blood_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[RulerDesignerWindow.FinishTraitEditing( GetTrait( 'elf_ears_1' ) )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_elf') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_elf_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_high_elf') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_high_elf_desc') ]"
-			# 		}
-			# 	}
-			
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_true_elf') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_true_elf_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_fae') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_fae_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_fae_radiant') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_fae_radiant_desc') ]"
-			# 		}
-			# 	}
-
-
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_celestial') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_celestial_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_seraphic_celestial') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_seraphic_celestial_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_eldar') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_eldar_desc') ]"
-			# 		}
-			# 	}
-			
-
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_maiar') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_maiar_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_valar') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_valar_desc') ]"
-			# 		}
-			# 	}
-			# 	elf_filter_button_small = {
-			# 		blockoverride "elf_click_button_effect" {
-			# 			datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
-			# 			onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_texture" {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
-			# 		}
-			# 		blockoverride "elf_filter_button_selected" {
-			# 			enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_enabled" {
-			# 			visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
-			# 		}
-			# 		blockoverride "elf_icon_glow_disabled" {
-			# 			visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' ) )]"
-			# 		}
-			# 		blockoverride "elf_filter_button_tooltip" {
-			# 			tooltipwidget = { override_race_tooltip = {} }
-			# 		}
-			# 		blockoverride "tooltip_race_icon_texture"  {
-			# 			texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_name" {
-			# 			text = "[Localize( 'game_concept_aratar') ]"
-			# 		}
-			# 		blockoverride "tooltip_race_icon_desc" {
-			# 			text = "[Localize( 'game_concept_aratar_desc') ]"
-			# 		}
-			# 	}
-			# }
 
 			vbox = {
 				name = "trait_selection_panel"
@@ -3071,6 +2637,7 @@ window = {
 							name = "family"
 							layoutpolicy_horizontal = expanding
 							spacing = 10
+							visible = "[Not( RulerDesignerWindow.IsDesigningLandless )]"
 
 							vbox = {
 								layoutpolicy_horizontal = expanding
@@ -3321,7 +2888,7 @@ window = {
 
 									item = {
 										button_standard_hover = {
-											visible = "[Ethnicity.IsVisible]"
+											visible = "[And( Ethnicity.IsVisible, ObjectsEqual( Ethnicity.GetPortraitGroup, RulerDesignerWindow.GetEthnicity.GetPortraitGroup ) )]"
 											layoutpolicy_horizontal = expanding
 
 											text = "[Ethnicity.GetName]"
@@ -3369,121 +2936,56 @@ window = {
 
 					using = Animation_ShowHide_Quick
 
-					text_label_left = {
-						layoutpolicy_horizontal = expanding
-						text = RULER_DESIGNER_ANATOMY_LABEL
-						using = Font_Size_Medium
-					}
-
-					hbox = {
+					vbox = {
 						layoutpolicy_horizontal = expanding
 
-						vbox = {
-							#layoutpolicy_horizontal = expanding
-							spacing = 10
-							margin_bottom = 10
+						datamodel = "[RulerDesignerWindow.GetGeneGroupCategories]"
+						item = {
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								spacing = 10
 
-							button_standard = {
-								text = RULER_DESIGNER_APPEARANCE_CATEGORY_BODY
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'body' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'full_body' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'body' )]"
-							}
+								text_label_left = {
+									layoutpolicy_horizontal = expanding
+									text = "[Localize( Concatenate( 'RULER_DESIGNER_CATEGORY_' , RulerDesignerGeneGroupCategory.GetCategory ) )]"
+									using = Font_Size_Medium
+								}
 
-							button_standard = {
-								text = RULER_DESIGNER_APPEARANCE_CATEGORY_HEAD_AND_NECK
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'head_neck' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'head_neck' )]"
-							}
+								hbox = {
+									layoutpolicy_horizontal = expanding
 
-							button_standard = {
-								text = RULER_DESIGNER_CATEGORY_ears
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'ears' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'ears' )]"
-							}
+									vbox = {
+										datamodel = "[RulerDesignerGeneGroupCategory.GetGroups]"
+										spacing = 10
 
-							button_standard = {
-								text = RULER_DESIGNER_APPEARANCE_CATEGORY_FACE
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'face' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'face' )]"
-							}
-
-							button_standard = {
-								text = RULER_DESIGNER_CATEGORY_eyes
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'eyes' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'eyes' )]"
-							}
-
-							button_standard = {
-								text = RULER_DESIGNER_CATEGORY_nose
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'nose' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'nose' )]"
-							}
-
-							button_standard = {
-								text = RULER_DESIGNER_CATEGORY_mouth
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'mouth' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'mouth' )]"
+										item = {
+											button_standard = {
+												text = "[Localize( Concatenate( 'RULER_DESIGNER_GROUP_' , RulerDesignerGeneGroup.GetGroup ) )]"
+												onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', RulerDesignerGeneGroup.GetGroup )]"
+												onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', RulerDesignerGeneGroup.GetCamera )]"
+												down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', RulerDesignerGeneGroup.GetGroup )]"
+											}
+										}
+									}
+								}
 							}
 						}
-
-						#expand = {}
 					}
+					button_checkbox_label = {
+						name = "toggle_show_accessories"
 
-					text_label_left = {
-						layoutpolicy_horizontal = expanding
-						text = RULER_DESIGNER_HAIR_LABEL
-						using = Font_Size_Medium
-					}
+						visible = "[RulerDesignerWindow.HasAccessoryGenes]"
+						onclick = "[RulerDesignerWindow.ToggleShowAccessories]"
+						tooltip = "RULER_DESIGNER_TOGGLE_SHOW_ACCESSORIES_TOOLTIP"
 
-					hbox = {
-						layoutpolicy_horizontal = expanding
+						blockoverride "checkbox"
+						{
+							checked = "[RulerDesignerWindow.ShouldShowAcesssories]"
+						}
 
-						vbox = {
-							spacing = 10
-
-							button_standard = {
-								text = RULER_DESIGNER_APPEARANCE_CATEGORY_HAIR
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'hair' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'hair' )]"
-							}
-
-							button_standard = {
-								text = RULER_DESIGNER_APPEARANCE_CATEGORY_BEARD
-								visible = "[Not( RulerDesignerWindow.IsFemale )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_side_tab_open', 'beard' )]"
-								onclick = "[VariableSystem.Set( 'appearance_customization_portrait_view', 'face' )]"
-								down = "[VariableSystem.HasValue( 'appearance_customization_side_tab_open', 'beard' )]"
-							}
-
-							button_checkbox_label = {
-								name = "toggle_show_accessories"
-
-								onclick = "[RulerDesignerWindow.ToggleShowAccessories]"
-								tooltip = "RULER_DESIGNER_TOGGLE_SHOW_ACCESSORIES_TOOLTIP"
-
-								blockoverride "checkbox"
-								{
-									checked = "[RulerDesignerWindow.ShouldShowAcesssories]"
-								}
-
-								blockoverride "text"
-								{
-									text = "RULER_DESIGNER_TOGGLE_SHOW_ACCESSORIES_LABEL"
-								}
-							}
-
-							blockoverride "text"
-							{
-								text = "RULER_DESIGNER_TOGGLE_SHOW_ACCESSORIES_LABEL"
-							}
+						blockoverride "text"
+						{
+							text = "RULER_DESIGNER_TOGGLE_SHOW_ACCESSORIES_LABEL"
 						}
 					}
 
@@ -3691,7 +3193,7 @@ window = {
 
 							text_label_left = {
 								layoutpolicy_horizontal = expanding
-								text = "[Localize( Concatenate( 'RULER_DESIGNER_CATEGORY_' , VariableSystem.Get( 'appearance_customization_side_tab_open' ) ) )]"
+								text = "[Localize( Concatenate( 'RULER_DESIGNER_GROUP_' , VariableSystem.Get( 'appearance_customization_side_tab_open' ) ) )]"
 								using = Font_Size_Medium
 							}
 						}
@@ -3758,13 +3260,13 @@ window = {
 
 													scrollbar_morph_gene = {
 														name = "scrollbar_morph_gene"
-														visible = "[GeneCategory.ShowMorphGeneSlider]"
+														visible = "[RulerDesignerWindow.ShowMorphGeneSlider( GeneCategory.Self )]"
 													}
 
 													text_single = {
 														name = "morph_gene_female_only"
 														text = RULER_DESIGNER_GENE_ONLY_WOMEN
-														visible = "[GeneCategory.IsOnlyVisibleFemale]"
+														visible = "[RulerDesignerWindow.IsOnlyVisibleFemale( GeneCategory.Self )]"
 														align = left
 														layoutpolicy_horizontal = expanding
 														default_format = "#weak"
@@ -4067,8 +3569,7 @@ types ruler_designer_types
 		item = {
 			button_standard_hover = {
 				name = "trait_item"
-				# visible = "[And( And( Trait.ShowInRulerDesigner, Not( RulerDesignerWindow.HasTrait( Trait.Self ) ) ), Not( EqualTo_string(Trait.GetKey, 'elf_ears_1') ) )]"
-				visible = no
+				visible = "[And( Trait.ShowInRulerDesigner, Not( RulerDesignerWindow.HasTrait( Trait.Self ) ) )]"
 				enabled = "[RulerDesignerWindow.CanPickTrait( Trait.Self )]"
 				layoutpolicy_horizontal = expanding
 				size = { 0 50 }
@@ -4182,29 +3683,21 @@ types ruler_designer_types
 				hbox = {
 					name = "current_traits_less_than_equal_6"
 					layoutpolicy_horizontal = expanding
-					ignoreinvisible = yes
+
 					size = { 300 50 }
 
 					datamodel = "[TraitSlotArray.AccessSlots]"
 					visible = "[And( DataModelHasItems( TraitSlotArray.AccessSlots ), LessThanOrEqualTo_int32( GetDataModelSize( TraitSlotArray.AccessSlots ), '(int32)6' ) )]"
-					# HERE
-					# visible = no
 
 					item = {
 						container = {
-							ignoreinvisible = yes
-							button_trait_slot_entry = {
-								# visible = "[Not( EqualTo_string(Trait.GetKey, 'elf_ears_1') )]"
-								# visible = no
-								# visible = "[EqualTo_string(Trait.GetKey, 'elf_ears_1')]"
-							}
+							button_trait_slot_entry = {}
 						}
 					}
 				}
 				overlappingitembox = {
 					name = "current_traits_more_than_6"
 					layoutpolicy_horizontal = expanding
-					ignoreinvisible = yes
 
 					size = { 300 50 }
 
@@ -4213,12 +3706,7 @@ types ruler_designer_types
 
 					item = {
 						container = {
-							ignoreinvisible = yes
-
-							button_trait_slot_entry = {
-								# visible = "[Not( EqualTo_string(Trait.GetKey, 'elf_ears_1') )]"
-
-							}
+							button_trait_slot_entry = {}
 						}
 					}
 				}

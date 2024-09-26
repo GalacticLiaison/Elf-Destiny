@@ -55,7 +55,16 @@ on_new_aeluran_advisor_arrives = {
 		# lets test if we still have root scope of player here
 		scope:lord_receiving_advisor = {
 			# add_courtier = scope:aeluran_sister_advisor
-			trigger_event = aeluran_diarchy.101
+			remove_character_flag = aeluran_advisor_is_on_the_way
+
+			if = {
+				limit = {
+					faith = {
+						has_doctrine = tenet_aeluran_sisters
+					}
+				}
+				trigger_event = aeluran_diarchy.101
+			}
 		}
 
 		# assign_councillor_type = {

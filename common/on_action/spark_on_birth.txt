@@ -215,3 +215,32 @@ on_birth_add_multi_birth_tag = {
 		}
 	}
 }
+
+
+
+on_birth_mother = {
+	on_actions = {
+		on_birth_handle_bloodline_event
+	}
+}
+
+on_birth_handle_bloodline_event = {
+	trigger = {
+		scope:mother = {
+			has_character_flag = bloodline_pregnant_event
+		}
+	}
+
+	effect = {
+		debug_log = "=========== on_birth_handle_bloodline_event bloodline_pregnant_event =============="
+		debug_log_scopes = yes
+
+		scope:mother = {
+			remove_character_flag = bloodline_pregnant_event
+
+			liege = {
+				trigger_event = bloodline_random.0033
+			}
+		}
+	}
+}
