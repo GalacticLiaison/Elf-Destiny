@@ -1,0 +1,1062 @@
+vbox = {
+	name = "event_window_widget_trait_selection"
+	layoutpolicy_horizontal = expanding
+
+	background = {
+		# visible = "[MyRealmWindow.IsShowingVassals]"
+		# texture = "gfx/cursors/software_cursor_normal.dds"
+		# using = Status_Highlight
+		# using = Background_Area
+	}
+
+	vbox = {
+		name = ""
+		layoutpolicy_horizontal = expanding
+		# min_width = 350
+		# max_width = 350
+		# background = {
+		# 	# visible = "[MyRealmWindow.IsShowingVassals]"
+		# 	using = Status_Highlight
+		# }
+
+		elf_debug_menu_trait_row = {
+			datacontext = "[EventWindowWidget.GetScope.sC('recipient')]"
+			# size = { 310 60 }
+		}
+
+		spacer = {
+			size = { 10 10 }
+		}
+
+		# divider_light = {
+		# 	layoutpolicy_horizontal = expanding
+		# }
+
+		scrollbox = {
+			layoutpolicy_horizontal = fixed
+            layoutpolicy_vertical = expanding
+			scrollbarpolicy_vertical = as_needed
+            using = Animation_Tab_Switch
+			size = { 410 290 }
+
+			blockoverride "scrollbox_margins" {
+                # margin = { 0 5 }
+                # margin_right = 10
+            }
+
+            blockoverride "scrollbox_content"
+            {
+				spacer = {
+					size = { 10 10 }
+				}
+
+				# Beauty
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_beauty_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/beauty_good_1.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) )]"
+							# visible = no
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetTrait('beauty_good_1').GetIcon(Character.Self)]"
+							
+						}
+						# blockoverride "tooltip_race_icon_name" {
+						# 	text = "[Localize( 'game_concept_human') ]"
+						# }
+						# blockoverride "tooltip_race_icon_desc" {
+						# 	text = "[Localize( 'game_concept_human_desc') ]"
+						# }
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_beauty_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/beauty_good_2.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							# visible = "[Character.HasTraitByKey('beauty_good_2')]"
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf_blood') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_blood_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_beauty_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/beauty_good_3.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_beauty_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/beauty_good_4.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_4' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'beauty_good_3' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_high_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_high_elf_desc') ]"
+						}
+					}
+				}
+		
+				# Intellect
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_intellect_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/intellect_good_1.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetTrait('intellect_good_1').GetIcon(Character.Self)]"
+							
+						}
+						# blockoverride "tooltip_race_icon_name" {
+						# 	text = "[Localize( 'game_concept_human') ]"
+						# }
+						# blockoverride "tooltip_race_icon_desc" {
+						# 	text = "[Localize( 'game_concept_human_desc') ]"
+						# }
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_intellect_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/intellect_good_2.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf_blood') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_blood_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_intellect_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/intellect_good_3.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_intellect_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/intellect_good_4.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_4' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'intellect_good_3' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_high_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_high_elf_desc') ]"
+						}
+					}
+				}
+		
+				# Physique
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_physique_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/physique_good_1.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetTrait('physique_good_1').GetIcon(Character.Self)]"
+							
+						}
+						# blockoverride "tooltip_race_icon_name" {
+						# 	text = "[Localize( 'game_concept_human') ]"
+						# }
+						# blockoverride "tooltip_race_icon_desc" {
+						# 	text = "[Localize( 'game_concept_human_desc') ]"
+						# }
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_physique_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/physique_good_2.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf_blood') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_blood_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_physique_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/physique_good_3.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_physique_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/physique_good_4.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_4' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_1' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_2' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'physique_good_3' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_high_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_high_elf_desc') ]"
+						}
+					}
+				}
+		
+				# Fecund/Pure Blood
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_genetic_misc_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/fecund.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'fecund' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/fecund.dds"
+						}
+						# blockoverride "tooltip_race_icon_name" {
+						# 	text = "[Localize( 'game_concept_human') ]"
+						# }
+						# blockoverride "tooltip_race_icon_desc" {
+						# 	text = "[Localize( 'game_concept_human_desc') ]"
+						# }
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_genetic_misc_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/pure_blooded.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purer_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purest_blooded' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'pure_blooded' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purer_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purest_blooded' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/pure_blooded.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf_blood') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_blood_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_genetic_misc_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/purer_blooded.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'pure_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purest_blooded' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purer_blooded' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'pure_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purest_blooded' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/purer_blooded.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_genetic_misc_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/purest_blooded.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'pure_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purer_blooded' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purest_blooded' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'pure_blooded' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'purer_blooded' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/purest_blooded.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_high_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_high_elf_desc') ]"
+						}
+					}
+				}
+		
+				# Magic Talent
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_magic_talent_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/magic_talent_1.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled =  "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_2' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_3' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_1' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_2' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_3' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetTrait('magic_talent_1').GetIcon(Character.Self)]"
+							
+						}
+						# blockoverride "tooltip_race_icon_name" {
+						# 	text = "[Localize( 'game_concept_human') ]"
+						# }
+						# blockoverride "tooltip_race_icon_desc" {
+						# 	text = "[Localize( 'game_concept_human_desc') ]"
+						# }
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_magic_talent_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/magic_talent_2.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled =  "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_1' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_3' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_2' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_1' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_3' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf_blood') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_blood_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_magic_talent_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/magic_talent_3.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled =  "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_1' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_2' ) )))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_3' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_1' ) ), EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'magic_talent_2' ) ))]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_elf_desc') ]"
+						}
+					}
+				}
+		
+				# Bloodlines
+				flowcontainer = {
+					spacing = 5
+					
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_daelurin.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_daelurin' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_daelurin.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_true_elf') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_true_elf_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_valerith.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_valerith' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_valerith.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_fae') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_fae_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_serelion.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_serelion' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_serelion.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_fae_radiant') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_gwynthorn.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_gwynthorn' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_gwynthorn.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_fae_radiant') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_thundarael.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_thundarael' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_thundarael.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_fae_radiant') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+						}
+					}
+				}
+		
+				# Aeluran
+				flowcontainer = {
+					spacing = 5
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'aeluran_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/aeluran_servant.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/aeluran_servant.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							# text = "[Localize( 'game_concept_celestial') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							# text = "[Localize( 'game_concept_celestial_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'aeluran_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/aeluran_sister.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/aeluran_sister.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							# text = "[Localize( 'game_concept_celestial') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							# text = "[Localize( 'game_concept_celestial_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'aeluran_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/aeluran_matron.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/aeluran_matron.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							# text = "[Localize( 'game_concept_celestial') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							# text = "[Localize( 'game_concept_celestial_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'aeluran_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/aeluran_high_matriarch.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = "[Not(Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) )) ))]"
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_high_matriarch' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = "[Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_servant' ) ), Or(EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_sister' ) ),EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'aeluran_matron' ) )) )]"
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/aeluran_high_matriarch.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							# text = "[Localize( 'game_concept_celestial') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							# text = "[Localize( 'game_concept_celestial_desc') ]"
+						}
+					}
+		
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'aeluran_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/born_in_the_red.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'born_in_the_red' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/born_in_the_red.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							# text = "[Localize( 'game_concept_celestial') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							# text = "[Localize( 'game_concept_celestial_desc') ]"
+						}
+					}
+				}
+            }
+		}
+
+
+		# flowcontainer = {
+		# 	spacing = 5
+
+		# 	elf_filter_button_small = {
+		# 		blockoverride "elf_click_button_effect" {
+		# 			datacontext = "[GetScriptedGui( 'elf_trait_selection_button' )]"
+		# 			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+		# 		}
+		# 		blockoverride "elf_filter_button_texture" {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+		# 		}
+		# 		blockoverride "elf_filter_button_selected" {
+		# 			enabled = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_enabled" {
+		# 			visible = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_disabled" {
+		# 			visible = no
+		# 		}
+		# 		blockoverride "tooltip_race_icon_texture"  {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_name" {
+		# 			text = "[Localize( 'game_concept_maiar') ]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_desc" {
+		# 			text = "[Localize( 'game_concept_maiar_desc') ]"
+		# 		}
+		# 	}
+
+		# 	elf_filter_button_small = {
+		# 		blockoverride "elf_click_button_effect" {
+		# 			datacontext = "[GetScriptedGui( 'elf_trait_selection_button' )]"
+		# 			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+		# 		}
+		# 		blockoverride "elf_filter_button_texture" {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
+		# 		}
+		# 		blockoverride "elf_filter_button_selected" {
+		# 			enabled = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_enabled" {
+		# 			visible = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_disabled" {
+		# 			visible = no
+		# 		}
+		# 		blockoverride "tooltip_race_icon_texture"  {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_name" {
+		# 			text = "[Localize( 'game_concept_valar') ]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_desc" {
+		# 			text = "[Localize( 'game_concept_valar_desc') ]"
+		# 		}
+		# 	}
+
+		# 	elf_filter_button_small = {
+		# 		blockoverride "elf_click_button_effect" {
+		# 			datacontext = "[GetScriptedGui( 'elf_trait_selection_button' )]"
+		# 			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)13' ) ).End )]"
+		# 		}
+		# 		blockoverride "elf_filter_button_texture" {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+		# 		}
+		# 		blockoverride "elf_filter_button_selected" {
+		# 			enabled = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_enabled" {
+		# 			visible = yes
+		# 		}
+		# 		blockoverride "elf_icon_glow_disabled" {
+		# 			visible = no
+		# 		}
+		# 		blockoverride "tooltip_race_icon_texture"  {
+		# 			texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_name" {
+		# 			text = "[Localize( 'game_concept_aratar') ]"
+		# 		}
+		# 		blockoverride "tooltip_race_icon_desc" {
+		# 			text = "[Localize( 'game_concept_aratar_desc') ]"
+		# 		}
+		# 	}
+		# }
+
+	}
+
+	divider_light = {
+		layoutpolicy_horizontal = expanding
+	}
+	
+
+}
+
+
+types elf_debug_menu_trait_types {
+
+    type elf_debug_menu_trait_row = widget {
+        
+        layoutpolicy_vertical = expanding
+        size = { 230 73 }
+
+        scrollbox = {
+            layoutpolicy_horizontal = fixed
+            layoutpolicy_vertical = expanding
+			scrollbarpolicy_vertical = as_needed
+            using = Animation_Tab_Switch
+			size = { 230 73 }
+
+            blockoverride "scrollbox_margins" {
+                margin = { 0 5 }
+                margin_right = 10
+            }
+
+            blockoverride "scrollbox_content"
+            {
+                dynamicgridbox = {
+                    datamodel = "[Character.GetTraitIndices]"
+                    # spacing = 3
+                    # addcolumn = 24
+                    # addrow = 32
+                    maxhorizontalslots = 6 ### URF
+                    datamodel_wrap = 6 ### URF
+                    # maxverticalslots = 8
+                    flipdirection = yes
+
+                    item = {
+                        # spacing = 2
+
+                        icon_trait = {
+                            # visible = "[Trait.GetGroup]"
+                            visible = "[Not( ObjectsEqual( Trait.GetGroup, GetTraitGroup( 'elf_mortality' )))]"
+                            datacontext = "[GetTraitForIndex(int32.GetInt)]"
+                            # visible = no
+                            blockoverride "icon_size"
+                            {
+                                size = { 31 31 }
+                            }
+    
+                            blockoverride "glow_radius"
+                            {
+                                glow_radius = 2
+                            }
+                        }
+        
+                    }
+                }
+            }
+        }
+    }
+}

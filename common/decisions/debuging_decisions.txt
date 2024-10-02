@@ -1,4 +1,40 @@
 ﻿
+elf_debug_menu = {
+	desc = "elf_debug_menu_desc"
+	selection_tooltip = "elf_debug_menu_tooltip"
+	
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_divine_spark.dds"
+	}
+
+	decision_group_type = debug
+
+	is_shown = {
+		is_ai = no
+		OR = {
+			has_global_variable = elf_cheats_on
+			debug_only = yes
+			has_game_rule = elf_dest_debug_menu_turned_on
+		}
+	}
+
+	ai_goal = no
+	ai_will_do = {
+		value = 0
+	}
+	ai_potential = {
+		always = no
+	}
+	ai_check_interval = 0
+
+	effect = {
+		custom_tooltip = elf_dest_debug_skip_story
+		custom_tooltip = elf_dest_debug_spawn_artifacts
+		
+		trigger_event = { id = elf_destiny_debug_menu.001 }
+	}
+}
+
 # debug_add_all_quest_items_decision = {
 # 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
 
@@ -23,6 +59,7 @@
 # 		# }
 # 	}
 # }
+
 
 # debug_complete_initial_expedition_decision = {
 # 	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
