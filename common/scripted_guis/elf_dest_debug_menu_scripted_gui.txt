@@ -1,0 +1,674 @@
+﻿elf_race_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		race
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_race_selection_button GUI"
+		debug_log_scopes = yes
+
+		if = {
+			limit = { scope:race = 1 }
+			debug_log = "SCRIPTED elf_race_selection_button human"
+
+			change_character_race_effect = { NEW_RACE = human }
+
+		}
+		else_if = {
+			limit = { scope:race = 2 }
+			debug_log = "SCRIPTED elf_race_selection_button elf_blood"
+
+			change_character_race_effect = { NEW_RACE = elf_blood }
+
+		}
+		else_if = {
+			limit = { scope:race = 3 }
+			debug_log = "SCRIPTED elf_race_selection_button elf"
+
+			change_character_race_effect = { NEW_RACE = elf }
+
+		}
+		else_if = {
+			limit = { scope:race = 4 }
+			debug_log = "SCRIPTED elf_race_selection_button high_elf"
+
+			change_character_race_effect = { NEW_RACE = high_elf }
+		}
+		else_if = {
+			limit = { scope:race = 5 }
+			debug_log = "SCRIPTED elf_race_selection_button true_elf"
+
+			change_character_race_effect = { NEW_RACE = true_elf }
+		}
+		else_if = {
+			limit = { scope:race = 6 }
+			debug_log = "SCRIPTED elf_race_selection_button fae"
+
+			change_character_race_effect = { NEW_RACE = fae }
+		}
+		else_if = {
+			limit = { scope:race = 7 }
+			debug_log = "SCRIPTED elf_race_selection_button fae_radiant"
+
+			change_character_race_effect = { NEW_RACE = fae_radiant }
+		}
+		else_if = {
+			limit = { scope:race = 8 }
+			debug_log = "SCRIPTED elf_race_selection_button celestial"
+
+			change_character_race_effect = { NEW_RACE = celestial }
+		}
+		else_if = {
+			limit = { scope:race = 9 }
+			debug_log = "SCRIPTED elf_race_selection_button seraphic_celestial"
+
+			change_character_race_effect = { NEW_RACE = seraphic_celestial }
+		}
+		else_if = {
+			limit = { scope:race = 10 }
+			debug_log = "SCRIPTED elf_race_selection_button eldar"
+
+			change_character_race_effect = { NEW_RACE = eldar }
+		}
+		else_if = {
+			limit = { scope:race = 11 }
+			debug_log = "SCRIPTED elf_race_selection_button maiar"
+
+			change_character_race_effect = { NEW_RACE = maiar }
+		}
+		else_if = {
+			limit = { scope:race = 12 }
+			debug_log = "SCRIPTED elf_race_selection_button valar"
+
+			change_character_race_effect = { NEW_RACE = valar }
+		}
+		else_if = {
+			limit = { scope:race = 13 }
+			debug_log = "SCRIPTED elf_race_selection_button aratar"
+
+			change_character_race_effect = { NEW_RACE = aratar }
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_beauty_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_beauty_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		remove_trait = beauty_bad_1
+		remove_trait = beauty_bad_2
+		remove_trait = beauty_bad_3
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			remove_trait = beauty_good_2
+			remove_trait = beauty_good_3
+			remove_trait = beauty_good_4
+
+			if = {
+				limit = { has_trait = beauty_good_1 }
+				remove_trait = beauty_good_1
+			}
+			else = {
+				add_trait = beauty_good_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			remove_trait = beauty_good_1
+			remove_trait = beauty_good_3
+			remove_trait = beauty_good_4
+
+			if = {
+				limit = { has_trait = beauty_good_2 }
+				remove_trait = beauty_good_2
+			}
+			else = {
+				add_trait = beauty_good_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			remove_trait = beauty_good_1
+			remove_trait = beauty_good_2
+			remove_trait = beauty_good_4
+
+			if = {
+				limit = { has_trait = beauty_good_3 }
+				remove_trait = beauty_good_3
+			}
+			else = {
+				add_trait = beauty_good_3
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			
+			remove_trait = beauty_good_1
+			remove_trait = beauty_good_2
+			remove_trait = beauty_good_3
+
+			if = {
+				limit = { has_trait = beauty_good_4 }
+				remove_trait = beauty_good_4
+			}
+			else = {
+				add_trait = beauty_good_4
+			}
+		}
+
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_intellect_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_intellect_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		remove_trait = intellect_bad_1
+		remove_trait = intellect_bad_2
+		remove_trait = intellect_bad_3
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			remove_trait = intellect_good_2
+			remove_trait = intellect_good_3
+			remove_trait = intellect_good_4
+
+			if = {
+				limit = { has_trait = intellect_good_1 }
+				remove_trait = intellect_good_1
+			}
+			else = {
+				add_trait = intellect_good_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			remove_trait = intellect_good_1
+			remove_trait = intellect_good_3
+			remove_trait = intellect_good_4
+
+			if = {
+				limit = { has_trait = intellect_good_2 }
+				remove_trait = intellect_good_2
+			}
+			else = {
+				add_trait = intellect_good_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			remove_trait = intellect_good_1
+			remove_trait = intellect_good_2
+			remove_trait = intellect_good_4
+
+			if = {
+				limit = { has_trait = intellect_good_3 }
+				remove_trait = intellect_good_3
+			}
+			else = {
+				add_trait = intellect_good_3
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			
+			remove_trait = intellect_good_1
+			remove_trait = intellect_good_2
+			remove_trait = intellect_good_3
+
+			if = {
+				limit = { has_trait = intellect_good_4 }
+				remove_trait = intellect_good_4
+			}
+			else = {
+				add_trait = intellect_good_4
+			}
+		}
+
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_physique_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_physique_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		remove_trait = physique_bad_1
+		remove_trait = physique_bad_2
+		remove_trait = physique_bad_3
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			remove_trait = physique_good_2
+			remove_trait = physique_good_3
+			remove_trait = physique_good_4
+
+			if = {
+				limit = { has_trait = physique_good_1 }
+				remove_trait = physique_good_1
+			}
+			else = {
+				add_trait = physique_good_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			remove_trait = physique_good_1
+			remove_trait = physique_good_3
+			remove_trait = physique_good_4
+
+			if = {
+				limit = { has_trait = physique_good_2 }
+				remove_trait = physique_good_2
+			}
+			else = {
+				add_trait = physique_good_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			remove_trait = physique_good_1
+			remove_trait = physique_good_2
+			remove_trait = physique_good_4
+
+			if = {
+				limit = { has_trait = physique_good_3 }
+				remove_trait = physique_good_3
+			}
+			else = {
+				add_trait = physique_good_3
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			
+			remove_trait = physique_good_1
+			remove_trait = physique_good_2
+			remove_trait = physique_good_3
+
+			if = {
+				limit = { has_trait = physique_good_4 }
+				remove_trait = physique_good_4
+			}
+			else = {
+				add_trait = physique_good_4
+			}
+		}
+
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_genetic_misc_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_genetic_misc_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		if = {
+			limit = { scope:trait = 1 }
+			if = {
+				limit = { has_trait = fecund }
+				remove_trait = fecund
+			}
+			else = {
+				add_trait = fecund
+			}
+		}
+		else = {
+			if = {
+				limit = { scope:trait = 2 }
+	
+				remove_trait = purer_blooded
+				remove_trait = purest_blooded
+
+				if = {
+					limit = { has_trait = pure_blooded }
+					remove_trait = pure_blooded
+				}
+				else = {
+					add_trait = pure_blooded
+				}
+			}
+			if = {
+				limit = { scope:trait = 3 }
+	
+				remove_trait = pure_blooded
+				remove_trait = purest_blooded
+
+				if = {
+					limit = { has_trait = purer_blooded }
+					remove_trait = purer_blooded
+				}
+				else = {
+					add_trait = purer_blooded
+				}
+			}
+			if = {
+				limit = { scope:trait = 4 }
+	
+				remove_trait = pure_blooded
+				remove_trait = purer_blooded
+
+				if = {
+					limit = { has_trait = purest_blooded }
+					remove_trait = purest_blooded
+				}
+				else = {
+					add_trait = purest_blooded
+				}
+			}
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_magic_talent_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_magic_talent_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			remove_trait = magic_talent_2
+			remove_trait = magic_talent_3
+
+			if = {
+				limit = { has_trait = magic_talent_1 }
+				remove_trait = magic_talent_1
+			}
+			else = {
+				add_trait = magic_talent_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			remove_trait = magic_talent_1
+			remove_trait = magic_talent_3
+
+			if = {
+				limit = { has_trait = magic_talent_2 }
+				remove_trait = magic_talent_2
+			}
+			else = {
+				add_trait = magic_talent_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			remove_trait = magic_talent_1
+			remove_trait = magic_talent_2
+
+			if = {
+				limit = { has_trait = magic_talent_3 }
+				remove_trait = magic_talent_3
+			}
+			else = {
+				add_trait = magic_talent_3
+			}
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+elf_bloodline_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED elf_bloodline_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			if = {
+				limit = { has_trait = royal_elf_daelurin }
+				remove_trait = royal_elf_daelurin
+			}
+			else = {
+				add_trait = royal_elf_daelurin
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			if = {
+				limit = { has_trait = royal_elf_valerith }
+				remove_trait = royal_elf_valerith
+			}
+			else = {
+				add_trait = royal_elf_valerith
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			if = {
+				limit = { has_trait = royal_elf_serelion }
+				remove_trait = royal_elf_serelion
+			}
+			else = {
+				add_trait = royal_elf_serelion
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			
+			if = {
+				limit = { has_trait = royal_elf_gwynthorn }
+				remove_trait = royal_elf_gwynthorn
+			}
+			else = {
+				add_trait = royal_elf_gwynthorn
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 5 }
+			
+			if = {
+				limit = { has_trait = royal_elf_thundarael }
+				remove_trait = royal_elf_thundarael
+			}
+			else = {
+				add_trait = royal_elf_thundarael
+			}
+		}
+
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+aeluran_trait_selection_button = {
+	scope = character   # the root scope, i.e. the target of the effects
+	saved_scopes = { # any additional targets
+		trait
+	} 		
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "SCRIPTED aeluran_trait_selection_button GUI"
+		debug_log_scopes = yes
+
+		if = {
+			limit = { scope:trait = 1 }
+
+			remove_trait = aeluran_sister
+			remove_trait = aeluran_matron
+			remove_trait = aeluran_high_matriarch
+
+			if = {
+				limit = { has_trait = aeluran_servant }
+				remove_trait = aeluran_servant
+			}
+			else = {
+				add_trait = aeluran_servant
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			
+			remove_trait = aeluran_servant
+			remove_trait = aeluran_matron
+			remove_trait = aeluran_high_matriarch
+
+			if = {
+				limit = { has_trait = aeluran_sister }
+				remove_trait = aeluran_sister
+			}
+			else = {
+				add_trait = aeluran_sister
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			
+			remove_trait = aeluran_servant
+			remove_trait = aeluran_sister
+			remove_trait = aeluran_high_matriarch
+
+			if = {
+				limit = { has_trait = aeluran_matron }
+				remove_trait = aeluran_matron
+			}
+			else = {
+				add_trait = aeluran_matron
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			
+			remove_trait = aeluran_servant
+			remove_trait = aeluran_sister
+			remove_trait = aeluran_matron
+
+			if = {
+				limit = { has_trait = aeluran_high_matriarch }
+				remove_trait = aeluran_high_matriarch
+			}
+			else = {
+				add_trait = aeluran_high_matriarch
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 5 }
+			
+			if = {
+				limit = { has_trait = born_in_the_red }
+				remove_trait = born_in_the_red
+			}
+			else = {
+				add_trait = born_in_the_red
+			}
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
