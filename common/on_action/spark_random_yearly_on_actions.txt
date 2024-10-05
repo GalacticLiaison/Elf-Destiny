@@ -101,122 +101,122 @@ elf_prego_pulse = {
 	}
 }
 
-# entranced_resist_attempt_pulse = {
-# 	trigger = {
-# 		has_trait = entranced
-# 		has_variable = years_since_last_entrance_break_attempt
-# 	}
-# 	effect = {
-# 		debug_log = "entranced_resist_attempt_pulse"
+entranced_resist_attempt_pulse = {
+	trigger = {
+		has_trait = entranced
+		has_variable = years_since_last_entrance_break_attempt
+	}
+	effect = {
+		debug_log = "entranced_resist_attempt_pulse"
 
-# 		if = {
-# 			limit = {
-# 				var:years_since_last_entrance_break_attempt >= 3
-# 			}
+		if = {
+			limit = {
+				var:years_since_last_entrance_break_attempt >= 3
+			}
 
-# 			set_variable = {
-# 				name = years_since_last_entrance_break_attempt
-# 				value = 0
-# 			}
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
 
-# 			every_living_character = {
-# 				limit = {
-# 					has_hook_of_type = {
-# 						type = entranced
-# 						target = root
-# 					}
-# 				}
-# 				save_scope_as = entrancer
-# 			}
+			every_living_character = {
+				limit = {
+					has_hook_of_type = {
+						type = entranced
+						target = root
+					}
+				}
+				save_scope_as = entrancer
+			}
 
-# 			debug_log_scopes = yes
+			debug_log_scopes = yes
 
-# 			if = {
-# 				limit = {
-# 					exists = scope:entrancer
-# 				}
-# 				# if = { # BOTH AI
-# 				# 	limit = { 
-# 				# 		root = {
-# 				# 			is_ai = yes
-# 				# 		}
-# 				# 		scope:entrancer = {
-# 				# 			is_ai = yes
-# 				# 		}
-# 				# 	}
-# 				# 	random_list = {
-# 				# 		60 = { # Entrancement deepens
-# 				# 			root = {
-# 				# 				add_trait_xp = {
-# 				# 					trait = entranced
-# 				# 					value = 33
-# 				# 				}
-# 				# 			}
-# 				# 		}
-# 				# 		40 = { # They break free
-# 				# 			scope:entrancer = {
-# 				# 				remove_hook = {
-# 				# 					target = scope:victim
-# 				# 				}
-# 				# 			}
+			if = {
+				limit = {
+					exists = scope:entrancer
+				}
+				# if = { # BOTH AI
+				# 	limit = { 
+				# 		root = {
+				# 			is_ai = yes
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = yes
+				# 		}
+				# 	}
+				# 	random_list = {
+				# 		60 = { # Entrancement deepens
+				# 			root = {
+				# 				add_trait_xp = {
+				# 					trait = entranced
+				# 					value = 33
+				# 				}
+				# 			}
+				# 		}
+				# 		40 = { # They break free
+				# 			scope:entrancer = {
+				# 				remove_hook = {
+				# 					target = scope:victim
+				# 				}
+				# 			}
 		
-# 				# 			remove_trait = entranced
-# 				# 		}
-# 				# 	}
-# 				# }
-# 				# else_if = { # Player is victim
-# 				# 	limit = {
-# 				# 		root = {
-# 				# 			is_ai = no
-# 				# 		}
-# 				# 		scope:entrancer = {
-# 				# 			is_ai = yes
-# 				# 		}
-# 				# 	}
-# 				# 	# trigger_event = entrance.1160
-# 				# }
-# 				if = { # Player Is Enchanter, AI is victim
-# 					limit = {
-# 						root = {
-# 							is_ai = yes
-# 						}
-# 						scope:entrancer = {
-# 							is_ai = no
-# 						}
-# 					}
+				# 			remove_trait = entranced
+				# 		}
+				# 	}
+				# }
+				# else_if = { # Player is victim
+				# 	limit = {
+				# 		root = {
+				# 			is_ai = no
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = yes
+				# 		}
+				# 	}
+				# 	# trigger_event = entrance.1160
+				# }
+				if = { # Player Is Enchanter, AI is victim
+					limit = {
+						root = {
+							is_ai = yes
+						}
+						scope:entrancer = {
+							is_ai = no
+						}
+					}
 
-# 					scope:entrancer = {
-# 						set_variable = {
-# 							name = struggling_pet
-# 							value = root
-# 						}
-# 						trigger_event = entrance.1150
-# 					}
-# 				}
-# 				# else_if = { # Multiplayer - both roles are players
-# 				# 	limit = {
-# 				# 		root = {
-# 				# 			is_ai = no
-# 				# 		}
-# 				# 		scope:entrancer = {
-# 				# 			is_ai = no
-# 				# 		}
-# 				# 	}
-# 				# 	# trigger_event = entrance.1160
-# 				# }
-# 			}
-# 			else = {
-# 				debug_log = "ERROR: NO ENTRANCER"
-# 			}
+					scope:entrancer = {
+						set_variable = {
+							name = struggling_pet
+							value = root
+						}
+						trigger_event = entrance.1150
+					}
+				}
+				# else_if = { # Multiplayer - both roles are players
+				# 	limit = {
+				# 		root = {
+				# 			is_ai = no
+				# 		}
+				# 		scope:entrancer = {
+				# 			is_ai = no
+				# 		}
+				# 	}
+				# 	# trigger_event = entrance.1160
+				# }
+			}
+			else = {
+				debug_log = "ERROR: NO ENTRANCER"
+			}
 	
 
-# 		}
-# 		else = {
-# 			change_variable = {
-# 				name = years_since_last_entrance_break_attempt
-# 				add = 1
-# 			}
-# 		}
+		}
+		else = {
+			change_variable = {
+				name = years_since_last_entrance_break_attempt
+				add = 1
+			}
+		}
 
-# 	}
-# }
+	}
+}

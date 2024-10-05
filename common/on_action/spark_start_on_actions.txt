@@ -289,10 +289,11 @@ elf_destiny_on_game_start = {
 
 on_game_start_after_lobby = { 
     on_actions = {
-		swap_out_elf_traits
+		# swap_out_elf_traits
         correct_elf_mortality_trait
 		register_aeluran_heirarchy
 		on_game_start_setup_expeditions
+		on_game_start_assign_ruler_designer_race
     } 
 }
 
@@ -309,7 +310,7 @@ swap_out_elf_traits = {
 				limit = {
 					global_var:ruler_designer_selected_race = flag:elf_blood
 				}
-				add_character_flag = race_elf
+				add_character_flag = race_elf_blood
 			}
 			if = {
 				limit = {
@@ -492,6 +493,152 @@ on_game_start_setup_expeditions = {
 		register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns }
 	}
 }
+
+on_game_start_assign_ruler_designer_race = {
+	effect = {
+		every_county = {
+			limit = {
+				has_variable = ruler_designer_race
+			}
+			debug_log = "FOUND RACE COUNTY"
+
+			if = {
+				limit = {
+					var:ruler_designer_race = flag:human
+				}
+				# holder = {
+				# 	add_character_flag = race_elf_blood
+				# 	urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+				# 	set_appropriate_elf_immortality_age = yes
+				# }
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:elf_blood
+				}
+				holder = {
+					add_character_flag = race_elf_blood
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:elf
+				}
+				holder = {
+					add_character_flag = race_elf
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:high_elf
+				}
+				holder = {
+					add_character_flag = race_high_elf
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:true_elf
+				}
+				holder = {
+					add_character_flag = race_true_elf
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:fae
+				}
+				holder = {
+					add_character_flag = race_fae
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:fae_radiant
+				}
+				holder = {
+					add_character_flag = race_fae_radiant
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:celestial
+				}
+				holder = {
+					add_character_flag = race_celestial
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:seraphic_celestial
+				}
+				holder = {
+					add_character_flag = flag:seraphic_celestial
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:eldar
+				}
+				holder = {
+					add_character_flag = race_eldar
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:maiar
+				}
+				holder = {
+					add_character_flag = race_maiar
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:valar
+				}
+				holder = {
+					add_character_flag = race_valar
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+			else_if = {
+				limit = {
+					var:ruler_designer_race = flag:aratar
+				}
+				holder = {
+					add_character_flag = race_aratar
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					set_appropriate_elf_immortality_age = yes
+				}
+			}
+
+			remove_variable = ruler_designer_race
+
+		}
+	}
+}
+
 
 # on_game_start = {
 # 	events = {

@@ -7,6 +7,17 @@
 on_child_birth_genetics = {
 	effect = {
 		scope:child = {
+			if = {
+				limit = {
+					NOT = {
+						exists = scope:real_father
+					}	
+				}
+				debug_log = "YOU ARE NOT THE FATHER!"
+				debug_log_scopes = yes
+			}
+
+
 			urf_on_birth_genotype_assignment = {
 				CHILD = scope:child MOTHER = scope:mother FATHER = scope:real_father
 			}
