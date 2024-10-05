@@ -158,10 +158,10 @@
 
 	is_valid_showing_failures_only = {
 
-		custom_description = {
-			text = under_construction
-			always = no
-		}
+		# custom_description = {
+		# 	text = under_construction
+		# 	always = no
+		# }
 
 		scope:actor = {
 			custom_description = {
@@ -194,6 +194,24 @@
 
 	on_accept = {
 		debug_log = "Accepted Entrance intereaction"
+
+		scope:actor = {
+			send_interface_toast = {
+				type = event_toast_effect_neutral
+				title = entrance_interaction_notification
+	
+				left_icon = scope:actor					
+				right_icon = scope:recipient
+	
+				begin_scheme_basic_effect = {
+					SCHEME_TYPE = entrance
+					TARGET_TYPE = target_character
+					TARGET_SCOPE = scope:recipient
+				}
+	
+				# seduce_interaction_stress_effect = yes
+			}
+		}
 
 		# seduce_interaction_stress_effect = yes
 

@@ -330,7 +330,7 @@ patch random:
 - make fecund an actual aeluran ability, turn on at will!
 - events: game of thrones shame naked walk througn capital, maybe for vassals too
 - having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
-- maybe aeluron sisters have little autonomy in their own matchmaking
+- maybe aeluran sisters have little autonomy in their own matchmaking
 
 
 put pantheon as a section in religion screen and show icons for valar you follow
