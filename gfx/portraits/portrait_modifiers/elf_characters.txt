@@ -4,6 +4,159 @@
     selection_behavior = max
     priority = 2
 
+    julia_melwood = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_high_nobility_clothes
+                accessory = female_clothes_secular_western_nobility_02_high
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = ep3_byzantine_hairstyles_curly
+                accessory = f_hair_ep3_byzantine_03
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75  
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                value = 0.5  
+            }
+            accessory = {
+                mode = add
+                gene = secondary_headgears
+                template = no_headgear
+                value = 0.5 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = additive_headgear
+                template = no_additive
+                value = 0.5 # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+				OR = {
+					AND = {
+						exists = character:julia_melwood
+						this = character:julia_melwood
+					}
+					AND = {
+						exists = character:julia_melwood_1066
+						this = character:julia_melwood_1066
+					}
+				}
+                NOR = {
+                    AND = {
+                        is_married = yes
+                        primary_spouse = {
+                            highest_held_title_tier > tier_county
+                        }
+                    }
+                    AND = {
+                        is_ruler = yes
+                        highest_held_title_tier > tier_county
+                    }
+                }
+            }
+        }
+    }
+
+    queen_julia_melwood = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep3_byzantine_era2_imperial_clothes
+                accessory = f_clothes_sec_ep3_byzantine_era2_imp_01
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = fp2_hairstyles_iberian_christian_curly
+                accessory = female_hair_fp2_iberian_christian_01
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75  
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = secondary_headgears
+                template = no_headgear
+                value = 0.5 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = additive_headgear
+                template = no_additive
+                value = 0.5 # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+				OR = {
+					AND = {
+						exists = character:julia_melwood
+						this = character:julia_melwood
+					}
+					AND = {
+						exists = character:julia_melwood_1066
+						this = character:julia_melwood_1066
+					}
+				}
+                is_any_elf_type = yes
+                OR = {
+                    AND = {
+                        is_married = yes
+                        primary_spouse = {
+                            highest_held_title_tier > tier_county
+                        }
+                    }
+                    AND = {
+                        is_ruler = yes
+                        highest_held_title_tier > tier_county
+                    }
+                }
+            }
+        }
+    }
+
     faelyn_valerith = {
         dna_modifiers = {
             accessory = {
