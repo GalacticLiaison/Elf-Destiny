@@ -6,15 +6,22 @@ tribal_ascension.0001 = {
 	desc = tribal_ascension.0001.desc
 
 	theme = culture_change
+	override_background = { reference = ooga_booga }
+	override_effect_2d = legend_glow
+
 	content_source = elf_destiny
 
-	right_portrait = {
+	left_portrait = {
 		character = root
 		animation = celebrate_axe
 	}
 
-	option = {
-		name = tribal_ascension.0001.a
+	right_portrait = {
+		character = scope:second_portrait
+		animation = random_weapon_coup_degrace
+	}
+
+	immediate = {
 		if = {
 			limit = {
 				NOT = {
@@ -26,6 +33,7 @@ tribal_ascension.0001 = {
 		every_vassal = {
 			if = {
 				limit = {
+					is_ai = yes
 					OR = {
 						government_has_flag = government_is_tribal
 						AND = {
@@ -44,5 +52,92 @@ tribal_ascension.0001 = {
 				change_government = advanced_tribal_government
 			}
 		}
+		every_sub_realm_county = {
+			# is_capital_barony
+			# holding_type = 
+			# has_holding = 
+			# has_holding_type =
+			# has_special_building = 
+			# has_special_building_slot = 
+
+			# set_holding_type
+
+
+			
+			if = { # Free holding SLot
+				limit = {
+					any_province = {
+						county = prev
+						has_holding = no
+					}
+				}
+				random_province = {
+					limit = {
+						county = prev
+						has_holding = no
+					}
+
+					set_holding_type = tribal_holding
+
+					barony = {
+						set_capital_barony = yes
+					}
+				}
+
+				# select holding to convert
+					# record buildings info
+					# convert holding
+					# replace buidlings
+			}
+			else = { # there is no free holding slot
+				random_province = {
+					limit = {
+						county = prev
+						is_county_capital = yes
+					}
+					set_holding_type = tribal_holding
+				}
+			}
+
+		}
+
+
+
+		if = {
+			limit = {
+				primary_heir = {
+					OR = {
+						is_landed = no
+						government_has_flag = government_is_advanced_tribal
+					}
+				}
+			}
+			primary_heir = {
+				save_scope_as = second_portrait
+			}
+		}
+		else_if = {
+			limit = {
+				any_consort = {
+					OR = {
+						is_landed = no
+						government_has_flag = government_is_advanced_tribal
+					}
+				}
+			}
+			random_consort = {
+				limit = {
+					OR = {
+						is_landed = no
+						government_has_flag = government_is_advanced_tribal
+					}
+				}
+				save_scope_as = second_portrait
+			}
+		}
+	}
+
+	option = {
+		name = tribal_ascension.0001.a
 	}
 }

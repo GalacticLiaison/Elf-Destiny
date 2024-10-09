@@ -69,3 +69,78 @@
 	# 	}
 	# }
 }
+
+adopt_ascended_tribal = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_adopt_ascended_tribal.dds"
+	}
+	decision_group_type = elf
+
+	desc = adopt_ascended_tribal_decision_desc
+	selection_tooltip = adopt_ascended_tribal_decision_tooltip
+	ai_goal = no
+
+	sort_order = 500
+
+	is_shown = {
+		culture = {
+			has_cultural_parameter = form_advanced_tribal_government
+		}
+		NOT = {
+			has_government = advanced_tribal_government
+		}
+	}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		NOT = {
+			has_government = landless_adventurer_government
+		}
+		is_landed = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 400
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = adopt_ascended_tribal_decision_tooltip
+		}
+
+		custom_tooltip = {
+			text = adopt_ascended_tribal_decision_convert_holdings_tooltip
+		}
+
+		add_character_modifier = {
+			modifier = chieftain_visionary_modifier
+		}
+
+		trigger_event = tribal_ascension.0001
+	}
+	
+	ai_potential = {
+		NOR = {
+			has_government = aeluran_weavers_government
+			has_government = landless_adventurer_government
+			has_government = advanced_tribal_government
+		}
+	}
+
+	ai_will_do = {
+		base = 25
+
+		modifier = {
+			add = 100
+			liege = {
+				has_government = advanced_tribal_government
+			}
+		}
+	}
+}
