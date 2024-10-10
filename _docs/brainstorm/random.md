@@ -371,3 +371,5 @@ for direct spark trial use glow effect, use transparent pixels art if needed
 maybe we can create an event widget that is just glow orb to absolute position over the emperor's sigil
 
 dynasty legacy "strong blood" or soemthing like that. MAkes it so dynasty never has elf blood, its auto promoted to full elf!
+
+rubble holding type, from destruction
