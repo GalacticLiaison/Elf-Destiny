@@ -10,6 +10,7 @@ window = {
 
 	size = "[Select_CVector2f( IsAeluranRegency, '(CVector2f)720,550', '(CVector2f)720,800' )]"
 
+
 	using = Window_Position_CharacterList_Small
 	using = Window_Background
 	using = Window_Decoration
@@ -102,10 +103,7 @@ window = {
 			datacontext = "[DiarchyWindow.GetDiarchyOwner]"
 			layoutpolicy_horizontal = expanding
 
-
 			background =  {
-				# datacontext = "[DiarchyWindow.GetDiarchyOwner]"
-
 				visible = "[Not(IsAeluranRegency)]"
 				texture = "[Illustration.GetTexture( DiarchyWindow.GetDisplayedDiarch.MakeScope )]"
 				fittype = centercrop
@@ -113,7 +111,6 @@ window = {
 				alpha = 0.8
 			}
 
-			
 			background =  {
 				# datacontext = "[DiarchyWindow.GetDiarchyOwner]"
 
@@ -258,9 +255,12 @@ window = {
 										size = { 0 40 }
 										allow_outside = yes
 
-										visible = "[DiarchyWindow.IsVisiblePowerLevel( ComplexBarItem.GetValue )]"
+										visible = "[ComplexBarItem.IsVisible]"
+										
+										# visible = "[DiarchyWindow.IsVisiblePowerLevel( ComplexBarItem.GetValue )]"
 
-										### Glow on current level animation
+
+										### Current marker glow
 										icon = {
 											name = "highlight_current_level"
 											visible = "[DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )]"
@@ -328,6 +328,7 @@ window = {
 											}
 										}
 
+										### Current marker background
 										icon = {
 											visible = "[And( DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ), Not(IsAeluranRegency) )]"
 											parentanchor = center
@@ -335,10 +336,11 @@ window = {
 
 											texture = "gfx/interface/window_regency/regency_level_bg.dds"
 
-											tooltip = "DIARCHY_WINDOW_SCALES_OF_POWER_LEVEL_TOOLTIP"
-											using = tooltip_se
+											tooltip = "[DiarchyWindow.GetPowerLevelTooltip( PdxGuiWidget.GetIndexInDataModel )]"
+											# using = tooltip_se
 										}
 
+										
 										icon = {
 											visible = "[And( Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )), Not(IsAeluranRegency) )]"
 											parentanchor = center
@@ -346,10 +348,9 @@ window = {
 
 											texture = "gfx/interface/window_regency/regency_level_bg_inactive.dds"
 
-											tooltip = "DIARCHY_WINDOW_SCALES_OF_POWER_LEVEL_TOOLTIP"
-											using = tooltip_se
+											tooltip = "[DiarchyWindow.GetPowerLevelTooltip( PdxGuiWidget.GetIndexInDataModel )]"
+											# using = tooltip_se
 										}
-
 
 										icon = {
 											visible = "[And( DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ), IsAeluranRegency)]"
@@ -357,9 +358,11 @@ window = {
 											size = { 45 45 }
 
 											texture = "gfx/interface/window_regency/regency_level_bg.dds"
+											text = "[DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue )]"
 
-											tooltip = "DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP"
-											using = tooltip_se
+											tooltip = "[DiarchyWindow.GetPowerLevelTooltip( PdxGuiWidget.GetIndexInDataModel )]"
+
+											# using = tooltip_se
 										}
 
 										icon = {
@@ -369,10 +372,13 @@ window = {
 
 											texture = "gfx/interface/window_regency/regency_level_bg_inactive.dds"
 
-											tooltip = "DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP"
-											using = tooltip_se
+											
+											tooltip = "[DiarchyWindow.GetPowerLevelTooltip( PdxGuiWidget.GetIndexInDataModel )]"
+											
+											# using = tooltip_se
 										}
 
+										### Current marker text
 										text_single = {
 											visible = "[DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue )]"
 											parentanchor = center
@@ -380,9 +386,22 @@ window = {
 											text = "[DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue )]"
 											default_format = "#high"
 											align = nobaseline
-
 										}
 
+										### Inactive marker background
+										icon = {
+											visible = "[Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ))]"
+											parentanchor = center
+											size = { 35 35 }
+
+											texture = "gfx/interface/window_regency/regency_level_bg_inactive.dds"
+
+											tooltip = "[DiarchyWindow.GetPowerLevelTooltip( PdxGuiWidget.GetIndexInDataModel )]"
+								
+											using = tooltip_se
+										}
+
+										### Inactive marker text
 										text_single = {
 											visible = "[Not(DiarchyWindow.IsCurrentPowerLevel( ComplexBarItem.GetValue ))]"
 											parentanchor = center
@@ -460,15 +479,14 @@ window = {
 
 						button_swing_scales = {
 							datacontext = "[DiarchyWindow.GetDisplayedDiarch]"
-							# datacontext = "[DiarchyWindow.GetDiarchyOwner]"
-
+							# visible = "[And( DiarchyWindow.GetDiarchyOwner.IsLocalPlayer, Character.IsPlayerInteractionShown( 'swing_scales_currency_interaction' ) )]"
 							visible = "[And( And( DiarchyWindow.GetDiarchyOwner.IsLocalPlayer, Character.IsPlayerInteractionShown( 'swing_scales_currency_interaction' ) ), Not(IsAeluranRegency) )]"
 						}
 
-						# button_swing_scales = {
-						# 	datacontext = "[DiarchyWindow.GetDiarchyOwner]"
-						# 	visible = "[And( Not( Character.IsLocalPlayer ), Character.IsPlayerInteractionShown( 'swing_scales_currency_interaction' ) )]"
-						# }
+						button_swing_scales = {
+							datacontext = "[DiarchyWindow.GetDiarchyOwner]"
+							visible = "[And( Not( Character.IsLocalPlayer ), Character.IsPlayerInteractionShown( 'swing_scales_currency_interaction' ) )]"
+						}
 					}
 				}
 
@@ -536,7 +554,7 @@ window = {
 							widget = {
 								size = { 230 20 }
 								allow_outside = yes
-
+								
 								hbox = {
 									parentanchor = center
 									allow_outside = yes
@@ -548,7 +566,6 @@ window = {
 										blockoverride "breakdown_datacontext"
 										{
 											datacontext = "[DiarchyWindow.GetDisplayedDiarch]"
-											
 										}
 
 										blockoverride "succession_score"
@@ -789,7 +806,7 @@ window = {
 							position = { 4 4 }
 							size = { 30 30 }
 
-							texture = "[GetCharacterInteraction( DiarchyWindow.GetEndInteractionName ).GetIcon]"
+							texture = "[GetCharacterInteraction( DiarchyWindow.GetEndInteractionName ).GetIcon( Character.Self )]"
 						}
 					}
 				}
@@ -822,7 +839,7 @@ window = {
 						icon = {
 							position = { 4 4 }
 							size = { 30 30 }
-							texture = "[GetCharacterInteraction( 'diarch_entrench_regency_interaction' ).GetIcon]"
+							texture = "[GetCharacterInteraction( 'diarch_entrench_regency_interaction' ).GetIcon( Character.Self )]"
 						}
 					}
 				}
@@ -1038,7 +1055,6 @@ types DiarchyWindowTypes {
 							layoutpolicy_vertical = expanding
 							spacing = 5
 							margin_right = 5
-							
 
 							divider_light = {
 								layoutpolicy_vertical = expanding
@@ -1070,11 +1086,9 @@ types DiarchyWindowTypes {
 	}
 
 	type hbox_diarch_succession_score = hbox {
-		
 		margin = { 0 4 }
 
 		tooltipwidget = {
-			
 			diarch_score_breakdown_tooltip = {
 
 				blockoverride "breakdown_datacontext"
@@ -1239,10 +1253,10 @@ types DiarchyWindowTypes {
 		icon = {
 			position = { 4 4 }
 			size = { 27 27 }
-			texture = "[GetCharacterInteraction( 'swing_scales_currency_interaction' ).GetIcon]"
+			texture = "[GetCharacterInteraction( 'swing_scales_currency_interaction' ).GetIcon( Character.Self )]"
 		}
 	}
-
+	
 	type button_battle_of_wills = button_standard {
 		size = { 250 33 }
 
@@ -1260,7 +1274,6 @@ types DiarchyWindowTypes {
 			texture = "[GetCharacterInteraction( 'swing_aeluran_control_interaction' ).GetIcon]"
 		}
 	}
-
 
 	type widget_aeluran_respect_value_tooltip = widget {
 		alwaystransparent = no
