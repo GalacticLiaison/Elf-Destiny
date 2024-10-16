@@ -343,3 +343,586 @@ swing_scales_currency_interaction = {
 		## We take care of these in the ai_potential block, because otherwise the AI interacts very, very weirdly with them.
 	}
 }
+
+# demand_conversion_vassal_ruler_interaction = {
+# 	category = interaction_category_religion
+# 	icon = religious
+# 	notification_text = LIEGE_DEMAND_CONVERSION
+
+# 	ai_maybe = yes
+# 	ai_min_reply_days = 4
+# 	ai_max_reply_days = 9
+# 	can_send_despite_rejection = yes
+# 	ai_accept_negotiation = yes
+# 	popup_on_receive = yes
+
+# 	ai_targets = {
+# 		ai_recipients = vassals
+# 	}
+# 	ai_target_quick_trigger = {
+# 		adult = yes
+# 	}
+# 	ai_frequency = 12
+
+# 	desc = {
+# 		desc = ask_for_conversion_interaction_desc
+# 		desc = line_break
+# 		triggered_desc = {
+# 			trigger = {
+# 				NOT = { scope:recipient = { is_imprisoned_by = scope:actor } }
+# 			}
+# 			desc = might_ask_for_something_in_return_warning
+# 		}
+# 		triggered_desc = {
+# 			trigger = {
+# 				scope:actor = {
+# 					refusing_conversion_is_crime_trigger = {
+# 						CHARACTER = scope:recipient
+# 					}
+# 				}
+# 			}
+# 			desc = demand_conversion_vassal_ruler_is_crime
+# 		}
+# 	}
+
+# 	on_decline_summary = stop_attacker_vassal_war_decline_summary
+
+# 	is_shown = {
+# 		scope:recipient = {
+# 			target_is_liege_or_above = scope:actor
+# 			NOT = { faith = scope:actor.faith }
+# 			is_ai = yes
+# 			is_ruler = yes
+# 		}
+
+# 		always = no
+
+# 		# ELF DESTINY ===================== V
+# 		trigger_if = {
+# 			limit = {
+# 				scope:recipient = {
+# 					is_any_elf_type = yes
+# 					faith.religion = {
+# 						is_in_family = rf_spark
+# 					}
+# 				}
+
+# 			}
+# 			OR = {
+# 				scope:actor = {
+# 					# is_any_elf_type = yes
+# 					faith.religion = {
+# 						is_in_family = rf_spark
+# 					}
+# 				}
+# 				scope:actor = {
+# 					is_ai = no
+# 				}
+# 			}
+# 		}
+
+# 		# ELF DESTINY ============= ^
+# 	}
+
+# 	cooldown_against_recipient = { years = 15 }
+
+	
+# 	is_valid_showing_failures_only = {
+# 		valid_demand_conversion_conditions_trigger = yes
+
+
+# 	}
+
+# 	auto_accept = {
+# 		custom_description = {
+# 			text = "spending_hook"
+# 			subject = scope:actor
+# 			object = scope:recipient
+# 			scope:hook = yes
+# 			scope:actor = { has_strong_hook = scope:recipient }
+# 			NOT = { scope:recipient = { has_character_flag = ai_will_not_convert } }
+# 		}
+# 	}
+
+# 	on_send = {
+# 		debug_log = "demand_conversion_vassal_ruler_interaction 1"
+# 		debug_log_scopes = yes
+# 		debug_log_date = yes
+# 	}
+
+# 	cost = {
+# 		influence = {
+# 			value = 0
+# 			if = {
+# 				limit = { scope:influence_send_option = yes }
+# 				add = scope:actor.medium_influence_value
+# 				desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
+# 			}
+# 		}
+# 	}
+
+# 	on_accept = {
+# 		debug_log = "demand_conversion_vassal_ruler_interaction 2"
+# 		debug_log_scopes = yes
+# 		debug_log_date = yes
+
+# 		scope:actor = {
+# 			trigger_event = religious_interaction.2002
+# 		}
+# 		demand_conversion_vassal_ruler_interaction_effect = yes
+
+# 		# If we're a clan this interaction affects unity
+# 		accept_faith_conversion_add_clan_unity_effect = yes
+
+# 		# If character is converting to the state faith, we add influence
+# 		state_faith_conversion_add_piety_effect = yes
+
+# 		scope:actor = {
+# 			if = {
+# 				limit = {
+# 					any_character_struggle = {
+# 						involvement = involved
+# 						has_struggle_phase_parameter = piety_from_converting_involved_rulers
+# 						is_secondary_character_involvement_involved_trigger = {
+# 							CHAR = scope:recipient
+# 						}
+# 					}
+# 				}
+# 				add_piety = medium_piety_gain
+# 			}
+# 		}
+# 	}
+
+# 	on_decline = {
+# 		scope:recipient = {
+# 			hidden_effect = {
+# 				random_list = {
+# 					80 = { # Conditional acceptance
+# 						modifier = {
+# 							factor = 0 # Heresiarchs never agree to convert
+# 							scope:recipient = {
+# 								has_trait = heresiarch
+# 							}
+# 						}
+# 						ai_value_modifier = {
+# 							ai_greed = 0.5
+# 						}
+# 						random_list = {
+# 							50 = { #They ask for gold
+# 								modifier = {
+# 									add = 50 # More likely to ask for gold if they're poor
+# 									scope:recipient.short_term_gold < medium_gold_value
+# 								}
+# 								modifier = {
+# 									add = { # Much more likely to ask for gold involved in one of their own wars (they want to win).
+# 										value = 50
+# 										if = {
+# 											# Especially true if they're in debt!
+# 											limit = { gold < 0 }
+# 											add = 150
+# 										}
+# 									}									
+# 									is_at_war = yes
+# 									any_character_war = {
+# 										is_war_leader = scope:recipient
+# 									}
+# 								}
+# 								scope:actor = {
+# 									trigger_event = {
+# 										id = religious_interaction.2011
+# 									}
+# 								}
+# 							}
+# 							500 = { #They ask for a favor
+# 								trigger = {
+# 									exists = scope:recipient.capital_county
+# 									NOT = { has_hook = scope:actor }
+# 								}
+# 								# Direct feudal vassals appreciate favors more (they can improve their contract).
+# 								modifier = {
+# 									add = {
+# 										value = 50
+# 										# This goes double for your Powerful Vassals. A better contract is likely to be much more important than a short-term payout.
+# 										if = {
+# 											limit = { is_powerful_vassal_of = scope:actor }
+# 											add = 100
+# 										}
+# 									}
+# 									this.liege = scope:actor
+# 									government_has_flag = government_is_feudal
+# 								}
+# 								scope:actor = {
+# 									trigger_event = {
+# 										id = religious_interaction.2012
+# 									}
+# 								}
+# 							}
+# 						}
+
+# 					}
+# 					20 = { # Full refuse
+# 						modifier = {
+# 							add = 20
+# 							scope:recipient.demand_conversion_likelihood_calculation < 40
+# 						}
+# 						modifier = {
+# 							add = 20
+# 							scope:recipient.demand_conversion_likelihood_calculation < 20
+# 						}
+# 						modifier = {
+# 							add = 50
+# 							scope:recipient.demand_conversion_likelihood_calculation < 0
+# 						}
+# 						scope:actor = {
+# 							trigger_event = {
+# 								id = religious_interaction.2003
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			custom_tooltip = demand_conversion_vassal_ruler_does_not_convert
+# 			show_as_tooltip = {
+# 				#Negative opinions
+# 				add_opinion = {
+# 					modifier = demanded_my_conversion_opinion
+# 					target = scope:actor
+# 					opinion = -10
+# 				}
+# 				scope:actor = {
+# 					if = {
+# 						limit = {
+# 							refusing_conversion_is_crime_trigger = {
+# 								CHARACTER = scope:recipient
+# 							}
+# 						}
+# 						custom_tooltip = action_can_lawfully_imprison_label
+# 					}
+# 				}
+# 				# If appropriate, give 'em piety.
+# 				give_piety_for_clinging_to_state_faith_effect = yes
+# 			}
+# 		}
+
+# 		# If we're a clan this interaction affects unity
+# 		refuse_faith_conversion_add_clan_unity_effect = yes
+# 	}
+	
+# 	ai_potential = {
+# 		is_adult = yes
+# 	}
+	
+# 	# Use hook
+# 	send_option = {
+# 		is_valid = {
+# 			scope:actor = {
+# 				has_usable_hook = scope:recipient
+# 			}
+# 			NOT = {
+# 				scope:recipient = { is_imprisoned_by = scope:actor }
+# 			}
+# 		}
+# 		flag = hook
+# 		localization = SCHEME_HOOK
+# 	}
+# 	should_use_extra_icon = {
+# 		scope:actor = { has_usable_hook = scope:recipient }
+# 	}
+# 	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+# 	send_option = { # EP3 Influence
+# 		is_shown = { # Actor must have a government that uses influence 
+# 			scope:actor = {
+# 				government_has_flag = government_has_influence
+# 			}
+# 		}
+# 		is_valid = {
+# 			# Actor has enough influence
+# 			scope:actor = { influence >= medium_influence_value }
+# 			# Both characters are within the same top realm
+# 			custom_tooltip = {
+# 				text = not_same_realm_tt
+# 				scope:recipient.top_liege = scope:actor.top_liege
+# 			}
+# 		}
+# 		flag = influence_send_option
+# 		localization = TRADE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
+# 	}
+# 	send_options_exclusive = no
+
+# 	ai_will_do = {
+# 		base = 100
+		
+# 		modifier = { # Make sure the AI uses hooks for this as it's % based
+# 			scope:hook = yes
+# 			add = 1
+# 		}
+		
+# 		modifier = {
+# 			factor = 0
+# 			scope:recipient.demand_conversion_likelihood_calculation < 10
+# 			NOT = {
+# 				scope:actor = {
+# 					refusing_conversion_is_crime_trigger = {
+# 						CHARACTER = scope:recipient
+# 					}
+# 				}
+# 			}
+# 		}
+		
+# 		modifier = {
+# 			factor = 0
+# 			scope:recipient.demand_conversion_likelihood_calculation < 70
+# 			scope:actor = {
+# 				gold < demand_conversion_bribe_size
+# 			}
+# 		}
+
+# 		modifier = {
+# 			factor = 0
+# 			scope:recipient.demand_conversion_likelihood_calculation < 90
+# 			scope:actor = {
+# 				culture = {
+# 					has_cultural_parameter = less_likely_to_force_conversion
+# 				}
+# 			}
+# 		}
+
+# 		modifier = { # Do not convert Righteous faith subjects, unless disturbingly zealous
+# 			factor = 0
+# 			scope:actor = {
+# 				ai_zeal < 100
+# 				faith = {
+# 					faith_hostility_level = {
+# 						target = scope:recipient.faith
+# 						value <= faith_fully_accepted_level
+# 					}
+# 				}
+# 			}
+# 			NOT = { # If the subject has one of your holy sites, always try to convert
+# 				scope:recipient = {
+# 					any_sub_realm_county = {
+# 						any_county_province = {
+# 							barony = {
+# 								is_holy_site_of = scope:actor.faith
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			NOT = {
+# 				scope:recipient = {
+# 					is_close_family_of = scope:actor
+# 				}
+# 			}
+# 		}
+
+# 		modifier = { # Astray faiths require specific circumstances to demand conversion of
+# 			factor = 0
+# 			scope:actor = {
+# 				has_tolerant_faith_or_culture_trigger = yes
+# 				ai_zeal < 50
+# 				faith = {
+# 					faith_hostility_level = {
+# 						target = scope:recipient.faith
+# 						value <= faith_astray_level
+# 					}
+# 				}
+# 			}
+# 			NOT = { # If the subject has one of your holy sites, always try to convert
+# 				scope:recipient = {
+# 					any_sub_realm_county = {
+# 						any_county_province = {
+# 							barony = {
+# 								is_holy_site_of = scope:actor.faith
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			NOT = {
+# 				scope:recipient = {
+# 					is_close_family_of = scope:actor
+# 				}
+# 			}
+# 		}
+
+# 		modifier = { # Astray faiths require specific circumstances to demand conversion of
+# 			factor = 0
+# 			scope:actor = {
+# 				faith = { has_doctrine = doctrine_pluralism_fundamentalist }
+# 				ai_zeal < -10
+# 				faith = {
+# 					faith_hostility_level = {
+# 						target = scope:recipient.faith
+# 						value <= faith_astray_level
+# 					}
+# 				}
+# 			}
+# 			NOT = { # If the subject has one of your holy sites, always try to convert
+# 				scope:recipient = {
+# 					any_sub_realm_county = {
+# 						any_county_province = {
+# 							barony = {
+# 								is_holy_site_of = scope:actor.faith
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 			NOT = {
+# 				scope:recipient = {
+# 					is_close_family_of = scope:actor
+# 				}
+# 			}
+# 		}
+
+# 		modifier = { # Astray faiths require specific circumstances to demand conversion of
+# 			factor = 0
+# 			scope:actor = {
+# 				NOR = {
+# 					faith = { has_doctrine = doctrine_pluralism_fundamentalist }
+# 					has_tolerant_faith_or_culture_trigger = yes
+# 				}
+# 				ai_zeal < 0
+# 				faith = {
+# 					faith_hostility_level = {
+# 						target = scope:recipient.faith
+# 						value <= faith_astray_level
+# 					}
+# 				}
+# 			}
+# 			NOT = { # If the subject has one of your holy sites, always try to convert
+# 				scope:recipient = {
+# 					any_sub_realm_county = {
+# 						any_county_province = {
+# 							barony = {
+# 								is_holy_site_of = scope:actor.faith
+# 							}
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+
+# 		modifier = { # Rulers with state faith won't try to convert people with faiths that are astray or better
+# 			factor = 0
+# 			scope:actor = {
+# 				government_allows = state_faith
+# 				primary_title.state_faith ?= {
+# 					faith_hostility_level = {
+# 						target = scope:recipient.faith
+# 						value <= faith_astray_level
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# 	ai_accept = {
+# 		base = 0
+# 		# Increase base chance
+# 		modifier = {
+# 			add = 50
+# 			desc = EDUCATE_CHILD_ACTOR_IS_MY_LIEGE
+# 		}
+# 		religion_demand_conversion_default_modifier = yes
+
+# 		modifier = {
+# 			desc = might_ask_for_something_in_return_warning_line_break
+# 			add = 0
+# 		}
+# 	}
+# }
+
+# convert_to_religion_interaction = {
+# 	category = interaction_category_religion
+# 	icon = religious
+
+
+# 	desc = convert_to_religion_interaction_desc
+
+# 	notification_text = CONVERT_TO_RELIGION
+# 	ignores_pending_interaction_block = yes
+	
+# 	is_shown = {
+# 		NOT = { scope:actor.faith = scope:recipient.faith }
+# 		scope:actor = {
+# 			is_landless_ruler = no
+# 			# They're either your liege or your spouse
+# 			OR = {
+# 				target_is_liege_or_above = scope:recipient
+# 				any_consort = {
+# 					this = scope:recipient
+# 				}
+# 			}
+# 			# And you've never HumSac'd a tolerated HoF.
+# 			NAND = {
+# 				has_variable_list = humsacd_hofs
+# 				is_target_in_variable_list = {
+# 					name = humsacd_hofs
+# 					target = scope:recipient.faith
+# 				}
+# 			}
+# 		}
+
+# 		always = no
+
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		scope:actor = { is_busy_in_events_localised = yes }
+# 	}
+
+# 	auto_accept = yes
+
+# 	ai_min_reply_days = 1
+# 	ai_max_reply_days = 5
+	
+# 	on_send = {
+# 		debug_log = "convert_to_religion_interaction 2"
+# 		debug_log_scopes = yes
+# 		debug_log_date = yes
+# 		# Show conversion preview - this can be canceled, but it's fine since the conversion is voluntary
+# 		## If we have a valid state faith, we go there.
+# 		if = {
+# 			limit = {
+# 				government_allows = state_faith
+# 				scope:actor.top_liege.primary_title.state_faith ?= scope:recipient.faith
+# 			}
+# 			decision:adopt_state_faith = {
+# 				open_view_data = {
+# 					view = decision_detail
+# 					player = scope:actor
+# 				}
+# 			}
+# 		}
+# 		## Otherwise, go to the usual place.
+# 		else = {
+# 			scope:recipient.faith = {
+# 				open_view_data = {
+# 					view = faith_conversion
+# 					player = scope:actor # interaction effects are executed for all clients, make sure to open the window only for the actor
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	on_accept = {
+
+# 		debug_log = "convert_to_religion_interaction 1"
+# 		debug_log_scopes = yes
+# 		debug_log_date = yes
+
+# 		custom_tooltip = {
+# 			text = open_faith_conversion_view_tt
+# 		}
+# 	}
+
+# 	ai_accept = {
+# 		base = 0
+# 	}
+
+# 	ai_will_do = {
+# 		base = 0
+# 	}
+# }

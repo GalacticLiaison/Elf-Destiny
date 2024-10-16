@@ -373,3 +373,14 @@ maybe we can create an event widget that is just glow orb to absolute position o
 dynasty legacy "strong blood" or soemthing like that. MAkes it so dynasty never has elf blood, its auto promoted to full elf!
 
 rubble holding type, from destruction
+
+could introduce oracle through a blessing "Astral Affinity"
+- art is a couple elves stargazing and pointing
+
+https://en.wikipedia.org/wiki/Arcadia_(utopia)
+
+tradition: divine starfall
+   - maybe just for thundaraels
+   - obsessed with comets and shooting stars, seek out the metals and magics they bring.
+
+tradition: music based "song keepers" or some such thing, use instruments some how
