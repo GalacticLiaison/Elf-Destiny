@@ -1,5 +1,19 @@
 # Beta_v1.5.18
 
+Added missing provisions cost to Elf MAA
+AI Elf admin government rulers will no longer choose to convert to human religions.
+    - this will hopefully make Julius Hyperion(Serelion) not succeed at conquering The Byzantine Empire quite so much.
+
+new what is an archeologist art!
+fixed bug where recruitable elf bloodline champion would just hang out if you refused to hire him instead of vanishing 
+added 5 year cooldown to "Steal 1 dev from your vassal" Aeluran regency mandate event.
+
+Now Julia will propose 7 different locations around the globe the Emperor's Tomb is, this gives the player the ability to choose where they would like it to be and not need to travel quite as far.
+updated cheat menu to allow player to select tomb location during story skip.
+
+Gave Starting Elf Dynasties new Coat of Arms!
+Gave Elf controlled titles new names and Coat of Arms!
+
 Gwynthorn
 - https://discord.com/channels/1179053540161880074/1283996687987118130/1283999809132429362
 - https://discord.com/channels/1179053540161880074/1284335448919117927/1284356600651321395
@@ -99,22 +113,6 @@ baza
 
 har d* kinn
 
-update cheat menu to allow selection of emperor's tomb
-
-correct Julia's dialogue to reflect multiple possible locations
-
-new what is an archeologist art!
-
-fixed bug where recruitable elf bloodline champion would just hang out if you refused to hire him instead of vanishing 
-
-added 5 year cooldown to "Steal 1 dev from your vassal" Aeluran regency mandate event.
-
-
-Serelions converting
-
-PULL MAIN
-
-Elven MaA are missing provisions costs
 
 
 FOR DAELURIN
