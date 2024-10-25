@@ -662,7 +662,20 @@ c_malta = {
 		liege = e_byzantium
 	}
 	845.1.1 = {
-		holder = meldona_serelion # Ambrosios, governor of Malta during Siege of 870
+		liege = "e_byzantium"
+		government = administrative_government
+		effect = {
+			if = {
+				limit = {
+					exists = holder
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				holder = {
+					change_government = feudal_government
+				}
+			}
+		}
+		holder = meldona_serelion 
 	}
 	870.1.1 = {
 		holder = maghrebi0002 # Muhammad ibn Khafaja

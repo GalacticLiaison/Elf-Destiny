@@ -506,6 +506,34 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 				name = 01_sigil_of_the_realm_lord_found
 				value = yes
 			}
+
+			if = {
+				limit = {
+					is_target_in_global_variable_list = {
+						name = first_expedition_location_candidates
+						target = scope:activity.activity_location.barony
+					}
+				}
+
+				remove_list_global_variable = {
+					name = first_expedition_location_candidates
+					target = scope:activity.activity_location.barony
+				}
+
+				scope:activity.activity_location.barony = {
+					set_variable = valid_expedition_location
+					set_variable = {
+						name = expedition_site_loc
+						value = flag:expedition_site_fortress_tomb_of_the_dead_emperor_desc
+					}
+					set_variable = {
+						name = expedition_holy_site
+						value = flag:fortress_tomb_of_the_dead_emperor
+					}
+				}
+			
+			}
+
 		}
 
 		trigger_event = expedition.00691
