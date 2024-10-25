@@ -26,6 +26,12 @@ elf_destiny_on_game_start = {
 				deactivate_holy_site = spire_citadel
 				deactivate_holy_site = proving_fields
 				deactivate_holy_site = fortress_tomb_of_the_dead_emperor
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_1
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_2
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_3
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_4
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_5
+				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_6
 				deactivate_holy_site = volcanic_forge
 				deactivate_holy_site = noble_wood
 				deactivate_holy_site = high_harbor
@@ -283,6 +289,30 @@ elf_destiny_on_game_start = {
 			value = flag:human
 		}
 
+		# LANDLESS CAMP SETUP
+		character:belanor_valerith = {
+			add_courtier = character:elros_daelurin
+		}
+		character:belanor_valerith_1066 = {
+			add_courtier = character:elros_daelurin_1066
+		}
+
+		character:heldrin_thundarael = {
+			add_courtier = character:taliana_thundarael
+		}
+		character:heldrin_thundarael_1066 = {
+			add_courtier = character:taliana_thundarael_1066
+		}
+
+		character:aubrey_serelion = {
+			add_courtier = character:cain_serelion
+			add_courtier = character:anatole_serelion
+		}
+		character:aubrey_serelion_1066 = {
+			add_courtier = character:cain_serelion_1066
+			add_courtier = character:anatole_serelion_1066
+		}
+
 		
 	}
 }
@@ -443,8 +473,22 @@ on_game_start_setup_expeditions = {
 		register_expedition_site = { BARONY_NAME = b_luch SITE_NAME = the_grand_portal }
 		set_portal_location = { BARONY_NAME = b_luch }
 
+		# register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
 		register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		set_first_expedition_location = { BARONY_NAME = b_bellinzona }
+		register_expedition_site = { BARONY_NAME = b_intarta SITE_NAME = fortress_tomb_of_the_dead_emperor }
+		register_expedition_site = { BARONY_NAME = b_simbiling SITE_NAME = fortress_tomb_of_the_dead_emperor }
+		register_expedition_site = { BARONY_NAME = b_dayan SITE_NAME = fortress_tomb_of_the_dead_emperor }
+		register_expedition_site = { BARONY_NAME = b_atakpame SITE_NAME = fortress_tomb_of_the_dead_emperor }
+		register_expedition_site = { BARONY_NAME = b_kasriskari SITE_NAME = fortress_tomb_of_the_dead_emperor }
+		register_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali SITE_NAME = fortress_tomb_of_the_dead_emperor }
+
+		set_possible_first_expedition_location = { BARONY_NAME = b_bellinzona }
+		set_possible_first_expedition_location = { BARONY_NAME = b_intarta }
+		set_possible_first_expedition_location = { BARONY_NAME = b_simbiling }
+		set_possible_first_expedition_location = { BARONY_NAME = b_dayan }
+		set_possible_first_expedition_location = { BARONY_NAME = b_atakpame }
+		set_possible_first_expedition_location = { BARONY_NAME = b_kasriskari }
+		set_possible_first_expedition_location = { BARONY_NAME = b_northri_gudbrandsdali }
 
 		register_expedition_site = { BARONY_NAME = b_gnezdovo SITE_NAME = ruins_of_valfuria }
 		register_expedition_site = { BARONY_NAME = b_rohan SITE_NAME = spire_citadel }
@@ -642,589 +686,3 @@ on_game_start_assign_ruler_designer_race = {
 }
 
 
-# on_game_start = {
-# 	events = {
-# 		fp1_scandinavian_adventurers.0004	# FP1 - Organise Norse adventurers.
-# 		fp1_scandinavian_adventurers.0011	# FP1 - Corral famous Norse adventurers that haven't done much yet.
-# 		fp1_scandinavian_adventurers.0021	# FP1 - Mark game-start prioritised adventurers.
-# 		#Guaranteed historical artifacts fixed spawning
-# 		debug_portraits.1 					# Debug portraits for animation testing
-# 		easteregg_event.0001				# Charna and Jakub duel.
-# 	}
-
-# 	effect = {
-# 		#Rabbene Gershom outlaws polygamy
-# 		if = {
-# 			limit = {
-# 				current_date >= 1000.1.1
-# 			}
-# 			religion:judaism_religion = {
-# 				every_faith = {
-# 					limit = {
-# 						has_doctrine = temple_authority_rabbinic_doctrine
-# 					}
-# 					remove_doctrine = doctrine_polygamy
-# 					add_doctrine = doctrine_monogamy
-# 				}
-# 			}
-# 		}
-# 		### 867 - RADHANITES IN KHAZARIA ###
-# 		character:74025 = {
-# 			if = {
-# 				limit = {
-# 					is_alive = yes
-# 					is_landed = yes
-# 				}
-# 			}
-# 			trigger_event = bookmark.0200
-# 		}
-# 		### 867 - WRATH OF THE NORTHMEN ###
-# 		#Æthelred dying (probably)
-# 		character:33358 = {
-# 			if = {
-# 				limit = {
-# 					is_alive = yes
-# 					is_landed = yes
-# 				}
-# 				trigger_event = {
-# 					id = bookmark.0001
-# 					days = { 365 730 }
-# 				}
-# 			}
-# 		}
-
-# 		#Alfred the Great becoming the Great
-# 		character:7627 = {
-# 			if = {
-# 				limit = {
-# 					is_alive = yes
-# 					is_landed = yes
-# 				}
-# 				trigger_event = {
-# 					id = bookmark.0002
-# 					days = 1800 #~5 years
-# 				}
-# 			}
-# 		}
-
-# 		### 867 - THE GREAT ADVENTURERS ###
-# 		character:251187 = {
-# 			if = {
-# 				limit = {
-# 					is_alive = yes
-# 					is_landed = yes
-# 					AND = {
-# 						character:251180 = { is_ai = yes }
-# 						character:251181 = {
-# 							is_ai = yes
-# 							is_alive = yes
-# 						}
-# 					}
-# 				}
-# 				trigger_event = {
-# 					id = bookmark.0101
-# 					days = { 21 35 }
-# 				}
-# 			}
-# 		}
-
-# 		### 1066 - LOUIS THE GERMAN ###
-# 		if = {
-# 			limit = {
-# 				exists = character:90107
-# 				current_date >= 1066.1.1
-# 			}
-# 			character:90107 = { give_nickname = nick_the_german_post_mortem }
-# 		}
-
-# 		### HRE SETUP ###
-# 		if = {
-# 			limit = { exists = title:e_hre.holder }
-# 			title:e_hre.holder = {
-# 				every_vassal = {
-# 					limit = {
-# 						vassal_contract_has_modifiable_obligations = yes
-# 						is_ai = yes
-# 					}
-# 					vassal_contract_decrease_obligation_level = feudal_government_taxes
-# 					vassal_contract_decrease_obligation_level = feudal_government_levies
-# 					set_vassal_contract_modification_blocked = no
-# 				}
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:c_cologne
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:c_mainz
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:c_trier
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:d_bohemia
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:d_east_franconia
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:d_ostmark
-# 			}
-# 			add_to_global_variable_list = {
-# 				name = hre_elector_list
-# 				target = title:d_angria
-# 			}
-# 			hre_elector_list_save_effect = yes
-# 		}
-
-# 		### RELIGIOUS THINGS ###
-# 		# Set up Holy Site Buildings to be buildable in Holy Sites
-# 		religion:islam_religion = {
-# 			every_faith = {
-# 				every_holy_site = {
-# 					limit = {
-# 						title_province = {
-# 							has_special_building_slot = no
-# 						}
-# 					}
-# 					title_province = {
-# 						add_special_building_slot = holy_site_mosque_01
-# 					}
-# 				}
-# 			}
-# 		}
-# 		religion:christianity_religion = {
-# 			every_faith = {
-# 				every_holy_site = {
-# 					limit = {
-# 						title_province = {
-# 							has_special_building_slot = no
-# 						}
-# 					}
-# 					title_province = {
-# 						add_special_building_slot = holy_site_cathedral_01
-# 					}
-# 				}
-# 			}
-# 		}
-# 		every_religion_global = {
-# 			limit = {
-# 				OR = {
-# 					this = religion:hinduism_religion
-# 					this = religion:buddhism_religion
-# 					this = religion:jainism_religion
-# 					this = religion:tani_religion
-# 					this = religion:bon_religion
-# 				}
-# 			}
-# 			every_faith = {
-# 				every_holy_site = {
-# 					limit = {
-# 						title_province = {
-# 							has_special_building_slot = no
-# 						}
-# 					}
-# 					title_province = {
-# 						add_special_building_slot = holy_site_indian_grand_temple_01
-# 					}
-# 				}
-# 			}
-# 		}		
-# 		every_religion_global = {
-# 			limit = {
-# 				is_in_family = rf_pagan
-# 			}
-# 			every_faith = {
-# 				every_holy_site = {
-# 					limit = {
-# 						title_province = {
-# 							has_special_building_slot = no
-# 						}
-# 					}
-# 					title_province = {
-# 						add_special_building_slot = holy_site_pagan_grand_temple_01
-# 					}
-# 				}
-# 			}
-# 		}
-# 		## SPARK
-# 		# every_religion_global = {
-# 		# 	limit = {
-# 		# 		is_in_family = rf_spark
-# 		# 	}
-# 		# 	every_faith = {
-# 		# 		every_holy_site = {
-# 		# 			limit = {
-# 		# 				title_province = {
-# 		# 					has_special_building_slot = no
-# 		# 				}
-# 		# 			}
-# 		# 			title_province = {
-# 		# 				add_special_building_slot = holy_site_spark_grand_temple_01
-# 		# 			}
-# 		# 		}
-# 		# 	}
-# 		# }
-# 		every_religion_global = {
-# 			every_faith = {
-# 				every_holy_site = {
-# 					limit = {
-# 						title_province = {
-# 							has_special_building_slot = no
-# 						}
-# 					}
-# 					title_province = {
-# 						add_special_building_slot = holy_site_other_grand_temple_01
-# 					}
-# 				}
-# 			}
-# 		}
-
-# 		# If your capital on game start is Mecca, you get the Hajjaj trait (since you can't Hajj to your capital)
-# 		title:b_makka.county.holder = {
-# 			if = {
-# 				limit = {
-# 					faith = { has_doctrine_parameter = mandatory_hajj }
-# 					NOT = { has_trait = hajjaj }
-# 				}
-# 				# Have some Hajjaj
-# 				add_trait = hajjaj
-# 			}
-# 		}
-
-# 		# Pagans that start pre-reformed
-# 		## Bon has already been reformed into new bon.
-# 		faith:old_bon = { 
-# 			set_variable = { name = has_been_reformed }
-# 		}
-
-# 		# Mark some faiths to block conversion till specific decisions are taken.
-# 		faith:basque_pagan = {
-# 			set_variable = { name = block_conversion_till_decision_taken }
-# 		}
-# 		faith:adoptionist = {
-# 			set_variable = { name = block_conversion_till_nebulous_circumstances }
-# 		}
-# 		# Kuzarite cannot be reformed under normal circumstances
-# 		faith:kabarism = { 
-# 			set_variable = { name = block_reformation_var }
-# 		}
-		
-# 		### UNIVERSITIES ###
-# 		title:b_vokhma.title_province = { add_special_building_slot = generic_university }
-# 		title:b_fes.title_province = { add_special_building_slot = generic_university }
-# 		title:b_bologna.title_province = { add_special_building_slot = generic_university }
-# 		title:b_salamanca.title_province = { add_special_building_slot = generic_university }
-# 		title:b_madrid.title_province = { add_special_building_slot = generic_university }
-# 		title:b_oxford.title_province = { add_special_building_slot = generic_university }
-# 		title:b_cambridge.title_province = { add_special_building_slot = generic_university }
-# 		title:b_padua.title_province = { add_special_building_slot = generic_university }
-# 		title:b_coimbra.title_province = { add_special_building_slot = generic_university }
-# 		title:b_napoli.title_province = { add_special_building_slot = generic_university }
-# 		title:b_milano.title_province = { add_special_building_slot = generic_university }	
-# 		title:b_vienna.title_province = { add_special_building_slot = generic_university }
-# 		title:b_praha.title_province = { add_special_building_slot = generic_university }
-# 		title:b_perugia.title_province = { add_special_building_slot = generic_university }
-# 		title:b_malappuram.title_province = { add_special_building_slot = generic_university }
-# 		title:b_janakpur.title_province = { add_special_building_slot = generic_university }
-# 		title:b_uppsala.title_province = { add_special_building_slot = generic_university }
-# 		title:b_montlhery.title_province = { add_special_building_slot = generic_university } # Technically should be Paris, but that's occupied by Notre Dame
-# 		title:b_qartajana.title_province = { add_special_building_slot = generic_university } # Technically should be Tunis, but that's occupied by a cathedral
-# 		title:b_wazwan.title_province = { add_special_building_slot = generic_university } # Technically should be Isfahan, but that's occupied by the Friday Mosque
-# 		title:b_sarsar.title_province = { add_special_building_slot = generic_university } # Technically should be Baghdad, but that's occupied by the House of Wisdom
-# 		title:b_speyer.title_province = { add_special_building_slot = generic_university } # 1350ish, should be in Heidelberg but that's a church
-# 		title:b_krakow.title_province = { add_special_building_slot = generic_university } # 1350ish
-# 		title:b_pisa.title_province = { add_special_building_slot = generic_university } # 1350ish
-# 		title:b_rostock.title_province = { add_special_building_slot = generic_university } # 1400ish
-# 		title:b_turin.title_province = { add_special_building_slot = generic_university } # 1400ish
-# 		title:b_ferrara.title_province = { add_special_building_slot = generic_university } # 1400ish
-# 		title:b_leipzig.title_province = { add_special_building_slot = generic_university } # 1400ish, a city holding
-# 		title:b_messina.title_province = { add_special_building_slot = generic_university }  # 1400ish, should be in Catania but that's a church
-# 		title:b_barcelona.title_province = { add_special_building_slot = generic_university } # 1450ish, but still fun to build
-# 		title:b_dumbarton.title_province = { add_special_building_slot = generic_university } # 1450ish, but still fun to build
-# 		title:b_bidar.title_province = { add_special_building_slot = generic_university } # 1450ish, but still fun to build
-
-# 		### COA ###
-# 		if = {
-# 			limit = {
-# 				game_start_date <= 1000.1.1
-# 			}
-# 			title:e_scandinavia = { set_coa = e_scandinavia_norse }
-# 			title:k_sweden = { set_coa = k_sweden_norse }
-# 			title:d_svealand = { set_coa = d_svealand_norse }
-# 			title:c_upland = { set_coa = c_upland_norse }
-# 			title:c_gastrikland = { set_coa = c_gastrikland_norse }
-# 			title:c_sodermannaland = { set_coa = c_sodermannaland_norse }
-# 			title:c_aland = { set_coa = c_aland_norse }
-# 			title:d_bergslagen = { set_coa = d_bergslagen_norse }
-# 			title:c_vastmanland = { set_coa = c_vastmanland_norse  }
-# 			title:c_varmland = { set_coa = c_varmland_norse }
-# 			title:c_dalarna = { set_coa = c_dalarna_norse }
-# 			title:c_dalabergslagen = { set_coa = c_dalabergslagen_norse }
-# 			title:d_vastergotland = { set_coa = d_vastergotland_norse }
-# 			title:c_vastergotland = { set_coa = c_vastergotland_norse }
-# 			title:c_skara = { set_coa = c_skara_norse }
-# 			title:c_dal = { set_coa = c_dal_norse }
-# 			title:c_nordmark = { set_coa = c_nordmark_norse }
-# 			title:d_ostergotland = { set_coa = d_ostergotland_norse }
-# 			title:c_ostergotland = { set_coa = c_ostergotland_norse }
-# 			title:c_kinda = { set_coa = c_kinda_norse }
-# 			title:c_narke = { set_coa = c_narke_norse }
-# 			title:d_smaland = { set_coa = d_smaland_norse }
-# 			title:c_more = { set_coa = c_more_norse }
-# 			title:c_sevede = { set_coa = c_sevede_norse }
-# 			title:c_varend = { set_coa = c_varend_norse }
-# 			title:c_njudung = { set_coa = c_njudung_norse }
-# 			title:c_finnveden = { set_coa = c_finnveden_norse }
-# 			title:c_oland = { set_coa = c_oland_norse }
-# 			title:d_norrland = { set_coa = d_norrland_norse }
-# 			title:c_halsingland = { set_coa = c_halsingland_norse }
-# 			title:c_medelpad = { set_coa = c_medelpad_norse }
-# 			title:c_angermanland = { set_coa = c_angermanland_norse }
-# 			title:d_gotland = { set_coa = d_gotland_norse }
-# 			title:c_gutland = { set_coa = c_gutland_norse }
-# 			title:k_norway = { set_coa = k_norway_norse }
-# 			title:d_viken = { set_coa = d_viken_norse }
-# 			title:c_vingulmork = { set_coa = c_vingulmork_norse }
-# 			title:c_raniriki = { set_coa = c_raniriki_norse }
-# 			title:c_vestfold = { set_coa = c_vestfold_norse }
-# 			title:c_telemark = { set_coa = c_telemark_norse }
-# 			title:d_agder = { set_coa = d_agder_norse }
-# 			title:c_nedenes = { set_coa = c_nedenes_norse }
-# 			title:c_agdeside = { set_coa = c_agdeside_norse }
-# 			title:d_vestlandi = { set_coa = d_vestlandi_norse }
-# 			title:c_rogalandi = { set_coa = c_rogalandi_norse }
-# 			title:c_hordalandi = { set_coa = c_hordalandi_norse }
-# 			title:c_sogn = { set_coa = c_sogn_norse }
-# 			title:d_trandalog = { set_coa = d_trandalog_norse }
-# 			title:c_trandheim = { set_coa = c_trandheim_norse }
-# 			title:c_norwegian_more = { set_coa = c_norwegian_more_norse }
-# 			title:c_firdafylki = { set_coa = c_firdafylki_norse }
-# 			title:d_dalir = { set_coa = d_dalir_norse }
-# 			title:c_hedmork = { set_coa = c_hedmork_norse }
-# 			title:c_gudbrandsdalir = { set_coa = c_gudbrandsdalir_norse }
-# 			title:c_eystridalir = { set_coa = c_eystridalir_norse }
-# 			title:c_gauldala = { set_coa = c_gauldala_norse }
-# 			title:d_halogaland = { set_coa = d_halogaland_norse }
-# 			title:c_vastvag = { set_coa = c_vastvag_norse }
-# 			title:c_bothin = { set_coa = c_bothin_norse }
-# 			title:c_namdalfylki = { set_coa = c_namdalfylki_norse }
-# 			title:d_iceland = { set_coa = d_iceland_norse }
-# 			title:c_vestisland = { set_coa = c_vestisland_norse }
-# 			title:c_nordrland = { set_coa = c_nordrland_norse }
-# 			title:c_austisland = { set_coa = c_austisland_norse }
-# 			title:c_sudurland = { set_coa = c_sudurland_norse }
-# 			title:d_northern_isles = { set_coa = d_northern_isles_norse }
-# 			title:c_orkney = { set_coa = c_orkney_norse }
-# 			title:c_faereyar = { set_coa = c_faereyar_norse }
-# 			title:c_shetland = { set_coa = c_shetland_norse }
-# 			title:d_jamtland = { set_coa = d_jamtland_norse }
-# 			title:c_jamtfir = { set_coa = c_jamtfir_norse }
-# 			title:c_morarna = { set_coa = c_morarna_norse }
-# 			title:c_helgum = { set_coa = c_helgum_norse }
-# 			title:c_harjadalen = { set_coa = c_harjadalen_norse }
-# 			title:k_denmark = { set_coa = k_denmark_norse }
-# 			title:d_sjaelland = { set_coa = d_sjaelland_norse }
-# 			title:c_sjaelland = { set_coa = c_sjaelland_norse }
-# 			title:c_fyn = { set_coa = c_fyn_norse }
-# 			title:c_lolland_falster = { set_coa = c_lolland_falster_norse }
-# 			title:d_skane = { set_coa = d_skane_norse }
-# 			title:c_skane = { set_coa = c_skane_norse }
-# 			title:c_halland = { set_coa = c_halland_norse }
-# 			title:c_bornholm = { set_coa = c_bornholm_norse }
-# 			title:c_blekinge = { set_coa = c_blekinge_norse }
-# 			title:d_jylland = { set_coa = d_jylland_norse }
-# 			title:c_aarhus = { set_coa = c_aarhus_norse }
-# 			title:c_viborg = { set_coa = c_viborg_norse }
-# 			title:c_ringkobing = { set_coa = c_ringkobing_norse }
-# 			title:c_aalborg = { set_coa = c_aalborg_norse }
-# 			title:d_slesvig = { set_coa = d_slesvig_norse }
-# 			title:c_slesvig = { set_coa = c_slesvig_norse }
-# 			title:c_vorbasse = { set_coa = c_vorbasse_norse }
-# 			title:c_ribe = { set_coa = c_ribe_norse }
-# 			title:d_york = { set_coa = d_york_norse }
-# 			title:c_east_riding = { set_coa = c_east_riding_norse }
-# 			title:d_western_isles = { set_coa = d_western_isles_norse }
-# 			title:c_inner_hebrides = { set_coa = c_inner_hebrides_norse  }
-# 			title:c_dublin = { set_coa = c_dublin_norse }
-# 			title:c_argyll = { set_coa = c_argyll_norse }
-# 		}
-		
-# 		### GRANDEUR ###
-# 		#Royal Court: Set starting Grandeur to be the same as Expected
-# 		if = {
-# 			limit = {
-# 				has_dlc_feature = royal_court
-# 			}
-# 			every_character_with_royal_court = {
-# 				set_current_court_grandeur = court_grandeur_minimum_expected
-# 				apply_hold_court_grace_effect = yes
-# 				# Stops Hold Court reminders at game start
-# 				set_variable = {
-# 					name = last_hold_court_date
-# 					value = current_year
-# 				}
-# 			}
-# 		}
-
-# 		### STRUGGLES ###
-# 		# If we're in 867, Aragonese should be removed from the Struggle, since they don't quite exist yet.
-# 		if = {
-# 			limit = {
-# 				current_date = 867.1.1
-# 				exists = struggle:iberian_struggle
-# 			}
-# 			struggle:iberian_struggle = { set_culture_as_uninvolved = culture:aragonese }
-# 		}
-
-# 		### REGENCIES ###
-# 		# Pre-defined historic regencies setup.
-# 		## NOTE: we do these first to avoid feed messages getting weird due to regents being replaced immediately after getting their position.
-# 		## 867.
-# 		### None. Yet.
-# 		## 1066.
-# 		if = {
-# 			limit = { game_start_date = 1066.9.15 }
-# 			# Designate some regents.
-# 			## King Philippe of France & Duke Boudewijn of Flanders (friend of his dad's)
-# 			character:214 = {
-# 				designate_diarch = character:364
-# 				# Baldwin of Flanders also promised the prior king he'd take care of Philippe, so we add that starting loyalty hook.
-# 				add_hook = {
-# 					type = predecessor_loyalty_hook
-# 					target = character:364
-# 					years = 5
-# 				}
-# 				reverse_add_opinion = {
-# 					target = character:364
-# 					modifier = promise_to_predecessor
-# 					opinion = 50
-# 				}
-# 			}
-# 			## Count Bouchard of Vendome & Guy de Bachaumont (his uncle)
-# 			character:40905 = { designate_diarch = character:40376 }
-# 			## Caliph al-Mustansir & Rasad (his mother)
-# 			character:3096 = { designate_diarch = character:additional_fatimids_1 }
-# 			## Count Ermengol of Urgell & Infanta Sancha of Aragon (his stepmother)
-# 			character:110550 = { designate_diarch = character:110514 }
-# 			## Duke Dirk of Holland & Count Robrecht of Zeeland (his stepfather)
-# 			character:106520 = { designate_diarch = character:368 }
-# 			## Duke Sven of Ostergotland & Kol Sverker (his father)
-# 			character:100530 = { designate_diarch = character:100529 }
-# 			## King Salamon of Hungary & Queen Mother Anastasia (his mother, in the absence of any better recorded options, and to keep other hostile relatives out of the job)
-# 			character:476 = { designate_diarch = character:637 }
-# 			## Prince Demetre of Georgia & Alda Oseti (his mother)
-# 			character:9957 = { designate_diarch = character:9956 }
-# 			# Plus remove all the generated opinions.
-# 			## King Philippe of France & Duke Boudewijn of Flanders
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:364
-# 				LIEGE = character:214
-# 			}
-# 			## Count Bouchard of Vendome & Guy de Bachaumont
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:40376
-# 				LIEGE = character:40905
-# 			}
-# 			## Caliph al-Mustansir & Rasad
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:additional_fatimids_1
-# 				LIEGE = character:3096
-# 			}
-# 			## Count Ermengol of Urgell & Infanta Sancha of Aragon
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:110514
-# 				LIEGE = character:110550
-# 			}
-# 			## Duke Dirk of Holland & Count Robrecht of Zeeland
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:368
-# 				LIEGE = character:106520
-# 			}
-# 			## Duke Sven of Ostergotland & Kol Sverker
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:100529
-# 				LIEGE = character:100530
-# 			}
-# 			## King Salamon of Hungary & Queen Mother Anastasia
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:637
-# 				LIEGE = character:476
-# 			}
-# 			## Prince Demetre of Georgia & Alda Oseti
-# 			remove_generated_diarch_consequences_effect = {
-# 				NEW_DIARCH = character:9956
-# 				LIEGE = character:9957
-# 			}
-# 		}
-# 		# Set up anyone who should be in a regency at start whether we have sources or not.
-# 		## If you start as a child, incapable, or imprisoned, you get a regency.
-# 		every_ruler = {
-# 			limit = {
-# 				OR = {
-# 					is_adult = no
-# 					is_incapable = yes
-# 					is_imprisoned = yes
-# 				}
-# 			}
-# 			# We don't want to check over so many characters *twice*, so we check again inside the block to determine what type of regency to put 'em in.
-# 			## Temporary Regencies.
-# 			if = {
-# 				limit = { is_imprisoned = yes }
-# 				trigger_event = {
-# 					id = diarchy.0001
-# 					delayed = yes
-# 				}
-# 			}
-# 			## Entrenched Regencies.
-# 			else = {
-# 				trigger_event = {
-# 					id = diarchy.0011
-# 					delayed = yes
-# 				}
-# 			}
-# 		}
-# 		# Sort custom regencies.
-# 		## Fatimid Caliphate - basically stuck in the back-end of an entrenched regencies from game start.
-# 		if = {
-# 			limit = { exists = character:3096 }
-# 			character:3096 = { trigger_event = diarchy.0012 }
-# 		}
-		
-# 		### FERTILE LANDS ###
-# 		# For deserts that are supposed to be very fertile
-# 		title:c_taizz = { add_county_modifier = fertile_desert_mountains_modifier }
-# 		title:c_mandab = { add_county_modifier = fertile_desert_mountains_modifier }
-# 		title:c_zabid = { add_county_modifier = fertile_desert_mountains_modifier }
-# 		title:c_sanaa = { add_county_modifier = fertile_desert_mountains_modifier }
-# 		title:c_dathina = { add_county_modifier = fertile_desert_mountains_modifier }
-# 	}
-# }
-
-# set_holy_sites = { 
-#     effect = { 
-# 		debug_log = "SET HOLY SITES"
-# 		every_religion_global = {
-# 			limit = {
-# 				is_in_family = rf_spark
-# 			}
-# 			every_faith = {
-# 				every_holy_site = {
-# 					# limit = {
-# 					# 	title_province = {
-# 					# 		has_special_building_slot = yes
-# 					# 	}
-# 					# }
-# 					title_province = {
-# 						add_special_building_slot = holy_site_spark_grand_temple_01
-# 					}
-# 				}
-# 			}
-# 		}
-#     }
-# }

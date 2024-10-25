@@ -12,9 +12,43 @@
 	}
 }
 
-set_first_expedition_location = {
-	title:$BARONY_NAME$ = {
-		set_variable = starting_expedition_location
+set_possible_first_expedition_location = {
+	add_to_global_variable_list = {
+		name = first_expedition_location_candidates
+		target = title:$BARONY_NAME$
+	}
+
+	# title:$BARONY_NAME$ = {
+	# 	set_variable = starting_expedition_location
+	# }
+}
+
+maunally_set_first_expedition_site = {
+	if = {
+		limit = {
+			is_target_in_global_variable_list = {
+				name = first_expedition_location_candidates
+				target = title:$BARONY_NAME$
+			}
+		}
+
+		remove_list_global_variable = {
+			name = first_expedition_location_candidates
+			target = title:$BARONY_NAME$
+		}
+
+		title:$BARONY_NAME$ = {
+			set_variable = valid_expedition_location
+			set_variable = {
+				name = expedition_site_loc
+				value = flag:expedition_site_fortress_tomb_of_the_dead_emperor_desc
+			}
+			set_variable = {
+				name = expedition_holy_site
+				value = flag:fortress_tomb_of_the_dead_emperor
+			}
+		}
+	
 	}
 }
 
@@ -29,7 +63,73 @@ set_portal_location = {
 }
 
 activate_discovered_holy_site_effect = {
-	activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor}
+
+	if = {
+
+		limit = {
+			scope:activity.activity_location.barony.var:expedition_holy_site = flag:fortress_tomb_of_the_dead_emperor
+		}
+
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_bellinzona }
+			
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor
+			}
+		}
+
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_intarta }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_1
+			}
+		}
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_simbiling }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_2
+			}
+		}
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_dayan }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_3
+			}
+		}
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_atakpame }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_4
+			}
+		}
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_kasriskari }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_5
+			}
+		}
+		if = { 
+			limit = { scope:activity.activity_location.barony  = title:b_northri_gudbrandsdali }
+
+			root.faith = {
+				activate_holy_site = fortress_tomb_of_the_dead_emperor_alt_6
+			}
+		}
+	}
+
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_1}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_2}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_3}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_4}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_5}
+	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_6}
+
 	activate_holy_site_if_valid = { SITE_NAME = ruins_of_valfuria}
 	activate_holy_site_if_valid = { SITE_NAME = spire_citadel}
 	activate_holy_site_if_valid = { SITE_NAME = proving_fields}
