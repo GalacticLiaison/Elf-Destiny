@@ -1,0 +1,1385 @@
+@color = "[FixedPointToInt(Story.MakeScope.ScriptValue('hue_ccp_ui'))]"
+@width = 420
+@half = @[width/2-10]
+
+types CCP {
+  type ccp_clothes_color_picker = vbox {
+    layoutpolicy_horizontal = expanding
+    margin_top = 5
+    visible = "[Character.IsAlive]"
+
+    state = {
+      trigger_when = "[GetScriptedGui('ccp_init').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+      using = ccp_init
+    }
+
+    hbox = {
+      layoutpolicy_horizontal = expanding
+
+      button_category = {
+        layoutpolicy_horizontal = expanding
+        onclick = "[GetVariableSystem.Toggle('bb_clothes_color')]"
+        blockoverride "frame" {
+          frame = "[Select_int32( GetVariableSystem.Exists('bb_clothes_color'), '(int32)1', '(int32)2')]"
+        }
+        blockoverride "text" {
+          text = "ccp_clothes_colors"
+        }
+      }
+
+      # button_replace = {
+      #   onclick = "[GetScriptedGui('clear_colors_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+      # }
+
+      expand = {}
+    }
+
+    vbox = {
+      layoutpolicy_horizontal = expanding
+      spacing = 5
+      margin_top = 5
+      margin = { 10 0 }
+      margin_right = 20
+      alwaystransparent = no
+      visible = "[Not(GetVariableSystem.Exists('bb_clothes_color'))]"
+
+      # debug values
+      flowcontainer = {
+        ignoreinvisible = yes
+        direction = vertical
+        visible = no
+
+        text_single = {
+          raw_text = "POD house values"
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "1"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_1_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_1_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_1_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "2"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_2_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_2_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_2_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "3"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_3_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_3_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_3_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "4"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_4_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_4_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_4_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "5"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_5_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_5_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_5_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "6"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_6_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_6_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_6_b').GetValue|2]"
+          }
+        }
+
+        flowcontainer = {
+          spacing = 10
+
+          datacontext = "[Character.MakeScope]"
+
+          text_single = {
+            raw_text = "7"
+          }
+
+          text_single = {
+            raw_text = "R [Scope.Var('POD_portrait_clothing_7_r').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "G [Scope.Var('POD_portrait_clothing_7_g').GetValue|2]"
+          }
+
+          text_single = {
+            raw_text = "B [Scope.Var('POD_portrait_clothing_7_b').GetValue|2]"
+          }
+        }
+      }
+
+      spacer = {}
+
+      hbox = {
+        layoutpolicy_horizontal = expanding
+        spacing = 5
+        margin_left = 10
+
+        button_standard = {
+          size = { 30 30 }
+          tooltip = "ccp_use_one_color_tt"
+          using = tooltip_ccp
+
+          raw_text = "[Select_CString( Character.MakeScope.Var('use_one_color_ccp').IsSet, '1', '7')]"
+
+          onclick = "[GetScriptedGui('use_one_color_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+        }
+
+        spacer = {}
+
+        hbox = {
+          margin_right = 10
+          spacing = -2
+          datamodel = "[Character.MakeScope.GetList('color_channels_ccp')]"
+
+          item = {
+            button_standard = {
+              size = { 30 30 }
+              datacontext = "[Scope.Story]"
+              background = { using = Background_Area_Border_Solid }
+
+              using = tooltip_ccp
+
+              onclick = "[GetScriptedGui('copy_one_color').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+
+              onrightclick = "[GetScriptedGui('paste_one_color').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+
+              click_modifiers = {
+        				onshift = "[GetScriptedGui('clear_color_ccp').Execute( GuiScope.SetRoot( Story.MakeScope ).End )]"
+        			}
+
+              tooltipwidget = {
+                flowcontainer = {
+                  ignoreinvisible = yes
+                  direction = vertical
+                  using = DefaultTooltipBackground
+                  margin = { 15 20 }
+                  margin_top = 5
+
+                  flowcontainer = {
+                    spacing = 5
+                    ignoreinvisible = yes
+                    direction = vertical
+                    visible = "[Not(GetScriptedGui('no_color_ccp').IsShown( GuiScope.SetRoot( Character.MakeScope ).End ))]"
+
+                    flowcontainer = {
+                      ignoreinvisible = yes
+                      spacing = 3
+
+                      text_single = {
+                        text = "ccp_color"
+                        default_format = "#bold"
+                      }
+                      text_single = {
+                        raw_text = "[Story.MakeScope.Var('channel_ccp').GetValue|0]"
+                        default_format = "#bold"
+                      }
+                    }
+
+                    text_single = {
+                      text = "ccp_click_to_copy"
+                      default_format = "#i"
+                      using = color_set_ccp
+                    }
+
+                    flowcontainer = {
+                      spacing = 10
+                      visible = "[GetPlayer.MakeScope.Var('hue_ccp_copy').IsSet]"
+
+                      text_single = {
+                        text = "ccp_right_click_to_paste"
+                        default_format = "#i"
+                      }
+
+                      icon = {
+                        parentanchor = vcenter
+                        alwaystransparent = yes
+                        size = { 20 20 }
+                        texture = "gfx/hue_bb.png"
+                        framesize = { 1 1 }
+                        alpha = 0.8
+                        frame = "[FixedPointToInt(Add_CFixedPoint(GetPlayer.MakeScope.Var('hue_ccp_copy').GetValue, '(CFixedPoint)1'))]"
+
+
+                        icon = {
+                          size = { 100% 100% }
+                          texture = "gfx/interface/colors/white.dds"
+                          alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(GetPlayer.MakeScope.Var('sat_ccp_copy').GetValue, '(CFixedPoint)100'))]"
+                        }
+
+                        icon = {
+                          size = { 100% 100% }
+                          texture = "gfx/interface/colors/black.dds"
+                          alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(GetPlayer.MakeScope.Var('val_ccp_copy').GetValue, '(CFixedPoint)100'))]"
+                        }
+                      }
+
+                    }
+
+                    text_single = {
+                      text = "ccp_shift_click_to_remove"
+                      default_format = "#n"
+                      using = color_set_ccp
+                    }
+                  }
+                }
+              }
+
+              button_ignore = none
+
+              margin_widget = {
+                size = { 100% 100% }
+                margin = { 4 4 }
+                alwaystransparent = yes
+                using = color_set_ccp
+                icon = {
+                  alwaystransparent = yes
+                  size = { 100% 100% }
+                  texture = "gfx/hue_bb.png"
+                  framesize = { 1 1 }
+                  frame = @color
+                  alpha = 0.8
+
+                  icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/colors/white.dds"
+                    alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+                  }
+
+                  icon = {
+                    size = { 100% 100% }
+                    texture = "gfx/interface/colors/black.dds"
+                    alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+                  }
+                }
+              }
+
+              icon = {
+                texture = "gfx/ccp_color_border.png"
+                spriteType = Corneredstretched
+                spriteborder = { 1 1 }
+                size = { 80% 80% }
+                alpha = 0.85
+                visible = "[And(Character.MakeScope.Var('use_one_color_ccp').IsSet, EqualTo_CFixedPoint(Story.MakeScope.Var('channel_ccp').GetValue, '(CFixedPoint)1'))]"
+                alwaystransparent = yes
+                parentanchor = center
+              }
+            }
+          }
+        }
+
+        button_randomize = {
+          onclick = "[GetScriptedGui('random_hue_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+          onrightclick = "[GetScriptedGui('random_colors_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+          button_ignore = none
+          tooltip = "ccp_randomize_colors_tt"
+        }
+
+        expand = {}
+
+        button_house = {
+          using = tooltip_ccp
+          enabled = "[GetScriptedGui('show_house_colors_ccp').IsValid( GuiScope.SetRoot( Character.MakeScope ).End )]"
+          onclick = "[GetScriptedGui('set_house_colors_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+
+          click_modifiers = {
+            onshift = "[GetScriptedGui('clear_house_colors_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+          }
+
+          tooltipwidget = {
+            flowcontainer = {
+              ignoreinvisible = yes
+              direction = vertical
+              using = DefaultTooltipBackground
+              margin = { 15 20 }
+              spacing = 10
+              margin_top = 5
+
+              text_single = {
+                text = "ccp_set_house_colors"
+              }
+
+              text_single = {
+                visible = "[DynastyHouse.MakeScope.Var('house_colors_ccp').IsSet]"
+                text = "ccp_shift_click_to_clear_house_colors"
+                default_format = "#n"
+              }
+
+              #TODO add a preview of house members!
+            }
+          }
+        }
+
+
+        button_copy = {
+          mirror = horizontal
+          enabled = "[GetScriptedGui('paste_colors_ccp').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+
+          onclick = "[GetScriptedGui('paste_colors_ccp').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+
+          tooltipwidget = {
+            flowcontainer = {
+              ignoreinvisible = yes
+              direction = vertical
+              using = DefaultTooltipBackground
+              margin = { 15 20 }
+              spacing = 10
+              margin_top = 5
+
+              text_single = {
+                text = "ccp_paste_colors"
+                default_format = "#T"
+              }
+
+              # old
+              flowcontainer = {
+                ignoreinvisible = yes
+                visible = no#"[GetScriptedGui('paste_colors_ccp').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+                spacing = 5
+
+                flowcontainer = {
+                  spacing = 5
+
+                  text_single = {
+                    raw_text = "Target:"
+                  }
+
+                  text_single = {
+                    raw_text = "[GetPlayer.MakeScope.Var('copy_target_ccp').GetCharacter.GetName]"
+                  }
+                }
+
+                flowcontainer = {
+                  datamodel = "[GetPlayer.MakeScope.Var('copy_target_ccp').GetCharacter.MakeScope.GetList('color_channels_ccp')]"
+
+                  item = {
+                    button_standard = {
+                      size = { 30 30 }
+                      datacontext = "[Scope.Story]"
+                      background = { using = Background_Area_Border_Solid }
+                      alwaystransparent = yes
+
+                      margin_widget = {
+                        size = { 100% 100% }
+                        margin = { 4 4 }
+                        alwaystransparent = yes
+                        using = color_set_ccp
+
+                        icon = {
+                          alwaystransparent = yes
+                          size = { 100% 100% }
+                          texture = "gfx/hue_bb.png"
+                          framesize = { 1 1 }
+                          frame = @color
+                          alpha = 0.8
+
+                          icon = {
+                            size = { 100% 100% }
+                            texture = "gfx/interface/colors/white.dds"
+                            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+                          }
+
+                          icon = {
+                            size = { 100% 100% }
+                            texture = "gfx/interface/colors/black.dds"
+                            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              # new
+              flowcontainer = {
+                ignoreinvisible = yes
+                visible = "[GetScriptedGui('paste_colors_ccp').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+                spacing = 5
+
+
+                flowcontainer = {
+                  datamodel = "[GetPlayer.MakeScope.GetList('copied_colors_ccp')]"
+
+                  item = {
+                    button_standard = {
+                      size = { 30 30 }
+                      datacontext = "[Scope.Story]"
+                      background = { using = Background_Area_Border_Solid }
+                      alwaystransparent = yes
+
+                      margin_widget = {
+                        size = { 100% 100% }
+                        margin = { 4 4 }
+                        alwaystransparent = yes
+                        using = color_set_ccp
+
+                        icon = {
+                          alwaystransparent = yes
+                          size = { 100% 100% }
+                          texture = "gfx/hue_bb.png"
+                          framesize = { 1 1 }
+                          frame = @color
+                          alpha = 0.8
+
+                          icon = {
+                            size = { 100% 100% }
+                            texture = "gfx/interface/colors/white.dds"
+                            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+                          }
+
+                          icon = {
+                            size = { 100% 100% }
+                            texture = "gfx/interface/colors/black.dds"
+                            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          using = tooltip_ccp
+        }
+
+        button_copy = {
+          enabled = "[GetScriptedGui('copy_colors_ccp').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+          onclick = "[GetScriptedGui('copy_colors_ccp').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Character.MakeScope ).End )]"
+
+          tooltip = "ccp_copy_colors_tt"
+          using = tooltip_ccp
+        }
+
+        button_replace = {
+          onclick = "[GetScriptedGui('clear_colors_ccp').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+          tooltip = "ccp_reset_colors_tt"
+        }
+      }
+
+      spacer = {}
+
+      divider_light = {
+        layoutpolicy_horizontal = expanding
+      }
+
+      spacer = {
+        size = { 0 5 }
+        visible = "[And(Not(GetScriptedGui('no_color_ccp').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )), Not(Character.GetHouse.MakeScope.Var('house_colors_ccp').IsSet))]"
+      }
+
+
+      vbox = {
+        layoutpolicy_horizontal = expanding
+        spacing = 5
+        visible = "[GetScriptedGui('no_color_ccp').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+        text_single = {
+          text = "ccp_using_house_colors"
+          visible = "[Character.GetHouse.MakeScope.Var('house_colors_ccp').IsSet]"
+        }
+
+        text_single = {
+          text = "ccp_click_on_a_gradient_to_add_a_color"
+          default_format = "#help"
+        }
+      }
+
+      text_single = {
+        text = "ccp_personal_colors_take_priority_over_house"
+        visible = "[And(Character.GetHouse.MakeScope.Var('house_colors_ccp').IsSet, Not(GetScriptedGui('no_color_ccp').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )))]"
+        default_format = "#help"
+        margin_bottom = 10
+      }
+
+      vbox = {
+        layoutpolicy_horizontal = expanding
+        datamodel = "[Character.MakeScope.GetList('color_channels_ccp')]"
+        spacing = 25
+
+        item = {
+          hbox = {
+            layoutpolicy_horizontal = expanding
+            margin_left = 15
+
+            item_color_ccp = {}
+
+            expand = {}
+          }
+        }
+      }
+    }
+
+    button_category = {
+      visible = "[Not(ReleaseMode)]"
+      layoutpolicy_horizontal = expanding
+      onclick = "[GetVariableSystem.Toggle('ccp_characters')]"
+      blockoverride "frame" {
+        frame = "[Select_int32( GetVariableSystem.Exists('ccp_characters'), '(int32)1', '(int32)2')]"
+      }
+      blockoverride "text" {
+        raw_text = "Characters with custom colors"
+      }
+    }
+
+    vbox = {
+      layoutpolicy_horizontal = expanding
+      layoutpolicy_vertical = expanding
+
+      visible = "[GetVariableSystem.Exists('ccp_characters')]"
+
+
+      fixedgridbox = {
+        layoutpolicy_horizontal = expanding
+        datamodel = "[GetGlobalList('ccp_characters')]"
+        addrow = 50
+        addcolumn = 450
+        setitemsizefromcell = yes
+
+        item = {
+          button_standard_hover = {
+            onclick = "[DefaultOnCharacterClick(Character.GetID)]"
+            datacontext = "[Scope.GetCharacter]"
+
+            hbox = {
+              layoutpolicy_horizontal = expanding
+              spacing = 15
+              widget = {
+                size = { 50 50 }
+                portrait_map = {
+                  scale = 0.55
+                  parentanchor = center
+                }
+              }
+
+              text_single = {
+                layoutpolicy_horizontal = expanding
+                max_width = 360
+                raw_text = "[Character.GetUINameNoTooltip]"
+              }
+            }
+          }
+        }
+      }
+      expand = {}
+    }
+  }
+
+  type item_color_ccp = vbox {
+    spacing = 10
+
+    datacontext = "[Scope.Story]"
+    allow_outside = yes
+    layoutpolicy_horizontal = expanding
+    margin_right = 10
+
+    visible = "[Or(Not(Character.MakeScope.Var('use_one_color_ccp').IsSet), And(Character.MakeScope.Var('use_one_color_ccp').IsSet, EqualTo_CFixedPoint(Story.MakeScope.Var('channel_ccp').GetValue, '(CFixedPoint)1')))]"
+
+    background = {
+      margin = { 20 10 }
+      margin_right = 10
+      texture = "gfx/interface/colors/grey.dds"
+      alpha = 0.1
+      using = Mask_Rough_Edges
+      modify_texture = {
+        texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+        blend_mode = alphamultiply
+      }
+      visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+    }
+
+    background = {
+      texture = "gfx/hue_bb.png"
+      framesize = { 1 1 }
+      frame = @color
+      alpha = 0.07
+      margin = { 20 10 }
+      visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+
+      using = Mask_Rough_Edges
+
+      modify_texture = {
+        texture = "gfx/interface/colors/white.dds"
+        alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+        blend_mode = normal
+      }
+
+      modify_texture = {
+        texture = "gfx/interface/colors/black.dds"
+        alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+        blend_mode = normal
+      }
+
+
+      modify_texture = {
+        texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+        blend_mode = alphamultiply
+        mirror = horizontal
+      }
+    }
+
+    # header
+    vbox = {
+      spacing = 7
+      layoutpolicy_horizontal = expanding
+      margin = { -5 0 }
+      allow_outside = yes # close button wasn't fully selectable
+
+      hbox = {
+        layoutpolicy_horizontal = expanding
+        spacing = 5
+        allow_outside = yes
+
+        background = {
+          texture = "gfx/hue_bb.png"
+          framesize = { 1 1 }
+          frame = @color
+          alpha = 0.08
+          margin = { 15 10 }
+          using = Mask_Rough_Edges
+          visible = no#"[Story.MakeScope.Var('hue_ccp').IsSet]"
+
+          modify_texture = {
+            texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+            blend_mode = alphamultiply
+            mirror = horizontal
+          }
+        }
+
+        icon = {
+          texture = "gfx/hue_bb.png"
+          framesize = { 1 1 }
+          frame = @color
+          visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+          size = { 20 20 }
+
+          icon = {
+            size = { 100% 100% }
+            texture = "gfx/interface/colors/white.dds"
+            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+          }
+
+          icon = {
+            size = { 100% 100% }
+            texture = "gfx/interface/colors/black.dds"
+            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+          }
+        }
+
+        flowcontainer = {
+          ignoreinvisible = yes
+
+          spacing = 3
+
+          text_single = {
+            text = "ccp_color"
+            align = nobaseline
+            default_format = "#bold"
+            margin_left = 5
+          }
+
+          text_single = {
+            text = "[Story.MakeScope.Var('channel_ccp').GetValue|0]"
+            align = nobaseline
+            default_format = "#bold"
+          }
+        }
+
+
+        expand = {}
+
+        hbox = {
+          spacing = 5
+          allow_outside = yes
+
+          button_copy = {
+            mirror = horizontal
+            size = { 23 23 }
+            onclick = "[GetScriptedGui('paste_one_color').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+            enabled = "[GetScriptedGui('paste_one_color').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+            using = tooltip_se
+            tooltip_offset = { 0 5 }
+            visible = "[Or(Not(GetScriptedGui('no_color_ccp').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )), GetPlayer.MakeScope.Var('hue_ccp_copy').IsSet)]"
+
+            tooltipwidget = {
+              flowcontainer = {
+                ignoreinvisible = yes
+                direction = vertical
+                using = DefaultTooltipBackground
+                margin = { 15 20 }
+                spacing = 10
+                margin_top = 5
+
+                text_single = {
+                  text = "ccp_paste_color"
+                  default_format = "#T"
+                }
+
+                flowcontainer = {
+                  ignoreinvisible = yes
+
+                  spacing = 5
+                  visible = "[GetPlayer.MakeScope.Var('hue_ccp_copy').IsSet]"
+
+
+                  icon = {
+                    alwaystransparent = yes
+                    size = { 25 25 }
+                    texture = "gfx/hue_bb.png"
+                    framesize = { 1 1 }
+                    alpha = 0.8
+                    frame = "[FixedPointToInt(Add_CFixedPoint(GetPlayer.MakeScope.Var('hue_ccp_copy').GetValue, '(CFixedPoint)1'))]"
+
+
+
+                    icon = {
+                      size = { 100% 100% }
+                      texture = "gfx/interface/colors/white.dds"
+                      alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(GetPlayer.MakeScope.Var('sat_ccp_copy').GetValue, '(CFixedPoint)100'))]"
+                    }
+
+                    icon = {
+                      size = { 100% 100% }
+                      texture = "gfx/interface/colors/black.dds"
+                      alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(GetPlayer.MakeScope.Var('val_ccp_copy').GetValue, '(CFixedPoint)100'))]"
+                    }
+                  }
+
+                  spacer = {}
+
+                  text_single = {
+                    text = "ccp_hue"
+                  }
+
+                  text_single = {
+                    raw_text = "[GetPlayer.MakeScope.Var('hue_ccp_copy').GetValue|0],"
+                  }
+
+                  text_single = {
+                    raw_text = "[GetPlayer.MakeScope.Var('val_ccp_copy').GetValue|0]"
+                  }
+
+                  text_single = {
+                    raw_text = "[GetPlayer.MakeScope.Var('sat_ccp_copy').GetValue|0]"
+                  }
+
+                }
+
+
+              }
+            }
+          }
+
+          button_copy = {
+            using = color_set_ccp
+            onclick = "[GetScriptedGui('copy_one_color').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+            enabled = "[GetScriptedGui('copy_one_color').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('target', Story.MakeScope).End )]"
+            size = { 23 23 }
+            using = tooltip_se
+            tooltip = "ccp_copy_color_tt"
+            tooltip_offset = { 0 5 }
+          }
+
+          button_close = {
+            using = color_set_ccp
+            size = { 22 22 }
+            onclick = "[GetScriptedGui('clear_color_ccp').Execute( GuiScope.SetRoot( Story.MakeScope ).End )]"
+            using = tooltip_se
+            tooltip = "ccp_remove_color_tt"
+            tooltip_offset = { 0 5 }
+          }
+        }
+      }
+
+      icon = {
+        size = { 0 3 }
+        layoutpolicy_horizontal = expanding
+        visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+
+        divider_light = {
+          size = { 100% 3 }
+          position = { 0 1 }
+        }
+
+        icon = {
+          size = { 100% 2 }
+          texture = "gfx/hue_bb.png"
+          framesize = { 1 1 }
+          frame = @color
+          alpha = 0.4
+
+          modify_texture = {
+            blend_mode = normal
+            texture = "gfx/interface/colors/white.dds"
+            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+          }
+
+          modify_texture = {
+            blend_mode = normal
+            texture = "gfx/interface/colors/black.dds"
+            alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+          }
+        }
+      }
+    }
+
+    vbox = {
+      layoutpolicy_horizontal = expanding
+      spacing = 8
+      allow_outside = yes # for the 0 and 100 hidden buttons
+
+      # hue
+      hbox_color_header = {
+      }
+
+      icon = {
+        size = { @width 20 }
+        # layoutpolicy_horizontal = expanding
+        texture = "gfx/hue_bb.png"
+        alpha = "[Select_float(  Story.MakeScope.Var('hue_ccp').IsSet, '(float)1.0', '(float)0.3' )]"
+        allow_outside = yes
+
+        icon = {
+          size = { 100% 100% }
+          texture = "gfx/interface/colors/black.dds"
+          alpha = 0.35
+        }
+
+        # maybe? too dark or bright looks weird
+        # icon = {
+        #   size = { 100% 100% }
+        #   texture = "gfx/interface/colors/white.dds"
+        #   alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+        # }
+        #
+        # icon = {
+        #   size = { 100% 100% }
+        #   texture = "gfx/interface/colors/black.dds"
+        #   alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+        # }
+
+        background = {
+          texture = "gfx/interface/colors/grey.dds"
+          margin = { 1 1 }
+          alpha = 1
+        }
+
+        fixedgridbox_select_color_ccp = {
+        }
+
+        button_standard_hover = {
+          size = { 15 30 }
+          parentanchor = vcenter
+          position = { -15 0 }
+          datacontext = "[GetScriptedGui('ccp_select_hue')]"
+          onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)0' )).End )]"
+        }
+
+        button_standard_hover = {
+          parentanchor = right|vcenter
+          size = { 15 30 }
+          position = { 15 0 }
+          datacontext = "[GetScriptedGui('ccp_select_hue')]"
+          onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)99' )).End )]"
+        }
+      }
+    }
+
+    spacer = {}
+
+    hbox = {
+      spacing = 20
+      layoutpolicy_horizontal = expanding
+      visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+      allow_outside = yes
+
+      vbox = {
+        layoutpolicy_horizontal = expanding
+        allow_outside = yes
+
+        hbox_color_header = {
+          blockoverride "minus" {
+            datacontext = "[GetScriptedGui('val_minus_ccp')]"
+            onrightclick = "[GetScriptedGui('ccp_select_val').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)0' )).End )]"
+          }
+          blockoverride "plus" {
+            datacontext = "[GetScriptedGui('val_plus_ccp')]"
+            onrightclick = "[GetScriptedGui('ccp_select_val').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)100' )).End )]"
+          }
+          blockoverride "text" {
+            text = "ccp_brightness"
+            # LOREM_IPSUM_TITLE
+          }
+          blockoverride "value" {
+            raw_text = "[Story.MakeScope.Var('val_ccp').GetValue|0]"
+          }
+        }
+
+        widget_brightness_ccp = {
+          blockoverride "sgui" {
+            datacontext = "[GetScriptedGui('ccp_select_val')]"
+          }
+          blockoverride "var" {
+            datacontext = "[Story.MakeScope.Var('val_ccp')]"
+            visible = "[EqualTo_CFixedPoint( Scope.GetValue, IntToFixedPoint(Add_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1')))]"
+          }
+        }
+      }
+
+      vbox = {
+        layoutpolicy_horizontal = expanding
+        allow_outside = yes
+
+        hbox_color_header = {
+          blockoverride "minus" {
+            datacontext = "[GetScriptedGui('sat_minus_ccp')]"
+            onrightclick = "[GetScriptedGui('ccp_select_sat').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)0' )).End )]"
+          }
+          blockoverride "plus" {
+            datacontext = "[GetScriptedGui('sat_plus_ccp')]"
+            onrightclick = "[GetScriptedGui('ccp_select_sat').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)100' )).End )]"
+          }
+          blockoverride "text" {
+            text = "ccp_saturation"
+          }
+          blockoverride "value" {
+            raw_text = "[Story.MakeScope.Var('sat_ccp').GetValue|0]"
+          }
+        }
+
+        widget_brightness_ccp = {
+          blockoverride "gradient" {
+            icon = {
+              size = { 100% 100% }
+              texture = "gfx/saturation_bb.png"
+            }
+
+            icon = {
+              size = { 100% 100% }
+              texture = "gfx/interface/colors/black.dds"
+              alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('val_ccp').GetValue, '(CFixedPoint)100'))]"
+            }
+          }
+          blockoverride "sgui" {
+            datacontext = "[GetScriptedGui('ccp_select_sat')]"
+          }
+          blockoverride "var" {
+            datacontext = "[Story.MakeScope.Var('sat_ccp')]"
+            visible = "[EqualTo_CFixedPoint( Scope.GetValue, IntToFixedPoint(Add_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1')))]"
+          }
+        }
+      }
+
+    }
+
+    # debug values
+    flowcontainer = {
+      ignoreinvisible = yes
+      direction = vertical
+      visible = no
+
+      flowcontainer = {
+        ignoreinvisible = yes
+
+        spacing = 10
+
+        text_single = {
+          raw_text = "Red: [Story.MakeScope.ScriptValue('red_ccp')|0]"
+          default_format = "#v"
+        }
+
+        text_single = {
+          raw_text = "Green: [Story.MakeScope.ScriptValue('green_ccp')|0]"
+          default_format = "#v"
+        }
+
+        text_single = {
+          raw_text = "Blue: [Story.MakeScope.ScriptValue('blue_ccp')|0]"
+          default_format = "#v"
+        }
+      }
+
+      spacer = { size = { 0 10 } }
+
+      flowcontainer = {
+        ignoreinvisible = yes
+        direction = vertical
+        # visible = no
+
+        alpha = 0.5
+        text_single = {
+          raw_text = "C = Sat x Val: [Story.MakeScope.ScriptValue('c_color_ccp')]"
+          default_format = "#v"
+        }
+
+        text_single = {
+          raw_text = "X = Cx..: [Story.MakeScope.ScriptValue('x_color_ccp')]"
+          default_format = "#v"
+        }
+
+        text_single = {
+          raw_text = "Hue mod [Story.MakeScope.ScriptValue('hue_mod_ccp')]"
+          default_format = "#v"
+        }
+
+        text_single = {
+          raw_text = "m = V - C: [Story.MakeScope.ScriptValue('m_sat_ccp')]"
+          default_format = "#v"
+        }
+      }
+    }
+  }
+
+  type fixedgridbox_select_color_ccp = fixedgridbox {
+    block "row" {
+      addrow = 20
+      addcolumn = @[width/100]
+    }
+    setitemsizefromcell = yes
+    datamodel = "[DataModelFirst(GetAllTraits, '(int32)100')]"
+    flipdirection = yes
+
+    # state = {
+    #   name = _mouse_hierarchy_leave
+    #   on_finish = "[GetVariableSystem.Clear('color_down')]"
+    # }
+
+    item = {
+      button = {
+        block "sgui" {
+          datacontext = "[GetScriptedGui('ccp_select_hue')]"
+        }
+        onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue(IntToFixedPoint(PdxGuiWidget.GetIndexInDataModel))).End )]"
+        onmousehierarchyenter = "[PdxGuiWidget.FindChild('border').Show]"
+        onmousehierarchyleave = "[PdxGuiWidget.FindChild('border').Hide]"
+
+        icon = {
+          name = "border"
+          visible = no
+          framesize = { 1 1 }
+          alpha = 0.5
+          block "hover_size" {
+            size = { 100% 100% }
+          }
+          parentanchor = center
+          alwaystransparent = yes
+          texture = "gfx/ccp_color_border.png"
+
+        }
+
+        # onmousehierarchyenter = "[GetScriptedGui(Select_CString(GetVariableSystem.Exists('color_down'), 'ccp_select_hue', 'ccp_none')).Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue(IntToFixedPoint(PdxGuiWidget.GetIndexInDataModel))).End )]"
+        # button_ignore = none
+        #
+        # state = {
+        #   name = _mouse_press
+        #   on_start = "[GetVariableSystem.Set('color_down', 'yes')]"
+        # }
+        #
+        # # state = {
+        # #   name = _mouse_hierarchy_enter
+        # #   on_start = "[GetScriptedGui(Select_CString(GetVariableSystem.Exists('color_down'), 'ccp_select_hue', 'ccp_none')).Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue(IntToFixedPoint(PdxGuiWidget.GetIndexInDataModel))).End )]"
+        # # }
+        #
+        # state = {
+        #   name = _mouse_hierarchy_leave
+        #   on_finish = "[GetVariableSystem.Clear('color_down')]"
+        # }
+        #
+        # state = {
+        #   name = _mouse_release
+        #   on_finish = "[GetVariableSystem.Clear('color_down')]"
+        # }
+
+        icon = {
+          block "marker" {
+            # texture = "gfx/ccp_color_border.png"
+            # size = { 10 22 }
+            # parentanchor = center
+            texture = "gfx/hue_bb.png"
+            framesize = { 1 1 }
+            size = { 8 26 }
+            parentanchor = center
+            alwaystransparent = yes
+            frame = "[PdxGuiWidget.GetIndexInDataModel]"
+            background = {
+              texture = "gfx/interface/colors/black.dds"
+              margin = { 2 2 }
+            }
+            background = {
+              texture = "gfx/interface/colors/white.dds"
+              margin = { 1 1 }
+            }
+          }
+          block "var" {
+            datacontext = "[Story.MakeScope.Var('hue_ccp')]"
+            visible = "[And(EqualTo_CFixedPoint( Scope.GetValue, IntToFixedPoint(PdxGuiWidget.GetIndexInDataModel)), Scope.IsSet)]"
+          }
+        }
+      }
+    }
+  }
+
+  type hbox_color_header = hbox {
+    layoutpolicy_horizontal = expanding
+    visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+
+    button_minus = {
+      size = { 20 20 }
+      block "minus" {
+        datacontext = "[GetScriptedGui('hue_minus_ccp')]"
+        onrightclick = "[GetScriptedGui('ccp_select_hue').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)0' )).End )]"
+      }
+      onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).End )]"
+      button_ignore = none
+    }
+
+    text_single = {
+      min_width = 26
+      align = center|nobaseline
+      default_format = "#v"
+      block "value" {
+        raw_text = "[Story.MakeScope.ScriptValue('hue_ccp_ui')]"
+      }
+    }
+
+    button_plus = {
+      size = { 20 20 }
+      block "plus" {
+        datacontext = "[GetScriptedGui('hue_plus_ccp')]"
+        onrightclick = "[GetScriptedGui('ccp_select_hue').Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)99' )).End )]"
+      }
+      button_ignore = none
+      onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).End )]"
+    }
+
+    spacer = { size = { 5 0 } }
+
+    text_single = {
+      block "text" {
+        text = "ccp_hue"
+      }
+      max_width = 100
+      min_width = 100
+      align = nobaseline
+    }
+
+    expand = {}
+  }
+
+  type widget_brightness_ccp = widget {
+    size = { @half 24 }
+    allow_outside = yes
+
+    icon = {
+      size = { 100% 10 }
+      texture = "gfx/hue_bb.png"
+      framesize = { 1 1 }
+      frame = @color
+      allow_outside = yes
+      parentanchor = vcenter
+      using = color_set_ccp
+
+      block "gradient" {
+        icon = {
+          size = { 100% 100% }
+          texture = "gfx/interface/colors/white.dds"
+          alpha = "[Subtract_CFixedPoint('(CFixedPoint)1', Divide_CFixedPoint(Story.MakeScope.Var('sat_ccp').GetValue, '(CFixedPoint)100'))]"
+        }
+
+        icon = {
+          size = { 100% 100% }
+          texture = "gfx/value_bb.png"
+        }
+      }
+
+      icon = {
+        size = { 100% 100% }
+        texture = "gfx/interface/colors/black.dds"
+        alpha = 0.3
+      }
+
+      background = {
+        texture = "gfx/interface/colors/grey.dds"
+        margin = { 1 1 }
+        alpha = 0.4
+      }
+      background = {
+        texture = "gfx/hue_bb.png"
+        framesize = { 1 1 }
+        frame = @color
+        margin = { 1 1 }
+        alpha = 0.1
+      }
+    }
+
+    fixedgridbox_select_color_ccp = {
+      parentanchor = vcenter
+      blockoverride "hover_size" {
+        size = { 100% 10 }
+      }
+      blockoverride "marker" {
+        # size = { 6 16 }
+        # parentanchor = center
+        # texture = "gfx/ccp_color_border.png"
+        # spriteType = Corneredstretched
+        # spriteborder = { 1 1 }
+        # tintcolor = { 0 0 0 1 }
+        #
+        # icon = {
+        #   size = { 100% 100% }
+        #   parentanchor = center
+        #   position = { 1 0 }
+        #   texture = "gfx/ccp_color_border.png"
+        #   spriteType = Corneredstretched
+        #   spriteborder = { 1 1 }
+        # }
+        texture = "gfx/interface/colors/black.dds"
+        size = { 3 14 }
+        parentanchor = center
+
+        icon = {
+          texture = "gfx/interface/colors/white.dds"
+          size = { 3 14 }
+          position = { 1 0 }
+          parentanchor = center
+        }
+      }
+      blockoverride "row" {
+        addrow = 24
+        addcolumn = @[half/100]
+      }
+    }
+
+    button_standard_hover = {
+      size = { 8 20 }
+      parentanchor = vcenter
+      position = { -8 0 }
+      block "sgui" {}
+      onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)0' )).End )]"
+    }
+
+    button_standard_hover = {
+      parentanchor = right|vcenter
+      size = { 8 20 }
+      position = { 8 0 }
+      block "sgui" {}
+      onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Story.MakeScope ).AddScope('value', MakeScopeValue( '(CFixedPoint)100' )).End )]"
+    }
+  }
+
+  type no_color_picker_tip = container { visible = no }
+}
+
+template ccp_init {
+  on_finish = "[GetScriptedGui('ccp_init').Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+}
+
+template color_set_ccp {
+  visible = "[Story.MakeScope.Var('hue_ccp').IsSet]"
+}
+
+template tooltip_ccp {
+  using = tooltip_se
+  tooltip_offset = { 0 5 }
+}

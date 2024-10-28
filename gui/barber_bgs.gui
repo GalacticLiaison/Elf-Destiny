@@ -1,0 +1,2549 @@
+# greenscreens are in the customization window
+
+
+
+#regex
+
+
+			# bg_button = {\n				text = "$1"\n				onclick = "[GetVariableSystem.Set('barber_bg', '$1')]"\n				blockoverride "picture" {\n					texture = "gfx/interface/illustrations/event_scenes/$1.dds"\n				}\n				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_$1')]" }\n				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_$1')]"\n			}
+
+			# widget = {\n    size = { 100% 100% }\n    visible = "[GetVariableSystem.HasValue('barber_bg', '$1')]"\n    background = {\n        texture = "gfx/interface/illustrations/event_scenes/$1.dds"\n        fittype = centercrop\n    }\n}
+
+template "portrait_bgs"
+{
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[Not(GetVariableSystem.Exists('barber_bg'))]"
+		background = {
+			texture = "[Illustration.GetTexture( Character.Self )]"
+			fittype = centercrop
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_rough_edges.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 20 20 }
+				blend_mode = alphamultiply
+				texture_density = 2
+			}
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'background_ruler_transition_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/background_ruler_transition.dds"
+		}
+	}
+
+
+	### BP1 ###
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_indian_corridor_night')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_corridor_indian_night.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_indian_corridor_day')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_corridor_indian_day.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_relaxing_room_western')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_western.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_relaxing_room_mena')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_kitchen_western')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_kitchen_western.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_bonfire')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_bonfire.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_courtyard_indian')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_courtyard_indian.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_courtyard_mena')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_courtyard_mena.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_wine_cellar')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_wine_cellar.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_crossroads_inn')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_crossroads_inn.dds"
+	        fittype = centercrop
+	    }
+	}
+
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_wetlands')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_wetlands.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_jungle')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_jungle.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_plains')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
+	        fittype = centercrop
+	    }
+	}
+	widget = {
+	    size = { 100% 100% }
+	    visible = "[GetVariableSystem.HasValue('barber_bg', 'bp1_desert')]"
+	    background = {
+	        texture = "gfx/interface/illustrations/event_scenes/bp1_desert.dds"
+	        fittype = centercrop
+	    }
+	}
+
+
+	### FP2 ###
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_struggle_start')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_story/fp2_struggle_start.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_fullscreen_hostility')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_story/fp2_hostility.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_fullscreen_compromise')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_story/fp2_compromise.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_fullscreen_conciliation')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_story/fp2_conciliation.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_iberian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/fp2_iberian.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_throneroom_iberian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/fp2_throneroom_iberian.dds"
+			fittype = centercrop
+		}
+	}
+
+
+	###
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_west_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/throneroom_west.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'west_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/west.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_east_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/frontend_east.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/frontend_india.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_mediterranean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/frontend_mediterranean.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_tribal_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/frontend_tribal.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/fp1_frontend_tribal.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_norse2_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/fp1_frontend_nontribal.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'big_throneroom_west_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/frontend_west.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_frontend_iberian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/main_menu/fp2_frontend_iberian.dds"
+			fittype = centercrop
+		}
+	}
+
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_mediterranean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/throneroom_mediterranean.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'mediterranean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/mediterranean.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_east_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/throneroom_east.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'mena_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/mena.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/throneroom_india.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/india.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_tribal_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/throneroom_tribal.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/fp1_throneroom_tribal.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'throneroom_norse2_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/character_view/fp1_throneroom_nontribal.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'alley_day_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes_frontend/alley_day.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'alley_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/alley.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'armory_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes_frontend/armory.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'corridor_day_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/corridor_day.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_corridor_night_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_corridor_night.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'feast_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/activities/activity_feast.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'feast_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_viking_feast.dds"
+			fittype = centercrop
+		}
+	}
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = no
+	# 	using = hide_bg_temp
+	# 	state = {
+	# 		name = hunt_bg
+	# 		on_start = "[PdxGuiWidget.Show]"
+	# 	}
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/activities/activity_hunt.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'battlefield_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/battlefield.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bedchamber_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/bedchamber.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bedchamber_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/bedchamber.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'corridor_day_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/corridor_day.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_corridor_day_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_corridor_day.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'docks_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/docks.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'dungeon_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/dungeon.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'dungeon_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_prison.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_prison_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_prison.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_relaxing_room_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_relaxing_room.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'gallows_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/gallows.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'study_physician_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/study_physician.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'sittingroom_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/sittingroom.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'study_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/study.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'raid_burning_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/raid_burning.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'councilchamber_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes_frontend/councilchamber.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'courtyard_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/courtyard.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_courtyard_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_courtyard.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'garden_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes_frontend/garden.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_garden_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_garden.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'genericcamp_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes_frontend/genericcamp.dds"
+			fittype = centercrop
+		}
+	}
+
+
+	### Council FP2 ###
+
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_chancellor_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_chancellor.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_steward_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_steward.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_duchess_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_duchess.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_bishop_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_bishop.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_marshal_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_marshal.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+	# widget = {
+	# 	size = { 100% 100% }
+	# 	visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_bg_council_spymaster_bg')]"
+	# 	background = {
+	# 		texture = "gfx/interface/illustrations/council/fp2_bg_council_spymaster.dds"
+	# 		fittype = centercrop
+	# 	}
+	# }
+
+	### Council ###
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_chancellor_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_chancellor.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_steward_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_steward.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_spouse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_spouse.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_chaplain_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_chaplain.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_marshal_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_marshal.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'bg_council_spymaster_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/council/bg_council_spymaster.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'runestone_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_runestone.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'runestone_circle_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_runestone_circle.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'longship_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_beached_longship.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'ocean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'corridor_day_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_steward_study.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'corridor_night_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_corridor.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'church_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/church.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'mosque_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/mosque.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/temple.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_temple_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp2_temple.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_temple.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'tavern_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/tavern.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'market_east_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/market_east.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'market_tribal_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/market_tribal.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'market_west_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/market_west.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'mountains_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'castle_india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/castle_india.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_castle_iberian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/fp2_castle_iberian.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'castle_mediterranean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/castle_mediterranean.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'castle_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/fp1_castle_norse.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'castle_mena_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/castle_mena.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'castle_western_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/castle_western.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'city_india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/city_india.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'city_mediterranean_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/city_mediterranean.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'city_norse_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/fp1_city_norse.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_city_iberian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/fp2_city_iberian.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'city_mena_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/city_mena.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'city_western_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/city_western.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_christian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_christian.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'fp2_temple_iberian_christian_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/fp2_temple_iberian_christian.dds"
+			fittype = centercrop
+		}
+	}
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_generic_arid_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_generic_arid.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_generic_grass_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_generic_grass.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_india_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_india.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_islamic_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_islamic.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_northern_pagan_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_northern_pagan.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'temple_orthodox_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/temple_orthodox.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'tribe_arid_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/tribe_arid.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'tribe_grass_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/holding_types/tribe_grass.dds"
+			fittype = centercrop
+		}
+	}
+
+
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'farms_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/farms.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'desert_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/desert.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'steppe_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'forest_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/forest.dds"
+			fittype = centercrop
+		}
+	}
+	widget = {
+		size = { 100% 100% }
+		visible = "[GetVariableSystem.HasValue('barber_bg', 'forest_pine_bg')]"
+		background = {
+			texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
+			fittype = centercrop
+		}
+	}
+}
+
+template "bg_buttons"
+{
+	# I know, this should be redone, similar to poses
+	# next time
+	flowcontainer = {
+		direction = vertical
+		ignoreinvisible = yes
+		spacing = 10
+		min_width = 200
+		margin_bottom = 30
+		# button_FB_list = {
+		# 	text = "big bgs"
+		# 	onclick = "[PdxGuiTriggerAllAnimations('big_bgs')]"
+		# 	blockoverride "picture" {}
+		# }
+		bg_button = {
+			text = "none"
+			blockoverride "picture" {}
+			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_body')]"
+			onclick = "[GetVariableSystem.Set('barber_bg', 'none')]"
+		}
+
+		bg_button = {
+			text = "default"
+			onclick = "[GetVariableSystem.Clear('barber_bg')]"
+			# onclick = "[PdxGuiTriggerAllAnimations('default_bg')]"
+			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', Illustration.GetEnvironment(Character.Self))]" }
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), Illustration.GetEnvironment(Character.Self))]"
+
+			onmousehierarchyleave = "[PdxGuiWidget.FindChild('def_picture').TriggerAnimation('default_unhighlight')]"
+			onmousehierarchyenter = "[PdxGuiWidget.FindChild('def_picture').TriggerAnimation('default_highlight')]"
+
+			blockoverride "default" {
+				margin_widget = {
+					name = "def_picture"
+					size = { 45% 100% }
+					alpha = 0.5
+					state = {
+						name = default_unhighlight
+						alpha = 0.5
+					}
+					state = {
+						name = default_highlight
+						alpha = 1
+					}
+					parentanchor = right
+					background = {
+						margin = { -1 -2 }
+						texture = "[Illustration.GetTexture( Character.Self )]"
+						fittype = centercrop
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
+							blend_mode = alphamultiply
+							rotate_uv = 3
+						}
+					}
+				}
+			}
+		}
+
+		flowcontainer = {
+			using = cfp_bg_buttons
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('bp1_bgs')]"
+			blockoverride "text" {
+				text = "bp1_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('bp1_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('bp1_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(GetVariableSystem.Exists('bp1_bgs'))]"
+			direction = vertical
+			ignoreinvisible = yes
+			min_width = 200
+			spacing = -2
+
+			bg_button = {
+				text = "bp1_relaxing_room_western"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_relaxing_room_western')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_western.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_relaxing_room_western')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_relaxing_room_western')]"
+			}
+			bg_button = {
+				text = "bp1_relaxing_room_mena"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_relaxing_room_mena')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_relaxing_room_mena.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_relaxing_room_mena')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_relaxing_room_mena')]"
+			}
+			bg_button = {
+				text = "bp1_kitchen_western"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_kitchen_western')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_kitchen_western.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_kitchen_western')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_kitchen_western')]"
+			}
+			bg_button = {
+				text = "bp1_wine_cellar"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_wine_cellar')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_wine_cellar.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_wine_cellar')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_wine_cellar')]"
+			}
+			bg_button = {
+				text = "bp1_courtyard_indian"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_courtyard_indian')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_courtyard_indian.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_courtyard_indian')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_courtyard_indian')]"
+			}
+			bg_button = {
+				text = "bp1_courtyard_mena"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_courtyard_mena')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_courtyard_mena.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_courtyard_mena')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_courtyard_mena')]"
+			}
+			bg_button = {
+				text = "bp1_indian_corridor_day"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_indian_corridor_day')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_corridor_indian_day.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_corridor_indian_day')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_corridor_indian_day')]"
+			}
+			bg_button = {
+				text = "bp1_indian_corridor_night"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_indian_corridor_night')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_corridor_indian_night.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_corridor_indian_night')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_corridor_indian_night')]"
+			}
+			bg_button = {
+				text = "bp1_bonfire"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_bonfire')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_bonfire.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_bonfire')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_bonfire')]"
+			}
+			bg_button = {
+				text = "bp1_crossroads_inn"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_crossroads_inn')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_crossroads_inn.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_crossroads_inn')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_crossroads_inn')]"
+			}
+			bg_button = {
+				text = "bp1_plains"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_plains')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_plains.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_plains')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_plains')]"
+			}
+			bg_button = {
+				text = "bp1_wetlands"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_wetlands')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_wetlands.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_wetlands')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_wetlands')]"
+			}
+			bg_button = {
+				text = "bp1_jungle"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_jungle')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_jungle.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_jungle')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_jungle')]"
+			}
+			bg_button = {
+				text = "bp1_desert"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bp1_desert')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bp1_desert.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bp1_desert')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bp1_desert')]"
+			}
+		}
+
+		flowcontainer = {
+			# margin_top = -5
+			direction = vertical
+			# spacing = 10
+
+			visible = "[GetScriptedGui('has_dlc_iberia').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+			button_category = {
+				onclick = "[GetVariableSystem.Toggle('iberian_bgs')]"
+				blockoverride "text" {
+					text = "iberian_bgs"
+				}
+				blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('iberian_bgs'), '(int32)1', '(int32)2')]" }
+
+				onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+				button_ignore = none
+				tooltip = "collapse_poses"
+
+				state = {
+					name = collapse_bgs
+					alpha = 1
+					on_start = "[GetVariableSystem.Set('iberian_bgs', 'yes')]"
+				}
+			}
+
+			flowcontainer = {
+				visible = "[Not(GetVariableSystem.Exists('iberian_bgs'))]"
+				direction = vertical
+				ignoreinvisible = yes
+				min_width = 200
+				spacing = -2
+
+				widget = {
+					size = { 0 12 }
+				}
+
+
+				bg_button = {
+				    text = "fp2_iberian"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_iberian_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/character_view/fp2_iberian.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_cw_fp2_iberian')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_cw_fp2_iberian')]"
+				}
+				bg_button = {
+					text = "fp2_frontend_iberian"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_frontend_iberian_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/main_menu/fp2_frontend_iberian.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_fp2_frontend_iberian_main')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_fp2_frontend_iberian_main')]"
+				}
+				bg_button = {
+				    text = "fp2_throneroom_iberian"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_throneroom_iberian_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/character_view/fp2_throneroom_iberian.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_throneroom')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_throneroom')]"
+				}
+				bg_button = {
+				    text = "fp2_corridor_day"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_corridor_day_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_corridor_day.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_corridor_day')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_corridor_day')]"
+				}
+				bg_button = {
+				    text = "fp2_corridor_night"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_corridor_night_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_corridor_night.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_corridor_night')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_corridor_night')]"
+				}
+				bg_button = {
+				    text = "fp2_prison"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_prison_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_prison.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_prison')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_prison')]"
+				}
+				bg_button = {
+				    text = "fp2_relaxing_room"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_relaxing_room_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_relaxing_room.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_relaxing_room')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_relaxing_room')]"
+				}
+				bg_button = {
+				    text = "fp2_courtyard"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_courtyard_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_courtyard.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_courtyard')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_courtyard')]"
+				}
+				bg_button = {
+				    text = "fp2_garden"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_garden_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_garden.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_garden')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_garden')]"
+				}
+				# bg_button = {
+				#     text = "fp2_bg_council_chancellor"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_chancellor_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_chancellor.dds"
+				#     }
+				# }
+				# bg_button = {
+				#     text = "fp2_bg_council_steward"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_steward_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_steward.dds"
+				#     }
+				# }
+				# bg_button = {
+				#     text = "fp2_bg_council_duchess"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_duchess_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_duchess.dds"
+				#     }
+				# }
+				# bg_button = {
+				#     text = "fp2_bg_council_bishop"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_bishop_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_bishop.dds"
+				#     }
+				# }
+				# bg_button = {
+				#     text = "fp2_bg_council_marshal"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_marshal_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_marshal.dds"
+				#     }
+				# }
+				# bg_button = {
+				#     text = "fp2_bg_council_spymaster"
+				#     onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_bg_council_spymaster_bg')]"
+				#     blockoverride "picture" {
+				#         texture = "gfx/interface/illustrations/council/fp2_bg_council_spymaster.dds"
+				#     }
+				# }
+				bg_button = {
+				    text = "fp2_temple"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_temple_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/event_scenes/fp2_temple.dds"
+				    }
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp2_temple')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp2_temple')]"
+				}
+				bg_button = {
+				    text = "fp2_castle_iberian"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_castle_iberian_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/holding_types/fp2_castle_iberian.dds"
+				    }
+				}
+				bg_button = {
+				    text = "fp2_city_iberian"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_city_iberian_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/holding_types/fp2_city_iberian.dds"
+				    }
+				}
+				bg_button = {
+				    text = "fp2_temple_iberian_chrisitan"
+				    onclick = "[GetVariableSystem.Set('barber_bg', 'fp2_temple_iberian_christian_bg')]"
+				    blockoverride "picture" {
+				        texture = "gfx/interface/illustrations/holding_types/fp2_temple_iberian_christian.dds"
+				    }
+				}
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('big_thronerooms_bgs')]"
+			blockoverride "text" {
+				text = "big_thronerooms_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('big_thronerooms_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('big_thronerooms_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(GetVariableSystem.Exists('big_thronerooms_bgs'))]"
+			direction = vertical
+			ignoreinvisible = yes
+			min_width = 200
+			spacing = -2
+
+			bg_button = {
+				text = "big_throneroom_east"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_east_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/main_menu/frontend_east.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_east_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_east_main')]"
+			}
+			bg_button = {
+				text = "big_throneroom_india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/main_menu/frontend_india.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_india_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_india_main')]"
+			}
+			bg_button = {
+				text = "big_throneroom_mediterranean"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_mediterranean_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/main_menu/frontend_mediterranean.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_mediterranean_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_mediterranean_main')]"
+			}
+			bg_button = {
+				text = "big_throneroom_tribal"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_tribal_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/main_menu/frontend_tribal.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_tribal_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_tribal_main')]"
+			}
+			flowcontainer = {
+				min_width = 200
+				direction = vertical
+				spacing = -2
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+				bg_button = {
+					text = "big_throneroom_norse"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_norse_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/main_menu/fp1_frontend_tribal.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_tribal')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
+				}
+				bg_button = {
+					text = "big_throneroom_norse2"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_norse2_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/main_menu/fp1_frontend_nontribal.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_nontribal')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
+				}
+			}
+			bg_button = {
+				text = "big_throneroom_west"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'big_throneroom_west_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/main_menu/frontend_west.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_west_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_west_main')]"
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('thronerooms_bgs')]"
+			blockoverride "text" {
+				text = "thronerooms_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('thronerooms_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('thronerooms_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			spacing = -2
+			visible = "[Not(GetVariableSystem.Exists('thronerooms_bgs'))]"
+			direction = vertical
+			min_width = 200
+			ignoreinvisible = yes
+
+			bg_button = {
+				text = "throneroom_east"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_east_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/throneroom_east.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_east_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_east_main')]"
+			}
+			bg_button = {
+				text = "throneroom_india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/throneroom_india.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_india_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_india_main')]"
+
+			}
+			bg_button = {
+				text = "throneroom_mediterranean"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_mediterranean_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/throneroom_mediterranean.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_mediterranean_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_mediterranean_main')]"
+			}
+			bg_button = {
+				text = "throneroom_tribal"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_tribal_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/throneroom_tribal.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_tribal_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_tribal_main')]"
+			}
+
+			flowcontainer = {
+				direction = vertical
+				spacing = -2
+				min_width = 200
+
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+				bg_button = {
+					text = "throneroom_norse"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_norse_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/character_view/fp1_throneroom_tribal.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_tribal')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
+
+				}
+				bg_button = {
+					text = "throneroom_norse2"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_norse2_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/character_view/fp1_throneroom_nontribal.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_nontribal')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
+				}
+			}
+			bg_button = {
+				text = "throneroom_west"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'throneroom_west_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/throneroom_west.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_west_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_west_main')]"
+
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('interior_bgs')]"
+			blockoverride "text" {
+				text = "interior_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('interior_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('interior_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			direction = vertical
+			spacing = -2
+			visible = "[Not(GetVariableSystem.Exists('interior_bgs'))]"
+			min_width = 200
+
+			bg_button = {
+				text = "mediterranean"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'mediterranean_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/mediterranean.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_cw_mediterranean_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_cw_mediterranean_main')]"
+			}
+			bg_button = {
+				text = "india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/india.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_cw_india_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_cw_india_main')]"
+			}
+			bg_button = {
+				text = "mena"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'mena_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/mena.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_cw_east_main')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_cw_east_main')]"
+			}
+			bg_button = {
+				text = "west"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'west_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/character_view/west.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_cw_west')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_cw_west')]"
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('event_bgs')]"
+			blockoverride "text" {
+				text = "event_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('event_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('event_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			direction = vertical
+			spacing = -2
+			ignoreinvisible = yes
+			min_width = 200
+
+			visible = "[Not(GetVariableSystem.Exists('event_bgs'))]"
+
+			bg_button = {
+				text = "alley_day"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'alley_day_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes_frontend/alley_day.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_alley_day')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_alley_day')]"
+			}
+			bg_button = {
+				text = "alley_night"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'alley_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/alley.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_alley')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_alley')]"
+			}
+			bg_button = {
+				text = "armory"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'armory_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes_frontend/armory.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_armory')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_armory')]"
+			}
+			bg_button = {
+				text = "battlefield"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'battlefield_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/battlefield.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_battlefield')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_battlefield')]"
+			}
+			bg_button = {
+				text = "bedchamber"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bedchamber_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/bedchamber.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bedchamber')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bedchamber')]"
+			}
+			bg_button = {
+				text = "camp"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'genericcamp_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes_frontend/genericcamp.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_genericcamp')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_genericcamp')]"
+			}
+			bg_button = {
+				text = "courtyard"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'courtyard_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/courtyard.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_courtyard')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_courtyard')]"
+			}
+			bg_button = {
+				text = "corridor_day"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'corridor_day_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/corridor_day.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_corridor_day')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_corridor_day')]"
+			}
+			bg_button = {
+				text = "corridor_night"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'corridor_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/corridor.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_corridor')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_corridor')]"
+			}
+			bg_button = {
+				text = "docks"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'docks_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/docks.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_docks')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_docks')]"
+			}
+			bg_button = {
+				text = "dungeon"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'dungeon_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/dungeon.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_dungeon')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_dungeon')]"
+			}
+			bg_button = {
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+				text = "dungeon_norse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'dungeon_norse_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_prison.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_prison')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_prison')]"
+			}
+			bg_button = {
+				text = "feast"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'feast_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/feast.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_feast')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_feast')]"
+			}
+			bg_button = {
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+				text = "feast_norse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'feast_norse_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/fp1_viking_feast.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_viking_feast')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_viking_feast')]"
+			}
+			bg_button = {
+				text = "garden"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'garden_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/garden.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_garden')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_garden')]"
+			}
+			bg_button = {
+				text = "gallows"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'gallows_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/gallows.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_gallows')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_gallows')]"
+			}
+			# bg_button = {
+			# 	text = "hunt"
+			# 	onclick = "[GetVariableSystem.Set('barber_bg', 'hunt_bg')]"
+			# 	blockoverride "picture" {
+			# 		texture = "gfx/interface/illustrations/activities/activity_hunt.dds"
+			# 	}
+			# blockoverride "light" { # 	onclick = "[GetVariableSystem.Set('environment', 'environment_event_forest')]" }
+			# }
+			bg_button = {
+				text = "raid"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'raid_burning_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/raid_burning.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_feast')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_feast')]"
+			}
+
+			widget = {
+				size = { 0 12 }
+			}
+
+			bg_button = {
+				text = "church"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'church_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/church.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_church')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_church')]"
+			}
+			bg_button = {
+				text = "mosque"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'mosque_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/mosque.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_mosque')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_mosque')]"
+			}
+			bg_button = {
+				text = "temple"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/temple.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_temple')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_temple')]"
+			}
+			bg_button = {
+				text = "temple_norse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_norse_bg')]"
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_temple.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_temple')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_temple')]"
+			}
+
+			widget = {
+				size = { 0 12 }
+			}
+
+			bg_button = {
+				text = "market_east"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'market_east_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/market_east.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_east')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_east')]"
+			}
+			bg_button = {
+				text = "market_tribal"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'market_tribal_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/market_tribal.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_tribal')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_tribal')]"
+			}
+			bg_button = {
+				text = "market_west"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'market_west_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/market_west.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_west')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_west')]"
+			}
+			bg_button = {
+				text = "tavern"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'tavern_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/tavern.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_tavern')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_tavern')]"
+			}
+		}
+
+		flowcontainer = {
+			direction = vertical
+
+			datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+			visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+			button_category = {
+				onclick = "[GetVariableSystem.Toggle('norse_bgs')]"
+				blockoverride "text" {
+					text = "norse_bgs"
+				}
+				blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('norse_bgs'), '(int32)1', '(int32)2')]" }
+
+				onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+				button_ignore = none
+				tooltip = "collapse_poses"
+
+				state = {
+					name = collapse_bgs
+					alpha = 1
+					on_start = "[GetVariableSystem.Set('norse_bgs', 'yes')]"
+				}
+			}
+
+			flowcontainer = {
+				direction = vertical
+				spacing = -2
+				min_width = 200
+				visible = "[Not(GetVariableSystem.Exists('norse_bgs'))]"
+				ignoreinvisible = yes
+
+				widget = {
+					size = { 0 12 }
+				}
+
+
+				bg_button = {
+					text = "corridor_day_norse"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'corridor_day_norse_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_steward_study.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_steward_study')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_steward_study')]"
+				}
+				bg_button = {
+					text = "corridor_night_norse"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'corridor_night_norse_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_corridor.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_corridor')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_corridor')]"
+				}
+				bg_button = {
+					text = "longship"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'longship_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_beached_longship.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_beached_longship')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_beached_longship')]"
+				}
+				bg_button = {
+					text = "ocean"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'ocean_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_ocean')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_ocean')]"
+				}
+				bg_button = {
+					text = "runestone"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'runestone_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_runestone.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_runestone')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_runestone')]"
+				}
+				bg_button = {
+					text = "runestone_circle"
+					onclick = "[GetVariableSystem.Set('barber_bg', 'runestone_circle_bg')]"
+					blockoverride "picture" {
+						texture = "gfx/interface/illustrations/event_scenes/fp1_runestone_circle.dds"
+					}
+					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_runestone_circle')]" }
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_runestone_circle')]"
+				}
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('council_bgs')]"
+			blockoverride "text" {
+				text = "council_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('council_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('council_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			direction = vertical
+			spacing = -2
+			ignoreinvisible = yes
+			min_width = 200
+			visible = "[Not(GetVariableSystem.Exists('council_bgs'))]"
+			# visible = no
+
+			bg_button = {
+				text = "physician"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'study_physician_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/study_physician.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_study_physician')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_study_physician')]"
+			}
+			bg_button = {
+				text = "council_chamber"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'councilchamber_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes_frontend/councilchamber.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_council')]" }
+			}
+			bg_button = {
+				text = "council_spouse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_spouse_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_spouse.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "council_chancellor"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_chancellor_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_chancellor.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "council_chaplain"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_chaplain_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_chaplain.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "council_marshal"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_marshal_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_marshal.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "council_steward"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_steward_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_steward.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "council_spymaster"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'bg_council_spymaster_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/council/bg_council_spymaster.dds"
+				}
+				# blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('outside_bgs')]"
+			blockoverride "text" {
+				text = "outside_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('outside_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('outside_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(GetVariableSystem.Exists('outside_bgs'))]"
+			direction = vertical
+			ignoreinvisible = yes
+			min_width = 200
+			spacing = -2
+
+			bg_button = {
+				text = "farmlands"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'farms_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/farms.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_farms')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_farms')]"
+			}
+			bg_button = {
+				text = "forest"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'forest_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/forest.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_forest')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_forest')]"
+			}
+			bg_button = {
+				text = "forest_pine"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'forest_pine_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_forest_pine')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_forest_pine')]"
+			}
+			bg_button = {
+				text = "desert"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'desert_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/desert.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_desert')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_desert')]"
+			}
+			bg_button = {
+				text = "mountains"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'mountains_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_mountains')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_mountains')]"
+			}
+			bg_button = {
+				text = "steppe"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'steppe_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
+				}
+				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_steppe')]" }
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_steppe')]"
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('holdings_bgs')]"
+			blockoverride "text" {
+				text = "holdings_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('holdings_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('holdings_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(GetVariableSystem.Exists('holdings_bgs'))]"
+			direction = vertical
+			ignoreinvisible = yes
+			min_width = 200
+			spacing = -2
+
+			bg_button = {
+				text = "castle_india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'castle_india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/castle_india.dds"
+				}
+					# blockoverride "light" { # onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "castle_mediterranean"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'castle_mediterranean_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/castle_mediterranean.dds"
+				}
+					# blockoverride "light" { # onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				text = "castle_MENA"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'castle_mena_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/castle_MENA.dds"
+				}
+					# blockoverride "light" { # onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
+			}
+			bg_button = {
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+				text = "castle_norse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'castle_norse_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/fp1_castle_norse.dds"
+				}
+
+			}
+			bg_button = {
+				text = "castle_western"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'castle_western_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/castle_western.dds"
+				}
+
+			}
+			bg_button = {
+				text = "city_india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'city_india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/city_india.dds"
+				}
+
+			}
+			bg_button = {
+				text = "city_mediterranean"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'city_mediterranean_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/city_mediterranean.dds"
+				}
+
+			}
+			bg_button = {
+				text = "city_MENA"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'city_mena_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/city_MENA.dds"
+				}
+
+			}
+			bg_button = {
+				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
+				visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+				text = "city_norse"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'city_norse_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/fp1_city_norse.dds"
+				}
+
+			}
+			bg_button = {
+				text = "city_western"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'city_western_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/city_western.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_christian"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_christian_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_christian.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_arid"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_generic_arid_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_generic_arid.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_grass"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_generic_grass_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_generic_grass.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_india"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_india_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_india.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_islamic"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_islamic_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_islamic.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_pagan"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_northern_pagan_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_northern_pagan.dds"
+				}
+
+			}
+			bg_button = {
+				text = "temple_orthodox"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'temple_orthodox_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/temple_orthodox.dds"
+				}
+
+			}
+			bg_button = {
+				text = "tribe_arid"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'tribe_arid_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/tribe_arid.dds"
+				}
+
+			}
+			bg_button = {
+				text = "tribe_grass"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'tribe_grass_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/holding_types/tribe_grass.dds"
+				}
+			}
+		}
+
+		button_category = {
+			onclick = "[GetVariableSystem.Toggle('extra_bgs')]"
+			blockoverride "text" {
+				text = "extra_bgs"
+			}
+			blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists('extra_bgs'), '(int32)1', '(int32)2')]" }
+
+			onrightclick = "[PdxGuiTriggerAllAnimations('collapse_bgs')]"
+			button_ignore = none
+			tooltip = "collapse_poses"
+
+			state = {
+				name = collapse_bgs
+				alpha = 1
+				on_start = "[GetVariableSystem.Set('extra_bgs', 'yes')]"
+			}
+		}
+
+		flowcontainer = {
+			visible = "[Not(GetVariableSystem.Exists('extra_bgs'))]"
+			direction = vertical
+			ignoreinvisible = yes
+			min_width = 200
+			spacing = -2
+
+			bg_button = {
+				text = "death"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'background_ruler_transition_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/illustrations/background_ruler_transition.dds"
+				}
+			}
+
+			bg_button = {
+				text = "black"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'black_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/colors//black.dds"
+				}
+			}
+			bg_button = {
+				text = "white"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'white_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/colors/white.dds"
+				}
+			}
+			bg_button = {
+				text = "green"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'green_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/colors/green.dds"
+				}
+			}
+			bg_button = {
+				text = "blue"
+				onclick = "[GetVariableSystem.Set('barber_bg', 'blue_bg')]"
+				blockoverride "picture" {
+					texture = "gfx/interface/colors/blue.dds"
+				}
+			}
+		}
+	}
+}
