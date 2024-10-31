@@ -1,0 +1,44 @@
+﻿on_game_start = {
+    on_actions = {
+        on_game_start_fsb
+    }
+}
+
+on_game_start_fsb = {
+	effect = {
+    set_global_variable = {
+      name = FSB_is_loaded
+      value = yes
+    }
+    #to get rid of the error
+    if = {
+      limit = {
+        exists = global_var:FSB_is_loaded
+      }
+    }
+  }
+}
+
+on_death = {
+	on_actions = {
+		on_death_FSB
+	}
+}
+
+on_death_FSB = {
+
+	trigger = {
+	}
+
+	effect = {
+    if = {
+      limit = {
+        exists = var:inherit_body_bb
+      }
+      primary_heir = {
+        copy_body_genes_bb = yes
+        set_variable = inherit_body_bb
+      }
+    }
+	}
+}

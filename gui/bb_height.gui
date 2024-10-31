@@ -1,0 +1,132 @@
+@bb_height_width = 1300
+
+types BB {
+  type height_line_bb = icon {
+		texture = "gfx/interface/colors/white.dds"
+		tintcolor = { 1 1 1 0.6 }
+		size = { 100% 1 }
+		block "parent" {
+			parentanchor = right
+		}
+
+    text_single = {
+			block "align_left" {
+				position = { 5 -24 }
+        background = { using = Background_Area }
+			}
+			block "text" {
+				visible = no
+				raw_text = "1m"
+			}
+		}
+
+		text_single = {
+			block "align" {
+				parentanchor = right
+				position = { -5 -24 }
+        background = { using = Background_Area }
+			}
+			block "text" {
+				visible = no
+				raw_text = "1m"
+			}
+		}
+	}
+
+  type height_meter = fixedgridbox {
+    parentanchor = bottom|hcenter
+    setitemsizefromcell = yes
+    block "meter" {}
+
+    item = {
+      widget = {
+        block "meter_bg" {}
+				height_line_bb = {}
+			}
+    }
+  }
+
+  type height_meter_m = container {
+    parentanchor = bottom|right
+    background = { using = Background_Area_Border_Solid alpha = 0.5 margin_top = 20 }
+
+    alwaystransparent = no
+
+    height_line_bb = {
+      parentanchor = bottom
+    }
+
+    # every 5 cm
+    height_meter = {
+      datamodel = "[DataModelFirst(GetAllTraits, '(int32)50')]"
+      addcolumn = @[bb_height_width-60]
+      block "5cm" {
+        addrow = 15
+      }
+      alpha = 0.3
+    }
+    # every 10 cm
+    height_meter = {
+      datamodel = "[DataModelFirst(GetAllTraits, '(int32)25')]"
+      addcolumn = @bb_height_width
+      block "10cm" {
+        addrow = 30
+      }
+      blockoverride "text" {
+        # is this dumb? sure. But bottomtotop doesn't work for fixedgridboxes, apaprently, so this is a faster fix
+        raw_text = "[Add_int32(Multiply_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)-10'), '(int32)250')]"
+      }
+      alpha = 0.6
+    }
+    # every 50 cm
+    height_meter = {
+      datamodel = "[DataModelFirst(GetAllTraits, '(int32)5')]"
+      addcolumn = @bb_height_width
+      block "50cm" {
+        addrow = 150
+      }
+      blockoverride "text" {
+        # is this dumb? sure. But bottomtotop doesn't work for fixedgridboxes, apaprently, so this is a faster fix
+        raw_text = "[Add_int32(Multiply_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)-50'), '(int32)250')] cm"
+      }
+    }
+  }
+
+  type height_meter_ft = container {
+    parentanchor = bottom|right
+    background = { using = Background_Area_Border_Solid alpha = 0.5 margin_top = 20 }
+
+    alwaystransparent = no
+
+    height_line_bb = {
+      parentanchor = bottom
+    }
+
+    # every inch
+    height_meter = {
+      datamodel = "[DataModelFirst(GetAllTraits, '(int32)96')]"
+      addcolumn = @[bb_height_width-40]
+      blockoverride "meter_bg" {
+        alpha = "[Select_float(EqualTo_int32(Modulo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)6'), '(int32)0'), '(float)0.7', '(float)0.35' )]"
+      }
+      block "inch" {
+        addrow = @[610/6/12]
+      }
+      # blockoverride "text" {
+      #   visible = "[EqualTo_int32(Modulo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)6'), '(int32)0')]"
+      #   raw_text = "[Modulo_int32(Multiply_int32(Add_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)-108'), '(int32)-1'), '(int32)12')]''"
+      # }
+    }
+    # every foot
+    height_meter = {
+      datamodel = "[DataModelFirst(GetAllTraits, '(int32)8')]"
+      addcolumn = @bb_height_width
+      block "foot" {
+        addrow = @[610/6]
+      }
+      blockoverride "text" {
+        raw_text = "[Multiply_int32(Add_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)-8'), '(int32)-1')]'"
+      }
+    }
+  }
+}

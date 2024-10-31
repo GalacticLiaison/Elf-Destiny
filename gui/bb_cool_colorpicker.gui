@@ -1,0 +1,151 @@
+types BB {
+  	type bb_text_colorbox = editor_editbox {
+  		fontsize = 14
+  		name = "editbox"
+  		alwaystransparent = no
+  		focuspolicy = all
+  		cursorcolor = { 1 1 0.5 1 }
+  		selectioncolor = { 0.45 0.45 0.45 0.7 }
+  		maxcharacters = 255
+  		align = nobaseline
+  		margin_left = 3
+
+  		background = {
+  			#margin = { 2 0 }
+  			margin_left = 5
+  			margin_top = 0
+  			texture = "gfx/editor_gui/editor_field.dds"
+  			spriteType = CorneredStretched
+  			spriteborder = { 4 4 }
+  			shaderfile = "gfx/FX/pdxgui_default.shader"
+  		}
+  		size = { 70 29 }
+  		# margin_bottom = 4
+  	}
+
+  	type bb_check_color = checkbutton {
+  		# tooltip_offset = { 0 10 }
+  		size = { 105 30 }
+
+  		button_standard_clean = {
+  			size = { 100% 100% }
+  			alwaystransparent = yes
+  			block "button" {
+  				# using = tooltip_se
+  			}
+  		}
+  		flowcontainer = {
+  			spacing = 10
+  			parentanchor = vcenter
+  			block "position" {
+  				position = { 10 0 }
+  			}
+  			text_single = {
+  				block "text" {}
+  				size = { 15 30 }
+  				align = nobaseline
+  				margin_bottom = 2
+  				autoresize = no
+  			}
+  			bb_text_colorbox = {
+  				block "value" {	}
+  			}
+  		}
+  	}
+
+  	type bb_color_controls = vbox {
+  		layoutpolicy_horizontal = expanding
+  		layoutpolicy_vertical = expanding
+
+  		expand = {}
+  		flowcontainer = {
+  			ignoreinvisible = yes
+  			layoutpolicy_horizontal = expanding
+  			direction = vertical
+  			spacing = 3
+        margin_top = 10
+
+        bb_check_color = {
+          blockoverride "text" { raw_text = "##" }
+          blockoverride "value" { name = "editbox_color_hex" }
+          alwaystransparent = yes
+          blockoverride "button" {
+            tooltip = "editbox_color_hex"
+            enabled = no
+            alpha = 0.7
+          }
+        }
+
+        widget = {
+  				size = { 0 2 }
+  			}
+
+  			# names are referenced in code
+
+  			bb_check_color = {
+  				blockoverride "text" { raw_text = "H" }
+  				blockoverride "value" { name = "editbox_color_hue" }
+  				name = "radio_color_hue"
+  				blockoverride "button" {
+  					tooltip = "editbox_color_hue"
+  				}
+
+  			}
+  			bb_check_color = {
+  				blockoverride "text" { raw_text = "S" }
+  				blockoverride "value" { name = "editbox_color_saturation" }
+  				name = "radio_color_saturation"
+  				blockoverride "button" { tooltip = "editbox_color_saturation" }
+  			}
+  			bb_check_color = {
+  					blockoverride "text" { raw_text = "V" }
+  					blockoverride "value" { name = "editbox_color_value" }
+  					name = "radio_color_value"
+  					blockoverride "button" { tooltip = "editbox_color_value" }
+  				}
+
+  			widget = {
+  				size = { 0 2 }
+  			}
+
+  			bb_check_color = {
+  				blockoverride "text" { raw_text = "#color:{0.9,0.45,0} R" }
+  				blockoverride "value" { name = "editbox_color_red" }
+  				name = "radio_color_red"
+  				blockoverride "button" { tooltip = "editbox_color_red" }
+  			}
+  			bb_check_color = {
+  				blockoverride "text" { raw_text = "#color:{0.6,0.9,0.7} G" margin_left = -1} # I don't know why G is off-center, might be an issues in the font
+  				blockoverride "value" { name = "editbox_color_green" }
+  				name = "radio_color_green"
+  				blockoverride "button" { tooltip = "editbox_color_green" }
+  			}
+  			bb_check_color = {
+  				blockoverride "text" { raw_text = "#color:{0.4,0.6,0.9} B" }
+  				blockoverride "value" { name = "editbox_color_blue" }
+  				name = "radio_color_blue"
+  				blockoverride "button" { tooltip = "editbox_color_blue" }
+  			}
+
+  			widget = {
+  				size = { 0 2 }
+  			}
+
+        checkbutton = {
+          name = "radio_color_alpha"
+        }
+        editor_editbox = {
+          name = "editbox_color_alpha"
+        }
+  		}
+
+      button = {
+        name = "colorpicker_close"
+      }
+      icon = {
+        name = "color_selector"
+      }
+  		expand = {}
+
+  	}
+}

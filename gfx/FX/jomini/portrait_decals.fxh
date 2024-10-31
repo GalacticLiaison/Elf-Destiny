@@ -1,8 +1,9 @@
 includes = {
 	"jomini/texture_decals_base.fxh"
 	"jomini/portrait_user_data.fxh"
-	# MOD(godherja)
 	"GH_portrait_effects.fxh"
+	# MOD(godherja)
+	"GH_portrait_constants.fxh"
 	# END MOD
 }
 
@@ -113,103 +114,105 @@ PixelShader =
 		// Service
 		//
 
-		float GH_MipLevelToLod(float MipLevel)
-		{
-			// This function (originally GetMIP6Level()) was graciously provided by Buck (EK2).
+		// float GH_MipLevelToLod(float MipLevel)
+		// {
+		// 	// This function (originally GetMIP6Level()) was graciously provided by Buck (EK2).
 
-			#ifndef PDX_OPENGL
-				// If running on DX, use the below to get decal texture size.
-				float3 TextureSize;
-				DecalDiffuseArray._Texture.GetDimensions( TextureSize.x , TextureSize.y , TextureSize.z );
-			#else
-				// If running on OpenGL, use the below to get decal texture size.
-				ivec3 TextureSize = textureSize(DecalDiffuseArray, 0);
-			#endif
+		// 	#ifndef PDX_OPENGL
+		// 		// If running on DX, use the below to get decal texture size.
+		// 		float3 TextureSize;
+		// 		DecalDiffuseArray._Texture.GetDimensions( TextureSize.x , TextureSize.y , TextureSize.z );
+		// 	#else
+		// 		// If running on OpenGL, use the below to get decal texture size.
+		// 		ivec3 TextureSize = textureSize(DecalDiffuseArray, 0);
+		// 	#endif
 
-			// Get log base 2 for current texture size (1024px - 10, 512px - 9, etc.)
-			// Take that away from 10 to find the current MIP level.
-			// Take that away from MipLevel to find which MIP We need to sample in the texture buffer to retrieve the "absolute" MIP6 containing our encoded pixels
+		// 	// Get log base 2 for current texture size (1024px - 10, 512px - 9, etc.)
+		// 	// Take that away from 10 to find the current MIP level.
+		// 	// Take that away from MipLevel to find which MIP We need to sample in the texture buffer to retrieve the "absolute" MIP6 containing our encoded pixels
 
-			return MipLevel - (10.0f - log2(TextureSize.x));
-		}
+		// 	return MipLevel - (10.0f - log2(TextureSize.x));
+		// }
 
-		GH_SMarkerTexels GH_ExtractMarkerTexels(uint DiffuseIndex)
-		{
-			// Max pixel coordinate for the GH_MARKER_MIP_LEVEL-th mip-map.
-			// TODO: Actually use a formula based on GH_MARKER_MIP_LEVEL here, instead of a literal?
-			static const int MAX_MARKER_PIXEL_COORD = 15; // 6th mip-map is 16x16 for decals
+		// GH_SMarkerTexels GH_ExtractMarkerTexels(uint DiffuseIndex)
+		// {
+		// 	// Max pixel coordinate for the GH_MARKER_MIP_LEVEL-th mip-map.
+		// 	// TODO: Actually use a formula based on GH_MARKER_MIP_LEVEL here, instead of a literal?
+		// 	static const int MAX_MARKER_PIXEL_COORD = 15; // 6th mip-map is 16x16 for decals
 
-			static int MarkerLod = int(GH_MipLevelToLod(GH_MARKER_MIP_LEVEL));
+		// 	static int MarkerLod = int(GH_MipLevelToLod(GH_MARKER_MIP_LEVEL));
 
-			static const int2 TOP_LEFT_UV     = int2(0, 0);
-			static const int2 TOP_RIGHT_UV    = int2(MAX_MARKER_PIXEL_COORD, 0);
-			static const int2 BOTTOM_RIGHT_UV = int2(MAX_MARKER_PIXEL_COORD, MAX_MARKER_PIXEL_COORD);
-			static const int2 BOTTOM_LEFT_UV  = int2(0, MAX_MARKER_PIXEL_COORD);
+		// 	static const int2 TOP_LEFT_UV     = int2(0, 0);
+		// 	static const int2 TOP_RIGHT_UV    = int2(MAX_MARKER_PIXEL_COORD, 0);
+		// 	static const int2 BOTTOM_RIGHT_UV = int2(MAX_MARKER_PIXEL_COORD, MAX_MARKER_PIXEL_COORD);
+		// 	static const int2 BOTTOM_LEFT_UV  = int2(0, MAX_MARKER_PIXEL_COORD);
 
-			GH_SMarkerTexels MarkerTexels;
-			MarkerTexels.TopLeftTexel     = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(TOP_LEFT_UV, DiffuseIndex), MarkerLod);
-			MarkerTexels.TopRightTexel    = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(TOP_RIGHT_UV, DiffuseIndex), MarkerLod);
+		// 	GH_SMarkerTexels MarkerTexels;
+		// 	MarkerTexels.TopLeftTexel     = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(TOP_LEFT_UV, DiffuseIndex), MarkerLod);
+		// 	MarkerTexels.TopRightTexel    = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(TOP_RIGHT_UV, DiffuseIndex), MarkerLod);
 
-			// #ifndef PIXEL_SHADER
-			// 	MarkerTexels.BottomRightTexel = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(BOTTOM_RIGHT_UV, DiffuseIndex), MarkerLod);
-			// 	MarkerTexels.BottomLeftTexel  = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(BOTTOM_LEFT_UV, DiffuseIndex), MarkerLod);
-			// #else
-			// 	// The other two corners are not currently used by pixel shaders, so no use sampling them from there.
-			// 	MarkerTexels.BottomRightTexel = float4(0.0f, 0.0f, 0.0f, 0.0f);
-			// 	MarkerTexels.BottomLeftTexel  = float4(0.0f, 0.0f, 0.0f, 0.0f);
-			// #endif // !PIXEL_SHADER
+		// 	// #ifndef PIXEL_SHADER
+		// 	// 	MarkerTexels.BottomRightTexel = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(BOTTOM_RIGHT_UV, DiffuseIndex), MarkerLod);
+		// 	// 	MarkerTexels.BottomLeftTexel  = GH_PdxTex2DArrayLoad(DecalDiffuseArray, int3(BOTTOM_LEFT_UV, DiffuseIndex), MarkerLod);
+		// 	// #else
+		// 	// 	// The other two corners are not currently used by pixel shaders, so no use sampling them from there.
+		// 	// 	MarkerTexels.BottomRightTexel = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		// 	// 	MarkerTexels.BottomLeftTexel  = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		// 	// #endif // !PIXEL_SHADER
 
-			return MarkerTexels;
-		}
+		// 	return MarkerTexels;
+		// }
 
 		//
 		// Interface
 		//
 
-		GH_SPortraitEffect GH_ScanMarkerDecals(int DecalsCount)
-		{
-			int From = 0;
-			int To   = DecalsCount;
+		// GH_SPortraitEffect GH_ScanMarkerDecals(int DecalsCount)
+		// {
+		// 	int From = 0;
+		// 	int To   = DecalsCount;
 
-			// NOTE: The following is based on AddDecals() and needs
-			//       to be kept in sync with it on vanilla updates.
-			const int TEXEL_COUNT_PER_DECAL = 15;
-			int FromDataTexel = From * TEXEL_COUNT_PER_DECAL;
-			int ToDataTexel   = To * TEXEL_COUNT_PER_DECAL;
+		// 	// NOTE: The following is based on AddDecals() and needs
+		// 	//       to be kept in sync with it on vanilla updates.
+		// 	const int TEXEL_COUNT_PER_DECAL = 15;
+		// 	int FromDataTexel = From * TEXEL_COUNT_PER_DECAL;
+		// 	int ToDataTexel   = To * TEXEL_COUNT_PER_DECAL;
 
-			const uint MAX_VALUE = 65535;
-			// END NOTE
+		// 	const uint MAX_VALUE = 65535;
+		// 	// END NOTE
 
-			GH_SPortraitEffect Effect;
-			Effect.Type  = GH_PORTRAIT_EFFECT_TYPE_NONE;
-			Effect.Param = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		// 	GH_SPortraitEffect Effect;
+		// 	Effect.Type  = GH_PORTRAIT_EFFECT_TYPE_NONE;
+		// 	Effect.Param = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-			for (int i = FromDataTexel; i <= ToDataTexel; i += TEXEL_COUNT_PER_DECAL)
-			{
-				DecalData Data = GetDecalData(i);
+		// 	for (int i = FromDataTexel; i <= ToDataTexel; i += TEXEL_COUNT_PER_DECAL)
+		// 	{
+		// 		DecalData Data = GetDecalData(i);
 
-				// TODO: Filter by bodypart index for an early continue?
+		// 		// TODO: Filter by bodypart index for an early continue?
 
-				if (Data._DiffuseIndex >= MAX_VALUE || Data._Weight <= 0.001f)
-					continue;
+		// 		if (Data._DiffuseIndex >= MAX_VALUE || Data._Weight <= 0.001f)
+		// 			continue;
 
-				GH_SMarkerTexels MarkerTexels = GH_ExtractMarkerTexels(Data._DiffuseIndex);
+		// 		// GH_SMarkerTexels MarkerTexels = GH_ExtractMarkerTexels(Data._DiffuseIndex);
 
-				//if (GH_MarkerTexelEquals(MarkerTexels.TopLeftTexel, GH_MARKER_TOP_LEFT_FLAT))
-					//Effect.Type = GH_PORTRAIT_EFFECT_TYPE_FLAT;
+		// 		//if (GH_MarkerTexelEquals(MarkerTexels.TopLeftTexel, GH_MARKER_TOP_LEFT_FLAT))
+		// 			//Effect.Type = GH_PORTRAIT_EFFECT_TYPE_FLAT;
 
-				if (GH_MarkerTexelEquals(MarkerTexels.TopLeftTexel, GH_MARKER_TOP_LEFT_STATUE))
-					Effect.Type = GH_PORTRAIT_EFFECT_TYPE_STATUE;
 
-				if (Effect.Type != GH_PORTRAIT_EFFECT_TYPE_NONE)
-				{
-					Effect.Param = MarkerTexels.TopRightTexel;
-					break;
-				}
-			}
+		// 		//# HERE
+		// 		// if (GH_MarkerTexelEquals(MarkerTexels.TopLeftTexel, GH_MARKER_TOP_LEFT_STATUE))
+		// 		// 	Effect.Type = GH_PORTRAIT_EFFECT_TYPE_STATUE;
 
-			return Effect;
-		}
+		// 		if (Effect.Type != GH_PORTRAIT_EFFECT_TYPE_NONE)
+		// 		{
+		// 			Effect.Param = MarkerTexels.TopRightTexel;
+		// 			break;
+		// 		}
+		// 	}
+
+		// 	return Effect;
+		// }
 		// END MOD
 
 		void AddDecals( inout float3 Diffuse, inout float3 Normals, inout float4 Properties, float2 UV, uint InstanceIndex, int From, int To )

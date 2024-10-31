@@ -1,0 +1,94 @@
+﻿barber_muscles = {
+	value = 0
+	add = prowess
+	divide = 25
+
+	# if = {
+	# 	limit = { NOT = { exists = var:muscles } }
+	# }
+	# else = {
+	# 	add = var:muscles
+	# }
+	max = 1
+	min = 0.01
+	divide = 0.05
+	round = yes
+	multiply = 0.05
+}
+
+barber_weight = {
+	value = 0
+	add = current_weight
+	divide = 100
+	#
+	# if = {
+	# 	limit = { NOT = { exists = var:weight } }
+	#
+	# }
+	# else = {
+	# 	add = var:weight
+	# }
+	divide = 0.05
+	round = yes
+	multiply = 0.05
+}
+
+
+current_muscles = {
+	value = prowess
+	multiply = 4
+}
+
+current_weight_sval = {
+	value = current_weight
+}
+
+age_height = {
+	value = 1
+	subtract = {
+		value = 17
+		subtract = age
+		multiply = 0.035
+	}
+	max = 1
+}
+
+sex_height = {
+	if = {
+		limit = {
+			is_female = yes
+		}
+		value = 161
+	}
+	else = {
+		value = 175
+	}
+	if = {
+		limit = {
+			has_trait = dwarf
+		}
+		multiply = 0.75
+	}
+	if = {
+		limit = {
+			has_trait = giant
+		}
+		multiply = 1.21
+	}
+	multiply = 0.99
+	multiply = age_height
+}
+
+height_feet = {
+	value = sex_height
+	divide = 30.48
+}
+
+num_of_living_children = {
+	every_child = {
+		limit = {
+			is_alive = yes
+		}
+		add = 1
+	}
+}

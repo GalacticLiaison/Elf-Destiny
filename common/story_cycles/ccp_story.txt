@@ -1,0 +1,34 @@
+﻿ccp_channel_story = {
+	on_setup = {
+    set_variable = {
+      name = sat_ccp
+      value = 100
+    }
+    set_variable = {
+      name = val_ccp
+      value = 100
+    }
+    add_to_global_variable_list = {
+      name = ccp_characters
+      target = story_owner
+    }
+  }
+	on_owner_death = {
+    remove_list_global_variable = {
+      name = ccp_characters
+      target = story_owner
+    }
+    if = {
+      limit = {
+        # story_owner = {
+        #   has_variable = inherit_colors_ccp
+        # }
+				always = yes
+      }
+      make_story_owner = story_owner.primary_heir
+			story_owner = {
+				set_colors_ccp_switch = yes
+			}
+    }
+  }
+}

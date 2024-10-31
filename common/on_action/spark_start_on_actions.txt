@@ -327,6 +327,21 @@ on_game_start_after_lobby = {
     } 
 }
 
+correct_elf_mortality_trait = {
+	effect = {
+		# Fix ruler designer elf children
+		every_living_character = {
+			limit = {
+				age < 20
+				is_any_elf_immortal_type = yes
+			}
+
+			remove_elf_immortality_effect = yes
+
+		}
+	}
+}
+
 swap_out_elf_traits = {
 	effect = {
 		# Fix ruler designer elf children
@@ -419,20 +434,7 @@ swap_out_elf_traits = {
 	}
 }
 
-correct_elf_mortality_trait = {
-	effect = {
-		# Fix ruler designer elf children
-		every_living_character = {
-			limit = {
-				age < 20
-				is_any_elf_immortal_type = yes
-			}
 
-			remove_elf_immortality_effect = yes
-
-		}
-	}
-}
 
 register_aeluran_heirarchy = {
 	effect = {
@@ -631,7 +633,7 @@ on_game_start_assign_ruler_designer_race = {
 					var:ruler_designer_race = flag:seraphic_celestial
 				}
 				holder = {
-					add_character_flag = flag:seraphic_celestial
+					add_character_flag = race_seraphic_celestial
 					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
 					set_appropriate_elf_immortality_age = yes
 				}

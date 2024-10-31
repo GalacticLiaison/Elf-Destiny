@@ -1,0 +1,221 @@
+﻿hue_ccp_ui = {
+  value = 0
+  if = {
+    limit = { exists = var:hue_ccp }
+    value = var:hue_ccp
+    add = 1
+  }
+}
+
+hue_ccp_360 = {
+  value = var:hue_ccp
+  multiply = 3.6
+  round = yes
+}
+
+# m new saturation?
+m_sat_ccp = {
+  value = var:val_ccp
+  divide = 100
+  subtract = c_color_ccp
+}
+
+# C one color
+c_color_ccp = {
+  value = var:sat_ccp
+  multiply = var:val_ccp
+  divide = 10000
+}
+
+
+# X second color
+
+x_color_ccp = {
+  value = c_color_ccp
+  multiply = {
+    value = 1
+    if = {
+      limit = {
+        hue_mod_ccp < 0
+      }
+      add = hue_mod_ccp
+    }
+    else = {
+      subtract = hue_mod_ccp
+    }
+  }
+}
+
+hue_mod_ccp = {
+  value = hue_ccp_360
+  divide = 60
+  modulo = 2
+  subtract = 1
+}
+
+red_temp_ccp = {
+  if = {
+    limit = {
+      hue_ccp_360 >= 0
+      hue_ccp_360 < 60
+    }
+    value = c_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 60
+      hue_ccp_360 < 120
+    }
+    value = x_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 120
+      hue_ccp_360 < 180
+    }
+    value = 0
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 180
+      hue_ccp_360 < 240
+    }
+    value = 0
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 240
+      hue_ccp_360 < 300
+    }
+    value = x_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 300
+      hue_ccp_360 < 360
+    }
+    value = c_color_ccp
+  }
+}
+
+green_temp_ccp = {
+  if = {
+    limit = {
+      hue_ccp_360 >= 0
+      hue_ccp_360 < 60
+    }
+    value = x_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 60
+      hue_ccp_360 < 120
+    }
+    value = c_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 120
+      hue_ccp_360 < 180
+    }
+    value = c_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 180
+      hue_ccp_360 < 240
+    }
+    value = x_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 240
+      hue_ccp_360 < 300
+    }
+    value = 0
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 300
+      hue_ccp_360 < 360
+    }
+    value = 0
+  }
+}
+
+blue_temp_ccp = {
+  if = {
+    limit = {
+      hue_ccp_360 >= 0
+      hue_ccp_360 < 60
+    }
+    value = 0
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 60
+      hue_ccp_360 < 120
+    }
+    value = 0
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 120
+      hue_ccp_360 < 180
+    }
+    value = x_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 180
+      hue_ccp_360 < 240
+    }
+    value = c_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 240
+      hue_ccp_360 < 300
+    }
+    value = c_color_ccp
+  }
+  if = {
+    limit = {
+      hue_ccp_360 >= 300
+      hue_ccp_360 < 360
+    }
+    value = x_color_ccp
+  }
+}
+
+
+red_ccp = {
+  value = 0
+  if = {
+    # to prevent errors if the variables are unset
+    limit = { has_variable = hue_ccp }
+    value = red_temp_ccp
+    add = m_sat_ccp
+    multiply = 255
+  }
+}
+
+green_ccp = {
+  value = 0
+  if = {
+    limit = { has_variable = hue_ccp }
+    value = green_temp_ccp
+    add = m_sat_ccp
+    multiply = 255
+  }
+}
+
+blue_ccp = {
+  value = 0
+  if = {
+    limit = { has_variable = hue_ccp }
+    value = blue_temp_ccp
+    add = m_sat_ccp
+    multiply = 255
+  }
+}

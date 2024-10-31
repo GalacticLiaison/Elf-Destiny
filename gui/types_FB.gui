@@ -1,0 +1,505 @@
+types newFBTypes {#
+
+	type button_FB_list = button_normal {
+		texture = "gfx/interface/buttons/button_standard.dds"
+		size = { 200 33 }
+		gfxtype = togglepushbuttongfx
+		effectname = "NoHighlight"
+
+		upframe = 1
+		uphoverframe = 2
+		uppressedframe = 3
+		downframe = 4
+		downhoverframe = 4
+		downpressedframe = 4
+		disableframe = 7
+
+		spriteType = Corneredtiled
+		spriteborder = { 3 3 }
+		framesize = { 249 78 }
+
+		buttonText = {
+			text_single = {
+				size = { 100% 100% }
+				autoresize = no
+				margin = { 10 0 }
+				block "margin" {}
+				align = nobaseline
+				default_format = "#clickable"
+				max_width = 170
+			}
+		}
+		block "bg_preview" {
+		}
+
+		modify_texture = {
+			name = "overlay"
+			texture = "gfx/interface/buttons/button_standard_overlay.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 3 3 }
+			blend_mode = overlay
+			alpha = 0.3
+		}
+
+		block "disabled"
+		{
+			highlight_icon = {
+				size = { 100% 100% }
+				gfxtype = togglepushbuttongfx
+				effectname = "NoHighlight"
+				texture = "gfx/interface/buttons/button_disabled_stripes.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 2 2 }
+				framesize	= { 238 63 }
+
+				upframe = 1
+				uphoverframe = 1
+				uppressedframe = 1
+				downframe = 1
+				downhoverframe = 1
+				downpressedframe = 1
+				disableframe = 2
+
+				alpha = 0.4
+
+				modify_texture = {
+					name = "overlay"
+					texture = "gfx/interface/buttons/button_standard_overlay.dds"
+					spriteType = Corneredstretched
+					spriteborder = { 3 3 }
+					blend_mode = overlay
+				}
+
+				block "button_standard_mouseover" {}
+			}
+		}
+
+		highlight_icon = {
+			size = { 100% 100% }
+			gfxtype = togglepushbuttongfx
+			effectname = "NoHighlight"
+			texture = "gfx/interface/buttons/button_mouseover.dds"
+			spriteType = Corneredstretched
+			spriteborder = { 20 20 }
+			framesize	= { 238 63 }
+
+			upframe = 1
+			uphoverframe = 2
+			uppressedframe = 1
+			downframe = 1
+			downhoverframe = 1
+			downpressedframe = 1
+			disableframe = 1
+
+			alpha = 0.5
+
+			block "button_standard_mouseover" {}
+		}
+
+		margin_widget = {
+			size = { 100% 100% }
+			margin = { 3 3 }
+
+			block "vignette"
+			{
+				icon = {
+					name = "vignette"
+					size = { 100% 100% }
+					alpha = 0.2
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+				}
+			}
+		}
+	}
+
+	type trait_button = button_standard {
+		layoutpolicy_horizontal = expanding
+		down = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		# enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
+		align = left|nobaseline
+		margin_right = 40
+
+		icon = {
+			parentanchor = right
+			size = { 33 33 }
+			block "icon" {
+			}
+		}
+	}
+
+	type bg_button = button_standard {
+
+		size = { 0 25 }
+		layoutpolicy_horizontal = expanding
+		allow_outside = yes
+		align = left|nobaseline
+
+		# onclick = "[PdxGuiTriggerAllAnimations('hide_bg')]"
+		# onrightclick = "[PdxGuiTriggerAllAnimations('hide_bg')]"
+		# tooltip = "right_click_light"
+		# button_ignore = none
+
+		icon = {
+			parentanchor = right
+			size = { 45% 100% }
+
+			name = "picture"
+			alpha = 0.6
+			state = {
+				name = highlight
+				alpha = 1
+			}
+			state = {
+				name = dehighlight
+				alpha = 0.6
+			}
+			background = {
+				block "picture" {
+
+				}
+				using = Mask_Rough_Edges
+				fittype = centercrop
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
+					blend_mode = alphamultiply
+					rotate_uv = 3
+				}
+			}
+		}
+	}
+
+	#bgs
+
+	type bg_list = scrollarea {
+		layoutpolicy_vertical = expanding
+
+		scrollbarpolicy_horizontal = always_off
+		scrollbar_vertical = { using = Scrollbar_Vertical }
+
+		scrollwidget = {
+            flowcontainer = {
+                direction = vertical
+                ignoreinvisible = yes
+                parentanchor = hcenter
+                spacing = 5
+                min_width = 200
+				block "big_datamodel" {
+					datamodel = "[GetGlobalList('bg_categories')]"
+				}
+
+
+                item = {
+                    flowcontainer = {
+                        direction = vertical
+                        ignoreinvisible = yes
+                        parentanchor = hcenter
+                        spacing = 5
+                        min_width = 200
+						visible = "[Not(IsDataModelEmpty(GetGlobalList(Scope.GetFlagName)))]"
+
+                        button_category = {
+                            blockoverride "text" { text = "[Localize(Concatenate( Scope.GetFlagName, '_name'))]" }
+                            onclick = "[GetVariableSystem.Toggle(Scope.GetFlagName)]"
+                            blockoverride "frame" { frame = "[Select_int32( GetVariableSystem.Exists(Scope.GetFlagName), '(int32)1', '(int32)2')]" }
+                        }
+
+                        sub_bg_list = {
+                            blockoverride "datamodel" {
+                                datamodel = "[GetGlobalList(Scope.GetFlagName)]"
+                            }
+                            visible = "[Not(GetVariableSystem.Exists(Scope.GetFlagName))]"
+                        }
+                    }
+                }
+    		}
+        }
+	}
+
+	type sub_bg_list = container {
+        ignoreinvisible = yes
+
+        fixedgridbox = {
+            block "datamodel" {}
+            addrow = 31
+			addcolumn = 200
+
+            item = {
+				widget = {
+					size = { 200 31 }
+
+					button_FB_list = {
+						size = { 100% 33 }
+						text = "[Localize(Concatenate(Scope.GetFlagName, '_name'))]"
+						datacontext = "[GetScriptedGui('barber_bg')]"
+						onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).AddScope('bg', MakeScopeFlag(Scope.GetFlagName)).End)]"
+						# down = "[EqualTo_string(AddTextIf(  Character.MakeScope.Var('barber_bg').IsSet, Character.MakeScope.Var('barber_bg').GetFlagName), Scope.GetFlagName)]"
+
+						onmousehierarchyleave = "[PdxGuiWidget.FindChild('picture').TriggerAnimation('dehighlight')]"
+						onmousehierarchyenter = "[PdxGuiWidget.FindChild('picture').TriggerAnimation('highlight')]"
+
+						icon = {
+							parentanchor = right
+							size = { 100% 100% }
+							position = { -2 0 }
+
+							#
+							# background = {
+							# 	texture = ""
+							# 	using = Mask_Rough_Edges
+							# 	fittype = centercrop
+							# }
+
+							text_single = {
+								name = "picture"
+								parentanchor = right|vcenter
+								align = right
+								raw_text = "[Localize( Concatenate( '@', Concatenate( Scope.GetFlagName, '_bg_icon!') ) )]"
+								alpha = 0.6
+
+								state = {
+									name = highlight
+									alpha = 1
+								}
+								state = {
+									name = dehighlight
+									alpha = 0.6
+								}
+							}
+
+							icon = {
+								texture = "gfx/interface/colors/white.dds"
+								tintcolor = { 0.14 0.14 0.14 1  }
+								size = { 200 29 }
+								position = { 3 0 }
+								parentanchor = vcenter
+								modify_texture = {
+									texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
+									blend_mode = alphamultiply
+								}
+								visible = "[Not(EqualTo_string(AddTextIf(  Character.MakeScope.Var('barber_bg').IsSet, Character.MakeScope.Var('barber_bg').GetFlagName), Scope.GetFlagName))]"
+							}
+
+							icon = {
+								texture = "gfx/interface/colors/white.dds"
+								tintcolor = { 0.21 0.2 0.17 1  }
+								size = { 200 29 }
+								position = { 3 0 }
+								parentanchor = vcenter
+								modify_texture = {
+									texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
+									blend_mode = alphamultiply
+								}
+								visible = "[EqualTo_string(AddTextIf(  Character.MakeScope.Var('barber_bg').IsSet, Character.MakeScope.Var('barber_bg').GetFlagName), Scope.GetFlagName)]"
+							}
+						}
+					}
+
+					# button = {
+					# 	size = { 30 30 }
+					# 	position = { 5 0 }
+					# 	parentanchor = right|vcenter
+					# 	block "light" {
+					# 		# visible = no
+					# 	}
+					# 	tooltip = "lighting"
+					#
+					# 	button_icon = {
+					# 		texture = "gfx/barber/sun_filled.png"
+					# 		parentanchor = center
+					# 		size = { 20 20 }
+					# 		alwaystransparent = yes
+					# 	}
+					# 	alpha = 0.9
+					# 	onmousehierarchyenter = "[PdxGuiWidget.TriggerAnimation('show')]"
+					# 	onmousehierarchyleave = "[PdxGuiWidget.TriggerAnimation('hide')]"
+					# }
+				}
+            }
+        }
+    }
+
+
+
+    type defaultPose = button_FB_list {
+        size = { 200 33 }
+        text = "default"
+        visible = "[GetScriptedGui('choose_pose').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('character', Character.MakeScope).End)]"
+        onclick = "[GetScriptedGui('default_pose').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+        down = "[Not(Character.MakeScope.Var('barber_pose').IsSet)]"
+    }
+
+	type button_category = button {
+		size = { 100% 30 }
+
+		background = {
+			using = Background_Area_Dark
+			alpha = 0.5
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			spacing = 10
+			button_expand = {
+				size = { 22 22 }
+				alwaystransparent = yes
+				block "frame" {
+					visible = no
+					frame = "[Select_int32( GetVariableSystem.Exists('big_throneroom'), '(int32)1', '(int32)2')]"
+				}
+			}
+
+			button_checkbox = {
+				size = { 25 25 }
+				alwaystransparent = yes
+				block "check" {
+					visible = no
+				}
+			}
+
+			text_single = {
+				name = "category"
+				layoutpolicy_horizontal = expanding
+				# max_width = 170
+				align = nobaseline
+				default_format = "#clickable"
+
+				block "text"
+				{
+					raw_text = "test"
+				}
+			}
+		}
+	}
+
+	type traits_list = vbox {
+		spacing = 10
+
+		layoutpolicy_vertical = expanding
+		layoutpolicy_horizontal = expanding
+
+
+	}
+
+
+    type barber_head_small = widget {
+    	size = { 60 60 }
+    	scale = 0.6
+
+    	icon = {
+    		size = { 90 90 }
+    		position = { -15 -22 }
+    		using = Background_Portrait_Glow
+    		color = { 0.8 0.8 0.9 1.0 }
+    		visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('character', Character.MakeScope).End)]"
+
+    		block "empty_character" {}
+    		icon = {
+    			size = { 180 90 }
+    			using = Background_Portrait_Glow
+    			color = { 0.8 0.7 0.55 0.3 }
+    		}
+    	}
+
+    	portrait_button = {
+    		parentanchor = bottom|hcenter
+    		size = { 80 100 }
+    		using = portrait_base
+    		block "portrait_texture"
+    		{
+    			portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+    		}
+    		mask = "gfx/portraits/portrait_mask_head.dds"
+    		effectname = "NoHighlight"
+
+    		highlight_icon = {
+    			name = "prison_bars"
+    			visible = "[Character.IsImprisoned]"
+    			size = { 80 88 }
+    			parentanchor = bottom
+    			effectname = "NoHighlight"
+    			texture = "gfx/portraits/portrait_prison_head.dds"
+
+    			modify_texture = {
+    					name = "mask"
+    				texture = "gfx/portraits/portrait_mask_head.dds"
+    				spriteType = Corneredstretched
+    				blend_mode = alphamultiply
+    			}
+    		}
+
+    		block "portrait_button" {}
+		}
+
+		widget = {
+			size = { 100% 100% }
+
+			background = {
+				texture = "gfx/portraits/portrait_rank.dds"
+				margin = { -4 -4 }
+				framesize = { 95 94 }
+				frame = "[Character.GetPrimaryTitle.GetTierFrame]"
+			}
+		}
+
+		block "coa" {
+    		coa_realm_tiny = {
+    			alwaystransparent = yes
+    			tooltip_visible = no
+    			visible = "[Character.HasLandedTitles]"
+    			parentanchor = bottom|left
+    			position = { -7 5 }
+    		}
+		}
+
+		widget = {
+			size = { 100% 100% }
+			block "empty_character" {}
+
+			background = {
+				texture = "gfx/portraits/portrait_frame.dds"
+				using = Color_Grey
+				margin = { -4 -4 }
+				alpha = 0.4
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+					mirror = vertical
+				}
+			}
+
+			background = {
+				visible = "[Character.IsHovered]"
+				texture = "gfx/portraits/portrait_frame.dds"
+				using = Color_Grey
+				alpha = 0.7
+				margin = { -4 -4 }
+			}
+		}
+
+		# Portrait unknown glow
+		highlight_icon = {
+			name = "portrait_unknown_head_small_glow"
+			parentanchor = center
+			position = { 3 -9 }
+			gfxtype = framedbuttongfx
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+			size = { 80 100 }
+			framesize = { 384 480 }
+			upframe = 1
+			overframe = 2
+			block "glow_visible" {
+
+				visible = "[Not(Character.IsValid)]"
+			}
+
+			block "glow_flip" {}
+
+			block "onclick" {}
+		}
+    }
+
+}

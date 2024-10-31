@@ -1,0 +1,369 @@
+﻿undress_bb = {
+	scope = character
+
+	is_shown = {
+		has_character_flag = is_naked
+	}
+
+	is_valid = {
+		is_adult = yes
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_character_flag = is_naked }
+			}
+			add_character_flag = is_naked
+		}
+		else = {
+			remove_character_flag = is_naked
+		}
+	}
+}
+
+barber_interaction = {
+	scope = character
+
+	effect = {
+		toggle = { var = barber_interaction }
+	}
+	is_shown = {
+		exists = var:barber_interaction
+	}
+}
+
+FSB_on_load = {
+	scope = character
+	effect = {
+		if = {
+			limit = {
+				NOT = { exists = global_var:FSB_is_loaded }
+			}
+			set_global_variable = {
+				name = FSB_is_loaded
+				value = yes
+			}
+		}
+	}
+}
+
+set_default_zoom_bb = {
+	effect = {
+		if = {
+			limit = {
+				NOT = { exists = var:zoom }
+			}
+			set_variable = {
+				name = zoom
+				value = 3
+			}
+		}
+	}
+}
+
+zoom_in = {
+	scope = character
+
+	is_valid = {
+		OR = {
+			NOT = {
+				has_variable = zoom
+			}
+			AND = {
+				has_variable = zoom
+				var:zoom < 5
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_variable = zoom }
+			}
+			set_variable = {
+				name = zoom
+				value = 3
+			}
+		}
+		change_variable = {
+			name = zoom
+			add = 1
+		}
+	}
+}
+
+zoom_out = {
+	scope = character
+
+	is_valid = {
+		OR = {
+			NOT = {
+				has_variable = zoom
+			}
+			AND = {
+				has_variable = zoom
+				var:zoom > 1
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_variable = zoom }
+			}
+			set_variable = {
+				name = zoom
+				value = 3
+			}
+		}
+		change_variable = {
+			name = zoom
+			add = -1
+		}
+	}
+}
+
+restore_zoom = {
+	is_shown = {
+		has_variable = zoom
+	}
+}
+
+clear_zoom = {
+	effect = {
+		remove_variable = zoom
+	}
+}
+### rotations
+
+# any_pinned = {
+# 	scope = character
+#
+# 	is_shown = {
+# 		has_variable_list = barber_characters
+# 	}
+# }
+
+bigger_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        trigger_if = {
+            limit = { exists = var:barber_text_size }
+            var:barber_text_size < 5
+        }
+    }
+
+    effect = {
+        if = {
+            limit = {
+                NOT = { has_variable = barber_text_size }
+            }
+            set_variable = {
+                name = barber_text_size
+                value = 1
+            }
+        }
+        change_variable = {
+            name = barber_text_size
+            add = 0.1
+        }
+    }
+}
+
+smaller_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        trigger_if = {
+            limit = { exists = var:barber_text_size }
+            var:barber_text_size > 0.1
+        }
+    }
+
+    effect = {
+        if = {
+            limit = {
+                NOT = { has_variable = barber_text_size }
+            }
+            set_variable = {
+                name = barber_text_size
+                value = 1
+            }
+        }
+        change_variable = {
+            name = barber_text_size
+            add = -0.1
+        }
+    }
+}
+
+reset_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        exists = var:barber_text_size
+		NOT = {
+			var:barber_text_size = 1
+		}
+    }
+
+    effect = {
+        set_variable = {
+			name = barber_text_size
+			value = 1
+	    }
+	}
+}
+
+edit_text_barber = {
+	scope = character
+
+	effect = {
+		trigger_event = custom_text_barber.1
+	}
+}
+
+reset_appearance = {
+	# confirm_title = "BARBERSHOP_RESET_APPEARANCE"
+	effect = {
+		remove_variable = dwarfism
+		remove_variable = gigantism
+		remove_variable = beauty
+		remove_variable = ugly
+		remove_variable = albino
+		remove_variable = illness
+		remove_variable = bubonic_plague
+		remove_variable = mild
+		remove_variable = severe
+		remove_variable = leprosy
+		remove_variable = lovers_pox
+		remove_variable = scaly
+		remove_variable = scarred
+		remove_variable = smallpox
+		remove_variable = tuberculosis
+		remove_variable = typhus
+		remove_variable = wounded_1
+		remove_variable = wounded_2
+		remove_variable = wounded_3
+		remove_variable = maimed_left_arm
+		remove_variable = no_left_leg
+		remove_variable = hunchbacked
+		remove_variable = clubfooted
+		remove_variable = disfigured
+		remove_variable = blind
+		remove_variable = one_eyed
+		remove_variable = spindly
+		remove_variable = drunkard
+	}
+}
+
+
+#TODO
+
+add_children_to_barbershop = {
+	saved_scopes = { player }
+	effect = {
+		clear_variable_list = barber_children
+		every_child = {
+			limit = {
+				is_alive = yes
+				NOT = {
+					is_primary_heir_of = root
+				}
+			}
+			root = {
+				add_to_variable_list = {
+					name = barber_children
+					target = prev
+				}
+			}
+			scope:player = {
+				add_to_variable_list = {
+					name = barber_pinned
+					target = prev
+				}
+			}
+		}
+	}
+	is_shown = {
+		num_of_living_children > 1
+	}
+}
+
+remove_children_from_barbershop = {
+	effect = {
+		clear_variable_list = barber_children
+	}
+}
+
+are_children_pinned = {
+	is_shown = {
+		any_pinned_character = {
+			is_child_of = root
+			NOT = {
+				is_primary_heir_of = root
+			}
+		}
+	}
+}
+
+barber_error_suppression = {
+	is_shown = {
+		has_variable_list = barber_children
+		has_variable_list = barber_pinned
+	}
+}
+
+bb_select_dna_target = {
+	effect = {
+		set_variable = {
+			name = bb_dna_target
+			value = scope:target
+		}
+	}
+}
+
+bb_copy_dna = {
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_variable = bb_original_dna }
+			}
+			create_character = {
+				gender = root
+				age = root.age
+				culture = root.culture
+				faith = root.faith
+				location = root.location
+				after_creation = {
+					copy_inheritable_appearance_from = root
+					root = {
+						set_variable = {
+							name = bb_original_dna
+							value = prev
+						}
+					}
+					death = natural
+				}
+			}
+		}
+		copy_inheritable_appearance_from = scope:player.var:bb_dna_target
+	}
+}
+
+
+bb_clear_dna_target = {
+	effect = {
+		remove_variable = bb_dna_target
+	}
+}
+
+bb_restore_original_dna = {
+	effect = {
+		copy_inheritable_appearance_from = var:bb_original_dna
+	}
+}
