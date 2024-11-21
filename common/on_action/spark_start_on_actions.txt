@@ -313,13 +313,46 @@ elf_destiny_on_game_start = {
 			add_courtier = character:anatole_serelion_1066
 		}
 
-		
+		# Aeluran Clothes Color
+		every_living_character = {
+			limit = {
+				OR = {
+					AND = {
+						has_trait = aeluran_sister
+						is_landed = no
+					}
+					has_trait = aeluran_high_matriarch
+				}
+				NOT = {
+					has_character_flag = ignore_aeluran_clothes
+				}
+			}
+			set_aeluran_clothing_colors = yes
+		}
+
+		if = {
+			limit = {
+				exists = character:seraphine_valerith
+			}
+			character:seraphine_valerith = {
+				create_elf_kingdom_effect = yes
+
+				set_aeluran_matriarch_to_feyswood_vassal = yes
+			}
+		}
+
+		title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
+			trigger_event = {
+				id = aeluran_repeating.006
+				days = 1
+			}
+		}
 	}
 }
 
 on_game_start_after_lobby = { 
     on_actions = {
-		# swap_out_elf_traits
+		swap_out_elf_traits
         correct_elf_mortality_trait
 		register_aeluran_heirarchy
 		on_game_start_setup_expeditions
@@ -348,6 +381,7 @@ swap_out_elf_traits = {
 		every_living_character = {
 			limit = {
 				is_ai = no
+				is_landed = no
 				exists = global_var:ruler_designer_selected_race 
 			}
 
@@ -399,7 +433,7 @@ swap_out_elf_traits = {
 			}
 			if = {
 				limit = {
-					global_var:ruler_designer_selected_race = flag:celestial
+					global_var:ruler_designer_selected_race = flag:seraphic_celestial
 				}
 				add_character_flag = race_seraphic_celestial
 			}

@@ -384,3 +384,8 @@ tradition: divine starfall
    - obsessed with comets and shooting stars, seek out the metals and magics they bring.
 
 tradition: music based "song keepers" or some such thing, use instruments some how
+
+
+Make Aeluran advisor either:
+   - a voluntary decision
+   - something forced on you if your red sister or matriarch get a hook on you.
