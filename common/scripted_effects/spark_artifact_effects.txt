@@ -195,31 +195,34 @@ create_vanas_foeglass_effect = {
 	}
 }
 
-# create_nefertitis_armband_effect = {
-# 	$OWNER$ = { save_scope_as = owner }
+create_nefertitis_armband_effect = {
+	$OWNER$ = { save_scope_as = owner }
 
-# 	scope:owner = {
-# 		create_artifact = {	
-# 			name = nefertitis_armband
-# 			description = nefertitis_armband_desc
-# 			template = elf_equipment_template
-# 			type = miscellaneous
-# 			visuals = nefertitis_armband
-# 			modifier = nefertitis_armband_modifier
-# 			rarity = illustrious
-# 			decaying = no
-# 			history = {
-# 				type = history_portal_components
-# 			}
-# 			save_scope_as = nefertitis_armband
-# 		}
-# 		scope:nefertitis_armband = {
-# 			set_variable = nefertitis_armband
-# 			set_variable = is_special_elf_artifact
-# 		}
-# 	}
-# }
-
+	scope:owner = {
+		create_artifact = {	
+			name = nefertitis_armband
+			description = nefertitis_armband_desc
+			# template = elf_equipment_template
+			type = miscellaneous
+			visuals = nefertitis_armband
+			modifier = nefertitis_armband_modifier
+			rarity = illustrious
+			decaying = no
+			history = {
+				type = created_before_history
+			}
+			save_scope_as = nefertitis_armband
+		}
+		scope:nefertitis_armband = {
+			set_variable = nefertitis_armband
+			set_variable = {
+				name = charges
+				value = 0
+			}
+			set_variable = is_special_elf_artifact
+		}
+	}
+}
 
 # From Old Readme:
 # ### Items

@@ -1,0 +1,492 @@
+﻿nefertitis_armband_drain_beauty_effect = {
+	$ACTOR$ = { save_scope_as = actor }
+	$VICTIM$ = { save_scope_as = victim }
+	$ARMBAND$ = { save_scope_as = armband }
+
+	scope:victim = {
+		if = {
+			limit = { has_trait = beauty_good_1 }
+			remove_trait = beauty_good_1
+			add_nefertitis_armband_stored_charges = { CHARGES = 1 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = beauty_good_2 }
+			remove_trait = beauty_good_2
+			add_nefertitis_armband_stored_charges = { CHARGES = 2 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = beauty_good_3 }
+			remove_trait = beauty_good_3
+			add_nefertitis_armband_stored_charges = { CHARGES = 3 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = beauty_good_4 }
+			remove_trait = beauty_good_4
+			add_nefertitis_armband_stored_charges = { CHARGES = 4 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+
+		if = {
+			limit = { has_trait = unconventional_beauty_good_1 }
+			remove_trait = unconventional_beauty_good_1
+			add_nefertitis_armband_stored_charges = { CHARGES = 1 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = unconventional_beauty_good_2 }
+			remove_trait = unconventional_beauty_good_2
+			add_nefertitis_armband_stored_charges = { CHARGES = 2 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = unconventional_beauty_good_3 }
+			remove_trait = unconventional_beauty_good_3
+			add_nefertitis_armband_stored_charges = { CHARGES = 3 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+
+		if = {
+			limit = { has_trait = exotic_beauty_good_1 }
+			remove_trait = exotic_beauty_good_1
+			add_nefertitis_armband_stored_charges = { CHARGES = 1 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = exotic_beauty_good_2 }
+			remove_trait = exotic_beauty_good_2
+			add_nefertitis_armband_stored_charges = { CHARGES = 2 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+		else_if = {
+			limit = { has_trait = exotic_beauty_good_3 }
+			remove_trait = exotic_beauty_good_3
+			add_nefertitis_armband_stored_charges = { CHARGES = 3 }
+			set_nefertitis_armband_modifier = { ACTOR = scope:actor }
+		}
+
+		add_trait = beauty_bad_1
+	}
+}
+
+add_nefertitis_armband_stored_charges = {
+	scope:armband = {
+		change_variable = {
+			name = charges
+			add = $CHARGES$
+		}
+		clamp_variable = {
+			name = charges
+			max = 10
+			min = 0
+		}
+	}
+}
+
+subtract_nefertitis_armband_stored_charges = {
+	scope:armband = {
+		change_variable = {
+			name = charges
+			subtract = $CHARGES$
+		}
+		clamp_variable = {
+			name = charges
+			max = 10
+			min = 0
+		}
+	}
+}
+
+set_nefertitis_armband_modifier = {
+	$ACTOR$ = { save_scope_as = actor }
+
+	scope:actor = {
+		remove_exisitng_nefertitis_armband_modifier = yes
+		if = {
+			limit = {
+				scope:armband.var:charges = 1
+			}
+			add_character_modifier = nefertitis_armband_modifier_1
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 2
+			}
+			add_character_modifier = nefertitis_armband_modifier_2
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 3
+			}
+			add_character_modifier = nefertitis_armband_modifier_3
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 4
+			}
+			add_character_modifier = nefertitis_armband_modifier_4
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 5
+			}
+			add_character_modifier = nefertitis_armband_modifier_5
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 6
+			}
+			add_character_modifier = nefertitis_armband_modifier_6
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 7
+			}
+			add_character_modifier = nefertitis_armband_modifier_7
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 8
+			}
+			add_character_modifier = nefertitis_armband_modifier_8
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges = 9
+			}
+			add_character_modifier = nefertitis_armband_modifier_9
+		}
+		else_if = {
+			limit = { 
+				scope:armband.var:charges >= 10
+			}
+			add_character_modifier = nefertitis_armband_modifier_10
+		}
+	}
+}
+
+remove_exisitng_nefertitis_armband_modifier = {
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_1
+		}
+		remove_character_modifier = nefertitis_armband_modifier_1
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_2
+		}
+		remove_character_modifier = nefertitis_armband_modifier_2
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_3
+		}
+		remove_character_modifier = nefertitis_armband_modifier_3
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_4
+		}
+		remove_character_modifier = nefertitis_armband_modifier_4
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_5
+		}
+		remove_character_modifier = nefertitis_armband_modifier_5
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_6
+		}
+		remove_character_modifier = nefertitis_armband_modifier_6
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_7
+		}
+		remove_character_modifier = nefertitis_armband_modifier_7
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_8
+		}
+		remove_character_modifier = nefertitis_armband_modifier_8
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_9
+		}
+		remove_character_modifier = nefertitis_armband_modifier_9
+	}
+	if = {
+		limit = {
+			has_character_modifier = nefertitis_armband_modifier_10
+		}
+		remove_character_modifier = nefertitis_armband_modifier_10
+	}
+}
+
+upgrade_beauty_type = {
+	$ARMBAND$ = { save_scope_as = armband }
+
+	if = {
+		limit = {
+			has_normal_beauty_trait = yes
+		}
+		if = {
+			limit = { has_trait = beauty_good_1 }
+			remove_trait = beauty_good_1
+			add_trait = unconventional_beauty_good_1
+		}
+		else_if = {
+			limit = { has_trait = beauty_good_2 }
+			remove_trait = beauty_good_2
+			add_trait = unconventional_beauty_good_2
+		}
+		else_if = {
+			limit = { has_trait = beauty_good_3 }
+			remove_trait = beauty_good_3
+			add_trait = unconventional_beauty_good_3
+		}
+		scope:armband = {
+			subtract_nefertitis_armband_stored_charges = { CHARGES = 5 }
+			set_nefertitis_armband_modifier = { ACTOR = root }
+		}
+	}
+	else_if = {
+		limit = {
+			has_unconventional_beauty_trait = yes
+		}
+		if = {
+			limit = { has_trait = unconventional_beauty_good_1 }
+			remove_trait = unconventional_beauty_good_1
+			add_trait = exotic_beauty_good_1
+		}
+		else_if = {
+			limit = { has_trait = unconventional_beauty_good_2 }
+			remove_trait = unconventional_beauty_good_2
+			add_trait = exotic_beauty_good_2
+		}
+		else_if = {
+			limit = { has_trait = unconventional_beauty_good_3 }
+			remove_trait = unconventional_beauty_good_3
+			add_trait = exotic_beauty_good_3
+		}
+		scope:armband = {
+			subtract_nefertitis_armband_stored_charges = { CHARGES = 10 }
+			set_nefertitis_armband_modifier = { ACTOR = root }
+		}
+	}
+}
+
+upgrade_conventional_to_unconventional_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = beauty_good_1
+		}
+		remove_trait = beauty_good_1
+		add_trait = unconventional_beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = beauty_good_2
+		}
+		remove_trait = beauty_good_2
+		add_trait = unconventional_beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = beauty_good_3
+		}
+		remove_trait = beauty_good_3
+		add_trait = unconventional_beauty_good_3
+	}
+}
+
+upgrade_conventional_to_exotic_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = beauty_good_1
+		}
+		remove_trait = beauty_good_1
+		add_trait = exotic_beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = beauty_good_2
+		}
+		remove_trait = beauty_good_2
+		add_trait = exotic_beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = beauty_good_3
+		}
+		remove_trait = beauty_good_3
+		add_trait = exotic_beauty_good_3
+	}
+}
+
+upgrade_unconventional_to_exotic_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = unconventional_beauty_good_1
+		}
+		remove_trait = unconventional_beauty_good_1
+		add_trait = exotic_beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = unconventional_beauty_good_2
+		}
+		remove_trait = unconventional_beauty_good_2
+		add_trait = exotic_beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = unconventional_beauty_good_3
+		}
+		remove_trait = unconventional_beauty_good_3
+		add_trait = exotic_beauty_good_3
+	}
+}
+
+downgrade_unconventional_to_conventional_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = unconventional_beauty_good_1
+		}
+		remove_trait = unconventional_beauty_good_1
+		add_trait = beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = unconventional_beauty_good_2
+		}
+		remove_trait = unconventional_beauty_good_2
+		add_trait = beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = unconventional_beauty_good_3
+		}
+		remove_trait = unconventional_beauty_good_3
+		add_trait = beauty_good_3
+	}
+}
+
+downgrade_exotic_to_unconventional_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = exotic_beauty_good_1
+		}
+		remove_trait = exotic_beauty_good_1
+		add_trait = unconventional_beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = exotic_beauty_good_2
+		}
+		remove_trait = exotic_beauty_good_2
+		add_trait = unconventional_beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = exotic_beauty_good_3
+		}
+		remove_trait = exotic_beauty_good_3
+		add_trait = unconventional_beauty_good_3
+	}
+}
+
+downgrade_exotic_to_conventional_beauty_effect = {
+	if = {
+		limit = {
+			has_trait = exotic_beauty_good_1
+		}
+		remove_trait = exotic_beauty_good_1
+		add_trait = beauty_good_1
+	}
+	else_if = {
+		limit = {
+			has_trait = exotic_beauty_good_2
+		}
+		remove_trait = exotic_beauty_good_2
+		add_trait = beauty_good_2
+	}
+	else_if = {
+		limit = {
+			has_trait = exotic_beauty_good_3
+		}
+		remove_trait = exotic_beauty_good_3
+		add_trait = beauty_good_3
+	}
+}
+
+
+set_beauty_to_conventional_effect = {
+	if = {
+		limit = {
+			has_normal_beauty_trait = yes
+		}
+		# Nothing Happens, keep normal beauty trait
+	}
+	else_if = {
+		limit = { 
+			has_unconventional_beauty_trait = yes
+		}
+		downgrade_unconventional_to_conventional_beauty_effect = yes
+	}
+	else_if = {
+		limit = { 
+			has_exotic_beauty_trait = yes
+		}
+		downgrade_exotic_to_conventional_beauty_effect = yes
+	}
+}
+
+set_beauty_to_unconventional_effect = {
+	if = {
+		limit = {
+			has_normal_beauty_trait = yes
+		}
+		upgrade_conventional_to_unconventional_beauty_effect = yes
+	}
+	else_if = {
+		limit = { 
+			has_unconventional_beauty_trait = yes
+		}
+		# Nothing Happens, keep unconventional beauty trait
+	}
+	else_if = {
+		limit = { 
+			has_exotic_beauty_trait = yes
+		}
+		downgrade_exotic_to_unconventional_beauty_effect = yes
+	}
+}
+
+set_beauty_to_exotic_effect = {
+	if = {
+		limit = {
+			has_normal_beauty_trait = yes
+		}
+		upgrade_conventional_to_exotic_beauty_effect = yes
+	}
+	else_if = {
+		limit = { 
+			has_unconventional_beauty_trait = yes
+		}
+		upgrade_unconventional_to_exotic_beauty_effect = yes
+	}
+	else_if = {
+		limit = { 
+			has_exotic_beauty_trait = yes
+		}
+		# Nothing Happens, keep exotic beauty trait
+	}
+}

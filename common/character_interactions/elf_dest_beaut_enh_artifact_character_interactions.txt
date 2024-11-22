@@ -1,0 +1,47 @@
+drain_beauty = {
+	category = interaction_category_cheat_menu
+	desc = elf_destiny_debug_menu_desc
+	common_interaction = yes
+	icon = icon_nefertitis_armband
+
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+	force_notification = no	
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			any_equipped_character_artifact = {
+				has_variable = nefertitis_armband
+			}
+		}
+		OR = {
+			# has_global_variable = elf_cheats_on
+			debug_only = yes
+			has_game_rule = elf_dest_debug_menu_turned_on
+		}
+
+		# set_global_variable = {
+		# 	name = 01_sigil_of_the_realm_lord_found
+		# 	value = yes
+		# }
+
+		scope:recipient = {
+			has_any_beauty_trait = yes
+			OR = {
+				is_courtier_of = scope:actor
+				is_imprisoned_by = scope:actor
+			}
+		}
+	}
+	
+	on_send = {
+		# scope:recipient = {
+		# 	save_scope_as = currency_scope
+		# }
+		scope:actor = {
+			trigger_event = elf_dest_beaut_enh_artifact.001
+		}
+	}
+}

@@ -115,13 +115,23 @@ expedition.004 = {
 			}
 			0 = { # lembas satchel
 				modifier = { # Does the player already have a crystal?
-					add = 3
+					add = 5
 					NOT = {
 						has_global_variable = lembas_satchel_discovered
 					}
 				}
 			
 				trigger_event = expedition.0044
+			}
+			0 = { # Nefertiti's Armband
+				modifier = { # Does the player already have a crystal?
+					add = 5000
+					NOT = {
+						has_global_variable = nefertitis_armband_discovered
+					}
+				}
+			
+				trigger_event = expedition.0045
 			}
 		}
 	}
@@ -343,6 +353,57 @@ expedition.0044 = { # Find Lembas Satchel
 		name = expedition.0044.ok
 	}
 }
+
+expedition.0045 = { # Find Nefertiti's Armband
+	type = activity_event
+
+	title = expedition.0045.title
+	desc = expedition.0045.desc
+
+	theme = beauty_enhanced
+	override_background = { reference = temple }
+
+	left_portrait = {
+		character = scope:host
+		animation = lantern
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:nefertitis_armband
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:nefertitis_armband }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+			has_global_variable = nefertitis_armband_discovered
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			create_nefertitis_armband_effect = { OWNER = root }
+		}
+
+		set_global_variable = {
+			name = nefertitis_armband_discovered
+			value = yes
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0045.ok
+	}
+}
+
 
 
 # Expedition Faces a Trial - Controller
