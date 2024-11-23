@@ -50,25 +50,16 @@ elf_destiny_debug_menu.011 = { # STORYLINE
 	immediate = {
 		if = {
 			limit = {
-				game_start_date <= 1065.1.1
-				exists = character:julia_melwood
-				character:julia_melwood = {
-                    is_alive = yes
-                }
+				any_living_character = {
+					has_character_flag = julia_melwood
+				}
 			}
-			character:julia_melwood = {
-				save_scope_as = archeologist
-			}
-		}
-		else_if = {
-			limit = {
-				game_start_date >= 1065.1.1
-				exists = character:julia_melwood_1066
-				character:julia_melwood_1066 = {
-                    is_alive = yes
-                }
-			}
-			character:julia_melwood_1066 = {
+	
+			random_living_character = {
+				limit = {
+					has_character_flag = julia_melwood
+				}
+	
 				save_scope_as = archeologist
 			}
 		}
