@@ -25,39 +25,7 @@ expedition_riddles.0999 = { # An Onion
 	}
 
 	immediate = {
-		if = {
-			limit = {
-				NOT = {
-					exists = scope:archeologist
-				}
-			}
-			if = {
-				limit = {
-					game_start_date <= 1065.1.1
-					exists = character:julia_melwood
-				}
-				character:julia_melwood = {
-					save_scope_as = archeologist
-				}
-			}
-			else_if = {
-				limit = {
-					game_start_date >= 1065.1.1
-					exists = character:julia_melwood_1066
-				}
-				character:julia_melwood_1066 = {
-					save_scope_as = archeologist
-				}
-			}
-			else = {
-				create_character = {
-					template = julia_melwood_fallback
-					dynasty = none
-					location = root.location
-					save_scope_as = archeologist
-				}
-			}
-		}
+		get_julia_melwood_effect = yes
 	}
 
 	option = {
