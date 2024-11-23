@@ -1,0 +1,571 @@
+﻿namespace = elf_dest_beaut_enh_artifact
+
+elf_dest_beaut_enh_artifact.101 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.101.title
+	desc = elf_dest_beaut_enh_artifact.101.desc
+	
+	theme = beauty_enhanced
+	override_background = {		
+		reference = throne_room
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:black_market_merchant
+		animation = flirtation_left
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		set_global_variable = mysterious_vendor_visited
+
+		create_character = {
+			template = black_market_merchant
+			faith = faith:manichean
+			culture = culture:persian
+			location = root.location
+			save_scope_as = black_market_merchant
+		}
+
+		hidden_effect = {
+			create_nefertitis_armband_effect = { OWNER = scope:black_market_merchant }
+		}
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.101.purchase
+
+		pay_short_term_gold = {
+			target = scope:black_market_merchant
+			gold = medium_gold_max_value
+		}
+
+		custom_tooltip = purchase_nefertitis_armband
+
+		trigger_event = elf_dest_beaut_enh_artifact.102
+	}
+
+	option = { # NVM
+		name = elf_dest_beaut_enh_artifact.101.no
+
+		hidden_effect = {
+			destroy_artifact = scope:nefertitis_armband
+			scope:black_market_merchant = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+}
+
+elf_dest_beaut_enh_artifact.102 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.102.title
+	desc = elf_dest_beaut_enh_artifact.102.desc
+	
+	theme = beauty_enhanced
+	override_background = {		
+		reference = throne_room
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = eyeroll
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		scope:nefertitis_armband = {
+			set_owner = {
+				target = root
+				history = {
+					type = purchased
+					recipient = root
+				}
+			}
+		}
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.102.ok
+	}
+
+}
+
+# Are you sure you want to do it?
+elf_dest_beaut_enh_artifact.001 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.001.title
+	desc = {
+		triggered_desc = {
+			trigger = {
+				scope:recipient = {
+					is_courtier_of = root
+				}
+			}
+			desc = elf_dest_beaut_enh_artifact.001.desc.courtier
+		}
+		triggered_desc = {
+			trigger = {
+				scope:recipient = {
+					is_imprisoned_by = root
+				}
+			}
+			desc = elf_dest_beaut_enh_artifact.001.desc.prisoner
+		}
+	}
+	
+	theme = beauty_enhanced
+	override_background = {		
+		trigger = {
+			scope:recipient = {
+				is_imprisoned_by = root
+			}
+		}
+		reference = dungeon
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:recipient
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					scope:recipient = {
+						is_imprisoned_by = root
+					}
+				}
+			}
+			animation = steward
+		}
+		triggered_animation = {
+			trigger = {
+				scope:recipient = {
+					is_imprisoned_by = root
+				}
+			}
+			animation = worry
+		}
+		animation = steward
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		random_artifact = {
+			limit = {
+				has_variable = nefertitis_armband
+			}
+
+			save_scope_as = nefertitis_armband
+		}
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.001.drain
+
+		scope:recipient = {
+			set_relation_rival = {
+				target = root
+				reason = drained_beauty
+			}
+			add_opinion = {
+				target = root
+				modifier = drained_beauty
+			}
+		}
+
+		trigger_event = elf_dest_beaut_enh_artifact.002
+	}
+
+	option = { # NVM
+		name = elf_dest_beaut_enh_artifact.001.nvm
+	}
+}
+
+# DRAIN
+elf_dest_beaut_enh_artifact.002 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.002.title
+	
+	desc = {
+		desc = elf_dest_beaut_enh_artifact.002.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:nefertitis_armband.var:charges < 5
+				}
+				desc = elf_dest_beaut_enh_artifact.002.armband_charges_low
+			}
+			triggered_desc = {
+				trigger = {
+					scope:nefertitis_armband.var:charges < 10
+				}
+				desc = elf_dest_beaut_enh_artifact.002.armband_charges_mid
+			}
+			triggered_desc = {
+				trigger = {
+					scope:nefertitis_armband.var:charges = 10
+				}
+				desc = elf_dest_beaut_enh_artifact.002.armband_charges_full
+			}
+		}
+	}
+
+	theme = beauty_enhanced
+	override_background = {		
+		trigger = {
+			scope:recipient = {
+				is_imprisoned_by = root
+			}
+		}
+		reference = dungeon
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:recipient
+		animation = fear
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		nefertitis_armband_drain_beauty_effect = { ACTOR = root VICTIM = scope:recipient ARMBAND = scope:nefertitis_armband}
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.002.ok
+	}
+}
+
+# Drained Player perspective
+
+# Use Artifact Charges
+elf_dest_beaut_enh_artifact.003 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.003.title
+	
+	desc = elf_dest_beaut_enh_artifact.003.desc
+
+	theme = beauty_enhanced
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		random_artifact = {
+			limit = {
+				has_variable = nefertitis_armband
+			}
+
+			save_scope_as = nefertitis_armband
+		}
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.003.ok
+		trigger_event = elf_dest_beaut_enh_artifact.0031
+	}
+
+	option = { # Nvm
+		name = elf_dest_beaut_enh_artifact.003.nvm
+	}
+}
+
+
+elf_dest_beaut_enh_artifact.0031 = {
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.0031.title
+	
+	desc = {
+		desc = elf_dest_beaut_enh_artifact.0031.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_unconventional_beauty_trait = yes
+				}
+				desc = elf_dest_beaut_enh_artifact.0031.desc.unconventional
+			}
+			triggered_desc = {
+				trigger = {
+					has_exotic_beauty_trait = yes
+				}
+				desc = elf_dest_beaut_enh_artifact.0031.desc.exotic
+			}
+		}
+	}
+
+	theme = beauty_enhanced
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		upgrade_beauty_type = { ARMBAND = scope:nefertitis_armband }
+	}
+
+	option = { # Do It
+		name = elf_dest_beaut_enh_artifact.0031.ok
+
+		if = {
+			limit = {
+				# scope:nefertitis_armband.var:charges = 10
+				has_exotic_beauty_trait = yes
+			}
+
+			trigger_event = {
+				id = elf_dest_beaut_enh_artifact.004
+				months = { 1 4 }
+			}
+		}
+	}
+}
+
+# Possesion
+elf_dest_beaut_enh_artifact.004 = { 
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.004.title
+	
+	desc = elf_dest_beaut_enh_artifact.004.desc
+
+	theme = beauty_enhanced
+	override_background = {		
+		reference = bedchamber
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	artifact = {
+		target = scope:nefertitis_armband
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		random_artifact = {
+			limit = {
+				has_variable = nefertitis_armband
+			}
+
+			save_scope_as = nefertitis_armband
+		}
+	}
+
+	option = { # Resist
+		name = elf_dest_beaut_enh_artifact.004.resist
+
+		duel = {
+			skill = learning
+			# target = scope:victim
+			value = 20
+	
+			50 = { # Success!
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+	
+				# modifier = {
+				# 	scope:entrancer.elf_trait_level > scope:victim.elf_trait_level
+	
+				# 	add = {
+				# 		value = 0
+				# 		add = scope:entrancer.elf_trait_level
+				# 		subtract = scope:victim.elf_trait_level
+				# 		multiply = 10
+				# 		max = 50
+				# 	}				
+				# }
+	
+				desc = you_win_battle_of_wills
+	
+				custom_tooltip = {
+					text = you_resist_possession
+
+					trigger_event = elf_dest_beaut_enh_artifact.0041
+				}
+			}
+			50 = { # Fail!
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+	
+				# modifier = {
+				# 	scope:victim.elf_trait_level > scope:entrancer.elf_trait_level
+	
+				# 	add = {
+				# 		value = 0
+				# 		add = scope:victim.elf_trait_level
+				# 		subtract = scope:entrancer.elf_trait_level
+				# 		multiply = 5
+				# 		max = 20
+				# 	}				
+				# }
+	
+				min = 2
+	
+				desc = you_lose_battle_of_wills
+	
+				custom_tooltip = {
+					text = you_are_possessed
+
+					trigger_event = elf_dest_beaut_enh_artifact.0042
+				}
+			}
+	
+		}
+	}
+
+	option = { # Give In
+		name = elf_dest_beaut_enh_artifact.004.submit
+
+		trigger_event = elf_dest_beaut_enh_artifact.0042
+	}
+
+}
+
+# Resist Possession
+elf_dest_beaut_enh_artifact.0041 = { 
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.0041.title
+	
+	desc = elf_dest_beaut_enh_artifact.0041.desc
+
+	theme = beauty_enhanced
+	override_background = {		
+		reference = bedchamber
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = ecstasy
+	}
+
+	immediate = {
+	}
+
+	option = {
+		name = elf_dest_beaut_enh_artifact.0041.ok
+		add_learning_lifestyle_perk_points = 3
+		add_character_modifier = {
+			modifier = iron_willed_modifier
+		}
+	}
+
+}
+
+# Become Possessed
+elf_dest_beaut_enh_artifact.0042 = { 
+	type = character_event
+	title = elf_dest_beaut_enh_artifact.0042.title
+	
+	desc = elf_dest_beaut_enh_artifact.0042.desc
+
+	theme = beauty_enhanced
+	override_background = {		
+		reference = bedchamber
+	}
+
+	# content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+
+	immediate = {
+		change_first_name = Nefertiti
+		add_trait = possessed_1
+		add_character_flag = queen_nefertiti
+		set_ethnicity = ethncity:mediterranean
+
+		if = {
+			limit = {
+				NOT = { has_trait = exotic_beauty_good_3 }
+			}
+
+			if = {
+				limit = { has_trait = exotic_beauty_good_2 }
+				remove_trait = exotic_beauty_good_2
+			}
+			if = {
+				limit = { has_trait = exotic_beauty_good_1 }
+				remove_trait = exotic_beauty_good_1
+			}
+
+			add_trait = exotic_beauty_good_3
+		}
+
+		custom_tooltip = unlocked_adopt_ancient_egyptian_decision
+	}
+
+	option = {
+		name = elf_dest_beaut_enh_artifact.0042.ok
+	}
+
+}
