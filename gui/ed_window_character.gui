@@ -1,0 +1,98 @@
+template ed_window_character_show_template {
+	on_finish = "[GetScriptedGui( 'init_urf_race_fallback' ).Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+}
+template ed_modifier_template {
+	visible = "[Not(IsRaceModifier)]"
+}
+template ed_character_age_text {
+	raw_text = "[SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetAge, '(int32)866'), 'UNKNOWN_AGE', 'AGE')]"
+}
+template ed_character_age_text_with_space {
+	raw_text = " [SelectLocalization(GreaterThanOrEqualTo_int32(Character.GetAge, '(int32)866'), 'UNKNOWN_AGE', 'AGE')]"
+}
+types character_window{
+	type ed_race_icon = hbox {
+        visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
+        hbox = {
+            container = {
+                button = {
+                    name = "race_button"
+                    # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                    tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+                    using = tooltip_ws
+                    size = { 40 40 }
+
+                    highlight_icon = {
+                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                        size = { 40 40 }
+                        position = { 0 1 }
+                        parentanchor = center
+    
+                        glow = {
+                            visible = "[Not(EqualTo_string(Character.MakeScope.Var('urf_phenotype').GetFlagName, 'human') )]"
+                            # color = { 0 0 0 0.8 }
+                            glow_radius = 4
+                            # using = Color_Blue
+                            using = Color_Bright_Yellow
+                            # using = Color_Green
+                            using = Glow_Standard
+                            # glow_alpha = 1
+                        }
+
+					    using = Animation_Glow_Pulse
+
+                        #     state = {
+                        #         name = a
+                        #         next = b
+                        #         alpha = 1
+                        #         trigger_on_create = yes
+                        #         duration = 2
+                        #         using = Animation_Curve_Default
+                        #     }
+
+                        #     state = {
+                        #         name = b
+                        #         next = a
+                        #         alpha = 0.5
+                        #         duration = 2
+                        #         using = Animation_Curve_Default
+                        #     }
+
+                    }
+                }
+            }
+        }
+
+        hbox = {
+            layoutpolicy_vertical = expanding
+            margin = { 5 10 }
+
+            divider_light = {
+                layoutpolicy_vertical = expanding
+            }
+        }
+	}
+	type ed_race_icon_small = hbox {
+        visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
+        hbox = {
+            container = {
+                button = {
+                    name = "race_button"
+                    texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                    tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
+                    using = tooltip_ws
+                    size = { 40 40 }
+                }
+            }
+        }
+
+        hbox = {
+            layoutpolicy_vertical = expanding
+            margin = { 5 10 }
+
+            divider_light = {
+                layoutpolicy_vertical = expanding
+            }
+        }
+	}
+}
