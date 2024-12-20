@@ -13,14 +13,9 @@ template character_age_or_death_text
         block "character_age"
         {
             text_single = {
-                text = "[Character.GetAge]"
-                visible = "[Not(GreaterThanOrEqualTo_int32(Character.GetAge, '(int32)866'))]"
-                align = nobaseline
-            }
-            ### URF Character Age Changes #
-            text_single = {
-                raw_text = "UNKNOWN_AGE"
-                visible = "[GreaterThanOrEqualTo_int32(Character.GetAge, '(int32)866')]"
+                using = ed_character_age_text
+                # placeholder shou be:
+                # raw_text = "[Character.GetAge]"
                 align = nobaseline
             }
         }
@@ -55,66 +50,7 @@ types Lists
     {
         layoutpolicy_horizontal = expanding
         ### URF Race Changes ###
-        hbox = {
-            visible = "[CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').IsSet]"
-            container = {
-                button = {
-                    name = "race_button"
-                    # texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-                    tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
-                    using = tooltip_ws
-                    size = { 40 40 }
-
-                    highlight_icon = {
-                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-                        size = { 40 40 }
-                        position = { 0 1 }
-                        parentanchor = center
-    
-                        glow = {
-                            visible = "[Not(EqualTo_string(CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName, 'human') )]"
-                            # color = { 0 0 0 0.8 }
-                            glow_radius = 4
-                            # using = Color_Blue
-                            using = Color_Bright_Yellow
-                            # using = Color_Green
-                            using = Glow_Standard
-                            # glow_alpha = 1
-                        }
-
-					    using = Animation_Glow_Pulse
-
-                        #     state = {
-                        #         name = a
-                        #         next = b
-                        #         alpha = 1
-                        #         trigger_on_create = yes
-                        #         duration = 2
-                        #         using = Animation_Curve_Default
-                        #     }
-
-                        #     state = {
-                        #         name = b
-                        #         next = a
-                        #         alpha = 0.5
-                        #         duration = 2
-                        #         using = Animation_Curve_Default
-                        #     }
-
-                    }
-                }
-            }
-        }
-
-        hbox = {
-            visible = "[CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').IsSet]"
-            layoutpolicy_vertical = expanding
-            margin = { 5 10 }
-
-            divider_light = {
-                layoutpolicy_vertical = expanding
-            }
-        }
+        ed_race_icon = {}
         ### URF Race Changes ###
 
         widget = {
@@ -574,28 +510,7 @@ types Lists
         layoutpolicy_horizontal = expanding
 
         ### URF Race Changes ###
-        hbox = {
-            visible = "[CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').IsSet]"
-            container = {
-                button = {
-                    name = "race_button"
-                    texture =  "[GetCultureInnovationType(Concatenate('urf_phenotype_', CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-                    tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
-                    using = tooltip_ws
-                    size = { 40 40 }
-                }
-            }
-        }
-
-        hbox = {
-            visible = "[CharacterWindow.GetCharacter.MakeScope.Var('urf_phenotype').IsSet]"
-            layoutpolicy_vertical = expanding
-            margin = { 5 10 }
-
-            divider_light = {
-                layoutpolicy_vertical = expanding
-            }
-        }
+        ed_race_icon_small = {}
         ### URF Race Changes ###
 
         widget = {
@@ -816,71 +731,4 @@ types Lists
         }
         expand = {}
     }
-}
-
-types Scrollbar
-{
-
-	type scrollbox = scrollarea {
-		size = { 100 100 }
-
-		scrollbarpolicy_horizontal = always_off
-
-		scrollbar_vertical = {
-			using = Scrollbar_Vertical
-		}
-
-		block "scrollbox_background"
-		{
-			background = {
-				using = Background_Area
-			}
-		}
-
-		scrollwidget = {
-			block "scrollbox_replace_vbox"
-			{
-				vbox = {
-					block "scrollbox_margins"
-					{
-						using = Scrollbox_Margins
-					}
-
-					block "scrollbox_content"
-					{
-						debug_square = {}
-					}
-
-					text_single = {
-						layoutpolicy_vertical = expanding
-						default_format = "#weak"
-
-						block "scrollbox_empty"
-						{
-							visible = no
-						}
-					}
-
-					block "scrollbox_expand"
-					{
-						expand = {
-							layoutpolicy_vertical = growing
-						}
-					}
-				}
-			}
-		}
-
-		block "scrollbox_background_fade" {
-			icon = {
-				name = "scrollbar_fade"
-				texture = "gfx/interface/scrollbars/scrollbar_fade.dds"
-				size = { 100% 100% }
-				alwaystransparent = yes
-
-				spriteType = Corneredtiled
-				spriteborder = { 0 30 }
-			}
-		}
-	}
 }
