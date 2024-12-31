@@ -7,7 +7,6 @@ window = {
 	widgetid = "character_window"
 	datacontext = "[GetVariableSystem]"
 	datacontext = "[CharacterWindow.GetCharacter]"
-	datacontext = "[GetScriptedGui( 'init_urf_race_fallback' )]"
 	movable = no
 	layer = middle
 	allow_outside = yes
@@ -23,7 +22,7 @@ window = {
 
 		on_start = "[GetVariableSystem.Set( 'hide_bottom_left_HUD', 'true' )]"
 
-		on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
+		using = ed_window_character_show_template
 	}
 
 	state = {
@@ -33,12 +32,6 @@ window = {
 		position_x = -60
 
 		on_start = "[GetVariableSystem.Clear( 'hide_bottom_left_HUD' )]"
-	}
-
-	state = {
-		name = _mouse_hierarchy_enter
-
-		on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
 	}
 
 	vbox = {
@@ -851,7 +844,9 @@ window = {
 
 							text_single = {
 								name = "character_age"
-								raw_text = " [Character.GetAge]"
+								using = ed_character_age_text_with_space
+								# placeholder shou be:
+								# raw_text = " [Character.GetAge]"
 								default_format = "#low"
 								tooltip = "[Character.GetDeathOrBirthDateInfo]"
 								fontsize = 20
@@ -1050,6 +1045,7 @@ window = {
 					}
 
 #					### ELF DESTINY ####
+					# expandable modifier grid
 					vbox = {
 						layoutpolicy_vertical = expanding
 						margin = { 0 0 }
@@ -1074,7 +1070,8 @@ window = {
 									item = {
 										widget = {
 											datacontext = "[ModifierItem.GetStaticModifier]"
-											visible = "[Not(IsRaceModifier)]"
+											# ED modofied: 
+											using = ed_modifier_template
 											size = { 25 25 }
 
 											modifier_item_icon = {
