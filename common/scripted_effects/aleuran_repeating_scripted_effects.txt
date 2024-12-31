@@ -12,18 +12,80 @@ daughter_sent_to_deep_wood_effect = {
 	}
 }
 
-create_aeluran_advisor_effect = {
-	debug_log = "create_aeluran_advisor_effect: YEEE"
+determine_new_aeluran_advisor_effect = {
+	if = { # First check if any of your vassals can do it
+		limit = {
+			any_vassal = {
+				is_aeluran_sister_or_higher = yes
+				is_capable_adult = yes
+			}
+		}
 
-	$MATRIARCH$ = {
-		save_scope_as = matriarch
+		save_scope_value_as = {
+			name = advisor_type
+			value = flag:vassal
+		}
+
+		random_vassal = {
+			limit = {
+				is_aeluran_sister_or_higher = yes
+				is_capable_adult = yes
+			}
+
+			save_scope_as = aeluran_sister_advisor
+		}
+	}
+	else_if = { # Next check if you have a courtier who can do it
+		limit = {
+			any_courtier = {
+				is_aeluran_sister_or_higher = yes
+				is_capable_adult = yes
+			}
+		}
+
+		save_scope_value_as = {
+			name = advisor_type
+			value = flag:courtier
+		}
+
+		random_courtier = {
+			limit = {
+				is_aeluran_sister_or_higher = yes
+				is_capable_adult = yes
+			}
+
+			save_scope_as = aeluran_sister_advisor
+		}
+	}
+	else = { # Couldn't find an advisor, create and send one from Deepwood
+		save_scope_value_as = {
+			name = advisor_type
+			value = flag:sent_from_deepwood
+		}
+
+		save_scope_value_as = {
+			name = aeluran_advisor_coming_from_sanctum
+			value = yes
+		}
+		
+		create_aeluran_advisor_effect = yes
 	}
 
+	scope:aeluran_sister_advisor = {
+		set_variable = {
+			name = appointed_to_advise
+			value = root
+		}
+	}
+}
+
+
+create_aeluran_advisor_effect = {
 	create_character = {
 		template = aeluran_sister_advisor
 		dynasty = none
 		location = title:b_cykma.title_province
-		faith = scope:matriarch.faith
+		faith = global_var:high_matriarch.faith
 		culture = root.culture
 		save_scope_as = aeluran_sister_advisor
 	}
@@ -56,6 +118,37 @@ sort_aeluran_candidates_to_list_effect = {
 			}
 			add_to_list = characters
 		}
+	}
+}
+
+appoint_newly_arrived_aeluran_advisor = {
+	assign_councillor_type = {
+		type = councillor_aeluran_advisor
+		target = scope:aeluran_sister_advisor
+	 }
+
+	if = {
+		limit = {
+			has_realm_law_flag = aeluran_regency_enabled
+		}
+		
+		if = {
+			limit = {
+				has_active_diarchy = no
+			}
+			start_diarchy = aeluran_regency
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_diarchy_type = aeluran_regency
+				}
+			}
+			set_diarchy_type = aeluran_regency
+		}
+
+		set_diarch = scope:aeluran_sister_advisor
 	}
 }
 
@@ -226,6 +319,7 @@ appoint_new_aeluran_matron_effect = {
 		scope:new_matron = {
 			remove_trait = aeluran_sister
 			add_trait = aeluran_matron
+			set_aeluran_clothing_colors = yes
 		}
 
 		add_to_global_variable_list = {
