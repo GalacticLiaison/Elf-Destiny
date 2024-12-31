@@ -1,0 +1,326 @@
+﻿aeluran_realm_authority = {
+	default = aeluran_realm_authority_0
+	cumulative = yes
+	flag = aeluran_realm_authority
+
+	aeluran_realm_authority_0 = { # Secular Government
+		modifier = {
+            # piety_level_impact_mult = 0
+			# intrigue = 1
+			aeluran_weavers_government_opinion = -5
+
+		}
+
+		can_keep = {
+			# realm_law_use_imperial_bureaucracy = yes
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = no
+			# 	}
+			# 	liege = { has_realm_law = aeluran_realm_authority_0 }
+			# }
+		}
+
+		pass_cost = {
+			piety = {
+				add = {
+					if = {
+						limit = {
+							OR = {
+								has_realm_law = aeluran_realm_authority_1
+								has_realm_law = aeluran_realm_authority_2
+							}
+						}
+						add = 1000
+					}
+				}
+			}
+		}
+		
+		can_pass = {
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = no
+			# 		liege = { has_realm_law = aeluran_realm_authority_0 }
+			# 	}
+			# 	custom_tooltip = {
+			# 		text = imperial_bureaucracy_pending_law_change
+			# 		always = no
+			# 	}
+			# }
+
+			custom_tooltip = {
+				text = must_increment_aeluran_authority
+				has_realm_law = aeluran_realm_authority_1
+			}
+		}
+
+		on_pass = {
+			## Set cooldown
+			# set_variable = {
+			# 	name = admin_law_cooldown
+			# 	years = @admin_law_cooldown_value
+			# }
+			debug_log = "PASSED aeluran_realm_authority_0"
+			if = {
+				limit = {
+					has_active_diarchy = yes
+					has_diarchy_type = aeluran_regency
+				}
+				end_diarchy = yes
+			}
+
+			if = {
+				limit = {
+					has_variable = religious_advisor
+				}
+				assign_councillor_type = {
+					type = councillor_aeluran_advisor
+					target = var:religious_advisor
+				}
+			}
+			
+		}
+	}
+	
+	aeluran_realm_authority_1 = { # Institutionalized Authority
+		modifier = {
+            # piety_level_impact_mult = 0.5
+			# intrigue = 3
+			# monthly_piety_gain_per_court_position_add = 0.01
+			# intrigue_per_piety_level = 1
+			# monthly_legitimacy_add = 1
+			monthly_piety_gain_per_legitimacy_level_mult = 0.025
+			aeluran_weavers_government_opinion = 10
+			faith_creation_piety_cost_mult = 0.25
+
+		}
+
+		flag = aeluran_regency_enabled
+
+		can_keep = {
+			# realm_law_use_imperial_bureaucracy = yes
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = yes
+			# 	}
+			# 	custom_tooltip = {
+			# 		text = have_bureaucracy_1_or_higher
+			# 		OR = {
+			# 			has_realm_law = imperial_bureaucracy_1
+			# 			has_realm_law = imperial_bureaucracy_2
+			# 			has_realm_law = imperial_bureaucracy_3
+			# 		}
+			# 	}
+			# }
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = no
+			# 	}
+			# 	liege = { has_realm_law = aeluran_realm_authority_1 }
+			# }
+		}
+
+		can_pass = {
+			custom_tooltip = {
+				text = must_increment_aeluran_authority
+				OR = {
+					has_realm_law = aeluran_realm_authority_0
+					has_realm_law = aeluran_realm_authority_2
+				}
+			}
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = yes
+			# 	}
+			# 	custom_tooltip = {
+			# 		text = admin_law_cooldown_desc
+			# 		NOT = { has_variable = admin_law_cooldown }
+			# 	}
+			# }
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = no
+			# 		liege = { has_realm_law = aeluran_realm_authority_1 }
+			# 	}
+			# 	custom_tooltip = {
+			# 		text = imperial_bureaucracy_pending_law_change
+			# 		always = no
+			# 	}
+			# }
+		}
+		
+		pass_cost = {
+			piety = {
+				add = {
+					if = {
+						limit = {
+							has_realm_law = aeluran_realm_authority_2
+
+						}
+						add = 1000
+					}
+				}
+			}
+
+			prestige = {
+				add = {
+					if = {
+						limit = {
+							has_realm_law = aeluran_realm_authority_0
+						}
+						add = 500
+					}
+				}	
+			}
+		}
+		
+		on_pass = {
+			# ## Set cooldown
+			# set_variable = {
+			# 	name = admin_law_cooldown
+			# 	years = @admin_law_cooldown_value
+			# }
+			debug_log = "PASSED aeluran_realm_authority_1"
+			add_piety = 500
+
+			start_diarchy = aeluran_regency
+
+			if = {
+				limit = { exists = cp:councillor_aeluran_advisor }
+				set_diarch = cp:councillor_aeluran_advisor 
+			}
+
+
+			# if = {
+			# 	limit = {
+			# 		has_active_diarchy = no
+			# 	}
+			# 	start_diarchy = aeluran_regency
+			# }
+	
+			if = {
+				limit = {
+					NOT = { has_diarchy_type = aeluran_regency }
+				}
+				set_diarchy_type = aeluran_regency
+			}
+
+
+	
+		}
+
+		ai_will_do = {
+			if = {
+				limit = {
+					ai_has_warlike_personality = yes
+				}
+				value = 1
+			}
+			if = {
+				limit = {
+					has_realm_law = aeluran_realm_authority_0
+					ai_has_economical_boom_personality = yes
+				}
+				value = 1
+			}
+		}
+	}
+	
+	aeluran_realm_authority_2 = { # Aeluran Judiciary
+		modifier = {
+			tyranny_gain_mult = -0.2
+			# religious_head_opinion = 5
+			faith_creation_piety_cost_mult = 0.25
+			monthly_piety_gain_per_legitimacy_level_mult = 0.025
+
+			# elderly_health = 0.5
+			# monthly_legitimacy_add = 1
+			aeluran_weavers_government_opinion = 5
+		}
+		# flag = uses_imperial_bureaucracy
+		# flag = admin_vassal_wars_permission_only
+		
+		can_keep = {
+			# realm_law_use_imperial_bureaucracy = yes
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = yes
+			# 	}
+			# 	custom_tooltip = {
+			# 		text = have_bureaucracy_2_or_higher
+			# 		OR = {
+			# 			has_realm_law = imperial_bureaucracy_2
+			# 			has_realm_law = imperial_bureaucracy_3
+			# 		}
+			# 	}
+			# }
+			# trigger_if = {
+			# 	limit = {
+			# 		is_independent_ruler = no
+			# 	}
+			# 	liege = { has_realm_law = aeluran_realm_authority_2 }
+			# }
+		}
+
+		can_pass = {
+			custom_tooltip = {
+				text = must_increment_aeluran_authority
+				has_realm_law = aeluran_realm_authority_1
+			}
+		}
+
+		pass_cost = {
+			# piety = {
+			# 	add = {
+			# 		if = {
+			# 			limit = {
+			# 				OR = {
+			# 					has_realm_law = aeluran_realm_authority_1
+			# 					has_realm_law = aeluran_realm_authority_2
+			# 				}
+			# 			}
+			# 			add = 1000
+			# 		}
+			# 	}
+			# }
+
+			prestige = {
+				add = {
+					if = {
+						limit = {
+							OR = {
+								has_realm_law = aeluran_realm_authority_0
+								has_realm_law = aeluran_realm_authority_1
+							}
+						}
+						add = 1000
+					}
+				}	
+			}
+		}
+		
+		on_pass = {
+			debug_log = "PASSED aeluran_realm_authority_2"
+
+			add_piety = 1000
+			add_legitimacy = 100
+
+			# ## Set cooldown
+			# set_variable = {
+			# 	name = admin_law_cooldown
+			# 	years = @admin_law_cooldown_value
+			# }
+		}
+
+		ai_will_do = {
+			if = {
+				limit = {
+					has_realm_law = aeluran_realm_authority_1
+					ai_has_economical_boom_personality = yes
+				}
+				value = 1
+			}
+		}
+	}
+}

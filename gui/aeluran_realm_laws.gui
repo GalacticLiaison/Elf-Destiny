@@ -1,0 +1,597 @@
+window = {
+    name = "aeluran_realm_laws"
+    size = { 280 48% }
+    parentanchor = top|right
+    position = { -610 40 }
+    allow_outside = yes
+    layer = middle
+	visible = "[And( IsGameViewOpen('my_realm'), GetPlayer.GetFaith.HasDoctrineByKey('tenet_aeluran_sisters') )]"
+
+    using = Window_Background
+    using = Window_Decoration
+
+
+    widget = {
+        allow_outside = yes
+		datamodel = "[AccessMyRealmWindow.GetRealmLaws]"
+		
+		item = {
+
+			vbox = {
+				position = { 40 30 }
+	
+				layoutpolicy_horizontal = expanding
+				datacontext = "[GuiLawGroup.GetLawGroup]"
+	
+				visible = "[And(And( GuiLawGroup.GetLawGroup.HasFlag( 'aeluran_realm_authority' ), GuiLawGroup.IsAvailable ), Not(GetPlayer.GetGovernment.IsType('landless_adventurer_government')))]"
+
+				text_label_center = {
+					text = "[LawGroup.GetName]"
+				}
+
+				# We have two versions of buttoms
+				# - one set that will toggle  the change law window
+				# - one that will not, for swapping between law options once window already opened.
+				vbox = {
+					datamodel = "[GuiLawGroup.GetLaws]"
+
+					spacing = 5
+					visible = "[Not(GetVariableSystem.Exists( 'aeluran_pass_law_window' ))]"
+					item = {
+						
+						aeluran_law_button = {
+
+							blockoverride "window_toggle_click"
+							{
+								onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+							}
+						}
+					}
+				}
+
+				vbox = {
+					datamodel = "[GuiLawGroup.GetLaws]"
+
+					spacing = 5
+					visible = "[GetVariableSystem.Exists( 'aeluran_pass_law_window' )]"
+					item = {
+						
+						aeluran_law_button = {
+
+							blockoverride "window_toggle_click"
+							{
+								# Do Nothing instead
+								# onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		aeluran_pass_law_window = { }
+    }
+}
+
+
+types aeluran_realm_law_types {
+
+	type aeluran_law_button = button_standard_clean {
+		layoutpolicy_horizontal = expanding
+		size = { 200 160 }
+
+		datacontext = "[GuiLaw.GetLaw]"
+		onclick = "[GetScriptedGui('set_considered_aeluran_law_change').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'considered_law', MakeScopeFlag( Concatenate( Concatenate( Concatenate(LawGroup.GetKey, '_'), GetString_int32(PdxGuiWidget.GetIndexInDataModel) ), '_key' ) ) ).End )]"
+		
+		block "window_toggle_click"
+		{
+			onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+		}
+
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
+
+			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)0'))]"
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
+
+			using = Mask_Rough_Edges
+
+
+			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)0'))]"
+
+			using = Color_Grey
+
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+				blend_mode = alphamultiply
+			}
+
+			modify_texture = {
+				texture = "gfx/interface/component_overlay/overlay_effect.dds"
+				blend_mode = overlay
+			}
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
+
+			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1'))]"
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
+
+			using = Mask_Rough_Edges
+
+
+			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1'))]"
+
+			using = Color_Grey
+
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+				blend_mode = alphamultiply
+			}
+
+			modify_texture = {
+				texture = "gfx/interface/component_overlay/overlay_effect.dds"
+				blend_mode = overlay
+			}
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+
+			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)2'))]"
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+
+
+			using = Mask_Rough_Edges
+
+
+			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)2'))]"
+
+			using = Color_Grey
+
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+				blend_mode = alphamultiply
+			}
+
+			modify_texture = {
+				texture = "gfx/interface/component_overlay/overlay_effect.dds"
+				blend_mode = overlay
+			}
+		}
+
+		tooltipwidget = { pass_law_tooltip = {} }
+
+
+		using = Background_Vignette_Button
+		using = Holding_Mouse_Entry
+
+		vbox = {
+
+			icon_button_decorative = {
+				size = { 60 60 }
+				enabled = "[Or(GuiLaw.CanEnact, GuiLaw.IsEnacted)]"
+
+				down = "[GuiLaw.IsEnacted]"
+				onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+
+				using = tooltip_below
+
+				icon_button_decorative = {
+					size = { 54 54 }
+					parentanchor = center
+					alwaystransparent = yes
+				}
+
+				button_icon = {
+					visible = "[Not(GuiLaw.IsEnacted)]"
+					# texture = "gfx/interface/icons/law/aeluran_authority_test_icon_2.dds"
+					# texture = "[aeluran_law_icon_file_path_0]"
+					texture = "[Law.GetIcon]"
+					# texture = "[Localize( 'aeluran_law_icon_file_path_0' )]"
+					parentanchor = center
+					size = { 42 42 }
+					alwaystransparent = yes
+				}
+
+				icon = {
+					visible = "[And( GuiLaw.IsEnacted , Not( GuiLaw.CanEnact ) )]"
+					texture = "[Law.GetIcon]"
+					parentanchor = center
+					size = { 42 42 }
+					alwaystransparent = yes
+
+					using = Master_Button_Modify_Texture
+
+					blockoverride "master_color_frame" {
+						frame = 2
+					}
+				}
+			}
+		}
+	}
+
+    type aeluran_pass_law_window = window {
+        name = "aeluran_pass_law_window"
+
+        visible = "[GetVariableSystem.Exists( 'aeluran_pass_law_window' )]"
+        parentanchor = top|right
+        position = { 0 100 }
+
+        size = { 1100 556 }
+        movable = yes
+        focuspolicy = click
+        allow_outside = yes
+
+        using = Window_Background_Subwindow
+
+        state = {
+            name = _show
+            using = Animation_FadeIn_Quick
+        }
+
+        state = {
+            name = _hide
+            using = Animation_FadeOut_Quick
+        }
+
+		# background = {
+		# 	# fittype = centercrop
+		# 	alpha = 1
+		# 	texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+
+		# 	modify_texture = {
+		# 		texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+		# 		blend_mode = alphamultiply
+		# 	}
+
+		# 	# modify_texture = {
+		# 	# 	texture = "gfx/interface/component_overlay/overlay_effect.dds"
+		# 	# 	blend_mode = overlay
+		# 	# }
+		# }
+
+		background = {
+			fittype = end
+			alpha = 1
+
+			
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
+
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_0' )]"
+
+			modify_texture = {
+				texture = "gfx/portraits/portrait_mask_event_letter.dds"
+
+				blend_mode = alphamultiply
+			}
+		}
+
+		background = {
+			fittype = end
+			
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
+
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_1' )]"
+			
+			modify_texture = {
+				# texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+				# texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+				# texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick_vertical.dds"
+				# texture = "gfx/interface/component_masks/mask_fade_textured_vertical_down.dds"
+				# texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+				# texture = "gfx/interface/component_masks/mask_fade_corner.dds"
+				# texture = "gfx/interface/component_masks/mask_seamless_torn_edge_horizontal.dds"
+				# texture = "gfx/interface/icons/map_coa/ally_icon.dds"
+				# texture = "gfx/interface/component_masks/mask_clouds.dds"
+				# texture = "gfx/interface/component_masks/mask_scratches.dds"
+				# texture = "gfx/interface/component_effects/effect_blue_shine.dds"
+				# texture = "gfx/interface/component_masks/mask_center_shimmer.dds"
+				# texture = "gfx/interface/component_masks/mask_clouds_solid.dds"
+				# texture = "gfx/interface/component_effects/effect_shimmer.dds"
+				texture = "gfx/portraits/portrait_mask_event_letter.dds"
+				# texture = "gfx/interface/frontend/fade_bg_ingame_menu.dds"
+				# texture = "gfx/interface/frontend/frontend_main_menu_bg_glow.dds"
+
+
+				# rotate_uv = 180
+				# translate_uv = { -0.05 0 }
+
+				blend_mode = alphamultiply
+			}
+		}
+
+		background = {
+			fittype = end
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_2' )]"
+			modify_texture = {
+				texture = "gfx/portraits/portrait_mask_event_letter.dds"
+				
+
+				blend_mode = alphamultiply
+			}
+		}
+        
+        widget = { # filters Scrollbox
+
+			datacontext = "[GetLaw(GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName)]"
+            allow_outside = yes
+			elf_finder_header_pattern = {
+				layoutpolicy_horizontal = expanding
+				name = "header"
+				size = { 1100 56 }
+                # size = { 728 416 }
+
+
+				blockoverride "header_text"
+				{
+					text = "CONFIRM_AELURAN_LAW_CHANGE"
+					# text = "[GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName]"
+				}
+				blockoverride "button_close"
+				{
+					onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+
+				}
+				blockoverride "reload_visible" {
+					visible = no
+				}
+			}
+
+			text_label_center = {
+				position = { 655 455 }
+				# visible = "[Not(GetPlayer.HasLiege)]"
+				# text = "aeluran_realm_authority_flavor_text_1"
+				text = "[Localize(Concatenate(GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName , '_flavor_text'))]"
+
+				# text = "TESTING"
+			}
+	
+			vbox = {
+				position = { 20 55 }
+
+				scrollbox = {
+					size = { 430 210 }
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					blockoverride "scrollbox_content" {
+						text_label_center = {	
+							text = "aeluran_law_bonus_header"
+						}
+
+						text_single = {		
+							text = "[Law.GetEffectDescription]"
+						}
+		
+					}
+
+				}
+
+				scrollbox = {
+					size = { 430 95 }
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					blockoverride "scrollbox_content" {
+						text_single = {	
+							text = "[Law.GetEnactEffectDescriptionForPlayer]"
+						}
+					}
+
+				}
+			}
+
+			vbox = {
+				position = { 25 370 }
+
+				hbox = {
+
+					background = {
+						using = Background_Area_ExtraDark
+
+
+						margin = { 6 6 }
+
+					}
+					
+
+					hbox = {
+						margin = { 10 0 }
+						spacing = 10
+						tooltip = "[OptionItem.GetTooltip]"
+						using = tooltip_below
+
+						datacontext = "[GetScriptedGui('aeluran_law_change_red_sister_hook')]"
+						
+						button_checkbox = {
+							size = { 30 30 }
+
+
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+							enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+							tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+
+						}
+	
+						text_single = {
+							text = "[GetPlayer.Custom('Aeluran_Law_Change_Advisor_Hook')]"
+							align = nobaseline
+						}
+	
+					}
+	
+					hbox = {
+						# layoutpolicy_horizontal = expanding
+						margin = { 10 0 }
+						spacing = 10
+						tooltip = "[OptionItem.GetTooltip]"
+						using = tooltip_below
+
+						datacontext = "[GetScriptedGui('aeluran_law_change_matriarch_hook')]"
+						
+						button_checkbox = {
+							size = { 30 30 }
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+							enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+							tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+							
+						}
+	
+						text_single = {
+							text = "[GetPlayer.Custom('Aeluran_Law_Change_Matriarch_Hook')]"
+							align = nobaseline
+						}
+	
+					}
+				}
+
+				spacer = {
+					size = { 10 5 }
+				}
+
+				aeluran_law_acceptance = {
+					layoutpolicy_horizontal = expanding
+	
+					margin_bottom = 8
+					tooltip = "aeluran_law_acceptance_score_tooltip"
+	
+					blockoverride "button_content" {
+						name = "tutorial_highlight_send_proposal_button"
+						text = "aeluran_change_law_button_text"
+					}
+				}
+
+				text_label_center = {	
+					text = aeluran_law_cost
+				}
+			}
+
+
+			button_primary = {
+				size = { 400 42 }
+				position = { 40 490 }
+				name = "confirm_aeluran_law_change_button"
+				text = "aeluran_change_law_button_text"
+				layoutpolicy_horizontal = expanding
+				datacontext = "[GetScriptedGui('aeluran_law_change')]"
+
+				# enabled = "[GreaterThan_int32( FixedPointToInt(GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')), '(int32)0' )]"
+				enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+
+				onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				onclick = "[GetVariableSystem.Toggle( 'aeluran_pass_law_window' )]"
+
+				tooltip = "[ScriptedGui.BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End)]"
+				clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_confirm"
+			}
+        }
+    }
+
+	type aeluran_law_acceptance = hbox {
+		name = "acceptance"
+		visible = "[CharacterInteractionConfirmationWindow.ShouldShowAnswer]"
+
+		widget = {
+			name = "answer_chance"
+			size = { 330 46 }
+			tooltip = "[CharacterInteractionConfirmationWindow.GetAnswerReason]"
+
+			background = {
+				using = Background_Area_Dark
+			}
+
+			hbox = {
+				visible = "[Not( CharacterInteractionConfirmationWindow.IsForcedToAccept )]"
+				parentanchor = center
+				layoutpolicy_horizontal = expanding
+				maximumsize = { 330 46 }
+				margin = { 16 0 }
+				spacing = 4
+
+				expand = {}
+
+				icon = {
+					texture = "gfx/interface/icons/symbols/icon_cross.dds"
+					size = { 30 30 }
+					visible = "[Not(GreaterThan_int32( FixedPointToInt(GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')), '(int32)0' ) )]"
+				}
+
+				icon = {
+					texture = "gfx/interface/icons/symbols/icon_check.dds"
+					size = { 30 30 }
+					visible = "[GreaterThan_int32( FixedPointToInt(GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')), '(int32)0' )]"
+				}
+
+				text_single = {
+					name = "answer_accept"
+					text = "aelurans_will_accept"
+					visible = "[GreaterThan_int32( FixedPointToInt(GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')), '(int32)0' )]"
+					using = Font_Size_Medium
+					align = nobaseline
+				}
+
+				text_single = {
+					name = "answer_refusal"
+					text = "aelurans_will_refuse"
+					visible = "[Not( GreaterThan_int32( FixedPointToInt(GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')), '(int32)0' ) )]"
+
+					using = Font_Size_Medium
+					align = nobaseline
+				}
+
+				text_single = {
+					name = "answer_score"
+
+					text = "AELURAN_LAW_PASS_ACCEPTANCE_SCORE"
+					using = Font_Size_Medium
+					align = nobaseline
+				}
+
+				expand = {}
+			}
+
+			progressbar_standard = {
+				position = { 0 3 }
+				size = { 324 10 }
+				parentanchor = bottom|hcenter
+				visible = "[And( And( CharacterInteractionConfirmationWindow.IsAiMaybe, Not( CharacterInteractionConfirmationWindow.GetRecipient.IsPlayer ) ), Or( Not( CharacterInteractionConfirmationWindow.IsAiAcceptNegotiation ), GreaterThan_int32( CharacterInteractionConfirmationWindow.GetAnswerScore, '(int32)0' ) ) )]"
+				value = "[CharacterInteractionConfirmationWindow.GetAnswerProgress]"
+			}
+		}
+	}
+
+}

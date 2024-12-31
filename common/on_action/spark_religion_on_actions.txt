@@ -3,7 +3,8 @@
 # scope:old_faith is the faith they used to have
 on_faith_created = {
     on_actions = {
-        remove_free_reformation_modifier 
+        remove_free_reformation_modifier
+		reset_high_matriarch
     } 
 }
 
@@ -51,6 +52,19 @@ remove_free_reformation_modifier = {
 					set_character_faith = root.faith
 				}
 			}
+		}
+	}
+}
+
+reset_high_matriarch = {
+	trigger = {
+		root.faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+	}
+	effect = {
+		root.faith = {
+			set_religious_head_title = title:d_high_matriarch
 		}
 	}
 }

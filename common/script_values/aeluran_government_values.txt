@@ -39,3 +39,198 @@ percentage_of_aeluran_vassals = {
 		multiply = 100
 	}
 }
+
+aeluran_law_pass_acceptance_score = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				exists = cp:councillor_aeluran_advisor
+			}
+
+			add = cp:councillor_aeluran_advisor.opinion_law_pass_acceptance_score_value
+		}
+
+		if = {
+			limit = {
+				exists = global_var:high_matriarch
+			}
+
+			add = global_var:high_matriarch.opinion_law_pass_acceptance_score_value
+		}
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_red_sister_hook
+				var:considered_aeluran_law_red_sister_hook = yes
+			}
+
+			if = {
+				limit = {
+					has_strong_hook = cp:councillor_aeluran_advisor
+				}
+
+				add = 100
+			}
+			else_if = {
+				limit = {
+					has_hook = cp:councillor_aeluran_advisor
+				}
+
+				add = 50
+			}
+
+			
+		}
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_matriarch_hook
+				var:considered_aeluran_law_matriarch_hook = yes
+			}
+
+			if = {
+				limit = {
+					has_strong_hook = global_var:high_matriarch
+				}
+
+				add = 999
+			}
+			else_if = {
+				limit = {
+					has_hook = global_var:high_matriarch
+				}
+				add = 75
+			}
+
+		}
+
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law
+			}
+
+			if = {
+				limit = {
+					var:considered_aeluran_law = flag:aeluran_realm_authority_1_key
+					has_realm_law = aeluran_realm_authority_0
+				}
+				add = 999
+			}
+		}
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law
+			}
+
+			if = {
+				limit = {
+					var:considered_aeluran_law = flag:aeluran_realm_authority_2_key
+					OR = {
+						has_realm_law = aeluran_realm_authority_0
+						has_realm_law = aeluran_realm_authority_1
+					}
+				}
+				add = 999
+			}
+		}
+	}
+}
+
+opinion_law_pass_acceptance_score_value = {
+	value = 0
+	add = {
+		if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= very_high_positive_opinion
+				}
+			}
+
+			add = 20
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= high_positive_opinion
+				}
+			}
+
+			add = 15
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= medium_positive_opinion
+				}
+			}
+
+			add = 10
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= low_positive_opinion
+				}
+			}
+
+			add = 5
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= neutral_opinion
+				}
+			}
+
+			add = 0
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= low_negative_opinion
+				}
+			}
+
+			add = -30
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= medium_negative_opinion
+				}
+			}
+
+			add = -50
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= high_negative_opinion
+				}
+			}
+
+			add = -60
+		}
+		else_if = {
+			limit = {
+				opinion = {
+					target = root
+					value >= very_high_negative_opinion
+				}
+			}
+
+			add = -75
+		}
+	}
+}
