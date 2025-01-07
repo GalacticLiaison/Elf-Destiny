@@ -94,8 +94,8 @@ Heldrin =>
     Fera
 
 seperate line
-*Nic'theras of House Skyreaver
-Arandur Skyreaver (younger brother)
+*Nic'theras of House Thundarael
+Arandur Thundarael (younger brother)
 
 Elysia Amaranthel (Aunt)
 
