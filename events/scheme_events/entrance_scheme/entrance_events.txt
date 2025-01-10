@@ -1288,7 +1288,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 	}
 	lower_center_portrait = {
 		character = scope:victim
-		animation = throne_room_kneel_2
+		animation = begging
 	}
 
 	immediate = {
@@ -1403,7 +1403,7 @@ entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 	}
 	right_portrait = {
 		character = root
-		animation = throne_room_kneel_2
+		animation = begging
 	}
 	immediate = {
 		scope:victim = {
@@ -1475,3 +1475,146 @@ entrance.1200 = { # Evolve to Enchantress
 	}
 }
 
+entrance.1300 = { # regular scheme entrancement outside of activities made for ai
+	hidden = yes
+	immediate = {
+		debug_log = "yo momma is ugly and i must have this for an event"
+		scope:recipient = {
+			trigger_event = entrance.1301
+		}	
+	}
+}
+entrance.1301 = {# victim is being informed of impending battle of wills
+	type = character_event
+	title = entrance.1301.title
+	desc = entrance.1301.desc
+	theme = unfriendly
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:recipient
+		animation = anger
+	}
+	option = { # Attempt Entrance
+		name = entrance.1301.a
+		# flavor = entrance_flavor
+		flavor = entrance_modifiers_desc
+		# custom_label
+
+		if = {
+			limit = {
+				AND = {
+					exists = root
+					exists = scope:recipient
+				}
+			}
+			
+			attempt_to_entrance_character_effect = {
+				ENTRANCER = root
+				VICTIM = scope:recipient
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:entrance_successful
+				scope:entrance_successful = yes
+			}
+			trigger_event = entrance.1302
+		}
+		else = {
+			trigger_event = entrance.1303
+		}
+	}
+}
+
+entrance.1302 = { # victim has been entranced
+	type = character_event
+	title = entrance.1302.title
+	desc = entrance.1302.desc
+	theme = unfriendly
+	left_portrait = {
+		# scope:activity.special_guest:honorary_guest
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:recipient
+		animation = begging
+	}
+
+	immediate = {
+		add_hook = {
+			target = scope:recipient
+			type = entranced
+		}
+
+		scope:recipient = {
+			set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+			}
+
+			add_trait = entranced
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_variable = successful_entrances
+				}
+			}
+			set_variable = {
+				name = successful_entrances 
+				value = 1
+			}
+		}
+		else = {
+			change_variable = {name = successful_entrances add = 1}
+		}
+	}
+
+	option = { 
+		name = entrance.1302.a
+
+		if = {
+			limit = {
+				var:successful_entrances >= 3
+				has_trait = seducer
+			}
+			trigger_event = entrance.1200
+		}
+	}
+
+}
+
+entrance.1303 = {# the victim has escaped from entrancement
+	type = character_event
+	title = entrance.1303.title
+	desc = entrance.1303.desc
+	theme = unfriendly
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:recipient
+		animation = war_attacker
+	}
+
+	immediate = {
+		scope:victim = {
+			set_relation_rival = {
+				target = root
+				reason = tried_to_entrance
+			}
+		}
+	}
+
+	option = { 
+		name = entrance.1303.a
+	}
+}
