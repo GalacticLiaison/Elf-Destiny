@@ -682,9 +682,9 @@ entrance_ai_interaction = {
 	icon = icon_scheme_entrance
 	category = interaction_category_friendly
 	interface_priority = 90
-	scheme = entrance
+	cooldown = { months = 8 }
+	cooldown_against_recipient = { years = 3 }
 
-	send_name = START_SCHEME
 	ignores_pending_interaction_block = yes
 	
 	ai_targets = {
@@ -725,7 +725,7 @@ entrance_ai_interaction = {
 
 		scope:actor = {
 			AND = {
-				is_ai = yes
+				is_ai = no
 				culture = {
 					has_cultural_parameter = entrance_scheme_unlocked
 				}	
@@ -876,51 +876,56 @@ entrance_ai_interaction = {
 	}
 
 	desc = entrance_interaction_tt_entrance_approved
+	auto_accept = yes
 
 	on_accept = {
 		debug_log = "Accepted Entrance intereaction"
-		scope:actor = trigger_event = {entrance.1300}
+			scope:actor = {
+				trigger_event = entrance.1300
+			}
+	
+			
+			# seduce_interaction_stress_effect = yes
+
+			# hidden_effect = {
+			# 	scope:actor = {
+			# 		send_interface_toast = {
+			# 			title = seduce_interaction_notification
+
+			# 			left_icon = scope:actor					
+			# 			right_icon = scope:recipient
+
+			# 			start_scheme = {
+			# 				type = entrance
+			# 				target = scope:recipient
+			# 			}
+
+			# 			show_as_tooltip = { seduce_interaction_stress_effect = yes }
+			# 		}
+			# 		# if = {
+			# 		# 	limit = {
+			# 		# 		has_trait = education_intrigue_5
+			# 		# 	}
+			# 		# 	random_scheme = {
+			# 		# 		limit = {
+			# 		# 			scheme_type = entrance
+			# 		# 			scheme_target = scope:recipient
+			# 		# 		}
+			# 		# 		add_scheme_progress = 3
+			# 		# 	}
+			# 		# }
+			# 	}
+			# }
+			# scope:actor = {
+			# 	if = {
+			# 		limit = {
+			# 			NOT = { is_attracted_to_gender_of = scope:recipient }
+			# 		}
+			# 		custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
+			# 	}
+			# }
 		
-		# seduce_interaction_stress_effect = yes
-
-		# hidden_effect = {
-		# 	scope:actor = {
-		# 		send_interface_toast = {
-		# 			title = seduce_interaction_notification
-
-		# 			left_icon = scope:actor					
-		# 			right_icon = scope:recipient
-
-		# 			start_scheme = {
-		# 				type = entrance
-		# 				target = scope:recipient
-		# 			}
-
-		# 			show_as_tooltip = { seduce_interaction_stress_effect = yes }
-		# 		}
-		# 		# if = {
-		# 		# 	limit = {
-		# 		# 		has_trait = education_intrigue_5
-		# 		# 	}
-		# 		# 	random_scheme = {
-		# 		# 		limit = {
-		# 		# 			scheme_type = entrance
-		# 		# 			scheme_target = scope:recipient
-		# 		# 		}
-		# 		# 		add_scheme_progress = 3
-		# 		# 	}
-		# 		# }
-		# 	}
-		# }
-		# scope:actor = {
-		# 	if = {
-		# 		limit = {
-		# 			NOT = { is_attracted_to_gender_of = scope:recipient }
-		# 		}
-		# 		custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
-		# 	}
-		# }
-	}
+	}	
 	
 	ai_potential = {
 		is_adult = yes
@@ -949,7 +954,7 @@ entrance_ai_interaction = {
 		might_cheat_on_every_partner_trigger = yes
 	}
 	
-	auto_accept = yes
+	
 	
 	ai_will_do = {
 		base = 5
@@ -1033,7 +1038,7 @@ entrance_ai_interaction = {
 		}
 
 		modifier = { # has trait seducer or enchanter
-			add = 50
+			add = 75
 			scope:actor = {
 				OR = {
 					has_trait = seducer
