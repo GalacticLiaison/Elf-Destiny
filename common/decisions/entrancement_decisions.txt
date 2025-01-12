@@ -18,21 +18,31 @@
 	# ai_check_interval = 4
 
 	is_shown = {
-		OR = {
-			has_trait = entranced
-			is_ai = no
-		}	
+		has_trait = entranced	
 	}
 	
 	# Following conditions must be true to take decision, shown in requirements section
 	is_valid = {
-		OR= {
-			has_trait = entranced
-			is_ai = no			
-		}
+		has_trait = entranced		
 	}
 
 	effect = {
-		trigger_event = { id = entrance.1160 }
+		save_scope_as = actor
+		
+		any_character = {
+			if = {
+				limit = {
+					has_hook = {
+						target = scope:actor
+						type = entranced
+					}
+				}		
+			}
+		    save_scope_as = recipient
+		}
+
+		trigger_event = { 
+			id = entrance.1160
+		}	
 	}
 }
