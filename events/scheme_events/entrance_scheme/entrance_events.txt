@@ -1179,6 +1179,56 @@ entrance.1100 = { # Convert to Enthralled
 	}
 }
 
+entrance.1101 = { # Convert to Enthralled victim perspective
+	type = character_event
+	title = entrance.1101.title
+	desc = entrance.1101.desc
+
+	theme = seduction
+	left_portrait = {
+		character = scope:recipient
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = root
+		animation = beg
+	}
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:target
+			}
+
+			scope:target = {
+				remove_trait = entranced
+			}
+
+			custom_tooltip = {
+				text = converted_to_enthralled
+			}
+
+			scope:target = {
+				add_trait = enthralled
+			}
+
+			scope:entrancer = {
+				
+				remove_hook = {
+					target = scope:target
+				}
+				add_hook = {
+					type = enthralled
+					target = scope:target
+				}
+			}
+		}
+	}
+
+	option = {
+		name = entrance.1101.a
+	}
+}
+
 entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 	type = character_event
 	title = entrance.1150.title
@@ -1256,7 +1306,7 @@ entrance.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Succe
 	}
 	lower_center_portrait = {
 		character = scope:victim
-		animation = war_attacker
+		animation = war_defender
 	}
 
 	immediate = {
@@ -1284,7 +1334,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 
 	right_portrait = {
 		character = root
-		animation = AI_bold
+		animation = personality_bold
 	}
 	lower_center_portrait = {
 		character = scope:victim
@@ -1448,7 +1498,7 @@ entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 			scope:victim = {
 				save_scope_as = target
 			}
-			trigger_event = entrance.1100
+			trigger_event = entrance.1101
 		}
 	}
 }
