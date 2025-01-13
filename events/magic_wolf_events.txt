@@ -1,0 +1,191 @@
+namespace = wolf_invader 
+
+wolf_invader.0001 = { #Strange Reports
+    type = character_event
+    title = wolf_invader.0001.title
+    desc = wolf_invader.0001.desc
+    theme = martial
+    immediate = {
+        debug_log = "strange reports event 0001"
+        save_scope_as = actor
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+
+    option = {
+        name = wolf_invader.0001.a
+        trigger_event = { 
+            id = wolf_invader.0002
+            days = 4
+        }    
+    }
+}
+
+wolf_invader.0002 = { #Sighting of wolf in county
+    type = character_event
+    title = wolf_invader.0002.title
+    desc = wolf_invader.0002.desc
+    theme = martial
+    immediate = {
+        debug_log = "sighting of the wolf event 0002"
+        save_scope_as = scope:actor
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+    
+    option = {
+        name = wolf_invader.0002.a
+        trigger_event = {
+            id = wolf_invader.0003
+            days = 3
+        }
+    }    
+}
+
+wolf_invader.0003 = {
+    type = character_event
+    title = wolf_invader.0003.title
+    desc = wolf_invader.0003.desc
+    theme = martial
+
+    immediate = {
+        debug_log = "negative economic penalties"
+        any_character = {
+            is_courtier_of = scope:actor
+            prowess = >= 20
+            age = <= 16
+            save_scope_as = wolfslayer
+        }
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_bold
+    }
+
+    option = { #ignoring the wolf
+        name = wolf_invader.0003.a
+        trigger_event = {
+            id = wolf_invader.0004
+            months = { 48 72 }
+        }
+    }
+
+    option = { #going on a hunt
+        name = wolf_invader.0003.b
+        trigger_event = {
+            id = wolf_invader.0005
+            days = 15
+        }
+    }
+}
+
+wolf_invader.0004 = { #some random bloke kills le wolf
+    type = character_event
+    title = wolf_invader.0004.title
+    desc = wolf_invader.0004.desc
+    theme = martial
+    
+    left_portrait = {
+        character = root
+        animation = personality_happy
+    }
+    right_portrait = {
+        character = scope:wolfslayer
+        animation = personality_bold
+    }
+
+    immediate = {
+        debug_log = "some random fellow just killed the fake wolf"
+        scope:wolfslayer = {
+            if = {
+                limit = {
+                    is_alive = no
+                }
+                scope:actor = {
+                    any_character = {
+                        is_courtier_of = scope:actor
+                        prowess = >= 20
+                        age = <= 16
+                        save_scope_as = wolfslayer
+                    }
+                }
+            }
+        }
+    }
+
+    option = {
+        name = wolf_invader.0004.a
+        trigger_event = {
+            id = wolf_invader.0001
+            months = { 48 72 }
+        }
+    }
+}
+
+wolf_invader.0005 = {#hunt underway
+    type = character_event
+    title = wolf_invader.title.0005
+    desc = wolf_invader.0005.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player is going on a hunt"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_knife_start
+    }
+
+    option = {
+        name = wolf_invader.0005.a
+        trigger_event = {
+            wolf_invader.0006
+            days = 28
+        }
+    }
+}
+
+wolf_invader.0006 = {#wolf encounter
+    type = character_event
+    title = wolf_invader.title.0006
+    desc = wolf_invader.0006.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player encounters the wolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_knife_start
+    }
+
+    option = { 
+        name = wolf_invader.0006.a
+        random_list = {
+            50 = {# wolf is engaged
+                character_event = {
+                    id = wolf_invader.0007
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = lifestyle_hunter
+                }
+            }
+
+            50 = {#wolf evasion
+                character_event = {
+                    id = wolf_invader.0061
+                }  
+            }    
+        }
+    }
+}
