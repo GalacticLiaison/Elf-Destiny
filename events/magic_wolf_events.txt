@@ -1,0 +1,135 @@
+namespace = wolf_invader 
+
+wolf_invader.0001 = { #Strange Reports
+    type = character_event
+    title = wolf_invader.0001.title
+    desc = wolf_invader.0001.desc
+    theme = martial
+    immediate = {
+        debug_log = "strange reports event 0001"
+        save_scope_as = actor
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+
+    option = {
+        name = wolf_invader.0001.a
+        trigger_event = { 
+            id = wolf_invader.0002
+            days = 4
+        }    
+    }
+}
+
+wolf_invader.0002 = { #Sighting of wolf in county
+    type = character_event
+    title = wolf_invader.0002.title
+    desc = wolf_invader.0002.desc
+    theme = martial
+    immediate = {
+        debug_log = "sighting of the wolf event 0002"
+
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+    
+    option = {
+        name = wolf_invader.0002.a
+        trigger_event = {
+            id = wolf_invader.0003
+            days = { 3 }
+    }
+}
+
+wolf_invader.0003 = { #Negative effects on county economy 
+    type = character_event
+    title = wolf_invader.0003.title
+    desc = wolf_invader.0003.desc
+    theme = martial
+    immediate = {
+        debug_log = "negative economy effects 0003"
+        scope:actor = {    
+            scope:capital_county = {
+                add_county_modifier = {
+                    wolf_terror_modifier
+                    months = 8
+                }
+            }
+        }    
+    }
+
+    #scope:actor = {    
+    #    scope:capital_county = {
+    #        add_county_modifier = {
+    #            wolf_terror_modifier
+    #            months = 8
+    #        }
+    #    }
+    #}
+
+    left_portrait = {
+        character = root
+        animation = anger
+    }
+    any_character = {
+        limit = {
+            is_courtier_of = {
+                scope:actor
+            }
+            age = <40
+            prowess = >10  
+        }
+        save_scope_as = wolfslayer
+    }
+
+    
+    option = { #host a hunt
+        name = wolf_invader.0003.a
+        trigger_event = { 
+            id = wolf_invader.0005
+            days = { 20 }
+        }    
+    }
+    
+    option = { #ignoring le wolf
+        name = wolf_invader.0003.b
+        trigger_event = {
+            id = wolf_invader.0004
+            months = { 24 72 }
+        }
+    }
+}
+
+wolf_invader.0004 = { #some random bloke kills le wolf
+    type = character_event
+    title = wolf_invader.0004.title
+    desc = wolf_invader.0004.desc
+    theme = martial
+    
+    left_portrait = {
+        character = root
+        animation = personality_happy
+    }
+    #right_portrait = {
+    #    character = scope:wolfslayer
+    #    animation = personality_bold
+    #}
+
+    immediate = {
+        debug_log = "some random fellow just killed the fake wolf"
+    }
+
+    option = {
+        name = wolf_invader.0004.a
+        trigger_event = {
+            id = wolf_invader.0001
+            months = { 48 72 }
+        }
+    }
+}
