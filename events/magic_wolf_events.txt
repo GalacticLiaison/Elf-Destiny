@@ -1,0 +1,367 @@
+namespace = wolf_invader 
+
+wolf_invader.0001 = { #Strange Reports
+    type = character_event
+    title = wolf_invader.0001.title
+    desc = wolf_invader.0001.desc
+    theme = martial
+    immediate = {
+        debug_log = "strange reports event 0001"
+        save_scope_as = actor
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+
+    option = {
+        name = wolf_invader.0001.a
+        trigger_event = { 
+            id = wolf_invader.0002
+            days = 4
+        }    
+    }
+}
+
+wolf_invader.0002 = { #Sighting of wolf in county
+    type = character_event
+    title = wolf_invader.0002.title
+    desc = wolf_invader.0002.desc
+    theme = martial
+    immediate = {
+        debug_log = "sighting of the wolf event 0002"
+        save_scope_as = scope:actor
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_martial
+    }
+    
+    option = {
+        name = wolf_invader.0002.a
+        trigger_event = {
+            id = wolf_invader.0003
+            days = 3
+        }
+    }    
+}
+
+wolf_invader.0003 = { #negative economic penalties
+    type = character_event
+    title = wolf_invader.0003.title
+    desc = wolf_invader.0003.desc
+    theme = martial
+
+    immediate = {
+        debug_log = "negative economic penalties"
+        root = {
+            capital_county = {
+                add_county_modifier = {
+                    modifier = wolf_terror_modifier
+                    days = 200
+                }
+            }
+        }
+        
+        any_character = {
+            is_courtier_of = scope:actor
+            prowess = >= 20
+            age = <= 16
+            save_scope_as = wolfslayer
+        }
+    }
+
+    
+
+
+    left_portrait = {
+        character = root
+        animation = personality_bold
+    }
+
+    option = { #ignoring the wolf
+        name = wolf_invader.0003.a
+        trigger_event = {
+            id = wolf_invader.0004
+            months = { 48 72 }
+        }
+    }
+
+    option = { #going on a hunt
+        name = wolf_invader.0003.b
+        trigger_event = {
+            id = wolf_invader.0005
+            days = 15
+        }
+    }
+}
+
+wolf_invader.0004 = { #some random bloke kills le wolf
+    type = character_event
+    title = wolf_invader.0004.title
+    desc = wolf_invader.0004.desc
+    theme = martial
+    
+    left_portrait = {
+        character = root
+        animation = personality_happy
+    }
+    right_portrait = {
+        character = scope:wolfslayer
+        animation = personality_bold
+    }
+
+    immediate = {
+        debug_log = "some random fellow just killed the fake wolf"
+        scope:wolfslayer = {
+            if = {
+                limit = {
+                    is_alive = no
+                }
+                scope:actor = {
+                    any_character = {
+                        is_courtier_of = scope:actor
+                        prowess = >= 20
+                        age = <= 16
+                        save_scope_as = wolfslayer
+                    }
+                }
+            }
+        }
+    }
+
+    option = {
+        name = wolf_invader.0004.a
+        trigger_event = {
+            id = wolf_invader.0001
+            months = { 48 72 }
+        }
+    }
+}
+
+wolf_invader.0005 = {#hunt underway
+    type = character_event
+    title = wolf_invader.title.0005
+    desc = wolf_invader.0005.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player is going on a hunt"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_knife_start
+    }
+
+    option = {
+        name = wolf_invader.0005.a
+        trigger_event = {
+            wolf_invader.0006
+            days = 28
+        }
+    }
+}
+
+wolf_invader.0006 = {#wolf encounter
+    type = character_event
+    title = wolf_invader.title.0006
+    desc = wolf_invader.0006.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player encounters the wolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_knife_start
+    }
+
+    option = { 
+        name = wolf_invader.0006.a
+        random_list = {
+            50 = {# wolf is engaged
+                character_event = {
+                    id = wolf_invader.0007
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = lifestyle_hunter
+                }
+                modifier = {
+                    factor = 1.5
+                    has_trait = intellect_good_1
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = intellect_good_2
+                }
+                modifier = {
+                    factor = 3
+                    has_trait = intellect_good_3
+                }
+            }
+
+            50 = {#wolf evasion
+                character_event = {
+                    id = wolf_invader.0061
+                }  
+            }    
+        }
+    }
+}
+
+wolf_invader.0061 = { #the wolf evades the hunter
+    type = character_event
+    title = wolf_invader.0061.title
+    desc = wolf_invader.0061.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "wolf evades the hunter"
+    }
+
+    left_portrait = {
+        character = root
+        animation = anger
+    }
+
+    option = {
+        name = wolf_invader.0061.a
+        trigger_event = {
+            id = wolf_invader.0062
+            days = { 30 90 }
+        }
+    }
+}
+
+wolf_invader.0062 = {#wolf causes even more destruction
+    type = character_event
+    title = wolf_invader.0062.title
+    desc = wolf_invader.0062.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "wolf causes even more destruction"
+        root = {
+            capital_county = {
+                add_county_modifier = {
+                    modifier = wolf_terror_modifier
+                    days = 200
+                }
+            }
+        }
+    }
+
+    left_portrait = {
+        character = root
+        animation = rage
+    }
+
+    option = {
+        name = wolf_invader.0062.a
+        trigger_event = {# going on a hunt ( again )
+            id = wolf_invader.0005
+            days = 30
+        }
+    }
+}
+
+wolf_invader.0007 = {#wolf is intercepted and engaged by party
+    type = character_event
+    title = wolf_invader.0007.title
+    desc = wolf_invader.0007.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "wolf is being engaged by party"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_longbow
+    }
+
+    option = { #letting the wolf escape
+        name = wolf_invader.0007.a
+        custom_tooltip = {
+            text = better_if_warg
+        }
+        trigger_event = {
+            id = wolf_invader.0008
+            days = { 40 80 }
+        }
+    }
+}
+
+wolf_invader.0008 = {#wolf is encountered peacefully by player
+    type = character_event
+    title = wolf_invader.0008.title
+    desc = wolf_invader.0008.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "wolf is encountered peacefully by player"
+    }
+
+    left_portrait = {
+        character = root
+        animation = stayback
+    }
+
+    option = {
+        name = wolf_invader.0008.a
+        if = {
+            limit = { 
+                has_trait = warg
+            }
+            trigger_event = wolf_invader.00081
+        }
+        else = {
+            trigger_event = wolf_invader.00082
+        }
+    }
+}
+
+wolf_invader.00081 = {#player is a warg and tames the mother
+    type = character_event
+    title = wolf_invader.00081.title
+    desc = wolf_invader.00081.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player is a warg and tames the mother"
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.00081.a
+    }
+}
+
+wolf_invader.00082 = {#player isnt a warg and is gifted a pup
+    type = character_event
+    title = wolf_invader.00082.title
+    desc = wolf_invader.00082.desc
+    theme = hunt_activity
+
+    immediate = {
+        debug_log = "player is not a warg and is gifted a pup"
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.00082.a
+    }
+}
