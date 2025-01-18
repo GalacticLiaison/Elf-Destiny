@@ -4,6 +4,11 @@ three_year_playable_pulse = {
     }
     
 }
+on_death = {
+    on_actions = { 
+        lost_a_duel
+    }
+}
 
 wolf_invader = {
     trigger = {
@@ -18,3 +23,21 @@ wolf_invader = {
         trigger_event = wolf_invader.0001
     }
 }
+
+lost_a_duel = { 
+    trigger = { 
+        is_ai = no
+        has_character_flag = killed_by_direwolf
+    }
+    effect = { 
+        primary_heir = { 
+            add_character_flag = killed_by_direwolf
+            trigger_event = { 
+                id = wolf_invader.201
+                #years = { 2 5 }
+                days = 3
+            }
+        }
+    }
+}
+

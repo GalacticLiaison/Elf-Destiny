@@ -31,7 +31,6 @@ wolf_invader.0002 = { #Sighting of wolf in county
     theme = martial
     immediate = {
         debug_log = "sighting of the wolf event 0002"
-        save_scope_as = scope:actor
     }
 
     left_portrait = {
@@ -56,18 +55,18 @@ wolf_invader.0003 = { #negative economic penalties
 
     immediate = {
         debug_log = "negative economic penalties"
-        root = {
-            capital_county = {
-                add_county_modifier = {
-                    modifier = wolf_terror_modifier
-                }
+        capital_county = {
+            add_county_modifier = {
+                modifier = wolf_terror_modifier
             }
         }
         
         any_character = {
-            is_courtier_of = scope:actor
-            prowess = >= 20
-            age = >= 16
+            limit = { 
+                is_courtier_of = scope:actor
+                prowess = >= 20
+                age = >= 16
+            }
             save_scope_as = wolfslayer
         }
     }
@@ -116,21 +115,19 @@ wolf_invader.0004 = { #some random bloke kills le wolf
                 limit = {
                     is_alive = no
                 }
-                scope:actor = {
-                    any_character = {
+                any_character = {
+                    limit = { 
                         is_courtier_of = scope:actor
                         prowess = >= 20
                         age = <= 16
-                        save_scope_as = wolfslayer
                     }
+                    save_scope_as = wolfslayer
                 }
             }
         }
 
-        root = {
-            capital_county = {
-                remove_county_modifier = wolf_terror_modifier
-            }
+        capital_county = {
+            remove_county_modifier = wolf_terror_modifier
         }
     }
 
@@ -186,7 +183,7 @@ wolf_invader.0006 = {#wolf encounter
         name = wolf_invader.0006.a
         random_list = {
             50 = {# wolf is engaged
-                character_event = {
+                trigger_event = {
                     id = wolf_invader.0007
                 }
                 modifier = {
@@ -213,7 +210,7 @@ wolf_invader.0006 = {#wolf encounter
             }
 
             50 = {#wolf evasion
-                character_event = {
+                trigger_event = {
                     id = wolf_invader.0061
                 }  
             }    
@@ -253,11 +250,9 @@ wolf_invader.0062 = {#wolf causes even more destruction
 
     immediate = {
         debug_log = "wolf causes even more destruction"
-        root = {
-            capital_county = {
-                remove_county_modifier = wolf_terror_modifier
-                add_county_modifier = wolf_terror_bad_modifier
-            }
+        capital_county = {
+            remove_county_modifier = wolf_terror_modifier
+            add_county_modifier = wolf_terror_bad_modifier
         }
     }
 
@@ -274,7 +269,7 @@ wolf_invader.0062 = {#wolf causes even more destruction
     }
 }
 
-wolf_invader.0007 = {#wolf is intercepted and engaged by hunting party
+wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
     type = character_event
     title = wolf_invader.0007.title
     desc = wolf_invader.0007.desc
@@ -302,6 +297,9 @@ wolf_invader.0007 = {#wolf is intercepted and engaged by hunting party
 
     option = { #fighting the wolf with the party
         name = wolf_invader.0007.b
+        custom_tooltip = { 
+            text = better_odds_to_succeed
+        }
         trigger_event = {
             id = wolf_invader.99
         }
@@ -309,10 +307,13 @@ wolf_invader.0007 = {#wolf is intercepted and engaged by hunting party
 
     option = { #fighting the wolf alone
         name = wolf_invader.0007.c
+        custom_tooltip = { 
+            text = better_rewards
+        }
         trigger_event = {
             id = wolf_invader.98
         }
-    }
+    }    
 }
 
 wolf_invader.0008 = {#wolf is encountered peacefully by player
@@ -323,17 +324,27 @@ wolf_invader.0008 = {#wolf is encountered peacefully by player
 
     immediate = {
         debug_log = "wolf is encountered peacefully by player"
-        root = {
-            capital_county = {
-                remove_county_modifier = {
-                     modifier = wolf_terror_bad_modifier
-                }
-                
-                remove_county_modifier = {
-                     modifier = wolf_terror_modifier
+        if = {
+            limit = {
+                capital_county = {
+                    has_county_modifier = wolf_terror_modifier
                 }
             }
+            remove_county_modifier = {
+                modifier = wolf_terror_modifier
+            }
         }
+        if = {
+            limit = {
+                capital_county = {
+                    has_county_modifier = wolf_terror_bad_modifier
+                }
+            }
+            remove_county_modifier = {
+                modifier = wolf_terror_bad_modifier
+            }
+        }
+        
     }
 
     left_portrait = {
@@ -397,12 +408,13 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
 
 wolf_invader.98 = { #player fights the wolf alone
     type = character_event
-    title = wolf_invader.99.title
-    desc = wolf_invader.99.desc
+    title = wolf_invader.98.title
+    desc = wolf_invader.98.desc
     theme = hunt_activity
 
     immediate = { 
         debug_log = "player fights the wolf alone"
+        remove_character_flag = killed_by_direwolf
     }
 
     left_portrait = {
@@ -411,13 +423,10 @@ wolf_invader.98 = { #player fights the wolf alone
     }
 
     option = { 
-        name = wolf_invader.99.a
+        name = wolf_invader.98.a
 
         random_list = {
             50 = {#wolf dies to player
-                character_event = {
-                    wolf_invader.101
-                }
                 modifier = {
                     factor = 2
                     has_trait = lifestyle_hunter
@@ -439,12 +448,11 @@ wolf_invader.98 = { #player fights the wolf alone
                     factor = 3
                     has_trait = intellect_good_4
                 }
-            }
-
-            50 = {#wolf whacks player 
-                character_event = {
-                    wolf_invader.200
+                trigger_event = { 
+                    id = wolf_invader.101
                 }
+            }    
+            50 = {#wolf whacks player 
                 modifier = {
                     add = -20
                     has_trait = physique_bad_1
@@ -457,6 +465,9 @@ wolf_invader.98 = { #player fights the wolf alone
                     add = -60
                     has_trait = physique_bad_3
                 }
+                trigger_event = { 
+                    id = wolf_invader.200
+                }    
             }
         }
     }
@@ -537,11 +548,9 @@ wolf_invader.100 = { #wolf is killed by party no pelt
 
     immediate = {
         debug_log = "wolf is killed by party no pelt"
-        root = {
-            capital_county = {
-                remove_county_modifier = wolf_terror_bad_modifier
-                remove_county_modifier = wolf_terror_modifier
-            }
+        capital_county = {
+            remove_county_modifier = wolf_terror_bad_modifier
+            remove_county_modifier = wolf_terror_modifier
         }
     }
 
@@ -589,14 +598,12 @@ wolf_invader.102 = { #wolf is killed by player alone
 
     immediate = {
         debug_log = "wolf is killed by player alone"
-        root = {
-            capital_county = {
-                remove_county_modifier = wolf_terror_bad_modifier
-                remove_county_modifier = wolf_terror_modifier
-            }
+        capital_county = {
+            remove_county_modifier = wolf_terror_bad_modifier
+            remove_county_modifier = wolf_terror_modifier
         }
-    }
-
+    
+    }    
     left_portrait = { 
         character = root
         animation = personality_bold
@@ -642,7 +649,8 @@ wolf_invader.200 = {#player dies to wolf
 
     immediate = {
         debug_log = "player dies to wolf"
-        kill = scope:actor
+        add_character_flag = killed_by_direwolf
+        #save_scope_as = wolfmeat
     }
 
     left_portrait = { 
@@ -652,20 +660,31 @@ wolf_invader.200 = {#player dies to wolf
 
     option = { 
         name = wolf_invader.200
-        trigger_event = { 
-            id = wolf_invader.201
-            years = { 2 4 }
-        }
-        
+        death = {
+            death_reason = killed_by_direwolf
+        }   
     }
-
 }
 
-wolf_invader.201 = {
-    hidden = yes
+wolf_invader.201 = {#player encounters the wolf again
     type = character_event
+    title = wolf_invader.201.title
+    desc = wolf_invader.201.desc
+    theme = hunt_activity
 
     immediate = {
-        save_scope_as = actor
+        debug_log = "player encounters the wolf again"
+    }
+
+    left_portrait = { 
+        character = root
+        animation = stayback
+    }
+
+    option = { 
+        name = wolf_invader.201
+        trigger_event = { 
+            id = wolf_invader.98
+        }
     }
 }
