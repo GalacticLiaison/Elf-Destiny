@@ -1142,34 +1142,34 @@ entrance.1100 = { # Convert to Enthralled
 
 	theme = seduction
 	left_portrait = {
-		character = scope:target
+		character = scope:victim
 		animation = disbelief
 	}
 	right_portrait = {
-		character = root
+		character = scope:entrancer
 		animation = flirtation
 	}
 
 	immediate = {
 		if = {
 			limit = {
-				exists = scope:target
+				exists = scope:victim
 			}
 
 			custom_tooltip = {
 				text = converts_to_enthralled
-				scope:target = {
+				scope:victim = {
 					remove_trait = entranced
 					add_trait = enthralled
 				}
 			}
 
 			remove_hook = {
-				target = scope:target
+				target = scope:victim
 			}
 			add_hook = {
 				type = enthralled
-				target = scope:target
+				target = scope:victim
 			}
 		}
 	}
@@ -1186,20 +1186,20 @@ entrance.1101 = { # Convert to Enthralled victim perspective
 
 	theme = seduction
 	left_portrait = {
-		character = scope:recipient
+		character = scope:entrancer
 		animation = personality_bold
 	}
 	right_portrait = {
-		character = root
+		character = scope:victim
 		animation = beg
 	}
 	immediate = {
 		if = {
 			limit = {
-				exists = scope:target
+				exists = scope:victim
 			}
 
-			scope:target = {
+			scope:victim = {
 				remove_trait = entranced
 			}
 
@@ -1207,18 +1207,18 @@ entrance.1101 = { # Convert to Enthralled victim perspective
 				text = converted_to_enthralled
 			}
 
-			scope:target = {
+			scope:victim = {
 				add_trait = enthralled
 			}
 
 			scope:entrancer = {
 				
 				remove_hook = {
-					target = scope:target
+					target = scope:victim
 				}
 				add_hook = {
 					type = enthralled
-					target = scope:target
+					target = scope:victim
 				}
 			}
 		}
@@ -1247,7 +1247,7 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 
 	theme = seduction
 	right_portrait = {
-		character = root
+		character = scope:entrancer
 		animation = anger
 	}
 	lower_center_portrait = {
@@ -1259,6 +1259,7 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 		var:struggling_pet = {
 			save_scope_as = victim
 		}
+		save_scope_as = entrancer
 	}
 
 	option = {
@@ -1267,13 +1268,13 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 		if = {
 			limit = {
 				AND = {
-					exists = root
+					exists = scope:entrancer
 					exists = scope:victim
 				}
 			}
 			
 			victim_attempts_to_break_free_of_entrance_effect = {
-				ENTRANCER = root
+				ENTRANCER = scope:entrancer
 				VICTIM = scope:victim
 			}
 		}
@@ -1301,7 +1302,7 @@ entrance.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Succe
 	theme = seduction
 
 	right_portrait = {
-		character = root
+		character = scope:entrancer
 		animation = anger
 	}
 	lower_center_portrait = {
@@ -1333,7 +1334,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 	theme = seduction
 
 	right_portrait = {
-		character = root
+		character = scope:entrancer
 		animation = personality_bold
 	}
 	lower_center_portrait = {
@@ -1364,9 +1365,6 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 					}
 				}
 			}
-			scope:victim = {
-				save_scope_as = target
-			}
 			trigger_event = entrance.1100
 		}
 	}
@@ -1385,17 +1383,6 @@ entrance.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
 		scope:recipient = {
 			save_scope_as = entrancer
 		}
-		#any_character = {
-		#	if = {
-		#		limit = {
-		#			has_hook = {
-		#				target = scope:victim
-		#				type = entranced
-		#			}
-		#		}		
-		#	}
-		#save_scope_as = entrancer
-		#}
 	}
 
 	left_portrait = {
@@ -1495,9 +1482,6 @@ entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 					}
 				}
 			}
-			scope:victim = {
-				save_scope_as = target
-			}
 			trigger_event = entrance.1101
 		}
 	}
@@ -1548,7 +1532,7 @@ entrance.1200 = { # Evolve to Enchantress
 entrance.1300 = { # regular scheme entrancement outside of activities made for ai
 	hidden = yes
 	immediate = {
-		debug_log = "yo momma is ugly and i must have this for an event"
+		debug_log = "Ai entrance scheme firing"
 		if = {
 			limit = {
 				exists = scope:recipient
@@ -1693,16 +1677,6 @@ entrance.1303 = { # the victim has escaped from entrancement
 		character = scope:victim
 		animation = war_attacker
 	}
-
-	#immediate = {
-	#	scope:victim = {
-	#		NOT = { has_relation_nemesis = scope:actor }
-	#		set_relation_rival = {
-	#		target = scope:actor
-	#		reason = tried_to_entrance
-	#		}	
-	#	}
-	#}
 
 	immediate = {
 		if = {
