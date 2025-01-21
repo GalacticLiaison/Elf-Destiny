@@ -1,4 +1,4 @@
- namespace = wolf_invader 
+namespace = wolf_invader 
 
 wolf_invader.0001 = { #Strange Reports
     type = character_event
@@ -7,13 +7,13 @@ wolf_invader.0001 = { #Strange Reports
     theme = martial
     immediate = {
         debug_log = "strange reports event 0001"
-        save_scope_as = elflord
+        save_scope_as = actor
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_martial
-    } 
+    }
 
     option = {
         name = wolf_invader.0001.a
@@ -34,7 +34,7 @@ wolf_invader.0002 = { #Sighting of wolf in county
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_martial
     }
     
@@ -64,15 +64,15 @@ wolf_invader.0003 = { #negative economic penalties
         any_character = {
             limit = { 
                 is_courtier_of = scope:actor
-                prowess >= 20
-                is_adult = yes
+                prowess = >= 20
+                age = >= 16
             }
             save_scope_as = wolfslayer
         }
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
@@ -100,7 +100,7 @@ wolf_invader.0004 = { #some random bloke kills le wolf
     theme = martial
     
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
     right_portrait = {
@@ -115,11 +115,11 @@ wolf_invader.0004 = { #some random bloke kills le wolf
                 limit = {
                     is_alive = no
                 }
-                random_living_character = {
+                any_character = {
                     limit = { 
                         is_courtier_of = scope:actor
-                        prowess >= 20
-                        is_adult = yes
+                        prowess = >= 20
+                        age = <= 16
                     }
                     save_scope_as = wolfslayer
                 }
@@ -135,7 +135,7 @@ wolf_invader.0004 = { #some random bloke kills le wolf
         name = wolf_invader.0004.a
         trigger_event = {
             id = wolf_invader.0001
-            months = { 4 8 }
+            months = { 48 72 }
         }
     }
 }
@@ -151,7 +151,7 @@ wolf_invader.0005 = {#hunt underway
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_knife_start
     }
 
@@ -159,7 +159,7 @@ wolf_invader.0005 = {#hunt underway
         name = wolf_invader.0005.a
         trigger_event = {
             wolf_invader.0006
-            days = 5
+            days = 28
         }
     }
 }
@@ -175,7 +175,7 @@ wolf_invader.0006 = {#wolf encounter
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_knife_start
     }
 
@@ -229,7 +229,7 @@ wolf_invader.0061 = { #the wolf evades the hunter
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = anger
     }
 
@@ -257,20 +257,14 @@ wolf_invader.0062 = {#wolf causes even more destruction
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = rage
     }
 
-    option = { # going on a hunt ( again )
+    option = {
         name = wolf_invader.0062.a
-        trigger_event = {
+        trigger_event = {# going on a hunt ( again )
             id = wolf_invader.0005
-        }
-    }
-    option = { #paying someone else 
-        name = wolf_invader.0062.b
-        trigger_event = {
-            id = wolf_invader.0063
         }
     }
 }
@@ -286,7 +280,7 @@ wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_longbow_aim_arrow
     }
 
@@ -354,7 +348,7 @@ wolf_invader.0008 = {#wolf is encountered peacefully by player
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = stayback
     }
 
@@ -380,13 +374,10 @@ wolf_invader.00081 = {#player is a warg and tames the mother
 
     immediate = {
         debug_log = "player is a warg and tames the mother"
-        capital_county = {
-            add_county_modifier = has_direwolf_population
-        }
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -403,13 +394,10 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
 
     immediate = {
         debug_log = "player is not a warg and is gifted a pup"
-        capital_county = {
-            add_county_modifier = has_direwolf_population
-        }
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -430,7 +418,7 @@ wolf_invader.98 = { #player fights the wolf alone
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
@@ -445,20 +433,20 @@ wolf_invader.98 = { #player fights the wolf alone
                 }
                 modifier = {
                     factor = 1.5
-                    has_trait = physique_good_1
+                    has_trait = intellect_good_1
                 }
                 modifier = {
                     factor = 2
-                    has_trait = physique_good_2
+                    has_trait = intellect_good_2
                 }
                 modifier = {
                     factor = 2.5
-                    has_trait = physique_good_3
+                    has_trait = intellect_good_3
                 }
 
                 modifier = {
                     factor = 3
-                    has_trait = physique_good_4
+                    has_trait = intellect_good_4
                 }
                 trigger_event = { 
                     id = wolf_invader.101
@@ -493,37 +481,11 @@ wolf_invader.99 = { #hunting party is engaging the wolf
 
     immediate = { 
         debug_log = "hunting party is engaging the wolf"
-        scope:elflord = {
-            random_knight = {
-                limit = {
-                    prowess >= 12
-                }
-                save_scope_as = hunter_1
-            }
-            random_knight = {
-                limit = {
-                    prowess >= 12
-                    NOT = { 
-                        this = scope:hunter_1
-                    }
-                }
-                save_scope_as = hunter_2
-            }
-        }
     }
 
     left_portrait = {
-        character = scope:elflord
-        animation = hunting_longbow_aim_arrow
-    }
-    center_portrait = { 
-        character = scope:hunter_1
-        animation = aggressive_sword
-    }
-    
-    right_portrait = { 
-        character = scope:hunter_2
-        animation = aggressive_spear
+        character = root
+        animation = personality_bold
     }
 
     option = { 
@@ -531,8 +493,8 @@ wolf_invader.99 = { #hunting party is engaging the wolf
 
         random_list = {
             65 = {#wolf dies to hunting party
-                trigger_event = {
-                    id = wolf_invader.100
+                character_event = {
+                    wolf_invader.100
                 }
                 modifier = {
                     factor = 2
@@ -540,26 +502,26 @@ wolf_invader.99 = { #hunting party is engaging the wolf
                 }
                 modifier = {
                     factor = 1.5
-                    has_trait = physique_good_1
+                    has_trait = intellect_good_1
                 }
                 modifier = {
                     factor = 2
-                    has_trait = physique_good_2
+                    has_trait = intellect_good_2
                 }
                 modifier = {
                     factor = 2.5
-                    has_trait = physique_good_3
+                    has_trait = intellect_good_3
                 }
 
                 modifier = {
                     factor = 3
-                    has_trait = physique_good_4
+                    has_trait = intellect_good_4
                 }
             }
 
             35 = {#wolf whacks player 
-                trigger_event = {
-                    id = wolf_invader.200
+                character_event = {
+                    wolf_invader.200
                 }
                 modifier = {
                     add = -20
@@ -593,24 +555,8 @@ wolf_invader.100 = { #wolf is killed by party no pelt
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = personality_bold
-    }
-
-    center_portrait = { 
-        trigger = {
-            exists = scope:hunter_1
-        }
-        character = scope:hunter_1
-        animation = aggressive_sword
-    }
-    
-    right_portrait = { 
-        trigger = {
-            exists = scope:hunter_2
-        }
-        character = scope:hunter_2
-        animation = aggressive_spear
     }
 
     option = {
@@ -632,45 +578,13 @@ wolf_invader.101 = { #reward for killing wolf with party
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = happiness
-    }
-
-    center_portrait = { 
-        trigger = {
-            exists = scope:hunter_1
-        }
-        character = scope:hunter_1
-        animation = aggressive_sword
-    }
-    
-    right_portrait = { 
-        trigger = {
-            exists = scope:hunter_2
-        }
-        character = scope:hunter_2
-        animation = aggressive_spear
     }
 
     option = {
         name = wolf_invader.101.a
         add_prestige = 1000
-        if = { 
-            limit = {
-                exists = scope:hunter_1
-            }
-            scope:hunter_1 = {
-                add_prestige = 1000
-            }
-        }
-        if = { 
-            limit = {
-                exists = scope:hunter_2
-            }
-            scope:hunter_2 = {
-                add_prestige = 1000
-            }
-        }
         trigger_event = { 
             id = wolf_invader.104
         }
@@ -692,7 +606,7 @@ wolf_invader.102 = { #wolf is killed by player alone
     
     }    
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
@@ -713,19 +627,16 @@ wolf_invader.103 = { #reward for killing wolf alone
 
     immediate = {
         debug_log = "reward for killing wolf alone"
-        create_direwolf_pelt_effect = { 
-            OWNER = scope:elflord
-        }
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
     option = {
         name = wolf_invader.103.a
-        add_prestige = 2500
+        add_prestige = 2000
         trigger_event = { 
             id = wolf_invader.104
         }
@@ -743,7 +654,7 @@ wolf_invader.104 = { #finding the wolf den
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
@@ -778,14 +689,12 @@ wolf_invader.105 = { #rewards for whacking the pup
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
     option = {
         name = wolf_invader.105.a
-        custom_tooltip = population_happy
-        add_prestige = 100
     }
 }
 
@@ -806,14 +715,12 @@ wolf_invader.106 = { #rewards for taking the pup
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
     option = {
         name = wolf_invader.106.a
-        custom_tooltip = population_angry
-        add_prestige = -100
     }
 }
 
@@ -826,110 +733,11 @@ wolf_invader.200 = {#player dies to wolf
     immediate = {
         debug_log = "player dies to wolf"
         add_character_flag = killed_by_direwolf
-        if = { 
-            limit = {
-                exists = scope:hunter_1
-            }
-            random_list = {
-                33 = { 
-                    scope:hunter_1 = {
-                        death = {
-                            death_reason = killed_by_direwolf
-                        } 
-                    }
-                }
-                33 = { 
-                    scope:hunter_1 = {
-                        increase_wounds_effect = { REASON = killed_direwolf }
-                    }
-                }
-                33 = { 
-                    #gets off scot free
-                    modifier = {
-                        has_trait = physique_good_1
-                        factor = 1.5
-                    }
-                    modifier = {
-                        has_trait = physique_good_2
-                        factor = 2
-                    }
-                    modifier = {
-                        has_trait = physique_good_3
-                        factor = 2.5
-                    }
-                    modifier = {
-                        has_trait = physique_good_4
-                        factor = 3
-                    }
-                    modifier = {
-                        has_trait = strong
-                        factor = 1.8
-                    }
-                }
-            }
-        }
-        if = { 
-            limit = {
-                exists = scope:hunter_2
-            }   
-            random_list = {
-                33 = { 
-                    scope:hunter_2 = {
-                        death = {
-                            death_reason = killed_by_direwolf
-                        } 
-                    }
-                }
-                33 = { 
-                    scope:hunter_2 = {
-                        increase_wounds_effect = { REASON = killed_by_direwolf }
-                    }
-                }
-                33 = { 
-                    #gets off scot free
-                    modifier = {
-                        has_trait = physique_good_1
-                        factor = 1.5
-                    }
-                    modifier = {
-                        has_trait = physique_good_2
-                        factor = 2
-                    }
-                    modifier = {
-                        has_trait = physique_good_3
-                        factor = 2.5
-                    }
-                    modifier = {
-                        has_trait = physique_good_4
-                        factor = 3
-                    }
-                    modifier = {
-                        has_trait = strong
-                        factor = 1.8
-                    }
-                }
-            }
-        }
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = stayback
-    }
-    center_portrait = { 
-        trigger = {
-            exists = scope:hunter_1
-        }
-        character = scope:hunter_1
-        animation = fear
-    }
-    
-    right_portrait = { 
-        trigger = {
-            exists = scope:hunter_2
-        }
-        character = scope:hunter_2
-        animation = fear
     }
 
     option = { 
@@ -940,44 +748,18 @@ wolf_invader.200 = {#player dies to wolf
     }
 }
 
-wolf_invader.2001 = {#ensuring the event continues and doesnt break
-    type = character_event
-    hidden = yes
-
-    immediate = {
-        add_character_flag = direwolf_event_heir_continuation
-        if = { 
-            limit = {
-                root = {
-                    is_adult = yes
-                }
-            }
-            trigger_event = { 
-                id = wolf_invader.201
-            }
-        }
-        else = { 
-            trigger_event = { 
-                id = wolf_invader.2001
-                years = 1
-            }
-        }
-    }
-}
-
-wolf_invader.201 = {#player is ambushed by wolf
+wolf_invader.201 = {#player encounters the wolf again
     type = character_event
     title = wolf_invader.201.title
     desc = wolf_invader.201.desc
     theme = hunt_activity
 
     immediate = {
-        debug_log = "player is ambushed by wolf"
-        save_scope_as = scope:elflord
+        debug_log = "player encounters the wolf again"
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = stayback
     }
 

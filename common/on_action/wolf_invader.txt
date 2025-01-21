@@ -6,10 +6,7 @@ three_year_playable_pulse = {
 }
 on_death = {
     on_actions = { 
-        lost_a_duel
-        lost_a_duel_2
-        lost_a_duel_3
-        lost_a_duel_4
+        on_killed_by_direwolf
     }
 }
 
@@ -21,81 +18,32 @@ wolf_invader = {
             name = unavailable_unique_decisions
             target = flag:flag_grand_portal_restored
         }
+        NOT = { 
+            has_global_variable = wolf_invader_cooldown
+        }
     }
     effect = {
+        set_global_variable = {
+            name = wolf_invader_cooldown
+            days = 29220
+            value = yes
+        }        
         trigger_event = wolf_invader.0001
     }
 }
 
-lost_a_duel = { 
+on_killed_by_direwolf = { 
     trigger = { 
         is_ai = no
-        has_character_flag = killed_by_direwolf
-        age >= 14
-    }
-    effect = { 
-        primary_heir = { 
-            add_character_flag = killed_by_direwolf
-            trigger_event = { 
-                id = wolf_invader.201
-                years = { 2 5 }
-            }
-        }
-    }
-}
-lost_a_duel_2 = { 
-    trigger = { 
-        is_ai = no
-        has_character_flag = killed_by_direwolf
-        AND = { 
-            age >= 10
-            age <= 14
-        }
-    }
-    effect = { 
-        primary_heir = { 
-            add_character_flag = killed_by_direwolf
-            trigger_event = { 
-                id = wolf_invader.201
-                years = { 6 8 }
-            }
-        }
-    }
-}
-lost_a_duel_3 = { 
-    trigger = { 
-        is_ai = no
-        has_character_flag = killed_by_direwolf
-        AND = { 
-            age >= 5
-            age <= 10
-        }
-    }
-    effect = { 
-        primary_heir = { 
-            add_character_flag = killed_by_direwolf
-            trigger_event = { 
-                id = wolf_invader.201
-                years = { 10 12 }
-            }
-        }
-    }
-}
-lost_a_duel_4 = { 
-    trigger = { 
-        is_ai = no
-        has_character_flag = killed_by_direwolf
         OR = { 
-            age = 0
-            age <= 5
+            has_character_flag = killed_by_direwolf
+            has_character_flag = direwolf_event_heir_continuation
         }
     }
     effect = { 
         primary_heir = { 
-            add_character_flag = killed_by_direwolf
             trigger_event = { 
-                id = wolf_invader.201
-                years = { 16 18 }
+                id = wolf_invader.2001
             }
         }
     }
