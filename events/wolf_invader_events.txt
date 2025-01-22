@@ -12,7 +12,7 @@ wolf_invader.0001 = { #Strange Reports
 
     left_portrait = {
         character = scope:elflord
-        animation = personality_martial
+        animation = personality_rational
     } 
 
     option = {
@@ -33,9 +33,9 @@ wolf_invader.0002 = { #Sighting of wolf in county
         debug_log = "sighting of the wolf event 0002"
     }
 
-    left_portrait = {
+    right_portrait = {
         character = scope:elflord
-        animation = personality_martial
+        animation = interested
     }
     
     option = {
@@ -55,19 +55,38 @@ wolf_invader.0003 = { #negative economic penalties
 
     immediate = {
         debug_log = "negative economic penalties"
-        capital_county = {
-            add_county_modifier = {
-                modifier = wolf_terror_modifier
-            }
-        }
-        
-        any_character = {
+
+        random_knight = {
             limit = { 
-                is_courtier_of = scope:actor
-                prowess >= 20
+                NOT = { 
+                    scope:wolfslayer = { 
+                        is_alive = yes
+                    }
+                }   
+                prowess >= 12
                 is_adult = yes
             }
             save_scope_as = wolfslayer
+        }
+
+        if = { 
+            limit = { 
+                NOT = { 
+                    capital_county = {
+                        has_county_modifier = wolf_terror_modifier
+                    }
+                }
+            }
+            capital_county = {
+                add_county_modifier = wolf_terror_modifier
+            }
+        }
+
+        else_if = { 
+            capital_county = {
+                remove_county_modifier = wolf_terror_modifier
+                add_county_modifier = wolf_terror_bad_modifier
+            }
         }
     }
 
@@ -80,18 +99,154 @@ wolf_invader.0003 = { #negative economic penalties
         name = wolf_invader.0003.a
         trigger_event = {
             id = wolf_invader.0004
-            months = { 48 72 }
+            #months = { 48 72 }
+            days = 1
         }
     }
 
     option = { #going on a hunt
         name = wolf_invader.0003.b
+        is_shown = { 
+            is_adult = yes
+        }
         trigger_event = {
             id = wolf_invader.0005
             days = 15
         }
     }
+
+    option = { #paying mercenaries to deal with the wolf
+        name = wolf_invader.0003.c
+        trigger_event = { 
+            id = wolf_invader.00031
+            days = 30
+        }
+    }
 }
+
+wolf_invader.00031 = { #choosing which mercenaries to hire
+    type = character_event
+    title = wolf_invader.00031.title
+    desc = wolf_invader.00031.desc
+    theme = martial
+
+    immediate = {
+        debug_log = "choosing which mercenaries to hire to kill the direwolf"
+    }
+
+    left_portrait = {
+        character = scope:elflord
+        animation = personality_bold
+    }
+
+    option = { #buying shitty mercs
+        name = wolf_invader.00031.a
+        add_gold = -50
+        random_list = {
+            25 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.00032
+                    days = 30
+                }
+            }
+            75 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.00033
+                    days = 30
+                }
+            }
+        }
+    }
+
+    option = { #buying good mercs
+        name = wolf_invader.00031.b
+        add_gold = -100
+        random_list = {
+            50 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.00032
+                    days = 30
+                }
+            }
+            50 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.00033
+                    days = 30
+                }
+            }
+        }
+    }
+
+    option = { #buying great mercs
+        name = wolf_invader.00031.c
+        add_gold = -200
+        random_list = {
+            75 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.00032
+                    days = 30
+                }
+            }
+            25 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.00033
+                    days = 30
+                }
+            }
+        }
+    }
+}
+
+
+wolf_invader.00032 = { #mercs succeeded in killing the direwolf
+    type = character_event
+    title = wolf_invader.00032.title
+    desc = wolf_invader.00032.desc
+    theme = martial
+
+    immediate = {
+        debug_log = "hired mercs have killed the direwolf"
+        capital_county = {
+            remove_county_modifier = wolf_terror_modifier
+            remove_county_modifier = wolf_terror_bad_modifier
+        }
+    }
+
+    left_portrait = {
+        character = scope:elflord
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.00032.a
+    }
+}
+
+
+wolf_invader.00033 = { #hired mercs got killed by direwolf
+    type = character_event
+    title = wolf_invader.00033.title
+    desc = wolf_invader.00033.desc
+    theme = martial
+
+    immediate = {
+        debug_log = "hired mercs failed and got killed by direwolf"
+    }
+
+    left_portrait = {
+        character = scope:elflord
+        animation = anger
+    }
+
+    option = {
+        name = wolf_invader.00033.a
+        trigger_event = { 
+            id = wolf_invader.0003
+            days = 40
+        }
+    }
+}
+
 
 wolf_invader.0004 = { #some random bloke kills le wolf
     type = character_event
@@ -115,10 +270,10 @@ wolf_invader.0004 = { #some random bloke kills le wolf
                 limit = {
                     is_alive = no
                 }
-                random_living_character = {
+                random_knight = {
                     limit = { 
-                        is_courtier_of = scope:actor
-                        prowess >= 20
+                        is_courtier_of = scope:elflord
+                        prowess >= 12
                         is_adult = yes
                     }
                     save_scope_as = wolfslayer
@@ -128,6 +283,7 @@ wolf_invader.0004 = { #some random bloke kills le wolf
 
         capital_county = {
             remove_county_modifier = wolf_terror_modifier
+            remove_county_modifier = wolf_terror_bad_modifier
         }
     }
 
@@ -158,8 +314,8 @@ wolf_invader.0005 = {#hunt underway
     option = {
         name = wolf_invader.0005.a
         trigger_event = {
-            wolf_invader.0006
-            days = 5
+            id = wolf_invader.0006
+            days = 25
         }
     }
 }
@@ -167,7 +323,7 @@ wolf_invader.0005 = {#hunt underway
 wolf_invader.0006 = {#wolf encounter
     type = character_event
     title = wolf_invader.title.0006
-    desc = wolf_invader.0006.desc
+    desc = wolf_invader.desc.0006
     theme = hunt_activity
 
     immediate = {
@@ -182,7 +338,7 @@ wolf_invader.0006 = {#wolf encounter
     option = { 
         name = wolf_invader.0006.a
         random_list = {
-            50 = {# wolf is engaged
+            50 = { # wolf is engaged
                 trigger_event = {
                     id = wolf_invader.0007
                 }
@@ -209,7 +365,7 @@ wolf_invader.0006 = {#wolf encounter
                 }
             }
 
-            50 = {#wolf evasion
+            50 = { #wolf evasion
                 trigger_event = {
                     id = wolf_invader.0061
                 }  
@@ -270,7 +426,7 @@ wolf_invader.0062 = {#wolf causes even more destruction
     option = { #paying someone else 
         name = wolf_invader.0062.b
         trigger_event = {
-            id = wolf_invader.0063
+            id = wolf_invader.00031
         }
     }
 }
@@ -381,7 +537,7 @@ wolf_invader.00081 = {#player is a warg and tames the mother
     immediate = {
         debug_log = "player is a warg and tames the mother"
         capital_county = {
-            add_county_modifier = has_direwolf_population
+            add_county_modifier = has_direwolf_population_modifier
         }
     }
 
@@ -404,8 +560,9 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
     immediate = {
         debug_log = "player is not a warg and is gifted a pup"
         capital_county = {
-            add_county_modifier = has_direwolf_population
+            add_county_modifier = has_direwolf_population_modifier
         }
+        add_character_modifier = has_direwolf_pup_modifier
     }
 
     left_portrait = {
@@ -415,6 +572,48 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
 
     option = {
         name = wolf_invader.00082.a
+        trigger_event = { #event for the pup growing into a full direwolf
+            id = wolf_invader.00083
+            years = { 4 5 }
+        }
+    }
+}
+
+wolf_invader.00083 = {#pup is grown into a full direwolf
+    type = character_event
+    title = wolf_invader.00083.title
+    desc = wolf_invader.00083.desc
+    theme = realm
+
+    immediate = {
+        debug_log = "wolf pup is grown into a full direwolf"
+        remove_character_modifier = has_direwolf_pup_modifier
+        add_character_modifier = has_grown_direwolf_modifier
+    }
+
+    left_portrait = {
+        character = scope:elflord
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.00083.a
+    }
+}
+
+wolf_invader.00084 = {#unlocks direwolf riders MAA
+    type = character_event
+    title = wolf_invader.00084.title
+    desc = wolf_invader.00084.desc
+    theme = realm
+
+    immediate = {
+        debug_log = "dire wolf riders maa unlocked"
+    }
+
+    option = {
+        name = wolf_invader.00084.a
+        add_culture_tradition = tradition_direwolf_riders
     }
 }
 
@@ -803,6 +1002,7 @@ wolf_invader.106 = { #rewards for taking the pup
                 years = 5
             }    
         }
+        add_character_modifier = has_direwolf_pup
     }
 
     left_portrait = { 
@@ -814,6 +1014,10 @@ wolf_invader.106 = { #rewards for taking the pup
         name = wolf_invader.106.a
         custom_tooltip = population_angry
         add_prestige = -100
+        trigger_event = { #event for the pup growing into a full direwolf
+            id = wolf_invader.00083
+            years = { 4 5 }
+        }
     }
 }
 
