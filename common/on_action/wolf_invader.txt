@@ -1,13 +1,13 @@
 three_year_playable_pulse = {    
     on_actions = {
-        wolf_invader
+        wolf_invader_on_action
     }
     
 }
 
 yearly_playable_pulse = { 
     on_actions = {
-        unlock_direwolf_riders_maa
+        unlock_direwolf_riders_innovation
     }
 }
 
@@ -17,10 +17,9 @@ on_death = {
     }
 }
 
-wolf_invader = {
+wolf_invader_on_action = {
     trigger = {
         is_ai = no
-        has_cultural_paramter = beast_tamers
         is_target_in_global_variable_list = {
             name = unavailable_unique_decisions
             target = flag:flag_grand_portal_restored
@@ -35,8 +34,10 @@ wolf_invader = {
             days = 29220
             value = yes
         }        
-        trigger_event = wolf_invader.0001
-    }
+        trigger_event = { 
+            id = wolf_invader.0001
+        }
+    }    
 }
 
 on_killed_by_direwolf = { 
@@ -56,12 +57,11 @@ on_killed_by_direwolf = {
     }
 }
 
-unlock_direwolf_riders_maa = { 
+unlock_direwolf_riders_innovation = { 
     trigger = {
         is_ai = no
-        OR = { 
-            has_character_modifier = has_direwolf_pup_modifier
-            has_character_modifier = has_grown_direwolf_modifier
+        capital_county = { 
+            has_county_modifier = has_direwolf_population_modifier
         }
     }
     effect = {

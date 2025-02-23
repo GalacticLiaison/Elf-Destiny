@@ -4,7 +4,7 @@ wolf_invader.0001 = { #Strange Reports
     type = character_event
     title = wolf_invader.0001.title
     desc = wolf_invader.0001.desc
-    theme = martial
+    theme = restored_portal
     immediate = {
         debug_log = "strange reports event 0001"
         save_scope_as = elflord
@@ -12,7 +12,7 @@ wolf_invader.0001 = { #Strange Reports
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_rational
     } 
 
@@ -21,7 +21,7 @@ wolf_invader.0001 = { #Strange Reports
         trigger_event = { 
             id = wolf_invader.0002
             days = 4
-        }    
+        }
     }
 }
 
@@ -30,12 +30,26 @@ wolf_invader.0002 = { #Sighting of wolf in county
     title = wolf_invader.0002.title
     desc = wolf_invader.0002.desc
     theme = martial
+    override_background = { reference = council_chamber }
     immediate = {
         debug_log = "sighting of the wolf event 0002"
+        random_councillor = { 
+            save_scope_as = random_councillor
+        }
     }
 
     right_portrait = {
-        character = scope:elflord
+        character = root
+        animation = interested
+    }
+    
+    lower_left_portrait = {
+        character = scope:random_councillor
+        animation = interested
+    }
+
+    left_portrait = {
+        character = cp:aeluran_advisor
         animation = interested
     }
     
@@ -53,6 +67,7 @@ wolf_invader.0003 = { #negative economic penalties
     title = wolf_invader.0003.title
     desc = wolf_invader.0003.desc
     theme = martial
+    override_background = { reference = council_chamber }
 
     immediate = {
         debug_log = "negative economic penalties"
@@ -91,17 +106,26 @@ wolf_invader.0003 = { #negative economic penalties
         }
     }
 
-    left_portrait = {
-        character = scope:elflord
+    right_portrait = {
+        character = root
         animation = personality_bold
+    }
+
+    lower_left_portrait = {
+        character = scope:random_councillor
+        animation = interested
+    }
+
+    left_portrait = {
+        character = cp:aeluran_advisor
+        animation = interested
     }
 
     option = { #ignoring the wolf
         name = wolf_invader.0003.a
         trigger_event = {
             id = wolf_invader.0004
-            #months = { 48 72 }
-            days = 1
+            months = { 48 72 }
         }
     }
 
@@ -113,6 +137,11 @@ wolf_invader.0003 = { #negative economic penalties
         trigger_event = {
             id = wolf_invader.0005
             days = 15
+        }
+        stress_impact = { 
+            craven = 150
+            lifestyle_hunter = -50
+            brave = -50
         }
     }
 
@@ -136,18 +165,21 @@ wolf_invader.00031 = { #choosing which mercenaries to hire
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
     option = { #buying shitty mercs
         name = wolf_invader.00031.a
-        add_gold = -50
+        remove_short_term_gold = tiny_gold_value
         random_list = {
             25 = { #mercs succeeded
                 trigger_event = { 
                     id = wolf_invader.00032
                     days = 30
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
                 }
             }
             75 = { #mercs got killed
@@ -155,18 +187,27 @@ wolf_invader.00031 = { #choosing which mercenaries to hire
                     id = wolf_invader.00033
                     days = 30
                 }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
             }
+        }
+        stress_impact = { 
+            greedy = 25
         }
     }
 
     option = { #buying good mercs
         name = wolf_invader.00031.b
-        add_gold = -100
+        remove_short_term_gold = minor_gold_value
         random_list = {
             50 = { #mercs succeeded
                 trigger_event = { 
                     id = wolf_invader.00032
                     days = 30
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
                 }
             }
             50 = { #mercs got killed
@@ -174,18 +215,27 @@ wolf_invader.00031 = { #choosing which mercenaries to hire
                     id = wolf_invader.00033
                     days = 30
                 }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
             }
+        }
+        stress_impact = { 
+            greedy = 50
         }
     }
 
     option = { #buying great mercs
         name = wolf_invader.00031.c
-        add_gold = -200
+        remove_short_term_gold = medium_gold_value
         random_list = {
             75 = { #mercs succeeded
                 trigger_event = { 
                     id = wolf_invader.00032
                     days = 30
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
                 }
             }
             25 = { #mercs got killed
@@ -193,7 +243,13 @@ wolf_invader.00031 = { #choosing which mercenaries to hire
                     id = wolf_invader.00033
                     days = 30
                 }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
             }
+        }
+        stress_impact = { 
+            greedy = 75
         }
     }
 }
@@ -205,6 +261,8 @@ wolf_invader.00032 = { #mercs succeeded in killing the direwolf
     desc = wolf_invader.00032.desc
     theme = martial
 
+    override_background = { reference = throne_room }
+
     immediate = {
         debug_log = "hired mercs have killed the direwolf"
         capital_county = {
@@ -214,12 +272,19 @@ wolf_invader.00032 = { #mercs succeeded in killing the direwolf
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
     option = {
         name = wolf_invader.00032.a
+        stress_impact = { 
+        base = -100
+        eager_reveler = -100
+        gregarious = -35
+        shy = 50
+        drunkard = -35
+    }
     }
 }
 
@@ -235,7 +300,7 @@ wolf_invader.00033 = { #hired mercs got killed by direwolf
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = anger
     }
 
@@ -246,6 +311,7 @@ wolf_invader.00033 = { #hired mercs got killed by direwolf
             days = 40
         }
     }
+
 }
 
 
@@ -256,7 +322,7 @@ wolf_invader.0004 = { #some random bloke kills le wolf
     theme = martial
     
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
     right_portrait = {
@@ -282,9 +348,26 @@ wolf_invader.0004 = { #some random bloke kills le wolf
             }
         }
 
-        capital_county = {
-            remove_county_modifier = wolf_terror_modifier
-            remove_county_modifier = wolf_terror_bad_modifier
+        if = {
+            limit = { 
+                capital_county = { 
+                    has_county_modifier = wolf_terror_modifier
+                }
+            }
+            capital_county = { 
+                remove_county_modifier = wolf_terror_modifier
+            }
+        }
+
+        if = {
+            limit = { 
+                capital_county = { 
+                    has_county_modifier = wolf_terror_bad_modifier
+                }
+            }
+            capital_county = { 
+                remove_county_modifier = wolf_terror_bad_modifier
+            }
         }
     }
 
@@ -304,7 +387,7 @@ wolf_invader.00041 = { #wolf is back after being 'slain'
     theme = martial
     
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = anger
     }
 
@@ -330,6 +413,9 @@ wolf_invader.00041 = { #wolf is back after being 'slain'
                 add_county_modifier = wolf_terror_bad_modifier
             }
         }
+        stress_impact = { 
+            base = 20
+        }
     }
 
     option = { #going on a hunt
@@ -341,6 +427,14 @@ wolf_invader.00041 = { #wolf is back after being 'slain'
             id = wolf_invader.0005
             days = 15
         }
+        custom_tooltip = { 
+            text = going_on_a_hunt
+        }
+        stress_impact = { 
+            craven = 150
+            lifestyle_hunter = -50
+            brave = -50
+        }
     }
 
     option = { #paying mercenaries to deal with the wolf
@@ -348,6 +442,9 @@ wolf_invader.00041 = { #wolf is back after being 'slain'
         trigger_event = { 
             id = wolf_invader.00031
             days = 30
+        }
+        custom_tooltip = { 
+            text = hiring_mercs
         }
     }
 }
@@ -380,11 +477,11 @@ wolf_invader.0005 = {#hunt underway
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_knife_start
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -420,11 +517,11 @@ wolf_invader.0006 = {#wolf encounter
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_knife_start
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -468,13 +565,24 @@ wolf_invader.0006 = {#wolf encounter
                     factor = 3
                     has_trait = intellect_good_4
                 }
+                custom_tooltip = { 
+                    text = wolf_engaged
+                }
             }
+            
 
             50 = { #wolf evasion
                 trigger_event = {
                     id = wolf_invader.0061
+                }
+                custom_tooltip = { 
+                    text = wolf_evades
                 }  
-            }    
+            }
+            stress_impact = { 
+                base = 25
+            }
+                
         }
     }
 }
@@ -490,11 +598,11 @@ wolf_invader.0061 = { #the wolf evades the hunter
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = anger
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -534,7 +642,7 @@ wolf_invader.0062 = {#wolf causes even more destruction
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = rage
     }
 
@@ -563,11 +671,11 @@ wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = hunting_longbow_aim_arrow_default
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -592,6 +700,12 @@ wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
             id = wolf_invader.0008
             days = { 40 80 }
         }
+
+        stress_impact = { 
+            warg = -25
+            brave = 20
+            vengeful = 50
+        }
     }
 
     option = { #fighting the wolf with the party
@@ -612,6 +726,9 @@ wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
         trigger_event = {
             id = wolf_invader.98
         }
+        stress_impact = { 
+            brave = -25
+        }
     }    
 }
 
@@ -629,8 +746,8 @@ wolf_invader.0008 = {#wolf is encountered peacefully by player
                     has_county_modifier = wolf_terror_modifier
                 }
             }
-            remove_county_modifier = {
-                modifier = wolf_terror_modifier
+            capital_county = { 
+                remove_county_modifier = wolf_terror_modifier
             }
         }
         if = {
@@ -639,15 +756,15 @@ wolf_invader.0008 = {#wolf is encountered peacefully by player
                     has_county_modifier = wolf_terror_bad_modifier
                 }
             }
-            remove_county_modifier = {
-                modifier = wolf_terror_bad_modifier
+            capital_county = { 
+                remove_county_modifier = wolf_terror_bad_modifier
             }
         }
         
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = stayback
     }
 
@@ -679,7 +796,7 @@ wolf_invader.00081 = {#player is a warg and tames the mother
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -703,7 +820,7 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -711,7 +828,8 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
         name = wolf_invader.00082.a
         trigger_event = { #event for the pup growing into a full direwolf
             id = wolf_invader.00083
-            years = { 4 5 }
+            #years = { 4 5 }
+            days = 1
         }
     }
 }
@@ -729,7 +847,7 @@ wolf_invader.00083 = {#pup is grown into a full direwolf
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -738,7 +856,7 @@ wolf_invader.00083 = {#pup is grown into a full direwolf
     }
 }
 
-wolf_invader.00084 = {#unlocks direwolf riders MAA
+wolf_invader.00084 = {#unlocks direwolf riders innovation
     type = character_event
     title = wolf_invader.00084.title
     desc = wolf_invader.00084.desc
@@ -751,7 +869,9 @@ wolf_invader.00084 = {#unlocks direwolf riders MAA
     option = {
         name = wolf_invader.00084.a
         scope:elflord = {
-            add_culture_tradition = tradition_direwolf_riders
+            culture = { 
+                add_innovation = innovation_direwolf_riders
+            }
         }
     }
 }
@@ -767,7 +887,7 @@ wolf_invader.98 = { #player fights the wolf alone
     }
 
     left_portrait = {
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
@@ -833,11 +953,26 @@ wolf_invader.99 = { #hunting party is engaging the wolf
     }
 
     left_portrait = {
-        character = scope:elflord
-        animation = hunting_longbow_aim_arrow
+        character = root
+        animation = hunting_longbow_aim_arrow_default
     }
 
-
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_sword
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = aggressive_spear
+        
+    }
     option = { 
         name = wolf_invader.99.a
 
@@ -867,6 +1002,9 @@ wolf_invader.99 = { #hunting party is engaging the wolf
                     factor = 3
                     has_trait = physique_good_4
                 }
+                custom_tooltip = { 
+                    text = direwolf_dies_to_hunting_party
+                }
             }
 
             35 = {#wolf whacks player 
@@ -885,6 +1023,9 @@ wolf_invader.99 = { #hunting party is engaging the wolf
                     add = -60
                     has_trait = physique_bad_3
                 }
+                custom_tooltip = { 
+                    text = direwolf_kills_hunting_party
+                }
             }
         }
     }
@@ -902,14 +1043,15 @@ wolf_invader.100 = { #wolf is killed by party no pelt
             remove_county_modifier = wolf_terror_bad_modifier
             remove_county_modifier = wolf_terror_modifier
         }
+        create_direwolf_pelt_effect = { OWNER = root }
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -930,6 +1072,9 @@ wolf_invader.100 = { #wolf is killed by party no pelt
         trigger_event = {
             id = wolf_invader.101
         }
+        stress_impact = { 
+            base = -50
+        }
     }
 }
 
@@ -944,11 +1089,11 @@ wolf_invader.101 = { #reward for killing wolf with party
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -1004,7 +1149,7 @@ wolf_invader.102 = { #wolf is killed by player alone
     
     }    
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = personality_bold
     }
 
@@ -1031,7 +1176,7 @@ wolf_invader.103 = { #reward for killing wolf alone
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = happiness
     }
 
@@ -1055,7 +1200,7 @@ wolf_invader.104 = { #finding the wolf den
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
@@ -1090,7 +1235,7 @@ wolf_invader.105 = { #rewards for whacking the pup
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
@@ -1119,7 +1264,7 @@ wolf_invader.106 = { #rewards for taking the pup
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = interested
     }
 
@@ -1229,10 +1374,10 @@ wolf_invader.200 = {#player dies to wolf
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = stayback
     }
-    center_portrait = { 
+    lower_left_portrait = { 
         trigger = {
             exists = scope:hunter_1
         }
@@ -1249,7 +1394,7 @@ wolf_invader.200 = {#player dies to wolf
     }
 
     option = { 
-        name = wolf_invader.200
+        name = wolf_invader.200.a
         death = {
             death_reason = killed_by_direwolf
         }   
@@ -1293,7 +1438,7 @@ wolf_invader.201 = {#player is ambushed by wolf
     }
 
     left_portrait = { 
-        character = scope:elflord
+        character = root
         animation = stayback
     }
 
