@@ -868,7 +868,7 @@ wolf_invader.00084 = {#unlocks direwolf riders innovation
 
     option = {
         name = wolf_invader.00084.a
-        scope:elflord = {
+        root = {
             culture = { 
                 add_innovation = innovation_direwolf_riders
             }
@@ -1043,12 +1043,133 @@ wolf_invader.100 = { #wolf is killed by party no pelt
             remove_county_modifier = wolf_terror_bad_modifier
             remove_county_modifier = wolf_terror_modifier
         }
+        
+        random_list = { 
+            15 = { 
+                death = {
+                    death_reason = killed_by_direwolf
+                }        
+            }
+            20 = { 
+                increase_wounds_effect = { REASON = killed_direwolf }
+            }
+            65 = { #gets off scot free
+                modifier = {
+                    has_trait = physique_good_1
+                    factor = 1.5
+                }
+                modifier = {
+                    has_trait = physique_good_2
+                    factor = 2
+                }
+                modifier = {
+                    has_trait = physique_good_3
+                    factor = 2.5
+                }
+                modifier = {
+                    has_trait = physique_good_4
+                    factor = 3
+                }
+                modifier = {
+                    has_trait = strong
+                    factor = 1.8
+                }
+                
+            }
+        }
+        
+        if = { 
+            limit = {
+                exists = scope:hunter_1
+            }
+            random_list = {
+                15 = { 
+                    scope:hunter_1 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                20 = { 
+                    scope:hunter_1 = {
+                        increase_wounds_effect = { REASON = killed_direwolf }
+                    }
+                }
+                65 = { 
+                    #gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+        
+        if = { 
+            limit = {
+                exists = scope:hunter_2
+            }   
+            random_list = {
+                15 = { 
+                    scope:hunter_2 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                20 = { 
+                    scope:hunter_2 = {
+                        increase_wounds_effect = { REASON = killed_by_direwolf }
+                    }
+                }
+                65 = { 
+                    #gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+        
         create_direwolf_pelt_effect = { OWNER = root }
     }
 
     left_portrait = { 
         character = root
-        animation = personality_bold
+        animation = celebrate_sword
     }
 
     lower_left_portrait = { 
@@ -1056,15 +1177,14 @@ wolf_invader.100 = { #wolf is killed by party no pelt
             exists = scope:hunter_1
         }
         character = scope:hunter_1
-        animation = aggressive_sword
     }
     
     right_portrait = { 
         trigger = {
-            exists = scope:hunter_2
+            exists = scope:hunter_2   
         }
         character = scope:hunter_2
-        animation = aggressive_spear
+        animation = celebrate_spear
     }
 
     option = {
@@ -1090,7 +1210,7 @@ wolf_invader.101 = { #reward for killing wolf with party
 
     left_portrait = { 
         character = root
-        animation = happiness
+        animation = personality_content
     }
 
     lower_left_portrait = { 
@@ -1098,7 +1218,6 @@ wolf_invader.101 = { #reward for killing wolf with party
             exists = scope:hunter_1
         }
         character = scope:hunter_1
-        animation = aggressive_sword
     }
     
     right_portrait = { 
@@ -1106,18 +1225,26 @@ wolf_invader.101 = { #reward for killing wolf with party
             exists = scope:hunter_2
         }
         character = scope:hunter_2
-        animation = aggressive_spear
+        animation = celebrate_spear
     }
 
     option = {
         name = wolf_invader.101.a
-        add_prestige = 1000
+        add_prestige = 1500
+        add_character_modifier = { 
+            modifier = direwolf_slayer_modifier
+            years = 5
+        }    
         if = { 
             limit = {
                 exists = scope:hunter_1
             }
             scope:hunter_1 = {
                 add_prestige = 1000
+                add_character_modifier = { 
+                    modifier = direwolf_slayer_modifier
+                    years = 5
+                }
             }
         }
         if = { 
@@ -1126,11 +1253,21 @@ wolf_invader.101 = { #reward for killing wolf with party
             }
             scope:hunter_2 = {
                 add_prestige = 1000
+                add_character_modifier = { 
+                    modifier = direwolf_slayer_modifier
+                    years = 5
+                } 
             }
         }
+        create_direwolf_pelt_effect = { 
+            OWNER = scope:elflord
+        }
+
         trigger_event = { 
             id = wolf_invader.104
+            days = 3
         }
+        
     }
 }
 
@@ -1174,6 +1311,10 @@ wolf_invader.103 = { #reward for killing wolf alone
             OWNER = scope:elflord
         }
     }
+    add_character_modifier = [ 
+        modifier = direwolf_slayer_modifier
+        years = 5
+    ]
 
     left_portrait = { 
         character = root
@@ -1182,7 +1323,7 @@ wolf_invader.103 = { #reward for killing wolf alone
 
     option = {
         name = wolf_invader.103.a
-        add_prestige = 2500
+        add_prestige = 3000
         trigger_event = { 
             id = wolf_invader.104
         }
@@ -1222,7 +1363,9 @@ wolf_invader.105 = { #rewards for whacking the pup
     type = character_event
     title = wolf_invader.105.title
     desc = wolf_invader.105.desc
-    theme = hunt_activity
+    theme = diplomacy
+
+    override_background = { reference = throne_room }
 
     immediate = {
         debug_log = "player rewarded for whacking pup"
@@ -1232,6 +1375,7 @@ wolf_invader.105 = { #rewards for whacking the pup
                 years = 5
             }    
         }
+
     }
 
     left_portrait = { 
@@ -1241,7 +1385,6 @@ wolf_invader.105 = { #rewards for whacking the pup
 
     option = {
         name = wolf_invader.105.a
-        custom_tooltip = population_happy
         add_prestige = 100
     }
 }
@@ -1250,7 +1393,8 @@ wolf_invader.106 = { #rewards for taking the pup
     type = character_event
     title = wolf_invader.106.title
     desc = wolf_invader.106.desc
-    theme = hunt_activity
+    theme = martial
+    override_background = { reference = throne_room }
 
     immediate = {
         debug_log = "player rewarded for whacking pup"
@@ -1260,7 +1404,7 @@ wolf_invader.106 = { #rewards for taking the pup
                 years = 5
             }    
         }
-        add_character_modifier = has_direwolf_pup
+        add_character_modifier = has_direwolf_pup_modifier
     }
 
     left_portrait = { 
@@ -1271,7 +1415,7 @@ wolf_invader.106 = { #rewards for taking the pup
     option = {
         name = wolf_invader.106.a
         custom_tooltip = population_angry
-        add_prestige = -100
+        add_prestige = -500
         trigger_event = { #event for the pup growing into a full direwolf
             id = wolf_invader.00083
             years = { 4 5 }
