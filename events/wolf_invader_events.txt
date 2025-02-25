@@ -833,87 +833,6 @@ wolf_invader.00082 = {#player isnt a warg and is gifted a pup
     }
 }
 
-wolf_invader.00083 = {#pup is grown into a full direwolf
-    type = character_event
-    title = wolf_invader.00083.title
-    desc = wolf_invader.00083.desc
-    theme = pet
-
-    immediate = {
-        debug_log = "wolf pup is grown into a full direwolf"
-    }
-
-    left_portrait = {
-        character = root
-        animation = happiness
-    }
-
-    option = {
-        name = wolf_invader.00083.a
-        remove_character_modifier = has_direwolf_pup_modifier
-        add_character_modifier = has_grown_direwolf_modifier
-        trigger_event = { 
-            id = wolf_invader.00085
-            years = { 15 20 }
-        }
-
-    }
-}
-
-wolf_invader.00084 = {#unlocks direwolf riders innovation
-    type = character_event
-    title = wolf_invader.00084.title
-    desc = wolf_invader.00084.desc
-    theme = direwolf_training
-
-    immediate = {
-        debug_log = "dire wolf riders maa unlocked"
-    }
-    left_portrait = { 
-        character = root
-        animation = interested
-    }
-
-    right_portrait = { 
-        character = cp:councillor_marshal
-        animation = personality_bold
-
-    }
-
-    option = {
-        name = wolf_invader.00084.a
-        root = {
-            culture = { 
-                add_innovation = innovation_direwolf_riders
-            }
-        }
-    }
-}
-
-wolf_invader.00085 = {#direwolf dies to age
-    type = character_event
-    title = wolf_invader.00085.title
-    desc = wolf_invader.00085.desc
-    theme = death
-    override_background = { reference = garden }
-    immediate = {
-        debug_log = "grown direwolf dies due to age"
-    }
-
-    left_portrait = {
-        character = root
-        animation = crying
-    }
-
-    option = {
-        name = wolf_invader.00085.a
-        remove_character_modifier = has_grown_direwolf_modifier
-        stress_impact = { 
-            base = 50
-        }
-    }
-}
-
 wolf_invader.98 = { #player fights the wolf alone
     type = character_event
     title = wolf_invader.98.title
@@ -956,7 +875,10 @@ wolf_invader.98 = { #player fights the wolf alone
                     has_trait = physique_good_4
                 }
                 trigger_event = { 
-                    id = wolf_invader.101
+                    id = wolf_invader.102
+                }
+                custom_tooltip = { 
+                    text = direwolf_dies_to_hunting_party
                 }
             }    
             50 = {#wolf whacks player 
@@ -974,6 +896,9 @@ wolf_invader.98 = { #player fights the wolf alone
                 }
                 trigger_event = { 
                     id = wolf_invader.200
+                }
+                custom_tooltip = { 
+                    text = direwolf_kills_hunting_party
                 }    
             }
         }
@@ -1319,11 +1244,11 @@ wolf_invader.102 = { #wolf is killed by player alone
             remove_county_modifier = wolf_terror_bad_modifier
             remove_county_modifier = wolf_terror_modifier
         }
-    
+        give_nickname = nick_wolfslayer
     }    
     left_portrait = { 
         character = root
-        animation = personality_bold
+        animation = celebrate_sword
     }
 
 
@@ -1347,10 +1272,7 @@ wolf_invader.103 = { #reward for killing wolf alone
             OWNER = scope:elflord
         }
     }
-    add_character_modifier = [ 
-        modifier = direwolf_slayer_modifier
-        years = 5
-    ]
+    
 
     left_portrait = { 
         character = root
@@ -1363,7 +1285,12 @@ wolf_invader.103 = { #reward for killing wolf alone
         trigger_event = { 
             id = wolf_invader.104
         }
+        add_character_modifier = { 
+        modifier = direwolf_slayer_modifier
+        years = 5
     }
+    }
+    
 }
 
 wolf_invader.104 = { #finding the wolf den
@@ -1622,7 +1549,7 @@ wolf_invader.201 = {#player is ambushed by wolf
     }
 
     option = { 
-        name = wolf_invader.201
+        name = wolf_invader.201.a
         trigger_event = { 
             id = wolf_invader.98
         }
@@ -1630,14 +1557,14 @@ wolf_invader.201 = {#player is ambushed by wolf
 }
 
 
-wolf_invader.01 = {#player takes decision to tame direwolf
+wolf_invader.555 = {#player takes decision to tame direwolf
     type = character_event
-    title = wolf_invader.01.title
-    desc = wolf_invader.01.desc
+    title = wolf_invader.555.title
+    desc = wolf_invader.555.desc
     theme = direwolf_grounds
 
     immediate = {
-        debug_log = "player is attempting to tame a direwolf"
+        debug_log = "decision to tame a wolf taken"
     }
 
     left_portrait = {
@@ -1646,13 +1573,286 @@ wolf_invader.01 = {#player takes decision to tame direwolf
     }
 
     option = {# confirming trying to tame a pup
-        name = wolf_invader.01.a
-        trigger_event = { 
-            id = wolf_invader.02
+        name = wolf_invader.555.a
+        random_list = { 
+            40 = { #success in taming a pup
+                if = { 
+                    limit = { 
+                        has_trait = warg
+                    }
+                    trigger_event = { 
+                    id = wolf_invader.5551
+                    days = 2
+                    }
+                }    
+                else_if = { 
+                    trigger_event = { 
+                    id = wolf_invader.55511
+                    days = 2
+                    }
+                }
+                
+                modifier = { 
+                    has_trait = warg
+                    factor = 7.5
+                }
+                modifier = { 
+                    has_trait = physique_good_1
+                    factor = 1.2
+                }
+                modifier = { 
+                    has_trait = physique_good_2
+                    factor = 1.6
+                }
+                modifier = { 
+                    has_trait = physique_good_3
+                    factor = 2
+                }
+                modifier = { 
+                    has_trait = physique_good_4
+                    factor = 3
+                }
+                custom_tooltip = { 
+                    text = pup_taming_success
+                }
+            }
+            40 = { #failure
+                trigger_event = { 
+                    id = wolf_invader.5552
+                    days = 2
+                }
+                custom_tooltip = { 
+                    text = pup_taming_failure
+                }
+            }
+            
+            20 = { #death
+                trigger_event = { 
+                    id = wolf_invader.5553
+                    days = 2
+                }
+                custom_tooltip = {
+                    text = pup_taming_death
+                }
+            }
         }
     }
 
     option = { #backing out
-        name = wolf_invader.01.b
+        name = wolf_invader.555.b
+        remove_decision_cooldown = tame_direwolf_pup
+    }
+}
+
+wolf_invader.5551 = {#taming successful warg version
+    type = character_event
+    title = wolf_invader.5551.title
+    desc = wolf_invader.5551.desc
+    theme = direwolf_grounds
+
+    immediate = {
+        
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    
+
+    option = { 
+        name = wolf_invader.5551.a
+        trait = warg
+        trigger_event = { 
+            id = wolf_invader.00083
+            years = 5
+        }
+        custom_tooltip = { 
+            text = available_because_warg_trait
+        }
+        add_character_modifier = has_direwolf_pup_modifier
+    }
+}
+
+wolf_invader.55511 = {#taming successful warg version
+    type = character_event
+    title = wolf_invader.55511.title
+    desc = wolf_invader.55511.desc
+    theme = direwolf_grounds
+
+    immediate = {
+        
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    
+
+    option = { 
+        name = wolf_invader.55511.a
+        trigger_event = { 
+            id = wolf_invader.00083
+            years = 5
+        }
+        add_character_modifier = has_direwolf_pup_modifier
+    }
+}
+
+
+wolf_invader.5552 = {#failing to tame a pup
+    type = character_event
+    title = wolf_invader.5552.title
+    desc = wolf_invader.5552.desc
+    theme = direwolf_grounds
+
+    immediate = {
+
+    }
+
+    left_portrait = {
+        character = root
+        animation = fear
+    }
+
+    option = { 
+        name = wolf_invader.5552.a
+        random_list = { 
+            50 = { #nothing happens 
+                modifier = { 
+                    has_trait = warg
+                    factor = 5
+                }
+                modifier = { 
+                    has_trait = physique_good_1
+                    factor = 1.2
+                }
+                modifier = { 
+                    has_trait = physique_good_2
+                    factor = 1.6
+                }
+                modifier = { 
+                    has_trait = physique_good_3
+                    factor = 2
+                }
+                modifier = { 
+                    has_trait = physique_good_4
+                    factor = 3
+                }
+            }
+
+            50 = { 
+                increase_wounds_effect = { 
+                    REASON = killed_by_direwolf
+                }
+            }
+        }
+    }
+}
+
+wolf_invader.5553 = {#taming results in death
+    type = character_event
+    title = wolf_invader.5553.title
+    desc = wolf_invader.5553.desc
+    theme = direwolf_grounds
+
+    immediate = {
+        
+    }
+
+    left_portrait = {
+        character = root
+        animation = fear
+    }
+
+    option = { 
+        name = wolf_invader.5553.a
+        death = { 
+            death_reason = killed_by_direwolf
+        }
+    }
+}
+
+wolf_invader.00083 = {#pup is grown into a full direwolf
+    type = character_event
+    title = wolf_invader.00083.title
+    desc = wolf_invader.00083.desc
+    theme = pet
+
+    immediate = {
+        debug_log = "wolf pup is grown into a full direwolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.00083.a
+        remove_character_modifier = has_direwolf_pup_modifier
+        add_character_modifier = has_grown_direwolf_modifier
+        trigger_event = { 
+            id = wolf_invader.00085
+            years = { 15 20 }
+        }
+
+    }
+}
+
+wolf_invader.00084 = {#unlocks direwolf riders innovation
+    type = character_event
+    title = wolf_invader.00084.title
+    desc = wolf_invader.00084.desc
+    theme = direwolf_training
+
+    immediate = {
+        debug_log = "dire wolf riders maa unlocked"
+    }
+    left_portrait = { 
+        character = root
+        animation = interested
+    }
+
+    right_portrait = { 
+        character = cp:councillor_marshal
+        animation = personality_bold
+
+    }
+
+    option = {
+        name = wolf_invader.00084.a
+        root = {
+            culture = { 
+                add_innovation = innovation_direwolf_riders
+            }
+        }
+    }
+}
+
+wolf_invader.00085 = {#direwolf dies to age
+    type = character_event
+    title = wolf_invader.00085.title
+    desc = wolf_invader.00085.desc
+    theme = death
+    override_background = { reference = garden }
+    immediate = {
+        debug_log = "grown direwolf dies due to age"
+    }
+
+    left_portrait = {
+        character = root
+        animation = crying
+    }
+
+    option = {
+        name = wolf_invader.00085.a
+        remove_character_modifier = has_grown_direwolf_modifier
+        stress_impact = { 
+            base = 50
+        }
     }
 }
