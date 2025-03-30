@@ -508,19 +508,20 @@ wolf_invader.0005 = {#hunt underway
     }
 }
 
-wolf_invader.0006 = {#wolf encounter
+wolf_invader.0006 = { #wolf encounter
     type = character_event
     title = wolf_invader.0006.title
     desc = wolf_invader.0006.desc
-    theme = hunt_activity
+    theme = wolf_encounter
 
     immediate = {
         debug_log = "player encounters the wolf"
     }
 
-    left_portrait = {
+    right_portrait = {
         character = root
-        animation = hunting_knife_start
+        animation = hunting_longbow_aim_arrow_default
+        camera = face_away_right_portrait
     }
 
     lower_left_portrait = { 
@@ -531,13 +532,26 @@ wolf_invader.0006 = {#wolf encounter
         animation = aggressive_sword
     }
     
-    right_portrait = { 
+    lower_center_portrait = { 
         trigger = {
             exists = scope:hunter_2
         }
         character = scope:hunter_2
-        animation = aggressive_spear
+        animation = aggressive_sword
     }
+    
+    # override_effect_2d = {
+	# 	reference = fog
+	# }
+
+    # left_portrait = { 
+    #     trigger = {
+    #         exists = scope:hunter_1
+    #     }
+    #     character = scope:hunter_1
+    #     animation = aggressive_spear
+    #     # camera = face_away_left_portrait
+    # }
 
     option = { 
         name = wolf_invader.0006.a
@@ -593,7 +607,7 @@ wolf_invader.0061 = { #the wolf evades the hunter
     type = character_event
     title = wolf_invader.0061.title
     desc = wolf_invader.0061.desc
-    theme = hunt_activity
+    theme = wolf_encounter_empty
 
     immediate = {
         debug_log = "wolf evades the hunter"
@@ -666,7 +680,7 @@ wolf_invader.0007 = { #wolf is intercepted and engaged by hunting party
     type = character_event
     title = wolf_invader.0007.title
     desc = wolf_invader.0007.desc
-    theme = hunt_activity
+    theme = wolf_encounter_empty
 
     immediate = {
         debug_log = "wolf is intercepted and engaged by hunting party"
@@ -883,7 +897,7 @@ wolf_invader.98 = { #player fights the wolf alone
                     text = direwolf_dies_to_hunting_party
                 }
             }    
-            50 = {#wolf whacks player 
+            0 = {#wolf whacks player 
                 modifier = {
                     add = -20
                     has_trait = physique_bad_1
