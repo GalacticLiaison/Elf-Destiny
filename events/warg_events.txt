@@ -1,0 +1,533 @@
+﻿namespace = warg
+
+warg.001 = { # Character becomes a Warg
+	type = character_event
+	title = warg.001.title
+	desc = {
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					has_trait_xp = {
+						trait = lifestyle_hunter
+						track = falconer
+						value >= 100
+					}
+				}
+				desc = warg.001.desc.bird
+			}
+			desc = warg.001.desc.standard
+		}
+	}
+
+	theme = warg_lifestyle
+    content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				has_trait_xp = {
+					trait = lifestyle_hunter
+					track = falconer
+					value >= 100
+				}
+			}
+			animation = hunting_falcon
+		}
+		animation = disbelief
+	}
+
+	immediate = {
+		add_trait = warg
+	}
+	
+	option = {
+		name = warg.001.a
+	}
+}
+
+warg.002 = { # Animal Spies
+	type = character_event
+	title = warg.002.title
+	desc = warg.002.desc
+	theme = animal_spies
+    content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:actor
+		animation = scheme
+	}
+
+	lower_left_portrait = {
+		character = scope:recipient
+		animation = idle
+	}
+
+	immediate = {
+
+	}
+
+	# Character gains some kind of modifier while spies are out representing their split focus
+	# - stress % increase
+	# - tiny piety loss
+	
+	# Easier to notice but faster
+	option = { # send birds
+		name = warg.002.birds
+
+		save_scope_value_as = { name = animal_spy_type value = flag:birds }
+		custom_tooltip = warg.002.tooltip
+		flavor = warg.002.birds.flavor
+
+		hidden_effect = {
+			random_list = { # Elf
+				45 = { # Succeed
+					trigger_event = {
+						id = warg.0021
+						months = { 3 7 }
+					}
+				}
+				55 = { # Fail
+					trigger_event = {
+						id = warg.0022
+						months = { 3 7 }
+					}
+				}
+				# 0 = { # Ruler being scouted is magically talented
+				# 	modifier = {
+				# 		add = 10
+				# 		scope:recipient = { has_trait = magic_talent_1 }
+				# 	}
+				# 	modifier = {
+				# 		add = 20
+				# 		scope:recipient = { has_trait = magic_talent_2 }
+				# 	}
+				# 	modifier = {
+				# 		add = 30
+				# 		scope:recipient = { has_trait = magic_talent_3 }
+				# 	}
+				# }
+				# 0 = { # Ruler being scouted is a warg
+				# 	modifier = {
+				# 		add = 100
+				# 		scope:recipient = { has_trait = warg }
+				# 	}
+				# }
+			}
+		}
+	}
+
+	# More consistent but takes longer
+	option = { # send rats
+		name = warg.002.rats
+
+		save_scope_value_as = { name = animal_spy_type value = flag:rats }
+		custom_tooltip = warg.002.tooltip
+		flavor = warg.002.rats.flavor
+
+		hidden_effect = {
+			random_list = { # Elf
+				75 = { # Succeed
+					trigger_event = {
+						id = warg.0021
+						months = { 6 18 }
+					}
+				}
+				25 = { # Fail
+					trigger_event = {
+						id = warg.0022
+						months = { 6 18 }
+					}
+				}
+				# 0 = { # Ruler being scouted is magically talented
+				# 	modifier = {
+				# 		add = 10
+				# 		scope:recipient = { has_trait = magic_talent_1 }
+				# 	}
+				# 	modifier = {
+				# 		add = 20
+				# 		scope:recipient = { has_trait = magic_talent_2 }
+				# 	}
+				# 	modifier = {
+				# 		add = 30
+				# 		scope:recipient = { has_trait = magic_talent_3 }
+				# 	}
+				# }
+				# 0 = { # Ruler being scouted is a warg
+				# 	modifier = {
+				# 		add = 100
+				# 		scope:recipient = { has_trait = warg }
+				# 	}
+				# }
+			}
+		}
+	}
+}
+
+warg.0021 = { # Warg Success 
+	type = character_event
+
+	title = {
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:affair
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.title.affair.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:murder
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.title.murder.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:embezzle
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.title.embezzle.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:religion
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.title.religion.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:affair
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.title.affair.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:murder
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.title.murder.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:embezzle
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.title.embezzle.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:religion
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.title.religion.rat
+			}
+			desc = warg.0021.title.fallback
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:affair
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.desc.affair.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:murder
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.desc.murder.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:embezzle
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.desc.embezzle.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:religion
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0021.desc.religion.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:affair
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.desc.affair.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:murder
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.desc.murder.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:embezzle
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.desc.embezzle.rat
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:discovered_secret_type
+					scope:discovered_secret_type = flag:religion
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0021.desc.religion.rat
+			}
+			desc = warg.0021.desc.fallback
+		}
+	}
+
+	theme = animal_spies_secret_discovered
+    content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:secret_target
+
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:affair
+			}
+			animation = flirtation
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:murder
+			}
+			animation = assassin
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:embezzle
+			}
+			animation = bribing
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:religion
+			}
+			animation = prayer
+		}
+		animation = idle
+	}
+
+	right_portrait = {
+		trigger = {
+			OR = {
+				scope:discovered_secret_type = flag:affair
+				scope:discovered_secret_type = flag:murder
+			}
+		}
+
+		character = scope:right_portrait_character
+
+
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:affair
+			}
+			animation = admiration
+		}
+		triggered_animation = {
+			trigger = {
+				exists = scope:discovered_secret_type
+				scope:discovered_secret_type = flag:murder
+			}
+			animation = fear
+		}
+		animation = idle
+	}
+
+	# you feel a tug through your connection, 
+	# your mouse/bird has something they believe you would desire to see
+
+	immediate = {
+		scope:recipient = {
+			random_list = {
+				80 = { # Find secret on courtier of lord
+					random_courtier = {
+						limit = {
+							is_physically_able_adult = yes
+						}
+						save_scope_as = secret_target
+					}
+				}
+				20 = {# Find secret on the Lord themselves
+					save_scope_as = secret_target
+				}
+			}
+
+			animal_spies_set_possible_secret_targets_effect = yes
+			animal_spies_choose_secret_type_effect = yes
+
+			# add_knows_of_killer - Adds the right hand side character as knowing of the killer of the scoped object
+			# dead_person = { add_knows_of_killer = root }
+
+			if = {
+				limit = {
+					scope:discovered_secret_type = flag:affair	
+					exists = scope:affair_target
+				}
+				scope:affair_target = {
+					save_scope_as = right_portrait_character
+				}
+			}
+			else_if = {
+				limit = {
+					scope:discovered_secret_type = flag:murder	
+					exists = scope:murder_target
+				}
+				scope:murder_target = {
+					save_scope_as = right_portrait_character
+				}
+			}
+		}
+	}
+
+	option = {
+		name = warg.0021.a
+		remove_character_modifier = split_focus
+		if = {
+			limit = {
+				scope:discovered_secret_type = flag:affair
+			}
+			animal_spies_affair_secret_discovered_effect = yes
+		}
+		if = {
+			limit = {
+				scope:discovered_secret_type = flag:murder
+			}
+			animal_spies_murder_secret_discovered_effect = yes
+		}
+		if = {
+			limit = {
+				scope:discovered_secret_type = flag:embezzle
+			}
+			animal_spies_embezzle_secret_discovered_effect = yes
+		}
+		if = {
+			limit = {
+				scope:discovered_secret_type = flag:religion
+			}
+			animal_spies_religion_secret_discovered_effect = yes
+		}
+
+		hidden_effect = {
+			remove_interaction_cooldown = send_animal_spies_interaction
+		}
+	}
+}
+
+warg.0022 = { # Warg Failure
+	type = character_event
+	title = {
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0022.title.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:animal_spy_type
+					scope:animal_spy_type= flag:birds
+				}
+				desc = warg.0022.title.rat
+			}
+			desc = warg.0022.title.fallback
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = { 
+				trigger = {
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:birds
+				}
+				desc = warg.0022.desc.bird
+			}
+			triggered_desc = { 
+				trigger = {
+					exists = scope:animal_spy_type
+					scope:animal_spy_type = flag:rats
+				}
+				desc = warg.0022.desc.rat
+			}
+			desc = warg.0022.desc.fallback
+		}
+	}
+
+	theme = animal_spies_dead
+    content_source = elf_destiny
+
+	# Bird shot with arrow
+	# Rat killed by rat catcher
+
+	# warg backlash modifier added
+
+	immediate = {
+		remove_character_modifier = split_focus
+		
+		add_character_modifier = {
+			modifier = warg_bond_backlash
+			years = 2
+		}
+	}
+
+	option = {
+		name = warg.0022.a
+	}
+}

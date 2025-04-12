@@ -1,20 +1,25 @@
 ﻿increase_wolf_terror_in_capital_effect = {
-	if = { 
-		limit = { 
-			NOR = { 
-				capital_county = { has_county_modifier = wolf_terror_modifier } 
-				capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
-			}
-		}
-		capital_county = { add_county_modifier = wolf_terror_modifier }
-	}
-	else_if = { 
+	if = {
 		limit = {
-			capital_county = { has_county_modifier = wolf_terror_modifier }
+			exists = capital_county
 		}
-		capital_county = {
-			remove_county_modifier = wolf_terror_modifier
-			add_county_modifier = wolf_terror_bad_modifier
+		if = { 
+			limit = { 
+				NOR = { 
+					capital_county = { has_county_modifier = wolf_terror_modifier } 
+					capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
+				}
+			}
+			capital_county = { add_county_modifier = wolf_terror_modifier }
+		}
+		else_if = { 
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_modifier }
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_modifier
+				add_county_modifier = wolf_terror_bad_modifier
+			}
 		}
 	}
 }
@@ -22,18 +27,29 @@
 remove_wolf_terror_in_capital_effect = {
 	if = {
 		limit = {
-			capital_county = { has_county_modifier = wolf_terror_modifier } 
+			exists = capital_county
+			capital_county = {
+				OR = {
+					has_county_modifier = wolf_terror_modifier
+					has_county_modifier = wolf_terror_bad_modifier
+				}
+			}
 		}
-		capital_county = {
-			remove_county_modifier = wolf_terror_modifier
+		if = {
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_modifier } 
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_modifier
+			}
 		}
-	}
-	if = {
-		limit = {
-			capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
-		}
-		capital_county = {
-			remove_county_modifier = wolf_terror_bad_modifier
+		if = {
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_bad_modifier
+			}
 		}
 	}
 }
