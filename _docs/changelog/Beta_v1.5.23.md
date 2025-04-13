@@ -1,11 +1,5 @@
 # Beta_v1.5.23
+Fixed character interaction sub-menu causing crash
 
-Added Warg Trait
-
-Beast tamers tradition
-    - now increases rate of get pet events
-    - now unlocks ability to get warg trait
-
-NEW Direwolf MAA added
-
-New Direwolf Event chain added
+Fixed the Grand Portal missing at start of the game
+Virion Valertih got his barony back.
