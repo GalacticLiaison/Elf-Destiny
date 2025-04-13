@@ -488,7 +488,7 @@ wolf_invader.005 = { #hunt underway
         name = wolf_invader.005.a
         trigger_event = {
             id = wolf_invader.006
-            days = { 25 65 }
+            days = { 45 85 }
         }
     }
 }
@@ -1552,7 +1552,7 @@ wolf_invader.2001 = { # ensuring the event continues and doesnt break
 
             trigger_event = { 
                 id = wolf_invader.201
-                days = 25
+                years = { 2 5 }
             }
         }
         else = { 
@@ -1887,10 +1887,16 @@ wolf_invader.0084 = { # unlocks direwolf riders innovation
 
     immediate = {
         debug_log = "dire wolf riders maa unlocked"
+        dynasty = {
+            add_dynasty_modifier = {
+                modifier = wolf_lords_dynasty_modifier
+            }
+        }
+        custom_tooltip = direwolf_riders_recruitable
     }
     left_portrait = { 
         character = root
-        animation = interested
+        animation = hunting_horn
     }
 
     right_portrait = { 
@@ -1901,11 +1907,6 @@ wolf_invader.0084 = { # unlocks direwolf riders innovation
 
     option = {
         name = wolf_invader.0084.a
-        root = {
-            culture = { 
-                # add_innovation = innovation_direwolf_riders
-            }
-        }
     }
 }
 
@@ -1940,7 +1941,7 @@ wolf_invader.0086 = { # Wolf desires to return to the wild
     type = character_event
     title = wolf_invader.0086.title
     desc = wolf_invader.0086.desc
-    theme = pet
+    theme = direwolf_grounds
     content_source = elf_destiny
 
     immediate = {
@@ -1949,7 +1950,7 @@ wolf_invader.0086 = { # Wolf desires to return to the wild
 
     left_portrait = {
         character = root
-        animation = happiness
+        animation = worry
     }
 
     option = {
@@ -1961,6 +1962,7 @@ wolf_invader.0086 = { # Wolf desires to return to the wild
         stress_impact = { 
             base = 50
         }
+        remove_character_modifier = grown_direwolf_pet_modifier
     }
     option = {
         name = wolf_invader.0086.b
@@ -1976,7 +1978,7 @@ wolf_invader.0087 = { #wolf returns with new family
     type = character_event
     title = wolf_invader.0087.title
     desc = wolf_invader.0087.desc
-    theme = pet
+    theme = direwolf_grounds
     content_source = elf_destiny
 
     immediate = {
@@ -1994,6 +1996,10 @@ wolf_invader.0087 = { #wolf returns with new family
         name = wolf_invader.0087.a
         stress_impact = { 
             warg = -30
+        }
+        trigger_event = { 
+            id = wolf_invader.0084
+            years = 5
         }
     }
 }

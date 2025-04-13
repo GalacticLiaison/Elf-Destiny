@@ -60,13 +60,16 @@ on_killed_by_direwolf = {
 adopt_a_pet_on_action = {
     trigger = {
         has_pet = no
+        is_ruler = yes
+        culture = {
+            has_cultural_parameter = adopt_pets_more_frequently
+        }
     }
 
     effect = {
-        debug_log = "adopt_a_pet_on_action triggered"
-
         if = {
-            limit = { is_available_child = yes}
+            limit = { is_adult = no}
+
             random_list = {
                 100 = {
                     # Nothing Happens
@@ -80,20 +83,21 @@ adopt_a_pet_on_action = {
             }
         }
         else_if = {
-            limit = { is_available_adult = yes}
+            limit = { is_adult = yes}
+
             random_list = {
-                300 = {
+                200 = {
                     # Nothing Happens
                 }
                 100 = { # Dog Event
-                    trigger_event = court.8030
+                    trigger_event = fp1_yearly.2400
                 }
                 100 = { # Cat Event
-                    trigger_event = court.3060
+                    trigger_event = pet_animal.0107
                 }
-                100 = { # Horse Event
-                    trigger_event = court.5075
-                }
+                # 100 = { # Horse Event
+                #     trigger_event = court.5075
+                # }
             }
         }
     }
