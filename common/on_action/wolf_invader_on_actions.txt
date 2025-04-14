@@ -1,0 +1,118 @@
+three_year_playable_pulse = {    
+    on_actions = {
+        wolf_invader_on_action
+    }
+}
+
+five_year_playable_pulse = {    
+    on_actions = {
+        adopt_a_pet_on_action
+    }
+}
+
+on_death = {
+    on_actions = { 
+        on_killed_by_direwolf
+    }
+}
+
+wolf_invader_on_action = {
+    trigger = {
+        is_ai = no
+        is_target_in_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:flag_grand_portal_restored
+        }
+        NOT = { 
+            has_global_variable = wolf_invader_event_triggered
+        }
+    }
+    effect = {
+        set_global_variable = {
+            name = wolf_invader_event_triggered
+            value = yes
+        }        
+        trigger_event = { 
+            id = wolf_invader.001
+        }
+    }    
+}
+
+on_killed_by_direwolf = { 
+    trigger = { 
+        is_ai = no
+        OR = { 
+            has_character_flag = elflord_dealing_with_direwolf
+            has_character_flag = direwolf_event_heir_continuation
+        }
+    }
+    effect = { 
+        debug_log = "on_killed_by_direwolf triggered"
+        debug_log_scopes = yes
+        primary_heir = { 
+            trigger_event = { 
+                id = wolf_invader.2001
+            }
+        }
+    }
+}
+
+adopt_a_pet_on_action = {
+    trigger = {
+        has_pet = no
+        is_ruler = yes
+        culture = {
+            has_cultural_parameter = adopt_pets_more_frequently
+        }
+    }
+
+    effect = {
+        if = {
+            limit = { is_adult = no}
+
+            random_list = {
+                100 = {
+                    # Nothing Happens
+                }
+                50 = { # Dog Event
+                    trigger_event = childhood.2001
+                }
+                50 = { # Cat Event
+                    trigger_event = childhood.2003
+                }
+            }
+        }
+        else_if = {
+            limit = { is_adult = yes}
+
+            random_list = {
+                200 = {
+                    # Nothing Happens
+                }
+                100 = { # Dog Event
+                    trigger_event = fp1_yearly.2400
+                }
+                100 = { # Cat Event
+                    trigger_event = pet_animal.0107
+                }
+                # 100 = { # Horse Event
+                #     trigger_event = court.5075
+                # }
+            }
+        }
+    }
+}
+
+# unlock_direwolf_riders_innovation = { 
+#     trigger = {
+#         is_ai = no
+#         capital_county = { 
+#             has_county_modifier = direwolf_population_modifier
+#         }
+#     }
+#     effect = {
+#         trigger_event = { 
+#             id = wolf_invader.0084
+#         }
+#     }
+# }

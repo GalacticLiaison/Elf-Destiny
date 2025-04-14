@@ -1,0 +1,112 @@
+﻿increase_wolf_terror_in_capital_effect = {
+	if = {
+		limit = {
+			exists = capital_county
+		}
+		if = { 
+			limit = { 
+				NOR = { 
+					capital_county = { has_county_modifier = wolf_terror_modifier } 
+					capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
+				}
+			}
+			capital_county = { add_county_modifier = wolf_terror_modifier }
+		}
+		else_if = { 
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_modifier }
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_modifier
+				add_county_modifier = wolf_terror_bad_modifier
+			}
+		}
+	}
+}
+
+remove_wolf_terror_in_capital_effect = {
+	if = {
+		limit = {
+			exists = capital_county
+			capital_county = {
+				OR = {
+					has_county_modifier = wolf_terror_modifier
+					has_county_modifier = wolf_terror_bad_modifier
+				}
+			}
+		}
+		if = {
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_modifier } 
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_modifier
+			}
+		}
+		if = {
+			limit = {
+				capital_county = { has_county_modifier = wolf_terror_bad_modifier } 
+			}
+			capital_county = {
+				remove_county_modifier = wolf_terror_bad_modifier
+			}
+		}
+	}
+}
+
+increase_hunter_weariness_effect = {
+	if = {
+		limit = {
+			NOR = {
+				has_character_modifier = weary_hunter_1
+				has_character_modifier = weary_hunter_2
+				has_character_modifier = weary_hunter_3
+			}
+		}
+		add_character_modifier = {
+			modifier = weary_hunter_1
+			months = 3
+		}
+	}
+	else_if = {
+		limit = { 
+			has_character_modifier = weary_hunter_1
+		}
+		remove_character_modifier = weary_hunter_1
+		add_character_modifier = {
+			modifier = weary_hunter_2
+			months = 4
+		}
+	}
+	else_if = {
+		limit = { 
+			has_character_modifier = weary_hunter_2
+		}
+		remove_character_modifier = weary_hunter_2
+		add_character_modifier = {
+			modifier = weary_hunter_3
+			months = 5
+		}
+	}
+}
+
+remove_hunter_weariness_effect = {
+	if = {
+		limit = {
+			has_character_modifier = weary_hunter_1
+		}
+		remove_character_modifier = weary_hunter_1
+	}
+	if = {
+		limit = {
+			has_character_modifier = weary_hunter_2
+		}
+		remove_character_modifier = weary_hunter_2
+	}
+	if = {
+		limit = {
+			has_character_modifier = weary_hunter_3
+		}
+		remove_character_modifier = weary_hunter_3
+	}
+}

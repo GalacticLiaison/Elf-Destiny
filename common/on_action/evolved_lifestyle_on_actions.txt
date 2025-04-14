@@ -1,0 +1,40 @@
+﻿three_year_playable_pulse = {    
+    on_actions = {
+        evolve_hunter_trait
+    }
+}
+
+evolve_hunter_trait = {
+	trigger = {
+		# is_ai = no
+		culture = {
+			has_cultural_parameter = warg_trait_unlocked
+		}
+
+		is_spark_talented = yes
+
+		has_trait = lifestyle_hunter
+		OR = {
+			has_trait_xp = {
+				trait = lifestyle_hunter
+				track = hunter
+				value >= 100
+			}
+			has_trait_xp = {
+				trait = lifestyle_hunter
+				track = falconer
+				value >= 100
+			}
+		}
+
+		has_pet = yes
+
+		NOT = {
+			has_trait = warg
+		}
+	}
+
+	effect = {
+		trigger_event = warg.001
+	}
+}

@@ -1,0 +1,223 @@
+﻿animal_spies_set_possible_secret_targets_effect = {
+	if = {
+		limit = {
+			scope:secret_target = {
+				is_married = yes
+			}
+		}
+		animal_spies_find_an_affair_target = yes
+	}
+
+	animal_spies_find_a_murder_target = yes
+	animal_spies_find_an_embezzlement_target = yes
+}
+
+animal_spies_find_an_affair_target = {
+	random_courtier = {
+		limit = {
+			is_physically_able_adult = yes
+			# age <= 40
+			# is_married = no
+			# can_marry_trigger = yes
+			can_have_children_with = { CHARACTER = scope:secret_target }
+			# could_marry_character_trigger = { CHARACTER = scope:child_to_marry }
+			NOR = {
+				is_close_or_extended_family_of = scope:secret_target
+				is_spouse_of = scope:secret_target
+				has_trait = eunuch
+				has_trait = celibate
+			}
+		}
+		weight = {
+			base = 1
+			modifier = {
+				add = 1000
+				has_relation_lover = scope:secret_target
+			}
+			modifier = {
+				add = 50
+				save_temporary_scope_as = potential_match
+				are_characters_sensible_and_appropriate_lovers_trigger = { INSTIGATING_LOVER = scope:secret_target TARGET_OF_LOVE = scope:potential_match}
+			}
+			modifier = {
+				add = 10
+				save_temporary_scope_as = potential_match
+				are_characters_sensible_lovers_trigger = { INSTIGATING_LOVER = scope:secret_target TARGET_OF_LOVE = scope:potential_match }
+			}
+		}
+		save_scope_as = affair_target
+	}
+}
+
+animal_spies_find_a_murder_target = {
+	random_courtier = {
+		limit = {
+			NOR = {
+				is_close_family_of = scope:secret_target
+				is_close_family_of = scope:recipient
+			}
+			is_adult = yes
+		}
+
+		save_scope_as = murder_target
+	}
+}
+
+animal_spies_find_an_embezzlement_target = {
+	if = {
+		limit = {
+			exists = scope:secret_target.liege
+		}
+		scope:secret_target.liege = {
+			save_scope_as = embezzled_lord
+		}
+	}
+}
+
+animal_spies_choose_secret_type_effect = {
+	random_list = { #secret discovered
+		0 = { # an affair
+			modifier = {
+				add = 33
+				exists = scope:affair_target
+			}
+
+			save_scope_value_as = { name = discovered_secret_type value = flag:affair }
+
+			debug_log = "SECRET IS AFFAIR"
+		}
+		0 = { # a murder
+			modifier = {
+				add = 33
+				exists = scope:murder_target
+			}
+
+			save_scope_value_as = { name = discovered_secret_type value = flag:murder }
+
+			debug_log = "SECRET IS MURDER"
+		}
+		0 = { # stealing from their lord
+			modifier = {
+				add = 33
+				exists = scope:embezzled_lord
+				NOT = {
+					scope:embezzled_lord = scope:secret_target
+				}
+			}
+
+			save_scope_value_as = { name = discovered_secret_type value = flag:embezzle }
+
+			debug_log = "SECRET IS EMBEZZLE"
+		}
+		5 = { # has secret religion
+			save_scope_value_as = { name = discovered_secret_type value = flag:religion }
+
+			scope:secret_target = {
+				hidden_effect = {
+					random_list = {
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:zun_pagan }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mozarabic_church }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:ibadi }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:khurramism }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mazdayasna }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:azariqa }
+						}
+						10 = {
+							make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mutazila }
+						}
+					}			
+				}
+			}
+
+			debug_log = "SECRET IS RELIGION"
+		}
+	}
+}
+
+animal_spies_affair_secret_discovered_effect = {
+	scope:secret_target = {
+		add_secret = {
+			type = secret_lover
+			target = scope:affair_target
+		}
+
+		random_secret = {
+			limit = {
+				NOT = { is_known_by = root }
+				secret_type = secret_lover
+			}
+
+			reveal_to = root
+		}
+	}
+}
+
+animal_spies_murder_secret_discovered_effect = {
+	scope:murder_target = {
+		death = {
+			killer = scope:secret_target
+			death_reason = death_murder
+		}
+	}
+
+	scope:secret_target = {
+		add_secret = {
+			type = secret_murder
+			target = scope:murder_target
+		}
+
+		random_secret = {
+			limit = {
+				NOT = { is_known_by = root }
+				secret_type = secret_murder
+			}
+
+			reveal_to = root
+		}
+
+	}
+}
+
+animal_spies_embezzle_secret_discovered_effect = {
+	scope:secret_target = {
+		give_or_update_embezzler_secret_effect = {
+			TARGET = scope:embezzled_lord
+			STAKE = 100
+		}
+
+		random_secret = {
+			limit = {
+				NOT = { is_known_by = root }
+				secret_type = secret_embezzler
+			}
+
+			reveal_to = root
+		}
+	}
+}
+
+animal_spies_religion_secret_discovered_effect = {
+	scope:secret_target = {
+		custom_tooltip = animal_spies_discovered_secret_faith
+		
+		random_secret = {
+			limit = {
+				NOT = { is_known_by = root }
+				secret_type = secret_crypto_religionist
+			}
+
+			reveal_to = root
+		}
+	}
+}

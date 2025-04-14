@@ -252,9 +252,12 @@
 		# 		custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
 		# 	}
 		# }
+		scope:actor = {trigger_event = entrance.1300}
 	}
 	
 	ai_potential = {
+		always = no
+
 		is_adult = yes
 		NOR = {
 			has_trait = celibate
@@ -675,4 +678,338 @@
 			}
 		}
 	}
+}
+
+# entrance_ai_interaction = {
+# 	icon = icon_scheme_entrance
+# 	category = interaction_category_friendly
+# 	interface_priority = 90
+# 	cooldown = { months = 8 }
+# 	cooldown_against_recipient = { years = 3 }
+
+# 	ignores_pending_interaction_block = yes
+	
+# 	ai_targets = {
+# 		ai_recipients = family
+# 		max = 2
+# 	}
+# 	ai_targets = {
+# 		ai_recipients = guests
+# 		ai_recipients = courtiers
+# 		ai_recipients = neighboring_rulers
+# 	}
+# 	ai_targets = {
+# 		ai_recipients = vassals
+# 		max = 5
+# 	}
+# 	ai_targets = {
+# 		ai_recipients = peer_vassals
+# 		max = 5
+# 	}
+# 	ai_targets = {
+# 		ai_recipients = liege
+# 	}
+	
+# 	# We don't want this to grow ludicrously large in big realms
+# 	ai_targets = {
+# 		ai_recipients = realm_characters
+# 		max = 10
+# 	}
+	
+# 	ai_target_quick_trigger = {
+# 		adult = yes
+# 		attracted_to_owner = yes
+# 		owner_attracted = yes
+# 	}
+# 	ai_frequency = 12
+
+# 	is_shown = {
+
+# 		scope:actor = {
+# 			AND = {
+# 				is_ai = yes
+# 				culture = {
+# 					has_cultural_parameter = entrance_scheme_unlocked
+# 				}	
+# 			}
+# 		}	
+
+# 		NOT = { scope:actor = scope:recipient }
+# 		scope:recipient = { is_adult = yes }
+# 		scope:actor = { is_adult = yes }
+
+# 		# Avoid seducing lowborn nobodies in foreign courts
+# 		trigger_if = {
+# 			limit = {
+# 				scope:actor = { is_ai = yes }
+# 			}
+# 			NOT = {
+# 				scope:recipient = {
+# 					is_lowborn = yes
+# 					is_landed = no
+# 					NOR = {
+# 						is_courtier_of = scope:actor
+# 						is_foreign_court_or_pool_guest_of = scope:actor
+# 					}
+# 				}
+# 			}
+# 		}
+# 		scope:actor = { # Some early filtering for the AI to focus it towards fruitful seductions
+# 			trigger_if = {
+# 				limit = {
+# 					is_ai = yes
+# 				}
+# 				trigger_if = { # Deviants will seduce anyone
+# 					limit = {
+# 						is_deviant_trigger = yes
+# 					}
+# 				}
+# 				trigger_else_if = { # It's always fine to seduce your spouse
+# 					limit = {
+# 						scope:recipient = { is_consort_of = scope:actor }
+# 					}
+# 				}
+# 				trigger_else_if = { # If the target is a close family member, only certain AI's will seduce much older members
+# 					limit = {
+# 						ai_rationality <= -50
+# 						is_close_family_of = scope:recipient
+# 						OR = {
+# 							has_trait = lustful
+# 							has_trait = rakish
+# 							is_incestuous_trigger = yes
+# 							has_opinion_modifier = {
+# 								modifier = childhood_crush
+# 								target = scope:recipient
+# 							}
+# 						}
+# 					}
+# 					scope:recipient.age <= scope:actor.age_plus_25
+# 				}
+# 				trigger_else_if = { # Lustful/seduction-focused characters have a wider range
+# 					limit = {
+# 						OR = {
+# 							has_trait = lustful
+# 							has_trait = rakish
+# 							has_focus = intrigue_temptation_focus
+# 						}
+# 					}
+# 					OR = {
+# 						scope:recipient.age <= scope:actor.age_plus_10
+# 						AND = { # Seducing your vassals/liege/realm priest is good realm management, AND drama!
+# 							has_focus = intrigue_temptation_focus
+# 							OR = {
+# 								scope:recipient = {
+# 									is_vassal_of = scope:actor
+# 								}
+# 								AND = {
+# 									exists = liege
+# 									liege = scope:recipient
+# 								}
+# 								scope:recipient = {
+# 									is_theocratic_lessee = yes
+# 									is_courtier_of = scope:actor
+# 								}
+# 							}
+# 						}
+# 					}
+# 					trigger_if = { # The AI should focus on bastard-producing seductions, it's more dramatic
+# 						limit = {
+# 							is_male = yes
+# 							scope:recipient = {
+# 								is_female = yes
+# 							}
+# 						}
+# 						scope:recipient.age <= scope:recipient.marriage_female_fertility_cutoff_age_value
+# 					}
+# 				}
+# 				trigger_else_if = { # Male characters with no children that are seducing women want to produce bastards
+# 					limit = {
+# 						is_male = yes
+# 						scope:recipient = { is_female = yes }
+# 						any_child = {
+# 							count <= 1
+# 						}
+# 					}
+# 					scope:recipient.age <= scope:actor.age_plus_5
+# 					scope:recipient.age <= scope:recipient.marriage_female_fertility_cutoff_age_value
+# 				}
+# 				trigger_else = { # Otherwise, try to not seduce with *too* large an age gap
+# 					scope:recipient.age <= scope:actor.age_plus_5
+# 					scope:recipient.age >= scope:actor.age_minus_10
+# 				}
+# 			}
+# 			trigger_else = {
+# 			}
+# 		}
+# 	}
+
+# 	is_valid_showing_failures_only = {
+
+# 		# custom_description = {
+# 		# 	text = under_construction
+# 		# 	always = no
+# 		# }
+
+# 		scope:actor = {
+# 			custom_description = {
+# 				text = not_spark_talented
+# 				object = scope:recipient
+# 				is_spark_talented = yes
+# 			}
+# 		}
+
+# 		# scope:actor = {
+# 		# 	NOT = { is_at_war_with = scope:recipient }
+# 		# 	can_start_scheme = {
+# 		# 		type = entrance
+# 		# 		target = scope:recipient
+# 		# 	}
+# 		# }
+
+# 		scope:recipient = {
+# 			custom_description = {
+# 				text = already_entranced
+# 				object = scope:recipient
+# 				NOT = {
+# 					has_trait = entranced
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	desc = entrance_interaction_tt_entrance_approved
+# 	auto_accept = yes
+
+# 	on_accept = {
+# 		debug_log = "Accepted Entrance intereaction"
+# 			scope:actor = {
+# 				trigger_event = entrance.1300
+# 			}
+	
+			
+# 			# seduce_interaction_stress_effect = yes
+
+# 			# hidden_effect = {
+# 			# 	scope:actor = {
+# 			# 		send_interface_toast = {
+# 			# 			title = seduce_interaction_notification
+
+# 			# 			left_icon = scope:actor					
+# 			# 			right_icon = scope:recipient
+
+# 			# 			start_scheme = {
+# 			# 				type = entrance
+# 			# 				target = scope:recipient
+# 			# 			}
+
+# 			# 			show_as_tooltip = { seduce_interaction_stress_effect = yes }
+# 			# 		}
+# 			# 		# if = {
+# 			# 		# 	limit = {
+# 			# 		# 		has_trait = education_intrigue_5
+# 			# 		# 	}
+# 			# 		# 	random_scheme = {
+# 			# 		# 		limit = {
+# 			# 		# 			scheme_type = entrance
+# 			# 		# 			scheme_target = scope:recipient
+# 			# 		# 		}
+# 			# 		# 		add_scheme_progress = 3
+# 			# 		# 	}
+# 			# 		# }
+# 			# 	}
+# 			# }
+# 			# scope:actor = {
+# 			# 	if = {
+# 			# 		limit = {
+# 			# 			NOT = { is_attracted_to_gender_of = scope:recipient }
+# 			# 		}
+# 			# 		custom_tooltip = scheme_interaction_tt_wrong_gender_no_lover
+# 			# 	}
+# 			# }
+		
+# 	}	
+	
+# 	ai_potential = {
+# 		always = no
+
+# 		# is_adult = yes
+# 		# has_cultural_parameter = entrance_scheme_unlocked
+# 		# NOR = {
+# 		# 	has_trait = celibate
+# 		# 	has_trait = chaste
+# 		# 	any_scheme = {
+# 		# 		OR = {
+# 		# 			scheme_type = befriend
+# 		# 			scheme_type = sway
+# 		# 			scheme_type = seduce
+# 		# 			scheme_type = courting
+# 		# 			scheme_type = elope
+# 		# 			scheme_type = learn_language
+# 		# 		}
+# 		# 	}
+# 		# 	primary_title = {
+# 		# 		is_mercenary_company = yes
+# 		# 	}
+# 		# 	AND = { # No one cares about City barons
+# 		# 		is_lowborn = yes
+# 		# 		primary_title.tier <= tier_barony
+# 		# 	}
+# 		# }
+# 		# might_cheat_on_every_partner_trigger = yes
+# 	}
+	
+# 	ai_will_do = {
+# 		base = 0
+
+		
+# 	}
+	
+# }
+
+send_animal_spies_interaction = {
+	category = interaction_category_hostile
+	use_diplomatic_range = yes
+	icon = icon_scheme_send_animal_spies
+	cooldown = { years = 2 }
+	cooldown_against_recipient = { years = 3 }
+
+	desc = send_animal_spies_desc
+
+	is_shown = {
+		scope:actor = {
+			has_trait = warg
+		}
+
+		scope:recipient = {
+			is_ruler = yes
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_description = {
+				text = not_spark_talented
+				object = scope:actor
+				is_spark_talented = yes
+			}
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			send_interface_message = {
+				type = event_sway_neutral
+				title = sent_animal_spies
+				right_icon = scope:recipient
+				add_character_modifier = {
+					modifier = split_focus
+				}
+			}
+
+			trigger_event = warg.002
+		}
+
+	}
+	
+	auto_accept = yes
 }

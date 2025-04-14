@@ -1870,6 +1870,13 @@ Supported Targets: landed_title
 
 --------------------
 
+any_court_position_type - Iterate through every court_position_type in the database
+any_court_position_type = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: none
+Supported Targets: court_position_type
+
+--------------------
+
 any_culture_global - Iterate through all cultures in the game
 any_culture_global = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: none
@@ -2282,13 +2289,13 @@ Supported Scopes: none
 --------------------
 
 has_dlc - Does the host have this DLC
-Traits: Valid DLCs: West Slavic Attire, The Fate of Iberia, Tours and Tournaments, Elegance of the Empire, North African Attire, Roads to Power, Couture of the Capets, Legends of the Dead, The Northern Lords, Garments of the Holy Roman Empire, The Royal Court, Legacy of Persia, Wandering Nobles, Fashion of the Abbasid Court, Friends and Foes, and Wards and Wardens
+Traits: Valid DLCs: West Slavic Attire, The Fate of Iberia, Tours and Tournaments, Elegance of the Empire, North African Attire, Roads to Power, Couture of the Capets, Legends of the Dead, The Northern Lords, Medieval Monuments, Garments of the Holy Roman Empire, The Royal Court, Legacy of Persia, Wandering Nobles, Fashion of the Abbasid Court, Friends and Foes, Crowns of the World, Arctic Attire, and Wards and Wardens
 Supported Scopes: none
 
 --------------------
 
 has_dlc_feature - Does the host have DLC that enables this particular feature
-Traits: Valid Features: garments_of_the_hre, fashion_of_the_abbasid_court, the_northern_lords, hybridize_culture, diverge_culture, royal_court, reform_culture, court_artifacts, the_fate_of_iberia, friends_and_foes, tours_and_tournaments, advanced_activities, accolades, legacy_of_persia, elegance_of_the_empire, wards_and_wardens, legends_of_the_dead, legends, north_african_attire, couture_of_the_capets, landless_playable, admin_gov, roads_to_power, court_room_view, wandering_nobles, and west_slavic_attire
+Traits: Valid Features: garments_of_the_hre, fashion_of_the_abbasid_court, the_northern_lords, hybridize_culture, diverge_culture, royal_court, reform_culture, court_artifacts, the_fate_of_iberia, friends_and_foes, tours_and_tournaments, advanced_activities, accolades, legacy_of_persia, elegance_of_the_empire, wards_and_wardens, legends_of_the_dead, legends, north_african_attire, couture_of_the_capets, landless_playable, admin_gov, roads_to_power, court_room_view, wandering_nobles, west_slavic_attire, medieval_monuments, arctic_attire, and crowns_of_the_world
 Supported Scopes: none
 
 --------------------
@@ -2544,6 +2551,13 @@ meets_legitimacy_expectation_of = scope:some_vassal
 Traits: character scope
 Supported Scopes: none
 Supported Targets: character
+
+--------------------
+
+months_from_game_start - How many months it has been since the start of the game
+months_from_game_start > 5
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: none
 
 --------------------
 
@@ -3764,6 +3778,19 @@ Supported Targets: character
 
 --------------------
 
+any_court_position_candidate - Iterate through all valid candidates for a court position type.
+*_court_position_candidate = {
+   court_position = bodyguard_court_position
+	OR
+   court_position = scope:my_scoped_court_position_type
+   ...
+}
+any_court_position_candidate = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
 any_court_position_employer - Iterates through all characters that employ the scoped character in any court position.
 any_court_position_employer = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
@@ -4854,6 +4881,12 @@ Supported Scopes: character
 
 --------------------
 
+current_raised_military_strength - Is the scoped character's current raised military strength this big?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 current_weight - Current weight of the scoped character
 current_weight > 10
 Traits: <, <=, =, !=, >, >=
@@ -5590,6 +5623,34 @@ scope:character = {
 Traits: class CLegendTypeDatabase key
 Supported Scopes: character
 Supported Targets: legend_type
+
+--------------------
+
+has_player_court_position_automation_assign_best - Is the scoped character a player that has automated the target court position to auto-assign the best candidate?
+Traits: class CCourtPositionTypesDatabase key
+Supported Scopes: character
+Supported Targets: court_position_type
+
+--------------------
+
+has_player_court_position_automation_assign_best_or_event - Is the scoped character a player that has automated the target court position to auto-assign the best candidate (or else show an event)?
+Traits: class CCourtPositionTypesDatabase key
+Supported Scopes: character
+Supported Targets: court_position_type
+
+--------------------
+
+has_player_court_position_automation_event - Is the scoped character a player that has automated the target court position to show events?
+Traits: class CCourtPositionTypesDatabase key
+Supported Scopes: character
+Supported Targets: court_position_type
+
+--------------------
+
+has_player_court_position_automation_none - Is the scoped character a player that has NOT automated the target court position?
+Traits: class CCourtPositionTypesDatabase key
+Supported Scopes: character
+Supported Targets: court_position_type
 
 --------------------
 
@@ -6733,7 +6794,7 @@ Supported Scopes: character
 
 --------------------
 
-is_favorite_child - is the character your favorite child?
+is_favorite_child - is the character their liege's favorite child?
 Traits: yes/no 
 Supported Scopes: character
 
@@ -7848,6 +7909,12 @@ Supported Scopes: character
 
 --------------------
 
+num_scripted_legend_seeds - How many scripted legend seeds are available to this character? They do not need to be valid to start
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 num_sinful_traits - Does the scoped character have this number of virtous traits?
 num_virtous_traits > 5 ORnum_virtous_traits = { value > 5 faith = scope:faith }, to base it on what a specific faith considers virtuous
 Traits: <, <=, =, !=, >, >=
@@ -7869,7 +7936,7 @@ Supported Scopes: character
 
 --------------------
 
-num_triggered_legend_seeds - How many triggered legend seeds are available to this character?
+num_triggered_legend_seeds - How many scripted legend seeds are available to this character and valid to start?
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -8052,6 +8119,12 @@ Supported Scopes: character
 parent_relatedness - The percentage of shared DNA between the character's parents.
 Traverses the family tree for NDefines::NChildbirth::INBREEDING_ANCESTOR_GENERATIONS amount of generations to find common ancestors. By default this means that we're traversing 4 generations (62 ancestors) and report the relatedness between the two parents. (See https://relatednesscalculator.nolanlawson.com/ for some examples).
 `relatedness > 0.25` where 0.0 means not related at all and 1.0 means identical twins
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+participated_wars - Checks how many wars the character has been in during their lifetime. (Only for alive characters): scope:character = { participated_wars > 3 }
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
