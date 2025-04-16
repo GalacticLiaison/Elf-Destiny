@@ -1179,6 +1179,50 @@ entrance.1100 = { # Convert to Enthralled
 	}
 }
 
+entrance.1101 = { # Convert to Enthralled
+	type = character_event
+	title = entrance.1101.title
+	desc = entrance.1101.desc
+
+	theme = seduction
+	left_portrait = {
+		character = scope:target
+		animation = disbelief
+	}
+	right_portrait = {
+		character = root
+		animation = flirtation
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:target
+			}
+
+			custom_tooltip = {
+				text = converted_to_enthralled
+				scope:target = {
+					remove_trait = entranced
+					add_trait = enthralled
+				}
+			}
+
+			remove_hook = {
+				target = scope:target
+			}
+			add_hook = {
+				type = enthralled
+				target = scope:target
+			}
+		}
+	}
+
+	option = {
+		name = entrance.1101.a
+	}
+}
+
 entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 	type = character_event
 	title = entrance.1150.title
@@ -1431,7 +1475,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 # 			limit = {
 # 				scope:victim = {
 # 					has_trait_xp = {
-# 						trait = endless_lord
+# 						trait = entranced
 # 						value >= 99
 # 					}
 # 				}
@@ -1439,7 +1483,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 # 			scope:victim = {
 # 				save_scope_as = target
 # 			}
-# 			trigger_event = entrance.1100
+# 			trigger_event = entrance.1101
 # 		}
 # 	}
 # }
