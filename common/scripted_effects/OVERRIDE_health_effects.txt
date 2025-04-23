@@ -1,40 +1,40 @@
-﻿increase_wounds_effect = {
-	if = {
-		limit = {
-			has_trait_rank = {
-				trait = wounded
-				rank < 3
-			}
-		}
-		increase_wounds_no_death_effect = { REASON = $REASON$ }
-	}
-	else_if = { #Using an if because this needs to never go wrong
-		limit = {
-			has_trait_rank = {
-				trait = wounded
-				rank = 3
-			}
-		}
-		death = {
-			death_reason = death_$REASON$
-		}
+﻿# increase_wounds_effect = {
+# 	if = {
+# 		limit = {
+# 			has_trait_rank = {
+# 				trait = wounded
+# 				rank < 3
+# 			}
+# 		}
+# 		increase_wounds_no_death_effect = { REASON = $REASON$ }
+# 	}
+# 	else_if = { #Using an if because this needs to never go wrong
+# 		limit = {
+# 			has_trait_rank = {
+# 				trait = wounded
+# 				rank = 3
+# 			}
+# 		}
+# 		death = {
+# 			death_reason = death_$REASON$
+# 		}
 
-		debug_log = "DEATH BY INJURIES"
-		if = {
-			limit = {
-				AND = {
-					exists = scope:sc_victor
-					exists = scope:sc_loser
-				}
-			}
-			scope:sc_victor = {
-				create_character_memory = {
-					type = slayed_opponent_in_single_combat
-					participants = {
-						slayed_opponent = scope:sc_loser
-					}
-				}
-			}
-		}
-	}
-}
+# 		debug_log = "DEATH BY INJURIES"
+# 		if = {
+# 			limit = {
+# 				AND = {
+# 					exists = scope:sc_victor
+# 					exists = scope:sc_loser
+# 				}
+# 			}
+# 			scope:sc_victor = {
+# 				create_character_memory = {
+# 					type = slayed_opponent_in_single_combat
+# 					participants = {
+# 						slayed_opponent = scope:sc_loser
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# }
