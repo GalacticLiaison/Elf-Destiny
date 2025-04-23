@@ -372,10 +372,10 @@ activity_entrance_feast = {
 					limit = {
 						is_ai = no
 					}
-					trigger_event = entrance.1021
+					trigger_event = entrance_scheme.1021
 				}
 				else = {
-					trigger_event = entrance.1141
+					trigger_event = entrance_scheme.1141
 				}	
 			}
 			
@@ -2519,19 +2519,19 @@ activity_entrance_feast = {
 	###################
 
 	options = {
-		#Feast types
-		special_type = {
-			# Revel feast.
-			## Generic feast for when you've got no specific reason.
-			feast_type_generic = {
-				default = yes
+		# #Feast types
+		# special_type = {
+		# 	# Revel feast.
+		# 	## Generic feast for when you've got no specific reason.
+		# 	feast_type_generic = {
+		# 		default = yes
 
-				ai_will_do = {
-					value = 1000
-				}
-			}
+		# 		ai_will_do = {
+		# 			value = 1000
+		# 		}
+		# 	}
 
-		}
+		# }
 
 		# How fancy do you make your dishes?
 		feast_option_food = {
@@ -2805,6 +2805,257 @@ activity_entrance_feast = {
 				}
 			}
 		}
+
+		# Estate Unlock - Wine Selection, how much do you spend on wine and other exotic drinks?
+		feast_option_wine = {
+			feast_wine_none = {
+				is_shown = {
+					has_dlc_feature = advanced_activities
+					domicile ?= {
+						OR = {
+							has_domicile_parameter = estate_unlock_feast_influence_option_1
+							has_domicile_parameter = estate_unlock_feast_influence_option_2
+							has_domicile_parameter = estate_unlock_feast_influence_option_3
+						}
+					}
+				}
+				
+				default = yes
+
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_cheap_expense_value
+					# Quantity preference.
+					add = activity_option_food_prefers_small_volume_value
+				}
+			}
+			feast_wine_limited = {
+				is_shown = {
+					has_dlc_feature = advanced_activities
+					domicile ?= {
+						OR = {
+							has_domicile_parameter = estate_unlock_feast_influence_option_1
+							has_domicile_parameter = estate_unlock_feast_influence_option_2
+							has_domicile_parameter = estate_unlock_feast_influence_option_3
+						}
+					}
+				}
+				
+				#default = yes
+	
+				cost = {
+					gold = {
+						add = {
+							desc = feast_wine_limited
+							add = {
+								value = 10
+								desc = feast_wine_limited
+							}
+							add = {
+								value = 10
+								multiply = activity_cost_scale_by_tier
+								subtract = 10
+								desc = activity_cost_scale_by_tier_desc
+							}
+							add = {
+								value = 10
+								multiply = activity_cost_scale_by_era
+								subtract = 10
+								desc = activity_cost_scale_by_era_desc
+							}
+							if = {
+								limit = {
+									dynasty ?= {
+										has_dynasty_perk = law_legacy_1
+									}
+								}
+								subtract = {
+									value = 10
+									add = {
+										value = 10
+										multiply = activity_cost_scale_by_tier
+										subtract = 10
+									}
+									add = {
+										value = 10
+										multiply = activity_cost_scale_by_era
+										subtract = 10
+									}
+									multiply = law_legacy_cost_reduction_mult
+									desc = law_legacy_1_name
+								}
+							}
+							min = 0
+						}
+						if = {
+							limit = {
+								is_ai = yes
+								has_character_flag = feast_ai_override
+							}
+							multiply = 0
+						}
+					}
+				}
+
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_middling_expense_value
+					# Quantity preference.
+					## We just use slightly reduced quantity prefs here.
+					add = {
+						value = activity_option_prefers_large_volume_value
+						multiply = 0.3
+					}
+				}
+			}
+			feast_wine_normal = {
+				is_shown = {
+					has_dlc_feature = advanced_activities
+					domicile ?= {
+						OR = {
+							has_domicile_parameter = estate_unlock_feast_influence_option_2
+							has_domicile_parameter = estate_unlock_feast_influence_option_3
+						}
+					}
+				}
+
+				cost = {
+					gold = {
+						add = {
+							desc = feast_wine_normal
+							add = {
+								value = 35
+								desc = feast_wine_normal
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_tier
+								subtract = 35
+								desc = activity_cost_scale_by_tier_desc
+							}
+							add = {
+								value = 35
+								multiply = activity_cost_scale_by_era
+								subtract = 35
+								desc = activity_cost_scale_by_era_desc
+							}
+							if = {
+								limit = {
+									dynasty ?= {
+										has_dynasty_perk = law_legacy_1
+									}
+								}
+								subtract = {
+									value = 35
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_tier
+										subtract = 35
+									}
+									add = {
+										value = 35
+										multiply = activity_cost_scale_by_era
+										subtract = 35
+									}
+									multiply = law_legacy_cost_reduction_mult
+									desc = law_legacy_1_name
+								}
+							}
+							min = 0
+						}
+						if = {
+							limit = {
+								is_ai = yes
+								has_character_flag = feast_ai_override
+							}
+							multiply = 0
+						}
+					}
+				}
+
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_middling_expense_value
+					# Quantity preference.
+					## We just use slightly reduced quantity prefs here.
+					add = {
+						value = activity_option_prefers_large_volume_value
+						multiply = 0.6
+					}
+				}
+			}
+			feast_wine_extensive = {
+				is_shown = {
+					has_dlc_feature = advanced_activities
+					domicile ?= { has_domicile_parameter = estate_unlock_feast_influence_option_3 }
+				}
+
+				cost = {
+					gold = {
+						add = {
+							desc = feast_wine_extensive
+							add = {
+								value = 90
+								desc = feast_wine_extensive
+							}
+							add = {
+								value = 90
+								multiply = activity_cost_scale_by_tier
+								subtract = 90
+								desc = activity_cost_scale_by_tier_desc
+							}
+							add = {
+								value = 90
+								multiply = activity_cost_scale_by_era
+								subtract = 90
+								desc = activity_cost_scale_by_era_desc
+							}
+							if = {
+								limit = {
+									dynasty ?= {
+										has_dynasty_perk = law_legacy_1
+									}
+								}
+								subtract = {
+									value = 90
+									add = {
+										value = 90
+										multiply = activity_cost_scale_by_tier
+										subtract = 90
+									}
+									add = {
+										value = 90
+										multiply = activity_cost_scale_by_era
+										subtract = 90
+									}
+									multiply = law_legacy_cost_reduction_mult
+									desc = law_legacy_1_name
+								}
+							}
+							min = 0
+						}
+						if = {
+							limit = {
+								is_ai = yes
+								has_character_flag = feast_ai_override
+							}
+							multiply = 0
+						}
+					}
+				}
+
+				ai_will_do = {
+					value = 0
+					# Financial preference.
+					add = activity_option_likes_heavy_expense_value
+					# Quantity preference.
+					add = activity_option_prefers_large_volume_value
+				}
+			}
+		}
 	}
 
 	# special_option_category = special_type
@@ -2847,7 +3098,7 @@ activity_entrance_feast = {
 						limit = {
 							any_scheme = {
 								scheme_type = befriend
-								scheme_target = {
+								scheme_target_character = {
 									exists = involved_activity
 									involved_activity = scope:activity
 								}
@@ -2856,12 +3107,12 @@ activity_entrance_feast = {
 						random_scheme = {
 							limit = {
 								scheme_type = befriend
-								scheme_target = {
+								scheme_target_character = {
 									exists = involved_activity
 									involved_activity = scope:activity
 								}
 							}
-							scheme_target = {
+							scheme_target_character = {
 								save_scope_as = potential_friend
 								scope:activity = {
 									set_variable = {
@@ -3064,7 +3315,7 @@ activity_entrance_feast = {
 					debug_log = "ENTERED on_phase_active plant_seed_attempt HOST is entrancer CHECK"
 
 					scope:host = {
-						trigger_event = entrance.1042
+						trigger_event = entrance_scheme.1042
 					}
 				}
 				else_if = {
@@ -3075,7 +3326,7 @@ activity_entrance_feast = {
 					debug_log = "ENTERED on_phase_active plant_seed_attempt Special guest is Entrancer CHECK"
 
 					scope:activity.special_guest:entrancer_or_victim = {
-						trigger_event = entrance.1022
+						trigger_event = entrance_scheme.1022
 					}
 				}
 			}
@@ -3191,7 +3442,7 @@ activity_entrance_feast = {
 					}
 					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase HOST CHECK"
 
-					trigger_event = entrance.1045
+					trigger_event = entrance_scheme.1045
 				}
 				else_if = {
 					limit = {
@@ -3199,7 +3450,7 @@ activity_entrance_feast = {
 						this = scope:entrancer
 					}
 					debug_log = "ENTERED on_phase_active complete_entrance_attempt_phase Entrancer CHECK"
-					trigger_event = entrance.1025
+					trigger_event = entrance_scheme.1025
 
 				}
 			}
@@ -3249,7 +3500,7 @@ activity_entrance_feast = {
 		# 			value = scope:activity
 		# 		}
 	
-		# 		trigger_event = entrance.1021
+		# 		trigger_event = entrance_scheme.1021
 		# 	}
 		# }
 		# else = {

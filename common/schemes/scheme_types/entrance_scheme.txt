@@ -363,7 +363,7 @@
 		}
 		scheme_owner = {
 			save_scope_as = entrancer
-			trigger_event = entrance.101
+			trigger_event = entrance_scheme.101
 		}
 	}
 	on_phase_completed = {
@@ -402,47 +402,51 @@
 		scheme_owner = { save_scope_as = entrancer }
 		scheme_target_character = { save_scope_as = victim }
 
-		#Milestone 1 event
-		if = {
-			limit = {
-				scheme_progress >= 3
-				scheme_progress < 6
-				has_variable = entrance_in_holding
-				scheme_owner = {
-					is_available = yes
-				}
-				scheme_target_character = {
-					is_available = yes
-				}
-				player_target_available_for_personal_scheme_ongoing_events_trigger = {
-					OWNER = scope:entrancer
-					TARGET = scope:victim
-				}
-			}
-			scheme_owner = {
-				trigger_event = { on_action = entrance_in_holding_milestone_1 }
-			}
-		}
-		# #Milestone 2 event
-		else_if = {
-			limit = {
-				scheme_progress >= 6
-				has_variable = entrance_in_holding
-				scheme_owner = {
-					is_available = yes
-				}
-				scheme_target_character = {
-					is_available = yes
-				}
-				player_target_available_for_personal_scheme_ongoing_events_trigger = {
-					OWNER = scope:entrancer
-					TARGET = scope:victim
-				}
-			}
-			scheme_owner = {
-				trigger_event = { on_action = entrance_in_holding_milestone_2 }
-			}
-		}
+
+		# Since the scheme update, the way schemes handle progress seems to have changed, need a rework if want to use this this code
+		# will call events directly in mean time instead
+
+		# #Milestone 1 event
+		# if = {
+		# 	limit = {
+		# 		scheme_progress >= 3
+		# 		scheme_progress < 6
+		# 		has_variable = entrance_in_holding
+		# 		scheme_owner = {
+		# 			is_available = yes
+		# 		}
+		# 		scheme_target_character = {
+		# 			is_available = yes
+		# 		}
+		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
+		# 			OWNER = scope:entrancer
+		# 			TARGET = scope:victim
+		# 		}
+		# 	}
+		# 	scheme_owner = {
+		# 		trigger_event = { on_action = entrance_in_holding_milestone_1 }
+		# 	}
+		# }
+		# # #Milestone 2 event
+		# else_if = {
+		# 	limit = {
+		# 		scheme_progress >= 6
+		# 		has_variable = entrance_in_holding
+		# 		scheme_owner = {
+		# 			is_available = yes
+		# 		}
+		# 		scheme_target_character = {
+		# 			is_available = yes
+		# 		}
+		# 		player_target_available_for_personal_scheme_ongoing_events_trigger = {
+		# 			OWNER = scope:entrancer
+		# 			TARGET = scope:victim
+		# 		}
+		# 	}
+		# 	scheme_owner = {
+		# 		trigger_event = { on_action = entrance_in_holding_milestone_2 }
+		# 	}
+		# }
 	}
 	on_invalidated = {
 		scheme_target_character = {
