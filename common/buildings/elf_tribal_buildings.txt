@@ -94,6 +94,16 @@ tribe_01 = {
 		is_coastal = yes
 		defender_holding_advantage = 2
 	}
+
+	province_culture_modifier = {
+		parameter = tribal_holding_stationed_bonus
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	character_modifier = {
+		county_fertility_growth_mult = 0.35
+	}
 	
 	next_building = tribe_02
 
@@ -164,17 +174,16 @@ tribe_02 = {
 	}	
 
 	is_enabled = {
-		# building_requirement_tribal = yes
 		building_requirement_tribal_or_advanced_tribal = yes
 	}
 	can_construct_potential = {
-		# always = no	#Tribes are set at game start.
-		# building_requirement_advanced_tribal = yes
 	}
-
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_plenary_assemblies }
+		OR = {
+			scope:holder = {
+				culture = { has_innovation = innovation_plenary_assemblies }
+			}
+			mpo_permafrost_building_trigger = yes
 		}
 	}
 	
@@ -203,8 +212,18 @@ tribe_02 = {
 		defender_holding_advantage = 3
 	}
 
-	next_building = tribe_03
+	province_culture_modifier = {
+		parameter = tribal_holding_stationed_bonus
+		stationed_maa_damage_mult = normal_maa_damage_tier_2
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_2
+	}
 	
+	character_modifier = {
+		county_fertility_growth_mult = 0.35
+	}
+	
+	next_building = tribe_03
+
 	ai_value = {
 		base = 1
 	}
@@ -306,6 +325,16 @@ tribe_03 = {
 		parameter = coastal_holdings_give_defensive_bonus
 		is_coastal = yes
 		defender_holding_advantage = 3
+	}
+
+	province_culture_modifier = {
+		parameter = tribal_holding_stationed_bonus
+		stationed_maa_damage_mult = normal_maa_damage_tier_2
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_2
+	}
+	
+	character_modifier = {
+		county_fertility_growth_mult = 0.45
 	}
 
 	next_building = tribe_04
@@ -412,6 +441,16 @@ tribe_04 = {
 		is_coastal = yes
 		defender_holding_advantage = 3
 	}
+
+	province_culture_modifier = {
+		parameter = tribal_holding_stationed_bonus
+		stationed_maa_damage_mult = normal_maa_damage_tier_3
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_3
+	}
+	
+	character_modifier = {
+		county_fertility_growth_mult = 0.55
+	}
 	
 	ai_value = {
 		base = 1
@@ -462,10 +501,14 @@ longhouses_02 = {
 		has_building_or_higher = tribe_01
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_barracks }
-		}
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
+		}		
 	}
+	
 	
 	cost_prestige = expensive_building_tier_2_cost
 	cost_gold = tribal_building_tier_2_cost
@@ -506,6 +549,15 @@ longhouses_03 = {
 		has_building_or_higher = tribe_01
 		building_requirement_advanced_tribal = yes
 	}
+	can_construct_showing_failures_only = {
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
+		}		
+	}
+	
 	
 	cost_prestige = expensive_building_tier_3_cost
 	cost_gold = tribal_building_tier_3_cost
@@ -541,10 +593,14 @@ longhouses_04 = {
 	}
 
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_barracks }
-		}
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
+		}		
 	}
+	
 	
 	cost_prestige = expensive_building_tier_4_cost
 	cost_gold = tribal_building_tier_4_cost
@@ -616,11 +672,13 @@ war_camps_02 = {
 		has_building_or_higher = tribe_01
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_barracks }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
-	
 	cost_prestige = expensive_building_tier_2_cost
 	cost_gold = tribal_building_tier_2_cost
 	
@@ -661,10 +719,13 @@ war_camps_03 = {
 		building_requirement_advanced_tribal = yes
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_barracks }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
-	}	
+	}		
 
 	cost_prestige = expensive_building_tier_3_cost
 	cost_gold = tribal_building_tier_3_cost
@@ -706,10 +767,13 @@ war_camps_04 = {
 		building_requirement_advanced_tribal = yes
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_barracks }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
-	}
+	}	
 	
 	cost_prestige = expensive_building_tier_4_cost
 	cost_gold = tribal_building_tier_4_cost
@@ -784,8 +848,11 @@ palisades_02 = {
 		has_building_or_higher = tribe_01
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_motte }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
 	
@@ -828,11 +895,14 @@ palisades_03 = {
 		building_requirement_advanced_tribal = yes
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_motte }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}
-	
+
 	cost_prestige = expensive_building_tier_3_cost
 	cost_gold = tribal_building_tier_3_cost
 	
@@ -869,8 +939,11 @@ palisades_04 = {
 		building_requirement_advanced_tribal = yes
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_motte }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
 	
@@ -936,8 +1009,11 @@ market_villages_02 = {
 		has_building_or_higher = tribe_01
 	}
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_city_planning }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
 	
@@ -971,8 +1047,11 @@ market_villages_03 = {
 	}
 	
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_city_planning }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
 	
@@ -1004,8 +1083,11 @@ market_villages_04 = {
 	}
 
 	can_construct_showing_failures_only = {
-		scope:holder = {
-			culture = { has_innovation = innovation_city_planning }
+		OR = {
+			mpo_permafrost_building_trigger = yes
+			scope:holder = {
+				culture = { has_innovation = innovation_barracks }
+			}
 		}
 	}	
 	
