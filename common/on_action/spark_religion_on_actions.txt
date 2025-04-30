@@ -138,17 +138,18 @@ revert_elf_admin_faith_change = {
 # used for when a player adds elf destiny into an already started game
 fix_religion_leases_backup = {
 	trigger = {
+		NOT = {
+			has_variable = religious_advisor
+		}
 		exists = cp:councillor_court_chaplain
 		NOT = {
 			exists = cp:councillor_aeluran_advisor
 		}
 	}
 	effect = {
-		every_ruler = {
-			set_variable = {
-				name = religious_advisor
-				value = cp:councillor_court_chaplain
-			}
+		set_variable = {
+			name = religious_advisor
+			value = cp:councillor_court_chaplain
 		}
 	}
 }
