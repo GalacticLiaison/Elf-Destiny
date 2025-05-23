@@ -1227,17 +1227,6 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 	type = character_event
 	title = entrance.1150.title
 	desc = entrance.1150.enchantress_perspective
-	# desc = {
-	# 	first_valid = {
-	# 		triggered_desc = {
-	# 			trigger = {
-	# 				# is entrancer or victim
-	# 			}
-	# 			desc = entrance.1150.enchantress_perspective
-	# 		}
-	# 		desc = entrance.1150.entranced_perspective
-	# 	}
-	# }
 
 	theme = seduction
 	left_portrait = {
@@ -1514,5 +1503,156 @@ entrance.1200 = { # Evolve to Enchantress
 
 		remove_trait = seducer
 		add_trait = enchantress
+	}
+}
+
+entrance.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
+	type = character_event
+	title = entrance.1300.title
+	desc = entrance.1300.enchantress_perspective
+
+	theme = seduction
+	left_portrait = {
+		character = victim
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:entrancer
+		animation = bold
+	}
+
+	immediate = {
+		var:struggling_pet = {
+			save_scope_as = victim
+		}
+	}
+
+	option = {
+		name = entrance.1300.a
+		flavor = entrance_modifiers_desc
+		if = {
+			limit = {
+				AND = {
+					exists = scope:entrancer
+					exists = scope:victim
+				}
+			}
+			
+			victim_attempts_to_break_free_of_entrance_effect = {
+				ENTRANCER = scope:entrancer
+				VICTIM = scope:victim
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:entrance_successful
+				scope:entrance_successful = yes
+			}
+			trigger_event = entrance.1302
+			
+		}
+		else = {
+			trigger_event = entrance.1301
+		}
+	}
+}
+
+entrance.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fails
+	type = character_event
+	title = entrance.1301.title
+	desc = entrance.1301.desc
+
+	theme = seduction
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:victim
+		animation = happiness
+	}
+
+	immediate = {
+		if = { 
+			limit = { 
+				scope:victim = { 
+					has_relation = { 
+						relation = rival
+						target = scope:entrancer
+					}
+				}
+			}
+			scope:victim = { 
+				remove_relation = { 
+					relation = rival
+					target = scope:entrancer
+				}
+				add_relation = { 
+					relation = nemesis
+					target = scope:entrancer
+				}
+			}
+		}
+		else = { 
+			scope:victim = { 
+				add_relation = { 
+					relation = rival
+					target = scope:entrancer
+				}
+			}
+		}
+	}
+
+	option = {
+		name = entrance.1301.a
+	}
+}
+
+entrance.1152 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
+	type = character_event
+	title = entrance.1152.title
+	desc = entrance.1152.desc
+
+	theme = seduction
+
+	left_portrait = {
+		character = scope:entrancer
+		animation = bold
+	}
+	right_portrait = {
+		character = scope:victim
+		animation = sad
+	}
+
+	immediate = {
+		custom_tooltip = {
+			text = falls_deeper_into_entrancement
+			scope:victim = {
+				add_trait_xp = {
+					trait = entranced
+					value = 33
+				}
+			}
+		}
+	}
+
+	option = {
+		name = entrance.1152.a
+		if = {
+			limit = {
+				scope:victim = {
+					has_trait_xp = {
+						trait = entranced
+						value >= 99
+					}
+				}
+			}
+			scope:victim = {
+				save_scope_as = target
+			}
+			trigger_event = entrance.1101
+		}
 	}
 }
