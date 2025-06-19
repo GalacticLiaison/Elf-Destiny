@@ -1876,6 +1876,27 @@ types CouncilTaskTypes
 			maximumsize = { -1 932 }
 			spacing = 5
 
+            scrollbox = {
+
+				name = "scrollarea_council"
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				# layoutpolicy_vertical = growing
+
+				state = {
+					name = _show
+					using = Animation_FadeIn_Quick
+				}
+
+				state = {
+					name = _hide
+					# using = Animation_FadeOut_Quick
+					alpha = 0
+				}
+
+            blockoverride "scrollbox_content"
+            {
 			# Row 1 Spouse/Vizier and Chaplin/Aeluran
 			hbox = {
 				layoutpolicy_horizontal = expanding
@@ -2167,7 +2188,7 @@ types CouncilTaskTypes
 					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
 					datacontext = "[ActiveCouncilTask.GetPositionType]"
 					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					visible = "[CouncilOwnerHasAeluran]"
+					visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
 
 					name = "tutorial_aeluran_advisor"
 
@@ -2187,6 +2208,42 @@ types CouncilTaskTypes
 					}
 				}
 			}
+            hbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				margin = { 10 0 }
+				spacing = 5
+                
+				visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
+				# Aeluran Advisor
+				widget_aeluran_councillor_item = {
+
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
+					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+					datacontext = "[ActiveCouncilTask.GetPositionType]"
+					datacontext = "[ActiveCouncilTask.GetCouncillor]"
+				    visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
+
+					name = "tutorial_aeluran_advisor"
+
+					datacontext = "[GetIllustration( 'religion_interior' )]"
+
+					background =  {
+						texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
+						fittype = centercrop
+						using = Mask_Rough_Edges
+						alpha = 0.8
+					}
+
+					background = {
+						texture = "gfx/interface/component_masks/mask_vignette.dds"
+						color = { 0.15 0.15 0.15 1 }
+						alpha = 0.3
+					}
+				}
+            }
 
 			hbox = { # Chancellor + Steward
 				layoutpolicy_horizontal = expanding
@@ -2336,6 +2393,8 @@ types CouncilTaskTypes
 				}
 			}
 		}
+        }
+        }
 
 		expand = {
 			layoutpolicy_vertical = growing
