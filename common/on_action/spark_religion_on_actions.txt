@@ -8,6 +8,12 @@ on_faith_created = {
     } 
 }
 
+three_year_playable_pulse = {
+	on_actions = {
+		fix_religion_leases_backup
+	}
+}
+
 remove_free_reformation_modifier = {
 	effect = {
 		if = {
@@ -126,5 +132,24 @@ revert_elf_admin_faith_change = {
 		debug_log_date = yes
 		
 		set_character_faith = scope:old_faith
+	}
+}
+
+# used for when a player adds elf destiny into an already started game
+fix_religion_leases_backup = {
+	trigger = {
+		NOT = {
+			has_variable = religious_advisor
+		}
+		exists = cp:councillor_court_chaplain
+		NOT = {
+			exists = cp:councillor_aeluran_advisor
+		}
+	}
+	effect = {
+		set_variable = {
+			name = religious_advisor
+			value = cp:councillor_court_chaplain
+		}
 	}
 }

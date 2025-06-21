@@ -28,20 +28,23 @@
 	}
 
 	effect = {
-		save_scope_as = actor
-		
-		random_living_character = {
+		save_scope_as = victim
+
+		every_living_character = {
 			limit = {
 				has_hook_of_type = {
-					target = scope:actor
 					type = entranced
+					target = root
 				}
-			}		
-			save_scope_as = recipient
+			}
+			save_scope_as = entrancer
 		}
 
-		trigger_event = { 
-			id = entrance.1160
-		}	
+		scope:entrancer = {
+			trigger_event = { 
+				id = entrance_scheme.1150
+			}	
+		}
+
 	}
 }

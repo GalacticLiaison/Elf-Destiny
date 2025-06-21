@@ -1,17 +1,11 @@
-﻿﻿namespace = entrance
+﻿namespace = entrance_scheme
 
-# # scope:recipient = {
-# # 	invite_to_activity = scope:actor.involved_activity
-# # }
-
-# # accept_activity_invite = scope:activity
-# # decline_activity_invite = scope:activity
-
-# # Controller
-entrance.101 = {
+entrance_scheme.101 = {
 	hidden = yes
 	
 	immediate = {
+		debug_log = "entrance_scheme.101 fired"
+
 		if = { # Foreign Lord
 			limit = {
 				scope:victim = {
@@ -23,7 +17,7 @@ entrance.101 = {
 				}
 			}
 
-			trigger_event = entrance.102
+			trigger_event = entrance_scheme.102
 		}
 
 		else_if = { # Liege
@@ -33,7 +27,7 @@ entrance.101 = {
 				}
 			}
 
-			trigger_event = entrance.102
+			trigger_event = entrance_scheme.102
 		}
 
 		else_if = { # Vassal
@@ -43,7 +37,7 @@ entrance.101 = {
 				}
 			}
 
-			trigger_event = entrance.102
+			trigger_event = entrance_scheme.102
 		}
 
 		else_if = { # Courtier
@@ -53,21 +47,21 @@ entrance.101 = {
 				}
 			}
 
-			trigger_event = entrance.103
+			trigger_event = entrance_scheme.103
 		}
 
 		#TODO: flush this out more
 		else = { # Unlanded
-			trigger_event = entrance.103
+			trigger_event = entrance_scheme.103
 		}
 	}
 }
 
 # # Foreign Lord
-entrance.102 = {
+entrance_scheme.102 = {
 	type = character_event
-	title = entrance.102.title
-	desc = entrance.102.desc
+	title = entrance_scheme.102.title
+	desc = entrance_scheme.102.desc
 	theme = seduce_scheme
 
 	left_portrait = scope:victim
@@ -78,7 +72,7 @@ entrance.102 = {
 
 	# Attend Foreign Lords Feast
 	option = {
-		name = entrance.102.attend_feast
+		name = entrance_scheme.102.attend_feast
 
 		scope:victim = {
 			add_character_flag = hold_feast_now
@@ -98,7 +92,7 @@ entrance.102 = {
 
 	# Hold Feast Yourself
 	option = {
-		name = entrance.102.hold_feast
+		name = entrance_scheme.102.hold_feast
 
 		root = {
 			set_variable = {
@@ -110,10 +104,10 @@ entrance.102 = {
 }
 
 # Recieve invitation
-entrance.1021 = {
+entrance_scheme.1021 = {
 	type = letter_event
-	opening = entrance.1021.title
-	desc = entrance.1021.desc
+	opening = entrance_scheme.1021.title
+	desc = entrance_scheme.1021.desc
 	sender = scope:victim
 
 	immediate = {
@@ -123,12 +117,12 @@ entrance.1021 = {
 	}
 
 	option = {
-		name = entrance.1021.ok
+		name = entrance_scheme.1021.ok
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			add_scheme_progress = 3
 		}
@@ -143,10 +137,10 @@ entrance.1021 = {
 }
 
 # Entrance Feast Event - Attempt Entrance Plant Seed?
-entrance.1022 = {
+entrance_scheme.1022 = {
 	type = activity_event
-	title = entrance.1022.title
-	desc = entrance.1022.desc
+	title = entrance_scheme.1022.title
+	desc = entrance_scheme.1022.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -177,7 +171,7 @@ entrance.1022 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1022.a
+		name = entrance_scheme.1022.a
 		flavor = entrance_modifiers_desc
 
 		if = {
@@ -199,15 +193,15 @@ entrance.1022 = {
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1023
+			trigger_event = entrance_scheme.1023
 		}
 		else = {
-			trigger_event = entrance.1024
+			trigger_event = entrance_scheme.1024
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1022.b
+		name = entrance_scheme.1022.b
 		# flavor = entrance_flavor # but different!
 		if = {
 			limit = {
@@ -216,7 +210,7 @@ entrance.1022 = {
 			random_scheme = {
 				limit = {
 					scheme_type = entrance
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				end_scheme = yes
 			}
@@ -225,10 +219,10 @@ entrance.1022 = {
 }
 
 # Entrance Feast Event - Plant Entrance Seed Success
-entrance.1023 = {
+entrance_scheme.1023 = {
 	type = activity_event
-	title = entrance.1023.title
-	desc = entrance.1023.desc
+	title = entrance_scheme.1023.title
+	desc = entrance_scheme.1023.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -241,15 +235,15 @@ entrance.1023 = {
 	}
 
 	option = { 
-		name = entrance.1023.a
+		name = entrance_scheme.1023.a
 	}
 }
 
 # Entrance Feast Event - Plant Entrance Seed Fail
-entrance.1024 = {
+entrance_scheme.1024 = {
 	type = activity_event
-	title = entrance.1024.title
-	desc = entrance.1024.desc
+	title = entrance_scheme.1024.title
+	desc = entrance_scheme.1024.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -271,7 +265,7 @@ entrance.1024 = {
 	}
 
 	option = { 
-		name = entrance.1024.a
+		name = entrance_scheme.1024.a
 
 		root = {
 			remove_from_activity = scope:activity
@@ -280,10 +274,10 @@ entrance.1024 = {
 }
 
 # Entrance Feast Event - Complete Entrance Effect
-entrance.1025 = {
+entrance_scheme.1025 = {
 	type = activity_event
-	title = entrance.1025.title
-	desc = entrance.1025.desc
+	title = entrance_scheme.1025.title
+	desc = entrance_scheme.1025.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -300,7 +294,7 @@ entrance.1025 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1025.a
+		name = entrance_scheme.1025.a
 		# flavor = entrance_flavor
 		flavor = entrance_modifiers_desc
 		# custom_label
@@ -324,21 +318,21 @@ entrance.1025 = {
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1026
+			trigger_event = entrance_scheme.1026
 		}
 		else = {
-			trigger_event = entrance.1027
+			trigger_event = entrance_scheme.1027
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1025.b
+		name = entrance_scheme.1025.b
 		# flavor = feast.7201.b.tt # leave to test! wtf is this lol
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
@@ -346,10 +340,10 @@ entrance.1025 = {
 }
 
 # Entrance Feast Event - Entrance was successful!
-entrance.1026 = {
+entrance_scheme.1026 = {
 	type = activity_event
-	title = entrance.1026.title
-	desc = entrance.1026.desc
+	title = entrance_scheme.1026.title
+	desc = entrance_scheme.1026.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -379,7 +373,7 @@ entrance.1026 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
@@ -401,23 +395,23 @@ entrance.1026 = {
 	}
 
 	option = { 
-		name = entrance.1026.just_hook
+		name = entrance_scheme.1026.just_hook
 
 		if = {
 			limit = {
 				var:successful_entrances >= 3
 				has_trait = seducer 
 			}
-			trigger_event = entrance.1200
+			trigger_event = entrance_scheme.1200
 		}
 	}
 }
 
 # Entrance Feast Event - Entrance failed
-entrance.1027 = {
+entrance_scheme.1027 = {
 	type = activity_event
-	title = entrance.1027.title
-	desc = entrance.1027.desc
+	title = entrance_scheme.1027.title
+	desc = entrance_scheme.1027.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -440,23 +434,23 @@ entrance.1027 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
 	}
 
 	option = { 
-		name = entrance.1027.a
+		name = entrance_scheme.1027.a
 	}
 }
 
 
 # # Own Holding
-entrance.103 = {
+entrance_scheme.103 = {
 	type = character_event
-	title = entrance.103.title
-	desc = entrance.103.desc
+	title = entrance_scheme.103.title
+	desc = entrance_scheme.103.desc
 	theme = seduce_scheme
 
 	left_portrait = scope:victim
@@ -467,16 +461,16 @@ entrance.103 = {
 
 	# Hold Feast
 	option = {
-		name = entrance.103.hold_feast
+		name = entrance_scheme.103.hold_feast
 	}
 
 	# Approach them around your holding
 	option = {
-		name = entrance.103.around_holding
+		name = entrance_scheme.103.around_holding
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			add_scheme_progress = 3
 			set_variable = {
@@ -484,13 +478,18 @@ entrance.103 = {
 				value = yes
 			}
 		}
+
+		trigger_event = {
+			id = entrance_scheme.1031
+			days = {5 12}
+		}
 	}
 }
 
 # Own Holding - Plant the seed attempt
-entrance.1031 = { 
+entrance_scheme.1031 = { 
 	type = character_event
-	title = entrance.1031.title
+	title = entrance_scheme.1031.title
 	desc = {
 		first_valid = {
 			triggered_desc = {
@@ -499,7 +498,7 @@ entrance.1031 = {
 						is_spouse_of = scope:entrancer
 					}
 				}
-				desc = entrance.1031.intro.spouse
+				desc = entrance_scheme.1031.intro.spouse
 			}
 			triggered_desc = {
 				trigger = {
@@ -507,11 +506,11 @@ entrance.1031 = {
 						is_close_family_of = scope:entrancer
 					}
 				}
-				desc = entrance.1031.intro.close_family
+				desc = entrance_scheme.1031.intro.close_family
 			}
-			desc = entrance.1031.intro.standard
+			desc = entrance_scheme.1031.intro.standard
 		}
-		desc = entrance.1031.desc
+		desc = entrance_scheme.1031.desc
 	}
 	
 	theme = seduce_scheme
@@ -523,7 +522,7 @@ entrance.1031 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1031.a
+		name = entrance_scheme.1031.a
 		flavor = entrance_modifiers_desc
 
 		if = {
@@ -545,15 +544,15 @@ entrance.1031 = {
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1032
+			trigger_event = entrance_scheme.1032
 		}
 		else = {
-			trigger_event = entrance.1033
+			trigger_event = entrance_scheme.1033
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1031.b
+		name = entrance_scheme.1031.b
 		if = {
 			limit = {
 				exists = scope:victim
@@ -561,7 +560,7 @@ entrance.1031 = {
 			random_scheme = {
 				limit = {
 					scheme_type = entrance
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				end_scheme = yes
 			}
@@ -570,10 +569,10 @@ entrance.1031 = {
 }
 
 # Own Holding - Plant Entrance Seed Success
-entrance.1032 = {
+entrance_scheme.1032 = {
 	type = character_event
-	title = entrance.1032.title
-	desc = entrance.1032.desc
+	title = entrance_scheme.1032.title
+	desc = entrance_scheme.1032.desc
 	theme = seduce_scheme
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -586,15 +585,20 @@ entrance.1032 = {
 	}
 
 	option = { 
-		name = entrance.1032.a
+		name = entrance_scheme.1032.a
+
+		trigger_event = {
+			id = entrance_scheme.1034
+			days = 45
+		}	
 	}
 }
 
 # Own Holding - Plant Entrance Seed Fail
-entrance.1033 = {
+entrance_scheme.1033 = {
 	type = character_event
-	title = entrance.1033.title
-	desc = entrance.1033.desc
+	title = entrance_scheme.1033.title
+	desc = entrance_scheme.1033.desc
 	theme = seduce_scheme
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -616,15 +620,15 @@ entrance.1033 = {
 	}
 
 	option = { 
-		name = entrance.1033.a
+		name = entrance_scheme.1033.a
 	}
 }
 
 # Own Holding - Complete Entrance
-entrance.1034 = {
+entrance_scheme.1034 = {
 	type = character_event
-	title = entrance.1034.title
-	desc = entrance.1034.desc
+	title = entrance_scheme.1034.title
+	desc = entrance_scheme.1034.desc
 	theme = seduce_scheme
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -641,7 +645,7 @@ entrance.1034 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1034.a
+		name = entrance_scheme.1034.a
 		flavor = entrance_modifiers_desc
 
 		if = {
@@ -665,21 +669,21 @@ entrance.1034 = {
 				scope:entrance_successful = yes
 			}
 			debug_log = "final entrance yes"
-			trigger_event = entrance.1035
+			trigger_event = entrance_scheme.1035
 		}
 		else = {
 			debug_log = "final entrance no"
-			trigger_event = entrance.1036
+			trigger_event = entrance_scheme.1036
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1034.b
+		name = entrance_scheme.1034.b
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
@@ -687,10 +691,10 @@ entrance.1034 = {
 }
 
 # Own Holding - Entrance was successful!
-entrance.1035 = {
+entrance_scheme.1035 = {
 	type = character_event
-	title = entrance.1035.title
-	desc = entrance.1035.desc
+	title = entrance_scheme.1035.title
+	desc = entrance_scheme.1035.desc
 	theme = seduce_scheme
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -735,30 +739,30 @@ entrance.1035 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
 	}
 
 	option = { 
-		name = entrance.1035.just_hook
+		name = entrance_scheme.1035.just_hook
 
 		if = {
 			limit = {
 				var:successful_entrances >= 3
 				has_trait = seducer 
 			}
-			trigger_event = entrance.1200
+			trigger_event = entrance_scheme.1200
 		}
 	}
 }
 
 # Own Holding - Entrance failed
-entrance.1036 = {
+entrance_scheme.1036 = {
 	type = character_event
-	title = entrance.1035.title
-	desc = entrance.1035.desc
+	title = entrance_scheme.1035.title
+	desc = entrance_scheme.1035.desc
 	theme = seduce_scheme
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -781,21 +785,21 @@ entrance.1036 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
 	}
 
 	option = { 
-		name = entrance.1024.a
+		name = entrance_scheme.1024.a
 	}
 }
 
 
 # HOSTING ENTRANCE FEAST
 
-entrance.1141 = {
+entrance_scheme.1141 = {
 	hidden = yes
 	
 	immediate = {
@@ -805,28 +809,28 @@ entrance.1141 = {
 			save_scope_as = victim
 		}
 		scope:host = {
-			trigger_event = entrance.1041
+			trigger_event = entrance_scheme.1041
 		}
 	}
 }
 
 # Recieve invitation Acceptance
-entrance.1041 = {
+entrance_scheme.1041 = {
 	type = letter_event
-	opening = entrance.1041.title
-	desc = entrance.1041.desc
+	opening = entrance_scheme.1041.title
+	desc = entrance_scheme.1041.desc
 	sender = scope:victim
 
 	immediate = {
 	}
 
 	option = {
-		name = entrance.1041.ok
+		name = entrance_scheme.1041.ok
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			add_scheme_progress = 3
 		}
@@ -836,10 +840,10 @@ entrance.1041 = {
 }
 
 # HOSTING Entrance Feast Event - Attempt Entrance Plant Seed?
-entrance.1042 = {
+entrance_scheme.1042 = {
 	type = activity_event
-	title = entrance.1042.title
-	desc = entrance.1042.desc
+	title = entrance_scheme.1042.title
+	desc = entrance_scheme.1042.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -865,7 +869,7 @@ entrance.1042 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1042.a
+		name = entrance_scheme.1042.a
 		flavor = entrance_modifiers_desc
 
 		if = {
@@ -887,15 +891,15 @@ entrance.1042 = {
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1043
+			trigger_event = entrance_scheme.1043
 		}
 		else = {
-			trigger_event = entrance.1044
+			trigger_event = entrance_scheme.1044
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1042.b
+		name = entrance_scheme.1042.b
 		# flavor = entrance_flavor # but different!
 		if = {
 			limit = {
@@ -904,7 +908,7 @@ entrance.1042 = {
 			random_scheme = {
 				limit = {
 					scheme_type = entrance
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				end_scheme = yes
 			}
@@ -913,10 +917,10 @@ entrance.1042 = {
 }
 
 # HOSTING Entrance Feast Event - Plant Entrance Seed Success
-entrance.1043 = {
+entrance_scheme.1043 = {
 	type = activity_event
-	title = entrance.1043.title
-	desc = entrance.1043.desc
+	title = entrance_scheme.1043.title
+	desc = entrance_scheme.1043.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -929,15 +933,15 @@ entrance.1043 = {
 	}
 
 	option = { 
-		name = entrance.1043.a
+		name = entrance_scheme.1043.a
 	}
 }
 
 # HOSTING Entrance Feast Event - Plant Entrance Seed Fail
-entrance.1044 = {
+entrance_scheme.1044 = {
 	type = activity_event
-	title = entrance.1044.title
-	desc = entrance.1044.desc
+	title = entrance_scheme.1044.title
+	desc = entrance_scheme.1044.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -959,15 +963,15 @@ entrance.1044 = {
 	}
 
 	option = { 
-		name = entrance.1044.a
+		name = entrance_scheme.1044.a
 	}
 }
 
 # HOSTING Entrance Feast Event - Complete Entrance Effect
-entrance.1045 = {
+entrance_scheme.1045 = {
 	type = activity_event
-	title = entrance.1045.title
-	desc = entrance.1045.desc
+	title = entrance_scheme.1045.title
+	desc = entrance_scheme.1045.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -984,7 +988,7 @@ entrance.1045 = {
 	}
 
 	option = { # Attempt Entrance
-		name = entrance.1045.a
+		name = entrance_scheme.1045.a
 		# flavor = entrance_flavor
 		flavor = entrance_modifiers_desc
 		# custom_label
@@ -1008,21 +1012,21 @@ entrance.1045 = {
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1046
+			trigger_event = entrance_scheme.1046
 		}
 		else = {
-			trigger_event = entrance.1047
+			trigger_event = entrance_scheme.1047
 		}
 	}
 	
 	option = { # Nevermind abandon scheme
-		name = entrance.1045.b
+		name = entrance_scheme.1045.b
 		# flavor = feast.7201.b.tt # leave to test! wtf is this lol
 
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
@@ -1030,10 +1034,10 @@ entrance.1045 = {
 }
 
 # HOSTING Entrance Feast Event - Entrance was successful!
-entrance.1046 = {
+entrance_scheme.1046 = {
 	type = activity_event
-	title = entrance.1046.title
-	desc = entrance.1046.desc
+	title = entrance_scheme.1046.title
+	desc = entrance_scheme.1046.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -1063,7 +1067,7 @@ entrance.1046 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
@@ -1085,23 +1089,23 @@ entrance.1046 = {
 	}
 
 	option = { 
-		name = entrance.1046.just_hook
+		name = entrance_scheme.1046.just_hook
 
 		if = {
 			limit = {
 				var:successful_entrances >= 3
 				has_trait = seducer
 			}
-			trigger_event = entrance.1200
+			trigger_event = entrance_scheme.1200
 		}
 	}
 }
 
 # HOSTING Entrance Feast Event - Entrance failed
-entrance.1047 = {
+entrance_scheme.1047 = {
 	type = activity_event
-	title = entrance.1047.title
-	desc = entrance.1047.desc
+	title = entrance_scheme.1047.title
+	desc = entrance_scheme.1047.desc
 	theme = feast_activity
 	left_portrait = {
 		# scope:activity.special_guest:honorary_guest
@@ -1124,21 +1128,21 @@ entrance.1047 = {
 		random_scheme = {
 			limit = {
 				scheme_type = entrance
-				scheme_target = scope:victim
+				scheme_target_character = scope:victim
 			}
 			end_scheme = yes
 		}
 	}
 
 	option = { 
-		name = entrance.1047.a
+		name = entrance_scheme.1047.a
 	}
 }
 
-entrance.1100 = { # Convert to Enthralled
+entrance_scheme.1100 = { # Convert to Enthralled
 	type = character_event
-	title = entrance.1100.title
-	desc = entrance.1100.desc
+	title = entrance_scheme.1100.title
+	desc = entrance_scheme.1100.desc
 
 	theme = seduction
 	left_portrait = {
@@ -1175,14 +1179,14 @@ entrance.1100 = { # Convert to Enthralled
 	}
 
 	option = {
-		name = entrance.1100.a
+		name = entrance_scheme.1100.a
 	}
 }
 
-entrance.1101 = { # Convert to Enthralled victim perspective
+entrance_scheme.1101 = { # Convert to Enthralled victim perspective
 	type = character_event
-	title = entrance.1101.title
-	desc = entrance.1101.desc
+	title = entrance_scheme.1101.title
+	desc = entrance_scheme.1101.desc
 
 	theme = seduction
 	left_portrait = {
@@ -1221,14 +1225,14 @@ entrance.1101 = { # Convert to Enthralled victim perspective
 	}
 
 	option = {
-		name = entrance.1101.a
+		name = entrance_scheme.1101.a
 	}
 }
 
-entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
+entrance_scheme.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 	type = character_event
-	title = entrance.1150.title
-	desc = entrance.1150.enchantress_perspective
+	title = entrance_scheme.1150.title
+	desc = entrance_scheme.1150.enchantress_perspective
 
 	theme = seduction
 	left_portrait = {
@@ -1247,7 +1251,7 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 	}
 
 	option = {
-		name = entrance.1150.a
+		name = entrance_scheme.1150.a
 		flavor = entrance_modifiers_desc
 		if = {
 			limit = {
@@ -1268,19 +1272,20 @@ entrance.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Intro
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1152
+
+			trigger_event = entrance_scheme.1152
 			
 		}
 		else = {
-			trigger_event = entrance.1151
+			trigger_event = entrance_scheme.1151
 		}
 	}
 }
 
-entrance.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Successfully breaks free
+entrance_scheme.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Successfully breaks free
 	type = character_event
-	title = entrance.1151.title
-	desc = entrance.1151.desc
+	title = entrance_scheme.1151.title
+	desc = entrance_scheme.1151.desc
 
 	theme = seduction
 
@@ -1305,14 +1310,14 @@ entrance.1151 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Succe
 	}
 
 	option = {
-		name = entrance.1151.a
+		name = entrance_scheme.1151.a
 	}
 }
 
-entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails to break free
+entrance_scheme.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails to break free
 	type = character_event
-	title = entrance.1152.title
-	desc = entrance.1152.desc
+	title = entrance_scheme.1152.title
+	desc = entrance_scheme.1152.desc
 
 	theme = seduction
 
@@ -1338,7 +1343,7 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 	}
 
 	option = {
-		name = entrance.1152.a
+		name = entrance_scheme.1152.a
 		if = {
 			limit = {
 				scope:victim = {
@@ -1351,15 +1356,15 @@ entrance.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free - Fails
 			scope:victim = {
 				save_scope_as = target
 			}
-			trigger_event = entrance.1100
+			trigger_event = entrance_scheme.1100
 		}
 	}
 }
 
-entrance.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
+entrance_scheme.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
 	type = character_event
-	title = entrance.1160.title
-	desc = entrance.1160.desc
+	title = entrance_scheme.1160.title
+	desc = entrance_scheme.1160.desc
 	theme = seduction
 	left_portrait = {
 		character = root
@@ -1372,7 +1377,7 @@ entrance.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
 	immediate = {
 	}
 	option = {
-		name = entrance.1160.a
+		name = entrance_scheme.1160.a
 		if = {
 			limit = {
 				AND = {
@@ -1390,17 +1395,17 @@ entrance.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Intro
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1161
+			trigger_event = entrance_scheme.1161
 		}
 		else = {
-			trigger_event = entrance.1162
+			trigger_event = entrance_scheme.1162
 		}
 	}
 }
-entrance.1161 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Success
+entrance_scheme.1161 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Success
 	type = character_event
-	title = entrance.1161.title
-	desc = entrance.1161.desc
+	title = entrance_scheme.1161.title
+	desc = entrance_scheme.1161.desc
 	theme = seduction
 	left_portrait = {
 		character = root
@@ -1421,13 +1426,13 @@ entrance.1161 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Success
 		}
 	}
 	option = {
-		name = entrance.1161.a
+		name = entrance_scheme.1161.a
 	}
 }
-entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
+entrance_scheme.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 	type = character_event
-	title = entrance.1162.title
-	desc = entrance.1162.desc
+	title = entrance_scheme.1162.title
+	desc = entrance_scheme.1162.desc
 	theme = seduction
 	left_portrait = {
 		character = root
@@ -1446,7 +1451,7 @@ entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 		}
 	}
 	option = {
-		name = entrance.1162.a
+		name = entrance_scheme.1162.a
 		if = {
 			limit = {
 				scope:victim = {
@@ -1459,29 +1464,29 @@ entrance.1162 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - Fail
 			scope:victim = {
 				save_scope_as = target
 			}
-			trigger_event = entrance.1101
+			trigger_event = entrance_scheme.1101
 		}
 	}
 }
 
 
-entrance.1200 = { # Evolve to Enchantress
+entrance_scheme.1200 = { # Evolve to Enchantress
 	type = character_event
-	title = entrance.1200.title
+	title = entrance_scheme.1200.title
 	
 	desc = {
-		desc = entrance.1200.desc
+		desc = entrance_scheme.1200.desc
 		triggered_desc = {
 			trigger = {
 				is_female = yes
 			}
-			desc = entrance.1200.female
+			desc = entrance_scheme.1200.female
 		}
 		triggered_desc = {
 			trigger = {
 				is_female = no
 			}
-			desc = entrance.1200.male
+			desc = entrance_scheme.1200.male
 		}
 	}
 
@@ -1501,17 +1506,17 @@ entrance.1200 = { # Evolve to Enchantress
 	}
 
 	option = {
-		name = entrance.1200.a
+		name = entrance_scheme.1200.a
 
 		remove_trait = seducer
 		add_trait = enchantress
 	}
 }
 
-entrance.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
+entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
 	type = character_event
-	title = entrance.1300.title
-	desc = entrance.1300.enchantress_perspective
+	title = entrance_scheme.1300.title
+	desc = entrance_scheme.1300.enchantress_perspective
 
 	theme = seduction
 	left_portrait = {
@@ -1530,7 +1535,7 @@ entrance.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
 	}
 
 	option = {
-		name = entrance.1300.a
+		name = entrance_scheme.1300.a
 		flavor = entrance_modifiers_desc
 		if = {
 			limit = {
@@ -1551,19 +1556,19 @@ entrance.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
-			trigger_event = entrance.1302
+			trigger_event = entrance_scheme.1302
 			
 		}
 		else = {
-			trigger_event = entrance.1301
+			trigger_event = entrance_scheme.1301
 		}
 	}
 }
 
-entrance.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fails
+entrance_scheme.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fails
 	type = character_event
-	title = entrance.1301.title
-	desc = entrance.1301.desc
+	title = entrance_scheme.1301.title
+	desc = entrance_scheme.1301.desc
 
 	theme = seduction
 
@@ -1608,14 +1613,14 @@ entrance.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fails
 	}
 
 	option = {
-		name = entrance.1301.a
+		name = entrance_scheme.1301.a
 	}
 }
 
-entrance.1152 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
+entrance_scheme.1302 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
 	type = character_event
-	title = entrance.1152.title
-	desc = entrance.1152.desc
+	title = entrance_scheme.1152.title
+	desc = entrance_scheme.1152.desc
 
 	theme = seduction
 
@@ -1641,7 +1646,7 @@ entrance.1152 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
 	}
 
 	option = {
-		name = entrance.1152.a
+		name = entrance_scheme.1152.a
 		if = {
 			limit = {
 				scope:victim = {
@@ -1654,7 +1659,7 @@ entrance.1152 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
 			scope:victim = {
 				save_scope_as = target
 			}
-			trigger_event = entrance.1101
+			trigger_event = entrance_scheme.1101
 		}
 	}
 }
