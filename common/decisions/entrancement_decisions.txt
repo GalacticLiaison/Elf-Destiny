@@ -40,6 +40,58 @@
 			save_scope_as = entrancer
 		}
 
+		scope:victim = {
+			trigger_event = { 
+				id = entrance_scheme.1160
+			}	
+		}
+
+	}
+}
+
+attempt_to_break_entrancement_ai = { # for AI Use
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+	decision_group_type = elf
+
+	desc = attempt_to_break_entrancement_desc
+	selection_tooltip = attempt_to_break_entrancement_tooltip
+
+	ai_goal = yes
+	ai_will_do = {
+		value = 100
+	}
+	ai_potential = {
+		
+	}
+	cooldown = { years = 4 }
+	
+	# ai_check_interval = 4
+
+	is_shown = {
+		has_trait = entranced
+		is_ai = yes	
+	}
+	
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		has_trait = entranced		
+	}
+
+	effect = {
+		save_scope_as = victim
+
+		every_living_character = {
+			limit = {
+				has_hook_of_type = {
+					type = entranced
+					target = root
+				}
+			}
+			save_scope_as = entrancer
+		}
+
 		scope:entrancer = {
 			trigger_event = { 
 				id = entrance_scheme.1150

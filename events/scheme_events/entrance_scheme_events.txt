@@ -1385,9 +1385,11 @@ entrance_scheme.1160 = { # VICTIM PERSPECTIVE: Entranced Tries To Break Free - I
 					exists = scope:victim
 				}
 			}			
-			attempt_to_entrance_character_effect = {
-				ENTRANCER = scope:entrancer
-				VICTIM = scope:victim
+			scope:entrancer = { 
+				attempt_to_entrance_character_effect = {
+					ENTRANCER = scope:entrancer
+					VICTIM = scope:victim
+				}
 			}
 		}
 		if = {
@@ -1517,6 +1519,7 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 	type = character_event
 	title = entrance_scheme.1300.title
 	desc = entrance_scheme.1300.enchantress_perspective
+	
 
 	theme = seduction
 	left_portrait = {
@@ -1529,9 +1532,10 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 	}
 
 	immediate = {
-		var:struggling_pet = {
-			save_scope_as = victim
-		}
+		#var:struggling_pet = {
+		#	save_scope_as = victim
+		#}
+		
 	}
 
 	option = {
@@ -1545,9 +1549,11 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 				}
 			}
 			
-			victim_attempts_to_break_free_of_entrance_effect = {
-				ENTRANCER = scope:entrancer
-				VICTIM = scope:victim
+			scope:entrancer = { 
+				victim_attempts_to_break_free_of_entrance_effect = {
+					ENTRANCER = scope:entrancer
+					VICTIM = scope:victim
+				}
 			}
 		}
 
@@ -1556,8 +1562,9 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 				exists = scope:entrance_successful
 				scope:entrance_successful = yes
 			}
+			debug_log = "entrance is successful"
+				
 			trigger_event = entrance_scheme.1302
-			
 		}
 		else = {
 			trigger_event = entrance_scheme.1301
@@ -1569,7 +1576,7 @@ entrance_scheme.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fai
 	type = character_event
 	title = entrance_scheme.1301.title
 	desc = entrance_scheme.1301.desc
-
+	
 	theme = seduction
 
 	left_portrait = {
@@ -1582,33 +1589,31 @@ entrance_scheme.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fai
 	}
 
 	immediate = {
+		debug_log = "1301 fires"
 		if = { 
 			limit = { 
 				scope:victim = { 
-					has_relation = { 
-						relation = rival
-						target = scope:entrancer
-					}
+					has_relation_rival = scope:entrancer
 				}
 			}
+			debug_log = "third if statement"
+			debug_log_scopes = yes
 			scope:victim = { 
-				remove_relation = { 
-					relation = rival
+				remove_relation_rival = scope:entrancer
+				set_relation_nemesis = {
 					target = scope:entrancer
-				}
-				add_relation = { 
-					relation = nemesis
-					target = scope:entrancer
+					reason = tried_to_entrance
 				}
 			}
 		}
 		else = { 
 			scope:victim = { 
-				add_relation = { 
-					relation = rival
+				set_relation_rival = { 
 					target = scope:entrancer
+					reason = tried_to_entrance
 				}
 			}
+			debug_log = "fourth if statement"
 		}
 	}
 
@@ -1619,8 +1624,8 @@ entrance_scheme.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fai
 
 entrance_scheme.1302 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Succeeds
 	type = character_event
-	title = entrance_scheme.1152.title
-	desc = entrance_scheme.1152.desc
+	title = entrance_scheme.1302.title
+	desc = entrance_scheme.1302.desc
 
 	theme = seduction
 
@@ -1634,19 +1639,31 @@ entrance_scheme.1302 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Suc
 	}
 
 	immediate = {
+		debug_log = "1302 is firing"
 		custom_tooltip = {
 			text = falls_deeper_into_entrancement
 			scope:victim = {
+				add_trait = entranced
 				add_trait_xp = {
 					trait = entranced
 					value = 33
+				}
+				set_variable = {
+				name = years_since_last_entrance_break_attempt
+				value = 0
+				}
+			}
+			scope:entrancer = { 
+				add_hook = { 
+					type = entranced 
+					target = scope:victim
 				}
 			}
 		}
 	}
 
 	option = {
-		name = entrance_scheme.1152.a
+		name = entrance_scheme.1302.a
 		if = {
 			limit = {
 				scope:victim = {
