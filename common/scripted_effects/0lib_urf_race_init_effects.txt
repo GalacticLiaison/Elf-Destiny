@@ -77,18 +77,172 @@ urf_elf_race_sub_init = {
     urf_elf_race_set_sub = { SUB_RACE = elf }
     urf_elf_race_set_sub = { SUB_RACE = elf_blood }
 }
+# urf_elf_race_set_sub = {
+#     if = {
+#         limit = {
+#             NOT = {
+#                 has_character_flag = urf_sub_race_set
+#             }
+#             var:urf_genotype_elf >= $SUB_RACE$_genetic_threshold_value
+#         }
+#         urf_set_race_phenotype = {
+#             RACE_PHENOTYPE = $SUB_RACE$
+#         }
+#         urf_base_modifier_init = { RACE = $SUB_RACE$ }
+#         if = {
+#             limit = {
+#                 NOT = {
+#                     flag:$SUB_RACE$ = flag:elf_blood
+#                 }
+#             }
+
+#             if = {
+#                 limit = {
+#                     age >= 20
+#                     age < life_expectancy_$SUB_RACE$
+#                 }
+#                 hidden_effect = {
+#                     add_trait = elven_immortality
+#                 }
+#             }
+#             else = {
+#                 hidden_effect = {
+#                     add_trait = elven_mortality
+#                 }
+#             }
+#         }
+#         add_character_flag = urf_sub_race_set
+#     }
+# }
+
 urf_elf_race_set_sub = {
     if = {
         limit = {
             NOT = {
                 has_character_flag = urf_sub_race_set
             }
-            var:urf_genotype_elf >= $SUB_RACE$_genetic_threshold_value
+            var:urf_genotype_elf >= half_elf_blood_genetic_threshold_value
         }
-        urf_set_race_phenotype = {
-            RACE_PHENOTYPE = $SUB_RACE$
+        if = {
+            limit = {
+                var:urf_genotype_elf <= elf_blood_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = elf_blood
+            }
+            urf_base_modifier_init = { RACE = elf_blood }
         }
-        urf_base_modifier_init = { RACE = $SUB_RACE$ }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > elf_blood_genetic_threshold_value
+                var:urf_genotype_elf <= elf_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = elf
+            }
+            urf_base_modifier_init = { RACE = elf }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > elf_genetic_threshold_value
+                var:urf_genotype_elf <= high_elf_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = high_elf
+            }
+            urf_base_modifier_init = { RACE = high_elf }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > high_elf_genetic_threshold_value
+                var:urf_genotype_elf <= true_elf_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = true_elf
+            }
+            urf_base_modifier_init = { RACE = true_elf }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > true_elf_genetic_threshold_value
+                var:urf_genotype_elf <= fae_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = fae
+            }
+            urf_base_modifier_init = { RACE = fae }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > fae_genetic_threshold_value
+                var:urf_genotype_elf <= fae_radiant_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = fae_radiant
+            }
+            urf_base_modifier_init = { RACE = fae_radiant }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > fae_radiant_genetic_threshold_value
+                var:urf_genotype_elf <= celestial_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = celestial
+            }
+            urf_base_modifier_init = { RACE = celestial }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > celestial_genetic_threshold_value
+                var:urf_genotype_elf <= seraphic_celestial_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = seraphic_celestial
+            }
+            urf_base_modifier_init = { RACE = seraphic_celestial }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > seraphic_celestial_genetic_threshold_value
+                var:urf_genotype_elf <= eldar_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = eldar
+            }
+            urf_base_modifier_init = { RACE = eldar }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > eldar_genetic_threshold_value
+                var:urf_genotype_elf <= maiar_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = maiar
+            }
+            urf_base_modifier_init = { RACE = maiar }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > maiar_genetic_threshold_value
+                var:urf_genotype_elf <= valar_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = valar
+            }
+            urf_base_modifier_init = { RACE = valar }
+        }
+        else_if = {
+            limit = {
+                var:urf_genotype_elf > valar_genetic_threshold_value
+                var:urf_genotype_elf <= aratar_genetic_threshold_value
+            }
+            urf_set_race_phenotype = {
+                RACE_PHENOTYPE = aratar
+            }
+            urf_base_modifier_init = { RACE = aratar }
+        }
+        
         if = {
             limit = {
                 NOT = {
