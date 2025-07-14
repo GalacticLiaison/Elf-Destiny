@@ -64,210 +64,51 @@ urf_elf_race_init = {
     }
 }
 urf_elf_race_sub_init = {
-    urf_elf_race_set_sub = { SUB_RACE = aratar }
-    urf_elf_race_set_sub = { SUB_RACE = valar }
-    urf_elf_race_set_sub = { SUB_RACE = maiar }
-    urf_elf_race_set_sub = { SUB_RACE = eldar }
-    urf_elf_race_set_sub = { SUB_RACE = seraphic_celestial }
-    urf_elf_race_set_sub = { SUB_RACE = celestial }
-    urf_elf_race_set_sub = { SUB_RACE = fae_radiant }
-    urf_elf_race_set_sub = { SUB_RACE = fae }
-    urf_elf_race_set_sub = { SUB_RACE = true_elf }
-    urf_elf_race_set_sub = { SUB_RACE = high_elf }
-    urf_elf_race_set_sub = { SUB_RACE = elf }
-    urf_elf_race_set_sub = { SUB_RACE = elf_blood }
+    urf_elf_race_set_sub = { SUB_RACE_1 = elf_blood SUB_RACE_2 = elf }
+    urf_elf_race_set_sub = { SUB_RACE_1 = elf SUB_RACE_2 = high_elf }
+    urf_elf_race_set_sub = { SUB_RACE_1 = high_elf SUB_RACE_2 = true_elf }
+    urf_elf_race_set_sub = { SUB_RACE_1 = true_elf SUB_RACE_2 = fae }
+    urf_elf_race_set_sub = { SUB_RACE_1 = fae SUB_RACE_2 = fae_radiant }
+    urf_elf_race_set_sub = { SUB_RACE_1 = fae_radiant SUB_RACE_2 = celestial }
+    urf_elf_race_set_sub = { SUB_RACE_1 = celestial SUB_RACE_2 = seraphic_celestial }
+    urf_elf_race_set_sub = { SUB_RACE_1 = seraphic_celestial SUB_RACE_2 = eldar }
+    urf_elf_race_set_sub = { SUB_RACE_1 = eldar SUB_RACE_2 = maiar }
+    urf_elf_race_set_sub = { SUB_RACE_1 = maiar SUB_RACE_2 = valar }
+    urf_elf_race_set_sub = { SUB_RACE_1 = valar SUB_RACE_2 = aratar }
+    urf_elf_race_set_sub = { SUB_RACE_1 = aratar SUB_RACE_2 = max_int }
 }
-# urf_elf_race_set_sub = {
-#     if = {
-#         limit = {
-#             NOT = {
-#                 has_character_flag = urf_sub_race_set
-#             }
-#             var:urf_genotype_elf >= $SUB_RACE$_genetic_threshold_value
-#         }
-#         urf_set_race_phenotype = {
-#             RACE_PHENOTYPE = $SUB_RACE$
-#         }
-#         urf_base_modifier_init = { RACE = $SUB_RACE$ }
-#         if = {
-#             limit = {
-#                 NOT = {
-#                     flag:$SUB_RACE$ = flag:elf_blood
-#                 }
-#             }
-
-#             if = {
-#                 limit = {
-#                     age >= 20
-#                     age < life_expectancy_$SUB_RACE$
-#                 }
-#                 hidden_effect = {
-#                     add_trait = elven_immortality
-#                 }
-#             }
-#             else = {
-#                 hidden_effect = {
-#                     add_trait = elven_mortality
-#                 }
-#             }
-#         }
-#         add_character_flag = urf_sub_race_set
-#     }
-# }
 
 urf_elf_race_set_sub = {
     if = {
         limit = {
-            NOT = {
-                has_character_flag = urf_sub_race_set
-            }
-            var:urf_genotype_elf >= half_elf_blood_genetic_threshold_value
+            NOT = { has_character_flag = urf_sub_race_set }
+            var:urf_genotype_elf >= half_$SUB_RACE_1$_genetic_threshold_value
+            var:urf_genotype_elf < half_$SUB_RACE_2$_genetic_threshold_value
         }
-        if = {
-            limit = {
-                var:urf_genotype_elf <= elf_blood_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = elf_blood
-            }
-            urf_base_modifier_init = { RACE = elf_blood }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > elf_blood_genetic_threshold_value
-                var:urf_genotype_elf <= elf_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = elf
-            }
-            urf_base_modifier_init = { RACE = elf }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > elf_genetic_threshold_value
-                var:urf_genotype_elf <= high_elf_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = high_elf
-            }
-            urf_base_modifier_init = { RACE = high_elf }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > high_elf_genetic_threshold_value
-                var:urf_genotype_elf <= true_elf_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = true_elf
-            }
-            urf_base_modifier_init = { RACE = true_elf }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > true_elf_genetic_threshold_value
-                var:urf_genotype_elf <= fae_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = fae
-            }
-            urf_base_modifier_init = { RACE = fae }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > fae_genetic_threshold_value
-                var:urf_genotype_elf <= fae_radiant_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = fae_radiant
-            }
-            urf_base_modifier_init = { RACE = fae_radiant }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > fae_radiant_genetic_threshold_value
-                var:urf_genotype_elf <= celestial_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = celestial
-            }
-            urf_base_modifier_init = { RACE = celestial }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > celestial_genetic_threshold_value
-                var:urf_genotype_elf <= seraphic_celestial_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = seraphic_celestial
-            }
-            urf_base_modifier_init = { RACE = seraphic_celestial }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > seraphic_celestial_genetic_threshold_value
-                var:urf_genotype_elf <= eldar_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = eldar
-            }
-            urf_base_modifier_init = { RACE = eldar }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > eldar_genetic_threshold_value
-                var:urf_genotype_elf <= maiar_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = maiar
-            }
-            urf_base_modifier_init = { RACE = maiar }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > maiar_genetic_threshold_value
-                var:urf_genotype_elf <= valar_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = valar
-            }
-            urf_base_modifier_init = { RACE = valar }
-        }
-        else_if = {
-            limit = {
-                var:urf_genotype_elf > valar_genetic_threshold_value
-                var:urf_genotype_elf <= aratar_genetic_threshold_value
-            }
-            urf_set_race_phenotype = {
-                RACE_PHENOTYPE = aratar
-            }
-            urf_base_modifier_init = { RACE = aratar }
-        }
-        
-        if = {
-            limit = {
-                NOT = {
-                    flag:$SUB_RACE$ = flag:elf_blood
-                }
-            }
 
+        urf_set_race_phenotype = { RACE_PHENOTYPE = $SUB_RACE_1$ }
+        urf_base_modifier_init = { RACE = $SUB_RACE_1$ }
+
+        if = {
+            limit = {
+                NOT = { flag:$SUB_RACE_1$ = flag:elf_blood }
+            }
             if = {
                 limit = {
                     age >= 20
-                    age < life_expectancy_$SUB_RACE$
+                    age < life_expectancy_$SUB_RACE_1$
                 }
-                hidden_effect = {
-                    add_trait = elven_immortality
-                }
+                hidden_effect = { add_trait = elven_immortality }
             }
             else = {
-                hidden_effect = {
-                    add_trait = elven_mortality
-                }
+                hidden_effect = { add_trait = elven_mortality }
             }
         }
+
         add_character_flag = urf_sub_race_set
     }
 }
+
 
 urf_remove_modifier = {
     remove_character_modifier = urf_phenotype_human_modifier
