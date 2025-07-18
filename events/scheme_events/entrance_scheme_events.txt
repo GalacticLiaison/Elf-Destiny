@@ -392,6 +392,18 @@ entrance_scheme.1026 = {
 		else = {
 			change_variable = {name = successful_entrances add = 1}
 		}
+
+		if = {
+			limit = {
+				scope:victim = {
+					is_ai = yes
+				}
+			}
+			trigger_event = {
+				id = entrance_scheme.1150
+				years = 3
+			}
+		}
 	}
 
 	option = { 
@@ -743,6 +755,18 @@ entrance_scheme.1035 = {
 			}
 			end_scheme = yes
 		}
+
+		if = {
+			limit = {
+				scope:victim = {
+					is_ai = yes
+				}
+			}
+			trigger_event = {
+				id = entrance_scheme.1150
+				years = 3
+			}
+		}
 	}
 
 	option = { 
@@ -1086,6 +1110,18 @@ entrance_scheme.1046 = {
 		else = {
 			change_variable = {name = successful_entrances add = 1}
 		}
+
+		if = {
+			limit = {
+				scope:victim = {
+					is_ai = yes
+				}
+			}
+			trigger_event = {
+				id = entrance_scheme.1150
+				years = 3
+			}
+		}
 	}
 
 	option = { 
@@ -1239,15 +1275,13 @@ entrance_scheme.1150 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free 
 		character = root
 		animation = anger
 	}
-	right_portrait = {
+	lower_right_portrait = {
 		character = scope:victim
 		animation = bold
 	}
 
 	immediate = {
-		var:struggling_pet = {
-			save_scope_as = victim
-		}
+
 	}
 
 	option = {
@@ -1323,11 +1357,11 @@ entrance_scheme.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free 
 
 	left_portrait = {
 		character = root
-		animation = bold
+		animation = personality_bold
 	}
 	right_portrait = {
 		character = scope:victim
-		animation = sad
+		animation = sadness
 	}
 
 	immediate = {
@@ -1357,6 +1391,19 @@ entrance_scheme.1152 = { # ENTRANCER PERSPECTIVE: Entranced Tries To Break Free 
 				save_scope_as = target
 			}
 			trigger_event = entrance_scheme.1100
+		}
+		else = {
+			if = {
+				limit = {
+					scope:victim = {
+						is_ai = yes
+					}
+				}
+				trigger_event = {
+					id = entrance_scheme.1150
+					years = 3
+				}
+			}
 		}
 	}
 }
@@ -1518,12 +1565,12 @@ entrance_scheme.1200 = { # Evolve to Enchantress
 entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Intro
 	type = character_event
 	title = entrance_scheme.1300.title
-	desc = entrance_scheme.1300.enchantress_perspective
+	desc = entrance_scheme.1300.desc
 	
 
 	theme = seduction
 	left_portrait = {
-		character = victim
+		character = scope:victim
 		animation = anger
 	}
 	right_portrait = {
@@ -1532,15 +1579,13 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 	}
 
 	immediate = {
-		#var:struggling_pet = {
-		#	save_scope_as = victim
-		#}
 		
 	}
 
 	option = {
 		name = entrance_scheme.1300.a
-		flavor = entrance_modifiers_desc
+		# TODO: make modifier flavor description accurate, right now it reads as if player is entrancing themselves 
+		# flavor = entrance_modifiers_desc
 		if = {
 			limit = {
 				AND = {
@@ -1550,7 +1595,7 @@ entrance_scheme.1300 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Int
 			}
 			
 			scope:entrancer = { 
-				victim_attempts_to_break_free_of_entrance_effect = {
+				attempt_to_entrance_character_effect = {
 					ENTRANCER = scope:entrancer
 					VICTIM = scope:victim
 				}
@@ -1580,13 +1625,13 @@ entrance_scheme.1301 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Fai
 	theme = seduction
 
 	left_portrait = {
-		character = root
-		animation = anger
-	}
-	right_portrait = {
 		character = scope:victim
-		animation = happiness
+		animation = personality_bold
 	}
+	# right_portrait = {
+	# 	character = scope:victim
+	# 	animation = happiness
+	# }
 
 	immediate = {
 		debug_log = "1301 fires"
@@ -1649,8 +1694,8 @@ entrance_scheme.1302 = { # VICTIM PERSPECTIVE: AI Tries to Entrance Player - Suc
 					value = 33
 				}
 				set_variable = {
-				name = years_since_last_entrance_break_attempt
-				value = 0
+					name = years_since_last_entrance_break_attempt
+					value = 0
 				}
 			}
 			scope:entrancer = { 
