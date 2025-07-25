@@ -66,6 +66,18 @@ determine_bloodline_orphan_type_effect = {
 				value = flag:dael_female
 			}
 		}
+		5 = { # Lormelis Male
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:lor_male
+			}
+		}
+		5 = { # Lormelis Female
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:lor_female
+			}
+		}
 	}
 }
 
@@ -200,6 +212,32 @@ create_bloodline_orphan_effect = {
 			save_scope_as = orphan
 		}
 	}
+	else_if = { # Lormelis Male
+		limit = {
+			scope:orphan_type = flag:lor_male
+		}
+		create_character = {
+			template = orphan_lormelis_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Lormelis Female
+		limit = {
+			scope:orphan_type = flag:lor_female
+		}
+		create_character = {
+			template = orphan_lormelis_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan
+		}
+	}
 }
 
 create_orphan_mother_effect = {
@@ -276,6 +314,22 @@ create_orphan_mother_effect = {
 		}
 		create_character = {
 			template = orphan_daelurin_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan_mother
+		}
+	}
+	else_if = { # Lormelis
+		limit = {
+			OR = {
+				scope:orphan_type = flag:lor_male
+				scope:orphan_type = flag:lor_female
+			}
+		}
+		create_character = {
+			template = orphan_lormelis_mother
 			dynasty = none
 			location = root.location
 			faith = root.faith

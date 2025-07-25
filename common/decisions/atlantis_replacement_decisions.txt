@@ -1,0 +1,74 @@
+﻿# found_kingdom_decision = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_check_interval = 60
+# 	desc = found_kingdom_decision_desc
+
+# 	is_shown = {
+# 		highest_held_title_tier = tier_duchy
+# 		NOT = { has_game_rule = off_custom_kingdoms }
+# 	}
+
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		is_independent_ruler = yes
+# 		OR = {
+# 			custom_description = {
+# 				text = found_kingdom_decision_three_duchies_held
+# 				any_held_title = {
+# 					count > 2
+# 					tier = tier_duchy
+# 				}
+# 			}
+# 			sub_realm_size >= 30
+# 		}
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		is_available_adult = yes
+# 		is_at_war = no
+# 		### MOD: Not in Atlantis
+# 		custom_tooltip = {
+# 			text = atlantis_custom_kingdom_tooltip
+# 			NOT = {
+# 				any_realm_county = {
+# 					target_is_de_jure_liege_or_above = title:k_atlantis
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	cost = {
+# 		gold = 300
+# 		prestige = 500
+# 		piety = 200
+# 	}
+
+# 	effect = {
+# 		create_custom_kingdom_effect = yes
+# 		if = {
+# 			limit = {
+# 				is_ai = no
+# 				NOT = { exists = global_var:found_kingdom_decision  }
+# 			}
+# 			set_global_variable = {
+# 				name = found_kingdom_decision
+# 				value = root
+# 			}
+# 			set_global_variable = {
+# 				name = found_kingdom_decision_kingdom
+# 				value = root.primary_title
+# 			}
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }

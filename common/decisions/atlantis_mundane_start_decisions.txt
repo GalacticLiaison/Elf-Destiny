@@ -1,0 +1,112 @@
+﻿# atlantis_start_migration = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+# 	}
+# 	decision_group_type = major
+# 	desc = atlantis_start_migration_desc
+
+# 	ai_check_interval = 24
+	
+# 	is_shown = {
+# 		has_global_variable = atlantis_mundane_playthrough ### chack for the type of playthrogh
+# 		title:c_atlantis = { ### check if atlantis is still uninhabited
+# 			holder = {
+# 				has_trait = uninhabited
+# 			}
+# 		}
+
+# 		#is_landed = yes
+# 		highest_held_title_tier > tier_barony
+# 	}
+	
+# 	is_valid = {
+# 		is_independent_ruler = yes
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		is_available_adult = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 0
+# 			add = domain_size
+# 			multiply = 120
+# 			if = {
+# 				limit = {
+# 					any_held_title = {
+# 						tier = tier_county
+# 						is_coastal_county = yes
+# 					}
+# 				}
+# 				multiply = 0.8
+# 			}
+# 			if = {
+# 				limit = {
+# 					title:c_atlantis.holder = {
+# 						in_diplomatic_range = root
+# 					}
+# 				}
+# 				multiply = 0.5
+# 			}
+# 			min = 100
+# 			max = 1000
+# 		}
+# 		prestige = {
+# 			value = 100
+# 			multiply = highest_held_title_tier
+# 		} 
+# 	}
+	
+# 	effect = {
+# 		title:c_atlantis = { ### find uninhabited character
+# 			holder = {
+# 				save_temporary_scope_as = defender
+# 			}
+# 		}
+# 		start_war = {
+# 			cb = atlantis_migration_cb
+# 			target = scope:defender
+# 		}
+# 	}
+	
+	
+# 	ai_potential = {
+# 		years_from_game_start > 500 #give the players some time
+# 	}
+
+# 	ai_will_do = {
+# 		base = -200
+
+# 		modifier = {
+# 			add = 10
+# 			has_trait = ambitious
+# 		}
+# 		modifier = {
+# 			add = 10
+# 			has_trait = brave
+# 		}
+# 		modifier = {
+# 			add = 10
+# 			NOT = { has_faith = capital_county.faith }
+# 		}
+# 		modifier = {
+# 			add = 10
+# 			NOT = { has_culture = capital_county.culture }
+# 		}
+		
+# 		modifier = { #Kings never do this
+# 		add = -200
+# 			highest_held_title_tier >= tier_kingdom
+# 		}
+# 		modifier = { #Dukes are less likely
+# 		add = -20
+# 			highest_held_title_tier = tier_duchy 
+# 		}
+# 		modifier = { #less likely early in the game
+# 		add = -20
+# 			years_from_game_start < 10
+# 		}
+# 	}
+# }
