@@ -211,6 +211,11 @@ activity_expedition = {
 						exists = barony	
 						barony = title:b_northri_gudbrandsdali
 					}
+					# Atlantis
+					AND = {
+						exists = barony	
+						barony = title:b_brest
+					}
 				}
 			}
 
@@ -1571,7 +1576,16 @@ activity_expedition = {
 							# EFFECT
 							scope:host = { disburse_expedition_activity_rewards = yes }
 						}
+
+                        if = {
+                            limit = {
+                                scope:activity.activity_location.barony = title:b_brest
+                            }
+                            scope:host = { trigger_event = atlantis_expedition.006 }
+                        }
+                        else = {
 						scope:host = { trigger_event = expedition.006 }
+                        }
 					}
 				}
 			}
