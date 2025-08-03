@@ -1,47 +1,53 @@
 ﻿# character just about to die is root scope
 # if a killer is known, it's set as scope:killer
-on_death = { 
+on_death = {
     on_actions = {
-        aeluran_heirarchy_management 
-    } 
+        aeluran_hierarchy_management
+    }
 }
 
-aeluran_heirarchy_management = {
-	trigger = {
-		OR = {
-			AND = {
-				exists = global_var:high_matriarch
-				global_var:high_matriarch = root
-			}
-			is_target_in_global_variable_list = {
-				name = aeluran_matrons
-				target = root
-			}
-		}
-	}
+aeluran_hierarchy_management = {
+    trigger = {
+        OR = {
+            AND = {
+                exists = global_var:high_matriarch
+                global_var:high_matriarch = root
+            }
+            is_target_in_global_variable_list = {
+                name = aeluran_matrons
+                target = root
+            }
+        }
+    }
 
-	effect = {
-		debug_log = "Aeluran has died"
-		save_scope_as = dead_aeluran
+    effect = {
+        debug_log = "Aeluran has died"
+        save_scope_as = dead_aeluran
+        if = {
+            limit = {
+                global_var:high_matriarch = root
+            }
+            debug_log = "Replacing Matriarch"
 
-		if = {
-			limit = {
-				global_var:high_matriarch = root
-			}
-			debug_log = "Replacing Matriarch"
+            appoint_new_aeluran_matriarch_effect = yes
+            
+			title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
+                trigger_event = {
+                    id = aeluran_repeating.006
+                    days = 1
+                }
+            }
+        }
+        else_if = {
+            limit = {
+                is_target_in_global_variable_list = {
+                    name = aeluran_matrons
+                    target = root
+                }
+            }
+            debug_log = "Replacing Matron"
 
-			appoint_new_aeluran_matriarch_effect = yes
-		}
-		else_if = {
-			limit = {
-				is_target_in_global_variable_list = {
-					name = aeluran_matrons
-					target = root
-				}
-			}
-			debug_log = "Replacing Matron"
-
-			appoint_new_aeluran_matron_effect = yes
-		}
-	}
+            appoint_new_aeluran_matron_effect = yes
+        }
+    }
 }
