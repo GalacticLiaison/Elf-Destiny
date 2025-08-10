@@ -756,6 +756,33 @@ vbox = {
 							text = "[Localize( 'game_concept_fae_radiant_desc') ]"
 						}
 					}
+					elf_filter_button_small = {
+						blockoverride "elf_click_button_effect" {
+							datacontext = "[GetScriptedGui( 'elf_bloodline_trait_selection_button' )]"
+							onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'trait', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+						}
+						blockoverride "elf_filter_button_texture" {
+							texture = "gfx/interface/icons/traits/royal_elf_lormelis.dds"
+						}
+						blockoverride "elf_filter_button_selected" {
+							enabled = yes
+						}
+						blockoverride "elf_icon_glow_enabled" {
+							visible = "[EventWindowWidget.GetScope.sC('recipient').HasTrait( GetTrait( 'royal_elf_lormelis' ) )]"
+						}
+						blockoverride "elf_icon_glow_disabled" {
+							visible = no
+						}
+						blockoverride "tooltip_race_icon_texture"  {
+							texture = "gfx/interface/icons/traits/royal_elf_lormelis.dds"
+						}
+						blockoverride "tooltip_race_icon_name" {
+							text = "[Localize( 'game_concept_fae_radiant') ]"
+						}
+						blockoverride "tooltip_race_icon_desc" {
+							text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+						}
+					}
 				}
 		
 				# Aeluran
