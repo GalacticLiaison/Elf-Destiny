@@ -1,734 +1,784 @@
-﻿on_game_start = { 
+﻿on_game_start = {
     on_actions = {
-        elf_destiny_on_game_start 
-    } 
-} 
+        elf_destiny_on_game_start
+    }
+}
 elf_destiny_on_game_start = {
-	effect = {
-		# Grand Portal Start Discovered
-		add_to_global_variable_list = {
-			name = discovered_holy_sites
-			target = flag:the_grand_portal
-		}
+    effect = {
+        # Grand Portal Start Discovered
+        add_to_global_variable_list = {
+            name = discovered_holy_sites
+            target = flag:the_grand_portal
+        }
 
-		#Create global list with holy sites before deactivating
-		religion:spark_religion = {
-			every_faith = {
-				every_holy_site = {
-					save_scope_as = spark_holy_site_scope
-					add_to_global_variable_list = {
-						name = spark_holy_sites
-						target = scope:spark_holy_site_scope
-					}
-				}
+        #Create global list with holy sites before deactivating
+        religion:spark_religion = {
+            every_faith = {
+                every_holy_site = {
+                    save_scope_as = spark_holy_site_scope
+                    add_to_global_variable_list = {
+                        name = spark_holy_sites
+                        target = scope:spark_holy_site_scope
+                    }
+                }
 
-				deactivate_holy_site = ruins_of_valfuria
-				deactivate_holy_site = spire_citadel
-				deactivate_holy_site = proving_fields
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_1
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_2
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_3
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_4
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_5
-				deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_6
-				deactivate_holy_site = volcanic_forge
-				deactivate_holy_site = noble_wood
-				deactivate_holy_site = high_harbor
-				deactivate_holy_site = citadel_of_bear_king_thul
-				deactivate_holy_site = archipelago_of_duck_duke_vega
-				deactivate_holy_site = tomb_of_ale_the_dragon_slayer
-				deactivate_holy_site = ruins_of_the_runic_city_of_anundshog
-				deactivate_holy_site = tomb_of_the_lights_champions
-				deactivate_holy_site = black_palace_of_dark_queen_hekla
-				deactivate_holy_site = newgrange_temple
-				deactivate_holy_site = burrens_bastion
-				deactivate_holy_site = skip_gates_of_camelot
-				deactivate_holy_site = great_obelisk_of_the_pictish
-				deactivate_holy_site = labyrinth_gateway_of_the_altamirans
-				deactivate_holy_site = grazing_villages_of_the_great_herds
-				deactivate_holy_site = hunting_grounds_of_the_greater_drakes
-				deactivate_holy_site = ancient_city_of_glanum
-				deactivate_holy_site = ancient_mega_city_of_myropillya
-				deactivate_holy_site = temple_of_the_mages_court
-				deactivate_holy_site = seat_of_the_storm_king
-				deactivate_holy_site = cradle_of_the_first_elves
-				deactivate_holy_site = apadana_palace
-				deactivate_holy_site = ancient_city_of_bosra
-				deactivate_holy_site = ancient_city_of_babylon
-				deactivate_holy_site = library_of_alexandria
-				deactivate_holy_site = harkonnens_foley
-				deactivate_holy_site = shattered_spire_of_veldric
-				deactivate_holy_site = the_grand_blood_alter
-				deactivate_holy_site = labyrinth_gateway_of_the_ajantas
-				deactivate_holy_site = ancient_holy_city_of_madurai
-				deactivate_holy_site = ancient_fortress_of_mahasthangarh
-				deactivate_holy_site = mythical_spiritual_kingdom_of_shambhala
-				deactivate_holy_site = domain_of_the_forest_spirit_eleke_sazy
-				deactivate_holy_site = ancient_faerie_groves
-				deactivate_holy_site = overwatch_fortress
-				deactivate_holy_site = wraith_wood
-				deactivate_holy_site = matrons_hollow
-				deactivate_holy_site = sealed_magic_armoury
-				deactivate_holy_site = whisper_wood
-				deactivate_holy_site = light_reach_citadel
-				deactivate_holy_site = east_flaria
-				deactivate_holy_site = west_flaria
-				deactivate_holy_site = wratislaw_magi_academy
-				deactivate_holy_site = vela_spila_caverns
-			}
-		}
+                deactivate_holy_site = ruins_of_valfuria
+                deactivate_holy_site = spire_citadel
+                deactivate_holy_site = proving_fields
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_1
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_2
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_3
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_4
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_5
+                deactivate_holy_site = fortress_tomb_of_the_dead_emperor_alt_6
+                deactivate_holy_site = volcanic_forge
+                deactivate_holy_site = noble_wood
+                deactivate_holy_site = high_harbor
+                deactivate_holy_site = citadel_of_bear_king_thul
+                deactivate_holy_site = archipelago_of_duck_duke_vega
+                deactivate_holy_site = tomb_of_ale_the_dragon_slayer
+                deactivate_holy_site = ruins_of_the_runic_city_of_anundshog
+                deactivate_holy_site = tomb_of_the_lights_champions
+                deactivate_holy_site = black_palace_of_dark_queen_hekla
+                deactivate_holy_site = newgrange_temple
+                deactivate_holy_site = burrens_bastion
+                deactivate_holy_site = skip_gates_of_camelot
+                deactivate_holy_site = great_obelisk_of_the_pictish
+                deactivate_holy_site = labyrinth_gateway_of_the_altamirans
+                deactivate_holy_site = grazing_villages_of_the_great_herds
+                deactivate_holy_site = hunting_grounds_of_the_greater_drakes
+                deactivate_holy_site = ancient_city_of_glanum
+                deactivate_holy_site = ancient_mega_city_of_myropillya
+                deactivate_holy_site = temple_of_the_mages_court
+                deactivate_holy_site = seat_of_the_storm_king
+                deactivate_holy_site = cradle_of_the_first_elves
+                deactivate_holy_site = apadana_palace
+                deactivate_holy_site = ancient_city_of_bosra
+                deactivate_holy_site = ancient_city_of_babylon
+                deactivate_holy_site = library_of_alexandria
+                deactivate_holy_site = harkonnens_foley
+                deactivate_holy_site = shattered_spire_of_veldric
+                deactivate_holy_site = the_grand_blood_alter
+                deactivate_holy_site = labyrinth_gateway_of_the_ajantas
+                deactivate_holy_site = ancient_holy_city_of_madurai
+                deactivate_holy_site = ancient_fortress_of_mahasthangarh
+                deactivate_holy_site = mythical_spiritual_kingdom_of_shambhala
+                deactivate_holy_site = domain_of_the_forest_spirit_eleke_sazy
+                deactivate_holy_site = ancient_faerie_groves
+                deactivate_holy_site = overwatch_fortress
+                deactivate_holy_site = wraith_wood
+                deactivate_holy_site = matrons_hollow
+                deactivate_holy_site = sealed_magic_armoury
+                deactivate_holy_site = whisper_wood
+                deactivate_holy_site = light_reach_citadel
+                deactivate_holy_site = east_flaria
+                deactivate_holy_site = west_flaria
+                deactivate_holy_site = wratislaw_magi_academy
+                deactivate_holy_site = vela_spila_caverns
+                ####################### Atlantis ########################
+                # deactivate_holy_site = ruins_of_ring_harbor
+            }
+        }
 
+        if = {
+            limit = {
+                exists = character:belanor_valerith
+            }
+
+            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith }
+        }
+        if = {
+            limit = {
+                exists = character:belanor_valerith_1066
+            }
+
+            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1066 }
+        }
 		if = {
-			limit = {
-				exists = character:belanor_valerith
-			}
+            limit = {
+                exists = character:belanor_valerith_1178
+            }
 
-			create_vanas_foeglass_effect = { OWNER = character:belanor_valerith }
-		}
-		if = {
-			limit = {
-				exists = character:belanor_valerith_1066
-			}
+            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1178 }
+        }
 
-			create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1066 }
-		}
+        # Assign missing Aeluran Regents
+        # every_ruler = {
+        # 	limit = {
+        # 		has_council_position = councillor_aeluran_advisor
+        # 		exists = cp:councillor_aeluran_advisor
+        # 		NOT = {
+        # 			has_diarchy_type = aeluran_regency
+        # 		}
+        # 	}
 
-
-		# Assign missing Aeluran Regents
-		# every_ruler = {
-		# 	limit = {
-		# 		has_council_position = councillor_aeluran_advisor
-		# 		exists = cp:councillor_aeluran_advisor
-		# 		NOT = {
-		# 			has_diarchy_type = aeluran_regency
-		# 		}
-		# 	}
-
-		# 	start_diarchy = aeluran_regency
-		# 	set_diarch = cp:councillor_aeluran_advisor
-		# }
+        # 	start_diarchy = aeluran_regency
+        # 	set_diarch = cp:councillor_aeluran_advisor
+        # }
 
 
-		culture:elf_culture_serelion = {
-			add_innovation = innovation_legionnaires
-		}
+        culture:elf_culture_serelion = {
+            add_innovation = innovation_legionnaires
+        }
 
 
-		# Register Elf Great Houses
+        # Register Elf Great Houses
+        set_global_variable = {
+            name = house_gwynthorn
+            value = character:galanoriel_gwynthorn.dynasty
+        }
+        set_global_variable = {
+            name = house_daelurin
+            value = character:galvin_daelurin.dynasty
+        }
+        set_global_variable = {
+            name = house_serelion
+            value = character:meldona_serelion.dynasty
+        }
+        set_global_variable = {
+            name = house_thundarael
+            value = character:nictheras_thundarael.dynasty
+        }
+        set_global_variable = {
+            name = house_valerith
+            value = character:seraphine_valerith.dynasty
+        }
 		set_global_variable = {
-			name = house_gwynthorn 
-			value = character:galanoriel_gwynthorn.dynasty
-		}
-		set_global_variable = {
-			name = house_daelurin
-			value = character:galvin_daelurin.dynasty
-		}
-		set_global_variable = {
-			name = house_serelion
-			value = character:meldona_serelion.dynasty
-		}
-		set_global_variable = {
-			name = house_thundarael
-			value = character:nictheras_thundarael.dynasty
-		}
-		set_global_variable = {
-			name = house_valerith
-			value = character:seraphine_valerith.dynasty
-		}
+            name = house_lormelis
+            value = character:aelor_lormelis.dynasty
+        }
 
-		# Set Initial Elf Finder Filters
-		set_global_variable = {
-			name = elf_type_filter_elf_blood 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_elf 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_high_elf 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_true_elf 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_fae 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_fae_radiant 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_celestial 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_seraphic_celestial 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_eldar 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_maiar 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_valar 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_type_filter_aratar 
-			value = 1
-		}
+        # Set Initial Elf Finder Filters
+        set_global_variable = {
+            name = elf_type_filter_elf_blood
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_elf
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_high_elf
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_true_elf
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_fae
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_fae_radiant
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_celestial
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_seraphic_celestial
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_eldar
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_maiar
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_valar
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_type_filter_aratar
+            value = 1
+        }
 
+        set_global_variable = {
+            name = elf_dynasty_filter_daelurin
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_dynasty_filter_thundarael
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_dynasty_filter_gwynthorn
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_dynasty_filter_valerith
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_dynasty_filter_serelion
+            value = 1
+        }
 		set_global_variable = {
-			name = elf_dynasty_filter_daelurin 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_dynasty_filter_thundarael 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_dynasty_filter_gwynthorn 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_dynasty_filter_valerith 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_dynasty_filter_serelion 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_dynasty_filter_other
-			value = 1
-		}
+            name = elf_dynasty_filter_lormelis
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_dynasty_filter_other
+            value = 1
+        }
 
-		set_global_variable = {
-			name = elf_bloodline_filter_daelurin 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_bloodline_filter_thundarael 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_bloodline_filter_gwynthorn 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_bloodline_filter_valerith 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_bloodline_filter_serelion 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_bloodline_filter_no_bloodline
-			value = 1
-		}
+        set_global_variable = {
+            name = elf_bloodline_filter_daelurin
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_thundarael
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_gwynthorn
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_valerith
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_serelion
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_lormelis
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_bloodline_filter_no_bloodline
+            value = 1
+        }
 
-		set_global_variable = {
-			name = elf_magic_ability_filter_magic_talent_1 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_magic_ability_filter_magic_talent_2
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_magic_ability_filter_magic_talent_3 
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_magic_ability_filter_magic_talentless
-			value = 1
-		}
+        set_global_variable = {
+            name = elf_magic_ability_filter_magic_talent_1
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_magic_ability_filter_magic_talent_2
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_magic_ability_filter_magic_talent_3
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_magic_ability_filter_magic_talentless
+            value = 1
+        }
 
-		set_global_variable = {
-			name = elf_aeluran_order_filter_aeluran_servant
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_aeluran_order_filter_aeluran_sister
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_aeluran_order_filter_aeluran_matron
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_aeluran_order_filter_aeluran_high_matriarch
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_aeluran_order_filter_born_in_the_red
-			value = 1
-		}
-		set_global_variable = {
-			name = elf_aeluran_order_filter_non_aeluran_elf
-			value = 1
-		}
+        set_global_variable = {
+            name = elf_aeluran_order_filter_aeluran_servant
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_aeluran_order_filter_aeluran_sister
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_aeluran_order_filter_aeluran_matron
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_aeluran_order_filter_aeluran_high_matriarch
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_aeluran_order_filter_born_in_the_red
+            value = 1
+        }
+        set_global_variable = {
+            name = elf_aeluran_order_filter_non_aeluran_elf
+            value = 1
+        }
 
-		# Default Race Selection
-		set_global_variable = {
-			name = ruler_designer_selected_race 
-			value = flag:human
-		}
-		set_global_variable = {
-			name = ruler_designer_ear_type 
-			value = flag:human
-		}
+        # Default Race Selection
+        set_global_variable = {
+            name = ruler_designer_selected_race
+            value = flag:human
+        }
+        set_global_variable = {
+            name = ruler_designer_ear_type
+            value = flag:human
+        }
 
-		# LANDLESS CAMP SETUP
-		character:belanor_valerith = {
-			add_courtier = character:elros_daelurin
-		}
-		character:belanor_valerith_1066 = {
-			add_courtier = character:elros_daelurin_1066
-		}
+        # LANDLESS CAMP SETUP
+        character:belanor_valerith = {
+            add_courtier = character:elros_daelurin
+        }
+        character:belanor_valerith_1066 = {
+            add_courtier = character:elros_daelurin_1066
+        }
 
-		character:heldrin_thundarael = {
-			add_courtier = character:taliana_thundarael
-		}
-		character:heldrin_thundarael_1066 = {
-			add_courtier = character:taliana_thundarael_1066
-		}
+        character:belanor_valerith_1178 = {
+            add_courtier = character:elros_daelurin_1178
+        }
 
-		character:aubrey_serelion = {
-			add_courtier = character:cain_serelion
-			add_courtier = character:anatole_serelion
-		}
-		character:aubrey_serelion_1066 = {
-			add_courtier = character:cain_serelion_1066
-			add_courtier = character:anatole_serelion_1066
-		}
+        character:heldrin_thundarael = {
+            add_courtier = character:taliana_thundarael
+        }
+        character:heldrin_thundarael_1066 = {
+            add_courtier = character:taliana_thundarael_1066
+        }
+        character:heldrin_thundarael_1178 = {
+            add_courtier = character:taliana_thundarael_1178
+        }
 
-		# Aeluran Clothes Color
-		every_living_character = {
-			limit = {
-				OR = {
-					has_trait = aeluran_sister
-					has_trait = aeluran_matron
-					has_trait = aeluran_high_matriarch
-				}
-			}
-			set_aeluran_clothing_colors = yes
-		}
+        character:aubrey_serelion = {
+            add_courtier = character:cain_serelion
+            add_courtier = character:anatole_serelion
+        }
+        character:aubrey_serelion_1066 = {
+            add_courtier = character:cain_serelion_1066
+            add_courtier = character:anatole_serelion_1066
+        }
+        character:aubrey_serelion_1178 = {
+            add_courtier = character:cain_serelion_1178
+            add_courtier = character:anatole_serelion_1178
+        }
 
-		if = {
-			limit = {
-				exists = character:seraphine_valerith
-			}
-			character:seraphine_valerith = {
-				create_elf_kingdom_effect = yes
+        # Aeluran Clothes Color
+        every_living_character = {
+            limit = {
+                OR = {
+                    has_trait = aeluran_sister
+                    has_trait = aeluran_matron
+                    has_trait = aeluran_high_matriarch
+                }
+            }
+            set_aeluran_clothing_colors = yes
+        }
 
-				set_aeluran_matriarch_to_feyswood_vassal = yes
-			}
-		}
+        if = {
+            limit = {
+                OR = {
+                    AND = {
+                        exists = character:seraphine_valerith # Didnt work before because of the this = character:seraphie_valerith never is ok
+                    }
+                    AND = {
+                        exists = character:seraphine_valerith_1066
+                    }
+                    AND = {
+                        exists = character:seraphine_valerith_1178
+                    }
+                }
+            }
+            character:seraphine_valerith = { 
+                create_elf_kingdom_effect = yes
+                set_aeluran_matriarch_to_feyswood_vassal = yes
+            }
+            character:seraphine_valerith_1066 = {
+                create_elf_kingdom_effect = yes
+                set_aeluran_matriarch_to_feyswood_vassal = yes
+            }
+            character:seraphine_valerith_1178 = {
+                create_elf_kingdom_effect = yes
+                set_aeluran_matriarch_to_feyswood_vassal = yes
+            }
+        }
 
-		title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
-			trigger_event = {
-				id = aeluran_repeating.006
-				days = 1
-			}
-		}
-	}
+        title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
+            trigger_event = {
+                id = aeluran_repeating.006
+                days = 1
+            }
+        }
+    }
 }
 
-on_game_start_after_lobby = { 
+on_game_start_after_lobby = {
     on_actions = {
-		swap_out_elf_traits
+        swap_out_elf_traits
         correct_elf_mortality_trait
-		register_aeluran_heirarchy
-		on_game_start_setup_expeditions
-		on_game_start_assign_ruler_designer_race
-		holy_lease_fix_fallback
-    } 
+        register_aeluran_hierarchy
+        on_game_start_setup_expeditions
+        on_game_start_assign_ruler_designer_race
+        holy_lease_fix_fallback
+    }
 }
 
 correct_elf_mortality_trait = {
-	effect = {
-		# Fix ruler designer elf children
-		every_living_character = {
-			limit = {
-				age < 20
-				is_any_elf_immortal_type = yes
-			}
+    effect = {
+        # Fix ruler designer elf children
+        every_living_character = {
+            limit = {
+                age < 20
+                is_any_elf_immortal_type = yes
+            }
 
-			remove_elf_immortality_effect = yes
+            remove_elf_immortality_effect = yes
 
-		}
-	}
+        }
+    }
 }
 
 swap_out_elf_traits = {
-	effect = {
-		# Fix ruler designer elf children
-		every_living_character = {
-			limit = {
-				is_ai = no
-				is_landed = no
-				exists = global_var:ruler_designer_selected_race 
-			}
+    effect = {
+        # Fix ruler designer elf children
+        every_living_character = {
+            limit = {
+                is_ai = no
+                is_landed = no
+                exists = global_var:ruler_designer_selected_race
+            }
 
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:elf_blood
-				}
-				add_character_flag = race_elf_blood
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:elf
-				}
-				add_character_flag = race_elf
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:high_elf
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:elf_blood
+                }
+                add_character_flag = race_elf_blood
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:elf
+                }
+                add_character_flag = race_elf
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:high_elf
 
-				}
-				add_character_flag = race_high_elf
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:true_elf
+                }
+                add_character_flag = race_high_elf
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:true_elf
 
-				}
-				add_character_flag = race_true_elf
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:fae
+                }
+                add_character_flag = race_true_elf
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:fae
 
-				}
-				add_character_flag = race_fae
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:fae_radiant
+                }
+                add_character_flag = race_fae
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:fae_radiant
 
-				}
-				add_character_flag = race_fae_radiant
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:celestial
-				}
-				add_character_flag = race_celestial
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:seraphic_celestial
-				}
-				add_character_flag = race_seraphic_celestial
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:eldar
-				}
-				add_character_flag = race_eldar
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:maiar
-				}
-				add_character_flag = race_maiar
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:valar
-				}
-				add_character_flag = race_valar
-			}
-			if = {
-				limit = {
-					global_var:ruler_designer_selected_race = flag:aratar
-				}
-				add_character_flag = race_aratar
-			}
-			
-			urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-			set_appropriate_elf_immortality_age = yes
-		}
-	}
+                }
+                add_character_flag = race_fae_radiant
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:celestial
+                }
+                add_character_flag = race_celestial
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:seraphic_celestial
+                }
+                add_character_flag = race_seraphic_celestial
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:eldar
+                }
+                add_character_flag = race_eldar
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:maiar
+                }
+                add_character_flag = race_maiar
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:valar
+                }
+                add_character_flag = race_valar
+            }
+            if = {
+                limit = {
+                    global_var:ruler_designer_selected_race = flag:aratar
+                }
+                add_character_flag = race_aratar
+            }
+
+            urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+            set_appropriate_elf_immortality_age = yes
+        }
+    }
 }
 
 holy_lease_fix_fallback = {
-	effect = {
-		# Make sure holy leases are ok
-		every_ruler = {
-			limit = {
-				exists = cp:councillor_court_chaplain
-				NOT = {
-					exists = cp:councillor_aeluran_advisor
-				}
-			}
-			set_variable = {
-				name = religious_advisor
-				value = cp:councillor_court_chaplain
-			}
-		}
-	}
+    effect = {
+        # Make sure holy leases are ok
+        every_ruler = {
+            limit = {
+                exists = cp:councillor_court_chaplain
+                NOT = {
+                    exists = cp:councillor_aeluran_advisor
+                }
+            }
+            set_variable = {
+                name = religious_advisor
+                value = cp:councillor_court_chaplain
+            }
+        }
+    }
 }
 
-register_aeluran_heirarchy = {
-	effect = {
-		debug_log = "register_aeluran_heirarchy"
+register_aeluran_hierarchy = {
+    effect = {
+        debug_log = "register_aeluran_hierarchy"
 
-		every_living_character = {
-			limit = {
-				has_trait = aeluran_matron
-			}
+        every_living_character = {
+            limit = {
+                has_trait = aeluran_matron
+            }
 
-			debug_log = "Register Matron"
+            debug_log = "Register Matron"
 
-			add_to_global_variable_list = {
-				name = aeluran_matrons
-				target = this
-			}
-		}
+            add_to_global_variable_list = {
+                name = aeluran_matrons
+                target = this
+            }
+        }
 
-		random_living_character = {
-			limit = {
-				has_trait = aeluran_high_matriarch
-			}
+        random_living_character = {
+            limit = {
+                has_trait = aeluran_high_matriarch
+            }
 
-			debug_log = "Register High Matriarch"
+            debug_log = "Register High Matriarch"
 
-			set_global_variable = {
-				name = high_matriarch
-				value = this
-			}
-		}
-	}
+            set_global_variable = {
+                name = high_matriarch
+                value = this
+            }
+        }
+    }
 }
 
 on_game_start_setup_expeditions = {
-	effect = {
-		register_expedition_site = { BARONY_NAME = b_luch SITE_NAME = the_grand_portal }
-		set_portal_location = { BARONY_NAME = b_luch }
+    effect = {
+        register_expedition_site = { BARONY_NAME = b_vokhma SITE_NAME = the_grand_portal }
+        set_portal_location = { BARONY_NAME = b_vokhma }
 
-		# register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_intarta SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_simbiling SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_dayan SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_atakpame SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_kasriskari SITE_NAME = fortress_tomb_of_the_dead_emperor }
-		register_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        # register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_intarta SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_simbiling SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_dayan SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_atakpame SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_kasriskari SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali SITE_NAME = fortress_tomb_of_the_dead_emperor }
 
-		set_possible_first_expedition_location = { BARONY_NAME = b_bellinzona }
-		set_possible_first_expedition_location = { BARONY_NAME = b_intarta }
-		set_possible_first_expedition_location = { BARONY_NAME = b_simbiling }
-		set_possible_first_expedition_location = { BARONY_NAME = b_dayan }
-		set_possible_first_expedition_location = { BARONY_NAME = b_atakpame }
-		set_possible_first_expedition_location = { BARONY_NAME = b_kasriskari }
-		set_possible_first_expedition_location = { BARONY_NAME = b_northri_gudbrandsdali }
+        set_possible_first_expedition_location = { BARONY_NAME = b_bellinzona }
+        set_possible_first_expedition_location = { BARONY_NAME = b_intarta }
+        set_possible_first_expedition_location = { BARONY_NAME = b_simbiling }
+        set_possible_first_expedition_location = { BARONY_NAME = b_dayan }
+        set_possible_first_expedition_location = { BARONY_NAME = b_atakpame }
+        set_possible_first_expedition_location = { BARONY_NAME = b_kasriskari }
+        set_possible_first_expedition_location = { BARONY_NAME = b_northri_gudbrandsdali }
 
-		register_expedition_site = { BARONY_NAME = b_gnezdovo SITE_NAME = ruins_of_valfuria }
-		register_expedition_site = { BARONY_NAME = b_rohan SITE_NAME = spire_citadel }
-		register_expedition_site = { BARONY_NAME = b_zweibrucken SITE_NAME = proving_fields }
-		register_expedition_site = { BARONY_NAME = b_napoli SITE_NAME = volcanic_forge }
-		register_expedition_site = { BARONY_NAME = b_vilkaviskis SITE_NAME = noble_wood }
-		register_expedition_site = { BARONY_NAME = b_ranariki SITE_NAME = high_harbor }
-		register_expedition_site = { BARONY_NAME = b_rounala SITE_NAME = citadel_of_bear_king_thul }
-		register_expedition_site = { BARONY_NAME = b_torgar SITE_NAME = archipelago_of_duck_duke_vega }
-		register_expedition_site = { BARONY_NAME = b_tommerup SITE_NAME = tomb_of_ale_the_dragon_slayer }
-		register_expedition_site = { BARONY_NAME = b_vaestraaros SITE_NAME = ruins_of_the_runic_city_of_anundshog }
-		register_expedition_site = { BARONY_NAME = b_liinmaa SITE_NAME = tomb_of_the_lights_champions }
-		register_expedition_site = { BARONY_NAME = b_stokkseyri SITE_NAME = black_palace_of_dark_queen_hekla }
-		register_expedition_site = { BARONY_NAME = b_drogheda SITE_NAME = newgrange_temple }
-		register_expedition_site = { BARONY_NAME = b_ennis SITE_NAME = burrens_bastion }
-		register_expedition_site = { BARONY_NAME = b_salisbury SITE_NAME = skip_gates_of_camelot }
-		register_expedition_site = { BARONY_NAME = b_kirriemuir SITE_NAME = great_obelisk_of_the_pictish }
-		register_expedition_site = { BARONY_NAME = b_santander SITE_NAME = labyrinth_gateway_of_the_altamirans }
-		register_expedition_site = { BARONY_NAME = b_lamego SITE_NAME = grazing_villages_of_the_great_herds }
-		register_expedition_site = { BARONY_NAME = b_almansa SITE_NAME = hunting_grounds_of_the_greater_drakes }
-		register_expedition_site = { BARONY_NAME = b_arles SITE_NAME = ancient_city_of_glanum }
-		register_expedition_site = { BARONY_NAME = b_oskol SITE_NAME = ancient_mega_city_of_myropillya }
-		register_expedition_site = { BARONY_NAME = b_malta SITE_NAME = temple_of_the_mages_court }
-		register_expedition_site = { BARONY_NAME = b_athens SITE_NAME = seat_of_the_storm_king }
-		register_expedition_site = { BARONY_NAME = b_jarabulus SITE_NAME = cradle_of_the_first_elves }
-		register_expedition_site = { BARONY_NAME = b_at-tib SITE_NAME = apadana_palace }
-		register_expedition_site = { BARONY_NAME = b_sirhan SITE_NAME = ancient_city_of_bosra }
-		register_expedition_site = { BARONY_NAME = b_sarsar SITE_NAME = ancient_city_of_babylon }
-		register_expedition_site = { BARONY_NAME = b_alexandria SITE_NAME = library_of_alexandria }
-		register_expedition_site = { BARONY_NAME = b_hamadat_tinghert SITE_NAME = harkonnens_foley }
-		register_expedition_site = { BARONY_NAME = b_mara SITE_NAME = shattered_spire_of_veldric }
-		register_expedition_site = { BARONY_NAME = b_tabu SITE_NAME = the_grand_blood_alter }
-		register_expedition_site = { BARONY_NAME = b_erandol SITE_NAME = labyrinth_gateway_of_the_ajantas }
-		register_expedition_site = { BARONY_NAME = b_madurai SITE_NAME = ancient_holy_city_of_madurai }
-		register_expedition_site = { BARONY_NAME = b_bokainagar SITE_NAME = ancient_fortress_of_mahasthangarh }
-		register_expedition_site = { BARONY_NAME = b_chaka SITE_NAME = mythical_spiritual_kingdom_of_shambhala }
-		register_expedition_site = { BARONY_NAME = b_tekar SITE_NAME = domain_of_the_forest_spirit_eleke_sazy }
-		register_expedition_site = { BARONY_NAME = b_suq-socotra SITE_NAME = ancient_faerie_groves }
-		register_expedition_site = { BARONY_NAME = b_south_jaz_murian SITE_NAME = overwatch_fortress }
-		register_expedition_site = { BARONY_NAME = b_asmaak SITE_NAME = wraith_wood }
-		register_expedition_site = { BARONY_NAME = b_chuya SITE_NAME = matrons_hollow }
-		register_expedition_site = { BARONY_NAME = b_arkhangelsk SITE_NAME = sealed_magic_armoury }
-		register_expedition_site = { BARONY_NAME = b_biia SITE_NAME = whisper_wood }
-		register_expedition_site = { BARONY_NAME = b_fort_aleksandrovkiy SITE_NAME = light_reach_citadel }
-		register_expedition_site = { BARONY_NAME = b_laposbanya SITE_NAME = east_flaria }
-		register_expedition_site = { BARONY_NAME = b_melnik SITE_NAME = west_flaria }
-		register_expedition_site = { BARONY_NAME = b_aqmescit SITE_NAME = wratislaw_magi_academy }
-		register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns }
-	}
+        register_expedition_site = { BARONY_NAME = b_gnezdovo SITE_NAME = ruins_of_valfuria }
+        register_expedition_site = { BARONY_NAME = b_rohan SITE_NAME = spire_citadel }
+        register_expedition_site = { BARONY_NAME = b_zweibrucken SITE_NAME = proving_fields }
+        register_expedition_site = { BARONY_NAME = b_napoli SITE_NAME = volcanic_forge }
+        register_expedition_site = { BARONY_NAME = b_vilkaviskis SITE_NAME = noble_wood }
+        register_expedition_site = { BARONY_NAME = b_ranariki SITE_NAME = high_harbor }
+        register_expedition_site = { BARONY_NAME = b_rounala SITE_NAME = citadel_of_bear_king_thul }
+        register_expedition_site = { BARONY_NAME = b_torgar SITE_NAME = archipelago_of_duck_duke_vega }
+        register_expedition_site = { BARONY_NAME = b_tommerup SITE_NAME = tomb_of_ale_the_dragon_slayer }
+        register_expedition_site = { BARONY_NAME = b_vaestraaros SITE_NAME = ruins_of_the_runic_city_of_anundshog }
+        register_expedition_site = { BARONY_NAME = b_liinmaa SITE_NAME = tomb_of_the_lights_champions }
+        register_expedition_site = { BARONY_NAME = b_stokkseyri SITE_NAME = black_palace_of_dark_queen_hekla }
+        register_expedition_site = { BARONY_NAME = b_drogheda SITE_NAME = newgrange_temple }
+        register_expedition_site = { BARONY_NAME = b_ennis SITE_NAME = burrens_bastion }
+        register_expedition_site = { BARONY_NAME = b_salisbury SITE_NAME = skip_gates_of_camelot }
+        register_expedition_site = { BARONY_NAME = b_kirriemuir SITE_NAME = great_obelisk_of_the_pictish }
+        register_expedition_site = { BARONY_NAME = b_santander SITE_NAME = labyrinth_gateway_of_the_altamirans }
+        register_expedition_site = { BARONY_NAME = b_lamego SITE_NAME = grazing_villages_of_the_great_herds }
+        register_expedition_site = { BARONY_NAME = b_almansa SITE_NAME = hunting_grounds_of_the_greater_drakes }
+        register_expedition_site = { BARONY_NAME = b_arles SITE_NAME = ancient_city_of_glanum }
+        register_expedition_site = { BARONY_NAME = b_oskol SITE_NAME = ancient_mega_city_of_myropillya }
+        register_expedition_site = { BARONY_NAME = b_malta SITE_NAME = temple_of_the_mages_court }
+        register_expedition_site = { BARONY_NAME = b_athens SITE_NAME = seat_of_the_storm_king }
+        register_expedition_site = { BARONY_NAME = b_jarabulus SITE_NAME = cradle_of_the_first_elves }
+        register_expedition_site = { BARONY_NAME = b_at-tib SITE_NAME = apadana_palace }
+        register_expedition_site = { BARONY_NAME = b_sirhan SITE_NAME = ancient_city_of_bosra }
+        register_expedition_site = { BARONY_NAME = b_sarsar SITE_NAME = ancient_city_of_babylon }
+        register_expedition_site = { BARONY_NAME = b_alexandria SITE_NAME = library_of_alexandria }
+        register_expedition_site = { BARONY_NAME = b_hamadat_tinghert SITE_NAME = harkonnens_foley }
+        register_expedition_site = { BARONY_NAME = b_mara SITE_NAME = shattered_spire_of_veldric }
+        register_expedition_site = { BARONY_NAME = b_tabu SITE_NAME = the_grand_blood_alter }
+        register_expedition_site = { BARONY_NAME = b_erandol SITE_NAME = labyrinth_gateway_of_the_ajantas }
+        register_expedition_site = { BARONY_NAME = b_madurai SITE_NAME = ancient_holy_city_of_madurai }
+        register_expedition_site = { BARONY_NAME = b_bokainagar SITE_NAME = ancient_fortress_of_mahasthangarh }
+        register_expedition_site = { BARONY_NAME = b_chaka SITE_NAME = mythical_spiritual_kingdom_of_shambhala }
+        register_expedition_site = { BARONY_NAME = b_tekar SITE_NAME = domain_of_the_forest_spirit_eleke_sazy }
+        register_expedition_site = { BARONY_NAME = b_suq-socotra SITE_NAME = ancient_faerie_groves }
+        register_expedition_site = { BARONY_NAME = b_south_jaz_murian SITE_NAME = overwatch_fortress }
+        register_expedition_site = { BARONY_NAME = b_asmaak SITE_NAME = wraith_wood }
+        register_expedition_site = { BARONY_NAME = b_chuya SITE_NAME = matrons_hollow }
+        register_expedition_site = { BARONY_NAME = b_arkhangelsk SITE_NAME = sealed_magic_armoury }
+        register_expedition_site = { BARONY_NAME = b_biia SITE_NAME = whisper_wood }
+        register_expedition_site = { BARONY_NAME = b_fort_aleksandrovkiy SITE_NAME = light_reach_citadel }
+        register_expedition_site = { BARONY_NAME = b_laposbanya SITE_NAME = east_flaria }
+        register_expedition_site = { BARONY_NAME = b_melnik SITE_NAME = west_flaria }
+        register_expedition_site = { BARONY_NAME = b_aqmescit SITE_NAME = wratislaw_magi_academy }
+        register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns }
+        ################## Atlantis ####################
+        # register_expedition_site = { BARONY_NAME = b_brest SITE_NAME = ruins_of_ring_harbor }
+    }
 }
 
 on_game_start_assign_ruler_designer_race = {
-	effect = {
-		every_county = {
-			limit = {
-				has_variable = ruler_designer_race
-			}
-			debug_log = "FOUND RACE COUNTY"
+    effect = {
+        every_county = {
+            limit = {
+                has_variable = ruler_designer_race
+            }
+            debug_log = "FOUND RACE COUNTY"
 
-			if = {
-				limit = {
-					var:ruler_designer_race = flag:human
-				}
-				# holder = {
-				# 	add_character_flag = race_elf_blood
-				# 	urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-				# 	set_appropriate_elf_immortality_age = yes
-				# }
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:elf_blood
-				}
-				holder = {
-					add_character_flag = race_elf_blood
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:elf
-				}
-				holder = {
-					add_character_flag = race_elf
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:high_elf
-				}
-				holder = {
-					add_character_flag = race_high_elf
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:true_elf
-				}
-				holder = {
-					add_character_flag = race_true_elf
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:fae
-				}
-				holder = {
-					add_character_flag = race_fae
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:fae_radiant
-				}
-				holder = {
-					add_character_flag = race_fae_radiant
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:celestial
-				}
-				holder = {
-					add_character_flag = race_celestial
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:seraphic_celestial
-				}
-				holder = {
-					add_character_flag = race_seraphic_celestial
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:eldar
-				}
-				holder = {
-					add_character_flag = race_eldar
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:maiar
-				}
-				holder = {
-					add_character_flag = race_maiar
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:valar
-				}
-				holder = {
-					add_character_flag = race_valar
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
-			else_if = {
-				limit = {
-					var:ruler_designer_race = flag:aratar
-				}
-				holder = {
-					add_character_flag = race_aratar
-					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-					set_appropriate_elf_immortality_age = yes
-				}
-			}
+            if = {
+                limit = {
+                    var:ruler_designer_race = flag:human
+                }
+                # holder = {
+                # 	add_character_flag = race_elf_blood
+                # 	urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                # 	set_appropriate_elf_immortality_age = yes
+                # }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:elf_blood
+                }
+                holder = {
+                    add_character_flag = race_elf_blood
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:elf
+                }
+                holder = {
+                    add_character_flag = race_elf
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:high_elf
+                }
+                holder = {
+                    add_character_flag = race_high_elf
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:true_elf
+                }
+                holder = {
+                    add_character_flag = race_true_elf
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:fae
+                }
+                holder = {
+                    add_character_flag = race_fae
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:fae_radiant
+                }
+                holder = {
+                    add_character_flag = race_fae_radiant
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:celestial
+                }
+                holder = {
+                    add_character_flag = race_celestial
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:seraphic_celestial
+                }
+                holder = {
+                    add_character_flag = race_seraphic_celestial
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:eldar
+                }
+                holder = {
+                    add_character_flag = race_eldar
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:maiar
+                }
+                holder = {
+                    add_character_flag = race_maiar
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:valar
+                }
+                holder = {
+                    add_character_flag = race_valar
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
+            else_if = {
+                limit = {
+                    var:ruler_designer_race = flag:aratar
+                }
+                holder = {
+                    add_character_flag = race_aratar
+                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+                    set_appropriate_elf_immortality_age = yes
+                }
+            }
 
-			remove_variable = ruler_designer_race
+            remove_variable = ruler_designer_race
 
-		}
-	}
+        }
+    }
 }
 
 
