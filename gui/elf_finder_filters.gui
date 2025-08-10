@@ -918,7 +918,7 @@
                             flowcontainer = {
                                 direction = horizontal
                                 margin = { 5 0 }
-                                spacing = 25 
+                                spacing = 30 
                                 button = {
                                     datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
                                     onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
@@ -982,6 +982,66 @@
                                 button = {
                                     datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
                                     onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_lormelis' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_lormelis' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_lormelis' ).GetValue, '(CFixedPoint)1' )]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Blue
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_lormelis' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_lormelis' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_lormelis' ).GetValue, '(CFixedPoint)1' ))]"
+
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+
+                                        size = { 72 72 }
+                    
+                                        position = { 0 1 }
+                                        parentanchor = center
+                    
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        
+                                        using = Animation_Glow_Pulse                    
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
 
                                     highlight_icon = {
                                         enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_no_bloodline' ).GetValue, '(CFixedPoint)1' )]"
@@ -1333,8 +1393,60 @@
                                 flowcontainer = {
                                     direction = vertical
                                     coa_dynasty_widget = {
+                                        datacontext = "[GetGlobalVariable('house_lormelis').Dynasty]"
                                         datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
                                         onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+                                        size = { 113 110 }
+                                        using = CoA_Dynasty_Defaults
+                                        parentanchor = center
+                            
+                                        coat_of_arms_icon = {
+                                            enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_dynasty_filter_lormelis' ).GetValue, '(CFixedPoint)1' )]"
+    
+                                            parentanchor = center
+                                            size = { 86 86 }
+                                            coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
+                                            coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
+                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/house_mask.dds"
+                            
+                                            modify_texture = {
+                                                texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+                                                blend_mode = overlay
+                                                # alpha = @overlay_alpha
+                                            }
+                                        }
+                            
+                                        coa_dynasty_frame = {
+                                            framesize = { 125 130 }
+                                            size = { 125 130 }
+                                            texture = "gfx/interface/coat_of_arms/dynasty_86.dds"
+                                        }
+                                    }
+                                    text_single = {
+                                        datacontext = "[GetGlobalVariable('house_lormelis').Dynasty]"
+                                        autoresize = yes
+                                        parentanchor = center
+                                        using = Font_Type_Flavor
+                                        using = Font_Size_Medium
+
+
+                                        text = "[Dynasty.GetBaseNameNoTooltip]"
+                                        default_format = "#high"
+                                    }
+                                }
+                                
+                            }
+
+                            spacer = {
+                                size = { 20 20 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                flowcontainer = {
+                                    direction = vertical
+                                    coa_dynasty_widget = {
+                                        datacontext = "[GetScriptedGui( 'elf_dynasty_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_dynasty', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
                                         size = { 113 110 }
                                         using = CoA_Dynasty_Defaults
                                         parentanchor = center
