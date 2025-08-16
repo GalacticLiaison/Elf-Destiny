@@ -27,32 +27,6 @@ relation_with_character_is_incestuous_in_faith_trigger = {
 	}
 }
 
-#Note: only checks from the viewpoint of current scope. Needs CHARACTER
-relation_with_character_is_incestuous_in_my_faith_trigger = {
-	faith = { save_temporary_scope_as = my_faith }
-	relation_with_character_is_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:my_faith }
-}
-
-relation_with_character_is_incestuous_in_my_or_lieges_faith_trigger = {
-	OR = {
-		AND = {
-			faith = { #My faith doesn't approve
-				save_temporary_scope_as = check_faith
-			}
-			relation_with_character_is_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:check_faith }
-		}
-		AND = { #Liege's faith doesn't approve
-			exists = liege
-			liege = {
-				faith = {
-					save_temporary_scope_as = check_faith
-				}
-			}
-			relation_with_character_is_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:check_faith }
-		}
-	}
-}
-
 # SECRET INCEST
 secret_incest_is_valid_trigger = {
     $OWNER$ = {
@@ -116,11 +90,6 @@ could_marry_character_trigger = {
 				#value < faith_hostility_prevents_marriage_level
 				#}
 			}
-			culture = {
-				has_cultural_parameter = consanguinity_unrestricted_marriage
-				CHARACTER_1 = scope:can_marry_check
-				CHARACTER_2 = $CHARACTER$
-			}
 		}
 	}
 	trigger_if = {
@@ -135,11 +104,6 @@ could_marry_character_trigger = {
 				#	target = scope:can_marry_check.faith
 				#	value < faith_hostility_prevents_marriage_level
 				#}
-			}
-			culture = {
-				has_cultural_parameter = consanguinity_unrestricted_marriage
-				CHARACTER_1 = scope:can_marry_check
-				CHARACTER_2 = $CHARACTER$
 			}
 		}
 	}
@@ -194,11 +158,6 @@ can_take_as_concubine_character_trigger = {
 				#	value < faith_hostility_prevents_marriage_level
 				#}
 			}
-			culture = {
-				has_cultural_parameter = consanguinity_unrestricted_marriage
-				CHARACTER_1 = scope:can_marry_check
-				CHARACTER_2 = $CHARACTER$
-			}
 		}
 	}
 	trigger_if = {
@@ -213,11 +172,6 @@ can_take_as_concubine_character_trigger = {
 				#	target = $CHARACTER$.faith
 				#	value < faith_hostility_prevents_marriage_level
 				#}
-			}
-			culture = {
-				has_cultural_parameter = consanguinity_unrestricted_marriage
-				CHARACTER_1 = scope:can_marry_check
-				CHARACTER_2 = $CHARACTER$
 			}
 		}
 	}
