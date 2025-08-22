@@ -34,7 +34,7 @@ aeluran_realm_size = {
 }
 
 aeluran_vassal_contribution = {
-	value = 3
+	value = 5
 	multiply = aeluran_realm_size
 
 	if = {
@@ -170,17 +170,17 @@ aeluran_reinforcements_war_magi_share =  {
 
 # ======================================
 
-aeluran_magi_artillery_reinforcements = {
+aeluran_artillery_reinforcements = {
 	value = aeluran_reinforcements_magi_artillery_share
 
 	if = {
 		limit = { # have a decimal remainder
-			NOT = { aeluran_magi_artillery_reinforcements_modulo = 0 }
+			NOT = { aeluran_artillery_reinforcements_modulo = 0 }
 		}
 
 		if = {
 			limit = { # modulo numerator was smaller than the denominator
-				aeluran_magi_artillery_reinforcements_modulo = total_aeluran_magi_reinforcements
+				aeluran_artillery_reinforcements_modulo = total_aeluran_magi_reinforcements
 			}
 
 			if = {
@@ -195,7 +195,7 @@ aeluran_magi_artillery_reinforcements = {
 		}
 		else = {
 			if = {
-				limit = { aeluran_magi_artillery_reinforcements_decimal_remainder <= 0.5 }
+				limit = { aeluran_artillery_reinforcements_decimal_remainder <= 0.5 }
 				floor = yes
 			}
 			else = {
@@ -207,7 +207,7 @@ aeluran_magi_artillery_reinforcements = {
 	min = 1
 }
 
-aeluran_magi_artillery_reinforcements_modulo = {
+aeluran_artillery_reinforcements_modulo = {
 	value = total_aeluran_magi_reinforcements
 
 	if = {
@@ -219,12 +219,35 @@ aeluran_magi_artillery_reinforcements_modulo = {
 	}
 }
 
-aeluran_magi_artillery_reinforcements_decimal_remainder = {
-	value = aeluran_magi_artillery_reinforcements_modulo
+aeluran_artillery_reinforcements_decimal_remainder = {
+	value = aeluran_artillery_reinforcements_modulo
 	divide = 4
 }
 
 aeluran_reinforcements_magi_artillery_share =  {
 	value = total_aeluran_magi_reinforcements
 	divide = 4 # 25%
+}
+
+
+spawn_aeluran_war_magi_reinforcement_count = {
+	# value = 10
+	value = root.aeluran_war_magi_reinforcements
+	if = {
+		limit = {
+			exists = scope:aeluran_war_magi_army_regiment_count
+		}
+		add = scope:aeluran_war_magi_army_regiment_count
+	}
+}
+
+spawn_aeluran_artillery_reinforcement_count = {
+	# value = 10
+	value = root.aeluran_artillery_reinforcements
+	if = {
+		limit = {
+			exists = scope:aeluran_artillery_army_regiment_count
+		}
+		add = scope:aeluran_artillery_army_regiment_count
+	}
 }

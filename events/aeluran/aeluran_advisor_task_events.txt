@@ -232,42 +232,124 @@ aeluran_advisor_task.01011 = { # Magi Core is reinforced
 			save_scope_as = councillor
 		}
 
-		every_vassal = {
-			limit = {
-				has_government = aeluran_weavers_government
-			}
 
-			prev = {
-				add_to_variable_list = {
-					name = aeluran_vassals
-					target = prev
-				}
-			}
+		# TODOS
+		# - maybe if creating new army, use pan_camera_to_province = scope:army.location
+			# - maybe have a popup notification in bottom right that moves when player clicks it
+
+		# have we destroyed the old transferring title yet?
+
+		# see snip it... some type of duplicating army bug
+
+
+		hidden_effect = {
+			manage_aeluran_reinforcements_effect = yes
 		}
 
-		#error suppresion
-		if = {
-			limit = {
-				any_in_list = {
-					list = aeluran_vassals
-				}
-			}
-		}
 
-		spawn_army = {
-			men_at_arms = {
-				type = aeluran_war_magi
-				stacks = aeluran_war_magi_reinforcements
-			}
-			men_at_arms = {
-				type = aeluran_artillery
-				stacks = aeluran_magi_artillery_reinforcements
-			}
-			inheritable = no
-			uses_supply = yes
-			location = root.capital_province
-			name = stationed_aeluran_magi
-		}
+		# IDEAS
+		# - maybe we can look  into both personal regiments and title regiments
+
+		# check if reinforcement cost will stop reinforcing if cant be paid
+		# step 2, see if you can make reinforcement cost conditional and only have ridiculous cost applied to non-aelurans
+
+		# I see is_hired_maa_regiment/is_event_maa_regiment are things, maybe we can keep as a special army and manage it same as personal regiments
+		# I think you can add fractional stacks? like 0.2
+
+		# change_maa_regiment_size
+		# change_maa_troops_count
+
+		# if = { # ruler already has an aeluran war magi regiment
+		# 	limit = {
+		# 		any_maa_regiment = {
+		# 			is_maa_type = aeluran_war_magi
+		# 			is_regular_maa_regiment = yes
+		# 			maa_current_troops_count < maa_max_troops_count # Current regiment is missing troops 
+		# 		}
+		# 	}
+
+		# 	random_maa_regiment = {
+		# 		limit = {
+		# 			is_maa_type = aeluran_war_magi
+		# 			is_regular_maa_regiment = yes
+		# 			maa_current_troops_count < maa_max_troops_count # Current regiment is missing troops 
+		# 		}
+
+		# 		change_maa_troops_count = aeluran_war_magi_reinforcements
+		# 	}
+		# }
+		# else_if ={
+		# 	limit = {
+		# 		any_maa_regiment = {
+		# 			is_maa_type = aeluran_war_magi
+		# 			is_regular_maa_regiment = yes
+		# 			can_upgrade_maa = yes # Current regiment can have its regiment size increased
+		# 		}
+		# 	}
+
+		# 	random_maa_regiment = {
+		# 		limit = {
+		# 			is_maa_type = aeluran_war_magi
+		# 			is_regular_maa_regiment = yes
+		# 			can_upgrade_maa = yes # Current regiment can have its regiment size increased
+		# 		}
+
+		# 		change_maa_regiment_size = {
+		# 			size = 1
+		# 			reinforce = yes
+		# 		}
+		# 	}
+		# }
+		# else = { # ruler does NOT have an aeluran war magi regiment
+		# 	create_maa_regiment = {
+		# 		type = aeluran_war_magi
+		# 		check_can_recruit = no
+		# 		size = 1
+		# 	}
+		# }
+
+		# check if ruler has any aeluran regiments
+
+		# if has aeluran magi regiments add reinforcements to smallest one
+
+			# ordered_maa_regiment = {
+			# 	order_by = maa_size
+			# 	limit = {
+			# 		maa_size > 8
+			# 	}
+			# 	change_maa_regiment_size = {
+			# 		size = -4
+			# 		reinforce = yes
+			# 	}
+			# 	scope:rowdy_boy = {
+			# 		create_maa_regiment = {
+			# 			type_of = prev
+			# 			size = 4
+			# 		}
+			# 	}
+			# }
+
+		# if not has a regiment, create a new one
+
+		# if has aeluran artillery regiments add reinforcements to smallest one
+
+		# if not has a regiment, create a new one
+
+
+		# spawn_army = {
+		# 	men_at_arms = {
+		# 		type = aeluran_war_magi
+		# 		men = aeluran_war_magi_reinforcements
+		# 	}
+		# 	men_at_arms = {
+		# 		type = aeluran_artillery
+		# 		men = aeluran_artillery_reinforcements
+		# 	}
+		# 	inheritable = no
+		# 	uses_supply = yes
+		# 	location = root.capital_province
+		# 	name = stationed_aeluran_magi
+		# }
 	}
 
 	theme = martial
