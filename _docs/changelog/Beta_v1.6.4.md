@@ -12,7 +12,7 @@ Reworked the magi reinforcement mechanic from the Aeluran Advisor's Magistration
 - The total cap can be increased by adopting stronger Aeluran Authority laws
 - Now the full event will only pop up once when a new army is formed, following updates will just be notices in the message feed to help reduce event spam.
 
-========= Thanks Gernalissimo ==============
+========= Thanks Generalissimo ==============
 Adds in the Lormelis Bloodline Dynasty and Trait from the Atlantis mod!
 Made changes to history, culture, and titles to reflect the newly added start date and dynasties.
 ============================================
