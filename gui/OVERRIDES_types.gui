@@ -734,6 +734,7 @@ types OVERRIDE
 		}
 	}
 
+	# Why?: We are adding the ability to disable notifications to hide janky effects happening in the background
 	type notifications_toasts = widget {
         name = "toast_container_widget"
         visible = "[And( Not(IsGameViewOpen('barbershop')), And( ToastMessageHandler.HasMessage, Not(SinglePlayerShowingPausedSuccession) ) )]"
@@ -760,8 +761,7 @@ types OVERRIDE
             position = "[Select_CVector2f( IsGameViewOpen('activity_locale'), '(CVector2f)-600,195', '(CVector2f)0,150' )]"
             datacontext = "[ToastMessageHandler.GetMessage]"
             # visible = "[Not( PlayerMessageItem.GetType.HasFlags )]"
-            # visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'disable_toast_notifications' ).GetValue, '(CFixedPoint)1' ) )]"
-            visible = "[And(Not( PlayerMessageItem.GetType.HasFlags ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'disable_toast_notifications' ).GetValue, '(CFixedPoint)1' ) )  ) ]"
+            visible = "[Or(And(Not( PlayerMessageItem.GetType.HasFlags ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'disable_toast_notifications' ).GetValue, '(CFixedPoint)1' ) )  ), EqualTo_string(PlayerMessageItem.GetTitle, Localize('new_aeluran_army_arrived_title'))) ]"
         }
 
         notifications_toasts_contests = {
