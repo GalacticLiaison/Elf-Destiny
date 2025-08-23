@@ -264,3 +264,105 @@ convert_to_tribalism_decision = {
 # 		}
 # 	}
 # }
+
+strengthen_bloodline_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+	desc = strengthen_bloodline_decision_desc
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_lowborn = no
+		NOT = {
+			dynasty = {
+			 	has_dynasty_modifier = strong_blood
+			}
+		}
+		OR = {
+			has_trait = intellect_good
+			has_trait = beauty_good
+			has_trait = physique_good
+            has_trait = exotic_beauty_good
+            has_trait = unconventional_beauty_good
+			any_child = {
+				dynasty = root.dynasty
+				OR = {
+					has_trait = intellect_good
+					has_trait = beauty_good
+					has_trait = physique_good
+                    has_trait = exotic_beauty_good
+                    has_trait = unconventional_beauty_good
+				}
+			}
+			AND = {
+				exists = player_heir
+				player_heir = {
+					OR = {
+						has_trait = intellect_good
+						has_trait = beauty_good
+						has_trait = physique_good
+                        has_trait = exotic_beauty_good
+                        has_trait = unconventional_beauty_good
+					}
+				}
+			}
+		}
+		is_landless_adventurer = no
+	}
+
+	is_valid = {
+		is_dynast = yes
+		has_trait = intellect_good
+		has_trait = beauty_good
+		has_trait = physique_good
+        has_trait = exotic_beauty_good
+        has_trait = unconventional_beauty_good
+		OR = {
+			has_trait = intellect_good_3
+			has_trait = beauty_good_3
+			has_trait = physique_good_3
+            has_trait = exotic_beauty_good_3
+            has_trait = unconventional_beauty_good_3
+            has_trait = intellect_good_4
+			has_trait = beauty_good_4
+			has_trait = physique_good_4
+		}
+		num_of_bad_genetic_traits = 0
+	}
+
+	effect = {
+		gain_legitimizing_legend_seed_tooltip_effect = yes
+		show_as_tooltip = {
+			strengthen_bloodline_decision_effects = yes
+		}
+
+		trigger_event = major_decisions.0500
+
+		every_player = {
+			limit = {
+				NOT = {
+					this = root
+				}
+				dynasty = root.dynasty
+			}
+			send_interface_toast = {
+				type = event_toast_effect_good
+				title = strengthen_bloodline_decision
+				show_as_tooltip = {
+					strengthen_bloodline_decision_effects = yes
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}	
