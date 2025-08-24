@@ -15,6 +15,7 @@ Reworked the magi reinforcement mechanic from the Aeluran Advisor's Magistration
 ========= Thanks Generalissimo ==============
 Adds in the Lormelis Bloodline Dynasty and Trait from the Atlantis mod!
 Made changes to history, culture, and titles to reflect the newly added start date and dynasties.
+The Familial Familiarity tradition should properly unlock inter-family marriage
 ============================================
 
 Updated Korean translation (Thanks ZZondi!)
