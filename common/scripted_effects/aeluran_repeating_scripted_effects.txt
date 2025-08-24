@@ -349,3 +349,469 @@ appoint_new_aeluran_matron_effect = {
         }
     }
 }
+
+manage_aeluran_reinforcements_effect = {
+    every_vassal = {
+        limit = {
+            has_government = aeluran_weavers_government
+        }
+
+        prev = {
+            add_to_variable_list = {
+                name = aeluran_vassals
+                target = prev
+            }
+        }
+    }
+
+    #error suppresion
+    if = {
+        limit = {
+            any_in_list = {
+                list = aeluran_vassals
+            }
+        }
+    }
+
+    root = {
+        cp:councillor_aeluran_advisor ?= {
+            save_scope_as = aeluran_advisor
+        }
+    }
+
+    if = { # Army is full
+        limit = {
+            exists = var:aeluran_war_magi_army_regiment
+            var:aeluran_war_magi_army_regiment = {
+                maa_current_troops_count = maa_max_troops_count
+            }
+            exists = var:aeluran_artillery_army_regiment
+            var:aeluran_artillery_army_regiment = {
+                maa_current_troops_count = maa_max_troops_count
+            }
+        }
+
+        send_interface_message = {
+            type = aeluran_army_reinforcements_arrived
+            title = aeluran_reinforcements_arrived_title_max_capacity
+            desc = aeluran_reinforcements_message_max_capacity
+            right_icon = scope:aeluran_advisor
+        }
+    }
+    else_if = { # the character is missing a regiment type, lets destroy the entire army and build a new one 
+        limit = {
+            OR = {
+                NOT = { exists = var:aeluran_war_magi_army_regiment}
+                NOT = { exists = var:aeluran_artillery_army_regiment}
+            }
+        }
+
+
+        send_interface_toast = {
+			title = new_aeluran_army_arrived_title
+            custom_tooltip = {
+                text = new_aeluran_army_arrived_desc
+            }
+            # left_icon = scope:aeluran_reinforcements.location.barony
+			# right_icon = scope:aeluran_advisor
+		}
+
+        create_new_aeluran_army = yes
+    }
+    else = { # the character has all regiment types. we can just add to existing
+
+        add_reinforcements_to_aeluran_army = { REGIMENT_TYPE = aeluran_war_magi TROOP_COUNT = spawn_aeluran_war_magi_reinforcement_count }
+        add_reinforcements_to_aeluran_army = { REGIMENT_TYPE = aeluran_artillery TROOP_COUNT = spawn_aeluran_artillery_reinforcement_count }
+
+        send_interface_message = {
+            type = aeluran_army_reinforcements_arrived
+            title = aeluran_reinforcements_arrived_title
+            desc = {
+                desc = aeluran_reinforcements_message_total_magi_reinforcements
+                desc = aeluran_reinforcements_aeluran_war_magi_total
+                desc = aeluran_reinforcements_aeluran_artillery_total
+            }
+            # tooltip = "$DESCRIPTION$"
+            # custom_tooltip = new_aeluran_army_arrived_desc
+            right_icon = scope:aeluran_advisor
+        }
+    }
+}
+
+create_new_aeluran_army = {
+    record_maa_regiment_troop_count = { REGIMENT_TYPE = aeluran_war_magi }
+    record_maa_regiment_troop_count = { REGIMENT_TYPE = aeluran_artillery }
+
+    # now we are safe to destroy the remaining regiments to prepare to spawn a fresh army
+    destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_war_magi }
+    destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_artillery }
+
+    generate_magi_reinforcement_army = yes
+
+    #  var:set_aeluran_army_level is set when passing realm laws, but is not set from the reoccurring adviser event
+    if = {
+        limit = {
+            OR = {
+                AND = {
+                    exists = var:set_aeluran_army_level
+                    var:set_aeluran_army_level = 3
+                }
+                AND = {
+                    has_realm_law = aeluran_realm_authority_2
+                    NOT = {
+                        var:set_aeluran_army_level = 2
+                    } 
+                }
+            }        
+        }
+        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 10 }
+    }
+    else_if = {
+        limit = {
+            OR = {
+                AND = {
+                    exists = var:set_aeluran_army_level
+                    var:set_aeluran_army_level = 2
+                }
+                AND = {
+                    has_realm_law = aeluran_realm_authority_1
+                    NOT = {
+                        var:set_aeluran_army_level = 1
+                    } 
+                }
+            }
+        }
+        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 5 }
+    }
+    else = { # has_realm_law = aeluran_realm_authority_0
+        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 3 }
+    }
+
+}
+
+generate_magi_reinforcement_army = {
+    # We create a temporary placeholder character to generate the army for
+    generate_placeholder_character = yes
+
+    # In order to register our spawned regiments later, we need to be at war so that spawn_army creates regiments as part of an active army.
+    # That is the only way their scopes are selectable.
+    start_war_for_placeholder_character = yes
+
+    # Spawn the new army on the placeholder character
+    scope:temporary_character ?= {
+        debug_log_scopes = yes
+        # Create our new Army
+        if = {
+            limit = {
+                root ?= {
+                    OR = {
+                        AND = {
+                            exists = var:set_aeluran_army_level
+                            var:set_aeluran_army_level = 3
+                        }
+                        AND = {
+                            has_realm_law = aeluran_realm_authority_2
+                            NOT = {
+                                var:set_aeluran_army_level = 2
+                            } 
+                        }
+                    }
+                }                
+            }
+            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_3}
+        }
+        else_if = {
+            limit = {
+                root ?= {
+                    OR = {
+                        AND = {
+                            exists = var:set_aeluran_army_level
+                            var:set_aeluran_army_level = 2
+                        }
+                        AND = {
+                            has_realm_law = aeluran_realm_authority_1
+                            NOT = {
+                                var:set_aeluran_army_level = 1
+                            } 
+                        }
+                    }
+                }  
+            }
+            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_2}
+        }
+        else = { # has_realm_law = aeluran_realm_authority_0
+            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_1}
+        }
+
+        if = {
+            limit = {
+                exists = var:set_aeluran_army_level
+            }
+            remove_variable = set_aeluran_army_level
+        }
+    }
+
+    # Record the new regiment scopes as variables on the original character so they can be edited in the future without re-creating them.
+    record_maa_regiment_as_variable = { REGIMENT_TYPE = aeluran_war_magi }
+    record_maa_regiment_as_variable = { REGIMENT_TYPE = aeluran_artillery }
+
+    # kill the temporary character and inherit the troops
+    transfer_aeluran_reinforcements_to_character = yes
+
+    # lets clean up the landless title we created
+    destroy_title = scope:new_title
+
+    if = {
+        limit = { is_ai = no}
+        scope:aeluran_reinforcements ?= {
+            pan_camera_to_province = location
+        }
+    }
+}
+
+adjust_reinforcement_max_regiment_size = {
+        change_magi_army_regiment_size_limit = {REGIMENT_TYPE = aeluran_war_magi REGIMENT_SIZE = $REGIMENT_SIZE$}
+        change_magi_army_regiment_size_limit = {REGIMENT_TYPE = aeluran_artillery REGIMENT_SIZE = $REGIMENT_SIZE$}
+}
+
+change_magi_army_regiment_size_limit = {
+    var:$REGIMENT_TYPE$_army_regiment ?= {
+        change_maa_regiment_size = {
+            size = $REGIMENT_SIZE$
+            reinforce = no
+        }
+    }
+}
+
+add_reinforcements_to_aeluran_army = {
+    var:$REGIMENT_TYPE$_army_regiment = {
+        change_maa_troops_count = $TROOP_COUNT$
+    }
+}
+
+generate_placeholder_character = {
+    create_character = {
+        # template = orphan_gwynthorn_male
+        age = 20
+        dynasty = none
+        location = root.location
+        faith = root.faith
+        culture = culture:culture_elf
+        save_scope_as = temporary_character
+        gender = male
+    }
+
+    set_variable = {
+        name = temporary_character
+        value = scope:temporary_character
+    }
+
+    debug_log = "GENERATED PLACEHOLDER CHARACTER"
+    debug_log_scopes = yes
+
+    scope:temporary_character = {
+        # We make placeholder character a landless ruler, from whom we can inherit troops.
+        create_special_inheritable_landless_adventurer_title_effect = {
+            REASON = flag:wanderer
+            FLAVOR_CHAR = root
+        }
+
+        # We designate heir so the receiving character inherits the maa
+        set_designated_heir_unsafe = root
+    }
+
+}
+
+start_war_for_placeholder_character = {
+    random_ruler = {
+        limit = { is_ai = yes }
+        save_scope_as = war_ruler
+    }
+
+    scope:temporary_character = {
+        add_character_flag = enable_debug_special_war
+        start_war = {
+            cb = debug_war_special
+            target = scope:war_ruler
+        }
+
+        random_army = {
+            save_scope_as = temporary_character_army   
+        }
+    }
+}
+
+spawn_aeluran_reinforcement_army = {
+    spawn_army = {
+        men_at_arms = {
+            type = aeluran_war_magi
+            men = spawn_aeluran_war_magi_reinforcement_count
+        }
+        men_at_arms = {
+            type = aeluran_artillery
+            men = spawn_aeluran_artillery_reinforcement_count
+        }
+        inheritable = yes
+        uses_supply = yes
+        army = scope:temporary_character_army
+        location = root.capital_province
+        name = $ARMY_NAME$
+        save_temporary_scope_as = aeluran_reinforcements
+    }
+}
+
+transfer_aeluran_reinforcements_to_character = {
+    if = {
+        limit = { is_ai = no }
+
+        # disabling toast notifications so player wont receive message telling them they inherited a title
+        set_global_variable = { name = disable_toast_notifications value = 1 }
+    }
+    
+    scope:temporary_character ?= {
+
+        # lets end the war so the receiving character doesn't inherit the war with the maa
+        every_character_war = {
+            end_war = white_peace
+        }    
+
+        death = { death_reason = death_vanished }
+    }
+
+    if = {
+        limit = { is_ai = no }
+
+        trigger_event = { # turn back on toast notifications
+            id = elf_destiny_utility.01
+            months = 3 # higher value in case they are playing on a high speed... not ideal...
+        }
+    }
+}
+
+record_maa_regiment_as_variable = {
+    if = {
+        limit = { exists = scope:aeluran_reinforcements }
+        scope:aeluran_reinforcements = {
+            random_army_maa_regiment = {
+                limit = {
+                    is_maa_type = $REGIMENT_TYPE$
+                }
+                root = {
+                    set_variable = {
+                        name = $REGIMENT_TYPE$_army_regiment
+                        value = prev
+                    }
+                }
+            }
+        }
+    }
+}
+
+record_maa_regiment_troop_count = {
+    if = {
+        limit= {
+            exists = var:$REGIMENT_TYPE$_army_regiment
+        }
+        save_scope_value_as = {
+            name = $REGIMENT_TYPE$_army_regiment_count
+            value =  var:$REGIMENT_TYPE$_army_regiment.maa_current_troops_count
+        }
+    }
+}
+
+destroy_existing_magi_maa_regiment = {
+    if = {
+        limit = {
+            exists = var:$REGIMENT_TYPE$_army_regiment
+        } 
+        var:$REGIMENT_TYPE$_army_regiment = {
+            destroy_maa_regiment = yes
+        }
+        remove_variable = $REGIMENT_TYPE$_army_regiment
+        root = {
+        }
+    }
+    else = {
+        debug_log = "destroy_existing_magi_maa_regiment no variable found"
+    }
+}
+
+create_special_inheritable_landless_adventurer_title_effect = {
+	save_scope_as = new_landless_adventurer
+
+	save_scope_value_as = {
+		name = adventurer_creation_reason
+		value = $REASON$
+	}
+
+	$FLAVOR_CHAR$ = { save_scope_as = adventurer_flavor_char }
+	hidden_effect = {
+        create_adventurer_title = {
+            name = "PLACEHOLDER CHARACTER"
+            holder = scope:new_landless_adventurer
+            article = DEFAULT_TITLE_NAME_ARTICLE
+            save_scope_as = new_title
+        }
+
+        root = {
+            set_variable = {
+                name = new_title
+                value = scope:new_title
+            }
+        }
+		
+		scope:new_title ?= {
+            holder ?= {
+                if = {
+                    limit = {
+                        NOT = { has_realm_law = special_inheritance_landless_adventurer_succession_law }
+                    }
+                    add_realm_law = special_inheritance_landless_adventurer_succession_law
+                }
+
+
+                if = {
+                    limit = {
+                        has_realm_law = landless_adventurer_succession_law
+                    }
+                    remove_realm_law = landless_adventurer_succession_law
+                }
+            }
+			set_variable = {
+				name = adventurer_creation_reason
+				value = scope:adventurer_creation_reason
+			}
+			set_variable = {
+				name = adventurer_flavor_char
+				value = scope:adventurer_flavor_char
+			}
+		}
+
+		scope:new_title = { save_scope_as = new_landless_adventurer_title }
+
+        debug_log_scopes = yes
+
+
+		scope:new_landless_adventurer ?= {
+			if = {
+				limit = {
+					NOT = { has_government = landless_adventurer_government }
+				}
+				change_government = landless_adventurer_government
+			}
+            if = {
+				limit = {
+					has_realm_law = landless_adventurer_succession_law
+				}
+				remove_realm_law = landless_adventurer_succession_law
+			}
+			if = {
+				limit = {
+					has_realm_law = crown_authority_0
+				}
+				remove_realm_law = crown_authority_0
+			}
+			domicile = { change_provisions = starting_provisions_value }
+		}
+	}
+}
