@@ -389,3 +389,6 @@ tradition: music based "song keepers" or some such thing, use instruments some h
 Make Aeluran advisor either:
    - a voluntary decision
    - something forced on you if your red sister or matriarch get a hook on you.
+
+
+https://en.wikipedia.org/wiki/Questing_Beast
