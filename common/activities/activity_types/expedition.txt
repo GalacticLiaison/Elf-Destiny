@@ -17,7 +17,7 @@
 activity_expedition = {
 	# Will it appear as a menu option
 	is_shown = {
-		is_landed = yes
+		# is_landed = yes
 		is_ai = no
 		spoken_with_the_archeologist = yes
 	}
@@ -32,7 +32,7 @@ activity_expedition = {
 		scope:host = {
 			is_alive = yes
 			is_imprisoned = no
-			is_landed = yes 
+			# is_landed = yes 
 			NOT = { is_incapable = yes }
 		}
 	}
@@ -179,11 +179,38 @@ activity_expedition = {
 					has_global_variable = 01_sigil_of_the_realm_lord_found
 				}
 			}
-			custom_tooltip = {
+			custom_tooltip = { # fortress_tomb_of_the_dead_emperor
 				text = not_an_expedition_site
-				AND = {
-					exists = barony	
-					barony = title:b_bellinzona # fortress_tomb_of_the_dead_emperor
+
+				OR = {
+					AND = {
+						exists = barony	
+						barony = title:b_bellinzona 
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_intarta
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_simbiling
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_dayan
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_atakpame
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_kasriskari
+					}
+					AND = {
+						exists = barony	
+						barony = title:b_northri_gudbrandsdali
+					}
 				}
 			}
 
@@ -201,6 +228,14 @@ activity_expedition = {
                         name = spark_holy_sites
                         target = barony
                     }
+					# global_var:last_emperor_tomb_province.barony = barony
+				}
+
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = first_expedition_location_candidates
+						target = barony
+					}
 				}
 			}
 		}

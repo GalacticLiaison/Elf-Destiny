@@ -3,7 +3,10 @@
 #####################################
 urf_racial_threshold_trigger = {
     OR = {
-        var:urf_genotype_$RACE$ = 100.0
+        AND = {
+            exists =  var:urf_genotype_$RACE$
+            var:urf_genotype_$RACE$ = 100.0
+        }
         urf_for_all_phenotypes_comparator_trigger = { APPLY = urf_base_threshold COMPARATOR = $RACE$ }
     }
 }
@@ -14,8 +17,9 @@ urf_elf_threshold = {
     trigger_if = {
         limit = {
             flag:$RACE$ = flag:elf
+            exists =  var:urf_genotype_elf
         }
-        var:urf_genotype_elf >= elf_blood_genetic_threshold_value
+        var:urf_genotype_elf >= half_elf_blood_genetic_threshold_value   #= elf_blood_genetic_threshold_value Generalissimo testing
     }
     trigger_else = {
         always = no
@@ -25,5 +29,7 @@ urf_elf_threshold = {
 # End Elf Destiny
 
 urf_base_threshold = {
+    exists = var:urf_genotype_$COMPARATOR$
+    exists = var:urf_genotype_$RACE$
     var:urf_genotype_$COMPARATOR$ > var:urf_genotype_$RACE$
 }

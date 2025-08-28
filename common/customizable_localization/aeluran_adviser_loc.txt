@@ -48,6 +48,67 @@ Aeluran_Level_Of_Control = {
 	}
 }
 
+Aeluran_Law_Contribution_Bonus = {
+	type = character
+
+	text = {
+		trigger = { 
+			liege_or_court_owner = { has_realm_law = aeluran_realm_authority_0 }
+		}
+		localization_key = aeluran_law_magi_contribution_percent_lvl_0
+	}
+	text = {
+		trigger = { 
+			liege_or_court_owner = { has_realm_law = aeluran_realm_authority_1 }
+		}
+		localization_key = aeluran_law_magi_contribution_percent_lvl_1
+	}
+	text = {
+		trigger = { 
+			liege_or_court_owner = { has_realm_law = aeluran_realm_authority_2 }
+		}
+		localization_key = aeluran_law_magi_contribution_percent_lvl_2
+	}
+}
+
+Aeluran_Law_Change_Advisor_Hook = {
+	type = character
+
+	text = {
+		trigger = { 
+			exists = cp:councillor_aeluran_advisor
+			has_strong_hook = cp:councillor_aeluran_advisor
+		}
+		localization_key =  AELURAN_LAW_RED_SISTER_STRONG_HOOK
+	}
+
+	text = {
+		# trigger = { 
+		# }
+		localization_key = AELURAN_LAW_RED_SISTER_HOOK
+		fallback = yes
+	}
+}
+
+Aeluran_Law_Change_Matriarch_Hook = {
+	type = character
+
+	text = {
+		trigger = { 
+			exists = global_var:high_matriarch
+			has_strong_hook = global_var:high_matriarch
+		}
+		localization_key = AELURAN_LAW_MATRIARCH_STRONG_HOOK
+	}
+
+	text = {
+		trigger = { 
+		}
+		localization_key = AELURAN_LAW_MATRIARCH_HOOK
+		fallback = yes
+	}
+}
+
 MurderOrKidnap = {
 	type = character
 
@@ -72,5 +133,55 @@ MurderOrKidnap = {
 			}
 		}
 		localization_key = murder_or_kidnap_kidnap
+	}
+}
+
+Aeluran_Reinforcement_Army_Size = {
+	type = character
+
+	text = {
+		trigger = { 
+			root = {
+				OR = {
+					AND = {
+						exists = var:set_aeluran_army_level
+						var:set_aeluran_army_level = 3
+					}
+					AND = {
+						has_realm_law = aeluran_realm_authority_2
+						NOT = {
+							var:set_aeluran_army_level = 2
+						} 
+					}
+				}
+			}   
+		}
+		localization_key = stationed_aeluran_magi_3_with_icon
+	}
+	text = {
+		trigger = { 
+			root = {
+				OR = {
+					AND = {
+						exists = var:set_aeluran_army_level
+						var:set_aeluran_army_level = 2
+					}
+					AND = {
+						has_realm_law = aeluran_realm_authority_1
+						NOT = {
+							var:set_aeluran_army_level = 1
+						} 
+					}
+				}
+			}  
+		}
+		localization_key = stationed_aeluran_magi_2_with_icon
+	}
+	text = {
+		trigger = {
+
+		}
+		fallback = yes
+		localization_key = stationed_aeluran_magi_1_with_icon
 	}
 }

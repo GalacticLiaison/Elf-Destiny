@@ -21,6 +21,20 @@ EntranceMinorPositiveSparkManipulationModifier = {
 		localization_key = entrance_difference_in_magic_talent.small_boost
 	}
 }
+EntranceMinorPositiveAttractionModifier = {
+	type = character
+	# Difference in Attraction
+	text = { ## +
+		trigger = { 
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction >= 10
+			entrance_difference_in_attraction < 25
+		}
+		localization_key = entrance_difference_in_attraction.small_boost
+	}
+}
 # ++
 EntranceMidPositiveElfLevelModifier = {
 	type = character
@@ -43,6 +57,20 @@ EntranceMidPositiveSparkManipulationModifier = {
 		localization_key = entrance_difference_in_magic_talent.big_boost
 	}
 }
+EntranceMidPositiveAttractionModifier = {
+	type = character
+	# Difference in Attraction
+	text = { ## ++
+		trigger = {
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction >= 25
+			entrance_difference_in_attraction < 50
+		}
+		localization_key = entrance_difference_in_attraction.big_boost
+	}
+}
 EntranceLoverModifier = {
 	type = character
 
@@ -51,6 +79,9 @@ EntranceLoverModifier = {
 		trigger = { 
 			scope:entrancer = {
 				has_relation_lover = scope:victim
+				NOT = {
+					has_relation_soulmate = scope:victim
+				}
 			}
 		}
 		localization_key = entrance_lover_boost
@@ -93,6 +124,19 @@ EntranceMajorPositiveSparkManipulationModifier = {
 			entrance_difference_in_magic_talent >= 3
 		}
 		localization_key = entrance_difference_in_magic_talent.massive_boost
+	}
+}
+EntranceMajorPositiveAttractionModifier = {
+	type = character
+	# Difference in Spark Manipulation
+	text = { ## +++
+		trigger = {
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction >= 50
+		}
+		localization_key = entrance_difference_in_attraction.massive_boost
 	}
 }
 EntranceSoulMateModifier = {
@@ -150,6 +194,20 @@ EntranceMinorNegativeSparkManipulationModifier = {
 		localization_key = entrance_difference_in_magic_talent.small_penalty
 	}
 }
+EntranceMinorNegativeAttractionModifier = {
+	type = character
+	# Difference in Spark Manipulation
+	text = { ## -
+		trigger = {
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction <= -10
+			entrance_difference_in_attraction > -25
+		}
+		localization_key = entrance_difference_in_attraction.small_penalty
+	}
+}
 # --
 EntranceMidNegativeElfLevelModifier = {
 	type = character
@@ -170,6 +228,20 @@ EntranceMidNegativeSparkManipulationModifier = {
 			entrance_difference_in_magic_talent = -2
 		}
 		localization_key = entrance_difference_in_magic_talent.big_penalty
+	}
+}
+EntranceMidNegativeAttractionModifier = {
+	type = character
+	# Difference in Spark Manipulation
+	text = { ## --
+		trigger = { 
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction <= -25
+			entrance_difference_in_attraction > -50
+		}
+		localization_key = entrance_difference_in_attraction.big_penalty
 	}
 }
 EntranceVictimIsMagiModifier = {
@@ -211,6 +283,19 @@ EntranceMajorNegativeSparkManipulationModifier = {
 		localization_key = entrance_difference_in_magic_talent.massive_penalty
 	}
 }
+EntranceMajorNegativeAttractionModifier = {
+	type = character
+	# Difference in Attraction
+	text = { ## ---
+		trigger = {
+			scope:victim = {
+				is_attracted_to_gender_of = scope:entrancer
+			}
+			entrance_difference_in_attraction <= -50
+		}
+		localization_key = entrance_difference_in_attraction.massive_penalty
+	}
+}
 EntranceVictimIsEnchantressModifier = {
 	type = character
 
@@ -230,5 +315,59 @@ EntranceVictimIsEnchantressModifier = {
 		localization_key = entrance_victim_is_enchantress
 	}
 }
+EntranceVictimNotAttractedGenderModifier = {
+	type = character
 
+	text = {
+		trigger = { 
+			scope:victim = {
+				NOT = {	
+					is_attracted_to_gender_of = scope:entrancer
+				}
+			}
+			scope:entrancer = {
+				is_female = yes
+			}
+		}
+		localization_key = entrance_not_attracted_to_gender.f.massive_penalty
+	}
 
+	text = {
+		trigger = { 
+			scope:victim = {
+				NOT = {	
+					is_attracted_to_gender_of = scope:entrancer
+				}
+			}
+			scope:entrancer = {
+				is_male = yes
+			}
+		}
+		localization_key = entrance_not_attracted_to_gender.m.massive_penalty
+	}
+}
+
+EntranceEnemyModifier = {
+	type = character
+	
+	text = { ## --
+		trigger = { 
+			scope:entrancer = {
+				has_relation_rival = scope:victim
+			}
+		}
+		localization_key = entrance_rival_penalty
+	}
+
+	text = { ## ---
+		trigger = { 
+			scope:entrancer = {
+				has_relation_nemesis = scope:victim
+				NOT = {
+					has_relation_rival = scope:victim
+				}
+			}
+		}
+		localization_key = entrance_nemesis_penalty
+	}
+}

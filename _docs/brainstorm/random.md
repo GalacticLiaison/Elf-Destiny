@@ -330,7 +330,7 @@ patch random:
 - make fecund an actual aeluran ability, turn on at will!
 - events: game of thrones shame naked walk througn capital, maybe for vassals too
 - having the player character lined up in front of a more powerful lord as a marriage option is fire though, maybe player can enhance odds of being chosen!!
-- maybe aeluron sisters have little autonomy in their own matchmaking
+- maybe aeluran sisters have little autonomy in their own matchmaking
 
 
 put pantheon as a section in religion screen and show icons for valar you follow
@@ -371,3 +371,24 @@ for direct spark trial use glow effect, use transparent pixels art if needed
 maybe we can create an event widget that is just glow orb to absolute position over the emperor's sigil
 
 dynasty legacy "strong blood" or soemthing like that. MAkes it so dynasty never has elf blood, its auto promoted to full elf!
+
+rubble holding type, from destruction
+
+could introduce oracle through a blessing "Astral Affinity"
+- art is a couple elves stargazing and pointing
+
+https://en.wikipedia.org/wiki/Arcadia_(utopia)
+
+tradition: divine starfall
+   - maybe just for thundaraels
+   - obsessed with comets and shooting stars, seek out the metals and magics they bring.
+
+tradition: music based "song keepers" or some such thing, use instruments some how
+
+
+Make Aeluran advisor either:
+   - a voluntary decision
+   - something forced on you if your red sister or matriarch get a hook on you.
+
+
+https://en.wikipedia.org/wiki/Questing_Beast

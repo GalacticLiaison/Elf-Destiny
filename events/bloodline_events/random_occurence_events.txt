@@ -5,7 +5,7 @@ bloodline_random.999 = {
 	scope = none
 
 	immediate = {
-		every_player  = {
+		random_player  = {
 			limit = {
 				is_travelling = no
 			}
@@ -33,18 +33,25 @@ bloodline_random.999 = {
 							days = 100
 						}
 					}
-					50 = {
+					30 = {
 						trigger_event = {
 							id = bloodline_random.002
 							days = 100
 						}
 					}
+					20 = {
+						trigger_event = {
+							id = bloodline_random.003
+							days = 100
+						}
+					}
 				}
-
 			}
 		}
 	}
 }
+
+
 
 # Orphan Child with letter event
 bloodline_random.001 = { # Intro
@@ -255,6 +262,13 @@ bloodline_random.002 = { # Tourney Champion Arrives
 
 	option = {
 		name = bloodline_random.002.ignore
+		hidden_effect = {
+			scope:champion = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
 	}
 }
 
@@ -349,5 +363,255 @@ bloodline_random.0021 = { # Find Champion In Tavern
 
 	option = {
 		name = bloodline_random.0021.nvm
+
+		hidden_effect = {
+			scope:champion = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+}
+
+bloodline_random.003 = {
+	hidden = yes
+
+	immediate = {
+		generate_pregnant_woman_bloodline_characters = yes
+
+		trigger_event = {
+			id = bloodline_random.0031
+			days = 200
+		}
+	}
+}
+
+bloodline_random.0031 = { # Pregnant Elf Women Seeks Shelter
+	type = character_event
+	title = bloodline_random.0031.title
+	desc = {
+		desc = bloodline_random.0031.desc.intro
+		# desc = bloodline_random.0031.desc.continued
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	theme = bloodline_pregnant_woman
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = throne_room_conversation_1
+	}
+
+	right_portrait = {
+		character = scope:pregnant_elf
+		animation = lunatic
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+
+		create_character_memory = {
+			type = bloodline_event
+		}
+	}
+
+	option = {
+		name = bloodline_random.0031.recruit
+		add_courtier = scope:pregnant_elf
+
+		trigger_event = bloodline_random.0032
+	}
+
+	option = {
+		name = bloodline_random.0031.donate
+		pay_short_term_gold = {
+			target = scope:pregnant_elf
+			gold = minor_gold_min_value
+		}
+		add_piety = 100
+
+		hidden_effect = {
+			scope:pregnant_elf = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bloodline_random.0031.ignore
+
+		hidden_effect = {
+			scope:pregnant_elf = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+}
+
+bloodline_random.0032 = { # Pregnant Elf Women Seeks Shelter
+	type = character_event
+	title = bloodline_random.0032.title
+	desc = {
+		desc = bloodline_random.0032.desc.intro
+		# desc = bloodline_random.0032.desc.continued
+	}
+
+	theme = bloodline_pregnant_woman
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:pregnant_elf
+		animation = shame
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+	}
+
+	option = {
+		name = bloodline_random.0032.ok
+	}
+}
+
+bloodline_random.0033 = { # Pregnant Elf Women Seeks Shelter
+	type = character_event
+	title = bloodline_random.0033.title
+	desc = {
+		desc = bloodline_random.0033.desc.intro
+	}
+
+	theme = bloodline_pregnant_woman
+	override_background = {
+		reference = throne_room
+	}
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:mother
+		animation = newborn
+	}
+
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+	}
+
+	option = {
+		name = bloodline_random.0033.ok
+		trigger_event = bloodline_random.0034
+	}
+}
+
+bloodline_random.0034 = { # Pregnant Elf Women Seeks Shelter
+	type = character_event
+	title = bloodline_random.0034.title
+	desc = {
+		desc = bloodline_random.0034.desc.intro
+	}
+
+	theme = bloodline_pregnant_woman
+	override_background = {
+		reference = throne_room
+	}
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:mother.father
+		animation = personality_vengeful
+	}
+
+	right_portrait = {
+		character = scope:mother
+		animation = fear
+	}
+
+	artifact = {
+		target = scope:newly_created_elf_artifact
+		position = lower_center_portrait
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+
+		hidden_effect = {
+			scope:mother.father = {
+				create_spark_crystal_effect = {
+					OWNER = scope:mother.father
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bloodline_random.0034.refuse
+
+		scope:mother = {
+			set_relation_friend = {
+				target = root
+				reason = friend_saved_from_father
+			}
+		}
+
+		hidden_effect = {
+			scope:mother.father = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+
+	option = {
+		name = bloodline_random.0034.accept
+		custom_tooltip = {
+			text = you_receive_spark_crystal
+			scope:newly_created_elf_artifact = {
+				set_owner = { target = root }
+			}
+		}
+		remove_courtier_or_guest = scope:mother
+		scope:mother = {
+			every_child = {
+				root = {
+					remove_courtier_or_guest = prev
+				}
+			}
+		}
+
+		hidden_effect = {
+			scope:mother.father = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+			scope:mother = {
+				every_child = {
+					death = {
+						death_reason = death_vanished
+					}
+				}
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
 	}
 }

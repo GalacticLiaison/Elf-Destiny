@@ -1,0 +1,255 @@
+﻿entrance_difference_in_elf_level = {
+	value = 0
+	add = scope:entrancer.elf_trait_level
+	subtract = scope:victim.elf_trait_level
+}
+
+entrance_difference_in_magic_talent = {
+	value = 0
+	add = scope:entrancer.magic_talent_level
+	subtract = scope:victim.magic_talent_level
+}
+
+entrance_difference_in_attraction = {
+	value = 0
+	add = scope:entrancer.attraction
+	subtract = scope:victim.attraction
+}
+
+### Odds =======================================
+
+# odds_entrance_scheme_misc_value = {
+# 	add = {
+# 		value = 0
+# 		desc = entrance_odds.misc_modifiers
+# 	}
+# }
+
+odds_entrance_elf_level_value = {
+	add = {
+		value = 0
+		desc = entrance_odds.elf_level_value
+
+		if = {
+			limit = {
+				scope:owner.elf_trait_level > scope:target.elf_trait_level
+			}
+			add = 20
+		}
+		else_if = {
+			limit = {
+				scope:owner.elf_trait_level < scope:target.elf_trait_level
+			}
+			add = -20
+		}
+	}
+}
+
+odds_entrance_magic_talent_level_value  = {
+	add = {
+		value = 0
+		desc = entrance_odds.magic_talent_value
+
+		if = {
+			limit = {
+				scope:owner.magic_talent_level > scope:target.magic_talent_level
+			}
+			add = 15
+		}
+		else_if = {
+			limit = {
+				scope:owner.magic_talent_level < scope:target.magic_talent_level
+			}
+			add = -15
+		}
+	}
+}
+
+odds_entrance_you_are_magi_value  = {
+	add = {
+		value = 0
+		desc = entrance_odds.you_are_magi
+
+		if = {
+			limit = {
+				scope:owner = { has_trait = magi }
+				NOT = {
+					scope:target = { has_trait = magi }
+				}
+			}
+			add = 10
+		}
+	}
+}
+
+odds_entrance_they_are_magi_value  = {
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_magi
+		if = {
+			limit = {
+				scope:target = { has_trait = magi }
+				NOT = {
+					scope:owner = { has_trait = magi }
+				}
+			}
+			add = -10
+		}
+	}
+}
+
+odds_entrance_you_are_enchantress_value  = {
+	add = {
+		value = 0
+		desc = entrance_odds.you_are_enchantress
+
+		if = {
+			limit = {
+				scope:owner = { has_trait = enchantress }
+				NOT = {
+					scope:target = { has_trait = enchantress }
+				}
+			}
+			add = 20
+		}
+
+	}
+}
+
+odds_entrance_they_are_enchantress_value  = {
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_enchantress
+
+		if = {
+			limit = {
+				scope:target = { has_trait = enchantress }
+				NOT = {
+					scope:owner = { has_trait = enchantress }
+				}
+			}
+			add = -20
+		}
+	}
+}
+
+odds_entrance_relationship = {
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_your_lover
+
+		if = {
+			limit = {
+				scope:owner = { has_relation_lover = scope:target }
+				NOT = {
+					scope:owner = { has_relation_soulmate = scope:target }
+				}
+			}
+			add = 10
+		}
+	}
+
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_your_soulmate
+
+		if = {
+			limit = {
+				scope:owner = { has_relation_soulmate = scope:target }
+			}
+			add = 20
+		}
+	}
+
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_your_rival
+
+		if = {
+			limit = {
+				scope:owner = { has_relation_rival = scope:target }
+				NOT = {
+					scope:owner = { has_relation_nemesis = scope:target }
+				}
+			}
+			add = -10
+		}
+	}
+
+	add = {
+		value = 0
+		desc = entrance_odds.they_are_your_nemesis
+
+		if = {
+			limit = {
+				scope:owner = { has_relation_nemesis = scope:target }
+			}
+			add = -30
+		}
+	}
+}
+
+## Attraction
+odds_entrance_attraction = {
+	add = {
+		value = 0
+		desc = entrance_odds.you_are_more_attractive_than_target
+
+		if = {
+			limit = {
+				scope:target = {
+					is_attracted_to_gender_of = scope:owner
+				}
+				scope:owner.attraction > scope:target.attraction
+			}
+			add = 10
+		}
+	}
+
+	add = {
+		value = 0
+		desc = entrance_odds.you_are_less_attractive_than_target
+
+		if = {
+			limit = {
+				scope:target = {
+					is_attracted_to_gender_of = scope:owner
+				}
+				scope:owner.attraction < scope:target.attraction
+			}
+			add = -10
+		}
+	}
+
+	add = {
+		value = 0
+		desc = entrance_odds.not_attracted_to_your_gender
+
+		if = {
+			limit = {
+				scope:target = {
+					NOT = {
+						is_attracted_to_gender_of = scope:owner
+					}
+				}
+			}
+			add = -30
+		}
+	}
+}
+
+
+# odds_entrance_testing_value  = {
+# 	add = {
+# 		value = 0
+# 		desc = entrance_odds.test_1
+
+# 		add = 6
+# 	}
+# 	add = {
+# 		value = 0
+# 		desc = entrance_odds.test_2
+
+# 		add = 9
+# 	}
+# }

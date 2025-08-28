@@ -1,0 +1,105 @@
+﻿# set_colors_ccp_channel = {
+#   if = {
+#     limit = { var:channel_ccp = 1 }
+#     set_colors_ccp = { channel = 1 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 2 }
+#     set_colors_ccp = { channel = 2 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 3 }
+#     set_colors_ccp = { channel = 3 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 4 }
+#     set_colors_ccp = { channel = 4 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 5 }
+#     set_colors_ccp = { channel = 5 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 6 }
+#     set_colors_ccp = { channel = 6 }
+#   }
+#   if = {
+#     limit = { var:channel_ccp = 7 }
+#     set_colors_ccp = { channel = 7 }
+#   }
+# }
+
+set_colors_ccp_switch = {
+  # character scope
+  # prev is story
+  if = {
+    limit = {
+      OR = {
+        exists = var:use_one_color_ccp
+        exists = scope:owner.var:use_one_color_ccp
+      }
+    }
+    if = {
+      limit = { prev.var:channel_ccp = 1 }
+      set_colors_ccp = { channel = 1 }
+      set_colors_ccp = { channel = 2 }
+      set_colors_ccp = { channel = 3 }
+      set_colors_ccp = { channel = 4 }
+      set_colors_ccp = { channel = 5 }
+      set_colors_ccp = { channel = 6 }
+      set_colors_ccp = { channel = 7 }
+    }
+  }
+  else = {
+    switch = {
+      trigger = prev.var:channel_ccp
+      1 = { set_colors_ccp = { channel = 1 } }
+      2 = { set_colors_ccp = { channel = 2 } }
+      3 = { set_colors_ccp = { channel = 3 } }
+      4 = { set_colors_ccp = { channel = 4 } }
+      5 = { set_colors_ccp = { channel = 5 } }
+      6 = { set_colors_ccp = { channel = 6 } }
+      7 = { set_colors_ccp = { channel = 7 } }
+    }
+  }
+}
+
+set_colors_ccp = {
+  if = {
+    limit = {
+      prev = { exists = var:hue_ccp  }
+    }
+    set_variable = {
+      name = POD_portrait_clothing_$channel$_r
+      value = {
+        value = prev.red_ccp
+        divide = 255
+        min = 0.004 # minimum value (not zero so that the decal doesn't disappear)
+        max = 1.0   # maximum value that shaders can read
+      }
+    }
+    set_variable = {
+      name = POD_portrait_clothing_$channel$_g
+      value = {
+        value = prev.green_ccp
+        divide = 255
+        min = 0.004 # minimum value (not zero so that the decal doesn't disappear)
+        max = 1.0   # maximum value that shaders can read
+      }
+    }
+    set_variable = {
+      name = POD_portrait_clothing_$channel$_b
+      value = {
+        value = prev.blue_ccp
+        divide = 255
+        min = 0.004 # minimum value (not zero so that the decal doesn't disappear)
+        max = 1.0   # maximum value that shaders can read
+      }
+    }
+  }
+  else = {
+    remove_variable = POD_portrait_clothing_$channel$_r
+    remove_variable = POD_portrait_clothing_$channel$_g
+    remove_variable = POD_portrait_clothing_$channel$_b
+  }
+}

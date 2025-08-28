@@ -66,6 +66,18 @@ determine_bloodline_orphan_type_effect = {
 				value = flag:dael_female
 			}
 		}
+		5 = { # Lormelis Male
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:lor_male
+			}
+		}
+		5 = { # Lormelis Female
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:lor_female
+			}
+		}
 	}
 }
 
@@ -200,6 +212,32 @@ create_bloodline_orphan_effect = {
 			save_scope_as = orphan
 		}
 	}
+	else_if = { # Lormelis Male
+		limit = {
+			scope:orphan_type = flag:lor_male
+		}
+		create_character = {
+			template = orphan_lormelis_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Lormelis Female
+		limit = {
+			scope:orphan_type = flag:lor_female
+		}
+		create_character = {
+			template = orphan_lormelis_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan
+		}
+	}
 }
 
 create_orphan_mother_effect = {
@@ -276,6 +314,22 @@ create_orphan_mother_effect = {
 		}
 		create_character = {
 			template = orphan_daelurin_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:culture_elf
+			save_scope_as = orphan_mother
+		}
+	}
+	else_if = { # Lormelis
+		limit = {
+			OR = {
+				scope:orphan_type = flag:lor_male
+				scope:orphan_type = flag:lor_female
+			}
+		}
+		create_character = {
+			template = orphan_lormelis_mother
 			dynasty = none
 			location = root.location
 			faith = root.faith
@@ -547,5 +601,135 @@ assign_champion_lifestyle_traits_and_xp = {
 		}
 
 		add_trait = gallant
+	}
+}
+
+generate_pregnant_woman_bloodline_characters = {
+	# Determine Mother's Bloodline
+	random_list = {
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:daelurin
+			}
+		}
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:valerith
+			}
+		}
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:serelion
+			}
+		}
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:gwynthorn
+			}
+		}
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:thundarael
+			}
+		}
+		10 = {
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:lormelis
+			}
+        }
+	}
+
+	# Determine Offshoot Bloodline
+	create_bloodline_pregnant_woman_father_effect = yes
+	create_bloodline_pregnant_woman_effect = yes
+	create_bloodline_pregnant_woman_dead_husband_effect = yes
+
+
+	scope:pregnant_elf = {
+		add_character_flag = bloodline_pregnant_event
+
+		marry_matrilineal = scope:pregnant_elf_dead_husband
+
+		make_pregnant = {
+			father = scope:pregnant_elf_dead_husband
+			number_of_children = 1
+		}
+
+		## Assign number of children
+		random_list  = {
+			30 = {
+				set_num_pregnancy_children = 1
+			}
+			20 = {
+				set_num_pregnancy_children = 2
+			}
+			5 = {
+				set_num_pregnancy_children = 3
+				add_character_flag = having_triplets
+			}
+			3 = {
+				set_num_pregnancy_children = 4
+				add_character_flag = having_quadruplets
+			}
+			2 = {
+				set_num_pregnancy_children = 5
+				add_character_flag = having_quintuplets
+			}
+			1 = {
+				set_num_pregnancy_children = 6
+				add_character_flag = having_sextuplets
+			}
+			1 = {
+				set_num_pregnancy_children = 7
+				add_character_flag = having_septuplets
+			}
+		}
+	}
+
+	scope:pregnant_elf_dead_husband = {
+		death = {
+			death_reason = death_execution
+			# killer = 
+		}
+	}
+}
+
+create_bloodline_pregnant_woman_father_effect = {
+	create_character = {
+		template = bloodline_pregnant_women_father
+		dynasty = generate
+		location = root.location
+		faith = root.faith
+		culture = culture:culture_elf
+		save_scope_as = pregnant_elf_father
+	}
+}
+
+create_bloodline_pregnant_woman_effect = {
+	create_character = {
+		template = bloodline_pregnant_women
+		father = scope:pregnant_elf_father
+		dynasty = inherit
+		location = root.location
+		faith = root.faith
+		culture = culture:culture_elf
+		save_scope_as = pregnant_elf
+	}
+}
+
+create_bloodline_pregnant_woman_dead_husband_effect = {
+	create_character = {
+		template = bloodline_pregnant_women_dead_husband
+		dynasty = generate
+		location = root.location
+		faith = root.faith
+		culture = culture:culture_elf
+		save_scope_as = pregnant_elf_dead_husband
 	}
 }

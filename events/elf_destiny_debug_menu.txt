@@ -1,0 +1,712 @@
+
+namespace = elf_destiny_debug_menu
+
+# Game Menu
+elf_destiny_debug_menu.01 = {
+	type = character_event
+	title = elf_destiny_debug_menu.01.title
+	desc = elf_destiny_debug_menu.01.desc
+	theme = default
+	left_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.01.storyline
+		trigger_event = elf_destiny_debug_menu.011
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.01.artifacts
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.done
+	}
+}
+
+elf_destiny_debug_menu.011 = { # STORYLINE
+	type = character_event
+	title = elf_destiny_debug_menu.011.title
+	desc = elf_destiny_debug_menu.011.desc
+	theme = default
+	left_portrait = {
+		character = scope:archeologist
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = scope:matriarch
+		animation = dancing
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_living_character = {
+					has_character_flag = julia_melwood
+				}
+			}
+	
+			random_living_character = {
+				limit = {
+					has_character_flag = julia_melwood
+				}
+	
+				save_scope_as = archeologist
+			}
+		}
+
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_high_matriarch
+			}
+			save_scope_as = matriarch
+		}
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.011.skip_first_expedition
+
+		set_global_variable = {
+			name = 01_sigil_of_the_realm_lord_found
+			value = yes
+		}
+
+		trigger_event = elf_destiny_debug_menu.1110
+
+		trigger = {
+			custom_description = {
+				text = UNDER_CONSTRUCTION
+				NOT = {
+					has_global_variable = 01_sigil_of_the_realm_lord_found
+				}
+			}
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.011.visited_by_aelurans
+		set_global_variable = {
+			name = 02_spoke_with_the_aeluran_order
+			value = yes
+		}
+		set_global_variable = {
+			name = 03_choice_of_dreams_made
+			value = yes
+		}
+		trigger_event = elf_destiny_debug_menu.2111
+
+		trigger = {
+			custom_description = {
+				text = UNDER_CONSTRUCTION
+				has_global_variable = 01_sigil_of_the_realm_lord_found
+				NOR = {
+					has_global_variable = 02_spoke_with_the_aeluran_order
+					has_global_variable = 03_choice_of_dreams_made
+				}
+			}
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.011.complete_portal
+
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:flag_grand_portal_restored
+		}
+		
+		trigger_event = elf_destiny_main_story_events.002
+
+		trigger = {
+			custom_description = {
+				text = UNDER_CONSTRUCTION
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:flag_grand_portal_restored
+					}
+				}
+				has_global_variable = 02_spoke_with_the_aeluran_order
+			}
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.back
+		trigger_event = elf_destiny_debug_menu.01
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.done
+	}
+}
+
+elf_destiny_debug_menu.1110 = { # STORYLINE Skip First Expedition
+	type = character_event
+	title = elf_destiny_debug_menu.1110.title
+	desc = elf_destiny_debug_menu.1110.desc
+	theme = dead_elf_king_with_sigil
+	left_portrait = {
+		character = scope:archeologist
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	immediate = {
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_what_is_an_archelogist_answered
+			}
+		}
+
+		add_courtier = scope:archeologist
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_bellinzona
+		maunally_set_first_expedition_site = { BARONY_NAME = b_bellinzona }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_intarta
+		maunally_set_first_expedition_site = { BARONY_NAME = b_intarta }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_simbiling
+		maunally_set_first_expedition_site = { BARONY_NAME = b_simbiling }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_dayan
+		maunally_set_first_expedition_site = { BARONY_NAME = b_dayan }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_atakpame
+		maunally_set_first_expedition_site = { BARONY_NAME = b_atakpame }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_kasriskari
+		maunally_set_first_expedition_site = { BARONY_NAME = b_kasriskari }
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1110.b_northri_gudbrandsdali
+		maunally_set_first_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali }
+	}
+
+	after = {
+		trigger_event = elf_destiny_debug_menu.1111
+	}
+}
+
+elf_destiny_debug_menu.1111 = { # STORYLINE Skip First Expedition
+	type = character_event
+	title = elf_destiny_debug_menu.1111.title
+	desc = elf_destiny_debug_menu.1111.desc
+	theme = dead_elf_king_with_sigil
+	left_portrait = {
+		character = scope:archeologist
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1111.just_me
+
+		change_character_race_effect = { NEW_RACE = elf }
+
+		if = {
+			limit = {
+				is_spark_talented = no
+			}
+			add_trait = magic_talent_1
+		}
+
+		trigger_event = elf_destiny_debug_menu.1112
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.1111.me_and_julia
+
+		if = {
+			limit = {
+				exists = scope:archeologist
+			}
+			scope:archeologist = {
+				change_character_race_effect = { NEW_RACE = elf }
+				if = {
+					limit = {
+						is_spark_talented = no
+					}
+					add_trait = magic_talent_1
+				}
+			}
+		}
+		if = {
+			limit = {
+				is_spark_talented = no
+			}
+			add_trait = magic_talent_1
+		}
+		change_character_race_effect = { NEW_RACE = elf }
+
+		trigger_event = elf_destiny_debug_menu.1112
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1111.both_and_my_close_family
+
+		# Julia
+		if = {
+			limit = {
+				exists = scope:archeologist
+			}
+			scope:archeologist = {
+				change_character_race_effect = { NEW_RACE = elf }
+				if = {
+					limit = {
+						is_spark_talented = no
+					}
+					add_trait = magic_talent_1
+				}
+			}
+		}
+
+		# Player
+		if = {
+			limit = {
+				is_spark_talented = no
+			}
+			add_trait = magic_talent_1
+		}
+		change_character_race_effect = { NEW_RACE = elf }
+
+		# Family
+		every_close_family_member = {
+			change_character_race_effect = { NEW_RACE = elf }
+			
+			if = {
+				limit = {
+					is_spark_talented = no
+				}
+				add_trait = magic_talent_1
+			}
+		}
+
+		every_consort = {
+			change_character_race_effect = { NEW_RACE = elf }
+			
+			if = {
+				limit = {
+					is_spark_talented = no
+				}
+				add_trait = magic_talent_1
+			}
+		}
+
+		trigger_event = elf_destiny_debug_menu.1112
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1111.noone
+		trigger_event = elf_destiny_debug_menu.1112
+	}
+}
+
+elf_destiny_debug_menu.1112 = { # STORYLINE Skip First Expedition
+	type = character_event
+	title = elf_destiny_debug_menu.1112.title
+	desc = elf_destiny_debug_menu.1112.desc
+	theme = dead_elf_king_with_sigil
+	left_portrait = {
+		character = scope:archeologist
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1112.take_culture
+
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:culture_elf
+		}
+
+		scope:archeologist = {
+			set_culture = culture:culture_elf
+		}
+
+		trigger_event = elf_destiny_debug_menu.011
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.1112.modify_existing_culture
+
+		root = {
+			culture = {
+				add_innovation = innovation_elven_adaptability
+			}
+		}
+
+		trigger_event = elf_destiny_debug_menu.011
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.1112.skip_culture_change
+		trigger_event = elf_destiny_debug_menu.011
+	}
+
+	# option = {
+	# 	name = elf_destiny_debug_menu.1112.noone
+	# 	trigger_event = elf_destiny_debug_menu.011
+	# }
+}
+
+
+elf_destiny_debug_menu.2111 = { # STORYLINE Visited By Aelurans
+	type = character_event
+	title = elf_destiny_debug_menu.2111.title
+	desc = elf_destiny_debug_menu.2111.desc
+	theme = divine_spark
+	
+	# left_portrait = {
+	# 	character = scope:archeologist
+	# 	animation = dancing
+	# }
+
+	left_portrait = {
+		character = root
+		animation = dancing
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.2111.open_hearted
+		root.culture = {
+			add_culture_tradition = tradition_open_hearted
+		}
+
+		trigger_event = elf_destiny_debug_menu.2112
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.2111.elf_superiority
+		root.culture = {
+			add_culture_tradition = tradition_elf_superiority
+		}
+
+		trigger_event = elf_destiny_debug_menu.2112
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.2111.skip_choice
+
+		trigger_event = elf_destiny_debug_menu.2112
+	}
+}
+
+
+elf_destiny_debug_menu.2112 = { # STORYLINE Visited By Aelurans
+	type = character_event
+	title = elf_destiny_debug_menu.2112.title
+	desc = elf_destiny_debug_menu.2112.desc
+	theme = aeluran_matriarch
+	left_portrait = {
+		character = scope:matriarch
+		animation = dancing
+	}
+
+	right_portrait = {
+		character = scope:aeluran_matron
+		animation = dancing
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:matriarch = {
+					any_child = {
+						has_trait = aeluran_matron
+					}
+				}
+			}
+
+			scope:matriarch = {
+				random_child = {
+					limit = {
+						has_trait = aeluran_matron
+					}
+					save_scope_as = aeluran_matron
+				}
+			}
+		}
+		else = {
+			random_living_character = {
+				limit = {
+					is_female = yes
+					has_trait = aeluran_matron
+				}
+				
+				save_scope_as = aeluran_matron
+			}
+		}
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.2112.take_religion
+		
+		save_scope_as = recipient
+		scope:matriarch = {
+			save_scope_as = actor
+		}
+
+		grab_spouses_and_family_to_convert_effect = yes
+		convert_family_to_faith_effect = {
+			FALSE_CONVERSION = no
+			FORCED = no
+		}
+
+		trigger_event = elf_destiny_debug_menu.011
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.2112.refuse_religion
+
+		trigger_event = elf_destiny_debug_menu.011
+	}
+}
+
+elf_destiny_debug_menu.012 = { # ARTIFACTS
+	type = character_event
+	title = elf_destiny_debug_menu.012.title
+	desc = elf_destiny_debug_menu.012.desc
+	theme = default
+	left_portrait = {
+		character = root
+		animation = clutching_ball
+	}
+
+	right_portrait = {
+		character = root
+		animation = scepter
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.sigil_of_realm_lord
+		create_sigil_of_the_realm_lord_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}	
+
+	option = {
+		name = elf_destiny_debug_menu.012.spark_capacitor
+		create_portal_spark_capacitor_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.navigation_relay
+		create_portal_navigation_relay_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.spark_crystal
+		create_spark_crystal_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.lembas_belt
+		create_lembas_satchel_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.foeglass
+		create_vanas_foeglass_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.nefertitis_armband
+		create_nefertitis_armband_effect = { OWNER = root }
+		trigger_event = elf_destiny_debug_menu.012
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.back
+		trigger_event = elf_destiny_debug_menu.01
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.done
+	}
+}
+
+# ==================================================================================================================
+
+# Character Menu
+elf_destiny_debug_menu.02 = {
+	type = character_event
+	title = elf_destiny_debug_menu.02.title
+	desc = elf_destiny_debug_menu.02.desc
+	theme = default
+	left_portrait = {
+		character = scope:recipient
+		animation = dancing
+	}
+	right_portrait = {
+		character = scope:recipient
+		animation = dancing
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.02.race_options
+
+		trigger_event = elf_destiny_debug_menu.021
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.02.traits
+
+		trigger_event = elf_destiny_debug_menu.022
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.02.culture
+
+		trigger = {
+			custom_description = {
+				text = UNDER_CONSTRUCTION
+				always = no
+			}
+		}
+
+		show_as_unavailable = {
+			always = yes
+		}
+
+		trigger_event = elf_destiny_debug_menu.023
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.02.nvm
+	}
+}
+
+elf_destiny_debug_menu.021 = { # RACE
+	type = character_event
+	title = elf_destiny_debug_menu.021.title
+	desc = elf_destiny_debug_menu.021.desc
+	
+	theme = race_selection
+
+	left_portrait = {
+		character = scope:recipient
+		animation = personality_zealous
+		hide_info = yes
+		outfit_tags = { no_clothes }
+	}
+
+	widget = {
+		gui = "event_window_widget_race_selection"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.back
+		trigger_event = elf_destiny_debug_menu.02
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.021.race_options.done
+	}
+
+}
+
+elf_destiny_debug_menu.022 = { # TRAITS
+	type = character_event
+	title = elf_destiny_debug_menu.022.title
+	desc = elf_destiny_debug_menu.022.desc
+
+	theme = default
+
+	left_portrait = {
+		character = scope:recipient
+		animation = personality_bold
+	}
+
+	widget = {
+		gui = "event_window_widget_trait_selection"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.back
+		trigger_event = elf_destiny_debug_menu.02
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.022.done
+	}
+
+	
+}
+
+elf_destiny_debug_menu.023 = { # CULTURE
+	type = character_event
+	title = elf_destiny_debug_menu.023.title
+	desc = elf_destiny_debug_menu.023.desc
+	theme = default
+	left_portrait = {
+		character = scope:recipient
+		animation = personality_bold
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.012.back
+		trigger_event = elf_destiny_debug_menu.02
+	}
+
+	option = {
+		name = elf_destiny_debug_menu.023.culture
+	}
+
+}

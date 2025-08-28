@@ -2,11 +2,12 @@
 # if a killer is known, it's set as scope:killer
 on_death = { 
     on_actions = {
-        aeluran_heirarchy_management 
+        aeluran_hierarchy_management
+		clear_entrance_traits_from_minions
     } 
 }
 
-aeluran_heirarchy_management = {
+aeluran_hierarchy_management = {
 	trigger = {
 		OR = {
 			AND = {
@@ -30,7 +31,7 @@ aeluran_heirarchy_management = {
 			}
 			debug_log = "Replacing Matriarch"
 
-			appoint_new_aeluron_matriarch_effect = yes
+			appoint_new_aeluran_matriarch_effect = yes
 		}
 		else_if = {
 			limit = {
@@ -42,6 +43,41 @@ aeluran_heirarchy_management = {
 			debug_log = "Replacing Matron"
 
 			appoint_new_aeluran_matron_effect = yes
+		}
+	}
+}
+
+clear_entrance_traits_from_minions = {
+	effect = {
+		every_hooked_character = {
+			if = {
+				limit = {
+					root = {
+						OR = {
+							has_hook_of_type = {
+								target = prev
+								type = entranced
+							}	
+							has_hook_of_type = {
+								target = prev
+								type = enthralled
+							}	
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_trait = entranced
+					}
+					remove_trait =  entranced
+				}
+				if = {
+					limit = {
+						has_trait = enthralled
+					}
+					remove_trait =  enthralled
+				}
+			}			
 		}
 	}
 }

@@ -1,0 +1,655 @@
+﻿ccp_select_hue = {
+  effect = {
+    set_variable = {
+      name = hue_ccp
+      value = scope:value
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+ccp_select_sat = {
+  effect = {
+    set_variable = {
+      name = sat_ccp
+      value = scope:value
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+ccp_select_val = {
+  effect = {
+    set_variable = {
+      name = val_ccp
+      value = scope:value
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+
+clear_colors_ccp = {
+  effect = {
+
+    every_in_list = {
+      variable = color_channels_ccp
+      remove_variable = hue_ccp
+      set_variable = {
+        name = sat_ccp
+        value = 100
+      }
+      set_variable = {
+        name = val_ccp
+        value = 100
+      }
+    }
+    remove_variable = POD_portrait_clothing_1_r
+    remove_variable = POD_portrait_clothing_1_g
+    remove_variable = POD_portrait_clothing_1_b
+
+    remove_variable = POD_portrait_clothing_2_r
+    remove_variable = POD_portrait_clothing_2_g
+    remove_variable = POD_portrait_clothing_2_b
+
+    remove_variable = POD_portrait_clothing_3_r
+    remove_variable = POD_portrait_clothing_3_g
+    remove_variable = POD_portrait_clothing_3_b
+
+    remove_variable = POD_portrait_clothing_4_r
+    remove_variable = POD_portrait_clothing_4_g
+    remove_variable = POD_portrait_clothing_4_b
+
+    remove_variable = POD_portrait_clothing_5_r
+    remove_variable = POD_portrait_clothing_5_g
+    remove_variable = POD_portrait_clothing_5_b
+
+    remove_variable = POD_portrait_clothing_6_r
+    remove_variable = POD_portrait_clothing_6_g
+    remove_variable = POD_portrait_clothing_6_b
+
+    remove_variable = POD_portrait_clothing_7_r
+    remove_variable = POD_portrait_clothing_7_g
+    remove_variable = POD_portrait_clothing_7_b
+  }
+}
+
+
+select_channel_ccp = {
+  effect = {
+    set_variable = {
+      name = channel_ccp
+      value = scope:value
+    }
+  }
+}
+
+ccp_none = {
+  effect = {}
+}
+
+# when we open clothes, I create 7 stories on the character, for the color channels
+# even if you don't actually change the color
+# I just want it to be instantly visible and interactable
+ccp_init = {
+  is_shown = {
+    NOT = { has_variable_list = color_channels_ccp }
+  }
+  effect = {
+    if = {
+      limit = {
+        NOT = { has_variable_list = color_channels_ccp }
+      }
+
+      set_local_variable = {
+        name = count
+        value = 0
+      }
+
+      while = {
+        count = 7
+        change_local_variable = {
+          name = count
+          add = 1
+        }
+        create_story = {
+          type = ccp_channel_story
+          save_scope_as = story
+        }
+        scope:story = {
+          set_variable = {
+            name = channel_ccp
+            value = local_var:count
+          }
+        }
+        add_to_variable_list = {
+          name = color_channels_ccp
+          target = scope:story
+        }
+      }
+    }
+  }
+}
+
+# when we close the barbershop, I remove stories from any characters whose color you didn't change
+ccp_close = {
+  effect = {
+    every_in_global_list = {
+      variable = ccp_characters
+      limit = {
+        NOT = {
+          any_owned_story = {
+            story_type = ccp_channel_story
+            has_variable = hue_ccp
+          }
+        }
+      }
+      remove_list_global_variable = {
+        name = ccp_characters
+        target = this
+      }
+      every_in_list = {
+        variable = color_channels_ccp
+        end_story = yes
+      }
+    }
+  }
+}
+
+###
+
+hue_plus_ccp = {
+  is_valid = {
+    exists = var:hue_ccp
+    var:hue_ccp < 99
+  }
+  effect = {
+    change_variable = {
+      name = hue_ccp
+      add = 1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+hue_minus_ccp = {
+  is_valid = {
+    exists = var:hue_ccp
+    var:hue_ccp > 0
+  }
+  effect = {
+    change_variable = {
+      name = hue_ccp
+      add = -1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+###
+
+sat_plus_ccp = {
+  is_valid = {
+    exists = var:sat_ccp
+    var:sat_ccp < 100
+  }
+  effect = {
+    change_variable = {
+      name = sat_ccp
+      add = 1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+sat_minus_ccp = {
+  is_valid = {
+    exists = var:sat_ccp
+    var:sat_ccp > 0
+  }
+  effect = {
+    change_variable = {
+      name = sat_ccp
+      add = -1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+###
+
+val_plus_ccp = {
+  is_valid = {
+    exists = var:val_ccp
+    var:val_ccp < 100
+  }
+  effect = {
+    change_variable = {
+      name = val_ccp
+      add = 1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+val_minus_ccp = {
+  is_valid = {
+    exists = var:val_ccp
+    var:val_ccp > 0
+  }
+  effect = {
+    change_variable = {
+      name = val_ccp
+      add = -1
+    }
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+###
+
+clear_color_ccp = {
+  effect = {
+    remove_variable = hue_ccp
+    story_owner = {
+      set_colors_ccp_switch = yes
+    }
+  }
+}
+
+copy_one_color = {
+  is_valid = {
+    exists = scope:target.var:hue_ccp
+  }
+  effect = {
+    set_variable = {
+      name = hue_ccp_copy
+      value = scope:target.var:hue_ccp
+    }
+    set_variable = {
+      name = sat_ccp_copy
+      value = scope:target.var:sat_ccp
+    }
+    set_variable = {
+      name = val_ccp_copy
+      value = scope:target.var:val_ccp
+    }
+  }
+}
+
+paste_one_color = {
+  is_valid = {
+    exists = var:hue_ccp_copy
+    trigger_if = {
+      limit = {
+        exists = scope:target.var:hue_ccp
+        exists = var:hue_ccp_copy
+      }
+      NOT = {
+        AND = {
+          var:hue_ccp_copy = scope:target.var:hue_ccp
+          var:sat_ccp_copy = scope:target.var:sat_ccp
+          var:val_ccp_copy = scope:target.var:val_ccp
+        }
+      }
+    }
+    trigger_else = {}
+  }
+  effect = {
+    scope:target = {
+      set_variable = {
+        name = hue_ccp
+        value = prev.var:hue_ccp_copy
+      }
+      set_variable = {
+        name = sat_ccp
+        value = prev.var:sat_ccp_copy
+      }
+      set_variable = {
+        name = val_ccp
+        value = prev.var:val_ccp_copy
+      }
+      story_owner = {
+        set_colors_ccp_switch = yes
+      }
+    }
+  }
+}
+
+copy_colors_ccp = {
+  is_valid = {
+    # trigger_if = {
+    #   limit = {
+    #     exists = var:copy_target_ccp
+    #   }
+    #   NOT = { scope:target = var:copy_target_ccp }
+    # }
+  }
+  effect = {
+    set_variable = {
+      name = copy_target_ccp
+      value = scope:target
+    }
+
+    # go through the target's colors
+    scope:target = {
+      every_in_list = {
+        variable = color_channels_ccp
+        save_scope_as = copy_story
+
+        # if this is first time, for every story create a copy on the player
+        root = {
+          if = {
+            limit = {
+              NOT = { has_variable_list = copied_colors_ccp }
+            }
+            create_story = {
+              type = ccp_channel_story
+              save_scope_as = story
+            }
+            add_to_variable_list = {
+              name = copied_colors_ccp
+              target = scope:story
+            }
+          }
+          # otherwise, go through the copy list and overwrite variables
+          else = {
+            random_in_list = {
+              variable = copied_colors_ccp
+              limit = { var:channel_ccp = scope:copy_story.var:channel_ccp }
+              save_scope_as = story
+            }
+          }
+
+          scope:story = {
+            # if it's a new list, enumerate the stories
+            if = {
+              limit = { NOT = { exists = var:channel_ccp } }
+              set_variable = {
+                name = channel_ccp
+                value = scope:copy_story.var:channel_ccp
+              }
+            }
+            # if hue is set, copy all vars
+            if = {
+              limit = {
+                exists = scope:copy_story.var:hue_ccp
+              }
+              set_variable = {
+                name = hue_ccp
+                value = scope:copy_story.var:hue_ccp
+              }
+              set_variable = {
+                name = sat_ccp
+                value = scope:copy_story.var:sat_ccp
+              }
+              set_variable = {
+                name = val_ccp
+                value = scope:copy_story.var:val_ccp
+              }
+            }
+            else = {
+              remove_variable = hue_ccp
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+paste_colors_ccp = {
+  is_valid = {
+    has_variable_list = copied_colors_ccp
+  }
+  effect = {
+    var:copy_target_ccp = {
+      every_in_list = {
+        variable = color_channels_ccp
+        save_scope_as = copy_story
+
+        scope:target = {
+          random_in_list = {
+            variable = color_channels_ccp
+            limit = {
+              var:channel_ccp = scope:copy_story.var:channel_ccp
+            }
+
+            if = {
+              limit = {
+                exists = scope:copy_story.var:hue_ccp
+              }
+              set_variable = {
+                name = hue_ccp
+                value = scope:copy_story.var:hue_ccp
+              }
+              set_variable = {
+                name = sat_ccp
+                value = scope:copy_story.var:sat_ccp
+              }
+              set_variable = {
+                name = val_ccp
+                value = scope:copy_story.var:val_ccp
+              }
+            }
+            else = {
+              remove_variable = hue_ccp
+            }
+
+            story_owner = {
+              set_colors_ccp_switch = yes
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+no_color_ccp = {
+  is_shown = {
+    NOT = {
+      any_in_list = {
+        variable = color_channels_ccp
+        exists = var:hue_ccp
+      }
+    }
+  }
+}
+
+
+use_one_color_ccp = {
+  effect = {
+    if = {
+      limit = { exists = var:use_one_color_ccp }
+      remove_variable = use_one_color_ccp
+      if = {
+        limit = { has_variable_list = color_channels_ccp }
+        every_in_list = {
+          variable = color_channels_ccp
+          story_owner = {
+            set_colors_ccp_switch = yes
+          }
+        }
+      }
+    }
+    else = {
+      set_variable = use_one_color_ccp
+
+      if = {
+        limit = { has_variable_list = color_channels_ccp }
+        random_in_list = {
+          variable = color_channels_ccp
+          limit = { var:channel_ccp = 1 }
+          story_owner = {
+            set_colors_ccp_switch = yes
+          }
+        }
+      }
+    }
+  }
+}
+
+
+random_hue_ccp = {
+  effect = {
+    every_in_list = {
+      variable = color_channels_ccp
+
+      set_variable = {
+        name = hue_ccp
+        value = {
+          value = {
+            value = { 0 99 }
+            round = yes
+          }
+        }
+      }
+
+      story_owner = {
+        set_colors_ccp_switch = yes
+      }
+    }
+  }
+}
+
+
+random_colors_ccp = {
+  effect = {
+    every_in_list = {
+      variable = color_channels_ccp
+
+      set_variable = {
+        name = hue_ccp
+        value = {
+          value = { 0 99 }
+          round = yes
+        }
+      }
+
+      set_variable = {
+        name = val_ccp
+        value = {
+          value = { 0 100 }
+          round = yes
+        }
+      }
+
+      set_variable = {
+        name = sat_ccp
+        value = {
+          value = { 0 100 }
+          round = yes
+        }
+      }
+
+      story_owner = {
+        set_colors_ccp_switch = yes
+      }
+    }
+  }
+}
+
+show_house_colors_ccp = {
+  is_valid = {
+    exists = house
+    OR = {
+      house = { has_variable = house_colors_ccp }
+      any_in_list = {
+        variable = color_channels_ccp
+        exists = var:hue_ccp
+      }
+    }
+  }
+}
+
+
+set_house_colors_ccp = {
+  is_valid = {
+    exists = house
+    has_variable_list = color_channels_ccp
+    any_in_list = {
+      variable = color_channels_ccp
+      exists = var:hue_ccp
+    }
+  }
+  effect = {
+    house = {
+      set_variable = house_colors_ccp
+    }
+    every_in_list = {
+      variable = color_channels_ccp
+      save_scope_as = color_story
+
+      story_owner = {
+        save_scope_as = owner
+        house = {
+          # this is stupid, but this way I don't need to rewrite my effect
+          # set_colors_ccp_switch expects prev to be the story
+          scope:color_story = {
+            prev = {
+              set_colors_ccp_switch = yes
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+clear_house_colors_ccp = {
+  is_shown = {
+    exists = house
+    house = {
+      has_variable = house_colors_ccp
+    }
+  }
+
+  effect = {
+    house = {
+      remove_variable = house_colors_ccp
+
+      remove_variable = POD_portrait_clothing_1_r
+      remove_variable = POD_portrait_clothing_1_g
+      remove_variable = POD_portrait_clothing_1_b
+      remove_variable = POD_portrait_clothing_2_r
+      remove_variable = POD_portrait_clothing_2_g
+      remove_variable = POD_portrait_clothing_2_b
+      remove_variable = POD_portrait_clothing_3_r
+      remove_variable = POD_portrait_clothing_3_g
+      remove_variable = POD_portrait_clothing_3_b
+      remove_variable = POD_portrait_clothing_4_r
+      remove_variable = POD_portrait_clothing_4_g
+      remove_variable = POD_portrait_clothing_4_b
+      remove_variable = POD_portrait_clothing_5_r
+      remove_variable = POD_portrait_clothing_5_g
+      remove_variable = POD_portrait_clothing_5_b
+      remove_variable = POD_portrait_clothing_6_r
+      remove_variable = POD_portrait_clothing_6_g
+      remove_variable = POD_portrait_clothing_6_b
+      remove_variable = POD_portrait_clothing_7_r
+      remove_variable = POD_portrait_clothing_7_g
+      remove_variable = POD_portrait_clothing_7_b
+    }
+  }
+}

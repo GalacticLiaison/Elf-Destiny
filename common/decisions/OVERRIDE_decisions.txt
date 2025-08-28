@@ -1,7 +1,9 @@
 ﻿# A decision to deformalise the entire realm back into tribes.
 convert_to_tribalism_decision = {
-	picture = "gfx/interface/illustrations/decisions/decision_realm.dds"
-	major = yes
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+	decision_group_type = major
 	desc = convert_to_tribalism_decision_desc
 
 	ai_check_interval = 36
@@ -54,3 +56,315 @@ convert_to_tribalism_decision = {
 		base = 100
 	}
 }
+
+
+# adopt_state_faith = {
+# 	picture = {
+# 		trigger = {
+# 			NOR = {
+# 				government_has_flag = government_is_tribal
+# 				government_has_flag = government_is_theocracy
+# 				top_liege ?= { government_has_flag = government_is_tribal }
+# 				top_liege ?= { government_has_flag = government_is_theocracy }
+# 			}
+# 			OR = {
+# 				culture = { has_cultural_pillar = heritage_byzantine }
+# 				top_liege ?= {
+# 					OR = {
+# 						culture = { has_cultural_pillar = heritage_byzantine }
+# 						capital_barony ?= title:b_constantinople
+# 						primary_title ?= title:e_byzantium
+# 						primary_title ?= title:e_roman_empire
+# 					}
+# 				}
+# 			}
+# 		}
+# 		reference = "gfx/interface/illustrations/decisions/ep3_cerimonial_decision.dds"
+# 	}
+# 	picture = {
+# 		trigger = {
+# 			top_liege.primary_title.state_faith.religion = religion:islam_religion 
+# 		}
+# 		reference = "gfx/interface/illustrations/activity_header_backgrounds/activity_pilgrimage.dds"
+# 	}
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+# 	}
+
+# 	ai_check_interval = 60
+# 	sort_order = 110
+# 	decision_group_type = admin
+
+# 	desc = adopt_state_faith_decision_desc
+# 	selection_tooltip = adopt_state_faith_decision_selection_tooltip
+
+# 	is_shown = {
+# 		has_ep3_dlc_trigger = yes
+# 		top_liege = { government_allows = state_faith }
+# 		exists = top_liege.primary_title.state_faith
+# 		NOT = { faith ?= top_liege.primary_title.state_faith }
+# 	}
+
+# 	is_valid = {
+# 		top_liege = { government_allows = state_faith }
+# 		NOT = { faith ?= top_liege.primary_title.state_faith }
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		NOT = {
+# 			custom_description = {
+# 				text = "is_in_an_activity"
+# 				exists = involved_activity
+# 			}
+# 		}
+# 		is_imprisoned = no
+
+# 		trigger_if = {
+# 			limit = {
+# 				faith.religion = {
+# 					is_in_family = rf_spark
+# 				}
+# 				is_ai = yes
+# 			}
+# 			top_liege.primary_title.state_faith.religion = {
+# 				is_in_family = rf_spark
+# 			}
+# 		}
+# 	}
+
+# 	cost = {}
+
+# 	effect = {
+# 		debug_log = "STATE FAITH!!!"
+# 		debug_log_scopes = yes
+
+# 		hidden_effect = {
+# 			faith = { save_scope_as = old_faith }
+# 			top_liege.faith = { save_scope_as = new_faith }
+# 			create_character_memory = { type = adopted_state_faith_memory }
+# 			scope:new_memory = {
+# 				set_variable = {
+# 					name = old_faith
+# 					value = scope:old_faith
+# 				}
+# 				set_variable = {
+# 					name = new_faith
+# 					value = scope:new_faith
+# 				}
+# 				set_variable = {
+# 					name = title
+# 					value = root.top_liege.primary_title
+# 				}
+# 			}
+# 		}
+
+# 		set_character_faith = top_liege.primary_title.state_faith
+
+# 		if = {
+# 			limit = { NOT = { has_character_flag = adopted_state_faith } }
+# 			if = {
+# 				limit = { government_allows = administrative }
+# 				change_influence = monumental_influence_gain
+# 			}
+# 			add_piety = massive_piety_gain
+# 			top_liege = {
+# 				if = {
+# 					limit = { faith = primary_title.state_faith }
+# 					add_opinion = {
+# 						target = root
+# 						modifier = converted_to_state_faith_opinion
+# 						opinion = 30
+# 					}
+# 				}
+# 				every_vassal = {
+# 					custom = every_governor_of_state_faith
+# 					limit = {
+# 						faith = top_liege.primary_title.state_faith
+# 						this != root
+# 					}
+# 					add_opinion = {
+# 						target = root
+# 						modifier = converted_to_state_faith_opinion
+# 						opinion = 30
+# 					}
+# 				}
+# 			}
+# 			add_character_flag = adopted_state_faith
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		is_ruler = yes
+# 		exists = top_liege.primary_title.state_faith
+# 		faith != top_liege.primary_title.state_faith
+# 		NOT = { has_trait = zealous } # A zealous vassal would presumably not want to change their faith
+# 	}
+
+# 	ai_will_do = {
+# 		base = 30
+# 		modifier = {
+# 			is_governor = yes
+# 			add = 40
+# 		}
+		
+# 		# Personality
+# 		modifier = {
+# 			is_governor = yes
+# 			has_trait = ambitious
+# 			add = 20
+# 		}
+# 		modifier = {
+# 			has_trait = fickle
+# 			add = 30
+# 		}
+# 		modifier = {
+# 			has_trait = arbitrary
+# 			add = 10
+# 		}
+# 		modifier = {
+# 			has_trait = ambitious
+# 			add = -15
+# 		}
+# 		modifier = {
+# 			has_trait = arrogant
+# 			add = -15
+# 		}
+# 		modifier = {
+# 			has_trait = content
+# 			add = -20
+# 		}
+# 		modifier = {
+# 			has_trait = cynical
+# 			add = -30
+# 		}
+# 		modifier = {
+# 			has_trait = stubborn
+# 			add = -50
+# 		}
+		
+# 		# Faith
+# 		modifier = { # More likely to switch away from an unreformed faith
+# 			faith ?= { has_doctrine_parameter = unreformed }
+# 			add = 20
+# 		}
+# 		modifier = { # Communal Identity make it more likely to adopt faith if they share same culture with the top liege
+# 			faith ?= { has_doctrine_parameter = same_culture_conversion_bonus_active }
+# 			culture ?= top_liege.culture
+# 			add = 10
+# 		}
+# 		modifier = { # Some faith are more likely to be abandoned
+# 			faith ?= { has_doctrine_parameter = unattractive_for_character_conversions }
+# 			add = 10
+# 		}
+		
+# 		# Other
+# 		modifier = {
+# 			has_vassal_stance = zealot
+# 			factor = 0.3
+# 		}
+# 	}
+# }
+
+strengthen_bloodline_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+	desc = strengthen_bloodline_decision_desc
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_lowborn = no
+		NOT = {
+			dynasty = {
+			 	has_dynasty_modifier = strong_blood
+			}
+		}
+		OR = {
+			has_trait = intellect_good
+			has_trait = beauty_good
+			has_trait = physique_good
+            has_trait = beauty_good_exotic
+            has_trait = beauty_good_unconventional
+			any_child = {
+				dynasty = root.dynasty
+				OR = {
+					has_trait = intellect_good
+					has_trait = beauty_good
+					has_trait = physique_good
+                    has_trait = beauty_good_exotic
+                    has_trait = beauty_good_unconventional
+				}
+			}
+			AND = {
+				exists = player_heir
+				player_heir = {
+					OR = {
+						has_trait = intellect_good
+						has_trait = beauty_good
+						has_trait = physique_good
+                        has_trait = beauty_good_exotic
+                        has_trait = beauty_good_unconventional
+					}
+				}
+			}
+		}
+		is_landless_adventurer = no
+	}
+
+	is_valid = {
+		is_dynast = yes
+		has_trait = intellect_good
+		has_trait = physique_good
+		OR = {
+			has_trait = beauty_good
+			has_trait = beauty_good_exotic
+			has_trait = beauty_good_unconventional
+		}
+		OR = {
+			has_trait = intellect_good_3
+			has_trait = beauty_good_3
+			has_trait = physique_good_3
+            has_trait = exotic_beauty_good_3
+            has_trait = unconventional_beauty_good_3
+            has_trait = intellect_good_4
+			has_trait = beauty_good_4
+			has_trait = physique_good_4
+		}
+		num_of_bad_genetic_traits = 0
+	}
+
+	effect = {
+		gain_legitimizing_legend_seed_tooltip_effect = yes
+		show_as_tooltip = {
+			strengthen_bloodline_decision_effects = yes
+		}
+
+		trigger_event = major_decisions.0500
+
+		every_player = {
+			limit = {
+				NOT = {
+					this = root
+				}
+				dynasty = root.dynasty
+			}
+			send_interface_toast = {
+				type = event_toast_effect_good
+				title = strengthen_bloodline_decision
+				show_as_tooltip = {
+					strengthen_bloodline_decision_effects = yes
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}	

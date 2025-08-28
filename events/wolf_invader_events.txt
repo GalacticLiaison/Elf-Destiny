@@ -1,0 +1,2213 @@
+﻿namespace = wolf_invader 
+
+wolf_invader.001 = { #Strange Reports
+    type = character_event
+    title = wolf_invader.001.title
+    desc = wolf_invader.001.desc
+    theme = restored_portal
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "strange reports event 0001"
+        # save_scope_as = elflord
+        add_character_flag = elflord_dealing_with_direwolf
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_rational
+    } 
+
+    option = {
+        name = wolf_invader.001.a
+        trigger_event = { 
+            id = wolf_invader.002
+            days = 20
+        }
+    }
+}
+
+wolf_invader.002 = { #Sighting of wolf in county
+    type = character_event
+    title = wolf_invader.002.title
+    desc = wolf_invader.002.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = { reference = council_chamber }
+    immediate = {
+        debug_log = "sighting of the wolf event 0002"
+        random_councillor = { 
+            save_scope_as = random_councillor
+        }
+    }
+
+    right_portrait = {
+        character = root
+        animation = interested
+    }
+    
+    lower_left_portrait = {
+        character = scope:random_councillor
+        animation = interested
+    }
+
+    left_portrait = {
+        character = cp:aeluran_advisor
+        animation = interested
+    }
+    
+    option = {
+        name = wolf_invader.002.a
+        trigger_event = {
+            id = wolf_invader.003
+            days = 25
+        }
+    }    
+}
+
+wolf_invader.003 = { #negative economic penalties
+    type = character_event
+    title = wolf_invader.003.title
+    desc = wolf_invader.003.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = { reference = council_chamber }
+
+    immediate = {
+        debug_log = "negative economic penalties"
+
+        random_knight = {
+            limit = { 
+                NOT = { 
+                    scope:wolfslayer = { 
+                        is_alive = yes
+                    }
+                }   
+                prowess >= 12
+                is_adult = yes
+            }
+            save_scope_as = wolfslayer
+        }
+
+        increase_wolf_terror_in_capital_effect = yes
+    }
+
+    right_portrait = {
+        character = root
+        animation = worry
+    }
+
+    lower_left_portrait = {
+        character = scope:random_councillor
+        animation = interested
+    }
+
+    left_portrait = {
+        character = cp:aeluran_advisor
+        animation = interested
+    }
+
+
+    option = { #going on a hunt
+        name = wolf_invader.003.b
+        is_shown = { 
+            is_adult = yes
+        }
+        trigger_event = {
+            id = wolf_invader.005
+            days = 15
+        }
+        stress_impact = { 
+            craven = 150
+            lifestyle_hunter = -50
+            brave = -50
+        }
+    }
+
+    option = { #paying mercenaries to deal with the wolf
+        name = wolf_invader.003.c
+        trigger_event = { 
+            id = wolf_invader.0031
+            days = 30
+        }
+    }
+
+    option = { #ignoring the wolf
+        name = wolf_invader.003.a
+
+        stress_impact = {
+            base = -5
+            brave = 20
+            shy = -10
+            craven = -30
+        }
+
+        trigger_event = {
+            id = wolf_invader.004
+            months = { 6 18 }
+        }
+    }
+
+}
+
+wolf_invader.0031 = { #choosing which mercenaries to hire
+    type = character_event
+    title = wolf_invader.0031.title
+    desc = wolf_invader.0031.desc
+    theme = martial
+    content_source = elf_destiny
+    
+    override_background = {
+        reference = courtyard
+    }
+
+    immediate = {
+        debug_log = "choosing which mercenaries to hire to kill the direwolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = steward
+    }
+
+    option = {
+        name = wolf_invader.0031.a
+        remove_short_term_gold = minor_gold_value
+        random_list = {
+            25 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.0032
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
+                }
+            }
+            75 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.0033
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
+            }
+        }
+        stress_impact = { 
+            greedy = 25
+        }
+    }
+
+    option = {
+        name = wolf_invader.0031.b
+        remove_short_term_gold = medium_gold_value
+        random_list = {
+            50 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.0032
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
+                }
+            }
+            50 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.0033
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
+            }
+        }
+        stress_impact = { 
+            greedy = 50
+        }
+    }
+
+    option = {
+        name = wolf_invader.0031.c
+        remove_short_term_gold = major_gold_value
+        random_list = {
+            75 = { #mercs succeeded
+                trigger_event = { 
+                    id = wolf_invader.0032
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_succeed
+                }
+            }
+            25 = { #mercs got killed
+                trigger_event = { 
+                    id = wolf_invader.0033
+                    months = { 2 4 }
+                }
+                custom_tooltip = { 
+                    text = mercs_fail
+                }
+            }
+        }
+        stress_impact = { 
+            greedy = 75
+        }
+    }
+}
+
+
+wolf_invader.0032 = { #mercs succeeded in killing the direwolf
+    type = character_event
+    title = wolf_invader.0032.title
+    desc = wolf_invader.0032.desc
+    theme = feast_activity
+    content_source = elf_destiny
+    # override_background = { reference = feast_hall }
+
+    immediate = {
+        debug_log = "hired mercs have killed the direwolf"
+        remove_wolf_terror_in_capital_effect = yes
+    }
+
+    left_portrait = {
+        character = root
+        animation = toast_goblet
+    }
+
+    option = {
+        name = wolf_invader.0032.a
+        stress_impact = { 
+            base = -100
+            lifestyle_hunter = -100
+            gregarious = -35
+            shy = 50
+            drunkard = -35
+        }
+    }
+}
+
+
+wolf_invader.0033 = { #hired mercs got killed by direwolf
+    type = character_event
+    title = wolf_invader.0033.title
+    desc = wolf_invader.0033.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = {
+        reference = throne_room
+    }
+
+    immediate = {
+        debug_log = "hired mercs failed and got killed by direwolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = anger
+    }
+
+    option = {
+        name = wolf_invader.0033.a
+        trigger_event = { 
+            id = wolf_invader.003
+            days = 40
+        }
+    }
+
+}
+
+
+wolf_invader.004 = { #some random bloke kills le wolf
+    type = character_event
+    title = wolf_invader.004.title
+    desc = wolf_invader.004.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = {
+        reference = throne_room
+    }
+    
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+    right_portrait = {
+        character = scope:wolfslayer
+        animation = personality_bold
+    }
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_left_portrait
+	}
+
+    immediate = {
+        debug_log = "some random fellow just killed the fake wolf"
+        scope:wolfslayer = {
+            if = {
+                limit = {
+                    is_alive = no
+                }
+                random_knight = {
+                    limit = { 
+                        is_courtier_of = root
+                        prowess >= 12
+                        is_adult = yes
+                    }
+                    save_scope_as = wolfslayer
+                }
+            }
+        }
+
+        create_artifact_wall_skull_effect = {
+            OWNER = root
+            HUNTER = scope:wolfslayer
+            LEGENDARY = no
+            ANIMAL = flag:wolf
+        }
+
+        scope:newly_created_artifact = {
+            set_artifact_description = fake_direwolf_head_desc
+            set_artifact_name = fake_direwolf_head_name
+        }
+
+        remove_wolf_terror_in_capital_effect = yes
+    }
+
+    option = {
+        name = wolf_invader.004.a
+        trigger_event = {
+            id = wolf_invader.0041
+            months = { 2 4 }
+        }
+    }
+}
+
+wolf_invader.0041 = { #wolf is back after being 'slain'
+    type = character_event
+    title = wolf_invader.0041.title
+    desc = wolf_invader.0041.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = {
+        reference = throne_room
+    }
+    
+    left_portrait = {
+        character = root
+        animation = anger
+    }
+
+    immediate = {
+        debug_log = "wolf has returned after being 'dead' "
+
+        increase_wolf_terror_in_capital_effect = yes
+
+        stress_impact = { 
+            base = 20
+        }
+    }
+
+    option = { #going on a hunt
+        name = wolf_invader.0041.a
+        is_shown = { 
+            is_adult = yes
+        }
+        trigger_event = {
+            id = wolf_invader.005
+            days = 15
+        }
+        stress_impact = { 
+            craven = 150
+            lifestyle_hunter = -50
+            brave = -50
+        }
+    }
+
+    option = { #paying mercenaries to deal with the wolf
+        name = wolf_invader.0041.b
+        trigger_event = { 
+            id = wolf_invader.0031
+            days = 30
+        }
+    }
+}
+
+wolf_invader.005 = { #hunt underway
+    type = character_event
+    title = wolf_invader.005.title
+    desc = wolf_invader.005.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player is going on a hunt"
+        random_knight = {
+            limit = {
+                prowess >= 12
+            }
+            save_scope_as = hunter_1
+        }
+        random_knight = {
+            limit = {
+                NOT = { 
+                    this = scope:hunter_1
+                }
+            }
+            save_scope_as = hunter_2
+        }
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_knife_start
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_sword
+    }
+    
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = aggressive_spear
+    }
+
+    option = {
+        name = wolf_invader.005.a
+        trigger_event = {
+            id = wolf_invader.006
+            days = { 45 85 }
+        }
+    }
+}
+
+wolf_invader.006 = { #wolf encounter
+    type = character_event
+    title = wolf_invader.006.title
+    desc = wolf_invader.006.desc
+    theme = wolf_encounter
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player encounters the wolf"
+    }
+
+    right_portrait = {
+        character = root
+        animation = hunting_longbow_aim_arrow_default
+        camera = face_away_right_portrait
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_sword
+    }
+    
+    lower_center_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = aggressive_sword
+    }
+    
+    # override_effect_2d = {
+	# 	reference = fog
+	# }
+
+    # left_portrait = { 
+    #     trigger = {
+    #         exists = scope:hunter_1
+    #     }
+    #     character = scope:hunter_1
+    #     animation = aggressive_spear
+    #     # camera = face_away_left_portrait
+    # }
+
+    option = { 
+        name = wolf_invader.006.a
+        random_list = {
+            50 = { # wolf is engaged
+                trigger_event = {
+                    id = wolf_invader.007
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = lifestyle_hunter
+                }
+                modifier = {
+                    factor = 1.5
+                    has_trait = intellect_good_1
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = intellect_good_2
+                }
+                modifier = {
+                    factor = 2.5
+                    has_trait = intellect_good_3
+                }
+
+                modifier = {
+                    factor = 3
+                    has_trait = intellect_good_4
+                }
+                custom_tooltip = { 
+                    text = wolf_engaged
+                }
+            }
+            
+
+            50 = { #wolf evasion
+                trigger_event = {
+                    id = wolf_invader.0061
+                }
+                custom_tooltip = { 
+                    text = wolf_evades
+                }  
+                stress_impact = { 
+                    base = 10
+                }
+            }
+                
+        }
+    }
+}
+
+wolf_invader.0061 = { #the wolf evades the hunter
+    type = character_event
+    title = wolf_invader.0061.title
+    desc = wolf_invader.0061.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf evades the hunter"
+        add_prestige = -100
+        increase_hunter_weariness_effect = yes
+    }
+
+    left_portrait = {
+        character = root
+        animation = anger
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = sadness
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = personality_callous
+    }
+    
+    option = {
+        name = wolf_invader.0061.a
+        trigger_event = {
+            id = wolf_invader.0062
+            days = { 30 90 }
+        }
+    }
+}
+
+wolf_invader.0062 = { #wolf causes even more destruction
+    type = character_event
+    title = wolf_invader.0062.title
+    desc = wolf_invader.0062.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf causes even more destruction"
+        increase_wolf_terror_in_capital_effect = yes
+    }
+
+    left_portrait = {
+        character = root
+        animation = rage
+    }
+
+    option = { # going on a hunt ( again )
+        name = wolf_invader.0062.a
+        trigger_event = {
+            id = wolf_invader.005
+        }
+    }
+    option = { #paying someone else 
+        name = wolf_invader.0062.b
+        trigger_event = {
+            id = wolf_invader.0031
+        }
+    }
+}
+
+wolf_invader.007 = { #wolf is intercepted and engaged by hunting party
+    type = character_event
+    title = wolf_invader.007.title
+    desc = wolf_invader.007.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf is intercepted and engaged by hunting party"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_longbow_aim_arrow_default
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_sword
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = aggressive_spear
+    }
+
+    option = { # letting the wolf escape
+        name = wolf_invader.007.a
+		trigger = { has_trait = warg }
+		trait = warg
+
+        trigger_event = {
+            id = wolf_invader.0071
+        }
+
+        stress_impact = { 
+            warg = -25
+            forgiving = -20
+            vengeful = 50
+        }
+    }
+
+    option = { # fighting the wolf with the party
+        name = wolf_invader.007.b
+        # custom_tooltip = { 
+        #     text = better_odds_to_succeed
+        # }
+        trigger_event = {
+            id = wolf_invader.99
+        }
+    }
+
+    option = { # fighting the wolf alone
+        name = wolf_invader.007.c
+        # custom_tooltip = { 
+        #     text = better_rewards
+        # }
+        trigger_event = {
+            id = wolf_invader.98
+        }
+        stress_impact = { 
+            brave = -25
+            craven = 50
+        }
+    }    
+}
+
+wolf_invader.0071 = { #Wolf let go
+    type = character_event
+    title = wolf_invader.0071.title
+    desc = wolf_invader.0071.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = {
+        if = {
+            limit = { exists = scope:hunter_1}
+            scope:hunter_1 = {
+                add_opinion = {
+                    target = root
+                    modifier = let_direwolf_go
+                }
+            }
+        }
+        if = {
+            limit = { exists = scope:hunter_2}
+            scope:hunter_2 = {
+                add_opinion = {
+                    target = root
+                    modifier = let_direwolf_go
+                }
+            }
+        }
+    }
+
+    left_portrait = {
+        character = root
+        animation = personality_bold
+        camera = face_away_right_portrait
+    }
+
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_spear
+        camera = face_away_right_portrait
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+    }
+    
+    option = { # letting the wolf escape
+        name = wolf_invader.0071.a
+		trigger = { has_trait = warg }
+		trait = warg
+
+        trigger_event = {
+            id = wolf_invader.008
+            days = { 40 80 }
+        }
+    }   
+}
+
+wolf_invader.008 = { # wolf is encountered peacefully by player
+    type = character_event
+    title = wolf_invader.008.title
+    desc = wolf_invader.008.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf is encountered peacefully by player"
+        remove_wolf_terror_in_capital_effect = yes     
+    }
+
+    left_portrait = {
+        character = root
+        animation = stayback
+    }
+
+    option = {
+        name = wolf_invader.008.a
+        trigger_event = wolf_invader.0081
+        # if = {
+        #     limit = { 
+        #         has_trait = warg
+        #     }
+        #     trigger_event = wolf_invader.0081
+        # }
+        # else = {
+        #     trigger_event = wolf_invader.0082
+        # }
+    }
+}
+
+wolf_invader.0081 = { # player is a warg and tames the mother
+    type = character_event
+    title = wolf_invader.0081.title
+    desc = wolf_invader.0081.desc
+    theme = wolf_pups
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player is a warg and tames the mother"
+        capital_county = {
+            add_county_modifier = direwolf_population_modifier
+        }
+    }
+
+    # left_portrait = {
+    #     character = root
+    #     animation = happiness
+    # }
+
+    option = {
+        name = wolf_invader.0081.a
+
+        add_character_modifier = {
+            modifier = fierce_direwolf_pet_modifier
+        }
+
+        trigger_event = { 
+            id = wolf_invader.0084
+            years = 5
+        } 
+    }
+}
+
+wolf_invader.98 = { # player fights the wolf alone
+    type = character_event
+    title = wolf_invader.98.title
+    desc = wolf_invader.98.desc
+    theme = wolf_encounter
+    content_source = elf_destiny
+
+    immediate = { 
+        debug_log = "player fights the wolf alone"
+    }
+    right_portrait = {
+        character = root
+        animation = aggressive_sword
+        camera = face_away_right_portrait
+    }
+    # left_portrait = {
+    #     character = root
+    #     animation = personality_bold
+    # }
+
+    option = { 
+        name = wolf_invader.98.a
+
+        random_list = {
+            65 = { #wolf dies to player
+                modifier = {
+                    factor = 2
+                    has_trait = lifestyle_hunter
+                }
+                modifier = {
+                    add = 15
+                    has_trait = physique_good_1
+                }
+                modifier = {
+                    add = 25
+                    has_trait = physique_good_2
+                }
+                modifier = {
+                    add = 30
+                    has_trait = physique_good_3
+                }
+
+                modifier = {
+                    add = 35
+                    has_trait = physique_good_4
+                }
+
+                modifier = {
+                    factor = 1.5
+                    has_trait = strong
+                }
+
+                trigger_event = { 
+                    id = wolf_invader.102
+                }
+                custom_tooltip = { 
+                    text = direwolf_dies_to_hunting_party
+                }
+            }
+            20 = {#wolf injures player
+                trigger_event = { 
+                    id = wolf_invader.202
+                }
+                custom_tooltip = { 
+                    text = direwolf_wounds_hunting_party
+                }    
+            }
+            15 = {#wolf whacks player 
+                modifier = {
+                    add = 20
+                    has_trait = physique_bad_1
+                }
+                modifier = {
+                    add = 40
+                    has_trait = physique_bad_2
+                }
+                modifier = {
+                    add = 60
+                    has_trait = physique_bad_3
+                }
+                trigger_event = { 
+                    id = wolf_invader.200
+                }
+                custom_tooltip = { 
+                    text = direwolf_kills_hunting_party
+                }    
+            }
+        }
+    }
+
+    option = { 
+        name = wolf_invader.98.b
+
+        trait = compassionate
+        trigger = {
+            has_trait = compassionate
+            is_any_elf_type = yes
+            NOT = {
+                has_trait = warg
+            }
+        }
+
+        trigger_event = wolf_invader.203
+    }
+
+    option = { 
+        name = wolf_invader.98.c
+
+        trait = warg
+        trigger = {
+            has_trait = warg
+        }
+
+        random_list = {
+            50 = {
+                custom_tooltip = {
+                     text = succeed_in_taming_direwolf
+                     set_variable = {
+                         name = tamed_direwolf
+                         value = yes
+                     }
+                }
+                trigger_event = wolf_invader.204
+            }
+            50 = {
+                custom_tooltip = {
+                     text = fail_in_taming_direwolf
+                     set_variable = {
+                         name = tamed_direwolf
+                         value = no
+                     }
+                }
+                trigger_event = wolf_invader.204
+            }
+        }
+
+    }
+
+}
+
+wolf_invader.99 = { # hunting party is engaging the wolf
+    type = character_event
+    title = wolf_invader.99.title
+    desc = wolf_invader.99.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = { 
+        debug_log = "hunting party is engaging the wolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = hunting_longbow_aim_arrow_default
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = aggressive_sword
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = aggressive_spear
+        
+    }
+    option = { 
+        name = wolf_invader.99.a
+
+        random_list = {
+            65 = {#wolf dies to hunting party
+                trigger_event = {
+                    id = wolf_invader.100
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = lifestyle_hunter
+                }
+                modifier = {
+                    factor = 1.5
+                    has_trait = physique_good_1
+                }
+                modifier = {
+                    factor = 2
+                    has_trait = physique_good_2
+                }
+                modifier = {
+                    factor = 2.5
+                    has_trait = physique_good_3
+                }
+
+                modifier = {
+                    factor = 3
+                    has_trait = physique_good_4
+                }
+                custom_tooltip = { 
+                    text = direwolf_dies_to_hunting_party
+                }
+            }
+
+            35 = {#wolf whacks player 
+                trigger_event = {
+                    id = wolf_invader.200
+                }
+                modifier = {
+                    add = -20
+                    has_trait = physique_bad_1
+                }
+                modifier = {
+                    add = -40
+                    has_trait = physique_bad_2
+                }
+                modifier = {
+                    add = -60
+                    has_trait = physique_bad_3
+                }
+                custom_tooltip = { 
+                    text = direwolf_kills_hunting_party
+                }
+            }
+        }
+    }
+}
+
+wolf_invader.100 = { # wolf is killed by party
+    type = character_event
+    title = wolf_invader.100.title
+    desc = wolf_invader.100.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf is killed by party"
+        remove_wolf_terror_in_capital_effect = yes
+                
+        if = { 
+            limit = {
+                exists = scope:hunter_1
+            }
+            random_list = {
+                15 = { 
+                    scope:hunter_1 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                20 = { 
+                    scope:hunter_1 = {
+                        increase_wounds_effect = { REASON = killed_direwolf }
+                    }
+                }
+                65 = { 
+                    # gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+        
+        if = { 
+            limit = {
+                exists = scope:hunter_2
+            }   
+            random_list = {
+                15 = { 
+                    scope:hunter_2 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                20 = { 
+                    scope:hunter_2 = {
+                        increase_wounds_effect = { REASON = killed_by_direwolf }
+                    }
+                }
+                65 = { 
+                    # gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+    }
+
+    left_portrait = { 
+        character = root
+        animation = celebrate_sword
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = celebrate_spear
+    }
+
+    option = {
+        name = wolf_invader.100.a
+        trigger_event = {
+            id = wolf_invader.101
+        }
+        stress_impact = { 
+            base = -50
+        }
+    }
+}
+
+wolf_invader.101 = { # reward for killing wolf with party
+    type = character_event
+    title = wolf_invader.101.title
+    desc = wolf_invader.101.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "reward for killing wolf with party"
+        create_direwolf_head_effect = { 
+            OWNER = root
+        }
+    }
+
+    left_portrait = { 
+        character = root
+        animation = personality_content
+    }
+
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = celebrate_spear
+    }
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_right_portrait
+	}
+
+    option = {
+        name = wolf_invader.101.a
+        add_prestige = 1500
+        add_character_modifier = { 
+            modifier = direwolf_slayer_modifier
+            years = 15
+        }
+        give_nickname = nick_wolfslayer
+        if = { 
+            limit = {
+                exists = scope:hunter_1
+            }
+            scope:hunter_1 = {
+                add_prestige = 1000
+                add_character_modifier = { 
+                    modifier = direwolf_slayer_modifier
+                    years = 15
+                }
+                give_nickname = nick_wolfslayer
+            }
+        }
+        if = { 
+            limit = {
+                exists = scope:hunter_2
+            }
+            scope:hunter_2 = {
+                add_prestige = 1000
+                add_character_modifier = { 
+                    modifier = direwolf_slayer_modifier
+                    years = 15
+                } 
+                give_nickname = nick_wolfslayer
+            }
+        }
+
+        trigger_event = { 
+            id = wolf_invader.104
+            days = 3
+        }
+        
+    }
+}
+
+wolf_invader.102 = { # wolf is killed by player alone
+    type = character_event
+    title = wolf_invader.102.title
+    desc = wolf_invader.102.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf is killed by player alone"
+        remove_wolf_terror_in_capital_effect = yes
+        give_nickname = nick_wolfslayer
+    }    
+    left_portrait = { 
+        character = root
+        animation = celebrate_sword
+    }
+
+
+    option = {
+        name = wolf_invader.102.a
+        trigger_event = { 
+            id = wolf_invader.103
+        }
+    }
+}
+
+wolf_invader.103 = { # reward for killing wolf alone
+    type = character_event
+    title = wolf_invader.103.title
+    desc = wolf_invader.103.desc
+    theme = wolf_encounter_empty
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "reward for killing wolf alone"
+        create_direwolf_rug_effect = { 
+            OWNER = root
+        }
+        remove_hunter_weariness_effect = yes
+    }
+    
+    left_portrait = { 
+        character = root
+        animation = happiness
+    }
+
+    right_portrait = {
+        character = scope:hunter_1
+        animation = throne_room_cheer_2
+    }
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_right_portrait
+	}
+
+    option = {
+        name = wolf_invader.103.a
+        add_prestige = 3000
+        dynasty = {
+            add_dynasty_prestige = 1000
+        }
+        add_character_modifier = { 
+            modifier = direwolf_slayer_modifier
+            years = 15
+        }
+
+        trigger_event = { 
+            id = wolf_invader.104
+        }
+    }
+    
+}
+
+wolf_invader.104 = { # finding the wolf den
+    type = character_event
+    title = wolf_invader.104.title
+    desc = wolf_invader.104.desc
+    theme = wolf_pups
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "finding the wolf den"
+
+        save_scope_value_as = { name = wolf_pup_quantity value = flag:single }
+    }
+
+    # left_portrait = { 
+    #     character = root
+    #     animation = interested
+    # }
+
+    option = {# whack the pup
+        name = wolf_invader.104.a
+        trigger_event = { 
+            id = wolf_invader.105
+        }
+    }
+    option = {# taming the pup
+        name = wolf_invader.104.b
+        trigger_event = { 
+            id = wolf_invader.106
+        }
+    }
+}
+
+wolf_invader.105 = { # rewards for whacking the pup
+    type = character_event
+    title = wolf_invader.105.title
+    desc = wolf_invader.105.desc
+    theme = diplomacy
+    content_source = elf_destiny
+
+    override_background = { reference = throne_room }
+
+    immediate = {
+        debug_log = "player rewarded for whacking pup"
+        capital_county = {
+            add_county_modifier = { 
+                modifier = direwolf_free_modifier
+                years = 5
+            }    
+        }
+    }
+
+    left_portrait = { 
+        character = root
+        animation = interested
+    }
+
+    option = {
+        name = wolf_invader.105.a
+    }
+}
+
+wolf_invader.106 = { # rewards for taking the pup
+    type = character_event
+    title = wolf_invader.106.title
+    desc = wolf_invader.106.desc
+    theme = martial
+    content_source = elf_destiny
+
+    override_background = { reference = throne_room }
+
+    immediate = {
+        capital_county = {
+            add_county_modifier = { 
+                modifier = took_pup_modifier
+                years = 5
+            }    
+        }
+        add_character_modifier = direwolf_pup_pet_modifier
+    }
+
+    left_portrait = { 
+        character = root
+        animation = interested
+    }
+
+    option = {
+        name = wolf_invader.106.a
+        add_prestige = -500
+        trigger_event = { # event for the pup growing into a full direwolf
+            id = wolf_invader.0083
+            years = { 4 5 }
+        }
+    }
+}
+
+wolf_invader.200 = { # player dies to wolf
+    type = character_event
+    title = wolf_invader.200.title
+    desc = wolf_invader.200.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player dies to wolf"
+        if = { 
+            limit = {
+                exists = scope:hunter_1
+            }
+            random_list = {
+                33 = { 
+                    scope:hunter_1 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                33 = { 
+                    scope:hunter_1 = {
+                        increase_wounds_effect = { REASON = killed_direwolf }
+                    }
+                }
+                33 = { 
+                    # gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+        if = { 
+            limit = {
+                exists = scope:hunter_2
+            }   
+            random_list = {
+                33 = { 
+                    scope:hunter_2 = {
+                        death = {
+                            death_reason = killed_by_direwolf
+                        } 
+                    }
+                }
+                33 = { 
+                    scope:hunter_2 = {
+                        increase_wounds_effect = { REASON = killed_by_direwolf }
+                    }
+                }
+                33 = { 
+                    # gets off scot free
+                    modifier = {
+                        has_trait = physique_good_1
+                        factor = 1.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_2
+                        factor = 2
+                    }
+                    modifier = {
+                        has_trait = physique_good_3
+                        factor = 2.5
+                    }
+                    modifier = {
+                        has_trait = physique_good_4
+                        factor = 3
+                    }
+                    modifier = {
+                        has_trait = strong
+                        factor = 1.8
+                    }
+                }
+            }
+        }
+    }
+
+    left_portrait = { 
+        character = root
+        animation = stayback
+    }
+    lower_left_portrait = { 
+        trigger = {
+            exists = scope:hunter_1
+        }
+        character = scope:hunter_1
+        animation = fear
+    }
+    
+    right_portrait = { 
+        trigger = {
+            exists = scope:hunter_2
+        }
+        character = scope:hunter_2
+        animation = fear
+    }
+
+    option = { 
+        name = wolf_invader.200.a
+        death = {
+            death_reason = killed_by_direwolf
+        }   
+    }
+}
+
+wolf_invader.202 = { # player maimed by wolf
+    type = character_event
+    title = wolf_invader.202.title
+    desc = wolf_invader.202.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player dies to wolf"
+
+        increase_wounds_effect = { REASON = wolf }
+        apply_maimed_trait_and_modifier_effect = yes
+    }
+
+    left_portrait = { 
+        character = root
+        animation = stress
+    }
+
+    option = { 
+        name = wolf_invader.202.a
+    }
+}
+
+wolf_invader.203 = { # compassionate trait => becomes warg
+    type = character_event
+    title = wolf_invader.203.title
+    desc = wolf_invader.203.desc
+
+    theme = warg_lifestyle
+    override_background = {
+        reference = wilderness_forest_pine
+    }
+
+    content_source = elf_destiny
+
+    immediate = {
+        upgrade_magic_talent_level = yes
+        add_trait = warg
+    }
+
+    left_portrait = { 
+        character = root
+        animation = stayback
+    }
+
+    option = { 
+        name = wolf_invader.203.a
+        trait = compassionate
+        add_character_modifier = {
+            modifier = fierce_direwolf_pet_modifier
+        }
+    }
+}
+
+wolf_invader.204 = { # Warg pass/fail to tame wolf
+    type = character_event
+    title = {
+        first_valid = {
+            triggered_desc = {
+                trigger = {
+                    has_variable = tamed_direwolf
+                    var:tamed_direwolf = yes
+                }
+                desc =  wolf_invader.204.title.success
+            }
+            desc =  wolf_invader.204.title.fail
+        }
+    }
+    desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = {
+                    has_variable = tamed_direwolf
+                    var:tamed_direwolf = yes
+                }
+                desc =  wolf_invader.204.desc.success
+            }
+            desc =  wolf_invader.204.desc.fail
+        }
+    }
+    
+    theme = warg_lifestyle
+    override_background = {
+        reference = wilderness_forest_pine
+    }
+
+	override_effect_2d = {
+		trigger = {
+            has_variable = tamed_direwolf
+            var:tamed_direwolf = no
+		}
+		reference = rain
+	}
+
+    content_source = elf_destiny
+
+    immediate = {
+        if = {
+            limit = {
+                has_variable = tamed_direwolf
+                var:tamed_direwolf = yes
+            }
+            add_character_modifier = {
+                modifier = fierce_direwolf_pet_modifier
+            }
+        }
+        else = {
+            add_character_modifier = {
+                modifier = warg_bond_backlash
+                years = 2
+            }
+        }
+    }
+
+    left_portrait = { 
+        character = root
+        animation = personality_zealous
+    }
+
+    option = { 
+        name = wolf_invader.204.a
+        trigger = {
+            has_variable = tamed_direwolf
+            var:tamed_direwolf = yes
+        }
+    }
+
+    option = { 
+        name = wolf_invader.204.b
+        trigger = {
+            OR = {
+                AND = {
+                    has_variable = tamed_direwolf
+                    var:tamed_direwolf = no
+                }
+                NOT = {
+                    has_variable = tamed_direwolf
+                }
+            }
+        }
+    }
+}
+
+
+wolf_invader.2001 = { # ensuring the event continues and doesnt break
+    type = character_event
+    hidden = yes
+
+    immediate = {
+        add_character_flag = direwolf_event_heir_continuation
+        debug_log = "in wolf_invader.2001"
+        debug_log_scopes = yes
+
+        if = { 
+            limit = {
+                root = {
+                    age > 20
+                }
+            }
+            debug_log = "in wolf_invader.2001 YEEE"
+
+            trigger_event = { 
+                id = wolf_invader.201
+                years = { 3 11 }
+            }
+        }
+        else = { 
+            debug_log = "in wolf_invader.2001 NAH"
+
+            trigger_event = { 
+                id = wolf_invader.2001
+                years = 1
+            }
+        }
+    }
+}
+
+wolf_invader.201 = { # player is ambushed by wolf
+    type = character_event
+    title = wolf_invader.201.title
+    desc = wolf_invader.201.desc
+    theme = hunt_activity
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "player is ambushed by wolf"
+        # save_scope_as = scope:elflord
+    }
+
+    left_portrait = { 
+        character = root
+        animation = stayback
+    }
+
+    option = { 
+        name = wolf_invader.201.a
+        trigger_event = { 
+            id = wolf_invader.98
+        }
+    }
+}
+
+
+wolf_invader.555 = { # player takes decision to tame direwolf
+    type = character_event
+    title = wolf_invader.555.title
+    desc = wolf_invader.555.desc
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "decision to tame a wolf taken"
+    }
+
+    left_portrait = {
+        character = root
+        animation = survey_staff
+    }
+
+    option = {# confirming trying to tame a pup
+        name = wolf_invader.555.a
+        random_list = { 
+            40 = { # success in taming a pup
+                trigger_event = { 
+                    id = wolf_invader.5551
+                    days = 2
+                }  
+            
+                modifier = { 
+                    has_trait = warg
+                    factor = 7.5
+                }
+                modifier = { 
+                    has_trait = physique_good_1
+                    factor = 1.2
+                }
+                modifier = { 
+                    has_trait = physique_good_2
+                    factor = 1.6
+                }
+                modifier = { 
+                    has_trait = physique_good_3
+                    factor = 2
+                }
+                modifier = { 
+                    has_trait = physique_good_4
+                    factor = 3
+                }
+                modifier = { 
+                    has_trait = brave
+                    factor = 2
+                }
+
+                custom_tooltip = empty_effect
+                if = {
+                    limit = {
+                        has_trait = warg
+                    }
+                    custom_tooltip = warg_odds_bonus
+                }
+                if = {
+                    limit = {
+                        has_trait = physique_good_1
+                    }
+                    custom_tooltip = physique_good_1_odds_bonus
+                }
+                if = {
+                    limit = {
+                        has_trait = physique_good_2
+                    }
+                    custom_tooltip = physique_good_2_odds_bonus
+                }
+                if = {
+                    limit = {
+                        has_trait = physique_good_3
+                    }
+                    custom_tooltip = physique_good_3_odds_bonus
+                }
+                if = {
+                    limit = {
+                        has_trait = physique_good_4
+                    }
+                    custom_tooltip = physique_good_4_odds_bonus
+                }
+
+                if = {
+                    limit = {
+                        has_trait = brave
+                    }
+                    custom_tooltip = brave_odds_bonus
+                }
+
+
+                desc = pup_taming_success
+            }
+            40 = { #failure
+                trigger_event = { 
+                    id = wolf_invader.5552
+                    days = 2
+                }
+                custom_tooltip = empty_effect
+
+                desc = pup_taming_failure
+            }
+            
+            20 = { #death
+                trigger_event = { 
+                    id = wolf_invader.5553
+                    days = 2
+                }
+
+                desc = pup_taming_death
+                
+                modifier = { 
+                    has_trait = craven
+                    factor = 2
+                }
+                custom_tooltip = empty_effect
+                if = {
+                    limit = {
+                        has_trait = craven
+                    }
+                    custom_tooltip = craven_odds_bonus
+                }
+            }
+        }
+    }
+
+    option = { # backing out
+        name = wolf_invader.555.b
+        hidden_effect = {
+            remove_decision_cooldown = tame_direwolf_pup
+        }
+    }
+}
+
+wolf_invader.5551 = { # taming successful
+    type = character_event
+    title = wolf_invader.5551.title
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+	desc = {
+        first_valid = {
+            triggered_desc = {
+                trigger = {
+                    has_trait = warg
+                }
+                desc = wolf_invader.5551.desc.warg
+            }
+            desc = wolf_invader.5551.desc.standard
+        }
+	}
+
+    immediate = {
+        
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = { 
+        name = wolf_invader.5551.a
+        trait = warg
+        trigger_event = { 
+            id = wolf_invader.0083
+            years = 5
+        }
+        add_character_modifier = direwolf_pup_pet_modifier
+    }
+}
+
+
+wolf_invader.5552 = { # failing to tame a pup
+    type = character_event
+    title = wolf_invader.5552.title
+    desc = wolf_invader.5552.desc
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+    immediate = {
+
+    }
+
+    left_portrait = {
+        character = root
+        animation = fear
+    }
+
+    option = { 
+        name = wolf_invader.5552.a
+        random_list = { 
+            50 = { # nothing happens 
+                modifier = { 
+                    has_trait = warg
+                    factor = 5
+                }
+                modifier = { 
+                    has_trait = physique_good_1
+                    factor = 1.2
+                }
+                modifier = { 
+                    has_trait = physique_good_2
+                    factor = 1.6
+                }
+                modifier = { 
+                    has_trait = physique_good_3
+                    factor = 2
+                }
+                modifier = { 
+                    has_trait = physique_good_4
+                    factor = 3
+                }
+            }
+
+            50 = { 
+                increase_wounds_effect = { 
+                    REASON = wolf
+                }
+            }
+        }
+    }
+}
+
+wolf_invader.5553 = { # taming results in death
+    type = character_event
+    title = wolf_invader.5553.title
+    desc = wolf_invader.5553.desc
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+    immediate = {
+        
+    }
+
+    left_portrait = {
+        character = root
+        animation = fear
+    }
+
+    option = { 
+        name = wolf_invader.5553.a
+        death = { 
+            death_reason = killed_by_direwolf
+        }
+    }
+}
+
+wolf_invader.0083 = { # pup is grown into a full direwolf
+    type = character_event
+    title = wolf_invader.0083.title
+    desc = wolf_invader.0083.desc
+    theme = pet
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "wolf pup is grown into a full direwolf"
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.0083.a
+        remove_character_modifier = direwolf_pup_pet_modifier
+        add_character_modifier = grown_direwolf_pet_modifier
+        if = {
+            limit = {
+                has_trait = warg
+            }
+            trigger_event = { 
+                id = wolf_invader.0086
+                years = { 2 4 }
+            }
+        }
+        else = {
+            trigger_event = { 
+                id = wolf_invader.0085
+                years = { 15 20 }
+            }
+        }
+
+    }
+}
+
+wolf_invader.0084 = { # unlocks direwolf riders innovation
+    type = character_event
+    title = wolf_invader.0084.title
+    desc = wolf_invader.0084.desc
+    theme = direwolf_training
+    content_source = elf_destiny
+
+    immediate = {
+        debug_log = "dire wolf riders maa unlocked"
+        dynasty = {
+            add_dynasty_modifier = {
+                modifier = wolf_lords_dynasty_modifier
+            }
+        }
+        custom_tooltip = direwolf_riders_recruitable
+    }
+    left_portrait = { 
+        character = root
+        animation = hunting_horn
+    }
+
+    right_portrait = { 
+        character = cp:councillor_marshal
+        animation = personality_bold
+
+    }
+
+    option = {
+        name = wolf_invader.0084.a
+    }
+}
+
+wolf_invader.0085 = { #direwolf dies to age
+    type = character_event
+    title = wolf_invader.0085.title
+    desc = wolf_invader.0085.desc
+    theme = death
+    content_source = elf_destiny
+
+    override_background = { reference = garden }
+    immediate = {
+        debug_log = "grown direwolf dies due to age"
+    }
+
+    left_portrait = {
+        character = root
+        animation = crying
+    }
+
+    option = {
+        name = wolf_invader.0085.a
+        remove_character_modifier = grown_direwolf_pet_modifier
+        stress_impact = { 
+            base = 50
+        }
+    }
+}
+
+
+wolf_invader.0086 = { # Wolf desires to return to the wild
+    type = character_event
+    title = wolf_invader.0086.title
+    desc = wolf_invader.0086.desc
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+    immediate = {
+
+    }
+
+    left_portrait = {
+        character = root
+        animation = worry
+    }
+
+    option = {
+        name = wolf_invader.0086.a
+        trigger_event = { 
+            id = wolf_invader.0087
+            years = { 1 3 }
+        }
+        stress_impact = { 
+            base = 50
+        }
+        remove_character_modifier = grown_direwolf_pet_modifier
+    }
+    option = {
+        name = wolf_invader.0086.b
+
+        trigger_event = { 
+            id = wolf_invader.0085
+            years = { 13 17 }
+        }
+    }
+}
+
+wolf_invader.0087 = { #wolf returns with new family
+    type = character_event
+    title = wolf_invader.0087.title
+    desc = wolf_invader.0087.desc
+    theme = direwolf_grounds
+    content_source = elf_destiny
+
+    immediate = {
+        capital_county = {
+            add_county_modifier = direwolf_population_modifier
+        }
+    }
+
+    left_portrait = {
+        character = root
+        animation = happiness
+    }
+
+    option = {
+        name = wolf_invader.0087.a
+        stress_impact = { 
+            warg = -30
+        }
+        trigger_event = { 
+            id = wolf_invader.0084
+            years = 5
+        }
+    }
+}

@@ -1,7 +1,7 @@
 ﻿random_yearly_everyone_pulse = {
 	on_actions = {
 		elf_prego_pulse
-		entranced_resist_attempt_pulse
+		# entranced_resist_attempt_pulse
 	}
 }
 
@@ -101,6 +101,8 @@ elf_prego_pulse = {
 	}
 }
 
+
+
 entranced_resist_attempt_pulse = {
 	trigger = {
 		has_trait = entranced
@@ -186,11 +188,7 @@ entranced_resist_attempt_pulse = {
 					}
 
 					scope:entrancer = {
-						set_variable = {
-							name = struggling_pet
-							value = root
-						}
-						trigger_event = entrance.1150
+						trigger_event = entrance_scheme.1150
 					}
 				}
 				# else_if = { # Multiplayer - both roles are players
@@ -218,5 +216,65 @@ entranced_resist_attempt_pulse = {
 			}
 		}
 
+	}
+}
+
+
+random_yearly_playable_pulse = {
+	on_actions = {
+		set_ai_ruler_aeluran_authority_law_level
+	}
+}
+
+# This is a hold over solution to on occasion change up the level of aeluran control for AI characters
+# - they wont use the newly built UI yet
+set_ai_ruler_aeluran_authority_law_level = {
+	trigger = {
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		is_ai = yes
+		OR = {
+			has_realm_law = aeluran_realm_authority_0
+			has_realm_law = aeluran_realm_authority_1
+			has_realm_law = aeluran_realm_authority_2
+		}
+	}
+	effect = {
+		debug_log = "set_ai_ruler_aeluran_authority_law_level"
+		if = {
+			limit = {
+				has_realm_law = aeluran_realm_authority_0
+			}
+
+			random = {
+				chance = 5
+				add_realm_law = aeluran_realm_authority_1
+			}
+		}
+		else_if = {
+			limit = {
+				has_realm_law = aeluran_realm_authority_1
+			}
+
+			random = {
+				chance = 5
+				add_realm_law = aeluran_realm_authority_0
+			}
+			random = {
+				chance = 5
+				add_realm_law = aeluran_realm_authority_2
+			}
+		}
+		else_if = {
+			limit = {
+				has_realm_law = aeluran_realm_authority_2
+			}
+
+			random = {
+				chance = 5
+				add_realm_law = aeluran_realm_authority_1
+			}
+		}
 	}
 }

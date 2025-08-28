@@ -28,13 +28,22 @@ aeluran_advisor_aeluran_magistration_modifier_base_scale = {
 	divide = 2
 }
 
+years_between_magi_reinforcements = {
+	value = 3
+}
+
+base_aeluran_contribution_value = {
+	value = 9
+}
 
 aeluran_realm_size = {
 	value = sub_realm_size
 }
 
 aeluran_vassal_contribution = {
-	value = aeluran_realm_size
+	value = base_aeluran_contribution_value
+
+	multiply = aeluran_realm_size
 
 	if = {
 		limit = {
@@ -67,6 +76,24 @@ aeluran_vassal_contribution = {
 		multiply = 2
 	}
 
+	# Handle Aeluran Realm law Bonus
+	if = {
+		limit = {
+			liege_or_court_owner = {
+				has_realm_law = aeluran_realm_authority_1
+			}
+		}
+		multiply = 1.25
+	}
+	else_if = {
+		limit = {
+			liege_or_court_owner = {
+				has_realm_law = aeluran_realm_authority_2
+			}
+		}
+		multiply = 1.5
+	}
+
 	if = {
 		limit = {
 			NOT = {
@@ -85,7 +112,6 @@ total_aeluran_magi_reinforcements = {
 			has_government = aeluran_weavers_government
 		}
 
-		# First determine how many counties they control
 		add = aeluran_vassal_contribution
 	}
 
@@ -152,17 +178,17 @@ aeluran_reinforcements_war_magi_share =  {
 
 # ======================================
 
-aeluran_magi_artillery_reinforcements = {
+aeluran_artillery_reinforcements = {
 	value = aeluran_reinforcements_magi_artillery_share
 
 	if = {
 		limit = { # have a decimal remainder
-			NOT = { aeluran_magi_artillery_reinforcements_modulo = 0 }
+			NOT = { aeluran_artillery_reinforcements_modulo = 0 }
 		}
 
 		if = {
 			limit = { # modulo numerator was smaller than the denominator
-				aeluran_magi_artillery_reinforcements_modulo = total_aeluran_magi_reinforcements
+				aeluran_artillery_reinforcements_modulo = total_aeluran_magi_reinforcements
 			}
 
 			if = {
@@ -177,7 +203,7 @@ aeluran_magi_artillery_reinforcements = {
 		}
 		else = {
 			if = {
-				limit = { aeluran_magi_artillery_reinforcements_decimal_remainder <= 0.5 }
+				limit = { aeluran_artillery_reinforcements_decimal_remainder <= 0.5 }
 				floor = yes
 			}
 			else = {
@@ -189,7 +215,7 @@ aeluran_magi_artillery_reinforcements = {
 	min = 1
 }
 
-aeluran_magi_artillery_reinforcements_modulo = {
+aeluran_artillery_reinforcements_modulo = {
 	value = total_aeluran_magi_reinforcements
 
 	if = {
@@ -201,12 +227,35 @@ aeluran_magi_artillery_reinforcements_modulo = {
 	}
 }
 
-aeluran_magi_artillery_reinforcements_decimal_remainder = {
-	value = aeluran_magi_artillery_reinforcements_modulo
+aeluran_artillery_reinforcements_decimal_remainder = {
+	value = aeluran_artillery_reinforcements_modulo
 	divide = 4
 }
 
 aeluran_reinforcements_magi_artillery_share =  {
 	value = total_aeluran_magi_reinforcements
 	divide = 4 # 25%
+}
+
+
+spawn_aeluran_war_magi_reinforcement_count = {
+	# value = 10
+	value = root.aeluran_war_magi_reinforcements
+	if = {
+		limit = {
+			exists = scope:aeluran_war_magi_army_regiment_count
+		}
+		add = scope:aeluran_war_magi_army_regiment_count
+	}
+}
+
+spawn_aeluran_artillery_reinforcement_count = {
+	# value = 10
+	value = root.aeluran_artillery_reinforcements
+	if = {
+		limit = {
+			exists = scope:aeluran_artillery_army_regiment_count
+		}
+		add = scope:aeluran_artillery_army_regiment_count
+	}
 }

@@ -1,9 +1,11 @@
 ﻿adopt_elven_elective = {
-	picture = "gfx/interface/illustrations/decisions/decision_adopt_elven_elective.dds"
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_adopt_elven_elective.dds"
+	}
+	decision_group_type = elf
 
 	desc = adopt_elven_elective_decision_desc
 	selection_tooltip = adopt_elven_elective_decision_tooltip
-	major = no
 	ai_goal = no
 
 	sort_order = 500
@@ -66,4 +68,138 @@
 	# 		ai_boldness = 1.0
 	# 	}
 	# }
+}
+
+adopt_ascended_tribal = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_adopt_ascended_tribal.dds"
+	}
+	decision_group_type = elf
+
+	desc = adopt_ascended_tribal_decision_desc
+	selection_tooltip = adopt_ascended_tribal_decision_tooltip
+	ai_goal = no
+
+	sort_order = 500
+
+	is_shown = {
+		culture = {
+			has_cultural_parameter = form_advanced_tribal_government
+		}
+		NOT = {
+			has_government = advanced_tribal_government
+		}
+	}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		NOT = {
+			has_government = landless_adventurer_government
+		}
+		is_landed = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 400
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = adopt_ascended_tribal_decision_tooltip
+		}
+
+		custom_tooltip = {
+			text = adopt_ascended_tribal_decision_convert_holdings_tooltip
+		}
+
+		add_character_modifier = {
+			modifier = chieftain_visionary_modifier
+		}
+
+		trigger_event = tribal_ascension.0001
+	}
+	
+	ai_potential = {
+		NOR = {
+			has_government = aeluran_weavers_government
+			has_government = landless_adventurer_government
+			has_government = advanced_tribal_government
+		}
+	}
+
+	ai_will_do = {
+		base = 25
+
+		modifier = {
+			add = 100
+			liege = {
+				has_government = advanced_tribal_government
+			}
+		}
+	}
+}
+
+tame_direwolf_pup = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_attempt_to_take_direwolf_pup.dds"
+	}
+	decision_group_type = elf
+
+	desc = tame_direwolf_pup_decision_desc
+	selection_tooltip = tame_direwolf_pup_decision_tooltip
+	ai_goal = no
+
+	sort_order = 500
+
+	is_shown = {
+		capital_county = { 
+			has_county_modifier = direwolf_population_modifier
+		}
+	}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		capital_county = { 
+			has_county_modifier = direwolf_population_modifier
+		}
+
+		custom_description = {
+			text = already_have_pet
+			has_pet = no
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	cooldown = { 
+		years = 5
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = tame_direwolf_pup_effect_desc
+		}
+		trigger_event = wolf_invader.555
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+
+	}
 }

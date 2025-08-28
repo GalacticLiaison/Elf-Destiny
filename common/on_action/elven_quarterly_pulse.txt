@@ -5,7 +5,7 @@ quarterly_playable_pulse = {
 	on_actions = {
 		# add_missing_race
 
-		form_advanced_tribal_goverment_pulse
+		# form_advanced_tribal_goverment_pulse
 		advanced_shrewd_pulse
 		distribute_aeluran_advisors_pulse
 		heroic_courage_pulse
@@ -109,23 +109,27 @@ gain_varangian_adventure_innovation_pulse = {
 	}
 }
 
-form_advanced_tribal_goverment_pulse = {
-	trigger = {
-		# is_ai = no
-		culture = {
-			has_cultural_parameter = form_advanced_tribal_government
-		}
-		NOT = {
-			government_has_flag = government_is_advanced_tribal
-		}
-		NOT = {
-			has_government = aeluran_weavers_government
-		}
-	}
-	random_events = {
-		100 = tribal_ascension.0001
-	}
-}
+# form_advanced_tribal_goverment_pulse = {
+# 	trigger = {
+# 		# is_ai = no
+# 		culture = {
+# 			has_cultural_parameter = form_advanced_tribal_government
+# 		}
+# 		NOT = {
+# 			government_has_flag = government_is_advanced_tribal
+# 		}
+# 		NOT = {
+# 			has_government = aeluran_weavers_government
+# 		}
+# 		NOT = {
+# 			has_government = landless_adventurer_government
+# 		}
+# 		is_landed = yes
+# 	}
+# 	random_events = {
+# 		100 = tribal_ascension.0001
+# 	}
+# }
 
 advanced_shrewd_pulse = {
 	trigger = {
@@ -358,7 +362,7 @@ beguiling_nature_pulse = {
 		# Courtiers
 		every_courtier = {
 			limit = {
-				enemies_slayed > 1
+				unique_lords_sexed_count >= 2
 			}
 
 			if = {
@@ -367,7 +371,7 @@ beguiling_nature_pulse = {
 						has_trait = lustful
 						has_trait = passionate
 					}
-					enemies_slayed > 1
+					unique_lords_sexed_count >= 2
 				}
 		
 				debug_log = "AWARDING LUSTFUL"
@@ -385,7 +389,7 @@ beguiling_nature_pulse = {
 			if = {
 				limit = {
 					has_trait = lustful
-					enemies_slayed > 4
+					unique_lords_sexed_count >= 5
 				}
 
 				if = {
@@ -409,6 +413,7 @@ beguiling_nature_pulse = {
 distribute_aeluran_advisors_pulse = {
 	trigger = {
 		is_ruler = yes
+		is_landed = yes
 		highest_held_title_tier >= tier_county
 		NOT = {
 			primary_title = {
@@ -434,7 +439,7 @@ distribute_aeluran_advisors_pulse = {
 	}
 
 	effect = {
-		debug_log = "Asigning Aeluran Advisor"
+		debug_log = "Assigning Aeluran Advisor"
 		if = {
 			limit = {
 				NOT = {

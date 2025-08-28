@@ -53,11 +53,51 @@ attempt_to_entrance_character_effect = {
 				add = 30
 			}
 
+			modifier = {
+				scope:entrancer = {
+					has_relation_lover = scope:victim
+				}
+				add = 10
+			}
+
+			modifier = {
+				scope:entrancer = {
+					has_relation_soulmate = scope:victim
+				}
+				add = 30
+			}
+
+			modifier = {
+				entrance_difference_in_attraction >= 10
+				entrance_difference_in_attraction < 25
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 5
+			}
+
+			modifier = {
+				entrance_difference_in_attraction >= 25
+				entrance_difference_in_attraction < 50
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 10
+			}
+
+			modifier = {
+				entrance_difference_in_attraction >= 50
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 15
+			}
+
 			if = {
 				limit = {
 					scope:entrancer = {
 						any_scheme = {
-							scheme_target = scope:victim
+							scheme_target_character = scope:victim
 							scheme_type = entrance
 							scheme_progress >= 6
 						}
@@ -75,7 +115,7 @@ attempt_to_entrance_character_effect = {
 			# 			trigger = { 
 			# 				scope:entrancer = {
 			# 					any_scheme = {
-			# 						scheme_target = scope:victim
+			# 						scheme_target_character = scope:victim
 			# 						scheme_type = entrance
 			# 						scheme_progress >= 6
 			# 					}
@@ -95,7 +135,7 @@ attempt_to_entrance_character_effect = {
 			random_scheme = {
 				limit = {
 					scheme_type = entrance
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				add_scheme_progress = 3
 			}
@@ -120,11 +160,6 @@ attempt_to_entrance_character_effect = {
 			}
 
 			modifier = {
-				scope:entrancer = { has_trait = magi }
-				add = 20
-			}
-
-			modifier = {
 				scope:victim.magic_talent_level > scope:entrancer.magic_talent_level
 
 				add = {
@@ -137,8 +172,62 @@ attempt_to_entrance_character_effect = {
 			}
 
 			modifier = {
+				scope:entrancer = { has_trait = magi }
+				add = 20
+			}
+
+			modifier = {
 				scope:victim = { has_trait = enchantress }
 				add = 20
+			}
+
+			modifier = {
+				scope:entrancer = {
+					has_relation_rival = scope:victim
+				}
+				add = 10
+			}
+
+			modifier = {
+				scope:entrancer = {
+					has_relation_nemesis= scope:victim
+				}
+				add = 30
+			}
+
+			modifier = {
+				entrance_difference_in_attraction <= -10
+				entrance_difference_in_attraction > -25
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 5
+			}
+
+			modifier = {
+				entrance_difference_in_attraction <= -25
+				entrance_difference_in_attraction > -50
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 10
+			}
+
+			modifier = {
+				entrance_difference_in_attraction <= -50
+				scope:victim = {
+					is_attracted_to_gender_of = scope:entrancer
+				}
+				add = 15
+			}
+
+			modifier = {
+				scope:victim = {
+					NOT = {	
+						is_attracted_to_gender_of = scope:entrancer
+					}
+				}
+				add = 50
 			}
 
 			min = 2
@@ -147,7 +236,7 @@ attempt_to_entrance_character_effect = {
 				limit = {
 					scope:entrancer = {
 						any_scheme = {
-							scheme_target = scope:victim
+							scheme_target_character = scope:victim
 							scheme_type = entrance
 							scheme_progress >= 6
 						}
@@ -167,7 +256,7 @@ attempt_to_entrance_character_effect = {
 			random_scheme = {
 				limit = {
 					scheme_type = entrance
-					scheme_target = scope:victim
+					scheme_target_character = scope:victim
 				}
 				end_scheme = yes
 			}
@@ -302,228 +391,271 @@ victim_attempts_to_break_free_of_entrance_effect = {
 # entrance_modifier_custom_tool_tips = {
 # 	# Difference in Elf Level
 # 	custom_tooltip = entrance_attempt_modifiers
-# 	if = { ## +
-# 		limit = { 
-# 			entrance_difference_in_elf_level >= 1
-# 			entrance_difference_in_elf_level < 3
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.small_boost
-# 	}
-# 	else_if = { ## ++
-# 		limit = { 
-# 			entrance_difference_in_elf_level >= 3
-# 			entrance_difference_in_elf_level < 5
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.big_boost
-# 	}
-# 	else_if = { ## +++
-# 		limit = { 
-# 			entrance_difference_in_elf_level >= 5
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.massive_boost
-# 	}
-# 	else_if = { ## -
-# 		limit = { 
-# 			entrance_difference_in_elf_level <= -1
-# 			entrance_difference_in_elf_level > -3
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.small_penalty
-# 	}
-# 	else_if = { ## --
-# 		limit = { 
-# 			entrance_difference_in_elf_level <= -3
-# 			entrance_difference_in_elf_level > -5
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.big_penalty
-# 	}
-# 	else_if = { ## ---
-# 		limit = { 
-# 			entrance_difference_in_elf_level <= -5
-# 		}
-# 		custom_tooltip = entrance_difference_in_elf_level.massive_penalty
-# 	}
+# 	# if = { ## +
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level >= 1
+# 	# 		entrance_difference_in_elf_level < 3
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.small_boost
+# 	# }
+# 	# else_if = { ## ++
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level >= 3
+# 	# 		entrance_difference_in_elf_level < 5
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.big_boost
+# 	# }
+# 	# else_if = { ## +++
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level >= 5
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.massive_boost
+# 	# }
+# 	# else_if = { ## -
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level <= -1
+# 	# 		entrance_difference_in_elf_level > -3
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.small_penalty
+# 	# }
+# 	# else_if = { ## --
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level <= -3
+# 	# 		entrance_difference_in_elf_level > -5
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.big_penalty
+# 	# }
+# 	# else_if = { ## ---
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_elf_level <= -5
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_elf_level.massive_penalty
+# 	# }
 
-# 	# Difference in Spark Manipulation
+# 	# # Difference in Spark Manipulation
+# 	# if = { ## +
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent = 1
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.small_boost
+# 	# }
+# 	# else_if = { ## ++
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent = 2
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.big_boost
+# 	# }
+# 	# else_if = { ## +++
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent >= 3
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.massive_boost
+# 	# }
+# 	# if = { ## -
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent = -1
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.small_penalty
+# 	# }
+# 	# else_if = { ## --
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent = -2
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.big_penalty
+# 	# }
+# 	# else_if = { ## ---
+# 	# 	limit = { 
+# 	# 		entrance_difference_in_magic_talent <= -3
+# 	# 	}
+# 	# 	custom_tooltip = entrance_difference_in_magic_talent.massive_penalty
+# 	# }
+
+# 	# Difference in Attraction
 # 	if = { ## +
 # 		limit = { 
-# 			entrance_difference_in_magic_talent = 1
+# 			entrance_difference_in_attraction >= 10
+# 			entrance_difference_in_attraction < 25
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.small_boost
+# 		custom_tooltip = entrance_difference_in_attraction.small_boost
 # 	}
 # 	else_if = { ## ++
-# 		limit = { 
-# 			entrance_difference_in_magic_talent = 2
+# 		limit = {
+# 			entrance_difference_in_attraction >= 25
+# 			entrance_difference_in_attraction < 50
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.big_boost
+# 		custom_tooltip = entrance_difference_in_attraction.big_boost
 # 	}
 # 	else_if = { ## +++
 # 		limit = { 
-# 			entrance_difference_in_magic_talent >= 3
+# 			entrance_difference_in_attraction >= 50
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.massive_boost
+# 		custom_tooltip = entrance_difference_in_attraction.massive_boost
 # 	}
 # 	if = { ## -
 # 		limit = { 
-# 			entrance_difference_in_magic_talent = -1
+# 			entrance_difference_in_attraction <= -10
+# 			entrance_difference_in_attraction > -25
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.small_penalty
+# 		custom_tooltip = entrance_difference_in_attraction.small_penalty
 # 	}
 # 	else_if = { ## --
 # 		limit = { 
-# 			entrance_difference_in_magic_talent = -2
+# 			entrance_difference_in_attraction <= -25
+# 			entrance_difference_in_attraction > -50
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.big_penalty
+# 		custom_tooltip = entrance_difference_in_attraction.big_penalty
 # 	}
 # 	else_if = { ## ---
 # 		limit = { 
-# 			entrance_difference_in_magic_talent <= -3
+# 			entrance_difference_in_attraction <= -50
 # 		}
-# 		custom_tooltip = entrance_difference_in_magic_talent.massive_penalty
+# 		custom_tooltip = entrance_difference_in_attraction.massive_penalty
 # 	}
 
-# 	# Enchantress Bonus
-# 	if = {
-# 		limit = {
-# 			scope:entrancer = {
-# 				has_trait = enchantress
-# 			}
-# 			NOT = {
-# 				scope:victim = {
-# 					has_trait = enchantress
-# 				}
-# 			}
-# 		}
 
-# 		custom_tooltip = entrance_entrancer_is_enchantress
-# 	}
-# 	if = {
-# 		limit = {
-# 			NOT = {
-# 				scope:entrancer = {
-# 					has_trait = enchantress
-# 				}
-# 			}
+# 	# # Enchantress Bonus
+# 	# if = {
+# 	# 	limit = {
+# 	# 		scope:entrancer = {
+# 	# 			has_trait = enchantress
+# 	# 		}
+# 	# 		NOT = {
+# 	# 			scope:victim = {
+# 	# 				has_trait = enchantress
+# 	# 			}
+# 	# 		}
+# 	# 	}
 
-# 			scope:victim = {
-# 				has_trait = enchantress
-# 			}
-# 		}
+# 	# 	custom_tooltip = entrance_entrancer_is_enchantress
+# 	# }
+# 	# if = {
+# 	# 	limit = {
+# 	# 		NOT = {
+# 	# 			scope:entrancer = {
+# 	# 				has_trait = enchantress
+# 	# 			}
+# 	# 		}
 
-# 		custom_tooltip = entrance_victim_is_enchantress
-# 	}
+# 	# 		scope:victim = {
+# 	# 			has_trait = enchantress
+# 	# 		}
+# 	# 	}
+
+# 	# 	custom_tooltip = entrance_victim_is_enchantress
+# 	# }
 # }
 
 # entrance_modifier_flavor = {
-# 	# Difference in Elf Level
-# 	desc = entrance_attempt_modifiers
-# 	triggered_desc = { ## +
-# 		trigger = { 
-# 			entrance_difference_in_elf_level >= 1
-# 			entrance_difference_in_elf_level < 3
-# 		}
-# 		desc = entrance_difference_in_elf_level.small_boost
-# 	}
-# 	triggered_desc = { ## ++
-# 		trigger = { 
-# 			entrance_difference_in_elf_level >= 3
-# 			entrance_difference_in_elf_level < 5
-# 		}
-# 		desc = entrance_difference_in_elf_level.big_boost
-# 	}
-# 	triggered_desc = { ## +++
-# 		trigger = { 
-# 			entrance_difference_in_elf_level >= 5
-# 		}
-# 		desc = entrance_difference_in_elf_level.massive_boost
-# 	}
-# 	triggered_desc = { ## -
-# 		trigger = { 
-# 			entrance_difference_in_elf_level <= -1
-# 			entrance_difference_in_elf_level > -3
-# 		}
-# 		desc = entrance_difference_in_elf_level.small_penalty
-# 	}
-# 	triggered_desc = { ## --
-# 		trigger = { 
-# 			entrance_difference_in_elf_level <= -3
-# 			entrance_difference_in_elf_level > -5
-# 		}
-# 		desc = entrance_difference_in_elf_level.big_penalty
-# 	}
-# 	triggered_desc = { ## ---
-# 		trigger = { 
-# 			entrance_difference_in_elf_level <= -5
-# 		}
-# 		desc = entrance_difference_in_elf_level.massive_penalty
-# 	}
+	# # Difference in Elf Level
+	# desc = entrance_attempt_modifiers
+	# triggered_desc = { ## +
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level >= 1
+	# 		entrance_difference_in_elf_level < 3
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.small_boost
+	# }
+	# triggered_desc = { ## ++
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level >= 3
+	# 		entrance_difference_in_elf_level < 5
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.big_boost
+	# }
+	# triggered_desc = { ## +++
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level >= 5
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.massive_boost
+	# }
+	# triggered_desc = { ## -
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level <= -1
+	# 		entrance_difference_in_elf_level > -3
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.small_penalty
+	# }
+	# triggered_desc = { ## --
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level <= -3
+	# 		entrance_difference_in_elf_level > -5
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.big_penalty
+	# }
+	# triggered_desc = { ## ---
+	# 	trigger = { 
+	# 		entrance_difference_in_elf_level <= -5
+	# 	}
+	# 	desc = entrance_difference_in_elf_level.massive_penalty
+	# }
 
-# 	# Difference in Spark Manipulation
-# 	triggered_desc = { ## +
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent = 1
-# 		}
-# 		desc = entrance_difference_in_magic_talent.small_boost
-# 	}
-# 	triggered_desc = { ## ++
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent = 2
-# 		}
-# 		desc = entrance_difference_in_magic_talent.big_boost
-# 	}
-# 	triggered_desc = { ## +++
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent >= 3
-# 		}
-# 		desc = entrance_difference_in_magic_talent.massive_boost
-# 	}
-# 	triggered_desc = { ## -
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent = -1
-# 		}
-# 		desc = entrance_difference_in_magic_talent.small_penalty
-# 	}
-# 	triggered_desc = { ## --
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent = -2
-# 		}
-# 		desc = entrance_difference_in_magic_talent.big_penalty
-# 	}
-# 	triggered_desc = { ## ---
-# 		trigger = { 
-# 			entrance_difference_in_magic_talent <= -3
-# 		}
-# 		desc = entrance_difference_in_magic_talent.massive_penalty
-# 	}
+	# # Difference in Spark Manipulation
+	# triggered_desc = { ## +
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent = 1
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.small_boost
+	# }
+	# triggered_desc = { ## ++
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent = 2
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.big_boost
+	# }
+	# triggered_desc = { ## +++
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent >= 3
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.massive_boost
+	# }
+	# triggered_desc = { ## -
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent = -1
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.small_penalty
+	# }
+	# triggered_desc = { ## --
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent = -2
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.big_penalty
+	# }
+	# triggered_desc = { ## ---
+	# 	trigger = { 
+	# 		entrance_difference_in_magic_talent <= -3
+	# 	}
+	# 	desc = entrance_difference_in_magic_talent.massive_penalty
+	# }
 
-# 	# Enchantress Bonus
-# 	triggered_desc = {
-# 		trigger = {
-# 			scope:entrancer = {
-# 				has_trait = enchantress
-# 			}
-# 			NOT = {
-# 				scope:victim = {
-# 					has_trait = enchantress
-# 				}
-# 			}
-# 		}
+	# # Enchantress Bonus
+	# triggered_desc = {
+	# 	trigger = {
+	# 		scope:entrancer = {
+	# 			has_trait = enchantress
+	# 		}
+	# 		NOT = {
+	# 			scope:victim = {
+	# 				has_trait = enchantress
+	# 			}
+	# 		}
+	# 	}
 
-# 		desc = entrance_entrancer_is_enchantress
-# 	}
-# 	triggered_desc = {
-# 		trigger = {
-# 			NOT = {
-# 				scope:entrancer = {
-# 					has_trait = enchantress
-# 				}
-# 			}
+	# 	desc = entrance_entrancer_is_enchantress
+	# }
+	# triggered_desc = {
+	# 	trigger = {
+	# 		NOT = {
+	# 			scope:entrancer = {
+	# 				has_trait = enchantress
+	# 			}
+	# 		}
 
-# 			scope:victim = {
-# 				has_trait = enchantress
-# 			}
-# 		}
+	# 		scope:victim = {
+	# 			has_trait = enchantress
+	# 		}
+	# 	}
 
-# 		desc = entrance_victim_is_enchantress
-# 	}
+	# 	desc = entrance_victim_is_enchantress
+	# }
 	
-# }
+}

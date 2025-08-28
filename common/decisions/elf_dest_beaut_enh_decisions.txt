@@ -1,0 +1,150 @@
+﻿upgrade_beauty_type_decision = {
+	desc = "upgrade_beauty_type_decision_desc"
+	selection_tooltip = "upgrade_beauty_type_decision_tooltip"
+	
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_upgrade_beauty_type.dds"
+	}
+
+	decision_group_type = major
+
+	is_shown = {
+		is_ai = no
+		any_equipped_character_artifact = {
+			has_variable = nefertitis_armband
+		}
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = nefertitis_armband_not_enough_stored_power
+			OR = {
+				AND = {
+					has_normal_beauty_trait = yes
+					any_equipped_character_artifact = {
+						has_variable = charges
+						var:charges >= 5
+					}
+				}
+				AND = {
+					has_unconventional_beauty_trait = yes
+					any_equipped_character_artifact = {
+						has_variable = charges
+						var:charges >= 10
+					}
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_description = {
+			text = you_dont_have_a_beauty_trait
+
+			has_any_beauty_trait = yes
+			NOT = {
+				has_trait = exotic_beauty_good_3
+			}
+		}
+	}
+
+	# is_valid_showing_failures_only = {
+
+	# 	custom_description = {
+	# 		text = nefertitis_armband_not_enough_stored_power
+	# 		OR = {
+	# 			AND = {
+	# 				has_normal_beauty_trait = yes
+	# 				any_equipped_character_artifact = {
+	# 					has_variable = charges
+	# 					var:charges >= 5
+	# 				}
+	# 			}
+	# 			AND = {
+	# 				has_unconventional_beauty_trait = yes
+	# 				any_equipped_character_artifact = {
+	# 					has_variable = charges
+	# 					var:charges >= 10
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+
+	# }
+
+	ai_goal = no
+	ai_will_do = {
+		value = 0
+	}
+	ai_potential = {
+		always = no
+	}
+	ai_check_interval = 0
+
+	should_create_alert = {
+		always = yes
+	}
+
+	effect = {
+		# custom_tooltip = elf_dest_debug_skip_story
+		# custom_tooltip = elf_dest_debug_spawn_artifacts
+		custom_tooltip = upgrade_beauty_type_effect
+		
+		trigger_event = elf_dest_beaut_enh_artifact.003
+	}
+}
+
+adopt_ancient_egyptian_culture_decision = {
+	desc = "adopt_ancient_egyptian_culture_decision_desc"
+	selection_tooltip = "adopt_ancient_egyptian_culture_decision_tooltip"
+	
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_upgrade_beauty_type.dds"
+	}
+
+	decision_group_type = major
+
+	is_shown = {
+		is_ai = no
+		has_character_flag = queen_nefertiti
+	}
+
+	is_valid_showing_failures_only = {
+
+	}
+
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+	}
+
+	cost = {
+		piety = 1000
+		gold = 1000
+	}
+
+	ai_goal = no
+	ai_will_do = {
+		value = 0
+	}
+	ai_potential = {
+		always = no
+	}
+	ai_check_interval = 0
+
+	effect = {
+		set_culture = culture:ancient_egyptian
+		every_held_title = {
+			limit = {
+				tier = tier_county
+			}
+			set_county_culture = culture:ancient_egyptian
+		}
+		add_prestige = 1000
+		dynasty = {
+			add_dynasty_prestige = 5000
+		}
+		add_character_modifier = {
+			modifier = resurrected_pharaoh_modifier
+		}
+	}
+}

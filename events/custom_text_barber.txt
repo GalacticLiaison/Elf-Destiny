@@ -1,0 +1,46 @@
+﻿namespace = custom_text_barber
+
+custom_text_barber.1 = {
+	type = character_event
+	title = add_custom_text_barber
+	desc = enter_text_here
+	theme = default
+
+	immediate = {
+		set_variable = barber_text
+		set_variable = {
+			name = barber_text_size
+			value = 1
+		}
+		set_variable = has_barber_text
+		# error prevention
+		if = {
+			limit = {
+				exists = var:barber_text
+				exists = var:barber_text_size
+				exists = var:has_barber_text
+				exists = var:custom_text_barber
+			}
+		}
+	}
+
+	widget = {
+		gui = "enter_barber_text"
+		container = "custom_widgets_container"
+		controller = {
+			type = text
+			data = {
+				key = custom_text_barber
+                default = ""
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = {
+		name = CONFIRM
+		remove_variable = barber_text
+	}
+}

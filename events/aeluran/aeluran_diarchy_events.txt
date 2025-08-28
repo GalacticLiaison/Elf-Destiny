@@ -3,6 +3,14 @@
 # Aeluran Matriarch assigns new Advisor, sends letter
 aeluran_diarchy.100 = {
 	type = letter_event
+
+	trigger = {
+		NOT = {
+			has_character_flag = aeluran_advisor_is_on_the_way
+		}
+		exists = global_var:high_matriarch
+	}
+
 	opening = aeluran_diarchy.100.title
 	
 	desc = {
@@ -29,103 +37,12 @@ aeluran_diarchy.100 = {
 		}
 	}
 
-	sender = scope:aeluran_matriarch
-
-	trigger = {
-		# any_living_character = { # can we do better? make religious title and find holder?
-		# 	has_trait = aeluran_high_matriarch
-		# }
-		NOT = {
-			has_character_flag = aeluran_advisor_is_on_the_way
-		}
-	}
+	sender = global_var:high_matriarch
 
 	# cooldown = { years = 1 } # is this global?
 
 	immediate = {
-		random_living_character = {
-			limit = {
-				has_trait = aeluran_high_matriarch
-			}
-			
-			save_scope_as = aeluran_matriarch
-		}
-
-		if = {
-			limit = {
-				any_vassal = {
-					is_aeluran_sister_or_higher = yes
-					is_capable_adult = yes
-				}
-			}
-
-			save_scope_value_as = {
-				name = advisor_type
-				value = flag:vassal
-			}
-
-			random_vassal = {
-				limit = {
-					is_aeluran_sister_or_higher = yes
-					is_capable_adult = yes
-				}
-
-				save_scope_as = aeluran_sister_advisor
-			}
-
-		}
-		else_if = {
-			limit = {
-				any_courtier = {
-					is_aeluran_sister_or_higher = yes
-					is_capable_adult = yes
-				}
-			}
-
-			save_scope_value_as = {
-				name = advisor_type
-				value = flag:courtier
-			}
-
-			random_courtier = {
-				limit = {
-					is_aeluran_sister_or_higher = yes
-					is_capable_adult = yes
-				}
-
-				save_scope_as = aeluran_sister_advisor
-			}
-		}
-		else_if = {
-			limit = {
-				NOR = {
-					any_courtier = {
-						is_aeluran_sister_or_higher = yes
-					}
-					any_vassal = {
-						is_aeluran_sister_or_higher = yes
-					}
-				}
-			}
-
-			save_scope_value_as = {
-				name = advisor_type
-				value = flag:sent_from_deepwood
-			}
-
-			save_scope_value_as = {
-				name = aeluran_advisor_coming_from_sanctum
-				value = yes
-			}
-
-			if = {
-				limit = {
-					exists = scope:aeluran_matriarch
-				}
-				create_aeluran_advisor_effect = { MATRIARCH = scope:aeluran_matriarch }
-			}
-		}
-
+		determine_new_aeluran_advisor_effect = yes
 	}
 
 	option = {
@@ -205,10 +122,8 @@ aeluran_diarchy.101 = {
 	# cooldown = { years = 1 }
 
 	immediate = {
-		debug_log = "start aeluran regency"
+		debug_log = "Advisor Arrives"
 		debug_log_scopes = yes
-
-		remove_character_flag = aeluran_advisor_is_on_the_way
 
 		# scope:aeluran_sister_advisor = {
 		# 	set_location = root.location
@@ -227,23 +142,24 @@ aeluran_diarchy.101 = {
 			add_courtier = scope:aeluran_sister_advisor
 		}
 
-		if = {
-			limit = {
-				has_active_diarchy = no
-			}
-			start_diarchy = aeluran_regency
-		}
 
-		if = {
-			limit = {
-				NOT = {
-					has_diarchy_type = aeluran_regency
-				}
-			}
-			set_diarchy_type = aeluran_regency
-		}
+		appoint_newly_arrived_aeluran_advisor = yes
+		# if = {
+		# 	limit = {
+		# 	  has_active_diarchy = no
+		# 	}
+		# 	start_diarchy = aeluran_regency
+		# 	set_diarch = scope:aeluran_sister_advisor
+		# }
+		# else_if = {
+		# 	limit = {
+		# 	  NOT = { has_diarchy_type = aeluran_regency }
+		# 	}
+		# 	set_diarchy_type = aeluran_regency
+		# 	set_diarch = scope:aeluran_sister_advisor
+		# }
 
-		set_diarch = scope:aeluran_sister_advisor
+
 
 		if = {
 			limit = {
@@ -301,7 +217,7 @@ aeluran_diarchy.1011 = {
 	# cooldown = { years = 1 }
 
 	immediate = {
-		debug_log = "start aeluran regency"
+		debug_log = "Advisor arrives from court"
 		debug_log_scopes = yes
 
 		remove_character_flag = aeluran_advisor_is_on_the_way
@@ -319,23 +235,8 @@ aeluran_diarchy.1011 = {
 			add_courtier = scope:aeluran_sister_advisor
 		}
 
-		if = {
-			limit = {
-				has_active_diarchy = no
-			}
-			start_diarchy = aeluran_regency
-		}
+		appoint_newly_arrived_aeluran_advisor = yes
 
-		if = {
-			limit = {
-				NOT = {
-					has_diarchy_type = aeluran_regency
-				}
-			}
-			set_diarchy_type = aeluran_regency
-		}
-
-		set_diarch = scope:aeluran_sister_advisor
 
 		if = {
 			limit = {

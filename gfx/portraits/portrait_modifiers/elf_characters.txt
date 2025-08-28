@@ -4,6 +4,141 @@
     selection_behavior = max
     priority = 2
 
+    julia_melwood = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_high_nobility_clothes
+                accessory = female_clothes_secular_western_nobility_02_high
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = ep3_byzantine_hairstyles_curly
+                accessory = f_hair_ep3_byzantine_03
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75  
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                value = 0.5  
+            }
+            accessory = {
+                mode = add
+                gene = secondary_headgears
+                template = no_headgear
+                value = 0.5 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = additive_headgear
+                template = no_additive
+                value = 0.5 # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+                has_character_flag = julia_melwood
+                NOR = {
+                    AND = {
+                        is_married = yes
+                        primary_spouse = {
+                            highest_held_title_tier > tier_county
+                        }
+                    }
+                    AND = {
+                        is_ruler = yes
+                        highest_held_title_tier > tier_county
+                    }
+                }
+            }
+        }
+    }
+
+    queen_julia_melwood = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep3_byzantine_era2_imperial_clothes
+                accessory = f_clothes_sec_ep3_byzantine_era2_imp_01
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = fp2_hairstyles_iberian_christian_curly
+                accessory = female_hair_fp2_iberian_christian_01
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75  
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ep2_western_era1_high_nobility
+                value = 0.75 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = secondary_headgears
+                template = no_headgear
+                value = 0.5 # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = additive_headgear
+                template = no_additive
+                value = 0.5 # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+                has_character_flag = julia_melwood
+                is_any_elf_type = yes
+                OR = {
+                    AND = {
+                        is_married = yes
+                        primary_spouse = {
+                            highest_held_title_tier > tier_county
+                        }
+                    }
+                    AND = {
+                        is_ruler = yes
+                        highest_held_title_tier > tier_county
+                    }
+                }
+            }
+        }
+    }
+
     faelyn_valerith = {
         dna_modifiers = {
             accessory = {
@@ -42,16 +177,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:faelyn_valerith
-						this = character:faelyn_valerith
-					}
-					AND = {
-						exists = character:faelyn_valerith_1066
-						this = character:faelyn_valerith_1066
-					}
-				}
+                character_is_faelyn_valerith = yes
             }
         }
     }
@@ -108,16 +234,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:seraphine_valerith
-						this = character:seraphine_valerith
-					}
-					AND = {
-						exists = character:seraphine_valerith_1066
-						this = character:seraphine_valerith_1066
-					}
-				}
+                character_is_seraphine_valerith = yes
             }
         }
     }
@@ -174,16 +291,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:lia_valerith
-						this = character:lia_valerith
-					}
-					AND = {
-						exists = character:lia_valerith_1066
-						this = character:lia_valerith_1066
-					}
-				}
+                character_is_lia_valerith = yes
             }
         }
     }
@@ -228,16 +336,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:hannah_valerith
-						this = character:hannah_valerith
-					}
-					AND = {
-						exists = character:hannah_valerith_1066
-						this = character:hannah_valerith_1066
-					}
-				}
+                character_is_hannah_valerith = yes
             }
         }
     }
@@ -273,8 +372,8 @@
             accessory = {
                 mode = add
                 gene = beards
-                template = northern_beards_straight
-                value = 0.99  
+                template = all_beards
+                accessory = male_beard_mena_04
             }
             accessory = {
                 mode = add
@@ -288,16 +387,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:victaris_valerith
-						this = character:victaris_valerith
-					}
-					AND = {
-						exists = character:victaris_valerith_1066
-						this = character:victaris_valerith_1066
-					}
-				}
+                character_is_victaris_valerith = yes
             }
         }
     }
@@ -312,14 +402,32 @@
             }
             accessory = {
                 mode = add
-                gene = beards
-                template = western_beards_straight
-                value = 0.99  
+                gene = clothes
+                template = ep2_western_era4_war_nobility_clothes
+                value = 0.9
             }
             accessory = {
                 mode = add
+                gene = legwear
+                template = ep2_western_war_legwear
+                value = 0.25
+            }            
+            accessory = {
+                mode = add
+                gene = beards
+                template = all_beards
+                accessory = m_beard_ep3_byzantine_02
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = sp3_cloak
+                value = 0.1
+            }                                    
+            accessory = {
+                mode = add
                 gene = headgear
-                template = no_headgear
+                template = fp1_royalty
                 value = 0.5  
             }
         }   
@@ -328,16 +436,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:belanor_valerith
-						this = character:belanor_valerith
-					}
-					AND = {
-						exists = character:belanor_valerith_1066
-						this = character:belanor_valerith_1066
-					}
-				}
+                character_is_belanor_valerith = yes
             }
         }
     }
@@ -374,13 +473,31 @@
                 mode = add
                 gene = beards
                 template = all_beards
-                accessory = male_beard_mena_04
+                accessory = m_beard_ep3_byzantine_02
             }
             accessory = {
                 mode = add
+                gene = clothes
+                template = ep2_western_era4_war_nobility_clothes
+                value = 0.9
+            }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = sp3_cloak
+                value = 0.1
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = ep2_western_war_legwear
+                value = 0.25
+            }                                                                                    
+            accessory = {
+                mode = add
                 gene = headgear
-                template = all_headgear
-                accessory = male_headgear_religious_northern_high_01
+                template = western_high_nobility
+                value = 0.8
             }
         }   
         weight = {
@@ -388,16 +505,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:virion_valerith
-						this = character:virion_valerith
-					}
-					AND = {
-						exists = character:virion_valerith_1066
-						this = character:virion_valerith_1066
-					}
-				}
+                character_is_virion_valerith = yes
             }
         }
     }
@@ -448,20 +556,10 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:niala_valerith
-						this = character:niala_valerith
-					}
-					AND = {
-						exists = character:niala_valerith_1066
-						this = character:niala_valerith_1066
-					}
-				}
+                character_is_niala_valerith = yes
             }
         }
     }
-
 
     calmera_thalwyn = {
 		# Hair: Long Split in Strands with Earring
@@ -514,84 +612,75 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:calmera_thalwyn
-						this = character:calmera_thalwyn
-					}
-					AND = {
-						exists = character:calmera_thalwyn_1066
-						this = character:calmera_thalwyn_1066
-					}
-				}
+                character_is_calmera_thalwyn = yes
             }
         }
     }
 
-    elandra_thalwyn = {
-		# Hair: Long Split in Strands with Earring
-		# Clothes: Iberian Christian Low Nobility Clothing 1
-		# Cloak: Foxskin
-		# Headwear: Norse Circlet
-		# Face Items: No Headwear
-		# Legwear: default
+    # elandra_thalwyn = {
+	# 	# Hair: Long Split in Strands with Earring
+	# 	# Clothes: Iberian Christian Low Nobility Clothing 1
+	# 	# Cloak: Foxskin
+	# 	# Headwear: Norse Circlet
+	# 	# Face Items: No Headwear
+	# 	# Legwear: default
 
-        dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = clothes
-                template = religious_northern_high_clothes
-                value = 0.45
-            }
-			accessory = {
-                mode = add              
-                gene = cloaks
-                template = sp2_cloak_imperial
-                value = 0
-            }
-            accessory = {
-                mode = add
-                gene = hairstyles
-                template = mena_hairstyles_curly
-                value = 0.25 # For the randomness to work correctly
-            }
-            accessory = {
-                mode = add
-                gene = headgear
-                template = indian_common
-                value = 0.75 # For the randomness to work correctly
-            }
-            accessory = {
-                mode = add
-                gene = secondary_headgears
-                template = no_headgear
-                value = 0.5 # For the randomness to work correctly
-            }
-            accessory = {
-                mode = add
-                gene = additive_headgear
-                template = no_additive
-                value = 0.5 # For the randomness to work correctly
-            }
-        }   
-        weight = {
-            base = 0
-            modifier = {
-                add = 999
-				exists = this
-				OR = {
-					AND = {
-						exists = character:elandra_thalwyn
-						this = character:elandra_thalwyn
-					}
-					AND = {
-						exists = character:elandra_thalwyn_1066
-						this = character:elandra_thalwyn_1066
-					}
-				}
-            }
-        }
-    }
+    #     dna_modifiers = {
+    #         accessory = {
+    #             mode = add
+    #             gene = clothes
+    #             template = religious_northern_high_clothes
+    #             value = 0.45
+    #         }
+	# 		accessory = {
+    #             mode = add              
+    #             gene = cloaks
+    #             template = sp2_cloak_imperial
+    #             value = 0
+    #         }
+    #         accessory = {
+    #             mode = add
+    #             gene = hairstyles
+    #             template = mena_hairstyles_curly
+    #             value = 0.25 # For the randomness to work correctly
+    #         }
+    #         accessory = {
+    #             mode = add
+    #             gene = headgear
+    #             template = indian_common
+    #             value = 0.75 # For the randomness to work correctly
+    #         }
+    #         accessory = {
+    #             mode = add
+    #             gene = secondary_headgears
+    #             template = no_headgear
+    #             value = 0.5 # For the randomness to work correctly
+    #         }
+    #         accessory = {
+    #             mode = add
+    #             gene = additive_headgear
+    #             template = no_additive
+    #             value = 0.5 # For the randomness to work correctly
+    #         }
+    #     }   
+    #     weight = {
+    #         base = 0
+    #         modifier = {
+    #             add = 999
+	# 			exists = this
+	# 			OR = {
+	# 				AND = {
+	# 					exists = character:elandra_thalwyn
+	# 					this = character:elandra_thalwyn
+	# 				}
+	# 				AND = {
+	# 					exists = character:elandra_thalwyn_1066
+	# 					this = character:elandra_thalwyn_1066
+	# 				}
+	# 			}
+    #         }
+    #     }
+    # }
 
     ganduin_daelurin = {
         dna_modifiers = {
@@ -633,16 +722,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:ganduin_daelurin
-						this = character:ganduin_daelurin
-					}
-					AND = {
-						exists = character:ganduin_daelurin_1066
-						this = character:ganduin_daelurin_1066
-					}
-				}
+                character_is_ganduin_daelurin = yes
             }
         }
     }
@@ -659,7 +739,7 @@
                 mode = add              
                 gene = cloaks
                 template = fp1_cloak
-                value = 0.8
+                value = 0.9
             }
             accessory = {
                 mode = add
@@ -670,8 +750,8 @@
             accessory = {
                 mode = add
                 gene = beards
-                template = fp1_beards_straight
-                value = 0.8 
+                template = all_beards
+                accessory = male_beard_fp1_04 
             }
             
             accessory = {
@@ -687,16 +767,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:galvin_daelurin
-						this = character:galvin_daelurin
-					}
-					AND = {
-						exists = character:galvin_daelurin_1066
-						this = character:galvin_daelurin_1066
-					}
-				}
+                character_is_galvin_daelurin = yes
             }
         }
     }
@@ -741,16 +812,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:faldrin_daelurin
-						this = character:faldrin_daelurin
-					}
-					AND = {
-						exists = character:faldrin_daelurin_1066
-						this = character:faldrin_daelurin_1066
-					}
-				}
+                character_is_faldrin_daelurin = yes
             }
         }
     }
@@ -800,16 +862,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:thaleia_daelurin
-						this = character:thaleia_daelurin
-					}
-					AND = {
-						exists = character:thaleia_daelurin_1066
-						this = character:thaleia_daelurin_1066
-					}
-				}
+                character_is_thaleia_daelurin = yes
             }
         }
     }
@@ -853,16 +906,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:delwyn_daelurin
-						this = character:delwyn_daelurin
-					}
-					AND = {
-						exists = character:delwyn_daelurin_1066
-						this = character:delwyn_daelurin_1066
-					}
-				}
+                character_is_delwyn_daelurin = yes
             }
         }
     }
@@ -906,16 +950,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:nienor_daelurin
-						this = character:nienor_daelurin
-					}
-					AND = {
-						exists = character:nienor_daelurin_1066
-						this = character:nienor_daelurin_1066
-					}
-				}
+                character_is_nienor_daelurin = yes
             }
         }
     }
@@ -965,16 +1000,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:vyatki_daelurin
-						this = character:vyatki_daelurin
-					}
-					AND = {
-						exists = character:vyatki_daelurin_1066
-						this = character:vyatki_daelurin_1066
-					}
-				}
+                character_is_vyatki_daelurin = yes
             }
         }
     }
@@ -1025,16 +1051,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:elros_daelurin
-						this = character:elros_daelurin
-					}
-					AND = {
-						exists = character:elros_daelurin_1066
-						this = character:elros_daelurin_1066
-					}
-				}
+                character_is_elros_daelurin = yes
             }
         }
     }
@@ -1071,16 +1088,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:myrddin_wyltt
-						this = character:myrddin_wyltt
-					}
-					AND = {
-						exists = character:myrddin_wyltt_1066
-						this = character:myrddin_wyltt_1066
-					}
-				}
+                character_is_myrddin_wyltt = yes
             }
         }
     }
@@ -1117,16 +1125,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:angbor_morozov
-						this = character:angbor_morozov
-					}
-					AND = {
-						exists = character:angbor_morozov_1066
-						this = character:angbor_morozov_1066
-					}
-				}
+                character_is_angbor_morozov = yes
             }
         }
     }
@@ -1157,16 +1156,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:rhozinna_morozov
-						this = character:rhozinna_morozov
-					}
-					AND = {
-						exists = character:rhozinna_morozov_1066
-						this = character:rhozinna_morozov_1066
-					}
-				}
+                character_is_rhozinna_morozov = yes
             }
         }
     }
@@ -1203,16 +1193,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:chezic_morozov
-						this = character:chezic_morozov
-					}
-					AND = {
-						exists = character:chezic_morozov_1066
-						this = character:chezic_morozov_1066
-					}
-				}
+                character_is_chezic_morozov = yes
             }
         }
     }
@@ -1250,16 +1231,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:zorya_morozov
-						this = character:zorya_morozov
-					}
-					AND = {
-						exists = character:zorya_morozov_1066
-						this = character:zorya_morozov_1066
-					}
-				}
+                character_is_zorya_morozov = yes
             }
         }
     }
@@ -1296,16 +1268,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:balin_morozov
-						this = character:balin_morozov
-					}
-					AND = {
-						exists = character:balin_morozov_1066
-						this = character:balin_morozov_1066
-					}
-				}
+                character_is_balin_morozov = yes
             }
         }
     }
@@ -1336,16 +1299,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:kallyna_morozov
-						this = character:kallyna_morozov
-					}
-					AND = {
-						exists = character:kallyna_morozov_1066
-						this = character:kallyna_morozov_1066
-					}
-				}
+                character_is_kallyna_morozov = yes
             }
         }
     }
@@ -1394,16 +1348,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:daleana_morozov
-						this = character:daleana_morozov
-					}
-					AND = {
-						exists = character:daleana_morozov_1066
-						this = character:daleana_morozov_1066
-					}
-				}
+                character_is_daleana_morozov = yes
             }
         }
     }
@@ -1434,29 +1379,19 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:evania_morozov
-						this = character:evania_morozov
-					}
-					AND = {
-						exists = character:evania_morozov_1066
-						this = character:evania_morozov_1066
-					}
-				}
+                character_is_evania_morozov = yes
             }
         }
     }
 
-
     galanoriel_gwynthorn = {
         dna_modifiers = {
-            accessory = {
-                mode = add
-                gene = hairstyles
-                template = indian_hairstyles_wavy
-                accessory = female_hair_indian_01
-            }
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = ep3_byzantine_hairstyle
+				value = 0.2
+			}
             accessory = {
                 mode = add
                 gene = headgear
@@ -1472,8 +1407,8 @@
             accessory = {
                 mode = add
                 gene = clothes
-                template = sp3_western_royalty_clothes
-                value = 0.45
+                template = ep3_byzantine_era2_imperial_clothes
+                value = 0.2
             }
         }   
         weight = {
@@ -1481,16 +1416,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:galanoriel_gwynthorn
-						this = character:galanoriel_gwynthorn
-					}
-					AND = {
-						exists = character:galanoriel_gwynthorn_1066
-						this = character:galanoriel_gwynthorn_1066
-					}
-				}
+                character_is_galanoriel_gwynthorn = yes
             }
         }
     }
@@ -1542,16 +1468,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:gaston_gwynthorn
-						this = character:gaston_gwynthorn
-					}
-					AND = {
-						exists = character:gaston_gwynthorn_1066
-						this = character:gaston_gwynthorn_1066
-					}
-				}
+                character_is_gaston_gwynthorn = yes
             }
         }
     }
@@ -1576,16 +1493,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:elisandra_gwynthorn
-						this = character:elisandra_gwynthorn
-					}
-					AND = {
-						exists = character:elisandra_gwynthorn_1066
-						this = character:elisandra_gwynthorn_1066
-					}
-				}
+                character_is_elisandra_gwynthorn = yes
             }
         }
     }
@@ -1610,16 +1518,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:gwynda_gwynthorn
-						this = character:gwynda_gwynthorn
-					}
-					AND = {
-						exists = character:gwynda_gwynthorn_1066
-						this = character:gwynda_gwynthorn_1066
-					}
-				}
+                character_is_gwynda_gwynthorn = yes
             }
         }
     }
@@ -1650,16 +1549,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:seldric_gwynthorn
-						this = character:seldric_gwynthorn
-					}
-					AND = {
-						exists = character:seldric_gwynthorn_1066
-						this = character:seldric_gwynthorn_1066
-					}
-				}
+                character_is_seldric_gwynthorn = yes
             }
         }
     }
@@ -1685,16 +1575,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:selana_gwynthorn
-						this = character:selana_gwynthorn
-					}
-					AND = {
-						exists = character:selana_gwynthorn_1066
-						this = character:selana_gwynthorn_1066
-					}
-				}
+                character_is_selana_gwynthorn = yes
             }
         }
     }
@@ -1720,22 +1601,12 @@
                 value = 0.5  
             }
         }
-
         weight = {
             base = 0
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:eiman_gwynthorn
-						this = character:eiman_gwynthorn
-					}
-					AND = {
-						exists = character:eiman_gwynthorn_1066
-						this = character:eiman_gwynthorn_1066
-					}
-				}
+                character_is_eiman_gwynthorn = yes
             }
         }
     }
@@ -1763,8 +1634,8 @@
             accessory = {
                 mode = add
                 gene = clothes
-                template = sp3_western_royalty_clothes
-                value = 0.45
+                template = ep3_byzantine_era1_low_nobility_clothes
+                value = 0.8
             }
         }   
         weight = {
@@ -1772,16 +1643,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:marilayne_gwynthorn
-						this = character:marilayne_gwynthorn
-					}
-					AND = {
-						exists = character:marilayne_gwynthorn_1066
-						this = character:marilayne_gwynthorn_1066
-					}
-				}
+                character_is_marilayne_gwynthorn = yes
             }
         }
     }
@@ -1818,16 +1680,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:amelya_verlline
-						this = character:amelya_verlline
-					}
-					AND = {
-						exists = character:amelya_verlline_1066
-						this = character:amelya_verlline_1066
-					}
-				}
+                character_is_amelya_verlline = yes
             }
         }
     }
@@ -1852,16 +1705,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:emeryana_gwynthorn
-						this = character:emeryana_gwynthorn
-					}
-					AND = {
-						exists = character:emeryana_gwynthorn_1066
-						this = character:emeryana_gwynthorn_1066
-					}
-				}
+                character_is_emeryana_gwynthorn = yes
             }
         }
     }
@@ -1882,10 +1726,28 @@
             }
             accessory = {
                 mode = add
+                gene = clothes
+                template = ep2_western_era4_war_nobility_clothes
+                value = 0.9
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = ep2_western_war_legwear
+                value = 0.75
+            }                                                            
+            accessory = {
+                mode = add
                 gene = beards
                 template = no_beard
                 value = 0.04  
             }
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = sp3_cloak
+                value = 0.1
+            }                        
             accessory = {
                 mode = add
                 gene = headgear
@@ -1898,16 +1760,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:earan_gwynthorn
-						this = character:earan_gwynthorn
-					}
-					AND = {
-						exists = character:earan_gwynthorn_1066
-						this = character:earan_gwynthorn_1066
-					}
-				}
+                character_is_earan_gwynthorn = yes
             }
         }
     }
@@ -1938,16 +1791,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:elowyn_greenwood
-						this = character:elowyn_greenwood
-					}
-					AND = {
-						exists = character:elowyn_greenwood_1066
-						this = character:elowyn_greenwood_1066
-					}
-				}
+                character_is_elowyn_greenwood = yes
             }
         }
     }
@@ -1972,16 +1816,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:emera_gwynthorn
-						this = character:emera_gwynthorn
-					}
-					AND = {
-						exists = character:emera_gwynthorn_1066
-						this = character:emera_gwynthorn_1066
-					}
-				}
+                character_is_emera_gwynthorn = yes
             }
         }
     }
@@ -2019,16 +1854,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:haiveloc_verlline
-						this = character:haiveloc_verlline
-					}
-					AND = {
-						exists = character:haiveloc_verlline_1066
-						this = character:haiveloc_verlline_1066
-					}
-				}
+                character_is_haiveloc_verlline = yes
             }
         }
     }
@@ -2065,16 +1891,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:rheddyr_verlline
-						this = character:rheddyr_verlline
-					}
-					AND = {
-						exists = character:rheddyr_verlline_1066
-						this = character:rheddyr_verlline_1066
-					}
-				}
+                character_is_rheddyr_verlline = yes
             }
         }
     }
@@ -2099,16 +1916,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:rebecca_verlline
-						this = character:rebecca_verlline
-					}
-					AND = {
-						exists = character:rebecca_verlline_1066
-						this = character:rebecca_verlline_1066
-					}
-				}
+                character_is_rebecca_verlline = yes
             }
         }
     }
@@ -2126,13 +1934,31 @@
                 mode = add
                 gene = hairstyles
                 template = all_hairstyles
-                accessory = male_hair_byzantine_02
+                accessory = m_hair_ep3_byzantine_01
             }
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep3_byzantine_era2_war_nobility_clothes
+                accessory = m_clothes_sec_ep3_byzantine_era2_war_nob_02_hi
+            }            
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = sp3_cloak
+                value = 0.1
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = ep3_byzantine_war_nobility_legwear
+                value = 0.75
+            }                                    
             accessory = {
                 mode = add
                 gene = beards
                 template = all_beards
-                accessory = male_beard_mena_04
+                accessory = m_beard_ep3_byzantine_02
             }
         }   
         weight = {
@@ -2140,16 +1966,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:julius_serelion
-						this = character:julius_serelion
-					}
-					AND = {
-						exists = character:julius_serelion_1066
-						this = character:julius_serelion_1066
-					}
-				}
+                character_is_julius_serelion = yes
             }
         }
     }
@@ -2162,22 +1979,50 @@
                 template = all_hairstyles
                 accessory = male_hair_mena_04
             }
+            accessory = {
+                mode = add
+                gene = beards
+                template = all_beards
+                accessory = m_beard_ep3_byzantine_01
+            }            
         }   
         weight = {
             base = 0
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:marco_serelion
-						this = character:marco_serelion
-					}
-					AND = {
-						exists = character:marco_serelion_1066
-						this = character:marco_serelion_1066
-					}
-				}
+                character_is_marco_serelion = yes
+            }
+        }
+    }
+
+    saevel_serelion = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = all_hairstyles
+                accessory = male_hair_mena_04
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = all_hairstyles
+                accessory = male_hair_fp2_iberian_muslim_03
+            }            
+                accessory = {
+                mode = add
+                gene = beards
+                template = no_beard
+                value = 0.04  
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+                character_is_saevel_serelion = yes
             }
         }
     }
@@ -2194,8 +2039,8 @@
 			accessory = {
                 mode = add              
                 gene = cloaks
-                template = no_cloak
-                value = 0
+                template = fp1_cloak
+                value = 0.9
             }
             accessory = {
                 mode = add
@@ -2216,16 +2061,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:selene_serelion
-						this = character:selene_serelion
-					}
-					AND = {
-						exists = character:selene_serelion_1066
-						this = character:selene_serelion_1066
-					}
-				}
+                character_is_selene_serelion = yes
             }
         }
     }
@@ -2248,10 +2084,21 @@
             accessory = {
                 mode = add
                 gene = hairstyles
-                template = fp2_hairstyles_iberian_muslim_wavy_common
-                accessory = female_hair_fp2_iberian_muslim_01_common
-                # value = 0.15
+                template = ep3_byzantine_hairstyles_curly
+                accessory = f_hair_ep3_byzantine_03
             }
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep3_byzantine_era1_imperial_clothes
+                value = 0.2
+            }
+            accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }                                    
             accessory = {
                 mode = add
                 gene = headgear
@@ -2264,16 +2111,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:meldona_serelion
-						this = character:meldona_serelion
-					}
-					AND = {
-						exists = character:meldona_serelion_1066
-						this = character:meldona_serelion_1066
-					}
-				}
+                character_is_meldona_serelion = yes
             }
         }
     }
@@ -2304,16 +2142,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:cain_serelion
-						this = character:cain_serelion
-					}
-					AND = {
-						exists = character:cain_serelion_1066
-						this = character:cain_serelion_1066
-					}
-				}
+                character_is_cain_serelion = yes
             }
         }
     }
@@ -2344,16 +2173,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:anatole_serelion
-						this = character:anatole_serelion
-					}
-					AND = {
-						exists = character:anatole_serelion_1066
-						this = character:anatole_serelion_1066
-					}
-				}
+                character_is_anatole_serelion = yes
             }
         }
     }
@@ -2361,28 +2181,31 @@
 	antigoni_serelion = {
 
         dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = ep3_byzantine_hairstyle
+				value = 0.4
+			}
             accessory = {
                 mode = add
-                gene = hairstyles
-                template = all_hairstyles
-                accessory = f_hair_fp3_iranian_02
-            }
+                gene = clothes
+                template = ep3_byzantine_era2_imperial_clothes
+                value = 0.2
+            }            
+            accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0
+            }            
         }   
         weight = {
             base = 0
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:antigoni_serelion
-						this = character:antigoni_serelion
-					}
-					AND = {
-						exists = character:antigoni_serelion_1066
-						this = character:antigoni_serelion_1066
-					}
-				}
+                character_is_antigoni_serelion = yes
             }
         }
     }
@@ -2394,36 +2217,38 @@
                 mode = add
                 gene = hairstyles
                 template = all_hairstyles
-                accessory = female_hair_fp1_03
+                accessory = male_hair_fp1_02
             }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                value = 0.5  
+            }            
+			accessory = {
+                mode = add              
+                gene = cloaks
+                template = no_cloak
+                value = 0.8
+            }            
         }   
         weight = {
             base = 0
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:sofia_serelion
-						this = character:sofia_serelion
-					}
-					AND = {
-						exists = character:sofia_serelion_1066
-						this = character:sofia_serelion_1066
-					}
-				}
+                character_is_sofia_serelion = yes
             }
         }
     }
 
     kylie_serelion = {
-
         dna_modifiers = {
             accessory = {
                 mode = add
                 gene = hairstyles
                 template = all_hairstyles
-                accessory = female_hair_fp1_01
+                accessory = male_hair_fp1_01
             }
         }   
         weight = {
@@ -2431,16 +2256,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:kylie_serelion
-						this = character:kylie_serelion
-					}
-					AND = {
-						exists = character:kylie_serelion_1066
-						this = character:kylie_serelion_1066
-					}
-				}
+                character_is_kylie_serelion = yes
             }
         }
     }
@@ -2471,23 +2287,13 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:aubrey_serelion
-						this = character:aubrey_serelion
-					}
-					AND = {
-						exists = character:aubrey_serelion_1066
-						this = character:aubrey_serelion_1066
-					}
-				}
+                character_is_aubrey_serelion = yes
             }
         }
     }
 
 
-
-    nictheras_skyreaver = {
+    nictheras_thundarael = {
         dna_modifiers = {
             # accessory = {
             #     mode = add
@@ -2525,21 +2331,12 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:nictheras_skyreaver
-						this = character:nictheras_skyreaver
-					}
-					AND = {
-						exists = character:nictheras_skyreaver_1066
-						this = character:nictheras_skyreaver_1066
-					}
-				}
+                character_is_nictheras_thundarael = yes
             }
         }
     }
 
-    nolan_skyreaver = {
+    nolan_thundarael = {
         dna_modifiers = {
             # accessory = {
             #     mode = add
@@ -2577,21 +2374,12 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:nolan_skyreaver
-						this = character:nolan_skyreaver
-					}
-					AND = {
-						exists = character:nolan_skyreaver_1066
-						this = character:nolan_skyreaver_1066
-					}
-				}
+                character_is_nolan_thundarael = yes
             }
         }
     }
 
-    lyra_skyreaver = {
+    lyra_thundarael = {
         dna_modifiers = {
             accessory = {
                 mode = add
@@ -2636,21 +2424,12 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:lyra_skyreaver
-						this = character:lyra_skyreaver
-					}
-					AND = {
-						exists = character:lyra_skyreaver_1066
-						this = character:lyra_skyreaver_1066
-					}
-				}
+                character_is_lyra_thundarael = yes
             }
         }
     }
 
-    elysia_skyreaver = {
+    elysia_thundarael = {
         dna_modifiers = {
             # accessory = {
             #     mode = add
@@ -2694,21 +2473,12 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:elysia_skyreaver
-						this = character:elysia_skyreaver
-					}
-					AND = {
-						exists = character:elysia_skyreaver_1066
-						this = character:elysia_skyreaver_1066
-					}
-				}
+                character_is_elysia_thundarael = yes
             }
         }
     }
 
-    arandur_skyreaver = {
+    arandur_thundarael = {
         dna_modifiers = {
             # accessory = {
             #     mode = add
@@ -2742,16 +2512,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:arandur_skyreaver
-						this = character:arandur_skyreaver
-					}
-					AND = {
-						exists = character:arandur_skyreaver_1066
-						this = character:arandur_skyreaver_1066
-					}
-				}
+                character_is_arandur_thundarael = yes
             }
         }
     }
@@ -2800,16 +2561,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:heldrin_thundarael
-						this = character:heldrin_thundarael
-					}
-					AND = {
-						exists = character:heldrin_thundarael_1066
-						this = character:heldrin_thundarael_1066
-					}
-				}
+                character_is_heldrin_thundarael = yes
             }
         }
     }
@@ -2852,16 +2604,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:celestia_thundarael
-						this = character:celestia_thundarael
-					}
-					AND = {
-						exists = character:celestia_thundarael_1066
-						this = character:celestia_thundarael_1066
-					}
-				}
+                character_is_celestia_thundarael = yes
             }
         }
     }
@@ -2900,16 +2643,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:thrandire_thundarael
-						this = character:thrandire_thundarael
-					}
-					AND = {
-						exists = character:thrandire_thundarael_1066
-						this = character:thrandire_thundarael_1066
-					}
-				}
+                character_is_thrandire_thundarael = yes
             }
         }
     }
@@ -2934,16 +2668,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:tyria_thundarael
-						this = character:tyria_thundarael
-					}
-					AND = {
-						exists = character:tyria_thundarael_1066
-						this = character:tyria_thundarael_1066
-					}
-				}
+                character_is_tyria_thundarael = yes
             }
         }
     }
@@ -2974,16 +2699,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:taliana_thundarael
-						this = character:taliana_thundarael
-					}
-					AND = {
-						exists = character:taliana_thundarael_1066
-						this = character:taliana_thundarael_1066
-					}
-				}
+                character_is_taliana_thundarael = yes
             }
         }
     }
@@ -3002,16 +2718,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:freyja_thundarael
-						this = character:freyja_thundarael
-					}
-					AND = {
-						exists = character:freyja_thundarael_1066
-						this = character:freyja_thundarael_1066
-					}
-				}
+                character_is_freyja_thundarael = yes
             }
         }
     }
@@ -3044,16 +2751,7 @@
             modifier = {
                 add = 999
 				exists = this
-				OR = {
-					AND = {
-						exists = character:adam_thundarael
-						this = character:adam_thundarael
-					}
-					AND = {
-						exists = character:adam_thundarael_1066
-						this = character:adam_thundarael_1066
-					}
-				}
+                character_is_adam_thundarael = yes
             }
         }
     }
@@ -3110,15 +2808,7 @@
             modifier = {
                 add = 999
 				exists = this
-                OR = {
-                    AND = {
-                        exists = character:tulkas_astaldo
-                        this = character:tulkas_astaldo
-                    }
-                    this = {
-                        has_character_flag = is_tulkas_astaldo
-                    }
-                }
+                character_is_tulkas_astaldo = yes
             }
         }
     }
@@ -3162,15 +2852,7 @@
             modifier = {
                 add = 999
 				exists = this
-                OR = {
-                    AND = {
-                        exists = character:vana
-                        this = character:vana
-                    }
-                    this = {
-                        has_character_flag = is_vana
-                    }
-                }
+                character_is_vana = yes
             }
         }
     }

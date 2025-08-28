@@ -1,6 +1,6 @@
 ﻿namespace = elf_destiny_main_story_events
 
-### What is an Archelogist? ###
+## What is an Archeologist? ###
 elf_destiny_main_story_events.001 = {
 	type = character_event
 	title = elf_destiny_main_story_events.001.t
@@ -21,38 +21,7 @@ elf_destiny_main_story_events.001 = {
 		play_music_cue = "mx_cue_positive_effect"
 		save_scope_as = scoped_ruler
 
-		if = {
-			limit = {
-				game_start_date <= 1065.1.1
-				exists = character:julia_melwood
-				character:julia_melwood = {
-                    is_alive = yes
-                }
-			}
-			character:julia_melwood = {
-				save_scope_as = archeologist
-			}
-		}
-		else_if = {
-			limit = {
-				game_start_date >= 1065.1.1
-				exists = character:julia_melwood_1066
-				character:julia_melwood_1066 = {
-                    is_alive = yes
-                }
-			}
-			character:julia_melwood_1066 = {
-				save_scope_as = archeologist
-			}
-		}
-		else = {
-			create_character = {
-				template = julia_melwood_fallback
-				dynasty = none
-				location = root.location
-				save_scope_as = archeologist
-			}
-		}
+		get_julia_melwood_effect = yes
 	}
 
 	option = { # Very Well, I Will Fund this Expedition

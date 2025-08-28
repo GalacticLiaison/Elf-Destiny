@@ -115,13 +115,23 @@ expedition.004 = {
 			}
 			0 = { # lembas satchel
 				modifier = { # Does the player already have a crystal?
-					add = 3
+					add = 5
 					NOT = {
 						has_global_variable = lembas_satchel_discovered
 					}
 				}
 			
 				trigger_event = expedition.0044
+			}
+			0 = { # Nefertiti's Armband
+				modifier = { # Does the player already have a crystal?
+					add = 5
+					NOT = {
+						has_global_variable = nefertitis_armband_discovered
+					}
+				}
+			
+				trigger_event = expedition.0045
 			}
 		}
 	}
@@ -344,6 +354,57 @@ expedition.0044 = { # Find Lembas Satchel
 	}
 }
 
+expedition.0045 = { # Find Nefertiti's Armband
+	type = activity_event
+
+	title = expedition.0045.title
+	desc = expedition.0045.desc
+
+	theme = beauty_enhanced
+	override_background = { reference = temple }
+
+	left_portrait = {
+		character = scope:host
+		animation = lantern
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:nefertitis_armband
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:nefertitis_armband }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+			has_global_variable = nefertitis_armband_discovered
+		}
+	}
+
+	immediate = {
+		scope:host = {
+			create_nefertitis_armband_effect = { OWNER = root }
+		}
+
+		set_global_variable = {
+			name = nefertitis_armband_discovered
+			value = yes
+		}
+
+		scope:activity = {
+			set_variable = {
+				name = status
+				value = flag:artifact_discovery_made
+			}
+		}
+	}
+
+	option = {
+		name = expedition.0045.ok
+	}
+}
+
+
 
 # Expedition Faces a Trial - Controller
 expedition.0051 = {
@@ -455,32 +516,7 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 	}
 
 	immediate = {
-		if = {
-			limit = {
-				game_start_date <= 1065.1.1
-				exists = character:julia_melwood
-			}
-			character:julia_melwood = {
-				save_scope_as = archeologist
-			}
-		}
-		else_if = {
-			limit = {
-				game_start_date >= 1065.1.1
-				exists = character:julia_melwood_1066
-			}
-			character:julia_melwood_1066 = {
-				save_scope_as = archeologist
-			}
-		}
-		else = {
-			create_character = {
-				template = julia_melwood_fallback
-				dynasty = none
-				location = root.location
-				save_scope_as = archeologist
-			}
-		}
+		get_julia_melwood_effect = yes
 	}
 
 	option = {
@@ -506,6 +542,34 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 				name = 01_sigil_of_the_realm_lord_found
 				value = yes
 			}
+
+			if = {
+				limit = {
+					is_target_in_global_variable_list = {
+						name = first_expedition_location_candidates
+						target = scope:activity.activity_location.barony
+					}
+				}
+
+				remove_list_global_variable = {
+					name = first_expedition_location_candidates
+					target = scope:activity.activity_location.barony
+				}
+
+				scope:activity.activity_location.barony = {
+					set_variable = valid_expedition_location
+					set_variable = {
+						name = expedition_site_loc
+						value = flag:expedition_site_fortress_tomb_of_the_dead_emperor_desc
+					}
+					set_variable = {
+						name = expedition_holy_site
+						value = flag:fortress_tomb_of_the_dead_emperor
+					}
+				}
+			
+			}
+
 		}
 
 		trigger_event = expedition.00691
@@ -552,44 +616,14 @@ expedition.00691 = {
 				}
 
 				# Find Julia
-				if = {
-					limit = {
-						exists = character:julia_melwood
-					}
-					character:julia_melwood = {
-						add_character_flag = race_elf
-						urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-						add_trait = magic_talent_1
-					}
+				get_julia_melwood_effect = yes
+				scope:archeologist = {
+					add_character_flag = race_elf
+					urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+					add_trait = magic_talent_1
 				}
-				else_if = {
-					limit = {
-						exists = character:julia_melwood_1066
-					}
-					character:julia_melwood_1066 = {
-						add_character_flag = race_elf
-						urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-						add_trait = magic_talent_1
-					}
-				}
+
 			}
-
-			# if = {
-			# 	limit = {
-			# 		NOT = {
-			# 			is_any_elf_type = yes
-			# 		}
-			# 	}
-			# 	add_trait = elf
-			# }
-	
-
-
-			# scope:activity = {
-			# 	every_attending_character = {
-			# 		add_trait = elf
-			# 	}
-			# }
 		}
 
 		trigger_event = expedition.00692
@@ -616,6 +650,10 @@ expedition.00692 = { # Convert To Elf Culture?
 			CONVERTER = root
 			OLD_CULTURE = root.culture
 			NEW_CULTURE = culture:culture_elf
+		}
+
+		scope:archeologist = {
+			set_culture = culture:culture_elf
 		}
 
 		trigger_event = expedition.00693
@@ -655,32 +693,7 @@ expedition.00693 = {
 	}
 
 	immediate = {
-		if = {
-			limit = {
-				game_start_date <= 1065.1.1
-				exists = character:julia_melwood
-			}
-			character:julia_melwood = {
-				save_scope_as = archeologist
-			}
-		}
-		else_if = {
-			limit = {
-				game_start_date >= 1065.1.1
-				exists = character:julia_melwood_1066
-			}
-			character:julia_melwood_1066 = {
-				save_scope_as = archeologist
-			}
-		}
-		else = {
-			create_character = {
-				template = julia_melwood_fallback
-				dynasty = none
-				location = root.location
-				save_scope_as = archeologist
-			}
-		}
+		get_julia_melwood_effect = yes
 	}
 
 	option = {
@@ -708,32 +721,7 @@ expedition.006901 = { # A Trial Of Wisdom TUTORIAL
 	}
 
 	immediate = {
-		if = {
-			limit = {
-				game_start_date <= 1065.1.1
-				exists = character:julia_melwood
-			}
-			character:julia_melwood = {
-				save_scope_as = archeologist
-			}
-		}
-		else_if = {
-			limit = {
-				game_start_date >= 1065.1.1
-				exists = character:julia_melwood_1066
-			}
-			character:julia_melwood_1066 = {
-				save_scope_as = archeologist
-			}
-		}
-		else = {
-			create_character = {
-				template = julia_melwood_fallback
-				dynasty = none
-				location = root.location
-				save_scope_as = archeologist
-			}
-		}
+		get_julia_melwood_effect = yes
 
 		# scope:activity = {
 		# 	set_variable = {

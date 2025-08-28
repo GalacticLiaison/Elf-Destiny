@@ -1,0 +1,234 @@
+﻿set_considered_aeluran_law_change = {
+	scope = character 		# the root scope, i.e. the target of the effects
+	# saved_scopes = {} 		# any additional targets
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {			# what it does
+		debug_log = "set_considered_aeluran_law_change"
+		debug_log_scopes = yes
+
+		# if = {
+		# 	limit = {
+		# 		scope:considered_law = flag:aeluran_realm_authority_1
+		# 	}
+		# 	set_variable = {
+		# 		name = considered_aeluran_law
+		# 		value = flag:aeluran_realm_authority_1_key
+		# 	}
+		# }
+
+		set_variable = {
+			name = considered_aeluran_law
+			value = scope:considered_law
+		}
+		# set_variable = {
+		# 	name = considered_aeluran_law
+		# 	value = flag:aeluran_realm_authority_1_key
+		# }
+
+		# "scope:host.capital_province.squared_distance(root)"
+		# add_realm_law = aeluran_realm_authority_0
+	}
+
+	is_shown = {
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+	} 			# is it visible in the UI?
+
+	is_valid = {} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+aeluran_law_change = {
+	scope = character 		# the root scope, i.e. the target of the effects
+	# saved_scopes = {} 		# any additional targets
+
+	confirm_title = "Change Aeluran Authority Law" # adding this will prompt the player to confirm the action
+	confirm_text = "Are you sure you want to shift the level of Aeluran Authority in your realm?" # additional text in the confirmation popup
+
+	effect = {			# what it does
+		# custom_tooltip = "yeee"	# adds a tooltip
+		debug_log = "aeluran_law_change"
+		debug_log_scopes = yes
+
+		if = {
+			limit = {
+				var:considered_aeluran_law = flag:aeluran_realm_authority_0_key
+			}
+			debug_log = "aeluran_law_change aeluran_realm_authority_0_key"
+			add_realm_law = aeluran_realm_authority_0
+		}
+		else_if = {
+			limit = {
+				var:considered_aeluran_law = flag:aeluran_realm_authority_1_key
+			}
+			debug_log = "aeluran_law_change aeluran_realm_authority_1_key"
+			add_realm_law = aeluran_realm_authority_1
+		}
+		else_if = {
+			limit = {
+				var:considered_aeluran_law = flag:aeluran_realm_authority_2_key
+			}
+			debug_log = "aeluran_law_change aeluran_realm_authority_2_key"
+			add_realm_law = aeluran_realm_authority_2
+		}
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_red_sister_hook
+				var:considered_aeluran_law_red_sister_hook = yes
+			}
+
+			use_hook = cp:councillor_aeluran_advisor
+		}
+
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_matriarch_hook
+				var:considered_aeluran_law_matriarch_hook = yes
+			}
+
+			use_hook = global_var:high_matriarch
+		}
+
+		# add_realm_law = law:aeluran_realm_authority_1
+		# add_realm_law = aeluran_realm_authority_0
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = {
+		aeluran_law_pass_acceptance_score > 0
+
+		trigger_if = {
+			limit = {
+				exists = var:considered_aeluran_law
+				var:considered_aeluran_law = flag:aeluran_realm_authority_0_key
+			}
+
+			NOT = {
+				has_realm_law = aeluran_realm_authority_0
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = var:considered_aeluran_law
+				var:considered_aeluran_law = flag:aeluran_realm_authority_1_key
+			}
+
+			NOT = {
+				has_realm_law = aeluran_realm_authority_1
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = var:considered_aeluran_law
+				var:considered_aeluran_law = flag:aeluran_realm_authority_2_key
+			}
+
+			NOT = {
+				has_realm_law = aeluran_realm_authority_2
+			}
+		}
+	} 			# can the player use it? always checked, even if you don't use enabled property on the button
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+aeluran_law_change_red_sister_hook = {
+	scope = character 		# the root scope, i.e. the target of the effects
+	# saved_scopes = {} 		# any additional targets
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_red_sister_hook
+			}
+
+			if = {
+				limit = {
+					var:considered_aeluran_law_red_sister_hook = no
+				}
+				set_variable = {
+					name = considered_aeluran_law_red_sister_hook
+					value = yes
+				}
+			}
+			else = {
+				set_variable = {
+					name = considered_aeluran_law_red_sister_hook
+					value = no
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = considered_aeluran_law_red_sister_hook
+				value = yes
+			}
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = { # can the player use it? always checked, even if you don't use enabled property on the button
+		exists = cp:councillor_aeluran_advisor
+		has_hook = cp:councillor_aeluran_advisor
+	} 			
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}
+
+aeluran_law_change_matriarch_hook = {
+	scope = character 		# the root scope, i.e. the target of the effects
+	# saved_scopes = {} 		# any additional targets
+
+	# confirm_title = "your_title"	# adding this will prompt the player to confirm the action
+	# confirm_text = "your_text"	# additional text in the confirmation popup
+
+	effect = {
+		if = {
+			limit = {
+				exists = var:considered_aeluran_law_matriarch_hook
+			}
+
+			if = {
+				limit = {
+					var:considered_aeluran_law_matriarch_hook = no
+				}
+				set_variable = {
+					name = considered_aeluran_law_matriarch_hook
+					value = yes
+				}
+			}
+			else = {
+				set_variable = {
+					name = considered_aeluran_law_matriarch_hook
+					value = no
+				}
+			}
+		}
+		else = {
+			set_variable = {
+				name = considered_aeluran_law_matriarch_hook
+				value = yes
+			}
+		}
+	}
+
+	is_shown = {} 			# is it visible in the UI?
+
+	is_valid = { # can the player use it? always checked, even if you don't use enabled property on the button
+		exists = global_var:high_matriarch
+		has_hook = global_var:high_matriarch
+	} 			
+
+	ai_is_valid = {} 		# is the AI allowed to use it? Disabled by default.
+}

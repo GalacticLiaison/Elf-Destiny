@@ -2,6 +2,7 @@
 	age = { 16 40 }
 
 	trait = aeluran_servant
+	dynasty = generate
 	
 	random_traits_list = { # Random magic
 		count = { 0 1 }
@@ -35,6 +36,7 @@ genetic_good_elf_match = {
 	age = { 16 40 }
 
 	trait = aeluran_servant
+	dynasty = generate
 	
 	random_traits_list = { # Random Good Genetic
 		count = { 1 2 }
@@ -92,7 +94,8 @@ genetic_great_elf_match = {
 	age = { 16 40 }
 
 	trait = aeluran_servant
-	
+	dynasty = generate
+
 	random_traits_list = { # Random Good Genetic
 		count = 2
 		beauty_good_2 = {
@@ -155,6 +158,7 @@ aeluran_sister_match = {
 	gender = female
 	age = { 16 22 }
 	faith = root.faith
+	dynasty = generate
 
 	trait = aeluran_sister
 	trait = magi
@@ -208,6 +212,7 @@ aeluran_sister_match = {
 			}
 		}
 		urf_template_base_race_init = yes
+		set_aeluran_clothing_colors = yes
 	}
 }
 
@@ -215,6 +220,7 @@ aeluran_matron_match = {
 	gender = female
 	age = { 16 22 }
 	faith = root.faith
+	dynasty = generate
 
 	trait = aeluran_matron
 	trait = magi
@@ -273,6 +279,7 @@ aeluran_matron_match = {
 
 aeluran_genetic_project_match = {
 	age = { 16 22 }
+	dynasty = generate
 
 	trait = eccentric
 	trait = fickle
@@ -300,6 +307,7 @@ aeluran_genetic_project_match = {
 bloodline_holder_match = {
 	# NOTE - Requires scope:bloodline_holder_type be set before using
 	age = { 16 22 }
+	dynasty = generate
 
 	random_traits_list = {
 		count = 1
@@ -538,6 +546,7 @@ bloodline_holder_match = {
 
 tribal_warrior_match = {
 	age = { 16 35 }
+	dynasty = generate
 
 	random_traits_list = {
 		count = 3
@@ -608,6 +617,7 @@ tribal_warrior_match = {
 
 wiseman_match = {
 	age = { 16 55 }
+	dynasty = generate
 
 	random_traits_list = {
 		count = 3
@@ -713,6 +723,7 @@ wiseman_match = {
 
 imprisoned_rogue_match = {
 	age = { 16 35 }
+	dynasty = generate
 
 	intrigue = high_skill_rating
 
@@ -826,6 +837,7 @@ imprisoned_rogue_match = {
 
 shy_scholar_match = {
 	age = { 16 35 }
+	dynasty = generate
 
 	learning = high_skill_rating
 
@@ -940,6 +952,7 @@ shy_scholar_match = {
 bastard_claimant_match = {
 	# NOTE - Requires scope:bastard_claimant_parent be set before using
 	age = { 16 19 }
+	dynasty = generate
 
 	random_traits_list = {
 		count = 1
@@ -963,28 +976,24 @@ bastard_claimant_match = {
 
 	after_creation = {
 		add_character_flag = match_generation
-		random_list = { # Elf
-			0 = {}
-			95 = {
-				trigger = {
-					NOT = {
-						scope:bastard_claimant_parent = {
-							is_any_elf_type = yes
-						}
-					}
+		if = {
+			limit = {
+				exists = scope:bastard_claimant_parent
+				scope:bastard_claimant_parent = {
+					is_any_elf_type = yes
 				}
-				add_character_flag = race_elf
 			}
-			5 = {
-				trigger = {
-					NOT = {
-						scope:bastard_claimant_parent = {
-							is_any_elf_type = yes
-						}
-					}
+			random_list = { # Elf
+				95 = {
+					add_character_flag = race_elf
 				}
-				add_character_flag = race_high_elf
+				5 = {
+					add_character_flag = race_high_elf
+				}
 			}
+		}
+		else = {
+			add_character_flag = race_elf_blood
 		}
 		urf_template_base_race_init = yes
 	}
@@ -992,6 +1001,7 @@ bastard_claimant_match = {
 
 inferior_dowry_elf_match = {
 	age = { 21 45 }
+	dynasty = generate
 
 	after_creation = {
 		add_character_flag = match_generation
@@ -1002,6 +1012,7 @@ inferior_dowry_elf_match = {
 
 foreign_elf_match = {
 	age = { 18 40 }
+	dynasty = generate
 
 	trait = lifestyle_traveler
 	trait = adventurer
@@ -1091,6 +1102,7 @@ foreign_elf_match = {
 match_choice_multi_mother = {
 	age = 36
 	gender = female
+	dynasty = generate
 
 	trait = aeluran_servant
 	trait = intellect_good_1
@@ -1124,6 +1136,7 @@ match_choice_multi_mother = {
 twins_match = {
 	# NOTE - Requires scope:match_choice_multi_mother be set before using
 	age = 18
+	dynasty = inherit
 
 	trait = aeluran_servant
 	trait = twin
@@ -1159,6 +1172,7 @@ twins_match = {
 triplets_match = {
 	# NOTE - Requires scope:match_choice_multi_mother be set before using
 	age = 18
+	dynasty = inherit
 
 	trait = aeluran_servant
 	trait = twin

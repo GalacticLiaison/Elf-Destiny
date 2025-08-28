@@ -1,0 +1,34 @@
+drain_beauty = {
+	category = interaction_category_hostile
+	desc = drain_beauty_desc
+	common_interaction = yes
+	icon = icon_nefertitis_armband
+
+	auto_accept = yes
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+	force_notification = no	
+	
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			any_equipped_character_artifact = {
+				has_variable = nefertitis_armband
+			}
+		}
+
+		scope:recipient = {
+			has_any_beauty_trait = yes
+			OR = {
+				is_courtier_of = scope:actor
+				is_imprisoned_by = scope:actor
+			}
+		}
+	}
+	
+	on_send = {
+		scope:actor = {
+			trigger_event = elf_dest_beaut_enh_artifact.001
+		}
+	}
+}

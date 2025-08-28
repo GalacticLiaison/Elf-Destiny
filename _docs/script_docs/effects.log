@@ -1212,10 +1212,23 @@ Supported Scopes: army
 
 --------------------
 
+add_supply - Adds the designated supply to the army's supply. Cannot exceed the 
+army's max supply capacity.
+scope:army = { add_supply = 20 }
+Supported Scopes: army
+
+--------------------
+
 assign_commander - Assign a commander for the scoped army
 set_commander = scope:a_character
 Supported Scopes: army
 Supported Targets: character
+
+--------------------
+
+clear_supply - Clears the designated army's supply.
+scope:army = { clear_supply = yes }
+Supported Scopes: army
 
 --------------------
 
@@ -1269,6 +1282,12 @@ Supported Targets: regiment
 
 --------------------
 
+refill_supply - Refills the designated army's supply to its max capacity.
+scope:army = { refull_supply = yes }
+Supported Scopes: army
+
+--------------------
+
 remove_commander - Removes the currently assigned commander from the scoped army
 remove_commander = yes
 Supported Scopes: army
@@ -1279,6 +1298,13 @@ set_army_location - Teleports the army to the given location. Cannot be done whi
 set_army_location = scope:province
 Supported Scopes: army
 Supported Targets: province
+
+--------------------
+
+subtract_supply - Subtracts the designated supply to the army's supply. Cannot exceed the 
+army's max supply capacity.
+scope:army = { subtract_supply = 20 }
+Supported Scopes: army
 
 --------------------
 
@@ -1470,12 +1496,6 @@ Supported Scopes: travel_plan
 
 remove_travel_plan_modifier - Remove a modifier from a travel plan
 remove_travel_plan_modifier = name
-Supported Scopes: travel_plan
-
---------------------
-
-reroute_to_home - Remove future destinations of the travel plan and set the next destination to home (travel plan owner default location)
-reroute_to_home = yes/no.
 Supported Scopes: travel_plan
 
 --------------------
@@ -2688,6 +2708,8 @@ create_holy_order - Create a new holy order
 create_holy_order = {
     leader = scope:a_character
     capital = scope:a_barony_title
+	  name = <name> #Optional
+	  coat_of_arms = <coa_name> #Optional
     save_scope_as/save_temporary_scope_as = new_holy_order # optional way to get a reference to the new holy order
 }
 Supported Scopes: none
@@ -2792,10 +2814,13 @@ Supported Targets: character
 
 --------------------
 
-duel - duel effect that selects an effect based on comparing specified skill(s) of a character to a value or another character's skill(s). Alternatively, the compare value can be scripted completely
+duel - duel effect that selects an effect based on comparing specified skill(s), and/or saved variable(s) on, of a character to a value or another character's skill(s). Alternatively, the compare value can be scripted completely
 duel = {
     skill = X
-    (skills = { X1 X2 ... })    target = Y
+    (skills = { X1 X2 ... })
+    challenge_variable = saved_variable_name
+    (challenge_variables = { saved_variable_name_1 saved_variable_name_2 ... })
+    target = Y
     value = Z
     localization = W
     ... random list body
@@ -2811,6 +2836,7 @@ Since there is now no automatic weighting, we should be using weight numbers in 
 Only use larger weights if you want the duel_value to have a smaller impact on the weighting, and only use smaller weights if you want the duel_value to have a huge impact on the weighting.
 In addition, it is fully possible for the compare_modifier to reduce the weight to 0, which would mean that it will not be possible to happen at all. I've requested code support to make it so that we can define min and max values for weights, but until further notice we should use ranges that are guaranteed to not hit 0, or include min values in the compare_modifier itself.
 Lastly, remember that if you want the outcome of a duel to scale linearly from (almost) 0% to (almost) 100%, the duel_value should be applied 50% to the good outcome, and -50% to the bad outcome. If you only apply it on one side, you will retain a (presumably significant) chunk of chance for the other outcome.
+If 'challenge_variable' or 'challenge_variables' are used, the variables specified must be localized with <variable_key>_name. You can also do text icons with named <variable_key>_icon
 Supported Scopes: none
 
 --------------------
@@ -2908,6 +2934,13 @@ every_county_in_region - Iterate through all counties in the region. Put 'region
 every_county_in_region = { limit = { <triggers> } <effects> }
 Supported Scopes: none
 Supported Targets: landed_title
+
+--------------------
+
+every_court_position_type - Iterate through every court_position_type in the database
+every_court_position_type = { limit = { <triggers> } <effects> }
+Supported Scopes: none
+Supported Targets: court_position_type
 
 --------------------
 
@@ -3377,6 +3410,20 @@ check_range_bounds = no # If you don't want an error logged if the list is small
 <effects> }
 Supported Scopes: none
 Supported Targets: landed_title
+
+--------------------
+
+ordered_court_position_type - Iterate through every court_position_type in the database
+ordered_court_position_type = {
+limit = { <triggers> }
+order_by = script_value
+position = int
+min = int
+max = script_value
+check_range_bounds = no # If you don't want an error logged if the list is smaller than the min/max
+<effects> }
+Supported Scopes: none
+Supported Targets: court_position_type
 
 --------------------
 
@@ -3997,6 +4044,13 @@ random_county_in_region - Iterate through all counties in the region. Put 'regio
 random_county_in_region = { limit = { <triggers> } (optional) weight = { mtth } <effects> }
 Supported Scopes: none
 Supported Targets: landed_title
+
+--------------------
+
+random_court_position_type - Iterate through every court_position_type in the database
+random_court_position_type = { limit = { <triggers> } (optional) weight = { mtth } <effects> }
+Supported Scopes: none
+Supported Targets: court_position_type
 
 --------------------
 
@@ -5722,6 +5776,16 @@ Supported Targets: character
 
 --------------------
 
+add_wanderer_lifestyle_perk_points - Adds lifestyle per points to the given character
+Supported Scopes: character
+
+--------------------
+
+add_wanderer_lifestyle_xp - Adds lifestyle XP to the given character
+Supported Scopes: character
+
+--------------------
+
 add_war_chest_gold - Add gold to 'war chest' AI budget category, respecting maximums, overflow goes into Short Term budget. (gold will be created out of nowhere)character, add_war_chest_gold = X
 Supported Scopes: character
 
@@ -6053,7 +6117,7 @@ Supported Scopes: character
 
 --------------------
 
-create_divergent_culture - Creates a new divergent culture from the scope character's culture. The new culture will keep all pillars and traditions of the parent culture â€” it is up to the user to add or remove pillars and traditions as appropriate.The new divergent culture is saved as scope:new_culture. 
+create_divergent_culture - Creates a new divergent culture from the scope character's culture. The new culture will keep all pillars and traditions of the parent culture — it is up to the user to add or remove pillars and traditions as appropriate.The new divergent culture is saved as scope:new_culture. 
 create_divergent_culture = yes
 Supported Scopes: character
 
@@ -6446,6 +6510,19 @@ Supported Targets: character
 
 every_councillor - Iterate through all councillors
 every_councillor = { limit = { <triggers> } <effects> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+every_court_position_candidate - Iterate through all valid candidates for a court position type.
+*_court_position_candidate = {
+   court_position = bodyguard_court_position
+	OR
+   court_position = scope:my_scoped_court_position_type
+   ...
+}
+every_court_position_candidate = { limit = { <triggers> } <effects> }
 Supported Scopes: character
 Supported Targets: character
 
@@ -7199,6 +7276,20 @@ Supported Scopes: character
 
 --------------------
 
+force_step_down_landed_titles - Make ruler step down - less harsh than abdicate or depose.
+If ruler has any title that allows them to remain landless playable, then pass
+all landed titles to heirs - counties and any higher tier title with dejure land.
+Keep all titular titles.
+
+If no such title exists, then it works identical to depose
+
+scope:ruler = {
+	force_step_down_landed_titles = yes
+}
+Supported Scopes: character
+
+--------------------
+
 force_vote_as - Forces the character to vote the same as the target
 force_vote_as = { target = someone days/months/years = x }
 Supported Scopes: character
@@ -7850,6 +7941,26 @@ Supported Targets: character
 
 ordered_councillor - Iterate through all councillors
 ordered_councillor = {
+limit = { <triggers> }
+order_by = script_value
+position = int
+min = int
+max = script_value
+check_range_bounds = no # If you don't want an error logged if the list is smaller than the min/max
+<effects> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+ordered_court_position_candidate - Iterate through all valid candidates for a court position type.
+*_court_position_candidate = {
+   court_position = bodyguard_court_position
+	OR
+   court_position = scope:my_scoped_court_position_type
+   ...
+}
+ordered_court_position_candidate = {
 limit = { <triggers> }
 order_by = script_value
 position = int
@@ -9549,6 +9660,19 @@ Supported Targets: character
 
 --------------------
 
+random_court_position_candidate - Iterate through all valid candidates for a court position type.
+*_court_position_candidate = {
+   court_position = bodyguard_court_position
+	OR
+   court_position = scope:my_scoped_court_position_type
+   ...
+}
+random_court_position_candidate = { limit = { <triggers> } (optional) weight = { mtth } <effects> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
 random_court_position_employer - Iterates through all characters that employ the scoped character in any court position.
 random_court_position_employer = { limit = { <triggers> } (optional) weight = { mtth } <effects> }
 Supported Scopes: character
@@ -10315,6 +10439,12 @@ Supported Targets: character
 
 --------------------
 
+remove_dead_character_variable - remove_dead_character_variable = <name>
+Remove a variable from a dead character.
+Supported Scopes: character
+
+--------------------
+
 remove_decision_cooldown - Remove the cooldown on taking a decision for the scoped character
 remove_decision_cooldown = decision_name
 Supported Scopes: character
@@ -10639,6 +10769,13 @@ Supported Scopes: character
 
 --------------------
 
+return_home - Start a travel plan for the character to return home, using their current travel plan info if they have any or starting a new travel plan if they do not.
+						 Saving this as a scope will not work for player characters if they have to use the planner.
+						 return_home = yes\no
+Supported Scopes: character
+
+--------------------
+
 return_hostage - Release scoped character from hostage and return to home court
 Supported Scopes: character
 
@@ -10838,8 +10975,15 @@ Supported Scopes: character
 
 --------------------
 
-set_designated_heir - Sets the given character as designated heir.
+set_designated_heir - Sets one the given direct child character as designated heir.
 set_designated_heir = my_character_scope
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+set_designated_heir_unsafe - Sets the given character as designated heir. This is unsafe if the designated heirs loop. Ensure that there is no loop of heirs when using this. This is purely for mod supports and designers should never use this.
+set_designated_heir_unsafe = my_character_scope
 Supported Scopes: character
 Supported Targets: character
 
@@ -11261,6 +11405,7 @@ start_travel_plan = {
    companion = CHARACTER (optional & repeatable)
    travel_with_domicile = YES/NO (default no)    players_use_planner = YES/NO (default yes)
    return_trip = YES/NO (default yes, adds a destination at the end of the travel plan to return to the starting location)
+	can_cancel_planning = YES/NO (default yes, if NO a human player cannot close the planning window before starting their travel plan
    on_arrival_event = EVENT (triggered on non-home destinations determined by on_arrival_destinations. Root is travel plan owner.)
    on_arrival_on_action = ON_ACTION (triggered on non-home destinations determined by on_arrival_destinations. Root is travel plan owner.)
    on_start_event = EVENT (triggered when the travel starts. Root is travel plan owner.)
@@ -12684,6 +12829,12 @@ Supported Targets: landed_title
 
 --------------------
 
+transfer_title_maa_ownership - Transfers ownership of the scoped title's owned MaA to the target title
+Supported Scopes: landed_title
+Supported Targets: landed_title
+
+--------------------
+
 update_dynamic_coa - update_dynamic_coa = yes
 Updates the dynamic coat of arms definition of a given title picking a new one and overwriting the existing set coat of arms with it if picked
 Supported Scopes: landed_title
@@ -12870,6 +13021,18 @@ Supported Scopes: domicile
 
 --------------------
 
+lower_domicile_building - Downgrade building to previous from scoped domicile or destroy it if at lowest
+domicile = { lower_domicile_building = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+lower_domicile_building_no_refund - Downgrade building to previous from scoped domicile or destroy it if at lowest, without refunding
+domicile = { lower_domicile_building = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
 move_domicile - Moves domicile to target location
 domicile = { move_domicile = location }
 Supported Scopes: domicile
@@ -12878,6 +13041,12 @@ Supported Targets: province
 --------------------
 
 remove_domicile_building - Remove building from scoped domicile
+domicile = { remove_domicile_building = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+remove_domicile_building_no_refund - Remove building from scoped domicile without refunding it
 domicile = { remove_domicile_building = domicile building key }
 Supported Scopes: domicile
 

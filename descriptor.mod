@@ -1,4 +1,4 @@
-version="Beta 1.5.8"
+version="Beta_v1.6.4"
 tags={
 	"Alternative History"
 	"Gameplay"
@@ -8,5 +8,5 @@ tags={
 	"Religion"
 }
 name="Elf Destiny"
-supported_version="1.12.5"
+supported_version="1.16.*"
 remote_file_id="3114064450"

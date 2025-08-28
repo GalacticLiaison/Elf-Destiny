@@ -188,15 +188,22 @@ councillor_aeluran_advisor = {
 		# can_be_councillor_basics_trigger = yes
 		save_temporary_scope_as = candidate
 
-		liege = {
-			scope:candidate = diarch
-			has_diarchy_type = aeluran_regency
-			# OR = {
-			# 	# any_consort = {
-			# 	# 	scope:candidate = this
-			# 	# }
-			# }
-		}
+		is_aeluran_sister_or_higher = yes
+
+		has_variable = appointed_to_advise
+		var:appointed_to_advise = liege
+
+		# trigger_if = {
+		# 	limit = {
+		# 		liege = {
+		# 			has_realm_law_flag = aeluran_regency_enabled
+		# 		}
+		# 	}
+		# 	liege = {
+		# 		scope:candidate = diarch
+		# 		has_diarchy_type = aeluran_regency
+		# 	}
+		# }
 	}
 
 	on_get_position = {
@@ -2290,17 +2297,17 @@ councillor_court_chaplain = {
 				has_doctrine = tenet_aeluran_sisters 
 			}
 		}
-	}
-
-	fill_from_pool = yes
-
-	valid_position = {
-		root.faith = {
-			NOT = {
-				has_doctrine = tenet_aeluran_sisters 
+		trigger_if = {
+			limit = { is_ai = yes }
+			always = yes
+		}
+		trigger_else = {
+			faith = {
+				NOT = { has_doctrine_parameter = clerical_appointment_ruler }
 			}
 		}
 	}
+	fill_from_pool = yes
 
 	can_fire = {
 		custom_description = {
@@ -2314,8 +2321,11 @@ councillor_court_chaplain = {
 	can_reassign = {
 		custom_description = {
 			text = "court_chaplain_cant_reassign_doctrines"
-			faith = {
-				has_doctrine_parameter = clerical_appointment_ruler
+			OR = {
+				faith = {
+					NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+				}
+				NOT = { exists = cp:councillor_court_chaplain }
 			}
 		}
 	}
@@ -2448,6 +2458,18 @@ councillor_court_chaplain = {
 		exists = root.liege_or_court_owner
 		can_be_court_chaplain_trigger = { COURT_OWNER = root.liege_or_court_owner }
 	}
+	
+	valid_position = {
+		NOR = { 
+			government_has_flag = government_is_landless_adventurer 
+			government_has_flag = government_is_nomadic
+		}
+		root.faith = {
+			NOT = {
+				has_doctrine = tenet_aeluran_sisters 
+			}
+		}
+	}
 
 	on_get_position = {
 		root.liege = {
@@ -2532,11 +2554,14 @@ councillor_court_chaplain = {
 					}
 					5 = {
 						trigger = {
-							can_start_scheme = { type = learn_language target = liege }
+							can_start_scheme = { 
+								type = learn_language 
+								target_character = liege 
+							}
 						}
 						start_scheme = {
 							type = learn_language
-							target = liege
+							target_character = liege
 						}
 					}
 					5 = {
@@ -2591,7 +2616,6 @@ councillor_court_chaplain = {
 		}
 
 		debug_log_scopes = yes
-
 		fired_from_council_position_effect = yes
 	}
 
