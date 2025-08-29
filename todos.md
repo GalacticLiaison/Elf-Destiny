@@ -1,1 +1,1 @@
-upon enchanter death remove enchanted trait - done
+test if aeluran county conversion is causing aelurans to leave, may be related to auto-convert submod
