@@ -1,0 +1,355 @@
+﻿namespace = atlantis_expedition
+
+
+
+# Expedition Finds Artifact
+atlantis_expedition.004 = {
+	hidden = yes
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+		}
+	}
+
+	immediate = {
+		random_list = {
+			70 = { # equipment
+				if = {
+					limit = {
+						every_artifact = {
+							AND = {
+								NOT = {
+									any_artifact = {
+										has_variable = is_crown_of_coral
+									}
+								}
+								NOT = {
+									any_artifact = {
+										has_variable = is_scepter_of_the_tides
+									}
+								}
+								NOT = {
+									any_artifact = {
+										has_variable = is_trident_of_tidal_might
+									}
+								}
+								NOT = {
+									any_artifact = {
+										has_variable = is_waveguard_armor
+									}
+								}
+								NOT = {
+									any_artifact = {
+										has_variable = is_ring_of_the_deep
+									}
+								}
+								NOT = {
+									any_artifact = {
+										has_variable = is_elven_mariners_astrolabe
+									}
+								}
+							}
+						}
+					}
+					trigger_event = atlantis_expedition.0042
+				}
+				else = {
+					trigger_event = expedition.0042
+				}
+				
+			}
+			0 = { # crystal
+				modifier = { # Does the player already have a crystal?
+					add = 30
+					scope:host = {
+						NOT = {
+							any_artifact = {
+								has_variable = is_spark_crystal
+							}
+						}
+					}
+				}
+			
+				trigger_event = expedition.0043
+			}
+			0 = { # lembas satchel
+				modifier = { # Does the player already have a crystal?
+					add = 3
+					NOT = {
+						has_global_variable = lembas_satchel_discovered
+					}
+				}
+			
+				trigger_event = expedition.0044
+			}
+		}
+	}
+}
+
+atlantis_expedition.0042 = { # Find Atlantis Equipment
+	type = activity_event
+
+	title = expedition.0042.title
+	desc = {
+		desc = expedition.0042.desc
+		# +++ / triple plus good
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:spear
+			}
+			desc = expedition.0042.desc.weapon
+		}
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:armor_scale
+			}
+			desc = expedition.0042.desc.armor
+		}
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:miscellaneous
+			}
+			desc = expedition.0042.desc.jewelry
+		}
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:helmet
+			}
+			desc = expedition.0042.desc.boots
+		}
+		triggered_desc = {
+			trigger = {
+				scope:artifact_type = flag:regalia
+			}
+			desc = expedition.0042.desc.boots
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = corridor_night }
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:newly_created_sea_elf_artifact
+		position = lower_right_portrait # TODO: play around with position, right_portrait didnt work
+		trigger = { exists = scope:newly_created_sea_elf_artifact }
+	}
+
+	trigger = {
+		NOT = {
+			scope:activity.var:status = flag:artifact_discovery_made
+		}
+	}
+ 
+	immediate = {
+        if = {
+            limit = {
+                NOT = {
+                    any_artifact = {
+                        has_variable = is_crown_of_coral
+                    }
+                }
+            }
+            create_crown_of_coral_effect = {
+                OWNER = root
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = {
+                	any_artifact = {
+                        has_variable = is_scepter_of_the_tides
+                    }
+                }
+            }
+            create_scepter_of_the_tides_effect = {
+                OWNER = root
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = {
+                	any_artifact = {
+                        has_variable = is_trident_of_tidal_might
+                    }
+                }
+            }
+            create_trident_of_tidal_might_effect = {
+                OWNER = root
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = {
+                	any_artifact = {
+                        has_variable = is_waveguard_armor
+                    }
+                }
+            }
+            create_waveguard_armor_effect = {
+                OWNER = root
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = {
+                	any_artifact = {
+                        has_variable = is_ring_of_the_deep
+                    }
+                }
+            }
+            create_ring_of_the_deep_effect = {
+                OWNER = root
+            }
+        }
+        else_if = {
+            limit = {
+                NOT = {
+                	any_artifact = {
+                        has_variable = is_elven_mariners_astrolabe
+                    }
+                }
+            }
+            create_elven_mariners_astrolabe_effect = {
+                OWNER = root
+            }
+        }																
+    }
+
+	option = {
+		name = expedition.0042.ok
+	}
+}
+
+# Expedition Faces a Trial - Controller
+atlantis_expedition.0051 = {
+	hidden = yes
+	
+	immediate = {
+		random_list = {
+			100 = { # A Trial Of Wisdom
+				trigger_event = expedition.00511
+			}
+			55 = { # A Trial Of Cunning
+				trigger_event = expedition.00512
+			}
+			25 = { # A Trial Of Greed
+				trigger_event = expedition.00513
+			}
+			100 = { # A Trial Of Prowess
+				trigger_event = expedition.00514
+			}
+		}
+	}
+}
+
+atlantis_expedition.006 = {
+	hidden = yes
+	
+	immediate = {
+		# Add expedition count at this barony
+		if = { 
+			limit = {
+				NOT = {
+					exists = scope:activity.activity_location.barony.var:expeditions_completed_here
+				}
+			}
+
+			debug_log = "setting expeditions_completed_here"
+
+			scope:activity.activity_location.barony = {
+				set_variable = {
+					name = expeditions_completed_here 
+					value = 0
+				}
+			}
+		}
+
+		debug_log = "incrementing expeditions_completed_here"
+
+		scope:activity.activity_location.barony = {
+			change_variable = {name = expeditions_completed_here add = 1}
+		}
+
+		if = {
+			limit = {
+				scope:activity.activity_location.barony.var:expeditions_completed_here = 2
+				NOT = {
+					scope:activity.activity_location.barony = global_var:portal_location_barony # Portal Site
+				}				
+			}
+
+			debug_log = "activating holy site"
+
+			trigger_event = atlantis_expedition.0062
+		}
+		else = {
+			trigger_event = atlantis_expedition.0061
+		}
+
+		# if count > 5, fire event declaring it a holy site and adding special building ruins
+	}
+}
+
+# Expedition Ends
+atlantis_expedition.0061 = {
+	type = activity_event
+
+	title = expedition.0061.title
+	desc = expedition.0061.desc
+
+	theme = hunt_activity
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	option = {
+		name = expedition.0061.ok
+	}
+}
+
+# Holy Site Unlocked
+atlantis_expedition.0062 = {
+	type = activity_event
+
+	title = expedition.0062.title
+	desc = expedition.0062.desc
+
+	theme = hunt_activity
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		root.faith = {
+			activate_holy_site = ruins_of_ring_harbor
+		}
+		add_to_global_variable_list = {
+			name = discovered_holy_sites
+			target = flag:ruins_of_ring_harbor
+		}
+	}
+
+	option = {
+		name = expedition.0062.ok
+		trigger_event = atlantis_expedition.0061 # end expedition
+	}
+}

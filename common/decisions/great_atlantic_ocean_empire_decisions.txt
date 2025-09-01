@@ -1,0 +1,1380 @@
+﻿# #####################
+# ##### GREAT Atlantic Ocean Empire Decisions
+# #####################
+# create_great_atlantic_empire = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_great_atlantic_empire_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_atlantic_empire
+# 		title:e_great_atlantic_empire = {
+# 			is_title_created = no
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 4
+# 		completely_controls = title:e_atlantic_empire
+# 		#completely_controls = title:k_norway
+# 		completely_controls = title:k_denmark
+# 		#completely_controls = title:k_scotland
+# 		#completely_controls = title:k_wales
+# 		#completely_controls = title:k_england
+# 		completely_controls = title:e_britannia
+# 		completely_controls = title:k_frisia
+# 		custom_tooltip = {
+# 			text = k_holstein_created_and_controlled_desc
+# 			title:k_holstein = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_holstein
+# 		}
+# 		custom_tooltip = {
+# 			text = k_atlantic_portugal_created_and_controlled_desc
+# 			title:k_atlantic_portugal = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_portugal
+# 		}
+# 		custom_tooltip = {
+# 			text = k_atlantic_maghreb_created_and_controlled_desc
+# 			title:k_atlantic_maghreb = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_maghreb
+# 		}custom_tooltip = {
+# 			text = k_atlantic_gibraltar_created_and_controlled_desc
+# 			title:k_atlantic_gibraltar = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_gibraltar
+# 		}
+# 		#custom_tooltip = {
+# 		#	text = k_atlantic_takrur_and_kaabu_created_and_controlled_desc
+# 		#	title:k_atlantic_takrur_and_kaabu = {
+# 		#		is_title_created = yes
+# 		#	}
+# 		#	completely_controls = title:k_atlantic_takrur_and_kaabu
+# 		#}
+# 		#custom_tooltip = {
+# 		#	text = k_atlantic_guinea_created_and_controlled_desc
+# 		#	title:k_atlantic_guinea = {
+# 		#		is_title_created = yes
+# 		#	}
+# 		#	completely_controls = title:k_atlantic_guinea
+# 		#}
+# 		#custom_tooltip = {
+# 		#	text = k_atlantic_akan_created_and_controlled_desc
+# 		#	title:k_atlantic_akan = {
+# 		#		is_title_created = yes
+# 		#	}
+# 		#	completely_controls = title:k_atlantic_akan
+# 		#}
+# 		#custom_tooltip = {
+# 		#	text = k_atlantic_yorubaland_created_and_controlled_desc
+# 		#	title:k_atlantic_yorubaland = {
+# 		#		is_title_created = yes
+# 		#	}
+# 		#	completely_controls = title:k_atlantic_yorubaland
+# 		#}
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 1000
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 600
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:e_great_atlantic_empire = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 			hidden_effect = {
+# 				copy_title_history = title:e_atlantic_empire
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		#title:k_atlantic_takrur_and_kaabu = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_holstein = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_maghreb = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_gibraltar = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_portugal = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_atlantic_guinea = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_atlantic_akan = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_atlantic_yorubaland = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_asturias = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_aquitaine = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_atlantic_england = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantic_france = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_ireland = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_brittany = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_atlantis = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_wales = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_scotland = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_norway = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_denmark = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		#title:k_england = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:k_frisia = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		title:e_britannia = {
+# 			every_in_de_jure_hierarchy = {
+# 				limit = { tier = tier_kingdom }
+# 				set_de_jure_liege_title = title:e_great_atlantic_empire
+# 			}
+# 		}
+# 		title:e_atlantic_empire = {
+# 			root = { destroy_title = prev }
+# 		}
+
+# 		trigger_event = { id = atlantic_ocean_empire.11 }
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_holstein = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_holstein_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_atlantic_empire
+# 		title:k_holstein = {
+# 			is_title_created = no
+# 			NOT = {
+# 				is_de_jure_liege_or_above_target = title:d_holstein
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_holstein
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_holstein = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_holstein = { set_de_jure_liege_title = title:k_holstein }
+# 		hidden_effect = {
+# 			title:k_holstein = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_portugal = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_portugal_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_atlantic_empire
+# 		title:k_atlantic_portugal = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_porto
+# 				is_de_jure_liege_or_above_target = title:d_coimbra
+# 				is_de_jure_liege_or_above_target = title:d_beja
+# 				is_de_jure_liege_or_above_target = title:d_algarve
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_porto
+# 		completely_controls = title:d_coimbra
+# 		completely_controls = title:d_beja
+# 		#completely_controls = title:d_sevilla
+# 		completely_controls = title:d_algarve
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_portugal = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_porto = { set_de_jure_liege_title = title:k_atlantic_portugal }
+# 		title:d_coimbra = { set_de_jure_liege_title = title:k_atlantic_portugal }
+# 		title:d_beja = { set_de_jure_liege_title = title:k_atlantic_portugal }
+# 		#title:d_sevilla = { set_de_jure_liege_title = title:k_atlantic_portugal }
+# 		title:d_algarve = { set_de_jure_liege_title = title:k_atlantic_portugal }
+# 		hidden_effect = {
+# 			title:k_atlantic_portugal = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_gibraltar = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_gibraltar_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_atlantic_empire
+# 		title:k_atlantic_gibraltar = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_rif
+# 				is_de_jure_liege_or_above_target = title:d_fes
+# 				is_de_jure_liege_or_above_target = title:d_sevilla
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_rif
+# 		completely_controls = title:d_fes
+# 		completely_controls = title:d_sevilla
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_gibraltar = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_rif = { set_de_jure_liege_title = title:k_atlantic_gibraltar }
+# 		title:d_fes = { set_de_jure_liege_title = title:k_atlantic_gibraltar }
+# 		title:d_sevilla = { set_de_jure_liege_title = title:k_atlantic_gibraltar }
+# 		hidden_effect = {
+# 			title:k_atlantic_gibraltar = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_maghreb = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_maghreb_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_atlantic_empire
+# 		title:k_atlantic_maghreb = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_sous
+# 				is_de_jure_liege_or_above_target = title:d_marrakesh
+# 				is_de_jure_liege_or_above_target = title:d_zammour
+# 				is_de_jure_liege_or_above_target = title:d_canarias
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		#completely_controls = title:d_rif
+# 		#completely_controls = title:d_fes
+# 		completely_controls = title:d_sous
+# 		completely_controls = title:d_marrakesh
+# 		completely_controls = title:d_zammour
+# 		completely_controls = title:d_canarias
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_maghreb = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		#title:d_rif = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		#title:d_fes = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		title:d_sous = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		title:d_marrakesh = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		title:d_zammour = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		title:d_canarias = { set_de_jure_liege_title = title:k_atlantic_maghreb }
+# 		hidden_effect = {
+# 			title:k_atlantic_maghreb = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_takrur = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_takrur_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		title:k_atlantic_takrur = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_takrur
+# 				is_de_jure_liege_or_above_target = title:d_djolof
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_takrur
+# 		completely_controls = title:d_djolof
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_takrur = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_takrur = { set_de_jure_liege_title = title:k_atlantic_takrur }
+# 		title:d_djolof = { set_de_jure_liege_title = title:k_atlantic_takrur }
+# 		hidden_effect = {
+# 			title:k_atlantic_takrur = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_kaabu = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_kaabu_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		title:k_atlantic_kaabu = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_kasa
+# 				is_de_jure_liege_or_above_target = title:d_wuli
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_kasa
+# 		completely_controls = title:d_wuli
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_kaabu = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_kasa = { set_de_jure_liege_title = title:k_atlantic_kaabu }
+# 		title:d_wuli = { set_de_jure_liege_title = title:k_atlantic_kaabu }
+# 		hidden_effect = {
+# 			title:k_atlantic_kaabu = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_guinea = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_guinea_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		title:k_atlantic_guinea = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_sapi
+# 				is_de_jure_liege_or_above_target = title:d_kono
+# 				is_de_jure_liege_or_above_target = title:d_bassa
+# 				is_de_jure_liege_or_above_target = title:d_kru
+# 				is_de_jure_liege_or_above_target = title:d_wenyon
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_sapi
+# 		completely_controls = title:d_kono
+# 		completely_controls = title:d_bassa
+# 		completely_controls = title:d_kru
+# 		completely_controls = title:d_wenyon
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_guinea = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_sapi = { set_de_jure_liege_title = title:k_atlantic_guinea }
+# 		title:d_kono = { set_de_jure_liege_title = title:k_atlantic_guinea }
+# 		title:d_bassa = { set_de_jure_liege_title = title:k_atlantic_guinea }
+# 		title:d_kru = { set_de_jure_liege_title = title:k_atlantic_guinea }
+# 		title:d_wenyon = { set_de_jure_liege_title = title:k_atlantic_guinea }
+# 		hidden_effect = {
+# 			title:k_atlantic_guinea = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_akan = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_akan_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		title:k_atlantic_akan = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_adiukru
+# 				is_de_jure_liege_or_above_target = title:d_ashanti
+# 				is_de_jure_liege_or_above_target = title:d_eweland
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_adiukru
+# 		completely_controls = title:d_ashanti
+# 		completely_controls = title:d_eweland
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_akan = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_adiukru = { set_de_jure_liege_title = title:k_atlantic_akan }
+# 		title:d_ashanti = { set_de_jure_liege_title = title:k_atlantic_akan }
+# 		title:d_eweland = { set_de_jure_liege_title = title:k_atlantic_akan }
+# 		hidden_effect = {
+# 			title:k_atlantic_akan = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_yorubaland = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_yorubaland_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		title:k_atlantic_yorubaland = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_ibadan
+# 				is_de_jure_liege_or_above_target = title:d_ife
+# 				is_de_jure_liege_or_above_target = title:d_benin
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_ibadan
+# 		completely_controls = title:d_ife
+# 		completely_controls = title:d_benin
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_yorubaland = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_ibadan = { set_de_jure_liege_title = title:k_atlantic_yorubaland }
+# 		title:d_ife = { set_de_jure_liege_title = title:k_atlantic_yorubaland }
+# 		title:d_benin = { set_de_jure_liege_title = title:k_atlantic_yorubaland }
+# 		hidden_effect = {
+# 			title:k_atlantic_yorubaland = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# integrate_norway = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_yorubaland_desc
+	
+# 	is_shown = {
+# 		has_title = title:e_great_atlantic_empire
+# 		NOT = {
+# 			title:k_norway = {
+# 				target_is_de_jure_liege_or_above = title:e_great_atlantic_empire
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:k_norway
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		title:k_norway = { set_de_jure_liege_title = title:e_great_atlantic_empire }
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
