@@ -36,11 +36,13 @@
   game_concept_aeluran_matchmaking:0 "아엘루란 중매"
   game_concept_aeluran_matchmaking_desc:0 "가장 강력한 엘프 군주의 번성을 보장하는 것은 아엘루란 교단에게 가장 중요한 일입니다. 이를 위해, 신앙의 군주들이 예비 배우자를 선택할 때 교단의 조언을 구하는 것이 관례입니다. 만약 군주가 배우자를 찾는 데 너무 오래 지체하면, 교단은 그들에게 엄선된 후보 목록에서 선택하도록 #BOL 강력히 권장할 것입니다#!."
 
+
   realm_supervision_mandate:0 "봉신 감독"
   realm_supervision_mandate_desc:1 "#BOL 이 [mandate|E] 수준에서\n#BOL 주군은:#! #!\n$EFFECT_LIST_BULLET$[GetStaticModifier('realm_is_supervised_modifier').GetNameWithTooltip]을(를) 얻습니다. \n#BOL 섭정관은 다음을 수행할 수 있습니다:#!\n$EFFECT_LIST_BULLET$봉신 [secrets|E]을(를) 발견합니다.\n$EFFECT_LIST_BULLET$백작령 [county_control|E]을(를) 증가시킵니다.\n$EFFECT_LIST_BULLET$비아엘루란 봉신 [feudal_contracts|E]을(를) [liege|E]에게 유리하게 조정합니다.\n$EFFECT_LIST_BULLET$비아엘루란 봉신이 충성스러운 특성을 얻을 수 있습니다.\n$EFFECT_LIST_BULLET$비신앙 봉신을 개종시키거나 폐위시킵니다.\n\n#WEAK 당신의 아엘루란 조언자 [regent|E]는 당신의 봉신 관리에 #Bold 일부#! 통제권을 행사합니다."
 
   realm_subjugation_mandate:0 "봉신 복종"
   realm_subjugation_mandate_desc:1 "#BOL 이 [mandate|E] 수준에서\n#BOL 주군은:#! #!\n$EFFECT_LIST_BULLET$[GetStaticModifier('realm_is_subjugated_modifier').GetNameWithTooltip]을(를) 얻습니다. \n#BOL 섭정관은 다음을 수행할 수 있습니다:#!\n$EFFECT_LIST_BULLET$이전 위임 수준의 모든 행동을 취할 수 있습니다.\n$EFFECT_LIST_BULLET$당신에 대한 봉신의 살해 또는 납치 음모를 감지합니다.\n$EFFECT_LIST_BULLET$당신에 대항하여 결성된 적대적 [factions|E]을(를) 해체합니다.\n$EFFECT_LIST_BULLET$당신의 봉신들 사이에서 강력한 지도자로서의 평판을 높여 [dread|E]을(를) 증가시킵니다.\n\n#WEAK 당신의 아엘루란 조언자 [regent|E]는 당신의 봉신에게 #Bold 상당한#! 통제권을 행사합니다."
+
 
   realm_domination_mandate:0 "봉신 지배"
   realm_domination_mandate_desc:1 "#BOL 이 [mandate|E] 수준에서\n#BOL 주군은:#! #!\n$EFFECT_LIST_BULLET$[GetStaticModifier('realm_is_dominated_modifier').GetNameWithTooltip]을(를) 얻습니다. \n#BOL 섭정관은 다음을 수행할 수 있습니다:#!\n$EFFECT_LIST_BULLET$이전 위임 수준의 모든 행동을 취할 수 있습니다.\n$EFFECT_LIST_BULLET$적대적인 강력한 봉신의 후계자를 인질로 잡을 것을 제안합니다.\n$EFFECT_LIST_BULLET$재교육 멘토링을 통해 골치 아픈 봉신을 재조정합니다.\n$EFFECT_LIST_BULLET$유능한 궁정 인물을 봉신에게서 그들의 주군에게로 이전합니다.\n\n#WEAK 당신의 아엘루란 조언자 [regent|E]는 당신의 봉신에게 #N 절대적인#! 통제권을 행사합니다."
@@ -54,6 +56,7 @@
   realm_is_dominated_modifier:0 "영역이 지배됨"
   realm_is_dominated_modifier:0 "당신의 영역과 봉신들은 붉은 자매에게 완전히 복종합니다."
 
+# DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP:4 "#T Your Control Level: $aeluran_level_of_control_display_value$#!\n[DiarchyWindow.GetPowerLevelStatus( ComplexBarItem.GetValue )]\n\nEffects:\n[DiarchyWindow.GetPowersForLevel( ComplexBarItem.GetValue )][SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)1' ), '', '#weak All previous levels also apply#!' )]\n\n[DiarchyWindow.GetSwingChangeDescription]"
   DIARCHY_WINDOW_SCALES_OF_AELURAN_CONTROL_LEVEL_TOOLTIP: "#T [scales_of_power|E] 수준 $LEVEL$#!\n$STATUS$\n\n효과:\n$POWERS$[SelectLocalization( EqualTo_int32( '(int32)$LEVEL|q$', '(int32)1'), '', '#weak 모든 이전 수준도 적용됩니다#!' )]\n\n$CHANGE_DESC$"
 
   aeluran_level_of_control_display_value:1 "[SelectLocalization( EqualTo_int32( DiarchyWindow.GetLevelForSwing( ComplexBarItem.GetValue ), '(int32)1' ), 'aeluran_domination_plus_3', 'aeluran_level_of_control_display_value_2' )]"
@@ -84,6 +87,13 @@
 
   regent_mandate_level_2:0 "섭정관의 봉신 관리 [mandate|E]가 #difficulty_hard [GetMandate('realm_subjugation').GetName] #!로 상향됩니다."
   regent_mandate_level_3:0 "섭정관의 봉신 관리 [mandate|E]가 #medium_glow #attacker_color #BOL [GetMandate('realm_domination').GetName]#!#!#!로 상향됩니다."
+
+  # greater_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #medium_glow #attacker_color #BOL Greater#!#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+  # small_chance_aeluran_councillor_becomes_disloyal:0 "[aeluran_weavers_government|E] vassals have a #negative_value #BOL Small#!#! chance of gaining the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+  # aeluran_councillor_loses_loyal:0 "[aeluran_weavers_government|E] vassals #difficulty_hard Might Lose#! the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+  # aeluran_councillor_loses_disloyal:0 "[aeluran_weavers_government|E] vassals #difficulty_easy Might Lose#! the [GetTrait('disloyal').GetName( GetNullCharacter )] [trait|E]"
+  # small_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value #BOL Small#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
+  # greater_chance_aeluran_councillor_becomes_loyal:0 "[aeluran_weavers_government|E] vassals have a #positive_value_toast #BOL Greater#!#! chance of gaining the [GetTrait('loyal').GetName( GetNullCharacter )] [trait|E]"
 
   aeluran_vassals_gain_votes_in_elven_elective_1:0 "[aeluran_weavers_government|E] 봉신은 [GetLaw('elf_elective_succession_law').GetName]에서 #difficulty_hard 더 많은#! 표를 얻습니다."
   aeluran_vassals_gain_votes_in_elven_elective_2:0 "[aeluran_weavers_government|E] 봉신은 [GetLaw('elf_elective_succession_law').GetName]에서 #negative_value #BOL 훨씬 더 많은#!#! 표를 얻습니다."
@@ -200,6 +210,7 @@
 
   # Highest Title Tier
   aeluran_respect_from_highest_title_tier:0 "[Character.Custom('Aeluran_Respect_From_Highest_Title_Tier')]"
+  # aeluran_respect_from_highest_title_tier:0 "[Character.Custom('Aeluran_Respect_From_Highest_Title_Tier')|U]"
   aeluran_respect_from_highest_title_tier_empire:0 "@empire_icon! [Character.Custom('GetRulerTierName')]"
   aeluran_respect_from_highest_title_tier_kingdom:0 "@kingdom_icon! [Character.Custom('GetRulerTierName')]"
   aeluran_respect_from_highest_title_tier_duchy:0 "@duchy_icon! [Character.Custom('GetRulerTierName')]"
@@ -263,6 +274,7 @@
   aeluran_respect_from_sin_eunuch:0 "@eunuch_icon! [GetTrait('eunuch').GetName( GetNullCharacter )]: #N -[EmptyScope.ScriptValue('eunuch_penalty')|2]#!\n"
 
   aeluran_respect_from_sin_refused_matchmaking:0 "@aeluran_matriarch_icon! 아엘루란 중매 거부됨"
+  # aeluran_respect_from_sin_refused_matriarchs_summons:0 "@aeluran_matriarch_icon! Refused High Matriarchs Summons"
   aeluran_respect_from_sin_has_unlanded_aeluran_advisor:0 "@aeluran_matriarch_icon! 봉토 없는 아엘루란 조언자를 가지고 있음"
 
   # Status
@@ -283,6 +295,7 @@
   BOW_DIPLO_AND_INTRIGUE:1 "의지 대결 - 현혹하는 힘 ([diplomacy_i] [diplomacy|E] 및 [intrigue_i] [intrigue|E])"
   BOW_DIPLO_AND_INTRIGUE_DESC:0 "#BOL 현혹하는 본성#! [culture_tradition|E]으로 잠금 해제\n\n도전자는 방어자가 저항하도록 유혹적인 불꽃 오라를 휘두릅니다."
 
+
   aeluran_law_bonus_header:0 "#tooltip_subheading 누적 통치자 보너스:#!"
   aeluran_law_cost:0 "비용: [Law.GetEnactCostForPlayer]"
 
@@ -291,14 +304,16 @@
   aeluran_realm_authority_0_flavor_text:0 "#EMP 당신은 아엘루란 교단을 적절한 거리에 두어,\n자매단과 당신 영역의 기능 사이에 명확한 분리를 유지합니다.#"
 
   game_concept_aeluran_realm_authority:0 "아엘루란 영역 권한"
-  game_concept_aeluran_realm_authority_desc:1 "아엘루란 영역 권한은 아엘루란 교단이 통치자의 영역에서 휘두르는 힘을 나타냅니다.\n아엘루란 영역 권한을 높이는 데는 약간의 [prestige|E]가 들지만, 아엘루란 교단이 이 행동을 승인하므로 [piety|E]를 보상합니다. 일단 아엘루란이 영역 통치에 확고히 자리 잡으면, 통치자는 아엘루란 영역 권한을 낮추기가 더 어렵다는 것을 알게 될 것입니다. 이는 붉은 자매와 고위 대모에 대한 높은 의견과 어쩌면 약점을 필요로 합니다."
+  game_concept_aeluran_realm_authority_desc:1 "아엘루란 왕국 권위는 아엘루란 교단이 통치자의 왕국에서 행사하는 힘을 나타냅니다.\n아엘루란 왕국 권위를 높이려면 약간의 [prestige|E]가 소모되지만, 아엘루란 교단이 이 행동을 인정하여 [piety|E]를 보상으로 얻습니다. 아엘루란이 왕국의 통치에 깊숙이 자리 잡으면, 통치자는 아엘루란 왕국 권위를 낮추는 것이 더 어렵다는 것을 알게 될 것입니다. 이를 위해서는 붉은 자매와 최고 대모의 높은 의견과 더불어 명분이 필요할 수 있습니다."
 
   aeluran_realm_authority_1:0 "아엘루란 조언직"
   aeluran_realm_authority_1_effects:0 "$EFFECT_LIST_BULLET$#indent_newline:3 붉은 자매가 당신의 아엘루란 조언자 [regent|E]로 봉사합니다.#!\n$EFFECT_LIST_BULLET$#indent_newline:3 [aeluran_weavers_government|E] [vassals|E]가 더 많은 [aeluran_magi_regiments|E]를 공헌합니다.#!"
+  # aeluran_realm_authority_1_effects_not_in_prev:0 "#weak The Aeluran Order assigns a Sister to rule at your\nside as your most trusted advisor.#!"
   aeluran_realm_authority_1_flavor_text:0 "#EMP 아엘루란 교단은 당신의 가장 신뢰할 수 있는 조언자로 당신의 옆에서 통치하도록 자매를 배정합니다.\n권한은 당신 다음입니다.#"
 
   aeluran_realm_authority_2:0 "아엘루란 사법권"
   aeluran_realm_authority_2_effects:0 "$EFFECT_LIST_BULLET$#indent_newline:3 [aeluran_weavers_government|E] [vassals|E]가 훨씬 더 많은 [aeluran_magi_regiments|E]를 공헌합니다.#!\n$EFFECT_LIST_BULLET$#indent_newline:3 붉은 자매는 그들의 [liege|E]를 [crimes|E]를 저지른 죄로 [imprison|E]할 수 있으며\n#indent_newline:2 그들에게 속죄를 부과할 수 있습니다#! #debug (아직 구현되지 않음)#!#!"
+  # aeluran_realm_authority_2_effects_not_in_prev:0 "#weak The Aeluran Order has been entrusted to run the courts of your realm#!"
   aeluran_realm_authority_2_flavor_text:0 "#EMP 아엘루란 교단은 당신 영역의 법원을 운영하는 임무를 맡았습니다.\n그들은 농민과 귀족을 포함하여 영역의 모든 시민에 대해 사법권을 가집니다.\n당신까지도요.#"
 
   aeluran_realm_authority_0_key:0 "aeluran_realm_authority_0"
@@ -311,6 +326,7 @@
 
   must_increment_aeluran_authority:0 "아엘루란 권한을 한 번에 한 수준 이상 조정할 수 없습니다."
 
+  # AELURAN_LAW_PASS_ACCEPTANCE_SCORE:0 "[GetPlayer.MakeScope.GetVariable('urf_genotype_human').GetValue|+=0]"
   AELURAN_LAW_PASS_ACCEPTANCE_SCORE:0 "[GetPlayer.MakeScope.ScriptValue('aeluran_law_pass_acceptance_score')|+=0]"
 
   aelurans_will_accept:0 "수용할 것임"
@@ -319,3 +335,17 @@
   aeluran_law_acceptance_score_tooltip:0 "아엘루란은 권한의 변화를 수용할까요?\n$EFFECT_LIST_BULLET$붉은 자매의 당신에 대한 의견에 영향을 받습니다.\n$EFFECT_LIST_BULLET$고위 대모의 당신에 대한 의견에 영향을 받습니다.\n$EFFECT_LIST_BULLET$아엘루란 교단은 아엘루란 권한의 증가는 항상 수용할 것입니다."
 
   aeluran_change_law_button_text:0 "아엘루란 권한 변경"
+
+  new_aeluran_army_arrived_title:0 "아엘루란 군대 창설"
+  new_aeluran_army_arrived_desc:0 "당신의 평의회 의원이 새로운 \n[GetPlayer.Custom('Aeluran_Reinforcement_Army_Size')]를 창설했습니다."
+
+  aeluran_reinforcements_message_total_magi_reinforcements:0 "#tooltip_heading 총 모집된 마법사:#! #T [GetPlayer.MakeScope.ScriptValue('total_aeluran_magi_reinforcements')|0]#!\n"
+  aeluran_reinforcements_message_regiment_breakdown_header:0 "\n#high 마법사 징집병 연대 유형 분석#!"
+
+  aeluran_reinforcements_arrived_title:0 "[aeluran_advisor.GetActiveCouncilTask.GetName]: 신규 마법사 모집"
+  aeluran_reinforcements_arrived_header:0 ""
+  aeluran_reinforcements_aeluran_war_magi_total:0 "\n@[GetMaA('aeluran_war_magi').GetIconKey]_icon! [GetMaA('aeluran_war_magi').GetName]: $regiment_breakdown_war_magi_value$"
+  aeluran_reinforcements_aeluran_artillery_total:0 "\n@[GetMaA('aeluran_artillery').GetIconKey]_icon! [GetMaA('aeluran_artillery').GetName]: $regiment_breakdown_magi_artillery_value$"
+  
+  aeluran_reinforcements_arrived_title_max_capacity:0 "[aeluran_advisor.GetActiveCouncilTask.GetName]: 추가 모집 금지"
+  aeluran_reinforcements_message_max_capacity:0 "더 이상 아엘루란 마법사를 지휘할 수 없습니다.\n\n더 큰 병력을 유지하려면 당신의 왕국의 [GetLawGroup('aeluran_realm_authority').GetName] [law|E]를 높여야 합니다."
