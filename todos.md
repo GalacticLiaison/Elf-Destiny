@@ -1,5 +1,1 @@
-Seraphine's domain is borked
-
-Fix character window
-
-Aeluran vassal contracts are totally messed up. Look into converting common/vassal_contracts => common/subject_contracts
+upon enchanter death remove enchanted trait - done

@@ -1,0 +1,1353 @@
+﻿# #####################
+# ##### Atlantic Ocean Empire Decisions
+# #####################
+
+# ### Kingdom Decisions
+# create_kingdom_atlantis_diplomacy_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_diplomacy_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_diplomacy_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 2
+# 		any_independent_ruler = {
+# 			highest_held_title_tier >= tier_kingdom
+# 			OR = {
+# 				has_relation_best_friend = root
+# 				has_relation_friend = root
+# 			}
+# 		}
+# 	}
+	
+# 	cost = {
+# 		prestige = 1500
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_diplomacy_modifier
+# 			add_county_modifier = atlantis_county_setteled_diplomacy_2_modifier
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 50
+# 	}
+# }
+# create_kingdom_atlantis_diplomacy_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_diplomacy_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_diplomacy_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		any_independent_ruler = {
+# 			highest_held_title_tier >= tier_kingdom
+# 			count > 2
+# 			OR = {
+# 				has_relation_best_friend = root
+# 				has_relation_friend = root
+# 			}
+# 		}
+# 	}
+	
+# 	cost = {
+# 		prestige = 2000
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.01 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_diplomacy_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_diplomacy
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		every_independent_ruler = {
+# 			limit = {
+# 				OR = {
+# 					has_relation_best_friend = root
+# 					has_relation_friend = root
+# 				}
+# 				highest_held_title_tier >= tier_kingdom
+# 			}
+# 			add_hook = {
+# 				type = favor_hook
+# 				target = root
+# 			}
+# 			add_character_modifier = { modifier = atlantis_helped_settel years = 5 }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_martial_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_martial_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_martial_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		custom_tooltip = {
+# 			text = atlantis_raider_minor_trigger
+# 			has_variable = raid_counter
+# 			var:raid_counter >= 20
+# 		}
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		is_imprisoned = no
+# 	}
+
+# 	cost = {
+# 		gold = 100
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_martial_modifier
+# 			add_county_modifier = atlantis_county_setteled_martial_2_modifier
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_martial_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_martial_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_martial_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		custom_tooltip = {
+# 			text = atlantis_raider_major_trigger
+# 			has_variable = raid_counter
+# 			var:raid_counter >= 50
+# 		}
+# 		has_trait = viking
+# 	}
+
+# 	is_valid_showing_failures_only = {
+# 		is_imprisoned = no
+# 	}
+
+# 	cost = {
+# 		gold = 200
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.02 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_martial_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_martial
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_stewardship_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_stewardship_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_stewardship_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		OR = {
+# 			any_directly_owned_province = {
+# 				count = all
+# 				combined_building_level >= 3
+# 			}
+# 			AND = {
+# 				faith = {
+# 					has_doctrine = doctrine_theocracy_temporal
+# 				}
+# 				any_directly_owned_province = {
+# 					count = all
+# 					OR = {
+# 						custom_tooltip = {
+# 							text = atlantis_custom_holding_type_trigger
+# 							has_holding_type = church_holding
+# 						}
+# 						combined_building_level >= 3
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	cost = {
+# 		gold = 200
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_stewardship_modifier
+# 			add_county_modifier = atlantis_county_setteled_stewardship_2_modifier
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_stewardship_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_stewardship_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_stewardship_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		OR = {
+# 			any_directly_owned_province = {
+# 				count = all
+# 				combined_building_level >= 6
+# 			}
+# 			AND = {
+# 				faith = {
+# 					has_doctrine = doctrine_theocracy_temporal
+# 				}
+# 				any_directly_owned_province = {
+# 					count = all
+# 					OR = {
+# 						custom_tooltip = {
+# 							text = atlantis_custom_holding_type_trigger
+# 							has_holding_type = church_holding
+# 						}
+# 						combined_building_level >= 6
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	cost = {
+# 		gold = 400
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.03 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_stewardship_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_stewardship
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_intrigue_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_intrigue_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_intrigue_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		any_hooked_character = {
+# 			highest_held_title_tier >= tier_kingdom
+# 		}
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_intrigue_modifier
+# 			add_county_modifier = atlantis_county_setteled_intrigue_2_modifier
+# 		}
+# 		random_hooked_character = {
+# 			limit = { highest_held_title_tier >= tier_kingdom }
+# 			root = { use_hook = prev }
+# 			add_character_modifier = { modifier = atlantis_helped_settel years = 5 }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_intrigue_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_intrigue_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_intrigue_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		any_hooked_character = {
+# 			count >= 3
+# 			highest_held_title_tier >= tier_kingdom
+# 		}
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.04 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_intrigue_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_intrigue
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		every_hooked_character = {
+# 			limit = { highest_held_title_tier >= tier_kingdom }
+# 			root = { use_hook = prev }
+# 			add_character_modifier = { modifier = atlantis_helped_settel years = 5 }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_learning_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_learning_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_learning_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		piety_level >= 2
+# 		#realm_priest = {
+# 		#	opinion = {
+# 		#		target = root
+# 		#		value >= 40
+# 		#	}
+# 		#}
+# 	}
+	
+# 	cost = {
+# 		piety = 1000
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_learning_modifier
+# 			add_county_modifier = atlantis_county_setteled_learning_2_modifier
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_learning_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_learning_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_learning_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		piety_level >= 3
+# 		#realm_priest = {
+# 		#	opinion = {
+# 		#		target = root
+# 		#		value >= 80
+# 		#	}
+# 		#}
+# 	}
+	
+# 	cost = {
+# 		piety = 2000
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.05 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_learning_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_learning
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_prowess_1 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_prowess_1_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_prowess_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		custom_description = {
+# 			text = enemies_slayed_1_loc
+# 			enemies_slayed_1_trigger = yes
+# 		}
+# 	}
+	
+# 	cost = {
+# 		prestige = 1000
+# 	}
+	
+# 	effect = {
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			change_development_level = 5
+# 			remove_county_modifier = atlantis_county_setteled_prowess_modifier
+# 			add_county_modifier = atlantis_county_setteled_prowess_2_modifier
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_kingdom_atlantis_prowess_2 = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_kingdom_atlantis_prowess_2_desc
+	
+# 	is_shown = {
+# 		has_title = titcle:c_french_leon
+# 		title:k_atlantis = {
+# 			is_title_created = no
+# 		}
+# 		titcle:c_french_leon = { has_county_modifier = atlantis_county_setteled_prowess_2_modifier }
+# 	}
+	
+# 	is_valid = {
+# 		custom_description = {
+# 			text = enemies_slayed_2_loc
+# 			enemies_slayed_2_trigger = yes
+# 		}
+# 		custom_description = {
+# 			text = tournaments_won_loc
+			
+# 			tournaments_won_trigger = yes
+# 		}
+# 	}
+	
+# 	cost = {
+# 		prestige = 2000
+# 	}
+	
+# 	effect = {
+# 		gain_legitimizing_legend_seed_tooltip_effect = yes
+# 		trigger_event = { id = atlantic_ocean_empire.06 }
+# 		set_global_variable = atlantis_kingdom_created
+
+# 		atlantis_county_list_build_effect = yes
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			remove_county_modifier = atlantis_county_setteled_prowess_2_modifier
+# 			if = {
+# 				limit = {
+# 					game_start_date > 867.1.1
+# 				}
+# 				change_development_level = 5
+# 			}
+# 		}
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantis = {
+# 			set_coa = k_atlantis_prowess
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# ### Empire Decisions
+# create_atlantic_empire = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_empire_desc
+	
+# 	is_shown = {
+# 		has_title = title:k_atlantis
+# 		title:e_atlantic_empire = {
+# 			is_title_created = no
+# 		}
+# 		title:e_great_atlantic_empire = {
+# 			is_title_created = no
+# 		}
+# 		has_global_variable = atlantis_mundane_playthrough
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 4
+# 		completely_controls = title:k_ireland
+# 		completely_controls = title:k_brittany
+# 		completely_controls = title:k_atlantis
+# 		custom_tooltip = {
+# 			text = k_atlantic_aquitaine_created_and_controlled_desc
+# 			title:k_atlantic_aquitaine = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_aquitaine
+# 		}
+# 		custom_tooltip = {
+# 			text = k_atlantic_france_created_and_controlled_desc
+# 			title:k_atlantic_france = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_france
+# 		}
+# 		#custom_tooltip = {
+# 		#	text = k_atlantic_england_created_and_controlled_desc
+# 		#	title:k_atlantic_england = {
+# 		#		is_title_created = yes
+# 		#	}
+# 		#	completely_controls = title:k_atlantic_england
+# 		#}
+# 		custom_tooltip = {
+# 			text = k_atlantic_asturias_created_and_controlled_desc
+# 			title:k_atlantic_asturias = {
+# 				is_title_created = yes
+# 			}
+# 			completely_controls = title:k_atlantic_asturias
+# 		}
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 1000
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 600
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		gain_heroic_legend_seed_tooltip_effect = yes
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:e_atlantic_empire = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:k_atlantic_asturias = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		title:k_atlantic_aquitaine = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		#title:k_atlantic_england = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		title:k_atlantic_france = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		title:k_ireland = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		title:k_brittany = { set_de_jure_liege_title = title:e_atlantic_empire }
+# 		title:k_atlantis = { set_de_jure_liege_title = title:e_atlantic_empire }
+
+# 		trigger_event = { id = atlantic_ocean_empire.10 }
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_asturias = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_asturias_desc
+	
+# 	is_shown = {
+# 		has_title = title:k_atlantis
+# 		has_global_variable = atlantis_mundane_playthrough
+# 		title:k_atlantic_asturias = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_viscaya
+# 				is_de_jure_liege_or_above_target = title:d_galicia
+# 				is_de_jure_liege_or_above_target = title:d_cantabria
+# 				is_de_jure_liege_or_above_target = title:d_asturias
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_viscaya
+# 		completely_controls = title:d_galicia
+# 		completely_controls = title:d_cantabria
+# 		completely_controls = title:d_asturias
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_asturias = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_viscaya = { set_de_jure_liege_title = title:k_atlantic_asturias }
+# 		title:d_galicia = { set_de_jure_liege_title = title:k_atlantic_asturias }
+# 		title:d_cantabria = { set_de_jure_liege_title = title:k_atlantic_asturias }
+# 		title:d_asturias = { set_de_jure_liege_title = title:k_atlantic_asturias }
+# 		hidden_effect = {
+# 			title:k_atlantic_asturias = { set_de_jure_liege_title = title:e_spain }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_aquitaine = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_aquitaine_desc
+	
+# 	is_shown = {
+# 		has_title = title:k_atlantis
+# 		has_global_variable = atlantis_mundane_playthrough
+# 		title:k_atlantic_aquitaine = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_poitou
+# 				is_de_jure_liege_or_above_target = title:d_aquitaine
+# 				is_de_jure_liege_or_above_target = title:d_gascogne
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_poitou
+# 		completely_controls = title:d_aquitaine
+# 		completely_controls = title:d_gascogne
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_aquitaine = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_poitou = { set_de_jure_liege_title = title:k_atlantic_aquitaine }
+# 		title:d_aquitaine = { set_de_jure_liege_title = title:k_atlantic_aquitaine }
+# 		title:d_gascogne = { set_de_jure_liege_title = title:k_atlantic_aquitaine }
+# 		hidden_effect = {
+# 			title:k_atlantic_aquitaine = { set_de_jure_liege_title = title:e_france }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+# create_atlantic_france = {
+# 	picture = {
+# 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# 	}
+# 	decision_group_type = major
+# 	ai_goal = yes
+# 	desc = create_atlantic_france_desc
+	
+# 	is_shown = {
+# 		has_title = title:k_atlantis
+# 		has_global_variable = atlantis_mundane_playthrough
+# 		title:k_atlantic_france = {
+# 			is_title_created = no
+# 			any_false = {
+# 				is_de_jure_liege_or_above_target = title:d_normandy
+# 				is_de_jure_liege_or_above_target = title:d_flanders
+# 			}
+# 		}
+# 	}
+	
+# 	is_valid = {
+# 		prestige_level >= 3
+# 		completely_controls = title:d_normandy
+# 		completely_controls = title:d_flanders
+# 	}
+	
+# 	is_valid_showing_failures_only = {
+# 		is_capable_adult = yes
+# 		is_imprisoned = no
+# 		is_independent_ruler = yes
+# 		is_at_war = no
+# 	}
+	
+# 	cost = {
+# 		gold = {
+# 			value = 500
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 		prestige = {
+# 			value = 300
+# 			if = {
+# 				limit = {
+# 					root = { has_government = tribal_government }
+# 				}
+# 				multiply = {
+# 					value = 0.5
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_dynasty_perk = law_legacy_2 }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 			if = {
+# 				limit = {
+# 					root = { has_perk = ducal_conquest_perk }
+# 				}
+# 				multiply = {
+# 					value = 0.8
+# 				}
+# 			}
+# 		}
+# 	}
+	
+# 	effect = {
+# 		create_title_and_vassal_change = {
+# 			type = created
+# 			save_scope_as = change
+# 			add_claim_on_loss = no
+# 		}
+# 		title:k_atlantic_france = {
+# 			change_title_holder = {
+# 				holder = root
+# 				change = scope:change
+# 			}
+# 		}
+# 		resolve_title_and_vassal_change = scope:change
+# 		title:d_normandy = { set_de_jure_liege_title = title:k_atlantic_france }
+# 		title:d_flanders = { set_de_jure_liege_title = title:k_atlantic_france }
+# 		hidden_effect = {
+# 			title:k_atlantic_france = { set_de_jure_liege_title = title:e_france }
+# 		}
+# 	}
+
+# 	ai_potential = {
+# 		always = yes
+# 	}
+# 	ai_will_do = {
+# 		base = 100
+# 	}
+# }
+
+# ### Vulcano Decision
+# #climb_vulcano = {
+# #	picture = {
+# #		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+# #	}
+# #	desc = climb_vulcano_desc
+# #
+# #	ai_check_interval = 60
+# #
+# #
+# #	is_shown = {
+# #		OR = {
+# #			has_title = title:e_great_atlantic_empire
+# #			has_title = title:e_atlantic_empire
+# #			AND = {
+# #				title:e_great_atlantic_empire = { is_title_created = no }
+# #				title:e_atlantic_empire = { is_title_created = no }
+# #				has_title = title:k_atlantis
+# #			}
+# #		}
+# #		has_global_variable = atlantis_mundane_playthrough
+# #		has_global_variable = atlantis_vulcano_unlocked
+# #	}
+# #
+# #	cost = {
+# #		gold = hunt_activity_cost
+# #	}
+# #
+# #	is_valid_showing_failures_only = {
+# #		is_available_adult = yes
+# #		custom_tooltip = {
+# #			text = atlantis_vulcano_done_desc
+# #			NOT = { has_character_flag = atlantis_vulcano_done }
+# #		}
+# #	}
+# #
+# #	effect = {
+# #		# Only once per lifetime
+# #		add_character_flag = atlantis_vulcano_done
+# #
+# #		custom_tooltip = {
+# #			text = climb_vulcano_effect_tooltip
+# #			title:b_atlantis_outer_crown_4.title_province = {
+# #				spawn_activity = {
+# #					type = activity_climb_vulcano
+# #					owner = root
+# #				}
+# #			}
+# #		}
+# #	}
+# #
+# #	ai_potential = {
+# #		short_term_gold > standard_activity_cost
+# #		war_chest_gold >= halved_ai_war_chest_gold_maximum
+# #	}
+# #
+# #	ai_will_do = {
+# #		base = 35
+# #
+# #		ai_value_modifier = {
+# #			ai_energy = 1
+# #			ai_greed = -0.5
+# #			ai_compassion = -0.5
+# #		}
+# #
+# #		modifier = {
+# #			add = 10
+# #			has_trait_rank = {
+# #				trait = education_martial
+# #				rank > 0
+# #			}
+# #		}
+# #		modifier = {
+# #			add = 10
+# #			has_trait_rank = {
+# #				trait = education_martial
+# #				rank > 2
+# #			}
+# #		}
+# #
+# #		modifier = {
+# #			add = 35
+# #			stress > low_stress
+# #		}
+# #		
+# #		modifier = { # Too busy booming the economy
+# #			add = -50
+# #			OR = {
+# #				ai_has_economical_boom_personality = yes
+# #				has_character_flag = ai_boom
+# #			}
+# #		}
+# #		
+# #		modifier = { # Work first, play later
+# #			add = -35
+# #			exists = capital_county
+# #			capital_county.title_province = {
+# #				free_building_slots > 0
+# #			}
+# #		}
+# #	}
+# #}

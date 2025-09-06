@@ -1,0 +1,182 @@
+﻿namespace = atlantis_setup
+#####
+# Atlantis Mod Setup Events 
+#####
+# atlantis_setup.1 = { #Mythical or mundane playthrough
+# 	scope = none
+# 	hidden = yes
+	
+# 	immediate = {
+# 		### Mark atlantis as uninhabited
+# 		title:k_atlantis = {
+# 			every_in_de_jure_hierarchy = {
+# 				limit = {
+# 					tier = tier_county
+# 				}
+# 				add_to_list = atlantis_county_titles_list
+# 			}
+# 		}
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_uninhabited_modifier
+# 			add_county_modifier = recently_looted_modifier
+# 		}
+# 		### Determine playthrough type
+# 		if = {
+# 			limit = {
+# 				any_player = {
+# 					has_trait = uninhabited
+# 				}
+# 			}
+# # #			set_global_variable = atlantis_mythical_playthrough
+# 			title:b_atlantis_outer_crown_1.title_province = {
+# 				add_special_building_slot = holy_site_other_grand_temple_01
+# 			}
+# 			title:b_atlantis_little_finger.title_province = {
+# 				add_special_building_slot = holy_site_other_grand_temple_01
+# 			}
+# 			title:b_atlantis.title_province = {
+# 				add_special_building_slot = holy_site_other_grand_temple_01
+# 			}
+# 		}
+# 		else = {
+# 			set_global_variable = atlantis_mundane_playthrough
+# 			every_player = {
+# 				limit = { is_ruler = yes }
+# 				trigger_event = { id = atlantis_setup.3 days = 1 } # Notification event
+# 			}
+# 		}
+# 	}	
+# }
+
+# atlantis_setup.2 = {# After war deciding what way to take to the Kingdom
+# 	type = character_event
+# 	title = atlantis_setup.2.t
+# 	desc = atlantis_setup.2.desc
+
+# 	theme = realm
+# 	override_background = wilderness_mountains
+
+# 	left_portrait = {
+# 		character = root
+# 		animation = worry
+# 	}
+
+# 	immediate = {
+# 		hidden_effect = {
+# 			### Prepare Countys
+# 			atlantis_county_list_build_effect = yes
+	
+# 			every_in_list = {
+# 				list = atlantis_county_titles_list
+# 				hidden_effect = {
+# 					set_county_culture = root.culture
+# 					set_county_faith = root.faith
+# 				}
+# 				remove_county_modifier = atlantis_county_uninhabited_modifier
+# 				remove_county_modifier = recently_looted_modifier
+# 				change_development_level = -10
+# 				change_county_control = 100
+# 			}
+# 		}
+# 	}
+
+# 	option = {#Diplomacy
+# 		name = atlantis_setup.2.diplomacy
+# 		skill = diplomacy
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_diplomacy_modifier
+# 		}
+# 	}
+	
+# 	option = {#Martial
+# 		name = atlantis_setup.2.martial
+# 		skill = martial
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_martial_modifier
+# 		}
+# 	}
+	
+# 	option = {#stewardship
+# 		name = atlantis_setup.2.stewardship
+# 		skill = stewardship
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_stewardship_modifier
+# 		}
+# 	}
+	
+# 	option = {#intrigue
+# 		name = atlantis_setup.2.intrigue
+# 		skill = intrigue
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_intrigue_modifier
+# 		}
+# 	}
+	
+# 	option = {#learning
+# 		name = atlantis_setup.2.learning
+# 		skill = learning
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_learning_modifier
+# 		}
+# 	}
+	
+# 	option = {#prowess
+# 		name = atlantis_setup.2.prowess
+# 		skill = prowess
+# 		every_in_list = {
+# 			list = atlantis_county_titles_list
+# 			add_county_modifier = atlantis_county_setteled_prowess_modifier
+# 		}
+# 	}
+# }
+
+# atlantis_setup.3 = { #Mundane Player Notification
+# 	type = character_event
+# 	title = atlantis_setup.3.t
+# 	desc = atlantis_setup.3.desc
+
+# 	theme = default
+# 	override_background = docks
+# 	left_portrait = {
+# 		character = root
+# 		animation = worry
+# 	}
+
+# 	option = {
+# 		name = atlantis_setup.3.a
+# 	}
+# }
+# # Invalid War event
+# atlantis_setup.4 = {
+# 	type = character_event
+# 	title = atlantis_setup.4.t
+# 	desc = atlantis_setup.4.desc
+
+# 	theme = default
+# 	left_portrait = {
+# 		character = root
+# 		animation = idle
+# 	}
+
+# 	trigger = {
+# 		any_character_war = {
+# 			NOT = { using_cb = atlantis_migration_cb }
+# 		}
+# 	}
+
+# 	option = {
+# 		name = atlantis_setup.4.a
+# 		every_character_war = {
+# 			limit = {
+# 				NOT = { using_cb = atlantis_migration_cb }
+# 			}
+# 			end_war = white_peace
+# 		}
+# 	}
+# }
