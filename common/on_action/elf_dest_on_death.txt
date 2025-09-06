@@ -3,7 +3,8 @@
 on_death = {
     on_actions = {
         aeluran_hierarchy_management
-    }
+		clear_entrance_traits_from_minions
+    } 
 }
 
 aeluran_hierarchy_management = {
@@ -47,7 +48,42 @@ aeluran_hierarchy_management = {
             }
             debug_log = "Replacing Matron"
 
-            appoint_new_aeluran_matron_effect = yes
-        }
-    }
+			appoint_new_aeluran_matron_effect = yes
+		}
+	}
+}
+
+clear_entrance_traits_from_minions = {
+	effect = {
+		every_hooked_character = {
+			if = {
+				limit = {
+					root = {
+						OR = {
+							has_hook_of_type = {
+								target = prev
+								type = entranced
+							}	
+							has_hook_of_type = {
+								target = prev
+								type = enthralled
+							}	
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_trait = entranced
+					}
+					remove_trait =  entranced
+				}
+				if = {
+					limit = {
+						has_trait = enthralled
+					}
+					remove_trait =  enthralled
+				}
+			}			
+		}
+	}
 }

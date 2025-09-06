@@ -135,3 +135,53 @@ MurderOrKidnap = {
 		localization_key = murder_or_kidnap_kidnap
 	}
 }
+
+Aeluran_Reinforcement_Army_Size = {
+	type = character
+
+	text = {
+		trigger = { 
+			root = {
+				OR = {
+					AND = {
+						exists = var:set_aeluran_army_level
+						var:set_aeluran_army_level = 3
+					}
+					AND = {
+						has_realm_law = aeluran_realm_authority_2
+						NOT = {
+							var:set_aeluran_army_level = 2
+						} 
+					}
+				}
+			}   
+		}
+		localization_key = stationed_aeluran_magi_3_with_icon
+	}
+	text = {
+		trigger = { 
+			root = {
+				OR = {
+					AND = {
+						exists = var:set_aeluran_army_level
+						var:set_aeluran_army_level = 2
+					}
+					AND = {
+						has_realm_law = aeluran_realm_authority_1
+						NOT = {
+							var:set_aeluran_army_level = 1
+						} 
+					}
+				}
+			}  
+		}
+		localization_key = stationed_aeluran_magi_2_with_icon
+	}
+	text = {
+		trigger = {
+
+		}
+		fallback = yes
+		localization_key = stationed_aeluran_magi_1_with_icon
+	}
+}
