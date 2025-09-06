@@ -537,4 +537,243 @@ types OVERRIDE
 			}
 		}
 	}
+
+	# Why?: We are overriding the unit icon when showing aeluran reinforcements
+	type widget_event_troop_item = widget {
+		size = { 505 130 }
+
+		background = {
+			using = Background_Area
+		}
+
+		vbox = {
+			hbox  = {
+				name = "header"
+				layoutpolicy_horizontal = expanding
+
+				margin = { 0 5 }
+				margin_left = 7
+
+				background = {
+					using = Background_Area
+				}
+
+				icon = {
+					# visible = "[Not(EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi')))]"
+					visible = "[And(Not(EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_1'))) , And(Not(EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_2'))), Not(EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_3')))))]"
+
+					name = "event_troops"
+					texture = "gfx/interface/icons/icon_special_troops.dds"
+					size = { 36 36 }
+				}
+
+				icon = {
+					visible = "[EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_1'))]"
+					name = "event_troops_aeluran_1"
+					texture = "gfx/interface/icons/regimenttypes/stationed_aeluran_magi_1.dds"
+					
+					size = { 36 36 }
+				}
+
+				icon = {
+					visible = "[EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_2'))]"
+					name = "event_troops_aeluran_2"
+					texture = "gfx/interface/icons/regimenttypes/stationed_aeluran_magi_2.dds"
+					
+					size = { 36 36 }
+				}
+
+				icon = {
+					visible = "[EqualTo_string(MilitaryViewEventTroop.GetName, Localize('stationed_aeluran_magi_3'))]"
+					name = "event_troops_aeluran_3`"
+					texture = "gfx/interface/icons/regimenttypes/stationed_aeluran_magi_3.dds"
+					
+					size = { 36 36 }
+				}
+
+				spacer = {
+					size = { 5 0 }
+				}
+
+				text_single = {
+					text = "[MilitaryViewEventTroop.GetName]"
+					align = nobaseline
+					default_format = "#high"
+				}
+
+				expand = {}
+
+				hbox_soldiers_and_quality_small = {
+					datacontext = "[MilitaryViewEventTroop.GetComposition]"
+
+					blockoverride "background" {
+						background = {
+							using = Background_Area
+							margin = { 3 0 }
+						}
+					}
+				}
+			}
+
+			expand = {}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin = { 15 0 }
+				margin_right = 10
+				margin_bottom = 13
+
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					expand = {}
+
+					hbox = {
+						name = "menatarms"
+						layoutpolicy_horizontal = expanding
+
+						text_single = {
+							text = MV_MEN_AT_ARMS_LABEL
+							align = nobaseline
+						}
+
+						text_single = {
+							visible = "[IsDataModelEmpty(MilitaryViewEventTroop.GetRegiments)]"
+							text = MV_MEN_AT_ARMS_NONE
+							align = nobaseline
+							default_format = "#weak"
+						}
+
+						spacer = {
+							size = { 5 0 }
+						}
+
+						hbox = {
+							name = "regiment_types"
+							datamodel = "[MilitaryViewEventTroop.GetRegiments]"
+							layoutpolicy_vertical = expanding
+
+							item = {
+								icon = {
+									size = { 30 30 }
+									texture = "[Regiment.GetMAAType.GetIcon]"
+									tooltipwidget = regiment_container_tooltip
+									using = tooltip_se
+								}
+							}
+						}
+
+						expand = {}
+					}
+
+					text_single = {
+						visible = "[Not(MilitaryViewEventTroop.IsInheritable)]"
+
+						layoutpolicy_horizontal = expanding
+						text = "MILITARY_VIEW_EVENT_TROOPS_NOT_INHERITABLE"
+					}
+
+					text_single = {
+						visible = "[MilitaryViewEventTroop.IsInheritable]"
+
+						layoutpolicy_horizontal = expanding
+						text = "MILITARY_VIEW_EVENT_TROOPS_INHERITABLE"
+					}
+
+					hbox = {
+						datacontext = "[MilitaryViewEventTroop.GetAssociatedWar]"
+						visible = "[War.IsValid]"
+
+						layoutpolicy_horizontal = expanding
+
+						text_single = {
+							visible = "[MilitaryViewEventTroop.IsInheritable]"
+							text = "MILITARY_VIEW_EVENT_TROOPS_ASSOCIATED_WAR"
+							max_width = 450
+							multiline = yes
+						}
+
+						expand = {}
+					}
+				}
+
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					margin_right = 5
+
+					expand = {}
+
+					button_standard = {
+						name = "raise"
+						size = { 100 32 }
+						onclick = "[OnRaiseEventTroops(MilitaryViewEventTroop.Self)]"
+						visible = "[MilitaryViewEventTroop.CanBeRaised]"
+						enabled = "[Not(MilitaryView.IsAutomatingArmies)]"
+						tooltip = "[MilitaryView.GetCanRaiseEventTroopTooltip]"
+
+						hbox = {
+							margin = { 5 0 }
+
+							button_army_details = {
+								size = { 28 28 }
+								alwaystransparent = yes
+							}
+
+							text_single = {
+								layoutpolicy_horizontal = expanding
+								align = center|nobaseline
+								text = "MILITARY_VIEW_EVENT_TROOPS_RAISE"
+								default_format = "#clickable"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Why?: We are adding the ability to disable notifications to hide janky effects happening in the background
+	type notifications_toasts = widget {
+        name = "toast_container_widget"
+        visible = "[And( Not(IsGameViewOpen('barbershop')), And( ToastMessageHandler.HasMessage, Not(SinglePlayerShowingPausedSuccession) ) )]"
+        visible_at_creation = no
+        allow_outside = yes
+        datacontext = "[GetPlayer]"
+        widgetanchor = center
+
+        # Default Toast Animations
+        state = {
+            name = _show
+            using = Animation_FadeIn_Standard
+            bezier = { 0.7 0 0.7 1 }
+        }
+
+        state = {
+            name = _hide
+            using = Animation_FadeOut_Standard
+            size = { 1 200}
+            bezier = { 0.7 0 0.7 1 }
+        }
+        
+        notifications_toasts_default = {
+            position = "[Select_CVector2f( IsGameViewOpen('activity_locale'), '(CVector2f)-600,195', '(CVector2f)0,150' )]"
+            datacontext = "[ToastMessageHandler.GetMessage]"
+            # visible = "[Not( PlayerMessageItem.GetType.HasFlags )]"
+            visible = "[Or(And(Not( PlayerMessageItem.GetType.HasFlags ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'disable_toast_notifications' ).GetValue, '(CFixedPoint)1' ) )  ), EqualTo_string(PlayerMessageItem.GetTitle, Localize('new_aeluran_army_arrived_title'))) ]"
+        }
+
+        notifications_toasts_contests = {
+            position = { 0 165 }
+            datacontext = "[ToastMessageHandler.GetMessage]"
+            visible = "[PlayerMessageItem.GetType.HasFlag( 'tournament_reward' )]"
+        }
+
+        notifications_toasts_contracts = {
+            position = { 0 165 }
+            datacontext = "[ToastMessageHandler.GetMessage]"
+            visible = "[PlayerMessageItem.GetType.HasFlag('contract_completion_reward')]"
+        }
+    }
 }
