@@ -389,3 +389,14 @@ tradition: music based "song keepers" or some such thing, use instruments some h
 Make Aeluran advisor either:
    - a voluntary decision
    - something forced on you if your red sister or matriarch get a hook on you.
+
+
+https://en.wikipedia.org/wiki/Questing_Beast
+
+Lots of requests for making a custom bloodline.
+- Name, Description, and Icon would all be pretty easy to make dynamic with localization
+- Stats would be tricky, would need to essentially create a trait for every possible combination of stat boosts
+   - so if 5 possible choices, would need 25 traits.
+- Maybe ways to unlock "customization" points that allow additional stat choices
+   - example "strengthen bloodline" decision +1
+   - maybe every elf tier reached gives +1
