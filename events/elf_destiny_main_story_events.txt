@@ -217,6 +217,82 @@ elf_destiny_main_story_events.002 = { # Restore the Portal part 1
 		# 	}
 		# }
 	}
+	option = { # Restore the Portal but do nothing
+		name = elf_destiny_main_story_events.002.c
+		trigger = {
+			# Must Have All Portal Components
+			# Must Have Studied Schematics
+			# Must Have the Seal and must have awakened it.
+		}
+
+		custom_tooltip = {
+			text = lose_portal_components
+			root = {
+				every_character_artifact = {
+					limit = {
+						OR = {
+							has_variable = is_portal_capacitor
+							has_variable = is_navigation_relay
+						}
+					}
+					destroy_artifact = this
+				}
+			}
+		}
+
+		## We could instead launch a "construction scheme" or something that takes 5 years to complete.
+		## You would be attacked by rebels and have to defend the site.
+		## Then the below effects would trigger
+
+		## Restore Portal ##
+		if = {
+			limit = {
+				has_global_variable = grand_portal_transported
+			}
+			root = {
+				every_realm_province = {
+                    limit = {
+                        has_building = holy_site_spark_grand_portal_01
+                    }
+                    barony = {
+                        restore_the_grand_portal_scripted_effect = yes
+                    }
+                }
+				# capital_province.barony = {
+				# 	restore_the_grand_portal_scripted_effect = yes
+				# }
+
+				# root.capital_county.title_capital_county ?= {
+				# 	move_the_grand_portal_ruins_here_effect = yes
+				# }
+			}
+		}
+		else = {
+			global_var:portal_location_barony = {
+				restore_the_grand_portal_scripted_effect = yes
+			}
+			# Chill where you are
+		}
+
+		set_global_variable = {
+			name = grand_portal_restored
+			value = yes
+		}
+
+		## Thanks For Playing Event
+		trigger_event = elf_destiny_main_story_events.0023
+
+        # Portal is restored! notification
+		# hidden_effect = {
+		# 	every_player = { # Notify
+		# 		limit = {
+		# 			is_vassal_of = root
+		# 			NOT = { this = root }
+		# 		}
+		# 		trigger_event = elf_destiny_main_story_events.002
+		# 	}
+		# }
+	}
 	option = { # Nevermind
 		name = elf_destiny_main_story_events.002.b
 		trigger = { is_ai = no }
@@ -355,6 +431,7 @@ elf_destiny_main_story_events.0023 = { # Thanks For Playing Act 1
 
 # Dream Sequence where you choose good vs evil human relations
 elf_destiny_main_story_events.004 = {
+	type = character_event
 	hidden = yes
 	scope = none
 
