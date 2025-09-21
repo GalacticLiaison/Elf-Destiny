@@ -1,9 +1,47 @@
 ﻿aeluran_realm_authority = {
-	default = aeluran_realm_authority_0
+	default = no_aeluran_law
 	cumulative = yes
 	flag = aeluran_realm_authority
 
-	aeluran_realm_authority_0 = { # Secular Government
+	no_aeluran_law = { # Secular Government
+		modifier = {
+
+		}
+
+		can_keep = {
+
+		}
+
+		pass_cost = {
+
+		}
+		
+		can_pass = {
+			NOT = {
+				faith = {
+					has_doctrine = tenet_aeluran_sisters
+				}
+			}
+		}
+
+		on_pass = {
+			## Set cooldown
+			# set_variable = {
+			# 	name = admin_law_cooldown
+			# 	years = @admin_law_cooldown_value
+			# }
+			debug_log = "PASSED no_aeluran_law"
+			if = {
+				limit = {
+					has_active_diarchy = yes
+					has_diarchy_type = aeluran_regency
+				}
+				end_diarchy = yes
+			}			
+		}
+	} 
+
+	aeluran_realm_authority_1 = { # Secular Government
 		modifier = {
             # piety_level_impact_mult = 0
 			# intrigue = 1
@@ -12,13 +50,9 @@
 		}
 
 		can_keep = {
-			# realm_law_use_imperial_bureaucracy = yes
-			# trigger_if = {
-			# 	limit = {
-			# 		is_independent_ruler = no
-			# 	}
-			# 	liege = { has_realm_law = aeluran_realm_authority_0 }
-			# }
+			faith = {
+				has_doctrine = tenet_aeluran_sisters
+			}
 		}
 
 		pass_cost = {
@@ -27,8 +61,8 @@
 					if = {
 						limit = {
 							OR = {
-								has_realm_law = aeluran_realm_authority_1
 								has_realm_law = aeluran_realm_authority_2
+								has_realm_law = aeluran_realm_authority_3
 							}
 						}
 						add = 1000
@@ -41,18 +75,21 @@
 			# trigger_if = {
 			# 	limit = {
 			# 		is_independent_ruler = no
-			# 		liege = { has_realm_law = aeluran_realm_authority_0 }
+			# 		liege = { has_realm_law = aeluran_realm_authority_1 }
 			# 	}
 			# 	custom_tooltip = {
 			# 		text = imperial_bureaucracy_pending_law_change
 			# 		always = no
 			# 	}
 			# }
-
-			custom_tooltip = {
-				text = must_increment_aeluran_authority
-				has_realm_law = aeluran_realm_authority_1
+			OR = {
+				custom_tooltip = {
+					text = must_increment_aeluran_authority
+					has_realm_law = aeluran_realm_authority_2
+				}
+				has_realm_law = no_aeluran_law
 			}
+
 		}
 
 		on_pass = {
@@ -61,7 +98,7 @@
 			# 	name = admin_law_cooldown
 			# 	years = @admin_law_cooldown_value
 			# }
-			debug_log = "PASSED aeluran_realm_authority_0"
+			debug_log = "PASSED aeluran_realm_authority_1"
 			if = {
 				limit = {
 					has_active_diarchy = yes
@@ -87,13 +124,13 @@
 					name = set_aeluran_army_level
 					value = 1
 				}
-				create_new_aeluran_army = yes
+				# create_new_aeluran_army = yes
 			}
 			
 		}
 	}
 	
-	aeluran_realm_authority_1 = { # Institutionalized Authority
+	aeluran_realm_authority_2 = { # Institutionalized Authority
 		modifier = {
             # piety_level_impact_mult = 0.5
 			# intrigue = 3
@@ -109,34 +146,17 @@
 		flag = aeluran_regency_enabled
 
 		can_keep = {
-			# realm_law_use_imperial_bureaucracy = yes
-			# trigger_if = {
-			# 	limit = {
-			# 		is_independent_ruler = yes
-			# 	}
-			# 	custom_tooltip = {
-			# 		text = have_bureaucracy_1_or_higher
-			# 		OR = {
-			# 			has_realm_law = imperial_bureaucracy_1
-			# 			has_realm_law = imperial_bureaucracy_2
-			# 			has_realm_law = imperial_bureaucracy_3
-			# 		}
-			# 	}
-			# }
-			# trigger_if = {
-			# 	limit = {
-			# 		is_independent_ruler = no
-			# 	}
-			# 	liege = { has_realm_law = aeluran_realm_authority_1 }
-			# }
+			faith = {
+				has_doctrine = tenet_aeluran_sisters
+			}
 		}
 
 		can_pass = {
 			custom_tooltip = {
 				text = must_increment_aeluran_authority
 				OR = {
-					has_realm_law = aeluran_realm_authority_0
-					has_realm_law = aeluran_realm_authority_2
+					has_realm_law = aeluran_realm_authority_1
+					has_realm_law = aeluran_realm_authority_3
 				}
 			}
 			# trigger_if = {
@@ -165,7 +185,7 @@
 				add = {
 					if = {
 						limit = {
-							has_realm_law = aeluran_realm_authority_2
+							has_realm_law = aeluran_realm_authority_3
 
 						}
 						add = 1000
@@ -177,7 +197,7 @@
 				add = {
 					if = {
 						limit = {
-							has_realm_law = aeluran_realm_authority_0
+							has_realm_law = aeluran_realm_authority_1
 						}
 						add = 500
 					}
@@ -191,7 +211,7 @@
 			# 	name = admin_law_cooldown
 			# 	years = @admin_law_cooldown_value
 			# }
-			debug_log = "PASSED aeluran_realm_authority_1"
+			debug_log = "PASSED aeluran_realm_authority_2"
 			add_piety = 500
 
 			try_start_diarchy = aeluran_regency
@@ -238,7 +258,7 @@
 			}
 			if = {
 				limit = {
-					has_realm_law = aeluran_realm_authority_0
+					has_realm_law = aeluran_realm_authority_1
 					ai_has_economical_boom_personality = yes
 				}
 				value = 1
@@ -246,7 +266,7 @@
 		}
 	}
 	
-	aeluran_realm_authority_2 = { # Aeluran Judiciary
+	aeluran_realm_authority_3 = { # Aeluran Judiciary
 		modifier = {
 			tyranny_gain_mult = -0.2
 			# religious_head_opinion = 5
@@ -261,31 +281,15 @@
 		# flag = admin_vassal_wars_permission_only
 		
 		can_keep = {
-			# realm_law_use_imperial_bureaucracy = yes
-			# trigger_if = {
-			# 	limit = {
-			# 		is_independent_ruler = yes
-			# 	}
-			# 	custom_tooltip = {
-			# 		text = have_bureaucracy_2_or_higher
-			# 		OR = {
-			# 			has_realm_law = imperial_bureaucracy_2
-			# 			has_realm_law = imperial_bureaucracy_3
-			# 		}
-			# 	}
-			# }
-			# trigger_if = {
-			# 	limit = {
-			# 		is_independent_ruler = no
-			# 	}
-			# 	liege = { has_realm_law = aeluran_realm_authority_2 }
-			# }
+			faith = {
+				has_doctrine = tenet_aeluran_sisters
+			}
 		}
 
 		can_pass = {
 			custom_tooltip = {
 				text = must_increment_aeluran_authority
-				has_realm_law = aeluran_realm_authority_1
+				has_realm_law = aeluran_realm_authority_2
 			}
 		}
 
@@ -309,8 +313,8 @@
 					if = {
 						limit = {
 							OR = {
-								has_realm_law = aeluran_realm_authority_0
 								has_realm_law = aeluran_realm_authority_1
+								has_realm_law = aeluran_realm_authority_2
 							}
 						}
 						add = 1000
@@ -346,7 +350,7 @@
 		ai_will_do = {
 			if = {
 				limit = {
-					has_realm_law = aeluran_realm_authority_1
+					has_realm_law = aeluran_realm_authority_2
 					ai_has_economical_boom_personality = yes
 				}
 				value = 1

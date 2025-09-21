@@ -29,7 +29,7 @@
 		# }
 
 		# "scope:host.capital_province.squared_distance(root)"
-		# add_realm_law = aeluran_realm_authority_0
+		# add_realm_law = aeluran_realm_authority_1
 	}
 
 	is_shown = {
@@ -57,13 +57,6 @@ aeluran_law_change = {
 
 		if = {
 			limit = {
-				var:considered_aeluran_law = flag:aeluran_realm_authority_0_key
-			}
-			debug_log = "aeluran_law_change aeluran_realm_authority_0_key"
-			add_realm_law = aeluran_realm_authority_0
-		}
-		else_if = {
-			limit = {
 				var:considered_aeluran_law = flag:aeluran_realm_authority_1_key
 			}
 			debug_log = "aeluran_law_change aeluran_realm_authority_1_key"
@@ -75,6 +68,13 @@ aeluran_law_change = {
 			}
 			debug_log = "aeluran_law_change aeluran_realm_authority_2_key"
 			add_realm_law = aeluran_realm_authority_2
+		}
+		else_if = {
+			limit = {
+				var:considered_aeluran_law = flag:aeluran_realm_authority_3_key
+			}
+			debug_log = "aeluran_law_change aeluran_realm_authority_3_key"
+			add_realm_law = aeluran_realm_authority_3
 		}
 
 		if = {
@@ -96,7 +96,7 @@ aeluran_law_change = {
 		}
 
 		# add_realm_law = law:aeluran_realm_authority_1
-		# add_realm_law = aeluran_realm_authority_0
+		# add_realm_law = aeluran_realm_authority_1
 	}
 
 	is_shown = {} 			# is it visible in the UI?
@@ -104,16 +104,6 @@ aeluran_law_change = {
 	is_valid = {
 		aeluran_law_pass_acceptance_score > 0
 
-		trigger_if = {
-			limit = {
-				exists = var:considered_aeluran_law
-				var:considered_aeluran_law = flag:aeluran_realm_authority_0_key
-			}
-
-			NOT = {
-				has_realm_law = aeluran_realm_authority_0
-			}
-		}
 		trigger_if = {
 			limit = {
 				exists = var:considered_aeluran_law
@@ -132,6 +122,16 @@ aeluran_law_change = {
 
 			NOT = {
 				has_realm_law = aeluran_realm_authority_2
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = var:considered_aeluran_law
+				var:considered_aeluran_law = flag:aeluran_realm_authority_3_key
+			}
+
+			NOT = {
+				has_realm_law = aeluran_realm_authority_3
 			}
 		}
 	} 			# can the player use it? always checked, even if you don't use enabled property on the button

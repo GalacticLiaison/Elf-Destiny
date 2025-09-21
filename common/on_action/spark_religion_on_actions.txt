@@ -78,6 +78,7 @@ reset_high_matriarch = {
 on_faith_conversion = {
 	on_actions = {
 		revert_elf_admin_conversion
+		set_aeluran_realm_law
 	}
 }
 
@@ -108,6 +109,7 @@ revert_elf_admin_conversion = {
 on_character_faith_change = {
 	on_actions = {
 		revert_elf_admin_faith_change
+		set_aeluran_realm_law
 	}
 }
 
@@ -132,6 +134,19 @@ revert_elf_admin_faith_change = {
 		debug_log_date = yes
 		
 		set_character_faith = scope:old_faith
+	}
+}
+
+set_aeluran_realm_law = {
+	trigger = {
+		faith = {
+			has_doctrine = tenet_aeluran_sisters
+		}
+		has_realm_law = no_aeluran_law
+	}
+	effect = {
+		debug_log = "set_aeluran_realm_law"
+		add_realm_law = aeluran_realm_authority_1
 	}
 }
 
