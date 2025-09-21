@@ -1,6 +1,6 @@
 window = {
     name = "aeluran_realm_laws"
-    size = { 280 48% }
+    size = { 280 52% }
     parentanchor = top|right
     position = { -608 450 }
     allow_outside = yes
@@ -77,10 +77,12 @@ window = {
 types aeluran_realm_law_types {
 
 	type aeluran_law_button = button_standard_clean {
+		
 		layoutpolicy_horizontal = expanding
 		size = { 200 160 }
 
-		datacontext = "[GuiLaw.GetLaw]"
+		datacontext = "[GuiLaw.GetLaw]" 
+		visible = "[Not(EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)0'))]" # No Aeluran Law
 		onclick = "[GetScriptedGui('set_considered_aeluran_law_change').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'considered_law', MakeScopeFlag( Concatenate( Concatenate( Concatenate(LawGroup.GetKey, '_'), GetString_int32(PdxGuiWidget.GetIndexInDataModel) ), '_key' ) ) ).End )]"
 		
 		block "window_toggle_click"
@@ -94,39 +96,6 @@ types aeluran_realm_law_types {
 			alpha = 1
 			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
 
-			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)0'))]"
-		}
-
-		background = {
-			fittype = centercrop
-			alpha = 1
-
-			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
-
-			using = Mask_Rough_Edges
-
-
-			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)0'))]"
-
-			using = Color_Grey
-
-
-			modify_texture = {
-				texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
-				blend_mode = alphamultiply
-			}
-
-			modify_texture = {
-				texture = "gfx/interface/component_overlay/overlay_effect.dds"
-				blend_mode = overlay
-			}
-		}
-
-		background = {
-			fittype = centercrop
-			alpha = 1
-			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
-
 			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)1'))]"
 		}
 
@@ -134,7 +103,7 @@ types aeluran_realm_law_types {
 			fittype = centercrop
 			alpha = 1
 
-			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
 
 			using = Mask_Rough_Edges
 
@@ -158,9 +127,42 @@ types aeluran_realm_law_types {
 		background = {
 			fittype = centercrop
 			alpha = 1
-			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
 
 			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)2'))]"
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
+
+			using = Mask_Rough_Edges
+
+
+			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)2'))]"
+
+			using = Color_Grey
+
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+				blend_mode = alphamultiply
+			}
+
+			modify_texture = {
+				texture = "gfx/interface/component_overlay/overlay_effect.dds"
+				blend_mode = overlay
+			}
+		}
+
+		background = {
+			fittype = centercrop
+			alpha = 1
+			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
+
+			visible = "[And(GuiLaw.IsEnacted, EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)3'))]"
 		}
 
 		background = {
@@ -173,7 +175,7 @@ types aeluran_realm_law_types {
 			using = Mask_Rough_Edges
 
 
-			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)2'))]"
+			visible = "[And(Not(GuiLaw.IsEnacted), EqualTo_int32(PdxGuiWidget.GetIndexInDataModel, '(int32)3'))]"
 
 			using = Color_Grey
 
@@ -287,7 +289,7 @@ types aeluran_realm_law_types {
 			
 			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_1.dds"
 
-			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_0' )]"
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_1' )]"
 
 			modify_texture = {
 				texture = "gfx/portraits/portrait_mask_event_letter.dds"
@@ -302,7 +304,7 @@ types aeluran_realm_law_types {
 			alpha = 1
 			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_2.dds"
 
-			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_1' )]"
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_2' )]"
 			
 			modify_texture = {
 				# texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
@@ -336,7 +338,7 @@ types aeluran_realm_law_types {
 			alpha = 1
 			texture = "gfx/interface/illustrations/aeluran_realm_laws/aeluran_realm_law_3.dds"
 
-			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_2' )]"
+			visible = "[ObjectsEqual( GetPlayer.MakeScope.Var('considered_aeluran_law').GetFlagName, 'aeluran_realm_authority_3' )]"
 			modify_texture = {
 				texture = "gfx/portraits/portrait_mask_event_letter.dds"
 				

@@ -76,31 +76,30 @@ elf_destiny_on_game_start = {
                 deactivate_holy_site = west_flaria
                 deactivate_holy_site = wratislaw_magi_academy
                 deactivate_holy_site = vela_spila_caverns
-                ####################### Atlantis ########################
-                # deactivate_holy_site = ruins_of_ring_harbor
             }
         }
 
         if = {
             limit = {
-                exists = character:belanor_valerith
+                exists = character:belanor_vaeldrik
             }
 
-            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith }
+            create_vanas_foeglass_effect = { OWNER = character:belanor_vaeldrik }
         }
         if = {
             limit = {
-                exists = character:belanor_valerith_1066
+                exists = character:belanor_vaeldrik_1066
             }
 
-            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1066 }
+            create_vanas_foeglass_effect = { OWNER = character:belanor_vaeldrik_1066 }
         }
-		if = {
+
+        if = {
             limit = {
-                exists = character:belanor_valerith_1178
+                exists = character:belanor_vaeldrik_1178
             }
 
-            create_vanas_foeglass_effect = { OWNER = character:belanor_valerith_1178 }
+            create_vanas_foeglass_effect = { OWNER = character:belanor_vaeldrik_1178 }
         }
 
         # Assign missing Aeluran Regents
@@ -144,14 +143,10 @@ elf_destiny_on_game_start = {
             name = house_valerith
             value = character:seraphine_valerith.dynasty
         }
-		set_global_variable = {
+        set_global_variable = {
             name = house_lormelis
             value = character:aelor_lormelis.dynasty
         }
-		set_global_variable = {
-			name = house_lormelis
-			value = character:aelor_lormelis.dynasty
-		}
 
         # Set Initial Elf Finder Filters
         set_global_variable = {
@@ -223,11 +218,7 @@ elf_destiny_on_game_start = {
             name = elf_dynasty_filter_serelion
             value = 1
         }
-		set_global_variable = {
-			name = elf_dynasty_filter_lormelis
-			value = 1
-		}
-		set_global_variable = {
+        set_global_variable = {
             name = elf_dynasty_filter_lormelis
             value = 1
         }
@@ -260,10 +251,6 @@ elf_destiny_on_game_start = {
             name = elf_bloodline_filter_lormelis
             value = 1
         }
-		set_global_variable = {
-			name = elf_bloodline_filter_lormelis
-			value = 1
-		}
         set_global_variable = {
             name = elf_bloodline_filter_no_bloodline
             value = 1
@@ -322,14 +309,14 @@ elf_destiny_on_game_start = {
         }
 
         # LANDLESS CAMP SETUP
-        character:belanor_valerith = {
+        character:belanor_vaeldrik = {
             add_courtier = character:elros_daelurin
         }
-        character:belanor_valerith_1066 = {
+        character:belanor_vaeldrik_1066 = {
             add_courtier = character:elros_daelurin_1066
         }
 
-        character:belanor_valerith_1178 = {
+        character:belanor_vaeldrik_1178 = {
             add_courtier = character:elros_daelurin_1178
         }
 
@@ -382,7 +369,7 @@ elf_destiny_on_game_start = {
                     }
                 }
             }
-            character:seraphine_valerith = { 
+            character:seraphine_valerith = {
                 create_elf_kingdom_effect = yes
                 set_aeluran_matriarch_to_feyswood_vassal = yes
             }
@@ -402,6 +389,16 @@ elf_destiny_on_game_start = {
                 days = 1
             }
         }
+
+        every_living_character = {
+            limit = {
+                faith = {
+                    has_doctrine = tenet_aeluran_sisters
+                }
+                has_realm_law = no_aeluran_law
+            }
+            add_realm_law = aeluran_realm_authority_1
+        }
     }
 }
 
@@ -413,6 +410,7 @@ on_game_start_after_lobby = {
         on_game_start_setup_expeditions
         on_game_start_assign_ruler_designer_race
         holy_lease_fix_fallback
+        set_character_creation_ended
     }
 }
 
@@ -643,8 +641,6 @@ on_game_start_setup_expeditions = {
         register_expedition_site = { BARONY_NAME = b_melnik SITE_NAME = west_flaria }
         register_expedition_site = { BARONY_NAME = b_aqmescit SITE_NAME = wratislaw_magi_academy }
         register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns }
-        ################## Atlantis ####################
-        # register_expedition_site = { BARONY_NAME = b_brest SITE_NAME = ruins_of_ring_harbor }
     }
 }
 
@@ -793,4 +789,11 @@ on_game_start_assign_ruler_designer_race = {
     }
 }
 
-
+set_character_creation_ended = {
+	effect = {
+		set_global_variable = {
+            name = character_creation_ended
+            value = yes
+        }
+	}
+}

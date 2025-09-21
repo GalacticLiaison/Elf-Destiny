@@ -1,358 +1,357 @@
 ﻿# pick_random_blessing = {
 get_blessing_candidates = {
-	every_culture_tradition = {
-		limit = {
-			has_tradition_category = blessings
-			NOT = {
-				is_in_list = blessing_choice_candidates
-			}
-		}
-		save_temporary_scope_as = blessing_candidate
+    every_culture_tradition = {
+        limit = {
+            has_tradition_category = blessings
+            NOT = {
+                is_in_list = blessing_choice_candidates
+            }
+        }
+        save_temporary_scope_as = blessing_candidate
 
-		# This is verbose and sucks, but I couldnt get a more simple dynamic solution to work
-		if = { # culture_tradition:tradition_the_rut
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_the_rut
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_the_rut
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-		if = { # culture_tradition:tradition_noble_husbandry
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_noble_husbandry
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_noble_husbandry
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-		if = { # culture_tradition:tradition_heroic_courage
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_heroic_courage
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_heroic_courage
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-		if = { # culture_tradition:tradition_familial_familiarity
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_familial_familiarity
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_familial_familiarity
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-		if = { # culture_tradition:tradition_endless_lord
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_endless_lord
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_endless_lord
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-		if = { # culture_tradition:tradition_beguiling_nature
-			limit = {
-				AND = {
-					scope:blessing_candidate = culture_tradition:tradition_beguiling_nature
-					NOT = {
-						root.culture = {
-							has_cultural_tradition = culture_tradition:tradition_beguiling_nature
-						}
-					}
-				}
-			}
-			add_to_list = blessing_choice_candidates
-		}
-	}
+        # This is verbose and sucks, but I couldnt get a more simple dynamic solution to work
+        if = { # culture_tradition:tradition_the_rut
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_the_rut
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_the_rut
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+        if = { # culture_tradition:tradition_noble_husbandry
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_noble_husbandry
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_noble_husbandry
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+        if = { # culture_tradition:tradition_heroic_courage
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_heroic_courage
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_heroic_courage
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+        if = { # culture_tradition:tradition_familial_familiarity
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_familial_familiarity
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_familial_familiarity
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+        if = { # culture_tradition:tradition_endless_lord
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_endless_lord
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_endless_lord
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+        if = { # culture_tradition:tradition_beguiling_nature
+            limit = {
+                AND = {
+                    scope:blessing_candidate = culture_tradition:tradition_beguiling_nature
+                    NOT = {
+                        root.culture = {
+                            has_cultural_tradition = culture_tradition:tradition_beguiling_nature
+                        }
+                    }
+                }
+            }
+            add_to_list = blessing_choice_candidates
+        }
+    }
 
-	# random_in_list = {
-	# 	list = blessing_choice_candidate
-	# 	save_scope_as = blessing_one
-	# }
+    # random_in_list = {
+    # 	list = blessing_choice_candidate
+    # 	save_scope_as = blessing_one
+    # }
 
-	# random_culture_tradition = {
-	# 	limit = {
-	# 		has_tradition_category = blessings
-	# 		save_scope_as = candidate_tradition
-	# 		NOT = {
-	# 			AND = {
-	# 				is_in_list = selected_blessings
-	# 				root.culture = {
-	# 					has_cultural_tradition = candidate_tradition
-	# 				}
-	# 			}
-	# 		}
-	# 	}
-	# 	add_to_list = selected_blessings
-	# }
+    # random_culture_tradition = {
+    # 	limit = {
+    # 		has_tradition_category = blessings
+    # 		save_scope_as = candidate_tradition
+    # 		NOT = {
+    # 			AND = {
+    # 				is_in_list = selected_blessings
+    # 				root.culture = {
+    # 					has_cultural_tradition = candidate_tradition
+    # 				}
+    # 			}
+    # 		}
+    # 	}
+    # 	add_to_list = selected_blessings
+    # }
 }
 # is_target_in_global_variable_list = discovered_traditions
 
 pick_random_elven_tradition = {
-	if = {
-		limit = {
-			NOT = {
-				global_var:discovered_ancient_tradition_count >= total_available_traditions_to_discover
-			}
-		}
-		random_culture_tradition = {
-			limit = {
-				has_tradition_category = elven
-				NOT = {
-					is_in_list = selected_elven_traditions
-					OR = {
-						this = culture_tradition:tradition_open_hearted
-						this = culture_tradition:tradition_elf_superiority
-						this = culture_tradition:tradition_the_old_ways
-						this = culture_tradition:tradition_aeluran_etiquette
-					}
-				}
-			}
-			save_temporary_scope_as = tradition
-		}
-		if = {
-			limit = {
-				exists = scope:tradition
-				NOT = {
-					root.culture = {
-						has_cultural_tradition = scope:tradition
-					}
-				}
-			}
-			scope:tradition = {
-				add_to_list = selected_elven_traditions
-			}
-		}
-	}
+    if = {
+        limit = {
+            NOT = {
+                global_var:discovered_ancient_tradition_count >= total_available_traditions_to_discover
+            }
+        }
+        random_culture_tradition = {
+            limit = {
+                has_tradition_category = elven
+                NOT = {
+                    is_in_list = selected_elven_traditions
+                    OR = {
+                        this = culture_tradition:tradition_open_hearted
+                        this = culture_tradition:tradition_elf_superiority
+                        this = culture_tradition:tradition_the_old_ways
+                        this = culture_tradition:tradition_aeluran_etiquette
+                    }
+                }
+            }
+            save_temporary_scope_as = tradition
+        }
+        if = {
+            limit = {
+                exists = scope:tradition
+                NOT = {
+                    root.culture = {
+                        has_cultural_tradition = scope:tradition
+                    }
+                }
+            }
+            scope:tradition = {
+                add_to_list = selected_elven_traditions
+            }
+        }
+    }
 }
 
 mark_tradition_as_discovered = {
-	$TRADITION$ = {
-		save_scope_as = tradition
-	}
+    $TRADITION$ = {
+        save_scope_as = tradition
+    }
 
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_open_hearted
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_open_hearted
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_elf_superiority
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_elf_superiority
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_the_rut
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_the_rut
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_noble_husbandry
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_noble_husbandry
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_heroic_courage
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_heroic_courage
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_familial_familiarity
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_familial_familiarity
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_endless_lord
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_endless_lord
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_beguiling_nature
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_beguiling_nature
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_blessing_of_vana
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_blessing_of_vana
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_blessing_of_tulkas_astaldo
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_blessing_of_tulkas_astaldo
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_aeluran_etiquette
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_aeluran_etiquette
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_elf_craftsmanship
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_elf_craftsmanship
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_adventurer_guilds
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_adventurer_guilds
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_tribal_ascension
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_tribal_ascension
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_fey_agoras
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_fey_agoras
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_beast_tamers
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_beast_tamers
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_woodland_bounty
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_woodland_bounty
-			}
-		}
-	}
-	if = {
-		limit = {
-			scope:tradition = culture_tradition:tradition_people_of_the_bow
-		}
-		hidden_effect = {
-			add_to_global_variable_list = {
-				name = discovered_traditions
-				target = flag:tradition_people_of_the_bow
-			}
-		}
-	}
-	
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_open_hearted
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_open_hearted
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_elf_superiority
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_elf_superiority
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_the_rut
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_the_rut
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_noble_husbandry
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_noble_husbandry
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_heroic_courage
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_heroic_courage
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_familial_familiarity
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_familial_familiarity
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_endless_lord
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_endless_lord
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_beguiling_nature
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_beguiling_nature
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_blessing_of_vana
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_blessing_of_vana
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_blessing_of_tulkas_astaldo
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_blessing_of_tulkas_astaldo
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_aeluran_etiquette
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_aeluran_etiquette
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_elf_craftsmanship
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_elf_craftsmanship
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_adventurer_guilds
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_adventurer_guilds
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_tribal_ascension
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_tribal_ascension
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_fey_agoras
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_fey_agoras
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_beast_tamers
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_beast_tamers
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_woodland_bounty
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_woodland_bounty
+            }
+        }
+    }
+    if = {
+        limit = {
+            scope:tradition = culture_tradition:tradition_people_of_the_bow
+        }
+        hidden_effect = {
+            add_to_global_variable_list = {
+                name = discovered_traditions
+                target = flag:tradition_people_of_the_bow
+            }
+        }
+    }
 }
