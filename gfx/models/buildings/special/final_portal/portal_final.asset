@@ -1,0 +1,41 @@
+pdxmesh = {
+	name = "portal_final_mesh"
+	file = "portal_final.mesh"
+
+	meshsettings = {
+		name = "portal_main_final"
+		index = 0
+		texture_diffuse = "building_mediterranean_atlas_diffuse.dds"
+		texture_normal = "building_mediterranean_atlas_normal.dds"
+		texture_specular = "building_mediterranean_atlas_properties.dds"
+		texture = { file = "building_x_AO_placeholder.dds" index = 5 }
+		shader = "standard_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "portal_rock"
+		index = 0
+		texture_diffuse = "portal_rock_diffuse.dds"
+		texture_normal = "portal_rock_normal.dds"
+		texture_specular = "portal_rock_properties.dds"
+		texture = { file = "building_x_AO_placeholder.dds" index = 5 }
+		shader = "standard_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+}
+
+entity = {
+	name = "portal_final_entity"
+	pdxmesh = "portal_final_mesh"
+	default_state = "idle"
+	state = {
+		name = "idle"
+		state_time = 5
+		event = { time = 0 node = "lighthouse_top" particle = "outer_portal_elf" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "lighthouse_top" particle = "portal_elf" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "lighthouse_top" particle = "inner_portal_elf" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "lighthouse_top" particle = "inner_portal_elf2" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "lighthouse_top" particle = "inner_portal_elf3" trigger_once = yes keep_particle = yes }
+		event = { time = 0 node = "lighthouse_top" particle = "inner_portal_elf4" trigger_once = yes keep_particle = yes }
+	}
+}
