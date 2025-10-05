@@ -881,3 +881,58 @@ handle_endless_lord_trait_effect = {
 		}
 	}
 }
+
+ascended_through_birth_event_check = {
+
+	if = {
+		limit = { exists = scope:child }
+		trigger_ascended_through_birth_event = {BABY = child}
+	}
+	if = {
+		limit = { exists = scope:child_2 }
+		trigger_ascended_through_birth_event = {BABY = child_2}
+	}
+	if = {
+		limit = { exists = scope:child_3 }
+		trigger_ascended_through_birth_event = {BABY = child_3}
+	}
+	if = {
+		limit = { exists = scope:child_4 }
+		trigger_ascended_through_birth_event = {BABY = child_4}
+	}
+	if = {
+		limit = { exists = scope:child_5 }
+		trigger_ascended_through_birth_event = {BABY = child_5}
+	}
+	if = {
+		limit = { exists = scope:child_6 }
+		trigger_ascended_through_birth_event = {BABY = child_6}
+	}
+	if = {
+		limit = { exists = scope:child_7 }
+		trigger_ascended_through_birth_event = {BABY = child_7}
+	}
+}
+
+trigger_ascended_through_birth_event = {
+	scope:$BABY$ = {
+		if = {
+			limit = {
+				has_character_flag = ascended_through_birth
+			}
+
+			save_scope_as = new_born
+
+			if = {
+				limit = {
+					root = {
+						is_playable_character = yes
+					}
+				}
+				root = {
+					trigger_event = birth.1900
+				}
+			}
+		}
+	}
+}

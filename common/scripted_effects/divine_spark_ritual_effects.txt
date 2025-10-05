@@ -1,4 +1,56 @@
 ﻿elf_trait_ascension = {
+	if = {
+		limit = {
+			OR = { # Cant Ascend Past High Elf till Portal Opened
+				is_high_elf = no
+				has_global_variable = grand_portal_restored
+			}
+		}
+		ascend_elf = yes
+
+		if = { # Notify players of new highest ascended character
+			limit = {
+				any_player = {
+					NOT = {this = root}
+				}
+			}
+			if = {
+				limit = {
+					global_var:highest_ascension_reached < elf_trait_level
+				}
+				set_global_variable = {
+					name = highest_ascension_reached
+					value = elf_trait_level
+				}
+				
+				save_scope_as = ascended_elf
+				every_player = {
+					limit = {
+						NOT = {this = root}
+					}
+					trigger_event = divine_spark_rituals.0012
+				}
+			}
+			else_if = {
+				limit = {
+					age > 1 # lets exclude baby ascensions for now.
+				}
+				save_scope_as = ascended_elf
+				every_player = {
+					send_interface_message = {
+						type = character_has_ascended
+						title = character_has_ascended_title
+						desc = character_has_ascended_desc
+						right_icon = scope:ascended_elf
+					}
+				}
+			}
+	
+		}
+	}
+}
+
+ascend_elf = {
 	if = { # Elf Blood
 		limit = {
 			is_elf_blood = yes

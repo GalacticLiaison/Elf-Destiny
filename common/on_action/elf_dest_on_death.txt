@@ -3,7 +3,8 @@
 on_death = {
     on_actions = {
         aeluran_hierarchy_management
-		clear_entrance_traits_from_minions
+		clear_entrance_traits
+        pedlar_story_pass
     } 
 }
 
@@ -53,8 +54,22 @@ aeluran_hierarchy_management = {
 	}
 }
 
-clear_entrance_traits_from_minions = {
+clear_entrance_traits = {
 	effect = {
+        # Clear entrance trait from dead character
+        if = {
+            limit = {
+                has_trait = entranced
+            }
+            remove_trait =  entranced
+        }
+        if = {
+            limit = {
+                has_trait = enthralled
+            }
+            remove_trait =  enthralled
+        }
+        # clear entrance traits of entrancer's victims
 		every_hooked_character = {
 			if = {
 				limit = {
@@ -86,4 +101,28 @@ clear_entrance_traits_from_minions = {
 			}			
 		}
 	}
+}
+
+pedlar_story_pass = {
+    trigger = {
+        is_any_elf_type = yes
+        is_ai = no
+    }
+    effect = {
+        if = {
+            limit = {
+                player_heir = {
+                    NOR = {
+                        owns_story_of_type = peddler_management_story
+                        has_character_modifier = peddlers_business_card_modifier
+                    }
+                }
+            }
+            player_heir = {
+                create_story = {
+                    type = peddler_management_story
+                }
+            } 
+        }
+    }
 }

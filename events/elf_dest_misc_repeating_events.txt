@@ -1,0 +1,690 @@
+﻿namespace = elf_dest_misc_repeating
+
+scripted_effect create_black_market_merchant_item = {
+	scope:black_market_merchant = {
+		$CREATE_ARTIFACT_EFFECT$ = { OWNER = scope:black_market_merchant }
+	}
+	scope:newly_created_elf_artifact ?= {
+		save_scope_as = $SCOPE_NAME$
+	}
+}
+
+scripted_effect assign_black_market_merchant_item = {
+	random_list = {
+		85 = {
+			create_black_market_merchant_item = { 
+				CREATE_ARTIFACT_EFFECT = create_elf_expedition_artifact_effect 
+				SCOPE_NAME = $SCOPE_NAME$
+			}
+
+			if = {
+				limit = {
+					scope:$SCOPE_NAME$.rarity = common
+				}
+				save_scope_value_as = {
+					name = $SCOPE_NAME$_price
+					value = medium_gold_value
+				}
+			}
+			else_if = {
+				limit = {
+					scope:$SCOPE_NAME$.rarity = famed
+				}
+				save_scope_value_as = {
+					name = $SCOPE_NAME$_price
+					value = major_gold_value
+				}
+			}
+			else_if = {
+				limit = {
+					scope:$SCOPE_NAME$.rarity = masterwork
+				}
+				save_scope_value_as = {
+					name = $SCOPE_NAME$_price
+					value = massive_gold_value
+				}
+			}
+			else_if = {
+				limit = {
+					scope:$SCOPE_NAME$.rarity = illustrious
+				}
+				save_scope_value_as = {
+					name = $SCOPE_NAME$_price
+					value = monumental_gold_value
+				}
+			}
+			else = {
+				save_scope_value_as = {
+					name = $SCOPE_NAME$_price
+					value = medium_gold_value
+				}
+			}
+		}
+		0 = {
+			modifier = {
+				add = 15
+				NOT = { exists = scope:spark_crystal_picked }
+			}
+
+			create_black_market_merchant_item = { 
+				CREATE_ARTIFACT_EFFECT = create_spark_crystal_effect 
+				SCOPE_NAME = $SCOPE_NAME$
+			}
+			save_scope_value_as = {
+				name = spark_crystal_picked
+				value = yes
+			}
+			save_scope_value_as = {
+				name = $SCOPE_NAME$_price
+				value = massive_gold_value
+			}
+		}
+	}
+}
+
+# elf_dest_misc_repeating.01 = {
+# 	hidden = yes
+# 	immediate = {
+# 		if = {
+# 			limit = {
+# 				is_available = yes
+# 			}
+# 			trigger_event = elf_dest_misc_repeating.100
+# 		}
+# 		else = {
+# 			trigger_event = {
+# 				id = elf_dest_misc_repeating.01
+# 				months = 6
+# 			}
+# 		}
+# 	}
+# }
+
+elf_dest_misc_repeating.100 = {
+	type = character_event
+	title = elf_dest_misc_repeating.100.title
+	desc = elf_dest_misc_repeating.100.desc
+	
+	theme = stewardship
+	override_background = {
+		reference = market
+	}
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = stunned
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.100.enter
+		trigger_event = elf_dest_misc_repeating.101
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.100.leave
+		# trigger_event = {
+		# 	id = elf_dest_misc_repeating.01
+		# 	years = 15
+		# }
+	}
+}
+
+elf_dest_misc_repeating.101 = {
+	type = character_event
+	title = elf_dest_misc_repeating.101.title
+	desc = {
+		triggered_desc = {
+			trigger = {
+				NOT = {has_character_flag = met_the_peddler}
+			}
+			desc = elf_dest_misc_repeating.101.desc.first_visit
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						exists = scope:artifact_1_purchased 
+						exists = scope:artifact_2_purchased 
+						exists = scope:artifact_3_purchased 
+					}
+				}
+				desc = elf_dest_misc_repeating.101.desc.something_bought
+			}
+			desc = elf_dest_misc_repeating.101.desc
+		}
+		triggered_desc = {
+			trigger = {
+				AND = {
+					exists = scope:artifact_1_purchased 
+					exists = scope:artifact_2_purchased 
+					exists = scope:artifact_3_purchased 
+				}
+			}
+			desc = elf_dest_misc_repeating.101.desc.sold_out
+		}
+	}
+	
+	
+	theme = peddler
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:black_market_merchant
+		animation = scheme
+		camera = camera_body_left_slight
+	}
+
+	artifact = {
+		trigger = {
+			NOT = { exists = scope:artifact_1_purchased }
+		}
+		target = scope:artifact_1
+		position = lower_left_portrait
+	}
+	artifact = {
+		trigger = {
+			NOT = { exists = scope:artifact_2_purchased }
+		}
+		target = scope:artifact_2
+		position = lower_center_portrait
+	}
+	artifact = {
+		trigger = {
+			NOT = { exists = scope:artifact_3_purchased }
+		}
+		target = scope:artifact_3
+		position = lower_right_portrait
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				OR = {
+					NOT = {
+						exists = scope:black_market_merchant
+					}
+					scope:black_market_merchant = {
+						is_alive = no
+					}
+				}
+			}
+			create_character = {
+				template = black_market_merchant
+				faith = faith:aeluran_weavers
+				culture = culture:culture_elf
+				location = root.location
+				save_scope_as = black_market_merchant
+			}
+	
+			hidden_effect = {
+				assign_black_market_merchant_item = {
+					SCOPE_NAME = artifact_1
+				}
+				assign_black_market_merchant_item = {
+					SCOPE_NAME = artifact_2
+				}
+				assign_black_market_merchant_item = {
+					SCOPE_NAME = artifact_3
+				}
+			}
+		}
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.101.purchase_1
+
+		trigger = {
+			gold >= scope:artifact_1_price
+			OR = {
+				NOT = { exists = scope:artifact_1_purchased }
+				scope:artifact_1_purchased = no
+			}
+		}
+
+		show_as_unavailable = {
+			OR = {
+				NOT = { exists = scope:artifact_1_purchased }
+				scope:artifact_1_purchased = no
+			}
+		}
+		pay_short_term_gold = {
+			target = scope:black_market_merchant
+			gold = scope:artifact_1_price
+		}
+
+		scope:artifact_1 = {
+			set_owner = {
+				target = root
+				history = {
+					type = purchased
+					recipient = root
+				}
+			}
+		}
+
+		save_scope_value_as = {
+			name = artifact_1_purchased
+			value = yes
+		}
+
+		if = {
+			limit = { NOT = { exists = var:peddler_purchases } }
+			set_variable = {
+				name = peddler_purchases
+				value = 1 
+			}
+		}
+		else = {
+			change_variable = {
+				name = peddler_purchases
+				add = 1
+			}
+		}
+
+		trigger_event = elf_dest_misc_repeating.101
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.101.purchase_2
+
+		trigger = {
+			gold >= scope:artifact_2_price
+			OR = {
+				NOT = { exists = scope:artifact_2_purchased }
+				scope:artifact_2_purchased = no
+			}
+		}
+
+		show_as_unavailable = {
+			OR = {
+				NOT = { exists = scope:artifact_2_purchased }
+				scope:artifact_2_purchased = no
+			}
+		}
+
+		pay_short_term_gold = {
+			target = scope:black_market_merchant
+			gold = scope:artifact_2_price
+		}
+
+		scope:artifact_2 = {
+			set_owner = {
+				target = root
+				history = {
+					type = purchased
+					recipient = root
+				}
+			}
+		}
+
+		save_scope_value_as = {
+			name = artifact_2_purchased
+			value = yes
+		}
+
+		if = {
+			limit = { NOT = { exists = var:peddler_purchases } }
+			set_variable = {
+				name = peddler_purchases
+				value = 1 
+			}
+		}
+		else = {
+			change_variable = {
+				name = peddler_purchases
+				add = 1
+			}
+		}
+
+		trigger_event = elf_dest_misc_repeating.101
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.101.purchase_3
+
+		trigger = {
+			gold >= scope:artifact_3_price
+			OR = {
+				NOT = { exists = scope:artifact_3_purchased }
+				scope:artifact_3_purchased = no
+			}
+		}
+
+		show_as_unavailable = {
+			OR = {
+				NOT = { exists = scope:artifact_3_purchased }
+				scope:artifact_3_purchased = no
+			}
+		}
+
+		pay_short_term_gold = {
+			target = scope:black_market_merchant
+			gold = scope:artifact_3_price
+		}
+
+		scope:artifact_3 = {
+			set_owner = {
+				target = root
+				history = {
+					type = purchased
+					recipient = root
+				}
+			}
+		}
+
+		save_scope_value_as = {
+			name = artifact_3_purchased
+			value = yes
+		}
+
+		if = {
+			limit = { NOT = { exists = var:peddler_purchases } }
+			set_variable = {
+				name = peddler_purchases
+				value = 1 
+			}
+		}
+		else = {
+			change_variable = {
+				name = peddler_purchases
+				add = 1
+			}
+		}
+
+		trigger_event = elf_dest_misc_repeating.101
+	}
+
+	option = { # NVM
+		name = elf_dest_misc_repeating.101.nothing
+
+		if = {
+			limit = {
+				exists = var:peddler_purchases
+				var:peddler_purchases >= 3
+				NOT = {
+					has_character_modifier = peddlers_business_card_modifier
+				}
+			}
+			trigger_event = elf_dest_misc_repeating.103
+		}
+		else = {
+			trigger_event = elf_dest_misc_repeating.102
+		}
+	}
+
+	after = {
+		add_character_flag = met_the_peddler
+	}
+}
+
+elf_dest_misc_repeating.102 = {
+	type = character_event
+	title = elf_dest_misc_repeating.102.title
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						AND = {
+							exists = scope:artifact_1_purchased 
+							scope:artifact_1_purchased = yes
+						}
+						AND = {
+							exists = scope:artifact_2_purchased 
+							scope:artifact_2_purchased = yes
+						}
+						AND = {
+							exists = scope:artifact_3_purchased 
+							scope:artifact_3_purchased = yes
+						}
+					}
+				}
+				desc = elf_dest_misc_repeating.102.desc.something_bought
+			}
+			desc = elf_dest_misc_repeating.102.desc.nothing_bought
+		}
+	}
+	
+	theme = peddler
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:black_market_merchant
+		triggered_animation = {
+			trigger = {
+				OR = {
+					AND = {
+						AND = {
+							exists = scope:artifact_1_purchased 
+							scope:artifact_1_purchased = no
+						}
+						AND = {
+							exists = scope:artifact_2_purchased 
+							scope:artifact_2_purchased = no
+						}
+						AND = {
+							exists = scope:artifact_3_purchased 
+							scope:artifact_3_purchased = no
+						}
+					}
+					NOR = {
+						exists = scope:artifact_1_purchased
+						exists = scope:artifact_2_purchased
+						exists = scope:artifact_3_purchased
+					}
+				}
+			}
+			animation = disapproval
+		}
+		triggered_animation = {
+			trigger = {
+				OR = {
+					AND = {
+						exists = scope:artifact_1_purchased 
+						scope:artifact_1_purchased = yes
+					}
+					AND = {
+						exists = scope:artifact_2_purchased 
+						scope:artifact_2_purchased = yes
+					}
+					AND = {
+						exists = scope:artifact_3_purchased 
+						scope:artifact_3_purchased = yes
+					}
+				}
+			}
+			animation = flirtation_left
+		}
+		camera = camera_body_left_slight
+	}
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = { 
+					OR = {
+						NOT = { exists = scope:artifact_1_purchased }
+						scope:artifact_1_purchased = no
+					}
+				}
+				destroy_artifact = scope:artifact_1
+			}
+			if = {
+				limit = { 
+					OR = {
+						NOT = { exists = scope:artifact_2_purchased }
+						scope:artifact_2_purchased = no
+					}
+				}
+				destroy_artifact = scope:artifact_2
+			}
+			if = {
+				limit = { 
+					OR = {
+						NOT = { exists = scope:artifact_3_purchased }
+						scope:artifact_3_purchased = no
+					}
+				}
+				destroy_artifact = scope:artifact_3
+			}
+		}
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.102.ok
+
+		save_scope_value_as = {
+			name = artifact_1_purchased
+			value = no
+		}
+		save_scope_value_as = {
+			name = artifact_2_purchased
+			value = no
+		}
+		save_scope_value_as = {
+			name = artifact_3_purchased
+			value = no
+		}
+
+		hidden_effect = {
+			scope:black_market_merchant = {
+				death = {
+					death_reason = death_vanished_peddler
+				}
+			}
+		}
+
+		trigger_event = elf_dest_misc_repeating.1021
+	}
+
+}
+
+elf_dest_misc_repeating.1021 = {
+	type = character_event
+	title = elf_dest_misc_repeating.1021.title
+	desc = elf_dest_misc_repeating.1021.desc
+	
+	theme = stewardship
+	override_background = {
+		reference = market
+	}
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = stunned
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.1021.a
+
+		# if = {
+		# 	limit = {
+		# 		NOT = {
+		# 			has_character_modifier = peddlers_business_card_modifier
+		# 		}
+		# 	}
+		# 	trigger_event = {
+		# 		id = elf_dest_misc_repeating.01
+		# 		years = { 1 2 }
+		# 	}
+		# }
+	}
+}
+
+
+elf_dest_misc_repeating.103 = {
+	type = character_event
+	title = elf_dest_misc_repeating.103.title
+	desc = elf_dest_misc_repeating.103.desc
+	
+	theme = peddler
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:black_market_merchant
+		animation = scheme
+		camera = zoom_in_jump_scare
+	}
+
+	immediate = {
+		every_owned_story = {
+			limit = { story_type = peddler_management_story }
+			end_story = yes
+		}
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.103.a
+
+		add_stewardship_lifestyle_perk_points = 1
+		add_character_modifier = {
+			modifier = peddlers_business_card_modifier
+		}
+		custom_tooltip = peddlers_shop_decision_unlocked
+
+		trigger_event = elf_dest_misc_repeating.1021
+	}
+
+	after = {
+		hidden_effect = {
+
+			save_scope_value_as = {
+				name = artifact_1_purchased
+				value = no
+			}
+			save_scope_value_as = {
+				name = artifact_2_purchased
+				value = no
+			}
+			save_scope_value_as = {
+				name = artifact_3_purchased
+				value = no
+			}
+
+			scope:black_market_merchant = {
+				death = {
+					death_reason = death_vanished_peddler
+				}
+			}
+		}
+	}
+}
+
+
+elf_dest_misc_repeating.1031 = {
+	type = character_event
+	title = elf_dest_misc_repeating.1031.title
+	desc = elf_dest_misc_repeating.1031.desc
+	
+	theme = peddler
+	content_source = elf_destiny
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	immediate = {
+
+	}
+
+	option = {
+		name = elf_dest_misc_repeating.1031.a
+
+		trigger_event = elf_dest_misc_repeating.101
+	}
+}
