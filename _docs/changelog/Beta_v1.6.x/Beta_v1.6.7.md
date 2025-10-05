@@ -13,3 +13,8 @@ Fixed Aelor Lormelis Character DNA
 Fixed unused genes in other DNA
 Did a bunch of random stuff to title files beyond my comprehension
 numerous other minor tweaks
+
+## Valaddar's Fixes
+Added 3D Models for Broken and Complete Portal
+Added Building Icon for Portal Building
+Added .vscode file to .gitignore
