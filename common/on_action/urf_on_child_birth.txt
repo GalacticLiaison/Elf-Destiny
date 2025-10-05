@@ -7,22 +7,52 @@
 on_child_birth_genetics = {
 	effect = {
 		scope:child = {
-			if = {
-				limit = {
-					NOT = {
-						exists = scope:real_father
-					}	
-				}
-				debug_log = "YOU ARE NOT THE FATHER!"
-				debug_log_scopes = yes
-			}
-
-
 			urf_on_birth_genotype_assignment = {
 				CHILD = scope:child MOTHER = scope:mother FATHER = scope:real_father
 			}
 			urf_on_birth_sapience_assignment = {
 				CHILD = scope:child MOTHER = scope:mother FATHER = scope:real_father
+			}
+
+			# ELF DESTINY
+        	# Allow a small chance for elves to Ascend through child birth
+			if = {
+				limit = {
+					is_any_elf_type = yes
+				}
+				random_list = { 
+					95 = {
+						# Nothing Happens
+					}
+					0 = {
+						modifier = { # - TODO: In the future we can make the odds better with artifacts, dynasty legacies, lifestyle, traits, etc
+							add = 5
+							always = yes
+						}
+	
+						if = {
+							limit = { 
+								OR = { # Cant Ascend Past High Elf till Portal Opened
+									is_high_elf = no
+									has_global_variable = grand_portal_restored
+								}
+							}
+	
+							elf_trait_ascension = yes
+	
+							if = { # if new level is higher than either parent, set flag to trigger an event to congratulate parents
+								limit = { 
+									elf_trait_level > mother.elf_trait_level
+									elf_trait_level > real_father.elf_trait_level
+								}
+								add_character_flag = ascended_through_birth
+							}
+							else = {	
+								debug_log = "BIRTH ASCEND NO MESSAGE"
+							}
+						}
+					}
+				}
 			}
 		}
 	}

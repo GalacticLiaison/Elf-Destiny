@@ -1,6 +1,7 @@
 ﻿on_title_gain = {
 	on_actions = {
 		set_aeluran_government_type
+		start_peddler_story
 	}
 }
 
@@ -17,5 +18,27 @@ set_aeluran_government_type = {
 		debug_log = "set_aeluran_government_type"
 		debug_log_scopes = yes
 		change_government = aeluran_weavers_government
+	}
+}
+
+# When player dies, heir starts the peddler event
+start_peddler_story = {
+	trigger = {
+		is_ai = no
+		is_any_elf_type = yes
+		NOR = {
+			owns_story_of_type = peddler_management_story
+			has_character_modifier = peddlers_business_card_modifier
+		}
+		# has_global_variable = 02_spoke_with_the_aeluran_order
+	}
+
+	effect = {
+		debug_log = "start_peddler_story"
+		debug_log_scopes = yes
+
+		create_story = { # lets start the peddler chain
+			type = peddler_management_story
+		}
 	}
 }

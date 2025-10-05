@@ -1068,6 +1068,10 @@ birth.1001 = {
 		trigger = { scope:child = { has_trait = twin } }
 		add_prestige = minor_prestige_gain
 	}
+
+	after = {
+		ascended_through_birth_event_check = yes
+	}
 }
 
 #BIRTH: Mother: MULTI birth
@@ -1605,6 +1609,9 @@ birth.1101 = {
 
 			trigger_event = birth.1102
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -1790,6 +1797,9 @@ birth.1102 = {
 
 			trigger_event = birth.1103
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -1971,6 +1981,9 @@ birth.1103 = {
 
 			trigger_event = birth.1104
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -2083,8 +2096,77 @@ birth.1104 = {
 		}
 		# trigger = { scope:child = { has_trait = twin } }
 		add_prestige = minor_prestige_gain
+
+		ascended_through_birth_event_check = yes
 	}
 }
+
+# Ascension
+
+# Ascend through birth
+birth.1900 = {
+	type = character_event
+	title = birth.1900.title
+	desc = birth.1900.desc
+	# desc = {
+	# 	first_valid = {
+	# 		triggered_desc = { 
+	# 			trigger = {
+	# 				has_trait_xp = {
+	# 					trait = lifestyle_hunter
+	# 					track = falconer
+	# 					value >= 100
+	# 				}
+	# 			}
+	# 			desc = birth.1900.desc.bird
+	# 		}
+	# 		desc = birth.1900.desc.standard
+	# 	}
+	# }
+	theme = family
+    content_source = elf_destiny
+	override_effect_2d = legend_glow
+
+	left_portrait = {
+		character = root
+		animation = newborn
+	}
+
+	right_portrait = {
+		character = scope:other_parent
+		animation = happiness
+	}
+
+	lower_left_portrait = {
+		character = scope:new_born
+	}
+
+	immediate = {
+		debug_log = "birth.1900 yee"
+		debug_log_scopes = yes
+
+		scope:new_born = {
+			random_parent = {
+				limit = { NOT = {root = this} }
+				save_scope_as = other_parent
+			}
+
+			remove_character_flag = ascended_through_birth
+		}
+		custom_tooltip = {
+			text = child_has_ascended
+		}
+	}
+	
+	option = {
+		name = birth.1900.a
+
+		dynasty = {
+            add_dynasty_prestige = 10
+        }
+	}
+}
+
 
 
 #BIRTH: Mother: child secretly a bastard
@@ -2248,6 +2330,7 @@ birth.1002 = {
 	}
 	after = {
 		bastard_real_father_discovery_on_birth_effect = yes
+		ascended_through_birth_event_check = yes
 	}
 }
 
@@ -2662,6 +2745,10 @@ birth.1003 = {
 	option = {
 		name = birth.1003.b
 		trigger = { scope:child = { has_trait = twin } }
+	}
+
+	after = {
+		ascended_through_birth_event_check = yes
 	}
 }
 
@@ -3299,6 +3386,9 @@ birth.1201 = {
 
 			trigger_event = birth.1202
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -3520,6 +3610,9 @@ birth.1202 = {
 
 			trigger_event = birth.1203
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -3738,6 +3831,9 @@ birth.1203 = {
 
 			trigger_event = birth.1204
 		}
+		else = {
+			ascended_through_birth_event_check = yes
+		}
 	}
 }
 
@@ -3885,6 +3981,8 @@ birth.1204 = {
 		}
 		# trigger = { scope:child = { has_trait = twin } }
 		add_prestige = minor_prestige_gain
+
+		ascended_through_birth_event_check = yes
 	}
 }
 

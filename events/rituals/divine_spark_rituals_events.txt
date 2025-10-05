@@ -307,6 +307,9 @@ divine_spark_rituals.0011 = { # Ascension Ritual
 
 	option = { # just me
 		name = divine_spark_rituals.0011.b
+		trigger = {
+			is_ai = no
+		}
 		save_scope_value_as = {
 			name = group_ritual
 			value = no
@@ -315,11 +318,43 @@ divine_spark_rituals.0011 = { # Ascension Ritual
 	}
 
 	option = { # I need to think about this more
+		trigger = {
+			is_ai = no
+		}
 		name = divine_spark_rituals.0011.c
 		add_piety = ritual_solo_cost
 	}
 }
 
+divine_spark_rituals.0012 = { # Ascension Ritual Notify Player of New Highest Ascension
+	type = character_event
+	title = divine_spark_rituals.0012.title
+	desc = divine_spark_rituals.0012.desc
+
+	trigger = {
+		# has_global_variable = 01_sigil_of_the_realm_lord_found
+		# is_any_elf_type = yes
+	}
+	
+	theme = divine_spark
+
+	right_portrait = {
+		character = scope:ascended_elf
+		animation = personality_zealous
+	}
+
+	override_effect_2d = {
+		reference = legend_glow
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+	}
+
+	option = { # ascend
+		name = divine_spark_rituals.0012.a
+	}
+}
 
 divine_spark_rituals.002 = { # Blessings Ritual
 	type = character_event

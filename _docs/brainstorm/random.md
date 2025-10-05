@@ -400,3 +400,12 @@ Lots of requests for making a custom bloodline.
 - Maybe ways to unlock "customization" points that allow additional stat choices
    - example "strengthen bloodline" decision +1
    - maybe every elf tier reached gives +1
+
+## Mysterious Masked Trader
+- artifacts from expedition
+- spark crystal
+- spark gain token
+   - unlocks spark manipulation but not guaranteed success
+   - can be boosted with spark crystal
+- item to make a human an elf
+   - can be boosted with spark crystal

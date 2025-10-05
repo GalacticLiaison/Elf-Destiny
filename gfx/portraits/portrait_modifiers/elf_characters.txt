@@ -3085,7 +3085,25 @@
         }
     }
 
+    # black_market_merchant = {
+    #     dna_modifiers = {
+    #         accessory = {
+    #             mode = add 
+    #             gene = special_headgear_face_mask
+    #             template = face_mask
+    #             range = { 0 1 }
+    #         }
+    #     }
+    #     weight = {
+    #         base = 0
 
+    #         modifier = {
+    #             add = 100
+
+    #             has_character_flag = black_market_merchant
+    #         }
+    #     }
+    # }
 
     tribal_clothes = {
         dna_modifiers = {
@@ -3121,6 +3139,142 @@
 				exists = this
                 this = {
                     has_character_flag = tribal_warrior_match
+                }
+            }
+        }
+    }
+
+    peddler = {
+        dna_modifiers = {
+            accessory = {
+                mode = replace
+                gene = eye_accessory
+                template = peddler_eyes
+                value = 0.5
+            }
+            accessory = {
+                mode = add
+                gene = special_headgear_face_mask
+                template = fp3_iranian_face_mask_open
+                value = 0.25
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+                value = 0.5  
+            }
+            accessory = {
+                mode = add
+                gene = hairstyles
+                template = indian_hairstyles_straight
+                value = 0.75
+            }
+            accessory = {
+                mode = add
+                gene = beards
+                template = no_beard
+                value = 0.04  
+            }
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep1_jester_clothes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+
+            accessory = {
+                mode = add
+                
+                gene = cloaks
+                template = ep1_cloak_adventurer
+                range = { 0 1 }
+            }
+
+            morph = {
+                mode = replace
+                gene = race_gene_elf_ears_1
+                template = elf_ears_1
+                value = 1
+            }
+            morph = {
+                mode = replace
+                gene = race_gene_elf_ears_2
+                template = elf_ears_2
+                value = 1
+            }
+			color = {
+				gene = skin_color
+				mode = replace
+
+				x = 0.0
+				y = 0.0
+			}
+            color = {
+				gene = hair_color
+				mode = replace
+
+				x = 0.0
+				y = 0.0
+			}
+
+            morph = {
+                mode = replace
+                gene = gene_special_skin_color
+                template = merchant_skin
+                value = 1.0
+            }
+
+
+            morph = {
+                mode = add
+                gene = gene_spindly
+                value = 2.0
+                template = spindly
+            }
+            morph = {
+                mode = modify
+                gene = gene_neck_width
+                value = -0.5
+                # template = spindly
+            }
+            morph = {
+                mode = modify
+                gene = gene_height
+                value = 0.1
+                # template = spindly
+            }
+            morph = {
+                mode = modify_multiply
+                gene = gene_bs_body_type
+                value = 0.1
+                # template = spindly
+            }
+            morph = {
+                mode = modify_multiply
+                gene = gene_bs_body_shape
+                value = 0.1
+                # template = spindly
+            }
+			
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+				exists = this
+                OR = {
+                    has_character_flag = black_market_merchant
+                    AND = {
+                        is_alive = no
+                        death_reason = death_vanished_peddler
+                    }
                 }
             }
         }
