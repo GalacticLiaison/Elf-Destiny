@@ -22,17 +22,98 @@ JominiMultiplayerLobby = {
 	oncreate = "[BindTabsContext]"
 	oncreate = "[PdxGuiTabs.SetResetOnShown( '(bool)yes' )]"
 	oncreate = "[PdxGuiTabs.AddTab( 'character' )]"
-	oncreate = "[PdxGuiTabs.AddTab( 'landless_rulers' )]"
+	oncreate = "[PdxGuiTabs.AddTabIf( 'landless_rulers', HasDlcFeature( 'landless_playable' ) )]"
 
 	# Code can send an event which we can listen for to switch tabs
 	oncreate = "[PdxGuiTabs.ListenFor( 'lobby_window_change_tab' )]"
 
 	blockoverride "left_panel_properties"
 	{
-		size = { 390 100% }
+		size = { 390 0 }
 		widgetid = "left"
 		visible = "[GameIsMultiplayer]"
 	}
+
+	blockoverride "left_panel_attachment"
+	{
+		# DLCs
+
+		vbox = {
+			name = "dlc_collection"
+			layoutpolicy_vertical = expanding
+
+			margin = { 5 5 }
+
+			datacontext = "[GetLobbyHelper]"
+			datacontext = "[LobbyHelperWindow.GetDlcCollection]"
+
+			spacing = 5
+
+			text_label_left = {
+				text = "DLC"
+				margin_left = 4
+			}
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+
+				vbox = {
+					spacing = 5
+					margin = { 0 4 }
+
+					background = {
+						using = Background_Area_Dark
+						margin = { 8 4 }
+
+						using = Mask_Rough_Edges
+
+						modify_texture = {
+							name = "mask"
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+							blend_mode = alphamultiply
+							alpha = 0.5
+						}
+
+
+						modify_texture = {
+							name = "mask"
+							texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+							spriteType = Corneredstretched
+							blend_mode = alphamultiply
+							spriteborder_bottom = 100
+
+						}
+					}
+
+
+
+					vbox = {
+						datamodel = "[DataModelFirst( DlcCollection.GetDlcs, '(int32)15' )]"
+						spacing = 5
+
+						item = {
+							dlc_button = {
+								using = tooltip_es
+							}
+						}
+					}
+
+					button_show_dlc_list = {
+						using = tooltip_es
+					}
+				}
+
+				expand = {}
+			}
+
+
+
+			expand = {}
+		}
+	}
+
+
+
 
 	blockoverride "lobby_view_back_onclick" {
 		onclick = "[ReturnToMenu]"
@@ -81,6 +162,10 @@ JominiMultiplayerLobby = {
 	blockoverride "game_info" {
 		header_pattern = {
 			layoutpolicy_horizontal = expanding
+
+			block "size" {
+				size = { 100 48 }
+			}
 
 			blockoverride "header_text" {
 				text = "[GetCurrentDate.GetString]"
@@ -212,7 +297,7 @@ JominiMultiplayerLobby = {
 					widget = {
 						name = "main_characters"
 						layoutpolicy_horizontal = expanding
-						size = { 0 310 }
+						size = { 0 280 }
 
 						datacontext = "[GetIllustration( 'character_view_bg' )]"
 
@@ -532,11 +617,7 @@ JominiMultiplayerLobby = {
 								}
 
 								expand = {}
-
-
 							}
-
-							
 
 							vbox = {
 								layoutpolicy_vertical = expanding
@@ -550,17 +631,6 @@ JominiMultiplayerLobby = {
 									}
 								}
 							}
-
-
-
-
-							# expand = {}
-						# }
-
-							# divider_light = {
-							# 	layoutpolicy_vertical = expanding
-							# }
-
 
 							### HOUSE COA ###
 							vbox = {
@@ -897,10 +967,10 @@ JominiMultiplayerLobby = {
 	blockoverride "game_rules" {
 		vbox = {
 			layoutpolicy_horizontal = expanding
-			spacing = 5
+			spacing = 4
 			margin_right = 10
-			margin_bottom = 15
-			margin_top = 5
+			margin_bottom = 8
+			margin_top = 4
 
 			flowcontainer_game_rules_mini = {
 				layoutpolicy_horizontal = expanding
@@ -956,51 +1026,8 @@ JominiMultiplayerLobby = {
 			vbox = {
 				name = "select_and_customize_character"
 				datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-
-				button_standard = {
-					name = "create_ruler"
-					size = { 380 45 }
-					visible = "[IsPreparationLobby]"
-					datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-
-					button_edit_text = {
-						size = { 30 30 }
-						parentanchor = left|vcenter
-						position = { 5 0 }
-						alwaystransparent = yes
-					}
-
-					enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
-
-					tooltip = "[LobbyView.GetTryStartRulerDesigningDesc( Character.Self )]"
-					text = "RULER_DESIGNER_OPEN"
-
-					onclick = "[LobbyView.UnReady]"
-					onclick = "[TryStartRulerDesigning( Character.Self, '(bool)no' )]"
-				}
-
-				button_standard = {
-					name = "create_adventurer"
-					size = { 380 45 }
-					visible = "[And( IsPreparationLobby, LobbyView.CanMakeLandlessCharacter )]"
-					datacontext = "[LobbyView.GetSelectedPlayable.GetCharacter]"
-
-					button_icon = {
-						size = { 30 30 }
-						parentanchor = left|vcenter
-						position = { 5 0 }
-						alwaystransparent = yes
-						texture = "gfx/interface/icons/flat_icons/map_modes/landless_rulers.dds"
-					}
-
-					enabled = "[LobbyView.CanTryStartRulerDesigning( Character.Self )]"
-
-					tooltip = "[LobbyView.GetTryStartLandlessDesigningDesc( Character.Self )]"
-					text = RULER_DESIGNER_OPEN_LANDLESS
-
-					onclick = "[TryStartRulerDesigning( Character.Self, '(bool)yes' )]"
-					onclick = "[LobbyView.UnReady]"
-				}
+				margin_top = 35
+				spacing = 5
 
 				vbox = {
 					layoutpolicy_horizontal = expanding
@@ -1098,6 +1125,8 @@ JominiMultiplayerLobby = {
 		}
 	}
 
+
+
 	### MAPMODES, OBSERVE MODE ###
 	widget = {
 		parentanchor = bottom
@@ -1183,6 +1212,13 @@ JominiMultiplayerLobby = {
 			}
 		}
 	}
+
+	# DLC list, be as far in front as possible so we overlay rest of UI
+	widget_dlc_list_with_overlay = {
+		datacontext = "[GetLobbyHelper]"
+		datacontext = "[LobbyHelperWindow.GetDlcCollection]"
+	}
+
 
 	error_horse = {
 		parentanchor = bottom|left
@@ -1272,7 +1308,7 @@ types LobbyWindowTypes {
 
 		hbox = {
 			layoutpolicy_vertical = expanding
-			
+
 			spacing = 4
 
 			portrait_head_small = {}
@@ -1319,6 +1355,7 @@ types LobbyWindowTypes {
 
 		text_single = {
 			text = lobby_landless_government_filter
+			max_width = 240
 		}
 
 		expand = { }
@@ -1349,7 +1386,7 @@ types LobbyWindowTypes {
 					margin_left = 10
 					parentanchor = vcenter
 
-					text = "[GovernmentType.GetNameNoTooltip]"	
+					text = "[GovernmentType.GetNameNoTooltip]"
 				}
 
 				text_single = {
@@ -1357,8 +1394,8 @@ types LobbyWindowTypes {
 					align = nobaseline|left
 					margin_left = 10
 					parentanchor = vcenter
-					
-					text = "any_filter_option"	
+
+					text = "any_filter_option"
 				}
 			}
 
@@ -1370,7 +1407,7 @@ types LobbyWindowTypes {
 					margin_left = 5
 					parentanchor = vcenter
 
-					text = "[GovernmentType.GetNameNoTooltip]"	
+					text = "[GovernmentType.GetNameNoTooltip]"
 				}
 
 				text_single = {
@@ -1379,7 +1416,7 @@ types LobbyWindowTypes {
 					margin_left = 5
 					parentanchor = vcenter
 
-					text = "any_filter_option"	
+					text = "any_filter_option"
 				}
 			}
 
