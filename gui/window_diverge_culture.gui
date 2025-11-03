@@ -42,11 +42,6 @@ window = {
 			{
 				onclick = "[DivergenceWindow.Close]"
 			}
-
-			blockoverride "size"
-			{
-				maximumsize = { 800 -1 }
-			}
 		}
 
 		hbox = {
@@ -224,37 +219,8 @@ window = {
 													tooltip = "[DivergenceWindow.GetPickPillarBlockers( CulturePillar.Self )]"
 												}
 
-												icon = {
-													name = "selection_glow"
+												selection_glow = {
 													visible = "[DivergenceWindow.HasPillar( CulturePillar.Self )]"
-													parentanchor = center
-													size = { 100% 100% }
-
-													state = {
-														trigger_on_create = yes
-
-														name = max_glow
-														next = min_glow
-														duration = 1
-														using = Animation_Curve_Default
-														alpha = 0.5
-													}
-
-													state = {
-														name = min_glow
-														next = max_glow
-														duration = 1.6
-														using = Animation_Curve_Default
-														alpha = 0.3
-													}
-
-													background = {
-														texture = "gfx/interface/component_effects/innovation_glow.dds"
-														margin = { 15 12 }
-														spriteType = Corneredstretched
-														spriteborder = { 30 30 }
-														tintcolor = { 1 0.8 0.6 1 }
-													}
 												}
 											}
 										}
@@ -288,7 +254,42 @@ window = {
 													position = { 4 0 }
 													size = { 26 26 }
 													alwaystransparent = yes
-													texture = "gfx/interface/icons/culture_pillars/language.dds"
+													texture = "gfx/interface/icons/flat_icons/map_modes/court_languages.dds"
+													framesize = { 220 220 }
+												}
+											}
+										}
+									}
+								}
+							}
+
+							text_label_center = {
+								layoutpolicy_horizontal = expanding
+								text = "CULTURE_CREATION_HERITAGE"
+								default_format = "#low"
+							}
+
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								margin_right = 6
+
+								fixedgridbox = {
+									datamodel = "[DivergenceWindow.GetPossibleHeritage]"
+									flipdirection = yes
+									addcolumn = 172
+									addrow = 40
+									datamodel_wrap = 2
+
+									item = {
+										button_diverge_pillar_selection = {
+											blockoverride "icon"
+											{
+												button_icon = {
+													parentanchor = vcenter
+													position = { 4 0 }
+													size = { 26 26 }
+													alwaystransparent = yes
+													texture = "gfx/interface/icons/culture_pillars/heritage.dds"
 													framesize = { 220 220 }
 												}
 											}
@@ -644,6 +645,7 @@ window = {
 							blockoverride "editbox_properties"
 							{
 								name = "culture_name_edit"
+								focus_on_visible = yes
 								ontextedited = "[DivergenceWindow.OnEditName]"
 								maxcharacters = 30
 							}
@@ -761,6 +763,7 @@ window = {
 
 						hbox = {
 							layoutpolicy_horizontal = expanding
+							margin_bottom = -2
 
 							button_tabs_replace_tradition_category = {
 								datacontext = "[DivergenceWindow.GetTraditionGrouping( 'ritual' )]"
@@ -888,37 +891,8 @@ types DivergenceTypes
 					}
 				}
 
-				icon = {
-					name = "selection_glow"
+				selection_glow = {
 					visible = "[ObjectsEqual( CultureTradition.Self, DivergenceWindow.GetSelectedTradition )]"
-					parentanchor = center
-					size = { 100% 100% }
-
-					state = {
-						trigger_on_create = yes
-
-						name = max_glow
-						next = min_glow
-						duration = 1
-						using = Animation_Curve_Default
-						alpha = 0.5
-					}
-
-					state = {
-						name = min_glow
-						next = max_glow
-						duration = 1.6
-						using = Animation_Curve_Default
-						alpha = 0.3
-					}
-
-					background = {
-						texture = "gfx/interface/component_effects/innovation_glow.dds"
-						margin = { 14 12 }
-						spriteType = Corneredstretched
-						spriteborder = { 30 30 }
-						tintcolor = { 1 0.8 0.6 1 }
-					}
 				}
 			}
 
