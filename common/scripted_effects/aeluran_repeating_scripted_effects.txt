@@ -137,6 +137,27 @@ appoint_newly_arrived_aeluran_advisor = {
 
     if = {
         limit = {
+            government_has_flag = government_is_celestial
+        }
+
+        create_title_and_vassal_change = {
+            type = granted
+            save_scope_as = title_change
+            add_claim_on_loss = no
+        }
+        title:e_minister_of_rites = {
+            change_title_holder = {
+                holder = scope:aeluran_sister_advisor
+                change = scope:title_change
+            }
+        }
+        resolve_title_and_vassal_change = scope:title_change
+
+        # title:e_minister_of_rites
+    }
+
+    if = {
+        limit = {
             has_realm_law_flag = aeluran_regency_enabled
         }
 
