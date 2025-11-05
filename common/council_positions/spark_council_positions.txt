@@ -2298,8 +2298,17 @@ councillor_court_chaplain = {
 			}
 		}
 		trigger_if = {
-			limit = { is_ai = yes }
+			limit = {
+				is_ai = yes
+				tgp_has_access_to_ministry_trigger = no
+			}
 			always = yes
+		}
+		trigger_else_if = {
+			limit = {
+				tgp_has_access_to_ministry_trigger = yes
+			}
+			always = no
 		}
 		trigger_else = {
 			faith = {
@@ -2307,25 +2316,39 @@ councillor_court_chaplain = {
 			}
 		}
 	}
+
 	fill_from_pool = yes
 
 	can_fire = {
-		custom_description = {
-			text = "court_chaplain_cant_fire_doctrines"
-			faith = {
-				NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+		trigger_if = {
+			limit = {
+				tgp_has_access_to_ministry_trigger = no
+			}
+			custom_description = {
+				text = "court_chaplain_cant_fire_doctrines"
+				faith = {
+					NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+				}
 			}
 		}
 	}
 	
 	can_reassign = {
-		custom_description = {
-			text = "court_chaplain_cant_reassign_doctrines"
-			OR = {
-				faith = {
-					NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+		trigger_if = {
+			limit = {
+				NAND = {
+					government_has_flag = government_has_merit
+					highest_held_title_tier >= tier_hegemony
 				}
-				NOT = { exists = cp:councillor_court_chaplain }
+			}
+			custom_description = {
+				text = "court_chaplain_cant_reassign_doctrines"
+				OR = {
+					faith = {
+						NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+					}
+					NOT = { exists = cp:councillor_court_chaplain }
+				}
 			}
 		}
 	}
@@ -2333,6 +2356,10 @@ councillor_court_chaplain = {
 	can_change_once = {
 		faith = {
 			has_doctrine_parameter = clerical_appointment_fixed
+		}
+		NAND = {
+			government_has_flag = government_has_merit
+			highest_held_title_tier >= tier_hegemony
 		}
 		exists = cp:councillor_court_chaplain
 	}
@@ -2343,7 +2370,59 @@ councillor_court_chaplain = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:councillor_liege.faith = {
+					highest_held_title_tier >= tier_hegemony
+					government_has_flag = government_has_merit 
+				}
+				desc = councillor_court_chaplain_celestial_government_imperial
+			}
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = { has_cultural_pillar = heritage_chinese }
+						culture = { has_cultural_pillar = heritage_tungusic }
+					}
+					religion = religion:buddhism_religion
+				}
+				desc = councillor_court_chaplain_buddhist_chinese
+			}
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = { has_cultural_pillar = heritage_chinese }
+						culture = { has_cultural_pillar = heritage_tungusic }
+					}
+					religion = religion:taoism_religion
+				}
+				desc = councillor_court_chaplain_daoist_chinese
+			}
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = { has_cultural_pillar = heritage_chinese }
+						culture = { has_cultural_pillar = heritage_tungusic }
+					}
+					religion = religion:confucianism_religion
+				}
+				desc = councillor_court_chaplain_confucian_chinese
+			}
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = { has_cultural_pillar = heritage_tibetan }
+					}
+					religion = religion:buddhism_religion
+				}
+				desc = councillor_court_chaplain_buddhist_tibetan
+			}
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_mandala
+				}
+				desc = councillor_court_chaplain_mandala_government
+			}
+			triggered_desc = {
+				trigger = {
+					faith = {
 						OR = {
 							has_doctrine = doctrine_theocracy_temporal
 							religion = { is_in_family = rf_pagan }
@@ -2354,7 +2433,7 @@ councillor_court_chaplain = {
 			}
 			triggered_desc = {
 				trigger = {
-					scope:councillor_liege.faith = {
+					faith = {
 						NOR = {
 							has_doctrine = doctrine_theocracy_temporal
 							religion = { is_in_family = rf_pagan }
@@ -2365,50 +2444,49 @@ councillor_court_chaplain = {
 					first_valid = {
 						#Shia
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_empire faith = faith:ismaili }
+							trigger = { highest_held_title_tier >= tier_empire faith = faith:ismaili }
 							desc = councillor_court_chaplain_ismaili_empire
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_kingdom faith = faith:ismaili }
+							trigger = { highest_held_title_tier >= tier_kingdom faith = faith:ismaili }
 							desc = councillor_court_chaplain_ismaili_kingdom
 						}
 						#Islam
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_empire faith.religion = faith:ashari.religion }
+							trigger = { highest_held_title_tier >= tier_empire faith.religion = faith:ashari.religion }
 							desc = councillor_court_chaplain_islam_empire
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_kingdom faith.religion = faith:ashari.religion }
+							trigger = { highest_held_title_tier >= tier_kingdom faith.religion = faith:ashari.religion }
 							desc = councillor_court_chaplain_islam_kingdom
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_duchy faith.religion = faith:ashari.religion }
+							trigger = { highest_held_title_tier >= tier_duchy faith.religion = faith:ashari.religion }
 							desc = councillor_court_chaplain_islam_duchy
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier < tier_duchy faith.religion = faith:ashari.religion }
+							trigger = { highest_held_title_tier < tier_duchy faith.religion = faith:ashari.religion }
 							desc = councillor_court_chaplain_islam_county
 						}
 						#Yazidi
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_empire faith.religion = faith:yazidi.religion }
+							trigger = { highest_held_title_tier >= tier_empire faith.religion = faith:yazidi.religion }
 							desc = councillor_court_chaplain_yazidi_empire
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_kingdom faith.religion = faith:yazidi.religion }
+							trigger = { highest_held_title_tier >= tier_kingdom faith.religion = faith:yazidi.religion }
 							desc = councillor_court_chaplain_yazidi_kingdom
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_duchy faith.religion = faith:yazidi.religion }
+							trigger = { highest_held_title_tier >= tier_duchy faith.religion = faith:yazidi.religion }
 							desc = councillor_court_chaplain_yazidi_duchy
 						}
 						triggered_desc = {
-							trigger = { scope:councillor_liege.highest_held_title_tier < tier_duchy faith.religion = faith:yazidi.religion }
+							trigger = { highest_held_title_tier < tier_duchy faith.religion = faith:yazidi.religion }
 							desc = councillor_court_chaplain_yazidi_county
 						}
 						desc = councillor_court_chaplain
 					}
-
 				}
 			}
 			desc = councillor_court_chaplain
@@ -2419,7 +2497,13 @@ councillor_court_chaplain = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:councillor_liege.faith = { has_doctrine = doctrine_theocracy_temporal }
+					scope:councillor_liege = { tgp_has_access_to_ministry_trigger = yes }
+				}
+				desc = game_concept_minister_of_rites_desc
+			}
+			triggered_desc = {
+				trigger = {
+					faith = { has_doctrine = doctrine_theocracy_temporal }
 				}
 				desc = game_concept_realm_priest_desc
 			}
@@ -2456,7 +2540,16 @@ councillor_court_chaplain = {
 	
 	valid_character = {
 		exists = root.liege_or_court_owner
-		can_be_court_chaplain_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		trigger_if = { # If the liege has a ministry, we check a separate minister trigger
+			limit = {
+				root.liege_or_court_owner = { tgp_has_access_to_ministry_trigger = yes }
+			}
+			tgp_can_be_a_minister_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		}
+		trigger_else = {
+			can_be_court_chaplain_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		}
+		tgp_is_ceremonial_liege_trigger = no
 	}
 	
 	valid_position = {
@@ -2486,6 +2579,7 @@ councillor_court_chaplain = {
 			}
 		}
 		got_council_position_effect = yes
+		got_minister_position_effect = { MINISTER_TITLE = e_minister_of_rites MINISTER_POSITION = councillor_court_chaplain }
 		if = {
 			limit = {
 				years_from_game_start >= 1
@@ -2617,6 +2711,7 @@ councillor_court_chaplain = {
 
 		debug_log_scopes = yes
 		fired_from_council_position_effect = yes
+		fired_minister_position_effect = yes
 	}
 
 	portrait_animation = chaplain

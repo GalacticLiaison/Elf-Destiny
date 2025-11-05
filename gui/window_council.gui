@@ -1147,6 +1147,17 @@ types CouncilWindow
 	type widget_aeluran_councillor_item = widget {
 		size = { 260 250 }
 
+		state = {
+			name = _mouse_hierarchy_enter
+			on_start = "[PdxGuiWidget.FindChild('character_skills').TriggerAnimation('mouse_enter_panel')]"
+		}
+
+		state = {
+			name = _mouse_hierarchy_leave
+			on_start = "[PdxGuiWidget.FindChild('character_skills').TriggerAnimation('mouse_leave_panel')]"
+		}
+
+
 		### Required Datacontexts
 		# A council position type - from use above: [CouncilWindow.GetCouncillor('councillor_marshal')]
 		# The councillor - from use above: [ActiveCouncilTask.GetCouncillor]
@@ -1363,7 +1374,7 @@ types CouncilWindow
 					}
 
 					text_single = {
-						name = "title"
+						name = "title_alt"
 						layoutpolicy_horizontal = expanding
 						text = "aeluran_adviser_and_spouse"
 						tooltip = "[ActiveCouncilTask.GetPositionTooltip]"
@@ -2737,6 +2748,8 @@ types CouncilTaskTypes
 							name = "tutorial_court_chaplain"
 							size = { -1 290 }
 
+							visible = "[And( Not( CouncilOwnerHasAeluran ), Not( CouncilOwnerNomadic ) )]"
+
 							datacontext = "[GetIllustration( 'character_religion_interior' )]"
 
 							background =  {
@@ -2744,6 +2757,36 @@ types CouncilTaskTypes
 								fittype = centercrop
 								alpha = 0.7
 								using = Mask_Rough_Edges
+							}
+
+							background = {
+								texture = "gfx/interface/component_masks/mask_vignette.dds"
+								color = { 0.15 0.15 0.15 1 }
+								alpha = 0.3
+							}
+						}
+
+						# Aeluran Advisor
+						widget_aeluran_councillor_item = {
+
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
+							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+							datacontext = "[ActiveCouncilTask.GetPositionType]"
+							datacontext = "[ActiveCouncilTask.GetCouncillor]"
+							size = { -1 280 }
+							visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
+
+							name = "tutorial_aeluran_advisor"
+
+							datacontext = "[GetIllustration( 'religion_interior' )]"
+
+							background =  {
+								texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
+								fittype = centercrop
+								using = Mask_Rough_Edges
+								alpha = 0.8
 							}
 
 							background = {

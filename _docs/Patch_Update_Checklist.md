@@ -1,5 +1,15 @@
 # Things to do after a new patch
 
+## New Succession Types
+common\laws\OVERRIDE_laws.txt
+
+## New Buildings
+common\holdings\00_holdings.txt
+
+## Check head assets for updates
+gfx\models\portraits\female_head\female_head.asset
+gfx\models\portraits\male_head\male_head.asset
+
 ## Update the Gui Files that have been overwritten
 gui\multiplayer_lobby.gui
 gui\interaction_modify_vassal_window.gui
