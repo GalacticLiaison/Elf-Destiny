@@ -133,7 +133,7 @@ PixelShader =
 			}
 
 			// CfV (POD)
-			void ApplyVariationPatterns( in VS_OUTPUT_PDXMESHPORTRAIT Input, inout float4 Diffuse, inout float4 Properties, inout float3 NormalSample, in float4 SecondColorMask,  GH_SPortraitEffect PortraitEffect )
+			void ApplyVariationPatterns( in VS_OUTPUT_PDXMESHPORTRAIT Input, inout float4 Diffuse, inout float4 Properties, inout float3 NormalSample, in float4 SecondColorMask,  GH_SPortraitEffect PortraitEffect, inout float NormalUVChannel  )
 			// CfV end
 			{
 				float4 Mask = PdxTex2D( PatternMask, Input.UV0 );
@@ -155,6 +155,7 @@ PixelShader =
 						PatternDiffuse = lerp( PatternDiffuse, PatternOutput._Diffuse, Mask[i] * OpacityMask);
 						PatternNormal = lerp( PatternNormal, PatternOutput._Normal.rgb, Mask[i] * OpacityMask);
 						PatternProperties = lerp( PatternProperties, PatternOutput._Properties, Mask[i] * OpacityMask);
+						NormalUVChannel = lerp( NormalUVChannel, 1.0f, SecondColorMask[i] * OpacityMask);
 					}
 				}
 
@@ -173,6 +174,7 @@ PixelShader =
 							PatternDiffuse = lerp( PatternDiffuse, PatternOutput._Diffuse, SecondColorMask[i] * OpacityMask);
 							PatternNormal = lerp( PatternNormal, PatternOutput._Normal.rgb, SecondColorMask[i] * OpacityMask);
 							PatternProperties = lerp( PatternProperties, PatternOutput._Properties, SecondColorMask[i] * OpacityMask);
+							NormalUVChannel = lerp( NormalUVChannel, 1.0f, SecondColorMask[i] * OpacityMask);
 						}
 					}
 				#endif
@@ -180,7 +182,7 @@ PixelShader =
 				Diffuse *= PatternDiffuse;
 				Diffuse.rgb *= PatternProperties.rrr; // pattern AO
 
-				NormalSample = normalize( OverlayNormal( NormalSample, PatternNormal ) );
+				NormalSample = PatternNormal;
 				Properties = PatternProperties;
 			}
 			void ApplyClothFresnel( in VS_OUTPUT_PDXMESHPORTRAIT Input,in float3  CameraPosition, in float3  Normal, inout float3 Color )

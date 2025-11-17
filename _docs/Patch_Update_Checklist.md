@@ -6,6 +6,9 @@ common\laws\OVERRIDE_laws.txt
 ## New Buildings
 common\holdings\00_holdings.txt
 
+Check if Tribal buildings have been updated
+common\buildings\elf_tribal_buildings.txt
+
 ## Check head assets for updates
 gfx\models\portraits\female_head\female_head.asset
 gfx\models\portraits\male_head\male_head.asset
@@ -23,3 +26,6 @@ gui\window_diarchy.gui
 gui\window_diverge_culture.gui
 gui\window_faith.gui
 gui\window_ruler_designer.gui
+
+# Shader Files!!
+gfx\FX

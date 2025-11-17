@@ -35,26 +35,36 @@ wolf_invader.002 = { #Sighting of wolf in county
     content_source = elf_destiny
 
     override_background = { reference = council_chamber }
-    immediate = {
-        debug_log = "sighting of the wolf event 0002"
-        random_councillor = { 
-            save_scope_as = random_councillor
-        }
-    }
 
     right_portrait = {
         character = root
         animation = interested
     }
     
-    lower_left_portrait = {
-        character = scope:random_councillor
+    left_portrait = {
+        character = scope:left_portrait
         animation = interested
     }
 
-    left_portrait = {
-        character = cp:aeluran_advisor
-        animation = interested
+    immediate = {
+        debug_log = "sighting of the wolf event 0002"
+        random_councillor = { 
+            save_scope_as = random_councillor
+        }
+
+        if = {
+            limit = {
+                exists = cp:aeluran_advisor
+            }
+            cp:aeluran_advisor = {
+                save_scope_as = left_portrait
+            }
+        }
+        else = {
+            scope:random_councillor = {
+                save_scope_as = left_portrait
+            }
+        }
     }
     
     option = {
@@ -76,19 +86,37 @@ wolf_invader.003 = { #negative economic penalties
     override_background = { reference = council_chamber }
 
     immediate = {
-        debug_log = "negative economic penalties"
-
-        random_knight = {
-            limit = { 
-                NOT = { 
-                    scope:wolfslayer = { 
-                        is_alive = yes
+        if = {
+            limit = {
+                OR = {
+                    NOT = { exists = scope:wolfslayer }
+                    scope:wolfslayer = {
+                        is_alive = no
                     }
-                }   
-                prowess >= 12
-                is_adult = yes
+                }
             }
-            save_scope_as = wolfslayer
+            
+            random_knight = {
+                limit = { 
+                    prowess >= 12
+                    is_adult = yes
+                }
+                save_scope_as = wolfslayer
+            }
+        }
+
+        if = {
+            limit = {
+                exists = cp:aeluran_advisor
+            }
+            cp:aeluran_advisor = {
+                save_scope_as = left_portrait
+            }
+        }
+        else = {
+            scope:random_councillor = {
+                save_scope_as = left_portrait
+            }
         }
 
         increase_wolf_terror_in_capital_effect = yes
@@ -99,22 +127,18 @@ wolf_invader.003 = { #negative economic penalties
         animation = worry
     }
 
-    lower_left_portrait = {
-        character = scope:random_councillor
-        animation = interested
-    }
-
     left_portrait = {
-        character = cp:aeluran_advisor
+        character = scope:left_portrait
         animation = interested
     }
-
 
     option = { #going on a hunt
         name = wolf_invader.003.b
-        is_shown = { 
+
+        trigger = {
             is_adult = yes
         }
+
         trigger_event = {
             id = wolf_invader.005
             days = 15
@@ -415,7 +439,7 @@ wolf_invader.0041 = { #wolf is back after being 'slain'
 
     option = { #going on a hunt
         name = wolf_invader.0041.a
-        is_shown = { 
+        trigger = { 
             is_adult = yes
         }
         trigger_event = {
@@ -1739,7 +1763,6 @@ wolf_invader.204 = { # Warg pass/fail to tame wolf
         }
     }
 }
-
 
 wolf_invader.2001 = { # ensuring the event continues and doesnt break
     type = character_event
