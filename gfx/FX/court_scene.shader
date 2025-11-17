@@ -13,12 +13,13 @@ Includes = {
 	"jomini/portrait_user_data.fxh"
 	"jomini/hair_lighting.fxh"
 	"jomini/translucency.fxh"
+	"jomini/shader_utility.fxh"
 	"constants.fxh"
 	"standardfuncsgfx.fxh"
 	"parallax.fxh"
-	# CfV (godherja)
+	# MOD(godherja)
 	"GH_portrait_effects.fxh"
-	# CfV end
+	# END MOD
 }
 
 PixelShader =
@@ -681,14 +682,8 @@ PixelShader =
 					float OuterAngle = RemapClamped( Light_InnerCone_OuterCone_ShadowToUse[i].y, 0.0f, 1.0f, 0.0f, PI / 2.0f );
 					LightColorIntensity *= GetAngleAttenuation( normalize( PosToLight ), -LightDirection, InnerAngle, OuterAngle );
 
-					// TODO: Could be cleaned up better
-					SLightingProperties LightingProps;
-					LightingProps._ToCameraDir = ViewVector;
 					LightingProps._ToLightDir = normalize( PosToLight );
 					LightingProps._LightIntensity = LightColorIntensity;
-					LightingProps._ShadowTerm = LightShadowTerm;
-					LightingProps._CubemapIntensity = 0.0;
-					LightingProps._CubemapYRotation = Float4x4Identity();
 					CalculateLightingFromLight( MaterialProps, LightingProps, DiffuseLight, SpecularLight );
 
 					#ifdef TRANSLUCENCY
@@ -701,14 +696,8 @@ PixelShader =
 					float Attenuation = CalculatePointLightAttenuation( PosToLight, ScaledRadius );
 					float3 LightColorIntensity = Light_Color_Intensity[i].xyz * Light_Color_Intensity[i].w * 1000.0f * Attenuation;
 
-					// TODO: Could be cleaned up better
-					SLightingProperties LightingProps;
-					LightingProps._ToCameraDir = ViewVector;
 					LightingProps._ToLightDir = normalize( PosToLight );
 					LightingProps._LightIntensity = LightColorIntensity;
-					LightingProps._ShadowTerm = LightShadowTerm;
-					LightingProps._CubemapIntensity = 0.0;
-					LightingProps._CubemapYRotation = Float4x4Identity();
 					CalculateLightingFromLight( MaterialProps, LightingProps, DiffuseLight, SpecularLight );
 
 					#ifdef TRANSLUCENCY
@@ -717,13 +706,8 @@ PixelShader =
 				}
 				else if( Light_Direction_Type[i].w == LIGHT_TYPE_DIRECTIONAL )
 				{
-					SLightingProperties LightingProps;
-					LightingProps._ToCameraDir = ViewVector;
 					LightingProps._ToLightDir = -Light_Direction_Type[i].xyz;
 					LightingProps._LightIntensity = ColorIntensity.rgb;
-					LightingProps._ShadowTerm = LightShadowTerm;
-					LightingProps._CubemapIntensity = 0.0f;
-					LightingProps._CubemapYRotation = Float4x4Identity();
 					CalculateLightingFromLight( MaterialProps, LightingProps, DiffuseLight, SpecularLight );
 
 					#ifdef TRANSLUCENCY
@@ -748,14 +732,8 @@ PixelShader =
 					float3 ClosestPoint = CalcDiscSpecMRP( Light_Position_Radius[i].xyz, Light_Position_Radius[i].w, WorldSpacePos, ViewVectorR, LightDirection );
 					ClosestPoint = normalize( ClosestPoint );
 
-					// TODO: Could be cleaned up better
-					SLightingProperties LightingProps;
-					LightingProps._ToCameraDir = ViewVector;
 					LightingProps._ToLightDir = normalize( PosToLight );
 					LightingProps._LightIntensity = LightColorIntensity;
-					LightingProps._ShadowTerm = LightShadowTerm;
-					LightingProps._CubemapIntensity = 0.0;
-					LightingProps._CubemapYRotation = Float4x4Identity();
 					CalculateLightingFromAreaLight( MaterialProps, LightingProps, DiffuseLight, SpecularLight, ClosestPoint );
 
 					#ifdef TRANSLUCENCY
@@ -771,13 +749,8 @@ PixelShader =
 					float3 ClosestPoint = CalcSphereSpecMRP( Light_Position_Radius[i].xyz, Light_Position_Radius[i].w, WorldSpacePos, ViewVectorR );
 					ClosestPoint = normalize( ClosestPoint );
 
-					SLightingProperties LightingProps;
-					LightingProps._ToCameraDir = ViewVector;
 					LightingProps._ToLightDir = normalize( PosToLight );
 					LightingProps._LightIntensity = LightColorIntensity;
-					LightingProps._ShadowTerm = LightShadowTerm;
-					LightingProps._CubemapIntensity = 0.0;
-					LightingProps._CubemapYRotation = Float4x4Identity();
 					CalculateLightingFromAreaLight( MaterialProps, LightingProps, DiffuseLight, SpecularLight, ClosestPoint );
 
 					#ifdef TRANSLUCENCY
@@ -832,21 +805,31 @@ PixelShader =
 			Color += HOVER_COLOR * HOVER_INTENSITY * FresnelFactor * HoverMult;
 		}
 
-		// CfV (godherja)
-		// float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
-		float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
-		// CfV end
+		float3 TangentSpaceToWorldNormal( in VS_OUTPUT_PDXMESHPORTRAIT Input, float3 NormalSample )
+		{
+			float3x3 TBN = Create3x3( normalize( Input.Tangent ), normalize( Input.Bitangent ), normalize( Input.Normal ) );
+			return normalize( mul( NormalSample, TBN ) );
+		}
+
+		float3 TangentSpaceToWorldNormalWithTwoNormal( in VS_OUTPUT_PDXMESHPORTRAIT Input, float3 FirstNormalSample, float3 SecondNormalSample, float NormalUVChannel )
+		{
+			float3x3 TBN = Create3x3( normalize( Input.Tangent ), normalize( Input.Bitangent ), normalize( Input.Normal ) );
+			float3 BaseWorldNormal  = normalize( mul( FirstNormalSample, TBN ) );
+			float3x3 TBN2 = BuildTangentFrame( BaseWorldNormal , Input.WorldSpacePos, Input.UV1 );
+			float3 LayeredNormal = normalize( mul( SecondNormalSample, TBN2 ) );
+			return lerp( BaseWorldNormal , LayeredNormal, NormalUVChannel );
+		}
+
+		// MOD(godherja)
+		//float3 CommonPixelShaderColor( float4 Diffuse, float4 Properties, float3 Normal, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		float3 CommonPixelShaderColor( float4 Diffuse, float4 Properties, float3 Normal, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
+		// END MOD
 		{
 			// CfV (godherja)
 			GH_TryApplyStatueEffect(PortraitEffect, Diffuse, Properties, Input);
 			// CfV end
 
-			float3x3 TBN = Create3x3( normalize( Input.Tangent ), normalize( Input.Bitangent ), normalize( Input.Normal ) );
-			float3 Normal = normalize( mul( NormalSample, TBN ) );
-
-			// CfV (POD)
-			POD_AdjustPortraitNormals(PortraitEffect, Input, Normal);
-			// CfV end
+			GetSpecularAA( Normal, 1.0f, 1.0f, Properties.a );
 			
 			SMaterialProperties MaterialProps = GetMaterialProperties( Diffuse.rgb, Normal, saturate( Properties.a ), Properties.g, Properties.b );
 			SLightingProperties LightingProps = GetSunLightingProperties( Input.WorldSpacePos, ShadowTexture );
@@ -892,7 +875,7 @@ PixelShader =
 			#endif
 
 			float3 Color = DiffuseIBL + SpecularIBL + DiffuseLight + SpecularLight + DiffuseTranslucency;
-
+			
 			#ifdef VARIATIONS_ENABLED
 				ApplyClothFresnel( Input, CameraPosition, Normal, Color );
 			#endif
@@ -908,6 +891,30 @@ PixelShader =
 
 			AddHoverHighlight( Color, Normal, LightingProps._ToCameraDir, HoverMult );
 			return Color;
+		}
+
+		// MOD(godherja)
+		//float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
+		// END MOD
+		{
+			float3 Normal = TangentSpaceToWorldNormal( Input, NormalSample );
+			// MOD(godherja)
+			//return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, HoverMult );
+			return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, PortraitEffect, HoverMult );
+			// END MOD
+		}
+
+		// MOD(godherja)
+		//float3 CommonPixelShaderWithTwoNormal( float4 Diffuse, float4 Properties, float3 FirstNormalSample, float3 SecondNormalSample, float NormalUVChannel, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		float3 CommonPixelShaderWithTwoNormal( float4 Diffuse, float4 Properties, float3 FirstNormalSample, float3 SecondNormalSample, float NormalUVChannel, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
+		// END MOD
+		{
+			float3 Normal = TangentSpaceToWorldNormalWithTwoNormal( Input, FirstNormalSample, SecondNormalSample, NormalUVChannel );
+			// MOD(godherja)
+			//return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, HoverMult );
+			return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, PortraitEffect, HoverMult );
+			// END MOD
 		}
 
 		// Remaps Value to [IntervalStart, IntervalEnd]
@@ -1195,9 +1202,7 @@ PixelShader =
 
 				AddDecals( Diffuse.rgb, NormalSample, Properties, UV0, Input.InstanceIndex, PreSkinColorDecalCount, DecalCount );
 
-				// CfV (godherja)
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, HoverMult );
-				// CfV end
 				Out.Color = float4( Color, 1.0f );
 
 				Out.SSAOColor = PdxTex2D( SSAOColorMap, UV0 );
@@ -1252,13 +1257,13 @@ PixelShader =
 				float4 Diffuse = PdxTex2D( DiffuseMap, UV0 );
 				float4 Properties = PdxTex2D( PropertiesMap, UV0 );
 				float4 NormalSampleRaw = PdxTex2D( NormalMap, UV0 );
-
 				#ifdef DOUBLE_SIDED_ENABLED
 					float3 NormalSample = UnpackRRxGNormal( NormalSampleRaw ) * ( PDX_IsFrontFace ? 1 : -1 );
 				#else
 					float3 NormalSample = UnpackRRxGNormal( NormalSampleRaw );
 				#endif
 
+			
 				Diffuse.a = PdxMeshApplyOpacity( Diffuse.a, Input.Position.xy, PdxMeshGetOpacity( Input.InstanceIndex ) );
 
 				// CfV (godherja)
@@ -1269,11 +1274,11 @@ PixelShader =
 					float4 SecondColorMask = vec4( 0.0f );
 					SecondColorMask.r = Properties.r;
 					SecondColorMask.g =  NormalSampleRaw.b;
-					// CfV (POD)
-					ApplyVariationPatterns( Input, Diffuse, Properties, NormalSample, SecondColorMask, PortraitEffect );
-					// CfV end
+					float3 PatternNormal = NormalSample;
+					float NormalUVChannel = 0.0f;
+					ApplyVariationPatterns( Input, Diffuse, Properties, PatternNormal, SecondColorMask, PortraitEffect, NormalUVChannel );
 				#endif
-				
+
 				#ifdef COA_ENABLED
 					Properties.r = 1.0; // wipe this clean now, ready to be modified later
 					ApplyCoa( Input, Diffuse, CoaColor1, CoaColor2, CoaColor3, CoaOffsetAndScale.xy, CoaOffsetAndScale.zw, CoaTexture, Properties.r );
@@ -1290,7 +1295,7 @@ PixelShader =
 					// we append hover value after _BodyPartIndex, so
 					// it's a float under index 1 in float4 element of Data array
 					// if portrait accessory use data layout changes, this will also break
-					static const int USER_DATA_HOVER_SLOT = 25;
+						static const int USER_DATA_HOVER_SLOT = 25;
 					float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).g;
 					#else
 					// if the effect doesn't have variations and is intended for a court artifact on a pedestal,
@@ -1300,12 +1305,21 @@ PixelShader =
 					#endif
 				#endif
 
-				// // MOD(godherja)
+				// MOD(godherja)
 				// GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false);
-				// // END MOD
-				// CfV (godherja)
-				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, AppliedHover );
-				// CfV end
+				// END MOD
+
+				#ifdef VARIATIONS_ENABLED
+					// MOD(godherja)
+					//float3 Color = CommonPixelShaderWithTwoNormal( Diffuse, Properties, NormalSample, PatternNormal, NormalUVChannel, Input, AppliedHover );
+					float3 Color = CommonPixelShaderWithTwoNormal( Diffuse, Properties, NormalSample, PatternNormal, NormalUVChannel, Input, PortraitEffect, AppliedHover );
+					// END MOD
+				#else 
+					// MOD(godherja)
+					//float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, AppliedHover );
+					float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, AppliedHover );
+					// END MOD
+				#endif
 
 				Out.Color = float4( Color, Diffuse.a );
 				Out.SSAOColor = float4( vec3( 0.0f ), 1.0f );
@@ -1339,6 +1353,7 @@ PixelShader =
 
 				float2 UV0 = Input.UV0;
 				float4 Diffuse = PdxTex2D( DiffuseMap, UV0 );
+				clip( Diffuse.a - 1e-5 );
 				float4 Properties = PdxTex2D( PropertiesMap, UV0 );
 				Properties *= vHairPropertyMult;
 				float4 NormalSampleRaw = PdxTex2D( NormalMap, UV0 );
@@ -1708,7 +1723,7 @@ PixelShader =
 			PDX_MAIN
 			{
 				PS_COLOR_SSAO Out;
-				
+
 				#ifdef PARALLAX
 					#ifdef LOW_SPEC_SHADERS
 						Input.UV0 = ParallaxMappingLowSpec( ParallaxMap, Input.UV0, Input.Tangent, Input.Bitangent, Input.Normal, Input.WorldSpacePos, CameraPosition );
@@ -1781,8 +1796,7 @@ PixelShader =
 
 				// MOD(godherja)
 				// Dummy portrait effect for court assets
-				// GH_SPortraitEffect PortraitEffect;
-				GH_SPortraitEffect PortraitEffect = GH_GetDefaultPortraitEffect();
+				GH_SPortraitEffect PortraitEffect;
 				PortraitEffect.Type  = GH_PORTRAIT_EFFECT_TYPE_NONE;
 				PortraitEffect.Param = float4(0.0f, 0.0f, 0.0f, 0.0f);
 				// END MOD
@@ -2371,6 +2385,13 @@ Effect court_usercolor_coa
 	Defines = { "USER_COLOR" "COA" }
 }
 
+Effect court_parallax
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_court"	
+	Defines = { "PARALLAX" }
+}
+
 Effect courtShadow
 {
 	VertexShader = "VertexPdxMeshStandardShadow"
@@ -2386,6 +2407,13 @@ Effect court_usercolorShadow
 }
 
 Effect court_usercolor_coaShadow
+{
+	VertexShader = "VertexPdxMeshStandardShadow"
+	PixelShader = "PixelPdxMeshStandardShadow"
+	RasterizerState = ShadowRasterizerState
+}
+
+Effect court_parallaxShadow
 {
 	VertexShader = "VertexPdxMeshStandardShadow"
 	PixelShader = "PixelPdxMeshStandardShadow"
@@ -2432,6 +2460,13 @@ Effect court_usercolor_coa_selection
 {
 	VertexShader = "VS_standard"
 	PixelShader = "PS_court_selection"
+}
+
+Effect court_parallax_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_court_selection"	
+	Defines = { "PARALLAX" }
 }
 
 Effect portrait_artifact_pattern
@@ -2516,7 +2551,7 @@ Effect court_pattern_selection
 	Defines = { "PDX_MESH_BLENDSHAPES" }
 }
 
-Effect court_pattern_patternShadow 
+Effect court_pattern_patternShadow
 {
 	VertexShader = "VertexPdxMeshStandardShadow"
 	PixelShader = "PixelPdxMeshStandardShadow"
@@ -2540,6 +2575,18 @@ Effect snap_to_terrain_selection
 }
 
 Effect standard_atlas_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect snap_to_terrain_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect snap_to_terrain_selection_mapobject
 {
 	VertexShader = "VS_standard"
 	PixelShader = "PS_noop"
@@ -2854,6 +2901,18 @@ Effect snap_to_terrain_alpha_to_coverage
 	PixelShader = "PS_noop"
 }
 
+Effect snap_to_terrain_alpha_to_coverage_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect snap_to_terrain_alpha_to_coverage_selection_mapobject
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
 Effect material_test
 {
 	VertexShader = "VS_standard"
@@ -2946,20 +3005,28 @@ Effect court_rgb_mask_blend_alpha_to_coverage_selection
 	PixelShader = "PS_court_selection"
 }
 
-# CfV (godherja)
-Effect portrait_emissive
+Effect tabletop_standard
 {
 	VertexShader = "VS_standard"
-	PixelShader = "PS_court"
-
-	Defines = { "EMISSIVE" "PDX_MESH_BLENDSHAPES" }
+	PixelShader = "PS_noop"
 }
 
-Effect portrait_emissive_selection
+Effect tabletop_standard_selection
 {
 	VertexShader = "VS_standard"
-	PixelShader = "PS_court_selection"
-
-	Defines = { "EMISSIVE" "PDX_MESH_BLENDSHAPES" }
+	PixelShader = "PS_noop"
 }
-# CfV end
+
+# MOD(wok)
+Effect portrait_invisible_plane
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+
+Effect portrait_invisible_plane_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}
+# END MOD
