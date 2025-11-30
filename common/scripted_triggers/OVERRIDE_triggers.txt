@@ -454,3 +454,31 @@ portrait_wear_armor_currently_in_army_trigger = {
         exists = knight_army
     }
 }
+
+mpo_permafrost_building_trigger = {
+	trigger_if = {
+		limit = {
+			county = {
+				has_county_modifier = mpo_siberian_permafrost_modifier
+			}		
+		}
+		culture ?= scope:holder.culture
+		culture ?= {
+            OR = {
+                has_cultural_tradition = tradition_mpo_northern_tribes
+                has_cultural_tradition = tradition_elven_northern_tribes
+            }
+		}
+	}
+}
+
+building_requirement_tribal = {
+	scope:holder ?= {
+		OR = {
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_advanced_tribal
+			government_has_flag = government_is_nomadic
+			government_has_flag = government_is_wanua
+		}
+	}
+}

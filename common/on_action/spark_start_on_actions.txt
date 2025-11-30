@@ -3,6 +3,7 @@
         elf_destiny_on_game_start
     }
 }
+
 elf_destiny_on_game_start = {
     effect = {
         # Grand Portal Start Discovered
@@ -403,6 +404,25 @@ elf_destiny_on_game_start = {
         set_global_variable = {
             name = highest_ascension_reached
             value = 3 # Game starts with High Elves
+        }
+
+        # since 'potential' property no longer works on traits, this is a bandaid solution
+        every_living_character = {
+            limit = {
+                OR = {
+                    has_trait = heroic
+                    has_trait = heroic_valar
+                    has_trait = passionate
+                    has_trait = passionate_valar
+                    has_trait = intellect_good_4
+                    has_trait = beauty_good_4
+                    has_trait = physique_good_4
+                }
+            }
+
+            debug_log = "fix_starter_character_traits_effect triggered"
+
+            fix_starter_character_traits_effect = yes
         }
     }
 }

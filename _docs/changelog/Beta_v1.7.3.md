@@ -1,7 +1,11 @@
 # Beta_v1.7.3
 
-TODO: Fix evolved personality traits
+## Balance Tweaks
+Álfar culture (Daelurin) has received a NEW variant of the "Tribes of the North" culture, replacing the Siberian Permafrost county penalty with a bonus
+The Magi trait now gives +3 prowess
 
-TODO: "Starting as a custom family in China, I keep getting a red sister sent to me, her instantly becoming a "minister of rites" on arrival and then leaving the court immediately because of gaining the title. This repeats ad infinitum. Lovely mod tho"
-
-Are artifacts ok?
+## Bug Fixes
+Fixed the royal court scene being in the Shadow Realm on DX11
+Baldness should once again be removed from the game
+Tribal building should now be fixed with Advanced Tribal (Thanks Edgor12)
+Characters being created with evolved personality and tier 4 genetic traits should be dramatically reduced, most of those that are created with them should have them swapped out every 5 years or so.

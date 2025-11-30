@@ -4,6 +4,12 @@
     }
 }
 
+five_year_everyone_pulse = {
+    on_actions = {
+        fix_potential_trait_characters
+    }
+}
+
 evolve_hunter_trait = {
 	trigger = {
 		# is_ai = no
@@ -37,4 +43,103 @@ evolve_hunter_trait = {
 	effect = {
 		trigger_event = warg.001
 	}
+}
+
+fix_potential_trait_characters = {
+    trigger = {
+        OR = {
+            AND = {
+                has_trait = heroic
+                NOT = {
+                    culture = {
+                        has_cultural_parameter = heroic_trait_unlocked
+                    }
+                    enemies_slayed > 4
+                }
+            }
+            AND = {
+                has_trait = heroic_valar
+                is_valar = no
+            }
+            AND = {
+                has_trait = passionate
+                NOT = {
+                    culture = {
+                        has_cultural_parameter = passionate_trait_unlocked
+                    }
+                    times_had_sex_with_a_lord_count >= 2
+                }
+            }
+            AND = {
+                has_trait = passionate_valar
+                is_valar = no
+            }
+            AND = {
+                has_trait = intellect_good_4
+                NOT = {
+					OR = {
+						any_parent = {
+							OR = {
+								has_trait = intellect_good_3
+								has_trait = intellect_good_4
+							}
+							culture = {
+								has_cultural_parameter = higher_level_base_genetics_unlocked
+							}
+						}
+						culture = {
+							has_cultural_parameter = higher_level_base_genetics_unlocked
+						}
+						is_valar = yes
+					}
+				}
+            }
+            AND = {
+                has_trait = beauty_good_4
+                NOT = {
+					OR = {
+						any_parent = {
+							OR = {
+								has_trait = beauty_good_3
+								has_trait = beauty_good_4
+							}
+							culture = {
+								has_cultural_parameter = higher_level_base_genetics_unlocked
+							}
+						}
+						culture = {
+							has_cultural_parameter = higher_level_base_genetics_unlocked
+						}
+						is_valar = yes
+					}
+				}
+            }
+            AND = {
+                has_trait = physique_good_4
+                NOT = {
+					OR = {
+						any_parent = {
+							OR = {
+								has_trait = physique_good_3
+								has_trait = physique_good_4
+							}
+							culture = {
+								has_cultural_parameter = higher_level_base_genetics_unlocked
+							}
+						}
+						culture = {
+							has_cultural_parameter = higher_level_base_genetics_unlocked
+						}
+						is_valar = yes
+					}
+				}
+            }
+        }
+    }
+
+    effect = {
+		debug_log = "fix_potential_trait_characters!"
+		debug_log_scopes = yes
+        fix_starter_character_traits_effect = yes
+    }
 }
