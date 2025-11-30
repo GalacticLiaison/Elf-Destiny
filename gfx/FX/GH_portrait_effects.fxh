@@ -19,7 +19,7 @@ PixelShader =
 		// and top-right pixels at this mip level of relevant decals' diffuse textures.
 		// static const int GH_MARKER_MIP_LEVEL = 6;
 
-		static const float GH_MARKER_CHECK_TOLERANCE = 0.01f;
+		// static const float GH_MARKER_CHECK_TOLERANCE = 0.01f;
 
 
 		// SECTION: Statue material markers
@@ -56,7 +56,18 @@ PixelShader =
 			return distance(MarkerTexel0, MarkerTexel1) < GH_MARKER_CHECK_TOLERANCE;
 		}
 
-		void GH_TryApplyStatueEffect(in GH_SPortraitEffect PortraitEffect, inout float4 Diffuse, inout float4 Properties, in VS_OUTPUT_PDXMESHPORTRAIT Input)
+		void POD_TryApplyStatueLighting(in GH_SPortraitEffect PortraitEffect, in float3 Normal, inout float3 Color)
+		{
+			if (PortraitEffect.isEnabled)
+			{
+				if ( PortraitEffect.Postprocess == POD_PORTRAIT_POSTPROCESS_FIRE ) {
+					float edgeGlow = 1.0 - abs( dot( normalize(CameraLookAtDir), Normal ) );
+					Color = ColorDodge(Color, edgeGlow);
+				}
+			}
+		}
+
+		void GH_TryApplyStatueEffect(in GH_SPortraitEffect PortraitEffect, inout float4 Diffuse, inout float4 Properties, inout float3 Normal, in VS_OUTPUT_PDXMESHPORTRAIT Input)
 		{
 			if (PortraitEffect.isEnabled)
 			{
@@ -84,21 +95,43 @@ PixelShader =
 
 				if ( PortraitEffect.AnimType == POD_PORTRAIT_ANIM_CONCENTRIC_METAL ) {
 					// the value of the gene controls animation speed
-					float iTime = GuiTime * 2.0 / PortraitEffect.AnimValue;
+					float metalSpeed   = GuiTime * 2.0 / PortraitEffect.AnimValue;
+					float normalsSpeed = GuiTime * 1.2 / PortraitEffect.AnimValue;
 
 					float adjustedDepth = length(CameraPosition.xz - Input.WorldSpacePos.xz) * 0.5;
-					float pulseDepth = (sin( adjustedDepth  - iTime ) + 1.0) / 2.0;
+					float pulseDepthForMetal   = (sin( adjustedDepth - metalSpeed   ) + 1.0) / 2.0;
+					float pulseDepthForNormals = (sin( adjustedDepth - normalsSpeed ) - 1.0);
+					pulseDepthForNormals -= 0.1 - (pulseDepthForNormals * 0.1);
 
-					Properties.b *= pulseDepth; // metalness
+					Properties.b *= pulseDepthForMetal; // metalness
+
+					float adjustedHeight = (CameraPosition.y - Input.WorldSpacePos.y) * 0.3;
+					float pulseHeight = (sin( adjustedHeight + normalsSpeed ) + 3.0) / 4.0; // value between 0.5 and 1.0
+
+					float3 Normal2 = normalize( float3(Normal.x, Normal.y, pulseDepthForNormals) );
+					Normal = normalize(lerp(Normal,Normal2,pulseHeight));
 				}
 				else if ( PortraitEffect.AnimType == POD_PORTRAIT_ANIM_VERTICAL_SHINIES ) {
 					// the value of the gene controls animation speed
-					float iTime = GuiTime * 2.0 / PortraitEffect.AnimValue;
+					float speed = GuiTime * 2.0 / PortraitEffect.AnimValue;
 
 					float adjustedHeight = (CameraPosition.y - Input.WorldSpacePos.y) * 0.3;
-					float pulseHeight = (sin( adjustedHeight  - iTime ) + 1.0) / 2.0;
+					float pulseHeight = (sin( adjustedHeight - speed ) + 1.0) / 2.0;
 
 					Properties.g *= pulseHeight * 2.0; // specularity
+				}
+
+				if ( PortraitEffect.Postprocess == POD_PORTRAIT_POSTPROCESS_FIRE ) {
+					float speed = GuiTime * 0.6;
+
+					float c = cos(speed);
+					float s = sin(speed);
+					// rotation along Z-axis
+					Normal = normalize( mul( Normal, float3x3(
+						float3(c, -s, 0),
+						float3(s, c, 0),
+						float3(0, 0, 1)
+					) ) );
 				}
 			}
 		}
@@ -231,7 +264,7 @@ PixelShader =
 		// Interface
 		//
 
-		GH_SPortraitEffect GH_ScanMarkerDecals(int DecalsCount, bool isAttachment, bool isSkin)
+		GH_SPortraitEffect GH_ScanMarkerDecals(int DecalsCount, bool isAttachment, bool isSkin, bool isEyes)
 		{
 			int From = 0;
 			int To   = DecalsCount;
@@ -305,9 +338,6 @@ PixelShader =
 					else if (POD_GeneWeightEquals(PostprocessGeneWeight, POD_GENE_WEIGHT_POSTPROCESS_FIRE)) {
 						Effect.Postprocess = POD_PORTRAIT_POSTPROCESS_FIRE;
 					}
-					/*if (GH_MarkerTexelEquals(MarkerTexels.TopRightTexel, GH_MARKER_TOP_RIGHT_POSTPROCESS_SMOKE)) {
-						Effect.Postprocess = POD_PORTRAIT_POSTPROCESS_SMOKE;
-					}*/
 				}
 				else if (GH_MarkerTexelEquals(MarkerTexels.TopLeftTexel, GH_MARKER_TOP_LEFT_CLOTHING)) {
 					if (GH_MarkerTexelEquals(MarkerTexels.TopRightTexel, GH_MARKER_TOP_RIGHT_CLOTHING_1_R)) {
@@ -387,12 +417,13 @@ PixelShader =
 						Effect.isEnabled = isSkin;
 						Effect.ColorLerp = 0.4f;
 					}
-					/*if (GH_MarkerTexelEquals(MarkerTexels.TopRightTexel, GH_MARKER_TOP_RIGHT_CONDITIONAL_IGNORECLOTHING)) {
-						Effect.isEnabled = !isAttachment;
+					else if (POD_GeneWeightEquals(ConditionalGeneWeight, POD_GENE_WEIGHT_CONDITIONAL_IGNOREEYES)) {
+						Effect.isEnabled = !isEyes;
 					}
-					else if (GH_MarkerTexelEquals(MarkerTexels.TopRightTexel, GH_MARKER_TOP_RIGHT_CONDITIONAL_SKINONLY)) {
-						Effect.isEnabled = isSkin;
-					}*/
+					else if (POD_GeneWeightEquals(ConditionalGeneWeight, POD_GENE_WEIGHT_CONDITIONAL_DOLL)) {
+						Effect.isEnabled = !isEyes;
+						Effect.ColorLerp = 0.2f;
+					}
 				}
 			}
 

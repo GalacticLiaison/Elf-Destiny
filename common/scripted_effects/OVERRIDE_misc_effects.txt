@@ -1,0 +1,72 @@
+﻿# Why overwrite? : As a fix for the broken potential bug, adds fix_starter_character_traits_effect
+set_interesting_traits_and_modifiers_effect = {
+	random_list = {
+		50 = {
+			trigger = {
+				has_trait = gluttonous
+			}
+			change_current_weight = 150
+		}
+		50 = {
+			trigger = {
+				has_trait = gluttonous
+			}
+			change_current_weight = 100
+		}
+		10 = {
+			trigger = {
+				NOT = { has_trait = temperate }
+			}
+			change_current_weight = 50
+		}
+		10 = {
+			change_current_weight = 25
+		}
+		100 = {
+		}
+		10 = {
+			change_current_weight = -25
+		}
+		5 = {
+			trigger = {
+				NOR = {
+					has_trait = temperate
+					has_trait = gluttonous
+				}
+			}
+			change_current_weight = -50
+		}
+	}
+	random_list = {
+		1 = {
+			modifier = {
+				add = 9
+				culture = {
+					has_cultural_parameter = loyal_trait_more_common
+				}
+			}
+			add_trait = loyal
+		}
+		1 = {
+			modifier = {
+				add = 9
+				culture = {
+					has_cultural_parameter = disloyal_trait_more_common
+				}
+			}
+			add_trait = disloyal
+		}
+		1 = {
+			modifier = {
+				add = 9
+				culture = {
+					has_cultural_parameter = scholar_official_trait_bonuses
+				}
+			}
+			add_trait = confucian_education
+		}
+		98 = {}
+	}
+
+	fix_starter_character_traits_effect = yes
+}

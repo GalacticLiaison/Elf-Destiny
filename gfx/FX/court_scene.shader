@@ -17,9 +17,9 @@ Includes = {
 	"constants.fxh"
 	"standardfuncsgfx.fxh"
 	"parallax.fxh"
-	# MOD(godherja)
+	# CfV (godherja)
 	"GH_portrait_effects.fxh"
-	# END MOD
+	# CfV end
 }
 
 PixelShader =
@@ -820,17 +820,13 @@ PixelShader =
 			return lerp( BaseWorldNormal , LayeredNormal, NormalUVChannel );
 		}
 
-		// MOD(godherja)
-		//float3 CommonPixelShaderColor( float4 Diffuse, float4 Properties, float3 Normal, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		// CfV (godherja)
 		float3 CommonPixelShaderColor( float4 Diffuse, float4 Properties, float3 Normal, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
-		// END MOD
 		{
 			// CfV (godherja)
-			GH_TryApplyStatueEffect(PortraitEffect, Diffuse, Properties, Input);
-			// CfV end
+			GH_TryApplyStatueEffect(PortraitEffect, Diffuse, Properties, Normal, Input);
 
 			GetSpecularAA( Normal, 1.0f, 1.0f, Properties.a );
-			
 			SMaterialProperties MaterialProps = GetMaterialProperties( Diffuse.rgb, Normal, saturate( Properties.a ), Properties.g, Properties.b );
 			SLightingProperties LightingProps = GetSunLightingProperties( Input.WorldSpacePos, ShadowTexture );
 
@@ -875,7 +871,7 @@ PixelShader =
 			#endif
 
 			float3 Color = DiffuseIBL + SpecularIBL + DiffuseLight + SpecularLight + DiffuseTranslucency;
-			
+
 			#ifdef VARIATIONS_ENABLED
 				ApplyClothFresnel( Input, CameraPosition, Normal, Color );
 			#endif
@@ -887,34 +883,29 @@ PixelShader =
 				Color += ScatteringColor;
 			#endif
 
+			// CfV POD
+			POD_TryApplyStatueLighting(PortraitEffect, Normal, Color);
+
 			DebugReturn( Color, MaterialProps, LightingProps, EnvironmentMap, ScatteringColor, ScatteringMask, DiffuseTranslucency );
 
 			AddHoverHighlight( Color, Normal, LightingProps._ToCameraDir, HoverMult );
 			return Color;
 		}
 
-		// MOD(godherja)
-		//float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		// CfV (godherja)
 		float3 CommonPixelShader( float4 Diffuse, float4 Properties, float3 NormalSample, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
-		// END MOD
 		{
 			float3 Normal = TangentSpaceToWorldNormal( Input, NormalSample );
-			// MOD(godherja)
-			//return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, HoverMult );
+			// CfV (godherja)
 			return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, PortraitEffect, HoverMult );
-			// END MOD
 		}
 
-		// MOD(godherja)
-		//float3 CommonPixelShaderWithTwoNormal( float4 Diffuse, float4 Properties, float3 FirstNormalSample, float3 SecondNormalSample, float NormalUVChannel, in VS_OUTPUT_PDXMESHPORTRAIT Input, float HoverMult )
+		// CfV (godherja)
 		float3 CommonPixelShaderWithTwoNormal( float4 Diffuse, float4 Properties, float3 FirstNormalSample, float3 SecondNormalSample, float NormalUVChannel, in VS_OUTPUT_PDXMESHPORTRAIT Input, in GH_SPortraitEffect PortraitEffect, float HoverMult )
-		// END MOD
 		{
 			float3 Normal = TangentSpaceToWorldNormalWithTwoNormal( Input, FirstNormalSample, SecondNormalSample, NormalUVChannel );
-			// MOD(godherja)
-			//return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, HoverMult );
+			// CfV (godherja)
 			return CommonPixelShaderColor( Diffuse, Properties, Normal, Input, PortraitEffect, HoverMult );
-			// END MOD
 		}
 
 		// Remaps Value to [IntervalStart, IntervalEnd]
@@ -1192,8 +1183,7 @@ PixelShader =
 			#endif
 
 				// CfV (godherja)
-				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, true);
-				// CfV end
+				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, true, false);
 
 				AddDecals( Diffuse.rgb, NormalSample, Properties, UV0, Input.InstanceIndex, 0, PreSkinColorDecalCount );
 
@@ -1202,7 +1192,9 @@ PixelShader =
 
 				AddDecals( Diffuse.rgb, NormalSample, Properties, UV0, Input.InstanceIndex, PreSkinColorDecalCount, DecalCount );
 
+				// CfV (godherja)
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, HoverMult );
+
 				Out.Color = float4( Color, 1.0f );
 
 				Out.SSAOColor = PdxTex2D( SSAOColorMap, UV0 );
@@ -1227,11 +1219,15 @@ PixelShader =
 				float4 Properties = PdxTex2D( PropertiesMap, UV0 );
 				float3 NormalSample = UnpackRRxGNormal( PdxTex2D( NormalMap, UV0 ) );
 
+				// CfV POD: allow our custom eyes to ignore genetic eye color
+				// otherwise the game tries to blend our texture with character eye color, leading to visual glitches
+				#ifndef IGNORE_GENETIC_EYE_COLOR
 				float ColorMaskStrength = Diffuse.a;
 				Diffuse.rgb = GetColorMaskColorBLend( Diffuse.rgb, vPaletteColorEyes.rgb, Input.InstanceIndex, ColorMaskStrength );
+				#endif
 
 				// CfV (godherja)
-				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false);
+				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false, true);
 
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, 0.f );
 				// CfV end
@@ -1267,8 +1263,7 @@ PixelShader =
 				Diffuse.a = PdxMeshApplyOpacity( Diffuse.a, Input.Position.xy, PdxMeshGetOpacity( Input.InstanceIndex ) );
 
 				// CfV (godherja)
-				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, true, false);
-				// CfV end
+				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, true, false, false);
 
 				#ifdef VARIATIONS_ENABLED
 					float4 SecondColorMask = vec4( 0.0f );
@@ -1276,9 +1271,10 @@ PixelShader =
 					SecondColorMask.g =  NormalSampleRaw.b;
 					float3 PatternNormal = NormalSample;
 					float NormalUVChannel = 0.0f;
+					// CfV (POD)
 					ApplyVariationPatterns( Input, Diffuse, Properties, PatternNormal, SecondColorMask, PortraitEffect, NormalUVChannel );
 				#endif
-
+				
 				#ifdef COA_ENABLED
 					Properties.r = 1.0; // wipe this clean now, ready to be modified later
 					ApplyCoa( Input, Diffuse, CoaColor1, CoaColor2, CoaColor3, CoaOffsetAndScale.xy, CoaOffsetAndScale.zw, CoaTexture, Properties.r );
@@ -1288,37 +1284,28 @@ PixelShader =
 					// this is only for courtroom objects that use a pattern on it but don't want to have a hover highlight.
 					float AppliedHover = 0;
 				#elif defined( USE_CHARACTER_DATA )
-				float AppliedHover = HoverMult;
+					float AppliedHover = HoverMult;
 				#else
 					#ifdef VARIATIONS_ENABLED
-					// see portrait_user_data.fxh - it explains data layout for userdata
-					// we append hover value after _BodyPartIndex, so
-					// it's a float under index 1 in float4 element of Data array
-					// if portrait accessory use data layout changes, this will also break
+						// see portrait_user_data.fxh - it explains data layout for userdata
+						// we append hover value after _BodyPartIndex, so
+						// it's a float under index 1 in float4 element of Data array
+						// if portrait accessory use data layout changes, this will also break
 						static const int USER_DATA_HOVER_SLOT = 25;
-					float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).g;
+						float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).g;
 					#else
-					// if the effect doesn't have variations and is intended for a court artifact on a pedestal,
-					// then hover data is the only thing set for the entity
-					static const int USER_DATA_HOVER_SLOT = 0;
-					float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).r;
+						// if the effect doesn't have variations and is intended for a court artifact on a pedestal,
+						// then hover data is the only thing set for the entity
+						static const int USER_DATA_HOVER_SLOT = 0;
+						float AppliedHover = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).r;
 					#endif
 				#endif
 
-				// MOD(godherja)
-				// GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false);
-				// END MOD
-
+				// CfV (godherja)
 				#ifdef VARIATIONS_ENABLED
-					// MOD(godherja)
-					//float3 Color = CommonPixelShaderWithTwoNormal( Diffuse, Properties, NormalSample, PatternNormal, NormalUVChannel, Input, AppliedHover );
 					float3 Color = CommonPixelShaderWithTwoNormal( Diffuse, Properties, NormalSample, PatternNormal, NormalUVChannel, Input, PortraitEffect, AppliedHover );
-					// END MOD
 				#else 
-					// MOD(godherja)
-					//float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, AppliedHover );
 					float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, AppliedHover );
-					// END MOD
 				#endif
 
 				Out.Color = float4( Color, Diffuse.a );
@@ -1363,7 +1350,7 @@ PixelShader =
 				Diffuse.rgb = GetColorMaskColorBLend( Diffuse.rgb, vPaletteColorHair.rgb, Input.InstanceIndex, ColorMaskStrength );
 
 				// CfV (godherja)
-				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false);
+				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false, false);
 
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, HoverMult );
 				// CfV end
@@ -1418,7 +1405,7 @@ PixelShader =
 				Diffuse.rgb *= vPaletteColorHair.rgb;
 
 				// CfV (godherja)
-				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false);
+				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, false, false, false);
 
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, HoverMult );
 				// CfV end
@@ -1723,7 +1710,7 @@ PixelShader =
 			PDX_MAIN
 			{
 				PS_COLOR_SSAO Out;
-
+				
 				#ifdef PARALLAX
 					#ifdef LOW_SPEC_SHADERS
 						Input.UV0 = ParallaxMappingLowSpec( ParallaxMap, Input.UV0, Input.Tangent, Input.Bitangent, Input.Normal, Input.WorldSpacePos, CameraPosition );
@@ -1794,12 +1781,9 @@ PixelShader =
 				Properties.g = 0.16f;	// Fixed specular mesh value /JR
 				float HoverMult = GetUserData( Input.InstanceIndex, USER_DATA_HOVER_SLOT ).r;
 
-				// MOD(godherja)
+				// CfV (godherja)
 				// Dummy portrait effect for court assets
-				GH_SPortraitEffect PortraitEffect;
-				PortraitEffect.Type  = GH_PORTRAIT_EFFECT_TYPE_NONE;
-				PortraitEffect.Param = float4(0.0f, 0.0f, 0.0f, 0.0f);
-				// END MOD
+				GH_SPortraitEffect PortraitEffect = GH_GetDefaultPortraitEffect();
 
 				float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, HoverMult );
 				// CfV end
@@ -3030,3 +3014,21 @@ Effect portrait_invisible_plane_selection
 	PixelShader = "PS_noop"
 }
 # END MOD
+
+# CfV (godherja)
+Effect portrait_emissive
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_court"
+
+	Defines = { "EMISSIVE" "PDX_MESH_BLENDSHAPES" }
+}
+
+Effect portrait_emissive_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_court_selection"
+
+	Defines = { "EMISSIVE" "PDX_MESH_BLENDSHAPES" }
+}
+# CfV end

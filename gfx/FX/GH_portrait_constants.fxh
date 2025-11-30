@@ -12,28 +12,19 @@ PixelShader =
 		// and top-right pixels at this mip level of relevant decals' diffuse textures.
 		static const int GH_MARKER_MIP_LEVEL = 6;
 
-		// static const float GH_MARKER_CHECK_TOLERANCE = 0.01f;
+		static const float GH_MARKER_CHECK_TOLERANCE = 0.01f;
 
 		static const float POD_PORTRAIT_GENE_CHECK_TOLERANCE = 0.01f;
 
-		
-		// ENUM: portrait effect type
-		static const uint GH_PORTRAIT_EFFECT_TYPE_NONE = 0;
-		//static const uint GH_PORTRAIT_EFFECT_TYPE_FLAT   = 1;
-		static const uint GH_PORTRAIT_EFFECT_TYPE_STATUE = 2;
-		// END ENUM
-
-
 
 		static const float4 GH_MARKER_TOP_LEFT_POSTPROCESS = float4(1.0f, 0.0f, 0.0f, 0.0f);
-		// static const float4 GH_MARKER_TOP_LEFT_STATUE      = float4(0.0f, 1.0f, 0.0f, 0.0f);
+		static const float4 GH_MARKER_TOP_LEFT_STATUE      = float4(0.0f, 1.0f, 0.0f, 0.0f);
 		static const float4 GH_MARKER_TOP_LEFT_ANIM        = float4(0.0f, 0.0f, 1.0f, 0.0f);
 		static const float4 GH_MARKER_TOP_LEFT_CLOTHING    = float4(1.0f, 0.0f, 1.0f, 0.0f);
 		static const float4 GH_MARKER_TOP_LEFT_CONDITIONAL = float4(0.0f, 1.0f, 1.0f, 0.0f);
 		
 
 		//static const float4 GH_MARKER_TOP_RIGHT_POSTPROCESS_SMOKE = float4(1.0f, 0.0f, 0.0f, 0.0f);
-		static const float4 GH_MARKER_TOP_LEFT_STATUE = float4(0.0f, 1.0f, 0.0f, 0.0f);
 
 
 		static const float4 GH_MARKER_TOP_RIGHT_DIFFUSE_R              = float4(1.0f, 0.0f, 0.0f, 0.0f);
@@ -107,6 +98,8 @@ PixelShader =
 		static const float POD_GENE_WEIGHT_CONDITIONAL_IGNORECLOTHING = 0.1f;
 		static const float POD_GENE_WEIGHT_CONDITIONAL_CLOTHINGONLY   = 0.2f;
 		static const float POD_GENE_WEIGHT_CONDITIONAL_JURATA         = 0.3f;
+		static const float POD_GENE_WEIGHT_CONDITIONAL_IGNOREEYES     = 0.4f;
+		static const float POD_GENE_WEIGHT_CONDITIONAL_DOLL           = 0.5f;
 
 		//
 		// Types
@@ -122,9 +115,6 @@ PixelShader =
 
 		struct GH_SPortraitEffect
 		{
-			uint   Type;
-			float4 Param;
-
 			bool   isEnabled;
 			float  ColorLerp;
 			float  PropertiesLerp;
