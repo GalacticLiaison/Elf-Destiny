@@ -27,6 +27,21 @@ game_rule_create_spouse_and_children = {
             else = {
                 marry_matrilineal = scope:spouse
             }
+			if = {
+				limit = {
+					has_trait = nomadic_philosophy
+				}
+				scope:spouse = {
+					add_trait = nomadic_philosophy
+				}
+			}
+			if = {
+				limit = {
+					NOT = { exists = scope:spouse.employer }
+					$LOCATION$ = { is_ruler = yes }
+				}
+				$LOCATION$ = { add_courtier = scope:spouse }
+			}
         }
         else = {
             primary_spouse = { save_scope_as = spouse }
@@ -79,7 +94,7 @@ game_rule_create_spouse_and_children = {
                             }
                             value = 0
                         }
-                        else = {
+                        else_if = {
                             limit = {
                                 is_ruler = yes
                                 $CHARACTER$ = { has_realm_law = female_only_law }
@@ -114,7 +129,7 @@ game_rule_create_spouse_and_children = {
                             }
                             value = 0
                         }
-                        else = {
+                        else_if = {
                             limit = {
                                 is_ruler = yes
                                 $CHARACTER$ = { has_realm_law = female_only_law }
@@ -153,7 +168,7 @@ game_rule_create_spouse_and_children = {
                         }
                         value = 0
                     }
-                    else = {
+                    else_if = {
                         limit = {
                             is_ruler = yes
                             $CHARACTER$ = { has_realm_law = female_only_law }
@@ -271,5 +286,59 @@ game_rule_create_spouse_and_children = {
                 }
             }
         }
+		
+		if = {
+			limit = {
+				exists = scope:child_1
+				NOT = { exists = scope:child_1.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_1 }
+		}
+		if = {
+			limit = {
+				exists = scope:child_2
+				NOT = { exists = scope:child_2.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_2 }
+		}
+		if = {
+			limit = {
+				exists = scope:child_3
+				NOT = { exists = scope:child_3.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_3 }
+		}
+		if = {
+			limit = {
+				has_trait = nomadic_philosophy
+			}
+			scope:child_1 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+			scope:child_2 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+			scope:child_3 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+		}
     }
 }

@@ -288,7 +288,7 @@ combat_event.1001 = {
 						modifier = {
 							factor = 2
 							liege.culture = { has_cultural_parameter = knights_die_less_but_are_captured_more }
-							NOT = { is_independent_ruler = yes }
+							NOT = { top_liege = this }
 						}
 						
 						add_to_list = prisoners_of_war
@@ -402,6 +402,11 @@ combat_event.1001 = {
 						modifier = {
 							factor = 2
 							liege.culture = { has_cultural_parameter = knights_die_less_but_are_captured_more }
+						}
+						# House Blocs
+						modifier = {
+							factor = 1.25
+							scope:combat_winner.confederation ?= { has_cohesion_level_parameter = any_member_extra_capture_chance }
 						}
 
 						# Transfer equipped armor and weapon to winner if durability not too low

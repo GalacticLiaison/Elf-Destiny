@@ -1,4 +1,11 @@
-﻿# A decision to deformalise the entire realm back into tribes.
+﻿
+##################################################
+# Convert Realm to Tribalism
+# by Maxence Voleau
+##################################################
+
+# A decision to deformalise the entire realm back into tribes.
+### Embrace Tribalism ###
 convert_to_tribalism_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
@@ -6,14 +13,21 @@ convert_to_tribalism_decision = {
 	decision_group_type = major
 	desc = convert_to_tribalism_decision_desc
 
-	ai_check_interval = 36
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 72
+		duchy = 36
+		kingdom = 36
+		empire = 36
+		hegemony = 36
+	}
 
 	is_shown = {
 		is_landed = yes
 		primary_title.tier >= tier_county
 		NOT = {
 			any_held_title = {
-				tier = tier_county
+				title_tier = county
 				title_province = {
 					NOT = { has_holding_type = tribal_holding }
 				}
@@ -22,10 +36,9 @@ convert_to_tribalism_decision = {
 		OR = {
 			government_has_flag = government_is_feudal
 			government_has_flag = government_is_clan
+			government_has_flag = government_is_mandala
 		}
-		NOT = {
-			has_government = advanced_tribal_government
-		}
+		NOT = { has_government = advanced_tribal_government }
 	}
 
 	is_valid = {
@@ -265,6 +278,13 @@ convert_to_tribalism_decision = {
 # 	}
 # }
 
+
+##################################################
+# Strengthen your Bloodline
+# by Mathilda Bjarnehed
+##################################################
+
+### Strengthen Bloodline ###
 strengthen_bloodline_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
@@ -272,7 +292,14 @@ strengthen_bloodline_decision = {
 	decision_group_type = major
 	desc = strengthen_bloodline_decision_desc
 
-	ai_check_interval = 120
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 120
+		empire = 120
+		hegemony = 120
+	}
 
 	is_shown = {
 		is_lowborn = no
@@ -298,8 +325,7 @@ strengthen_bloodline_decision = {
 				}
 			}
 			AND = {
-				exists = player_heir
-				player_heir = {
+				player_heir ?= {
 					OR = {
 						has_trait = intellect_good
 						has_trait = beauty_good
@@ -345,9 +371,7 @@ strengthen_bloodline_decision = {
 
 		every_player = {
 			limit = {
-				NOT = {
-					this = root
-				}
+				this != root
 				dynasty = root.dynasty
 			}
 			send_interface_toast = {

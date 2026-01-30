@@ -52,7 +52,13 @@ swing_scales_currency_interaction = {
 			}
 		}
 		## ... and for the liege.
-		trigger_else = {
+		trigger_if = {
+			limit = {
+				NOT = {
+					scope:actor = { has_diarchy_active_parameter = liege_may_voluntarily_cede_authority }
+				}
+				scope:recipient = { is_diarch_of_target = scope:actor }
+			}
 			custom_tooltip = {
 				text = swing_scales_currency_interaction.tt.scales_max_swung
 				scope:actor.diarchy_swing > 0
@@ -72,6 +78,8 @@ swing_scales_currency_interaction = {
 			custom_tooltip = {
 				text = interactions_general.tt.must_select_one_option
 				OR = {
+					scope:swing_influence = yes
+					scope:swing_cede_authority = yes
 					scope:swing_prestige = yes
 					scope:swing_piety = yes
 					scope:swing_gold = yes
@@ -80,11 +88,37 @@ swing_scales_currency_interaction = {
 				}
 			}
 		}
+		# And in the _rare_ circumstance that a diarch is a child, they must be at least this tall.
+		## Note that we _don't_ do this for the liege, since we want the player to be able to manage their regency — assume that _someone_ is looking out for the child's best interests.
+		scope:actor = {
+			trigger_if = {
+				limit = {
+					is_diarch_of_target = scope:recipient
+					is_adult = no
+				}
+				age >= 8
+			}
+		}
+		# Cannot be at war with each other.
+		NOT = {
+			scope:actor = { is_at_war_with = scope:recipient }
+		}
 	}
 
 	cooldown = { years = 2 }
 
 	cost = {
+		influence = {
+			if = {
+				limit = { always = scope:swing_influence }
+				value = scope:actor.swing_scales_influence_cost_value
+				# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+				if = {
+					limit = { scope:actor = { is_valid_for_legitimacy_change = yes } }
+					multiply = legitimacy_regent_swing_scale_multipler_value
+				}
+			}
+		}
 		prestige = {
 			if = {
 				limit = { always = scope:swing_prestige }
@@ -130,9 +164,95 @@ swing_scales_currency_interaction = {
 		}
 	}
 
+	# Influence
+	send_option = {
+		is_shown = {
+			# Make sure influence would be relevant.
+			OR = {
+				AND = {
+					scope:recipient.liege ?= scope:actor
+					scope:actor = { government_allows = administrative }
+				}
+				AND = {
+					scope:actor.liege ?= scope:recipient
+					scope:recipient = { government_allows = administrative }
+				}
+			}
+		}
+		is_valid = {
+			scope:actor = { government_allows = administrative }
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
+		}
+		starts_enabled = { scope:actor.influence >= scope:actor.swing_scales_influence_cost_value }
+		flag = swing_influence
+		localization = SWING_INFLUENCE
+		current_description = SWING_INFLUENCE_DESC
+	}
+	# Movement Power
+	send_option = {
+		starts_enabled = {
+			exists = scope:actor.var:movement_power_individual
+			scope:actor.var:movement_power_individual >= decent_movement_power_value
+		}
+		is_shown = {
+			scope:actor = {
+				government_has_flag = government_is_celestial
+				is_diarch_of_target = scope:recipient
+			}
+			scope:recipient = { government_has_flag = government_is_celestial }
+		}
+		is_valid = {
+			custom_tooltip = {
+				text = swing_scales_currency_interaction.tt.scales_min_movement_power
+				scope:actor.var:movement_power_individual >= medium_movement_power_value
+			}
+		}
+		flag = swing_movement_power
+		localization = SWING_MOVEMENT_POWER
+		current_description = SWING_MOVEMENT_POWER_DESC
+	}
+	# Cede control voluntarily.
+	send_option = {
+		is_shown = {
+			scope:actor = { has_diarchy_active_parameter = liege_may_voluntarily_cede_authority }
+			scope:recipient = { is_diarch_of_target = scope:actor }
+		}
+		is_valid = {
+			# Can't be a liege with the scales swung too far in favour of their diarch.
+			custom_tooltip = {
+				text = mulct_vizier_interaction.scales_too_swung.tt
+				scope:actor.diarchy_swing <= 90
+			}
+		}
+		starts_enabled = { scope:actor.influence >= scope:actor.swing_scales_influence_cost_value }
+		flag = swing_cede_authority
+		localization = SWING_CEDE_AUTHORITY
+		current_description = SWING_CEDE_AUTHORITY_DESC
+	}
 	# Prestige
 	send_option = {
 		starts_enabled = { scope:actor.prestige >= scope:actor.swing_scales_prestige_cost_value }
+		is_valid = {
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
+		}
 		flag = swing_prestige
 		localization = SWING_PRESTIGE
 		current_description = SWING_PRESTIGE_DESC
@@ -153,6 +273,16 @@ swing_scales_currency_interaction = {
 					}
 				}
 			}
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
 		}
 		starts_enabled = { scope:actor.piety >= scope:actor.swing_scales_piety_cost_value }
 		flag = swing_piety
@@ -166,17 +296,39 @@ swing_scales_currency_interaction = {
 			interaction_actor_is_liege_with_vizierate_trigger = no
 		}
 		starts_enabled = { scope:actor.gold >= scope:actor.swing_scales_cash_cost_value }
+		is_valid = {
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
+		}
 		flag = swing_gold
 		localization = SWING_GOLD
 		current_description = SWING_GOLD_DESC
 	}
 	# Hook
 	send_option = {
-		is_valid = {
-			scope:actor = { has_usable_hook = scope:recipient }
-		}
 		starts_enabled = {
 			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		is_valid = {
+			scope:actor = { has_usable_hook = scope:recipient }
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
 		}
 		flag = swing_hook
 		localization = SWING_HOOK
@@ -188,7 +340,19 @@ swing_scales_currency_interaction = {
 			# Filter out for the liege in vizierates - they can mulct the vizier, so we don't give them the chance to spend that gold back.
 			interaction_actor_is_liege_with_vizierate_trigger = no
 		}
-		is_valid = { diarch_swing_scales_valid_shared_hof_trigger = yes }
+		is_valid = {
+			diarch_swing_scales_valid_shared_hof_trigger = yes
+			# Can't be a liege with the scales swung completely towards them.
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_diarch_of_target = scope:actor }
+				}
+				custom_tooltip = {
+					text = swing_scales_currency_interaction.tt.scales_max_swung
+					scope:actor.diarchy_swing > 0
+				}
+			}
+		}
 		# Top of the prio order for enablement.
 		starts_enabled = { diarch_swing_scales_valid_shared_hof_trigger = yes }
 		flag = swing_hof
@@ -199,22 +363,107 @@ swing_scales_currency_interaction = {
 	on_accept = {
 		# Swing the scales in the direction of scope:actor.
 		scope:recipient = {
-			# Swing the scales down if this is the liege.
+			# Swing the scales up if we're ceding power.
 			if = {
+				limit = { scope:swing_cede_authority = yes }
+				send_interface_message = {
+					type = msg_mandate_results_neutral_effect
+					title = swing_scales_interaction_by_liege.t
+					right_icon = scope:actor
+					scope:actor = {
+						# Viziers give you more bang for your buck when swinging against 'em.
+						# Perk check for Voyager perk
+						if = {
+							limit = { 
+								has_diarchy_active_parameter = lieges_swing_more_against_diarchs 
+								has_perk = power_at_home_perk
+								is_travelling = yes
+							}
+							update_diarchy_swing_with_perspective_effect = {
+								SWING = monumental_sop_swing_diarch_gain
+								LIEGE = scope:actor
+							}
+						}
+						# Perk or Vizier
+						else_if = {
+							limit = {
+								OR = {
+									has_diarchy_active_parameter = lieges_swing_more_against_diarchs 
+									AND = {
+										has_perk = power_at_home_perk
+										is_travelling = yes
+									}
+								}
+							}
+							update_diarchy_swing_with_perspective_effect = {
+								SWING = massive_sop_swing_diarch_gain
+								LIEGE = scope:actor
+							}
+						}
+						# Neither
+						else = {
+							update_diarchy_swing_with_perspective_effect = {
+								SWING = major_sop_swing_diarch_gain
+								LIEGE = scope:actor
+							}
+						}
+						diarch_swing_scales_guts_effect = yes
+						# Plus, everyone benefits.
+						change_influence = {
+							value = 200
+							# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+							multiply = legitimacy_regent_swing_scale_multipler_value
+							round = yes
+						}
+						scope:recipient = {
+							change_influence = {
+								value = 200
+								# LEGITIMACY OF RULER AFFECTS COSTS FOR REGENTS
+								multiply = legitimacy_regent_swing_scale_multipler_value
+								round = yes
+							}
+						}
+					}
+				}
+			}
+			# Swing the scales down if this is the liege.
+			else_if = {
 				limit = { is_diarch_of_target = scope:actor }
 				send_interface_message = {
 					type = msg_mandate_results_bad_effect
 					title = swing_scales_interaction_by_liege.t
 					right_icon = scope:actor
 					scope:actor = {
-						# Viziers are give you more bang for your buck when swinging against 'em.
+						# Viziers give you more bang for your buck when swinging against 'em.
+						# Perk check for Voyager perk
 						if = {
-							limit = { has_diarchy_active_parameter = lieges_swing_more_against_diarchs }
+							limit = { 
+								has_diarchy_active_parameter = lieges_swing_more_against_diarchs 
+								has_perk = power_at_home_perk
+								is_travelling = yes
+							}
+							update_diarchy_swing_with_perspective_effect = {
+								SWING = massive_sop_swing_liege_gain
+								LIEGE = scope:actor
+							}
+						}
+						# Perk or Vizier
+						else_if = {
+							limit = {
+								OR = {
+									has_diarchy_active_parameter = lieges_swing_more_against_diarchs 
+									AND = {
+										has_perk = power_at_home_perk
+										is_travelling = yes
+									}
+								}
+							}
 							update_diarchy_swing_with_perspective_effect = {
 								SWING = major_sop_swing_liege_gain
 								LIEGE = scope:actor
 							}
 						}
+						# Neither
 						else = {
 							update_diarchy_swing_with_perspective_effect = {
 								SWING = medium_sop_swing_liege_gain
@@ -231,20 +480,102 @@ swing_scales_currency_interaction = {
 					type = msg_mandate_results_bad_effect
 					title = swing_scales_interaction_by_diarch.t
 					right_icon = scope:actor
-					update_diarchy_swing_with_perspective_effect = {
-						SWING = medium_sop_swing_diarch_gain
-						LIEGE = scope:recipient
+					if = {
+						limit = {
+							scope:actor = {
+								has_perk = power_at_home_perk
+								is_travelling = yes
+							}
+						}
+						update_diarchy_swing_with_perspective_effect = {
+							SWING = major_sop_swing_diarch_gain
+							LIEGE = scope:recipient
+						}
+					}
+					else = {
+						update_diarchy_swing_with_perspective_effect = {
+							SWING = medium_sop_swing_diarch_gain
+							LIEGE = scope:recipient
+						}
 					}
 					scope:actor = { diarch_swing_scales_guts_effect = yes }
 				}
 			}
 		}
-		# Regardless of what happens, scope:recipient is a bit miffed.
+		# Unless you gave power to them, scope:recipient is a bit miffed.
 		scope:recipient = {
-			add_opinion = {
-				target = scope:actor
-				modifier = frustrated_opinion
-				opinion = -10
+			# We're actually giving them swing, so gain opinion.
+			## We lessen the gains from this over time, as they become more and more entitled.
+			if = {
+				limit = { scope:swing_cede_authority = yes }
+				# Actual gains.
+				if = {
+					limit = {
+						OR = {
+							NOT = { has_variable = diarch_authority_ceded }
+							var:diarch_authority_ceded < diarch_authority_ceded_opinion_value
+						}
+					}
+					# First, check to see how much opinion we should give.
+					save_scope_value_as = {
+						name = opinion_gain
+						value = {
+							value = diarch_authority_ceded_opinion_value
+							if = {
+								limit = { has_variable = diarch_authority_ceded }
+								subtract = var:diarch_authority_ceded
+							}
+						}
+					}
+					# Then, adjust the opinion.
+					add_opinion = {
+						target = scope:actor
+						modifier = pleased_opinion
+						opinion = scope:opinion_gain
+					}
+					# And decrease our gain next time.
+					increment_variable_effect = {
+						VAR = diarch_authority_ceded
+						VAL = 5
+					}
+				}
+				# Otherwise, a paltry amount.
+				## We're deliberately giving you basically nothing here — the 1 is for comedic effect.
+				else = {
+					add_opinion = {
+						target = scope:actor
+						modifier = pleased_opinion
+						opinion = 1
+					}
+				}
+			}
+			# Co-monarchs are more annoyed.
+			else_if = {
+				limit = {
+					OR = {
+						AND = {
+							scope:actor = { is_diarch_of_target = scope:recipient }
+							scope:recipient = { has_diarchy_active_parameter = diarchy_is_co_rulership }
+						}
+						AND = {
+							scope:recipient = { is_diarch_of_target = scope:actor }
+							scope:actor = { has_diarchy_active_parameter = diarchy_is_co_rulership }
+						}
+					}
+				}
+				add_opinion = {
+					target = scope:actor
+					modifier = frustrated_opinion
+					opinion = -20
+				}
+			}
+			# Take away a normal amount.
+			else = {
+				add_opinion = {
+					target = scope:actor
+					modifier = frustrated_opinion
+					opinion = -10
+				}
 			}
 		}
 		# Some diarchs might be swinging as a prelude to a coup attempt.
@@ -276,9 +607,18 @@ swing_scales_currency_interaction = {
 	auto_accept = yes
 
 	# AI
-	ai_targets = { ai_recipients = liege }
-	ai_targets = { ai_recipients = diarch }
-	ai_frequency = 24
+	ai_targets = {
+		ai_recipients = liege
+		ai_recipients = diarch
+	}
+	ai_frequency_by_tier = {
+		barony = 0
+		county = 48
+		duchy = 24
+		kingdom = 24
+		empire = 24
+		hegemony = 24
+	}
 
 	ai_potential = {
 		OR = {
@@ -308,6 +648,22 @@ swing_scales_currency_interaction = {
 
 		# Additions.
 		## Flag management.
+		### Influence.
+		modifier = {
+			add = 7
+			scope:swing_influence = yes
+		}
+		modifier = {
+			add = 6
+			scope:swing_movement_power = yes
+		}
+		### Cede Authority.
+		#### Only do this if you're also humble.
+		modifier = {
+			add = 10
+			scope:swing_cede_authority = yes
+			has_trait = humble
+		}
 		### Prestige.
 		modifier = {
 			add = 2
@@ -334,13 +690,357 @@ swing_scales_currency_interaction = {
 			scope:swing_hof = yes
 		}
 		# Factors.
-		### x0 Don't go into prestige debt!
+		## x0 Don't go into prestige debt!
 		modifier = {
 			factor = 0
 			scope:swing_prestige = yes
 			prestige < 0
 		}
-		## We take care of these in the ai_potential block, because otherwise the AI interacts very, very weirdly with them.
+		## We otherwise take care of these in the ai_potential block, because otherwise the AI interacts very, very weirdly with them.
+	}
+}
+
+# For titleless diarchs: anyone playable uses the regular interaction.
+diarch_swing_scales_currency_interaction = {
+	category = interaction_category_diarch
+	common_interaction = yes
+	diarch_interaction = yes
+	highlighted_reason = HIGHLIGHTED_CAN_SWING_SCALES
+	icon = scroll_scales
+
+	desc = swing_scales_currency_interaction_desc
+
+	interface_priority = 20
+
+	is_shown = {
+		scope:recipient = scope:actor.liege
+		# This is for landless diarchs only, and we pre-filter them, so we don't really care about this block.
+		## But filter out players anyway for that _seamless_ debug play experience.
+		scope:actor = { is_ai = yes }
+	}
+
+	is_valid_showing_failures_only = {
+		# Forbid when we're at max swing.
+		scope:recipient = {
+			# Plus also weed out some weird errors where we got confused and looked at ourselves.
+			has_active_diarchy = yes
+			# Now the actual check.
+			trigger_if = {
+				limit = { has_active_diarchy = yes }
+				diarchy_swing < 100
+			}
+			trigger_else = { always = no }
+		}
+		# As long as you're able to give something even vaguely like an order to someone who might advocate on your behalf, you're gucci.
+		scope:actor = { is_imprisoned = no }
+		# And in the _rare_ circumstance that a diarch is a child, they must be at least this tall.
+		## Note that we _don't_ do this for the liege, since we want the player to be able to manage their regency — assume that _someone_ is looking out for the child's best interests.
+		scope:actor = {
+			trigger_if = {
+				limit = {
+					is_diarch_of_target = scope:recipient
+					is_adult = no
+				}
+				age >= 8
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+	
+	cost = {
+		influence = {
+			if = {
+				limit = { always = scope:swing_influence }
+				# Diarch version.
+				if = {
+					limit = {
+						scope:actor = { is_diarch_of_target = scope:recipient }
+					}
+					# Costs should always be applied on the diarch.
+					add = scope:actor.swing_scales_influence_cost_value
+				}
+				# Liege version.
+				else = {
+					# Costs should always be applied on the diarch.
+					add = scope:recipient.swing_scales_influence_cost_value
+				}
+				# Cost scaling mults.
+				multiply = scope:actor.swing_scales_discounts_multiplier_value
+			}
+		}
+		prestige = {
+			if = {
+				limit = { always = scope:swing_prestige }
+				# Diarch version.
+				if = {
+					limit = {
+						scope:actor = { is_diarch_of_target = scope:recipient }
+					}
+					# Costs should always be applied on the diarch.
+					add = scope:actor.swing_scales_prestige_cost_value
+				}
+				# Liege version.
+				else = {
+					# Costs should always be applied on the diarch.
+					add = scope:recipient.swing_scales_prestige_cost_value
+				}
+				# Cost scaling mults.
+				multiply = scope:actor.swing_scales_discounts_multiplier_value
+			}
+		}
+		piety = {
+			if = {
+				limit = {
+					OR = {
+						always = scope:swing_piety
+						always = scope:swing_hof
+					}
+				}
+				# Diarch version.
+				if = {
+					limit = {
+						scope:actor = { is_diarch_of_target = scope:recipient }
+					}
+					# Costs should always be applied on the diarch.
+					add = scope:actor.swing_scales_piety_cost_value
+				}
+				# Liege version.
+				else = {
+					# Costs should always be applied on the diarch.
+					add = scope:recipient.swing_scales_piety_cost_value
+				}
+				# Cost scaling mults.
+				multiply = scope:actor.swing_scales_discounts_multiplier_value
+			}
+		}
+		gold = {
+			if = {
+				limit = {
+					OR = {
+						always = scope:swing_gold
+						always = scope:swing_hof
+					}
+				}
+				# Diarch version.
+				if = {
+					limit = {
+						scope:actor = { is_diarch_of_target = scope:recipient }
+					}
+					# Costs should always be applied on the diarch.
+					add = scope:actor.swing_scales_cash_cost_value
+				}
+				# Liege version.
+				else = {
+					# Costs should always be applied on the diarch.
+					add = scope:recipient.swing_scales_cash_cost_value
+				}
+				# Cost scaling mults.
+				multiply = scope:actor.swing_scales_discounts_multiplier_value
+			}
+		}
+	}
+
+	# Influence
+	send_option = {
+		is_shown = {
+			# Make sure influence would be relevant.
+			OR = {
+				AND = {
+					scope:recipient.liege ?= scope:actor
+					scope:actor = { government_allows = administrative }
+				}
+				AND = {
+					scope:actor.liege ?= scope:recipient
+					scope:recipient = { government_allows = administrative }
+				}
+			}
+		}
+		is_valid = {
+			scope:actor = { government_allows = administrative }
+		}
+		starts_enabled = { scope:actor.influence >= scope:actor.swing_scales_influence_cost_value }
+		flag = swing_influence
+		localization = SWING_INFLUENCE
+		current_description = SWING_INFLUENCE_DESC
+	}
+	# Movement Power
+	send_option = {
+		starts_enabled = {
+			exists = scope:actor.var:movement_power_individual
+			scope:actor.var:movement_power_individual >= decent_movement_power_value
+		}
+		is_shown = {
+			scope:actor = {
+				government_has_flag = government_is_celestial
+				is_diarch_of_target = scope:recipient
+			}
+			scope:recipient = { government_has_flag = government_is_celestial }
+		}
+		is_valid = {
+			custom_tooltip = {
+				text = swing_scales_currency_interaction.tt.scales_min_movement_power
+				scope:actor.var:movement_power_individual >= medium_movement_power_value
+			}
+		}
+		flag = swing_movement_power
+		localization = SWING_MOVEMENT_POWER
+		current_description = SWING_MOVEMENT_POWER_DESC
+	}
+	# Prestige
+	send_option = {
+		starts_enabled = { scope:actor.prestige >= scope:actor.swing_scales_prestige_cost_value }
+		flag = swing_prestige
+		localization = SWING_PRESTIGE
+	}
+	# Piety
+	send_option = {
+		is_valid = {
+			# You must share a HoF to be able to petition one.
+			custom_tooltip = {
+				text = swing_scales_currency_interaction.tt.no_shared_hof
+				# We're also secretly just testing if characters are the same faith.
+				OR = {
+					scope:actor.faith = scope:recipient.faith
+					AND = {
+						exists = scope:actor.faith.religious_head
+						exists = scope:recipient.faith.religious_head
+						scope:actor.faith.religious_head = scope:recipient.faith.religious_head
+					}
+				}
+			}
+		}
+		starts_enabled = { scope:actor.piety >= scope:actor.swing_scales_piety_cost_value }
+		flag = swing_piety
+		localization = SWING_PIETY
+	}
+	# Gold
+	send_option = {
+		starts_enabled = { scope:actor.gold >= scope:actor.swing_scales_cash_cost_value }
+		flag = swing_gold
+		localization = SWING_GOLD
+	}
+	# Hook
+	send_option = {
+		is_valid = {
+			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		starts_enabled = {
+			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		flag = swing_hook
+		localization = SWING_HOOK
+	}
+	# HoF
+	send_option = {
+		is_valid = { diarch_swing_scales_valid_shared_hof_trigger = yes }
+		# Top of the prio order for enablement.
+		starts_enabled = { diarch_swing_scales_valid_shared_hof_trigger = yes }
+		flag = swing_hof
+		localization = SWING_HOF
+	}
+
+	on_accept = {
+		# Swing the scales down, since scope:actor is always a landless diarch.
+		scope:recipient = {
+			# Slight chance delays may lead to a diarchy ending before this is received.
+			if = {
+				limit = { has_active_diarchy = yes }
+				send_interface_message = {
+					type = msg_mandate_results_bad_effect
+					title = swing_scales_interaction_by_diarch.t
+					right_icon = scope:actor
+					update_diarchy_swing_with_perspective_effect = {
+						SWING = medium_sop_swing_diarch_gain
+						LIEGE = scope:recipient
+					}
+					scope:actor = { diarch_swing_scales_guts_effect = yes }
+				}
+			}
+			# Scope:recipient is a bit miffed.
+			add_opinion = {
+				target = scope:actor
+				modifier = frustrated_opinion
+				opinion = -10
+			}
+		}
+		# Some diarchs might be swinging as a prelude to a coup attempt.
+		ai_diarch_check_to_see_if_should_launch_coup_effect = yes
+
+		# Debug logging.
+		debug_log = debug_log.swing_scales.diarch_swung
+		# Object explorer logging.
+		scope:actor = {
+			diarch_interaction_set_or_update_global_variable_effect = { VARIABLE = di_track_swung_diarch }
+			diarch_interaction_add_to_global_list_effect = { VARIABLE_LIST = di_track_swung_diarch_list }
+		}
+	}
+
+	auto_accept = yes
+
+	# AI
+	ai_targets = { ai_recipients = liege }
+	# We turn the frequency up higher than the cooldown so that diarchs don't take two years to get into the loop.
+	ai_frequency_by_tier = {
+		barony = 0
+		county = 6
+		duchy = 6
+		kingdom = 6
+		empire = 6
+		hegemony = 6
+	}
+
+	ai_potential = {
+		# Double check due to some irritating errors.
+		is_diarch = yes
+		liege = { has_active_diarchy = yes }
+		# Loyal diarchs don't engage in skullduggery.
+		diarch_loyalty < diarch_loyalty_visibly_loyal_threshold
+	}
+
+	ai_will_do = {
+		# We're generally ruthless here.
+		base = @ai_core_loop_base_value
+
+		# Additions.
+		## Flag management.
+		### Influence.
+		modifier = {
+			add = 6
+			scope:swing_influence = yes
+		}
+		### Prestige.
+		modifier = {
+			add = 2
+			scope:swing_prestige = yes
+		}
+		### Piety.
+		modifier = {
+			add = 3
+			scope:swing_piety = yes
+		}
+		### Gold.
+		modifier = {
+			add = 1
+			scope:swing_gold = yes
+		}
+		### Hook.
+		modifier = {
+			add = 5
+			scope:swing_hook = yes
+		}
+		### HoF - combined Gold/Piety.
+		modifier = {
+			add = 4
+			scope:swing_hof = yes
+		}
+		# Factors.
+		## x0 Don't go into prestige debt!
+		modifier = {
+			factor = 0
+			scope:swing_prestige = yes
+			prestige < 0
+		}
 	}
 }
 

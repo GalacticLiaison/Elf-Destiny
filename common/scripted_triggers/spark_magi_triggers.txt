@@ -6,10 +6,7 @@
 		# Priests only fight if faith has war priests
 		trigger_if = {
 			limit = {
-				OR = {
-					has_trait = devoted
-					is_clergy = yes
-				}
+				is_clergy = yes
 			}
 			OR = {
 				faith = { has_doctrine_parameter = clergy_can_fight }
@@ -27,18 +24,19 @@
 				limit = {
 					has_dlc_feature = diverge_culture # Can modify pillars
 				}
-				OR = {
-					$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_equal_combatant } }
-					AND = {
-						$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_male_only_combatant } }
-						is_male = yes
+				trigger_if = {
+					limit = {
+						$ARMY_OWNER$.culture = { has_cultural_parameter = martial_custom_male_only_combatant }
 					}
-					AND = {
-						$ARMY_OWNER$ = { culture = { has_cultural_parameter = martial_custom_female_only_combatant } }
-						is_female = yes
-					}
+					is_male = yes
 				}
-				
+				trigger_else_if = {
+					limit = {
+						$ARMY_OWNER$.culture = { has_cultural_parameter = martial_custom_female_only_combatant }
+					}
+					is_female = yes
+				}
+				trigger_else = {}
 			}
 			trigger_else = { # Does not have the Royal Court and thus combatant is governed by faith
 				OR = {
@@ -64,6 +62,7 @@
 			has_trait = magi
 			# Event-based special exceptions
 			has_character_modifier = ignores_gender_army_rules
+			has_character_modifier = mpo_destined_leader_modifier
 			AND = {
 				$ARMY_OWNER$ = { culture = { has_cultural_parameter = high_prowess_ignores_knight_restrictions } }
 				NOT = { $ARMY_OWNER$ = { culture = { has_cultural_parameter = minimum_prowess_for_knights } } }
@@ -83,8 +82,8 @@
 }
 
 court_position_martial_trigger = {
+	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
 	OR = {
-		has_education_martial_trigger = yes
 		number_of_commander_traits > 0
 		has_trait = brave
 		prowess >= mediocre_skill_rating
@@ -93,15 +92,28 @@ court_position_martial_trigger = {
 		has_trait = berserker
 		has_trait = shieldmaiden
 		has_trait = lifestyle_blademaster
+		has_trait = education_martial_prowess
 		has_trait = magi
 	}
-	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
 }
 
 can_be_marshal_trigger = {
 	can_be_councillor_basics_trigger = yes
+	$COURT_OWNER$ ?= {
+		NOT = { government_has_flag = government_is_nomadic }
+	}
 	is_hostage = no
-	NOT = { has_council_position = councillor_spouse }
+	NAND = {
+		has_council_position = councillor_court_chaplain
+		faith = { has_doctrine_parameter = clerical_appointment_fixed }
+	}
+	NOR = {
+		has_council_position = councillor_spouse
+		AND = {
+			this = liege.diarch
+			liege = { has_diarchy_active_parameter = diarchy_is_vizierate }
+		}
+	}
 	OR = {
 		is_ruler = yes
 		AND = {
