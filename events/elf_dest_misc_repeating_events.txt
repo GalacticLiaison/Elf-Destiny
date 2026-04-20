@@ -19,7 +19,9 @@ scripted_effect assign_black_market_merchant_item = {
 
 			if = {
 				limit = {
-					scope:$SCOPE_NAME$.rarity = common
+					scope:$SCOPE_NAME$ ?= {
+						rarity = common
+					}
 				}
 				save_scope_value_as = {
 					name = $SCOPE_NAME$_price
@@ -28,7 +30,9 @@ scripted_effect assign_black_market_merchant_item = {
 			}
 			else_if = {
 				limit = {
-					scope:$SCOPE_NAME$.rarity = famed
+					scope:$SCOPE_NAME$ ?= {
+						rarity = famed
+					}
 				}
 				save_scope_value_as = {
 					name = $SCOPE_NAME$_price
@@ -37,7 +41,9 @@ scripted_effect assign_black_market_merchant_item = {
 			}
 			else_if = {
 				limit = {
-					scope:$SCOPE_NAME$.rarity = masterwork
+					scope:$SCOPE_NAME$ ?= {
+						rarity = masterwork
+					}
 				}
 				save_scope_value_as = {
 					name = $SCOPE_NAME$_price
@@ -46,7 +52,9 @@ scripted_effect assign_black_market_merchant_item = {
 			}
 			else_if = {
 				limit = {
-					scope:$SCOPE_NAME$.rarity = illustrious
+					scope:$SCOPE_NAME$ ?= {
+						rarity = illustrious
+					}
 				}
 				save_scope_value_as = {
 					name = $SCOPE_NAME$_price
@@ -688,3 +696,16 @@ elf_dest_misc_repeating.1031 = {
 		trigger_event = elf_dest_misc_repeating.101
 	}
 }
+
+
+
+## Population Control - The Wandering
+elf_dest_misc_repeating.1100 = {
+	# Your <Relation> has felt the urge most elves eventually do, to go wander the realms
+
+	# Ask them to stay
+
+	# Never ask me
+}
+
+# Order a ban of the wandering, Realm Lord Decision and control the portal

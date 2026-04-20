@@ -99,17 +99,43 @@ create_aeluran_advisor_effect = {
     }
 }
 
+# Temporarily disabling this until we create a fool proof fallback workflow to handle aelurans that never arrive
+# aeluran_advisor_sent_from_deep_wood_effect = {
+#     scope:aeluran_sister_advisor = {
+#         start_travel_plan = {
+#             destination = var:new_liege_to_advise.capital_barony.title_province
+#             on_start_on_action = on_new_aeluran_advisor_is_on_way
+#             on_travel_planner_cancel_on_action = on_new_aeluran_advisor_travel_planner_exit
+#             on_arrival_on_action = on_new_aeluran_advisor_arrives
+#             on_arrival_destinations = last
+#             return_trip = no # One way
+#         }
+#     }
+# }
+
 aeluran_advisor_sent_from_deep_wood_effect = {
-    scope:aeluran_sister_advisor = {
-        start_travel_plan = {
-            destination = var:new_liege_to_advise.capital_barony.title_province
-            on_start_on_action = on_new_aeluran_advisor_is_on_way
-            on_travel_planner_cancel_on_action = on_new_aeluran_advisor_travel_planner_exit
-            on_arrival_on_action = on_new_aeluran_advisor_arrives
-            on_arrival_destinations = last
-            return_trip = no # One way
+    # not really needed, from travel implementation
+    scope:aeluran_sister_advisor ?= {
+        remove_character_modifier = on_official_aeluran_business
+    }
+    scope:lord_receiving_advisor ?= {
+        # not really needed, from travel implementation
+        remove_character_flag = aeluran_advisor_is_on_the_way
+
+        if = {
+            limit = {
+                faith = {
+                    has_doctrine = tenet_aeluran_sisters
+                }
+            }
+
+            trigger_event = {
+				id = aeluran_diarchy.101
+				months = 1
+			}
         }
     }
+
 }
 
 sort_aeluran_candidates_to_list_effect = {
@@ -138,6 +164,8 @@ appoint_newly_arrived_aeluran_advisor = {
     if = {
         limit = {
             government_has_flag = government_is_celestial
+            highest_held_title_tier >= tier_hegemony
+            root = { has_title = title:h_china }
         }
 
         create_title_and_vassal_change = {
@@ -145,11 +173,13 @@ appoint_newly_arrived_aeluran_advisor = {
             save_scope_as = title_change
             add_claim_on_loss = no
         }
+
         title:e_minister_of_rites = {
             change_title_holder = {
                 holder = scope:aeluran_sister_advisor
                 change = scope:title_change
             }
+            set_title_can_be_granted = no
         }
         resolve_title_and_vassal_change = scope:title_change
 

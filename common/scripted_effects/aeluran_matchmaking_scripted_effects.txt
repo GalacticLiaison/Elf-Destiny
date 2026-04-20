@@ -1110,8 +1110,6 @@ cleanup_unpicked_generated_candidate = {
             }
         }
 
-        debug_log = "MADE IT"
-
         scope:candidate = {
             death = {
                 death_reason = death_vanished
@@ -1491,26 +1489,42 @@ assign_preexisting_alliance = {
         limit = {
             is_acceptable_alliance_match_choice = yes
         }
+
         if = {
             limit = {
-                this = {
+                is_suitable_elf_spouse = yes
+            }
+            save_scope_as = match_choice_$MATCHID$
+        }
+        else = {
+            random_child = {
+                limit = {
                     is_suitable_elf_spouse = yes
                 }
-            }
-            this = {
                 save_scope_as = match_choice_$MATCHID$
             }
         }
-        else = {
-            this = {
-                random_child = {
-                    limit = {
-                        is_suitable_elf_spouse = yes
-                    }
-                    save_scope_as = match_choice_$MATCHID$
-                }
-            }
-        }
+
+        # if = {
+        #     limit = {
+        #         this = {
+        #             is_suitable_elf_spouse = yes
+        #         }
+        #     }
+        #     this = {
+        #         save_scope_as = match_choice_$MATCHID$
+        #     }
+        # }
+        # else = {
+        #     this = {
+        #         random_child = {
+        #             limit = {
+        #                 is_suitable_elf_spouse = yes
+        #             }
+        #             save_scope_as = match_choice_$MATCHID$
+        #         }
+        #     }
+        # }
     }
 }
 
@@ -1829,18 +1843,6 @@ generate_new_foreign_elf = {
 find_twins_match_choice = {
     generate_multi_birth_mother = yes
     generate_new_twins = { MATCHID = $MATCHID$ }
-}
-
-generate_multi_birth_mother = {
-    create_character = {
-        template = match_choice_multi_mother
-        gender_female_chance = matchmaking_female_gender_chance
-        dynasty = generate
-        location = root.location
-        faith = root.faith
-        culture = root.culture
-        save_scope_as = match_choice_multi_mother
-    }
 }
 
 generate_new_twins = {

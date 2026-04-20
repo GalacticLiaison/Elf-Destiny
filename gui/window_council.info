@@ -1,4 +1,4 @@
-﻿
+
 ######################################################
 ################## COUNCIL WINDOW ####################
 ######################################################
@@ -60,49 +60,34 @@ window = {
 					visible = "[And( Not( GetPlayer.IsIndependentRuler ), Not( CouncilWindow.CanShowTopLiegeTab ) )]"
 
 					button_tab = {
+						layoutpolicy_horizontal = expanding
 						down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetPlayerCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
-						shortcut = "tab_1"
 
-						alwaystransparent = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
-
-						blockoverride "tab_label"
-						{
+						text_single = {
+							minimumsize = { 281 38 }
+							margin = { 15 0 }
 							text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
-							max_width = 220
+							resizeparent = yes
+							align = center|nobaseline
+							default_format = "#low"
 						}
-
-						blockoverride "icon_visible" {}
-
-						blockoverride "tab_icon"
-						{
-							texture = "gfx/interface/icons/flat_icons/council.dds"
-							down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
-						}
-
 					}
 
 					button_tab = {
+						layoutpolicy_horizontal = expanding
 						down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
-						shortcut = "tab_2"
 
-						alwaystransparent = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
-
-						blockoverride "tab_label"
-						{
+						text_single = {
+							minimumsize = { 281 38 }
+							margin = { 15 0 }
 							text = "COUNCIL_WINDOW_LIEGE_COUNCIL"
-							max_width = 220
-						}
-
-						blockoverride "icon_visible" {}
-
-						blockoverride "tab_icon"
-						{
-							texture = "gfx/interface/icons/flat_icons/liege_council.dds"
-							down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+							resizeparent = yes
+							align = center|nobaseline
+							default_format = "#low"
 						}
 					}
 				}
@@ -117,7 +102,6 @@ window = {
 						down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetPlayerCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
-						shortcut = "tab_1"
 
 						text_single = {
 							layoutpolicy_horizontal = expanding
@@ -135,7 +119,6 @@ window = {
 						down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
-						shortcut = "tab_2"
 
 						text_single = {
 							layoutpolicy_horizontal = expanding
@@ -153,7 +136,6 @@ window = {
 						down = "[And( CouncilWindow.IsTopLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetTopLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
-						shortcut = "tab_3"
 
 						text_single = {
 							layoutpolicy_horizontal = expanding
@@ -171,6 +153,7 @@ window = {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 
+					# Display Player Councilors
 					vbox_council_layout = {
 						name = "my_council"
 						visible = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
@@ -178,6 +161,7 @@ window = {
 						using = Animation_Tab_Switch
 					}
 
+					# Display Leiges Councilors
 					vbox_council_layout = {
 						name = "council_refresh"
 						visible = "[And( Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ), Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
@@ -314,6 +298,7 @@ widget = {
 		}
 	}
 }
+
 
 ######################################################
 ################ TYPES AND TEMPLATES #################
@@ -903,7 +888,7 @@ types CouncilWindow
 				}
 
 				button_round = {
-					visible = "[HasAccessToMinistry( Character.GetLiege )]"
+					visible = "[And( And( Character.GetLiege.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( Character.GetLiege.GetPrimaryTitle.GetTierFrame, '(int32)7' ) ), Not(Character.IsPlayer) )]"
 					parentanchor = top|right
 					position = { -5 0 }
 
@@ -936,7 +921,7 @@ types CouncilWindow
 				icon = {
 					size = { 40 40 }
 					parentanchor = top|right
-					position = { -4 50 }
+					position = { -4 8 }
 					texture = "gfx/interface/icons/modifiers/council_positive.dds"
 					tooltip = "ON_COUNCIL_EFFECTS"
 					visible = "[Character.IsLocalPlayer]"
@@ -1969,22 +1954,43 @@ types CouncilTaskTypes
 	}
 
 	type vbox_council_layout = vbox {
-		### COUNCIL
 		vbox = {
-			visible = "[Not( HasAccessToMinistry( CouncilWindow.GetCharacter ) )]"
+			visible = "[Not( And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) ) )]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
-			datacontext = "[CouncilWindow]"
 			maximumsize = { -1 932 }
 			spacing = 5
 
-			hbox = { # Vizier/Spouse + Spymaster/Court Chaplain
+            scrollbox = {
+
+				name = "scrollarea_council"
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				# layoutpolicy_vertical = growing
+
+				state = {
+					name = _show
+					using = Animation_FadeIn_Quick
+				}
+
+				state = {
+					name = _hide
+					# using = Animation_FadeOut_Quick
+					alpha = 0
+				}
+
+            blockoverride "scrollbox_content"
+            {
+			# Row 1 Spouse/Vizier and Chaplin/Aeluran
+			hbox = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
 				margin = { 10 0 }
 				spacing = 5
 
-				widget_councillor_item = { # Vizier
+				# SPOUSE AND VIZIER
+				widget_councillor_item = {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_vizier')]"
@@ -2016,6 +2022,14 @@ types CouncilTaskTypes
 					{
 						size = { 260 286 }
 					}
+
+					# blockoverride "replace_councillor"
+					# {
+					# 	spacer = {
+					# 		visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
+					# 		size = { 5 5 }
+					# 	}
+					# }
 
 					blockoverride "regular_task" {}
 
@@ -2074,7 +2088,7 @@ types CouncilTaskTypes
 					}
 				}
 
-				widget_councillor_item = { # Spouse (If you do not have a vizier)
+				widget_councillor_item = {
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
@@ -2094,7 +2108,7 @@ types CouncilTaskTypes
 						using = Mask_Rough_Edges
 						alpha = 0.8
 					}
-
+					
 					background =  {
 						visible = "[CouncilOwnerNomadic]"
 						texture = "gfx/interface/illustrations/event_scenes/mpo_tent_interior_mongol.dds"
@@ -2119,7 +2133,7 @@ types CouncilTaskTypes
 					blockoverride "replace_councillor"
 					{
 						spacer = {
-							visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
+							visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
 							size = { 5 5 }
 						}
 					}
@@ -2178,7 +2192,7 @@ types CouncilTaskTypes
 						}
 
 						text_label_center = {
-							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
+							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
 							text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
@@ -2188,7 +2202,7 @@ types CouncilTaskTypes
 						}
 
 						text_label_center = {
-							visible = "[And( And( CouncilOwnerCanUseVizier, Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
+							visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsLiegeCouncilShown ), Not( Character.IsValid ) )]"
 							parentanchor = bottom|hcenter
 							position = { 0 -10 }
 							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
@@ -2314,7 +2328,7 @@ types CouncilTaskTypes
 						alpha = 0.3
 					}
 				}
-			}
+            }
 
 			hbox = { # Chancellor + Steward
 				layoutpolicy_horizontal = expanding
@@ -2464,10 +2478,12 @@ types CouncilTaskTypes
 				}
 			}
 		}
+        }
+        }
 
 		### MINISTRY
 		vbox = {
-			visible = "[HasAccessToMinistry( CouncilWindow.GetCharacter )]"
+			visible = "[And( CouncilWindow.GetCharacter.GetGovernment.HasGovernmentFlag( 'government_is_celestial' ), GreaterThanOrEqualTo_int32( CouncilWindow.GetCharacter.GetPrimaryTitle.GetTierFrame, '(int32)7' ) )]"
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 			datacontext = "[CouncilWindow]"
@@ -2721,7 +2737,7 @@ types CouncilTaskTypes
 						margin = { 10 0 }
 						margin_bottom = 5
 						spacing = 5
-
+						
 						widget_councillor_item = { # Minister of Rites (court chaplain)
 							layoutpolicy_horizontal = expanding
 							layoutpolicy_vertical = expanding
@@ -2816,7 +2832,6 @@ types CouncilTaskTypes
 		}
 	}
 
-
 	type kurultai_hbox = hbox
 	{
 		widget_councillor_item = { # Kurultai
@@ -2880,7 +2895,7 @@ types CouncilTaskTypes
 		blockoverride "regular_task" {
 			flowcontainer = {
 				name = "council_position_tasks"
-				visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
+				visible = "[Not(CouncilWindow.IsLiegeCouncilShown)]"
 				datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
 				parentanchor = bottom|left
 				position = { 2 -3 }
@@ -2919,7 +2934,7 @@ types CouncilTaskTypes
 								parentanchor = center
 
 								button_council_task = {
-									visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))), 	GuiPotentialCouncilTask.IsActive)]"
+									visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(CouncilWindow.IsLiegeCouncilShown)), 	GuiPotentialCouncilTask.IsActive)]"
 									parentanchor = center
 									size = { 50 50 }
 									gfxtype = togglepushbuttongfx
@@ -2953,7 +2968,7 @@ types CouncilTaskTypes
 
 								widget = {
 									size = { 40 40 }
-									visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
+									visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(CouncilWindow.IsLiegeCouncilShown))]"
 
 									icon = {
 										parentanchor = center
@@ -3080,7 +3095,7 @@ types CouncilTaskTypes
 								name = "potential_task"
 								datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
 								datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-								visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))), 	GuiPotentialCouncilTask.IsActive)]"
+								visible = "[Or(And(GuiPotentialCouncilTask.CanSelect, Not(CouncilWindow.IsLiegeCouncilShown)), 	GuiPotentialCouncilTask.IsActive)]"
 								size = { 50 50 }
 
 								enabled = "[GuiPotentialCouncilTask.CanSelect]"
@@ -3111,7 +3126,7 @@ types CouncilTaskTypes
 
 							widget = {
 								size = { 50 50 }
-								visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown )))]"
+								visible = "[And(Not(GuiPotentialCouncilTask.CanSelect), Not(CouncilWindow.IsLiegeCouncilShown))]"
 
 								icon = {
 									parentanchor = center

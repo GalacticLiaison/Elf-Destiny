@@ -67,3 +67,60 @@
 
 	}
 }
+
+
+elf_wander_pop_control_effect = {
+	random_list = {
+		5 = { # doesnt wander 	
+
+		}
+		1 = { # decides to wander
+			modifier = {
+				add = 2
+				age > 60
+			}
+
+			modifier = {
+				add = 3
+				age > 70
+			}
+
+			modifier = {
+				add = 3
+				age > 80
+			}
+
+			if = {
+				limit = {
+					any_extended_family_member = {
+						is_ai = no
+					}
+
+					trigger_event = {
+						id = 
+					}
+				}
+			}
+
+			depart_to_wandering = yes
+
+
+		}
+	}
+}
+
+depart_to_wandering = {
+	if = {
+		limit = {
+			has_global_variable = grand_portal_restored
+		}
+		death = {
+			death_reason = death_wandering_portal
+		}
+	}
+	else = {
+		death = {
+			death_reason = death_wandering
+		}
+	}
+}
