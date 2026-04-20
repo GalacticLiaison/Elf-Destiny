@@ -383,20 +383,20 @@ entrance_ai_interaction = {
 	auto_accept = yes
 
 	on_accept = {
-		debug_log = "Accepted Entrance intereaction"
-			scope:actor = { 
-				save_scope_as = entrancer
-			}
-			
-			scope:recipient = {
-				save_scope_as = victim
-				trigger_event = entrance_scheme.1300
-			}
+		debug_log = "AI Entrance Interaction Triggered"
+		scope:actor = { 
+			save_scope_as = entrancer
+		}
+		
+		scope:recipient = {
+			save_scope_as = victim
+			trigger_event = entrance_scheme.1300
+		}
 	}	
 	
 	ai_potential = {
 		is_adult = yes
-		has_cultural_parameter = entrance_scheme_unlocked
+		culture = { has_cultural_parameter = entrance_scheme_unlocked }
 		is_spark_talented = yes
 
 		NOR = {
@@ -411,11 +411,11 @@ entrance_ai_interaction = {
 	}
 	
 	ai_will_do = {
-		base = 5
+		base = -5
 
 		# Ambitious characters aim above their rank
 		modifier = {
-			add = 30
+			add = 25
 			scope:actor = {
 				has_trait = ambitious
 				primary_title = {
@@ -439,21 +439,21 @@ entrance_ai_interaction = {
 
 
 		modifier = {
-			add = 40
+			add = 10
 			scope:actor = {
 				has_focus = intrigue_temptation_focus
 			}
 		}
 		
 		modifier = {
-			add = 25
+			add = 15
 			scope:actor = {
 				has_trait = lustful
 			}
 		}
 
 		modifier = { # has trait seducer or enchanter
-			add = 60
+			add = 50
 			scope:actor = {
 				OR = {
 					has_trait = seducer
@@ -463,7 +463,7 @@ entrance_ai_interaction = {
 		}
 
 		modifier = { # ( ͡° ͜ʖ ͡°)
-			add = 50
+			add = 20
 			scope:actor = {
 				is_close_or_extended_family_of = scope:recipient
 				is_deviant_trigger = yes
@@ -477,7 +477,7 @@ entrance_ai_interaction = {
 		}
 		
 		modifier = { 
-			add = 50
+			add = 20
 			scope:actor = {
 				is_close_or_extended_family_of = scope:recipient
 				faith = { has_doctrine = tenet_divine_marriage }
@@ -485,7 +485,7 @@ entrance_ai_interaction = {
 		}
 		
 		modifier = {
-			add = 25
+			add = 10
 			scope:recipient = {
 				exists = primary_spouse
 				primary_spouse = {

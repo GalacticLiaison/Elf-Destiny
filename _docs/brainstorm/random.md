@@ -409,3 +409,6 @@ Lots of requests for making a custom bloodline.
    - can be boosted with spark crystal
 - item to make a human an elf
    - can be boosted with spark crystal
+
+
+could use a transparent bloodline icon and just color it with glow background, might be good way to have custom bloodlines
