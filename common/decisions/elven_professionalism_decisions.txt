@@ -1,0 +1,160 @@
+﻿adopt_elven_professionalism = { # elven professionalism for kings and emperors
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds"
+	}
+	decision_group_type = elf
+
+	desc = adopt_elven_professionalism_decision_desc
+	selection_tooltip = adopt_elven_professionalism_decision_tooltip
+	ai_goal = no
+	ai_check_interval = 60
+
+	sort_order = 500
+
+	is_shown = {
+		is_ai = no
+		culture = {
+			has_cultural_parameter = elven_professionalism_decision
+		
+		}
+		NOR = { # cannot already have modifier
+			has_character_modifier = elf_professionalism_modifier
+			has_character_modifier = elf_legion_modifier
+		}
+	}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		any_held_title = { # must be king or above
+			tier >= tier_kingdom
+		}
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		NOT = {
+			has_government = landless_adventurer_government
+		}
+		is_landed = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 200
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = adopt_elven_professionalism_decision_tooltip
+		}
+
+		add_character_modifier = {
+			modifier = elf_professionalism_modifier
+		}
+	}
+}
+
+adopt_elven_legion = { # elven legionary system for emperors
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds"
+	}
+	decision_group_type = elf
+
+	desc = adopt_elven_professionalism_decision_desc
+	selection_tooltip = adopt_elven_legion_decision_tooltip
+	ai_goal = no
+	ai_check_interval = 60
+
+	sort_order = 500
+
+	is_shown = {
+		is_ai = no
+		culture = {
+			has_cultural_parameter = elven_professionalism_decision
+		
+		}
+		NOR = { # cannot already have modifier
+			has_character_modifier = elf_professionalism_modifier
+			has_character_modifier = elf_legion_modifier
+		}
+	}
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+		any_held_title = {
+			tier = tier_empire # must be emperor
+		}
+
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		NOT = {
+			has_government = landless_adventurer_government
+		}
+		is_landed = yes
+	}
+
+	cost = {
+		prestige = 2000
+		gold = 500
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = adopt_elven_professionalism_decision_tooltip
+		}
+
+		add_character_modifier = { # double of elven professionalism effect
+			modifier = elf_legion_modifier
+		}
+
+		
+	}
+}
+
+revoke_elven_professionalism = { # reverse elven professionalism/legion for kings and emperors
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds"
+	}
+	decision_group_type = elf
+
+	desc = revoke_elven_professionalism_decision_desc
+	selection_tooltip = revoke_elven_professionalism_decision_tooltip
+	ai_goal = no
+	ai_check_interval = 60
+
+	sort_order = 500
+
+	is_shown = {
+		is_ai = no
+		OR = {
+				has_character_modifier = elf_legion_modifier
+				has_character_modifier = elf_professionalism_modifier
+			}
+		}
+
+	# Following conditions must be true to take decision, shown in requirements section
+	is_valid = {
+
+	}
+
+	# Following conditions Will be shown as a validation error tooltip when False
+	is_valid_showing_failures_only = {
+		is_landed = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 200
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = revoke_elven_professionalism_decision_tooltip
+		}
+
+		remove_character_modifier = elf_professionalism_modifier
+		remove_character_modifier = elf_legion_modifier
+		}
+}
+	
