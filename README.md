@@ -12,6 +12,7 @@ Visit the Mod's Discord linked down below and reach out to the Admin user **East
 
 ## Links
 
+- **Wiki:** https://galacticliaison.github.io/elf-destiny-wiki/
 - **Steam:** https://steamcommunity.com/sharedfiles/filedetails/?id=3114064450
 - **Discord:** https://discord.gg/fyuPcf5HFZ
 - **Reddit:** https://www.reddit.com/r/ElfDestiny/
