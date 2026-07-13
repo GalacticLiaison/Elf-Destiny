@@ -58,7 +58,8 @@ For each branch:
 3. For files that already exist on `main`, diff first and merge carefully
 4. `git add` only the files for that branch
 5. Commit with a descriptive message referencing the source mod
-6. Push to remote (`origin`)
+6. **Run `/code-review` (superpowers requesting-code-review skill) on the commit before pushing** — catch logic errors, missing loc keys, bad references, or structural issues early
+7. Push to remote (`origin`)
 
 ---
 
