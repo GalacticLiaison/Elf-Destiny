@@ -1,0 +1,99 @@
+﻿# goals of this submod:
+# - add unique MAA as mentioned from zimojovic on discord
+# - add decision that nukes levies but boosts the amount of MAA you can have
+# - (and a decision to reverse that)
+
+
+tradition_elven_professionalism = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = conversation.dds
+	}
+
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_tradition_not_discovered
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_elven_professionalism
+			}
+		}
+	}
+
+	parameters = {
+		elven_professionalism_decision = yes # can pick the decision to juice MAA and nuke levies
+		# Below are MAA that are unlocked by this tradition
+		unlock_maa_elven_shieldguard = yes
+		unlock_maa_elven_swordguard = yes
+		unlock_maa_highguard = yes
+		unlock_maa_elven_bear_riders = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
+
+tradition_knights_of_the_sky = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = conversation.dds
+	}
+
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_tradition_not_discovered
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_knights_of_the_sky
+			}
+		}
+	}
+
+	parameters = {
+		unlock_maa_griffin_knights = yes
+        unlock_maa_honored_drake_masters = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
