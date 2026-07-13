@@ -1,4 +1,4 @@
-﻿@cultural_spark_maa_extra_ai_score = 80 
+﻿@cultural_spark_maa_extra_ai_score = 80
 
 @provisions_cost_infantry_cheap = 3
 @provisions_cost_infantry_moderate = 7
@@ -16,179 +16,213 @@
 @provisions_cost_special_bankrupting = 24
 
 fey_archers = {
-	type = archers
-	icon = fey_archers
-	
-	damage = 30
-	toughness = 10
-	pursuit = 15
-	screen = 15
-	
-	terrain_bonus = {
-		hills = { damage = 10 toughness = 5 }
-		taiga = { damage = 10 toughness = 4  pursuit = 5 screen = 10 }
-		forest = { damage = 10 toughness = 4 pursuit = 5 screen = 10 }
-		jungle = { damage = 10 toughness = 4 pursuit = 5 screen = 10 }
-		wetlands = { damage = 10 toughness = 4 screen = 10 }
-	}
+    type = archers
+    stack = 80
 
-	counters = {
-		skirmishers = 1
-		pikemen = 1
-	}
+    damage = 48
+    toughness = 14
+    pursuit = 15
+    screen = 15
 
-	can_recruit = {
-		culture = { has_cultural_parameter = unlock_maa_fey_archers }
-		is_any_elf_type = yes
-	}
+    terrain_bonus = {
+        forest = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        jungle = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        taiga = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        hills = { damage = 12 toughness = 4 }
+    }
 
-	buy_cost = { gold = elf_bowmen_recruitment_cost }
-	low_maintenance_cost = { gold = elf_bowmen_low_maint_cost }
-	high_maintenance_cost = { gold = elf_bowmen_high_maint_cost }
-	provision_cost = @provisions_cost_infantry_moderate
+    counters = {
+        skirmishers = 1
+        pikemen = 1
+        flying_units = 0.5
+    }
 
-	stack = 100
-	ai_quality = { 
-		value = culture_ai_weight_archers
-		value = counter_synergy_ai_weight_archers
-	}
+    can_recruit = {
+        culture = { has_cultural_parameter = unlock_maa_fey_archers }
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        culture = { has_cultural_parameter = unlock_maa_fey_archers }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = elf_bowmen_recruitment_cost }
+    low_maintenance_cost = { gold = elf_bowmen_low_maint_cost }
+    high_maintenance_cost = { gold = elf_bowmen_high_maint_cost }
+    provision_cost = @provisions_cost_special_expensive
+
+    ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    icon = fey_archers
 }
 
+
 elite_bow_knights = {
-	type = archers
-	icon = elite_bow_knights
+    type = archers
+    stack = 80
 
-	damage = 50
-	toughness = 25
-	pursuit = 15
-	screen = 15
-	
-	terrain_bonus = {
-		hills = { damage = 10 toughness = 5 }
-		taiga = { damage = 10 toughness = 4  pursuit = 5 screen = 10 }
-		forest = { damage = 10 toughness = 4 pursuit = 5 screen = 10 }
-		jungle = { damage = 10 toughness = 4 pursuit = 5 screen = 10 }
-		wetlands = { damage = 10 toughness = 4 screen = 10 }
-	}
+    damage = 60
+    toughness = 25
+    pursuit = 25
+    screen = 15
 
-	counters = {
-		heavy_infantry = 1
-		heavy_cavalry = 1
-		archer_cavalry = 0.5
-	}
+    terrain_bonus = {
+        forest = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        jungle = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        taiga = { damage = 12 toughness = 6 pursuit = 5 screen = 5 }
+        hills = { damage = 12 toughness = 4 }
+    }
 
-	can_recruit = {
-		culture = { has_cultural_parameter = unlock_maa_elite_bow_knights }
-		is_any_elf_type = yes
-	}
+    counters = {
+        heavy_infantry = 1
+        heavy_cavalry = 1
+        archer_cavalry = 0.5
+        flying_units = 0.5
+    }
 
-	buy_cost = { gold = crossbowmen_recruitment_cost }
-	low_maintenance_cost = { gold = crossbowmen_low_maint_cost }
-	high_maintenance_cost = { gold = crossbowmen_high_maint_cost }
-	provision_cost = @provisions_cost_infantry_moderate
+    can_recruit = {
+        culture = { has_cultural_parameter = unlock_maa_elite_bow_knights }
+        is_any_elf_type = yes
+    }
 
-	ai_quality = {
-		value = counter_synergy_ai_weight_archers
-	}
-	
-	holy_order_fallback = yes
-	
-	stack = 100
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        culture = { has_cultural_parameter = unlock_maa_elite_bow_knights }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = elf_bowmen_recruitment_cost }
+    low_maintenance_cost = { gold = elf_bowmen_low_maint_cost }
+    high_maintenance_cost = { gold = elf_bowmen_high_maint_cost }
+    provision_cost = @provisions_cost_special_expensive
+
+    ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    icon = elite_bow_knights
 }
 
 wolf_riders = {
-	type = heavy_cavalry
-	icon = wolf_riders
-	stack = 50
-	
-	damage = 80
-	toughness = 20
-	pursuit = 65
-	screen = 30
-	
-	terrain_bonus = {
-		drylands = { damage = 20 }
-		plains = { damage = 20 }
-		forest = { damage = 25 pursuit = 45 screen = 35 }
-		taiga = { damage = 25 pursuit = 45 screen = 35 }
-		jungle = { damage = 25 pursuit = 45 screen = 35 }
-		hills = { damage = -20 }
-		mountains = { damage = -75 }
-		desert_mountains = { damage = -75 }
-	}
+    type = heavy_cavalry
+    icon = wolf_riders
+    stack = 60
 
-	counters = {
-		skirmishers = 1
-		heavy_infantry = 1
-	}
+    damage = 100
+    toughness = 22
+    pursuit = 65
+    screen = 30
+    terrain_bonus = {
+        forest = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        taiga = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        jungle = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        mountains = { damage = -25 }
+        desert_mountains = { damage = -25 }
+        wetlands = { damage = -25 toughness = -10 pursuit = -10 }
+    }
 
-	can_recruit = {
-		culture = { has_cultural_parameter = unlock_maa_wolf_riders }
-		is_any_elf_type = yes
-	}
+    counters = {
+        skirmishers = 1
+        heavy_infantry = 1
+        light_cavalry = 1
+		camel_cavalry = 1
+    }
 
-	buy_cost = { gold = elf_heavy_cavalry_recruitment_cost }
-	low_maintenance_cost = { gold = elf_heavy_cavalry_low_maint_cost }
-	high_maintenance_cost = { gold = elf_heavy_cavalry_high_maint_cost }
-	provision_cost = @provisions_cost_cavalry_expensive
-	
-	ai_quality = { value = culture_ai_weight_heavy_cavalry }
+    can_recruit = {
+        culture = { has_cultural_parameter = unlock_maa_wolf_riders }
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        culture = { has_cultural_parameter = unlock_maa_wolf_riders }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = elf_horse_archers_recruitment_cost }
+    low_maintenance_cost = { gold = elf_horse_archers_low_maint_cost }
+    high_maintenance_cost = { gold = elf_horse_archers_high_maint_cost }
+    provision_cost = @provisions_cost_cavalry_cheap
+
+    ai_quality = { value = culture_ai_weight_light_cavalry }
 }
 
 direwolf_riders = {
-	type = heavy_cavalry
-	icon = direwolf_riders
-	stack = 50
-	
-	damage = 110
-	toughness = 35
-	pursuit = 75
-	screen = 40
-	
-	terrain_bonus = {
-		drylands = { damage = 20 }
-		plains = { damage = 20 }
-		forest = { damage = 25 pursuit = 45 screen = 35 }
-		taiga = { damage = 25 pursuit = 45 screen = 35 }
-		jungle = { damage = 25 pursuit = 45 screen = 35 }
-		hills = { damage = -20 }
-		mountains = { damage = -75 }
-		desert_mountains = { damage = -75 }
-	}
+    type = heavy_cavalry
+    icon = direwolf_riders
+    stack = 40
 
-	counters = {
-		skirmishers = 1
-		heavy_infantry = 1
-		light_cavalry = 1
-	}
+    damage = 180
+    toughness = 40
+    pursuit = 75
+    screen = 40
 
-	can_recruit = {
-		exists = dynasty
-		dynasty = {
-			has_dynasty_modifier = wolf_lords_dynasty_modifier
-		}
-		is_any_elf_type = yes
-	}
+    terrain_bonus = {
+        forest = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        taiga = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        jungle = { damage = 25 toughness = 10 pursuit = 35 screen = 25 }
+        mountains = { damage = -25 }
+        desert_mountains = { damage = -25 }
+        wetlands = { damage = -25 toughness = -10 pursuit = -10 }
+    }
 
-	buy_cost = { gold = elf_very_heavy_cavalry_recruitment_cost }
-	low_maintenance_cost = { gold = elf_very_heavy_cavalry_low_maint_cost }
-	high_maintenance_cost = { gold = elf_very_heavy_cavalry_high_maint_cost }
-	provision_cost = @provisions_cost_cavalry_bankrupting
-	
-	ai_quality = { value = culture_ai_weight_heavy_cavalry }
+    counters = {
+        skirmishers = 1
+        heavy_infantry = 1
+        light_cavalry = 1
+		camel_cavalry = 1
+    }
+
+    can_recruit = {
+        exists = dynasty
+        dynasty = {
+            has_dynasty_modifier = wolf_lords_dynasty_modifier
+        }
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        exists = dynasty
+        dynasty = {
+            has_dynasty_modifier = wolf_lords_dynasty_modifier
+        }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = elf_very_heavy_cavalry_recruitment_cost }
+    low_maintenance_cost = { gold = elf_very_heavy_cavalry_low_maint_cost }
+    high_maintenance_cost = { gold = elf_very_heavy_cavalry_high_maint_cost }
+    provision_cost = @provisions_cost_cavalry_bankrupting
+
+    ai_quality = { value = culture_ai_weight_heavy_cavalry }
 }
 
 
 elk_archers = {
-	type = archer_cavalry
-	icon = elk_archers
+    type = archer_cavalry
+    stack = 80
 
-	damage = 55
-	toughness = 10
-	pursuit = 60
-	screen = 60
-	
-	terrain_bonus = {
+    damage = 75
+    toughness = 12
+    pursuit = 60
+    screen = 60
+
+    terrain_bonus = {
 		steppe = { damage = 25 pursuit = 5 screen = 5}
 		plains = { damage = 20 pursuit = 5 screen = 5}
 		drylands = { damage = 20 pursuit = 5 screen = 5 }
@@ -198,73 +232,94 @@ elk_archers = {
 		wetlands = { damage = 5 pursuit = 10 screen = 10}
 		mountains = { damage = -20 pursuit = -20 }
 		desert_mountains = { damage = -20 pursuit = -20 }
-	}
-	
-	counters = {
-		skirmishers = 1
-		heavy_infantry = 1
-	}
-	
-	can_recruit = {
-		culture = { has_cultural_parameter = unlock_maa_elk_archers }
-		is_any_elf_type = yes
-	}
-	
-	buy_cost = { gold = elf_horse_archers_recruitment_cost }
-	low_maintenance_cost = { gold = elf_horse_archers_low_maint_cost }
-	high_maintenance_cost = { gold = elf_horse_archers_high_maint_cost }
-	provision_cost = @provisions_cost_cavalry_cheap
-	
-	stack = 100
-	ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    }
+
+    counters = {
+        skirmishers = 1
+        heavy_infantry = 1
+    }
+
+    can_recruit = {
+        culture = { has_cultural_parameter = unlock_maa_elk_archers }
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        culture = { has_cultural_parameter = unlock_maa_elk_archers }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = elf_horse_archers_recruitment_cost }
+    low_maintenance_cost = { gold = elf_horse_archers_low_maint_cost }
+    high_maintenance_cost = { gold = elf_horse_archers_high_maint_cost }
+    provision_cost = @provisions_cost_cavalry_cheap
+
+    ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    icon = elk_archers
 }
 
 warband_ravagers = {
-	icon = warband_ravagers
-	type = skirmishers
+    type = skirmishers
+    stack = 80
 
-	damage = 15
-	toughness = 6
-	pursuit = 15
-	screen = 5
-	
-	terrain_bonus = {
+    damage = 32
+    toughness = 16
+    pursuit = 25
+    screen = 20
+
+    terrain_bonus = {
 		steppe = { damage = -10 }
 		plains = { damage = -10 }
 		forest = { damage = 20 pursuit = 10 screen = 10 }
 		taiga = { damage = 20 pursuit = 10 screen = 10 }
 		jungle = { damage = 20 pursuit = 10 screen = 10 }
 		wetlands = { damage = 15 pursuit = 10 screen = 10}
-	}
-	
-	counters = {
-		heavy_infantry = 1
-	}
-	
-	can_recruit = {
-		has_government = advanced_tribal_government
-		is_any_elf_type = yes
-	}
-	
-	buy_cost = { prestige = warband_ravagers_recruitment_cost }
-	low_maintenance_cost = { prestige = warband_ravagers_low_maint_cost }
-	high_maintenance_cost = { prestige = warband_ravagers_high_maint_cost }
-	provision_cost = @provisions_cost_infantry_cheap
-	
-	stack = 100
-	ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    }
+
+    counters = {
+        heavy_infantry = 1.5
+    }
+
+    can_recruit = {
+        has_government = advanced_tribal_government
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        has_government = advanced_tribal_government
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { prestige = warband_ravagers_recruitment_cost }
+    low_maintenance_cost = { prestige = warband_ravagers_low_maint_cost }
+    high_maintenance_cost = { prestige = warband_ravagers_high_maint_cost }
+    provision_cost = @provisions_cost_infantry_cheap
+
+    stack = 50
+    ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    icon = warband_ravagers
 }
 
 warband_vanguard = {
-	icon = warband_vanguard
-	type = pikemen
+    type = pikemen
+    stack = 80
 
-	damage = 25
-	toughness = 10
-	pursuit = 0
-	screen = 0
-	
-	terrain_bonus = {
+    damage = 28
+    toughness = 20
+    pursuit = 10
+    screen = 25
+
+    terrain_bonus = {
 		steppe = { damage = -10 }
 		plains = { damage = -10 }
 		forest = { damage = 20 pursuit = 10 screen = 10 }
@@ -272,25 +327,135 @@ warband_vanguard = {
 		wetlands = { damage = 15 pursuit = 10 screen = 10}
 		hills = { damage = 20 pursuit = 10 screen = 10 }
 		jungle = { damage = 20 pursuit = 10 screen = 10 }
-	}
-	
-	counters = {
-		light_cavalry = 1
-		heavy_cavalry = 1
-		camel_cavalry = 1
-		elephant_cavalry = 1
-	}
-	
-	can_recruit = {
-		has_government = advanced_tribal_government
-		is_any_elf_type = yes
-	}
-	
-	buy_cost = { prestige = warband_vanguard_recruitment_cost }
-	low_maintenance_cost = { prestige = warband_vanguard_low_maint_cost }
-	high_maintenance_cost = { prestige = warband_vanguard_high_maint_cost }
-	provision_cost = @provisions_cost_infantry_cheap
-	
-	stack = 100
-	ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    }
+    counters = {
+        light_cavalry = 1
+        heavy_cavalry = 1
+        camel_cavalry = 1
+        elephant_cavalry = 1
+    }
+
+    can_recruit = {
+        has_government = advanced_tribal_government
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        has_government = advanced_tribal_government
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { prestige = warband_vanguard_recruitment_cost }
+    low_maintenance_cost = { prestige = warband_vanguard_low_maint_cost }
+    high_maintenance_cost = { prestige = warband_vanguard_high_maint_cost }
+    provision_cost = @provisions_cost_infantry_cheap
+
+    stack = 50
+    ai_quality = { value = @cultural_spark_maa_extra_ai_score }
+    icon = warband_vanguard
 }
+
+feywind_cavaliers = {
+    type = light_cavalry
+    stack = 80
+
+    damage = 60
+    toughness = 18
+    pursuit = 60
+    screen = 30
+
+    terrain_bonus = {
+        plains = { damage = 10 }
+        drylands = { damage = 10 }
+        forest = { damage = 15 toughness = 10 }
+        taiga = { damage = 15 toughness = 10 }
+        mountains = { damage = -10 pursuit = -35 }
+        desert_mountains = { damage = -15 pursuit = -40 }
+        wetlands = { damage = -10 pursuit = -20 screen = -15 }
+    }
+
+    counters = {
+        archers = 1
+        gunpowder = 1
+		heavy_infantry = 1
+    }
+
+    can_recruit = {
+        culture = { has_cultural_parameter = unlock_maa_feywind_cavaliers }
+        is_any_elf_type = yes
+    }
+
+    should_show_when_unavailable = {
+        government_allows = subject_men_at_arms
+        is_any_elf_type = yes
+    }
+
+    access_through_subject = {
+        culture = { has_cultural_parameter = unlock_maa_feywind_cavaliers }
+        is_any_elf_type = yes
+    }
+
+    buy_cost = { gold = 120 }
+    low_maintenance_cost = { gold = 0.47 }
+    high_maintenance_cost = { gold = 1.41 }
+    provision_cost = @provisions_cost_cavalry_expensive
+
+    ai_quality = { value = culture_ai_weight_elephant_cavalry }
+    icon = feywind_cavaliers
+}
+
+# abyssal_guardians = {
+#     type = pikemen
+#     stack = 50
+
+#     damage = 140
+#     toughness = 150
+#     pursuit = 0
+#     screen = 60
+
+#     terrain_bonus = {
+#         forest = { damage = 10 toughness = 20 screen = 20 }
+#         forest = { damage = 10 toughness = 20 screen = 20 }
+#         forest = { damage = 10 toughness = 20 screen = 20 }
+
+#         wetlands = { damage = 50 toughness = 50 pursuit = 20 screen = 30 }
+#         floodplains = { damage = 50 toughness = 50 pursuit = 20 screen = 30 }
+#         oasis = { damage = 50 toughness = 50 pursuit = 20 screen = 30 }
+#     }
+
+#     counters = {
+#         light_cavalry = 2
+#         heavy_cavalry = 1.5
+#         archer_cavalry = 1.5
+#         camel_cavalry = 1.5
+#         elephant_cavalry = 1
+#     }
+
+#     can_recruit = {
+#         culture = { has_cultural_parameter = unlock_maa_abyssal_guardians }
+#         is_any_elf_type = yes
+#     }
+
+#     should_show_when_unavailable = {
+#         government_allows = subject_men_at_arms
+#         is_any_elf_type = yes
+#     }
+
+#     access_through_subject = {
+#         culture = { has_cultural_parameter = unlock_maa_abyssal_guardians }
+#         is_any_elf_type = yes
+#     }
+
+#     buy_cost = { gold = schiltron_recruitment_cost }
+#     low_maintenance_cost = { gold = schiltron_low_maint_cost }
+#     high_maintenance_cost = { gold = schiltron_high_maint_cost }
+#     provision_cost = @provisions_cost_infantry_cheap
+
+#     ai_quality = { value = culture_ai_weight_pikemen }
+#     icon = abyssal_guardians
+# }
