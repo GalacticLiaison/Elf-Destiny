@@ -7,8 +7,8 @@
 This can be either due to Aelurans, but your riksgodi stops managing the temples and you get all of them therefore becoming owner of said temples.
 
 Only fix right now is to replace the riksgodi, but I am starting to run out of characters to replace them without dipping into my heirs.
-![image.png](https://cdn.discordapp.com/attachments/1507387354078249021/1507387354460193009/image.png?ex=6a6222df&is=6a60d15f&hm=98135c85356700bb00c96ca8d6c74ab2d4ded55cdc1360b4a5c5bc57377a941d&)
-![image.png](https://cdn.discordapp.com/attachments/1507387354078249021/1507387355072565388/image.png?ex=6a6222df&is=6a60d15f&hm=5a0c76c1e12a93ed385ba31245578e2f8db3ddceb71ae7f3b35368426c52d4b9&)
+![image.png](https://cdn.discordapp.com/attachments/1507387354078249021/1507387354460193009/image.png?ex=6a83c11f&is=6a826f9f&hm=42021dd4b661a103494001945ff4eccacf4453b2e3b2bb373585d4807fba12e8&)
+![image.png](https://cdn.discordapp.com/attachments/1507387354078249021/1507387355072565388/image.png?ex=6a83c11f&is=6a826f9f&hm=26f197ef6afbd4b3859af721962f861d44aa4c2dacd22fecfa8c9aa7420be528&)
 ---
 
 ## Discussion (2 comments)
