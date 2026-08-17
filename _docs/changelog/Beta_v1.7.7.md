@@ -1,10 +1,9 @@
 # Beta_v1.7.7
 
-# THings to look into
-<!-- https://discord.com/channels/1179053540161880074/1179054158003839086/1501320405594542102
-https://discord.com/channels/1179053540161880074/1500917644390305912/1500917644390305912
-https://discord.com/channels/1179053540161880074/1501610496141299774/1501610496141299774
+Bug Fix: A male ruler's wife no longer shows up as "Husband" in the council. Spouse council titles (Queen, Khatun, Prince Consort, etc.) display correctly by rank and culture again.
 
-what happened to the aerulan matchmaking?
+Bug Fix: Removed heavy error.log spam that was generated whenever the council screen was open.
 
-https://discord.com/channels/1179053540161880074/1501571609998393465/1501571609998393465 -->
+Bug Fix: Removed a malformed localization key (a name key containing a space) in historical_character_names that logged a parser error on every localization load.
+
+Under the hood: The councillor_spouse council position is no longer overwritten - the base game definition applies directly, so it stays in sync with future game updates. The Aeluran Regency exclusion (the regent can't also fill the spouse seat) moved into a scripted trigger override (can_be_spouse_councillor_trigger) in spark_councillor_triggers.txt. The "Spouse and Red Sister" combined council slot is unaffected. Thanks to .fulululu for the detailed report.
