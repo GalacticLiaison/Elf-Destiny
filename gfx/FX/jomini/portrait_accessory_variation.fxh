@@ -72,8 +72,8 @@ PixelShader =
 				float3	_Normal;
 			};
 
-			// CfV (POD)
-			SPatternOutput ApplyPattern( float2 UV, SPatternDesc Desc, float RandomNumber, int MaskIndex, inout float OpacityMask, GH_SPortraitEffect PortraitEffect )
+			// CfV (POD) + 1.19 forward-port (OverrideMaskIndexOffset)
+			SPatternOutput ApplyPattern( float2 UV, SPatternDesc Desc, float RandomNumber, int MaskIndex, int OverrideMaskIndexOffset, inout float OpacityMask, GH_SPortraitEffect PortraitEffect )
 			// CfV end
 			{
 				// Rotate and scale around (0.5,0.5)
@@ -90,6 +90,7 @@ PixelShader =
 				float4 PatternProperties = PdxTex2D( PatternPropertyMaps, float3( UV, Desc._PropertyMapIndex ) );
 				float4 PatternNormalSample = PdxTex2D( PatternNormalMaps, float3( UV, Desc._NormalMapIndex ) );
 
+				float MaskIndexOffset = MaskIndex + OverrideMaskIndexOffset;
 				//If there is a second color mask, the color palette size should be 32-width
 				#ifdef SECOND_COLOR_MASK
 					float PaletteWidth = 32.0f;
@@ -104,9 +105,9 @@ PixelShader =
 					{
 						// Select from 16-width color palette
 						float3 Sample;
-						if ( PatternColorOverrides[MaskIndex + i].a > 0.0f )
+						if ( Desc._UseColorOverrides && PatternColorOverrides[MaskIndexOffset * 4 + i].a > 0.0f )
 						{
-							Sample = PatternColorOverrides[MaskIndex + i].rgb;
+							Sample = PatternColorOverrides[MaskIndexOffset * 4 + i].rgb;
 						}
 						else
 						{
@@ -143,19 +144,22 @@ PixelShader =
 				PatternProperties.r = 1.0f;
 
 				float RandomNumber = GetRandomNumber( Input.InstanceIndex );
+				// 1.19 forward-port: per-instance color override block offset
+				int ColorBase = GetColorOverrideOffset( Input.InstanceIndex ); // -1 or 0/4/8/12
+				int OverrideMaskIndexOffset = max( 0, ColorBase ); // safe fallback, alpha check handles "no override"
 				for( int i = 0; i < 4; ++i )
 				{
 					if( Mask[i] > 0.0f )
 					{
 						float OpacityMask = 0;
 						// CfV (POD)
-						SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetPatternDesc( Input.InstanceIndex, i ), RandomNumber, i, OpacityMask, PortraitEffect );
+						SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetPatternDesc( Input.InstanceIndex, i ), RandomNumber, i, OverrideMaskIndexOffset, OpacityMask, PortraitEffect );
 						// CfV end
 
 						PatternDiffuse = lerp( PatternDiffuse, PatternOutput._Diffuse, Mask[i] * OpacityMask);
 						PatternNormal = lerp( PatternNormal, PatternOutput._Normal.rgb, Mask[i] * OpacityMask);
 						PatternProperties = lerp( PatternProperties, PatternOutput._Properties, Mask[i] * OpacityMask);
-						NormalUVChannel = lerp( NormalUVChannel, 1.0f, SecondColorMask[i] * OpacityMask);
+						NormalUVChannel = lerp( NormalUVChannel, 1.0f, Mask[i] * OpacityMask);
 					}
 				}
 
@@ -168,7 +172,7 @@ PixelShader =
 						{
 							float OpacityMask = 0;
 							// CfV (POD) (TODO: check what the second mask actually does)
-							SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetSecondPatternDesc( Input.InstanceIndex, i ), RandomNumber, ( i + MaskOffset ), OpacityMask, PortraitEffect );
+							SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetSecondPatternDesc( Input.InstanceIndex, i ), RandomNumber, ( i + MaskOffset ), 0, OpacityMask, PortraitEffect );
 							// CfV end
 
 							PatternDiffuse = lerp( PatternDiffuse, PatternOutput._Diffuse, SecondColorMask[i] * OpacityMask);
