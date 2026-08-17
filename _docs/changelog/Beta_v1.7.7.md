@@ -16,4 +16,6 @@ Bug Fix: Temple holders under lay clergy (granted to an unlanded character, crea
 
 Bug Fix: Ascended Tribal rulers now correctly use patronym naming - the always_use_patronym setting sat outside government_rules (where the current base game expects it), so it threw a load error and never took effect.
 
+Bug Fix: Elven coats of arms no longer show up blank in the pinned characters list or black/blank on armors and shields. All custom emblem textures shipped without mipmaps, which the 1.19 coat of arms pipeline requires for small and 3D renders - they are now DXT5 with full mip chains like the base game's. Also updated the Elf Finder's coat of arms frame textures to their post-1.19 file locations (removes 40+ texture errors from every game launch).
+
 Under the hood: The councillor_spouse council position is no longer overwritten - the base game definition applies directly, so it stays in sync with future game updates. The Aeluran Regency exclusion (the regent can't also fill the spouse seat) moved into a scripted trigger override (can_be_spouse_councillor_trigger) in spark_councillor_triggers.txt. The "Spouse and Red Sister" combined council slot is unaffected. Thanks to .fulululu for the detailed report.
