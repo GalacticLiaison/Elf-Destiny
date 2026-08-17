@@ -287,6 +287,7 @@ councillor_court_chaplain = {
 	}
 
 	fill_from_pool = yes
+	is_clergy_position = yes
 
 	can_fire = {
 		trigger_if = {
@@ -643,7 +644,14 @@ councillor_court_chaplain = {
 	}
 
 	on_lose_position = {
-		remove_variable = religious_advisor
+		# religious_advisor lives on the liege, and only clear it if it still points at this chaplain
+		root.liege ?= {
+			if = {
+				limit = { var:religious_advisor ?= root }
+				remove_variable = religious_advisor
+			}
+		}
+		fired_minister_position_effect = yes
 
 		root.liege = {
 			save_scope_as = liege
@@ -672,7 +680,13 @@ councillor_court_chaplain = {
 
 	on_fired_from_position = {
 		debug_log = "FIRED REALM PRIEST"
-		remove_variable = religious_advisor
+		# religious_advisor lives on the liege, and only clear it if it still points at this chaplain
+		root.liege ?= {
+			if = {
+				limit = { var:religious_advisor ?= root }
+				remove_variable = religious_advisor
+			}
+		}
 
 		root.liege = {
 			save_scope_as = liege
@@ -680,7 +694,6 @@ councillor_court_chaplain = {
 
 		debug_log_scopes = yes
 		fired_from_council_position_effect = yes
-		fired_minister_position_effect = yes
 	}
 
 	portrait_animation = chaplain
