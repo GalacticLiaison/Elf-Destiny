@@ -2,274 +2,346 @@
 # GENERATED FAMILIES OVERRIDE #
 ###############################
 
+# Override of the base game effect (00_game_rule_effects.txt): identical body, with
+# template = urf_default_template on every create_character so generated spouses and
+# children get race genes from the Unified Race Framework.
 
 game_rule_create_spouse_and_children = {
-    $CHARACTER$ = {
-        #If not married, create spouse
-        if = {
-            limit = {
-                is_married = no
-            }
-            create_character = {
-                template = urf_default_template
-                location = $CHARACTER$.location
-                culture = $CHARACTER$.culture
-                faith = $CHARACTER$.faith
-                gender_female_chance = $CHARACTER$.marriage_gender_adjusted_female_chance
-                age = $CHARACTER$.age
-                save_scope_as = spouse
-            }
+	$CHARACTER$ = {
+		#If not married, create spouse
+		if = {
+			limit = {
+				is_married = no
+			}
+			create_character = {
+				template = urf_default_template
+				location = $LOCATION$.location
+				culture = $CHARACTER$.culture
+				faith = $CHARACTER$.faith
+				gender_female_chance = $CHARACTER$.marriage_gender_adjusted_female_chance
+				age = $CHARACTER$.age
+				save_scope_as = spouse
+			}
 
-            if = {
-                limit = { is_male = yes }
-                marry = scope:spouse
-            }
-            else = {
-                marry_matrilineal = scope:spouse
-            }
-        }
-        else = {
-            primary_spouse = { save_scope_as = spouse }
-        }
+			if = {
+				limit = { is_male = yes }
+				marry = scope:spouse
+			}
+			else = {
+				marry_matrilineal = scope:spouse
+			}
+			if = {
+				limit = {
+					has_trait = nomadic_philosophy
+				}
+				scope:spouse = {
+					add_trait = nomadic_philosophy
+				}
+			}
+			if = {
+				limit = {
+					NOT = { exists = scope:spouse.employer }
+					$LOCATION$ = { is_ruler = yes }
+				}
+				$LOCATION$ = { add_courtier = scope:spouse }
+			}
+		}
+		else = {
+			primary_spouse = { save_scope_as = spouse }
+		}
 
-        if = {
-            limit = { is_male = yes }
-            save_scope_as = father
-            scope:spouse = {
-                if = {
-                    limit = {
-                        is_female = yes
-                    }
-                    save_scope_as = mother
-                }
-            }
-        }
-        else = {
-            save_scope_as = mother
-            scope:spouse = {
-                if = {
-                    limit = {
-                        is_male = yes
-                    }
-                    save_scope_as = father
-                }
-            }
-        }
+		if = {
+			limit = { is_male = yes }
+			save_scope_as = father
+			scope:spouse = {
+				if = {
+					limit = {
+						is_female = yes
+					}
+					save_scope_as = mother
+				}
+			}
+		}
+		else = {
+			save_scope_as = mother
+			scope:spouse = {
+				if = {
+					limit = {
+						is_male = yes
+					}
+					save_scope_as = father
+				}
+			}
+		}
 
-        #Create child 1 (mother age 17+)
-        if = {
-            limit = {
-                exists = scope:mother
-                scope:mother.age >= 17
-            }
-            if = { #Do we have a father saved?
-                limit = {
-                    exists = scope:father
-                }
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        if = {
-                            limit = {
-                                is_ruler = yes
-                                $CHARACTER$ = { has_realm_law = male_only_law }
-                            }
-                            value = 0
-                        }
-                        else = {
-                            limit = {
-                                is_ruler = yes
-                                $CHARACTER$ = { has_realm_law = female_only_law }
-                            }
-                            value = 100
-                        }
-                        else = {
-                            value = 50
-                        }
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 17
-                    }
-                    father = scope:father
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_1
-                }
-            }
-            else = { #If we don't have a father we generate a child without
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        if = {
-                            limit = {
-                                is_ruler = yes
-                                $CHARACTER$ = { has_realm_law = male_only_law }
-                            }
-                            value = 0
-                        }
-                        else = {
-                            limit = {
-                                is_ruler = yes
-                                $CHARACTER$ = { has_realm_law = female_only_law }
-                            }
-                            value = 100
-                        }
-                        else = {
-                            value = 50
-                        }
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 17
-                    }
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_1
-                }
-            }
-        }
-        #Create child 1 (no mother)
-        else_if = {
-            limit = {
-                NOT = { exists = scope:mother }
-            }
-            create_character = {
-                template = urf_default_template
-                location = $CHARACTER$.location
-                culture = $CHARACTER$.culture
-                faith = $CHARACTER$.faith
-                gender_female_chance = {
-                    if = {
-                        limit = {
-                            is_ruler = yes
-                            $CHARACTER$ = { has_realm_law = male_only_law }
-                        }
-                        value = 0
-                    }
-                    else = {
-                        limit = {
-                            is_ruler = yes
-                            $CHARACTER$ = { has_realm_law = female_only_law }
-                        }
-                        value = 100
-                    }
-                    else = {
-                        value = 50
-                    }
-                }
-                age = {
-                    value = scope:mother.age
-                    subtract = 17
-                }
-                father = scope:father
-                dynasty = inherit
-                save_scope_as = child_1
-            }
-        }
+		#Create child 1 (mother age 17+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 17
+			}
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = male_only_law }
+							}
+							value = 0
+						}
+						else_if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = female_only_law }
+							}
+							value = 100
+						}
+						else = {
+							value = 50
+						}
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 17
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_1
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = male_only_law }
+							}
+							value = 0
+						}
+						else_if = {
+							limit = {
+								is_ruler = yes
+								$CHARACTER$ = { has_realm_law = female_only_law }
+							}
+							value = 100
+						}
+						else = {
+							value = 50
+						}
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 17
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_1
+				}
+			}
+		}
+		#Create child 1 (no mother)
+		else_if = {
+			limit = {
+				NOT = { exists = scope:mother }
+			}
+			create_character = {
+				template = urf_default_template
+				location = $LOCATION$.location
+				culture = $CHARACTER$.culture
+				faith = $CHARACTER$.faith
+				gender_female_chance = {
+					if = {
+						limit = {
+							is_ruler = yes
+							$CHARACTER$ = { has_realm_law = male_only_law }
+						}
+						value = 0
+					}
+					else_if = {
+						limit = {
+							is_ruler = yes
+							$CHARACTER$ = { has_realm_law = female_only_law }
+						}
+						value = 100
+					}
+					else = {
+						value = 50
+					}
+				}
+				age = {
+					value = scope:mother.age
+					subtract = 17
+				}
+				father = scope:father
+				dynasty = inherit
+				save_scope_as = child_1
+			}
+		}
 
-        #Create child 2 (mother age 25+)
-        if = {
-            limit = {
-                exists = scope:mother
-                scope:mother.age >= 25
-            }
+		#Create child 2 (mother age 25+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 25
+			}
 
-            if = { #Do we have a father saved?
-                limit = {
-                    exists = scope:father
-                }
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        value = 50
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 25
-                    }
-                    father = scope:father
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_2
-                }
-            }
-            else = { #If we don't have a father we generate a child without
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        value = 50
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 25
-                    }
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_2
-                }
-            }
-        }
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 25
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_2
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 25
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_2
+				}
+			}
+		}
 
-        #Create child 3 (mother age 33+)
-        if = {
-            limit = {
-                exists = scope:mother
-                scope:mother.age >= 33
-            }
+		#Create child 3 (mother age 33+)
+		if = {
+			limit = {
+				exists = scope:mother
+				scope:mother.age >= 33
+			}
 
-            if = { #Do we have a father saved?
-                limit = {
-                    exists = scope:father
-                }
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        value = 50
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 33
-                    }
-                    father = scope:father
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_3
-                }
-            }
-            else = { #If we don't have a father we generate a child without
-                create_character = {
-                    template = urf_default_template
-                    location = $CHARACTER$.location
-                    culture = $CHARACTER$.culture
-                    faith = $CHARACTER$.faith
-                    gender_female_chance = {
-                        value = 50
-                    }
-                    age = {
-                        value = scope:mother.age
-                        subtract = 33
-                    }
-                    mother = scope:mother
-                    dynasty = inherit
-                    save_scope_as = child_3
-                }
-            }
-        }
-    }
+			if = { #Do we have a father saved?
+				limit = {
+					exists = scope:father
+				}
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 33
+					}
+					father = scope:father
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_3
+				}
+			}
+			else = { #If we don't have a father we generate a child without
+				create_character = {
+					template = urf_default_template
+					location = $LOCATION$.location
+					culture = $CHARACTER$.culture
+					faith = $CHARACTER$.faith
+					gender_female_chance = {
+						value = 50
+					}
+					age = {
+						value = scope:mother.age
+						subtract = 33
+					}
+					mother = scope:mother
+					dynasty = inherit
+					save_scope_as = child_3
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:child_1
+				NOT = { exists = scope:child_1.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_1 }
+		}
+		if = {
+			limit = {
+				exists = scope:child_2
+				NOT = { exists = scope:child_2.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_2 }
+		}
+		if = {
+			limit = {
+				exists = scope:child_3
+				NOT = { exists = scope:child_3.employer }
+				$LOCATION$ = { is_ruler = yes }
+			}
+			$LOCATION$ = { add_courtier = scope:child_3 }
+		}
+		if = {
+			limit = {
+				has_trait = nomadic_philosophy
+			}
+			scope:child_1 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+			scope:child_2 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+			scope:child_3 ?= {
+				if = {
+					limit = {
+						NOT = { has_trait = nomadic_philosophy }
+					}
+					add_trait = nomadic_philosophy
+				}
+			}
+		}
+	}
 }
