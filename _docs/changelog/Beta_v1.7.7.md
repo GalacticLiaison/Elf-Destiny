@@ -14,4 +14,6 @@ Bug Fix: Cleaned up a batch of load-time script errors: the birth good-omen noti
 
 Bug Fix: Temple holders under lay clergy (granted to an unlanded character, created as a local noble, or generated with the world) no longer default to the Ascended Tribal government when their culture lacks the Tribal Ascension tradition - they are now feudal as in the base game, so their holdings tax and build normally. Ascended Tribal is reached only through its ascension events. (Barons already mis-assigned in existing saves keep their government; the known console workaround still applies to them.)
 
+Bug Fix: Ascended Tribal rulers now correctly use patronym naming - the always_use_patronym setting sat outside government_rules (where the current base game expects it), so it threw a load error and never took effect.
+
 Under the hood: The councillor_spouse council position is no longer overwritten - the base game definition applies directly, so it stays in sync with future game updates. The Aeluran Regency exclusion (the regent can't also fill the spouse seat) moved into a scripted trigger override (can_be_spouse_councillor_trigger) in spark_councillor_triggers.txt. The "Spouse and Red Sister" combined council slot is unaffected. Thanks to .fulululu for the detailed report.
