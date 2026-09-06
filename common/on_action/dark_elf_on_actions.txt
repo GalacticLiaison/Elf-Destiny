@@ -1,0 +1,84 @@
+﻿# Dark Elf Beta
+# Applies the ruler designer "dark variant" toggle at game start. Registered as an
+# additional on_game_start_after_lobby entry - same-named on_actions merge additively
+# across mods, so this does not override Elf Destiny's after-lobby lists.
+# dark_elf_apply_rd_strain_effect is order-independent w.r.t. Elf Destiny's
+# swap_out_elf_traits / on_game_start_assign_ruler_designer_race.
+
+on_game_start_after_lobby = {
+	on_actions = {
+		dark_elf_ruler_designer_fixup
+	}
+}
+
+# Seed the DEB elf finder filter globals for new campaigns, matching Elf
+# Destiny's own seeding in elf_destiny_on_game_start (spark_start_on_actions.txt).
+on_game_start = {
+	on_actions = {
+		dark_elf_finder_game_start
+		dark_elf_convert_ethnicity_elves
+	}
+}
+
+dark_elf_finder_game_start = {
+	effect = {
+		dark_elf_finder_init_filters_effect = yes
+	}
+}
+
+# Game start generates ordinary NPCs into the elf cultures (light AND dark), and
+# they inherit the elf ETHNICITY (skin/eyes) from their culture - but Elf
+# Destiny only race-inits ruler-designer picks and specific named history
+# characters, so these NPCs stay mechanically human despite looking like elves.
+# This pass makes every such human an actual elf: drow/dokkalfar cultures become
+# dark elves, all other elf-heritage cultures become standard elves. Their
+# existing DNA/look is preserved - we set only the race, never var:dark_elf_skin_color
+# (that variable is for converts who LACK drow DNA and forces the render template;
+# these characters already carry drow DNA from their ethnicity).
+# Runs at on_game_start (before the RD ruler exists), so the designer ruler is
+# left to Elf Destiny's own after-lobby race logic.
+dark_elf_convert_ethnicity_elves = {
+	effect = {
+		every_living_character = {
+			limit = {
+				is_any_elf_type = no
+				culture = { has_cultural_pillar = heritage_elf }
+			}
+			if = {
+				limit = {
+					OR = {
+						culture = culture:elf_culture_drow
+						culture = culture:elf_culture_dokkalfar
+					}
+				}
+				add_character_flag = race_dark_elf
+			}
+			else = {
+				add_character_flag = race_elf
+			}
+			urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+			set_appropriate_elf_immortality_age = yes
+		}
+	}
+}
+
+dark_elf_ruler_designer_fixup = {
+	effect = {
+		if = {
+			limit = {
+				has_global_variable = ruler_designer_dark_variant
+				global_var:ruler_designer_dark_variant = 1
+			}
+			# No is_landed filter: the created ruler IS landed at after-lobby time
+			# (Elf Destiny's own RD race application goes through the capital-county
+			# variable to the landed holder).
+			every_player = {
+				dark_elf_apply_rd_strain_effect = yes
+			}
+			# Retire the preview: the RD skin-preview portrait modifier and the
+			# dark-aware readout keys trigger on this global; from here on the
+			# phenotype-driven modifiers own the look.
+			remove_global_variable = ruler_designer_dark_variant
+		}
+	}
+}

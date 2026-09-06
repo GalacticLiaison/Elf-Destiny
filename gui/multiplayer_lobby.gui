@@ -1,3 +1,7 @@
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's multiplayer_lobby.gui (full copy).
+# Change: the pre-start custom-character race icon builds its key dark-aware
+# from the ruler_designer_dark_variant global.
+
 JominiMultiplayerLobby = {
 	state = {
 		name = _show
@@ -528,7 +532,7 @@ JominiMultiplayerLobby = {
 											button = {
 												name = "race_button"
 												# texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+												texture = "[GetCultureInnovationType(Concatenate(Select_CString( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ), 'urf_phenotype_dark_', 'urf_phenotype_' ), GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
 	
 												tooltipwidget = { multiplayer_lobby_race_fallback_tooltip = {} }
 	

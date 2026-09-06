@@ -1,0 +1,154 @@
+﻿visual_traits_royal_dark_elves = {
+	usage = game
+
+	default_ = {
+		default_ = {
+			traits = {  }
+			dna_modifiers = {
+				human = {
+
+				}
+			}
+		}
+	}
+
+	royal_elf_syldranis = {
+		royal_elf_syldranis = {
+			traits = { royal_elf_syldranis }
+			dna_modifiers = {
+				human = {
+					color = {
+						gene = eye_color
+						mode = replace
+							
+						x = 0.0
+						y = 0.0
+					}
+
+					# mode = replace (not add): several Syldranis DNA blocks bake
+					# royal_elf_syldranis_eyes at full strength, and mode = add
+					# compounded on top of that, overshooting the green into purple.
+					# Replace overrides any baked value, matching the Myrvessa hair mark.
+					morph = {
+						mode = replace
+						gene = gene_special_eye_color
+						template = royal_elf_syldranis_eyes
+						value = 1.0
+					}
+				}
+			}
+		}
+	}
+
+	royal_elf_rynvela = {
+		royal_elf_rynvela = {
+			traits = { royal_elf_rynvela }
+			dna_modifiers = {
+				human = {
+					# mode = add, NOT replace: the engine rejects replace on
+					# gene_special_lip (dnamodifier.cpp:50 "replace only works for
+					# regular genes") and the mark silently stops applying - PM
+					# confirmed broken lips in-game 2026-09-06. The baked-DNA
+					# compounding that motivated replace was never observed for
+					# lips. (Syldranis eyes / Myrvessa hair keep replace: those
+					# genes accept it and were verified in-game.)
+					morph = {
+						mode = add
+						gene = gene_special_lip
+						value = 1.0
+						template = black_lip
+					}
+				}
+			}
+		}
+	}
+
+	royal_elf_myrvessa = {
+		royal_elf_myrvessa = {
+			traits = { royal_elf_myrvessa }
+			dna_modifiers = {
+				human = {
+					color = {
+						gene = hair_color
+						mode = replace
+
+						x = 0.0
+						y = 0.0
+					}
+
+					morph = {
+						mode = replace
+						gene = gene_special_hair_color
+						template = spider_red
+						value = 1.0
+					}
+				}
+			}
+		}
+	}
+
+	royal_elf_drenmyre = {
+		royal_elf_drenmyre = {
+			traits = { royal_elf_drenmyre }
+			dna_modifiers = {
+				human = {
+					accessory = {
+						mode = replace
+						gene = eye_accessory
+						template = black_sclera_1
+						value = 0.5
+					}
+				}
+			}
+		}
+	}
+
+	# # Spider-eyes experiment: each placeholder trait swaps the eye accessory.
+	# spider_eyed_1 = {
+	# 	spider_eyed_1 = {
+	# 		traits = { spider_eyed_1 }
+	# 		dna_modifiers = {
+	# 			human = {
+	# 				accessory = {
+	# 					mode = replace
+	# 					gene = eye_accessory
+	# 					template = spider_sclera_5
+	# 					value = 0.5
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# spider_eyed_2 = {
+	# 	spider_eyed_2 = {
+	# 		traits = { spider_eyed_2 }
+	# 		dna_modifiers = {
+	# 			human = {
+	# 				accessory = {
+	# 					mode = replace
+	# 					gene = eye_accessory
+	# 					template = spider_sclera_7
+	# 					value = 0.5
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# spider_eyed_3 = {
+	# 	spider_eyed_3 = {
+	# 		traits = { spider_eyed_3 }
+	# 		dna_modifiers = {
+	# 			human = {
+	# 				accessory = {
+	# 					mode = replace
+	# 					gene = eye_accessory
+	# 					template = spider_sclera_3
+	# 					value = 0.5
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+}

@@ -1,3 +1,7 @@
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's ed_window_character.gui (full copy).
+# Change: dark elf variants get a purple race-icon glow (Dark_Elf_Purple template)
+# instead of the gold Color_Bright_Yellow; fenced # Dark Elf Beta.
+
 template ed_window_character_show_template {
 	on_finish = "[GetScriptedGui( 'init_urf_race_fallback' ).Execute( GuiScope.SetRoot( Character.MakeScope ).End )]"
 }
@@ -22,7 +26,25 @@ types character_window{
                     using = tooltip_ws
                     size = { 40 40 }
 
+                    # Dark Elf Beta - purple glow for dark elf variants (same color template as the bloodline trait glow)
                     highlight_icon = {
+                        visible = "[GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+                        size = { 40 40 }
+                        position = { 0 1 }
+                        parentanchor = center
+
+                        glow = {
+                            glow_radius = 4
+                            using = Dark_Elf_Purple
+                            using = Glow_Standard
+                        }
+
+                        using = Animation_Glow_Pulse
+                    }
+                    # End Dark Elf Beta
+                    highlight_icon = {
+                        visible = "[Not( GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End ) )]" # Dark Elf Beta - light variants keep the gold glow
                         texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
                         size = { 40 40 }
                         position = { 0 1 }

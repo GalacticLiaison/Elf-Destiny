@@ -1,3 +1,7 @@
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's elf_custom_tooltips.gui (full copy).
+# Change: the custom-character (ruler designer) race tooltip builds its icon and
+# illustration keys dark-aware from the ruler_designer_dark_variant global.
+
 types ElfTooltips
 {
     type override_race_tooltip = widget
@@ -331,7 +335,7 @@ types ElfTooltips
 
                             button = {
                                 name = "race_icon"
-                                texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+                                texture = "[GetCultureInnovationType(Concatenate(Select_CString( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ), 'urf_phenotype_dark_', 'urf_phenotype_' ), GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
                                 size = { 45 45 }
                             }
 
@@ -415,7 +419,7 @@ types ElfTooltips
                     margin_bottom = 6
 
                     background = {
-                        texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_gui_illustration_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+                        texture = "[GetCultureInnovationType(Concatenate(Select_CString( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ), 'urf_phenotype_gui_illustration_dark_', 'urf_phenotype_gui_illustration_' ), GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
                         alpha = 0.3
                         fittype = centercrop
                         using = Mask_Rough_Edges

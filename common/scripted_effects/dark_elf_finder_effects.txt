@@ -1,0 +1,34 @@
+﻿# Dark Elf Beta - elf finder variant filter toggle (mirrors Elf Destiny's
+# toggle_elf_type_filter pattern; globals elf_variant_filter_light/dark).
+
+# One-time enable of the DEB filter globals, mirroring how Elf Destiny seeds its
+# filter globals in elf_destiny_on_game_start (a filter global that does not
+# exist reads as "off": the button renders disabled and its gate excludes every
+# character). Runs from on_game_start for new campaigns and from
+# dark_elf_finder_sg_init for saves created before these filters existed; the
+# latch keeps it from overriding filters the player has deliberately turned off.
+dark_elf_finder_init_filters_effect = {
+	if = {
+		limit = {
+			NOT = { has_global_variable = dark_elf_finder_filters_init_v1 }
+		}
+		set_global_variable = { name = elf_variant_filter_light value = 1 }
+		set_global_variable = { name = elf_variant_filter_dark value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_drenmyre value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_rynvela value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_myrvessa value = 1 }
+		set_global_variable = { name = elf_bloodline_filter_syldranis value = 1 }
+		set_global_variable = dark_elf_finder_filters_init_v1
+	}
+}
+toggle_elf_variant_filter = {
+	if = {
+		limit = {
+			exists = global_var:elf_variant_filter_$VARIANT$
+		}
+		remove_global_variable = elf_variant_filter_$VARIANT$
+	}
+	else = {
+		set_global_variable = { name = elf_variant_filter_$VARIANT$ value = 1 }
+	}
+}

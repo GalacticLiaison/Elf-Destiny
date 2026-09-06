@@ -1,0 +1,155 @@
+# Dark Elf Beta - dark elf culture traditions.
+# tradition_the_old_ways_dark shares its display name with Elf Destiny's
+# tradition_the_old_ways by design: both elf types keep their own version of
+# the ancient ways. Art uses the vanilla intrigue backdrop instead of ED's
+# forest layer until custom dark art exists.
+# Effects per PM 2026-08-22: same as the light Old Ways but the herbalist
+# bonus is swapped for knight effectiveness per intrigue, plus the tattooing
+# custom (dark_elf_tattooing_common drives the tradition tattoo portrait
+# modifiers in gfx/portraits/portrait_modifiers/dark_elf_tradition_tattoos.txt).
+tradition_the_old_ways_dark = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer_dark.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_the_old_ways_dark_item.dds
+	}
+
+	is_shown = {
+		any_player = {
+			is_dark_elf_type = yes
+		}
+	}
+	can_pick = {
+
+	}
+
+	parameters = {
+		# Grants Fey Archers (same as the light Old Ways)
+		unlock_maa_fey_archers = yes
+		# Mystic More Common (same as the light Old Ways)
+		mystic_trait_more_common = yes
+		mystic_trait_gives_bonuses = yes
+		# Tattooing custom: tooltip line + gates the tradition tattoo portrait modifiers
+		dark_elf_tattooing_common = yes
+	}
+
+	character_modifier = {
+		# Replaces the light version's herbalist bonus (PM choice)
+		knight_effectiveness_per_intrigue = 0.01
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0
+	}
+}
+
+# tradition_night_mothers: the Drow's unique matriarchal-rule tradition,
+# replacing the tradition_female_only_inheritance + tradition_nubian_warrior_queens
+# placeholders (PM 2026-08-22). Deity-neutral by design - it covers both the
+# Lloth and Typhos cults. Item icon is a vanilla stand-in until custom art
+# (tradition_night_mothers_item.dds) exists.
+tradition_night_mothers = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer_dark.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_night_mothers_item.dds
+	}
+
+	is_shown = {
+		any_player = {
+			has_culture = culture:elf_culture_drow
+		}
+	}
+	can_pick = {
+
+	}
+
+	parameters = {
+		female_only_inheritance = yes
+		female_preference_inheritance = yes
+	}
+
+	character_modifier = {
+		opinion_of_female_rulers = 10
+		opinion_of_male_rulers = -10
+		owned_scheme_secrecy_add = 20
+		owned_hostile_scheme_success_chance_add = 5
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0
+	}
+}
+
+# tradition_the_black_crown: the Dokkalfar's unique rule-through-fear tradition
+# (PM 2026-08-22). Name alludes to Morgath's iron crown without naming him.
+# Complements (never overlaps) the Drenmyre bloodline trait: the bloodline
+# scales off tyranny and COWED vassals; this tradition covers baseline dread,
+# dread persistence, and INTIMIDATED vassals. Item icon is the vanilla crown
+# stand-in until custom art (tradition_the_black_crown_item.dds) exists.
+tradition_the_black_crown = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer_dark.dds
+		1 = pattern_elf_1.dds
+		4 = tradition_the_black_crown_item.dds
+	}
+
+	is_shown = {
+		any_player = {
+			has_culture = culture:elf_culture_dokkalfar
+		}
+	}
+	can_pick = {
+
+	}
+
+	character_modifier = {
+		dread_baseline_add = 10
+		dread_decay_mult = -0.25
+		intimidated_vassal_tax_contribution_mult = 0.1
+		intimidated_vassal_levy_contribution_mult = 0.1
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0
+	}
+}

@@ -1,0 +1,67 @@
+﻿# Dark Elf Beta
+# Sigil-of-the-Realm-Lord judgment: the Spark weighs the ruler's soul and the
+# expedition party transforms to match the verdict. Used by dark_elf_story.0001,
+# which takes over the transformation from Elf Destiny's expedition.00691.
+
+# Weigh ROOT and store the verdict as var:spark_judgment (flag:dark / flag:light).
+# A perfectly balanced soul is coin-flipped.
+dark_elf_spark_judgment_effect = {
+	if = {
+		limit = { dark_elf_judgment_score > 0 }
+		set_variable = { name = spark_judgment value = flag:dark }
+	}
+	else_if = {
+		limit = { dark_elf_judgment_score < 0 }
+		set_variable = { name = spark_judgment value = flag:light }
+	}
+	else = {
+		random_list = {
+			50 = { set_variable = { name = spark_judgment value = flag:dark } }
+			50 = { set_variable = { name = spark_judgment value = flag:light } }
+		}
+	}
+}
+
+# One transformee. Mirrors the per-character block of Elf Destiny's expedition.00691;
+# the DARK = yes branch is the documented story-conversion path from
+# dark_elf_race_effects.txt (dark race flag -> strain 100 at genotype init). DARK must
+# be a literal yes/no. The dark branch reads the ruler's stored choices
+# (root.var:dark_elf_chosen_skin from dark_elf_story.0002, root.var:dark_elf_chosen_hair
+# from dark_elf_story.0004) so the whole party matches them; ROOT inside this effect is
+# still the event root (the ruler), not the transformee.
+dark_elf_sigil_transform_character_effect = {
+	if = {
+		limit = {
+			OR = {
+				is_any_elf_type = no
+				is_elf_blood = yes
+			}
+		}
+		if = {
+			limit = { always = $DARK$ }
+			add_character_flag = race_dark_elf
+			set_variable = { name = dark_elf_skin_color value = root.var:dark_elf_chosen_skin }
+			set_variable = { name = dark_elf_hair_color value = root.var:dark_elf_chosen_hair }
+		}
+		else = {
+			add_character_flag = race_elf
+		}
+		urf_for_all_phenotypes = { APPLY = urf_base_race_init }
+		add_trait = magic_talent_1
+	}
+}
+
+# The whole party (and Julia) follows the ruler's verdict.
+dark_elf_sigil_transform_party_effect = {
+	scope:activity = {
+		every_attending_character = {
+			dark_elf_sigil_transform_character_effect = { DARK = $DARK$ }
+		}
+
+		# Find Julia
+		get_julia_melwood_effect = yes
+		scope:archeologist = {
+			dark_elf_sigil_transform_character_effect = { DARK = $DARK$ }
+		}
+	}
+}

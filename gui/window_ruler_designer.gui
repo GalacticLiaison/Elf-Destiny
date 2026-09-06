@@ -1,8 +1,25 @@
-﻿window = {
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's window_ruler_designer.gui (full copy).
+# Change: the race selection list is reworked into a category -> tier picker
+# (Human / Elf / Dark Elf, then a tier sub-column). Tier clicks drive Elf Destiny's
+# character_race_selection_button plus dark_elf_rd_set_dark/light_button, so the
+# game-start back-end is unchanged. Fenced # Dark Elf Beta.
+
+window = {
 	name = "ruler_designer"
 	size = { 100% 100% }
 	movable = no
 	layer = windows_layer
+	# Dark Elf Beta - delayed portrait refresh fired by the race tier rows; the
+	# delay lets the race/variant scripted-gui effects commit before the rebuild
+	state = {
+		name = dark_elf_rd_refresh
+		duration = 0.5
+		on_finish = "[RulerDesignerWindow.ToggleAppearanceOverride]"
+		on_finish = "[RulerDesignerWindow.ToggleAppearanceOverride]"
+		on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
+		on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
+	}
+	# End Dark Elf Beta
 	filter_mouse = all
 	datacontext = "[GetVariableSystem]"
 
@@ -274,31 +291,22 @@
 											using = Font_Size_Medium
 										}
 										
+										# Dark Elf Beta - dual readout buttons: gold glow for light picks, purple for dark
 										elf_filter_button_small = {
+											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
 											blockoverride "elf_click_button_effect" {
 												datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
 												datacontext = "[RulerDesignerWindow.AccessOtherTraitSlots]"
-												# onclick = "[RulerDesignerWindow.FinishTraitEditing( GetTrait( 'elf_ears_1' ) )]"
-												# onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_type', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
 												onclick = "[TraitSlotArray.StartEditing]"
-
 												onclick = "[VariableSystem.Set( 'race_select_window_open', 'test' )]"
 											}
 											blockoverride "elf_filter_button_texture" {
-												# texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
 												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
-												# GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue
 											}
-											# blockoverride "elf_filter_button_selected" {
-											# 	enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-											# }
 											blockoverride "elf_icon_glow_enabled" {
-												# visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-												# visible = "[Not( EqualTo_String( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human' ) )]"
 												visible = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human') )]"
 											}
 											blockoverride "elf_icon_glow_disabled" {
-												# visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' ) )]"
 												visible = no
 											}
 											blockoverride "elf_filter_button_tooltip" {
@@ -311,12 +319,45 @@
 												text = "[Localize( Concatenate('game_concept_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName) ) ]"
 											}
 											blockoverride "tooltip_race_icon_desc" {
-												# text = "[Localize( 'game_concept_elf_desc') ]"
 												text = "[Localize( Concatenate( Concatenate('game_concept_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName ), '_desc' ) ) ]"
-
-												# text = "[Localize( 'game_concept_elf_desc') ]"
 											}
 										}
+										elf_filter_button_small = {
+											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' )]"
+											blockoverride "elf_click_button_effect" {
+												datacontext = "[GetScriptedGui( 'elf_type_filter_button' )]"
+												datacontext = "[RulerDesignerWindow.AccessOtherTraitSlots]"
+												onclick = "[TraitSlotArray.StartEditing]"
+												onclick = "[VariableSystem.Set( 'race_select_window_open', 'test' )]"
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_dark_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = yes
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { multiplayer_lobby_race_fallback_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_dark_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName)).GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( Concatenate('game_concept_dark_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName) ) ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( Concatenate( Concatenate('game_concept_dark_', GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName ), '_desc' ) ) ]"
+											}
+										}
+										# End Dark Elf Beta
 
 
 										# text_single = {
@@ -1163,7 +1204,7 @@
 				scrollbox = {
 					layoutpolicy_vertical = expanding
 					layoutpolicy_horizontal = expanding
-					minimumsize = { 350 100% }
+					minimumsize = { 640 100% } # Dark Elf Beta - widened for the category -> tier columns
 					# spacing = 10
 
 					datacontext = "[RulerDesignerWindow.AccessCultureList]"
@@ -1171,954 +1212,1833 @@
 					blockoverride "scrollbox_content"
 					{
 
+						# Dark Elf Beta - category -> tier race selection (replaces the flat 13-row list)
 						flowcontainer = {
-							direction = vertical
-							# margin_left = 30
-							# margin_bottom = 500
-							spacing = 5
+							direction = horizontal
+							spacing = 10
 
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
+							flowcontainer = {
+								direction = vertical
+								spacing = 5
 
-								# enabled = no
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 250 52 }
 
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+										on_finish = "[VariableSystem.Set( 'rd_race_category', 'human' )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-									# datacontext = "[GetScriptedGui( 'elf_race_selection_button' )]"
-									# onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope).AddScope( 'race', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								# size = { 0 35 }
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human') )]"
-	
-									elf_filter_button_small = {
-				
-										blockoverride "elf_click_button_effect" {
-											
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)0' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+													on_finish = "[VariableSystem.Set( 'rd_race_category', 'human' )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-											}			
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human' )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'human' )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_human') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_human_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											# visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-											visible = no
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = no
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_human').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_human') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_human_desc') ]"
-										}
-									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_human') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
 									}
 								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 250 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[VariableSystem.Set( 'rd_race_category', 'elf' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[VariableSystem.Set( 'rd_race_category', 'elf' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[VariableSystem.HasValue( 'rd_race_category', 'elf' )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[VariableSystem.HasValue( 'rd_race_category', 'elf' )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'dark_elf_rd_category_elf_name') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'dark_elf_rd_category_elf_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'dark_elf_rd_category_elf_name') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 250 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[VariableSystem.Set( 'rd_race_category', 'dark_elf' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[VariableSystem.Set( 'rd_race_category', 'dark_elf' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[VariableSystem.HasValue( 'rd_race_category', 'dark_elf' )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[VariableSystem.HasValue( 'rd_race_category', 'dark_elf' )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'dark_elf_rd_category_dark_name') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'dark_elf_rd_category_dark_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'dark_elf_rd_category_dark_name') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
 							}
 
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-
-								state = {
-									name = _mouse_press
-									# on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
-
+							container = {
+								size = { 310 690 }
 								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood') )]"
-	
-									elf_filter_button_small = {
-				
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
-											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-											}
+									direction = vertical
+									spacing = 5
+									visible = "[VariableSystem.HasValue( 'rd_race_category', 'elf' )]"
 
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_elf_blood') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_elf_blood_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf_blood' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_elf_blood').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_elf_blood') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_elf_blood_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-									
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_elf_blood') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-					
-								state = {
-									name = _mouse_press
-									# on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
 											}
-			
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_elf_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_elf') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_elf_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_elf') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
 											}
-			
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_high_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_high_elf_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_high_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_high_elf').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_high_elf') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_high_elf_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-							
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_high_elf') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
-
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_true_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_true_elf_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_true_elf' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_true_elf').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_true_elf') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_true_elf_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_true_elf') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_fae') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_fae_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_fae').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_fae') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_fae_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_fae') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
 											}
-			
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_fae_radiant') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_fae_radiant' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_fae_radiant').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_fae_radiant') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_fae_radiant_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-					
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_fae_radiant') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
-									
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_celestial') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_celestial_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_celestial').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_celestial') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_celestial_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_celestial') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
-									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
 								}
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
 											}
-			
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_seraphic_celestial') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_seraphic_celestial_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_seraphic_celestial' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_seraphic_celestial').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_seraphic_celestial') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_seraphic_celestial_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_seraphic_celestial') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar') )]"
-
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_eldar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_eldar_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_eldar' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_eldar').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_eldar') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_eldar_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-								
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_eldar') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-	
-							}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
-
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar') )]"
-	
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_maiar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_maiar_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_maiar' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_maiar').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_maiar') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_maiar_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_maiar') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
 									}
-								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
 
-								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
-								}
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
 
-								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar') )]"
-									
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
 											}
-			
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_valar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_valar_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
-										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' )]"
-										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_valar' ).GetValue, '(CFixedPoint)1' ) )]"
-										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
-										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_valar').GetIcon]"
-										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
 											text = "[Localize( 'game_concept_valar') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_valar_desc') ]"
-										}
-									}
-	
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_valar') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
 									}
 								}
-							}
-							button_standard_hover = {
-								layoutpolicy_horizontal = expanding
-								minimumsize = { 300 50% }
-								datacontext = "[GetScriptedGui( 'character_race_selection_button' )]"
-								
-								state = {
-									name = _mouse_press
-									on_finish = "[ScriptedGui.Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
 
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_light_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar' ), Not( EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) ) )]"
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_aratar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_aratar_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_aratar') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
 								}
-								state = {
-									name = _mouse_release
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-									on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+
 								}
 
 								flowcontainer = {
-									direction = horizontal
-									spacing = 10
-									enabled = "[Not( EqualTo_string(GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar') )]"
+									direction = vertical
+									spacing = 5
+									visible = "[VariableSystem.HasValue( 'rd_race_category', 'dark_elf' )]"
 
-									elf_filter_button_small = {
-										blockoverride "elf_click_button_effect" {
-											state = {
-												name = _mouse_press
-												on_finish = "[ScriptedGui.Execute( GuiScope.AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
 											}
-											state = {
-												name = _mouse_release
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[RulerDesignerWindow.ToggleShowAccessories]"
-												on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf_blood').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf_blood' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf_blood').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_elf_blood') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_elf_blood_desc') ]"
 											}
 										}
-										blockoverride "elf_filter_button_texture" {
-											texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+										text_single = {
+											text = "[Localize( 'game_concept_elf_blood') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
-										blockoverride "elf_filter_button_selected" {
-											enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_elf_desc') ]"
+											}
 										}
-										blockoverride "elf_icon_glow_enabled" {
-											visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' )]"
+										text_single = {
+											text = "[Localize( 'game_concept_elf') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
-										blockoverride "elf_icon_glow_disabled" {
-											visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_type_filter_aratar' ).GetValue, '(CFixedPoint)1' ) )]"
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_high_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'high_elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_high_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_high_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_high_elf_desc') ]"
+											}
 										}
-										blockoverride "elf_filter_button_tooltip" {
-											tooltipwidget = { override_race_tooltip = {} }
+										text_single = {
+											text = "[Localize( 'game_concept_high_elf') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
-										blockoverride "tooltip_race_icon_texture"  {
-											texture = "[GetCultureInnovationType('urf_phenotype_aratar').GetIcon]"
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_true_elf').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'true_elf' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_true_elf').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_true_elf') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_true_elf_desc') ]"
+											}
 										}
-										blockoverride "tooltip_race_icon_name" {
+										text_single = {
+											text = "[Localize( 'game_concept_true_elf') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_fae').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_fae').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_fae') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_fae_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_fae') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)6' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_fae_radiant').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'fae_radiant' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_fae_radiant').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_fae_radiant') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_fae_radiant_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_fae_radiant') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_celestial').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'celestial' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_celestial').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_celestial') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_celestial_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_celestial') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)8' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_seraphic_celestial').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'seraphic_celestial' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_seraphic_celestial').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_seraphic_celestial') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_seraphic_celestial_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_seraphic_celestial') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)9' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_eldar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'eldar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_eldar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_eldar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_eldar_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_eldar') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)10' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_maiar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'maiar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_maiar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_maiar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_maiar_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_maiar') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)11' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_valar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'valar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_valar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_valar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_valar_desc') ]"
+											}
+										}
+										text_single = {
+											text = "[Localize( 'game_concept_valar') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
+										}
+									}
+								}
+
+								button_standard_hover = {
+									layoutpolicy_horizontal = expanding
+									minimumsize = { 300 52 }
+
+									state = {
+										name = _mouse_press
+										on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+										on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+									}
+									state = {
+										name = _mouse_release
+										on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+										on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+									}
+
+									flowcontainer = {
+										direction = horizontal
+										spacing = 10
+
+										elf_filter_button_small = {
+											blockoverride "elf_click_button_effect" {
+												state = {
+													name = _mouse_press
+													on_finish = "[GetScriptedGui('character_race_selection_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'race_selection', MakeScopeValue( '(CFixedPoint)12' ) ).End )]"
+													on_finish = "[GetScriptedGui('dark_elf_rd_set_dark_button').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).End )]"
+												}
+												state = {
+													name = _mouse_release
+													on_finish = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]"
+													on_finish = "[VariableSystem.Clear( 'race_select_window_open' )]"
+												}
+											}
+											blockoverride "elf_filter_button_texture" {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_aratar').GetIcon]"
+											}
+											blockoverride "elf_filter_button_selected" {
+												enabled = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled" {
+												visible = "[And( EqualTo_string( GetGlobalVariable( 'ruler_designer_selected_race' ).GetFlagName, 'aratar' ), EqualTo_CFixedPoint( GetGlobalVariable( 'ruler_designer_dark_variant' ).GetValue, '(CFixedPoint)1' ) )]"
+											}
+											blockoverride "elf_icon_glow_enabled_config" {
+												glow_radius = 4
+												using = Dark_Elf_Purple
+												using = Glow_Standard
+											}
+											blockoverride "elf_icon_glow_disabled" {
+												visible = no
+											}
+											blockoverride "elf_filter_button_tooltip" {
+												tooltipwidget = { override_race_tooltip = {} }
+											}
+											blockoverride "tooltip_race_icon_texture"  {
+												texture = "[GetCultureInnovationType('urf_phenotype_dark_aratar').GetIcon]"
+											}
+											blockoverride "tooltip_race_icon_name" {
+												text = "[Localize( 'game_concept_dark_aratar') ]"
+											}
+											blockoverride "tooltip_race_icon_desc" {
+												text = "[Localize( 'game_concept_dark_aratar_desc') ]"
+											}
+										}
+										text_single = {
 											text = "[Localize( 'game_concept_aratar') ]"
-										}
-										blockoverride "tooltip_race_icon_desc" {
-											text = "[Localize( 'game_concept_aratar_desc') ]"
+											default_format = "#clickable"
+											using = Font_Size_Big
 										}
 									}
-									text_single = {
-										# layoutpolicy_horizontal = expanding
-										text = "[Localize( 'game_concept_aratar') ]"
-										default_format = "#clickable"
-										# autoresize = no
-										using = Font_Size_Big
-	
-									}
+								}
+
 								}
 							}
 						}
+						# End Dark Elf Beta
 					}
 				}
 
@@ -4713,6 +5633,8 @@ types ruler_designer_types
 				name = "template_button"
 				text = "[GeneTemplate.GetName]"
 				onclick = "[RulerDesignerWindow.OnMorphTemplateSelected( GeneTemplate.Self ) ]"
+				onclick = "[GetScriptedGui('dark_elf_rd_skin_variant_clicked').Execute( GuiScope.SetRoot( RulerDesignerWindow.GetCharacterToOverwrite.MakeScope ).AddScope( 'variant_kind', MakeScopeValue( Select_CFixedPoint( Or( Or( EqualTo_string( GeneTemplate.GetName, Localize('drow_skin_purple') ), EqualTo_string( GeneTemplate.GetName, Localize('drow_skin_grey') ) ), EqualTo_string( GeneTemplate.GetName, Localize('drow_skin_blue') ) ), '(CFixedPoint)1', Select_CFixedPoint( EqualTo_string( GeneTemplate.GetName, Localize('normal_skin') ), '(CFixedPoint)2', '(CFixedPoint)0' ) ) ) ).End )]" # Dark Elf Beta - base-tone bookkeeping
+				onclick = "[PdxGuiTriggerAllAnimations('dark_elf_rd_refresh')]" # Dark Elf Beta
 				down = "[RulerDesignerWindow.HasMorphTemplateSelected( GeneTemplate.Self ) ]"
 			}
 		}

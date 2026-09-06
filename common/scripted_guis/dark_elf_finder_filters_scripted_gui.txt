@@ -1,0 +1,79 @@
+﻿# Dark Elf Beta - elf finder filter buttons
+
+# Save-compat init: campaigns started before the DEB filters existed never ran
+# dark_elf_finder_game_start, so their variant/bloodline globals are missing
+# (buttons disabled, gates exclude everyone). Fired from the filter window's
+# on-create state (same pattern as Elf Destiny's elf_finder_sg_init in
+# elf_finder_external_integration.gui); the latch inside the effect makes it a
+# one-time no-op everywhere else.
+dark_elf_finder_sg_init = {
+	effect = {
+		dark_elf_finder_init_filters_effect = yes
+	}
+}
+
+# Light/dark variant filter: scope:elf_variant 1 = light, 2 = dark.
+dark_elf_variant_filter_button = {
+	saved_scopes = {
+		elf_variant
+	}
+
+	effect = {
+		debug_log = "SCRIPTED dark_elf_variant_filter_button"
+
+		if = {
+			limit = { scope:elf_variant = 1 }
+			toggle_elf_variant_filter = { VARIANT = light }
+		}
+		else_if = {
+			limit = { scope:elf_variant = 2 }
+			toggle_elf_variant_filter = { VARIANT = dark }
+		}
+
+		elf_finder_create_elf_list = yes
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}
+
+# DEB bloodline filters: scope:elf_bloodline 1-4 = drenmyre/rynvela/myrvessa/syldranis.
+# Reuses Elf Destiny's toggle_elf_bloodline_filter macro (global names follow the
+# elf_bloodline_filter_<name> convention).
+dark_elf_bloodline_filter_button = {
+	saved_scopes = {
+		elf_bloodline
+	}
+
+	effect = {
+		debug_log = "SCRIPTED dark_elf_bloodline_filter_button"
+
+		if = {
+			limit = { scope:elf_bloodline = 1 }
+			toggle_elf_bloodline_filter = { ELF_BLOODLINE = drenmyre }
+		}
+		else_if = {
+			limit = { scope:elf_bloodline = 2 }
+			toggle_elf_bloodline_filter = { ELF_BLOODLINE = rynvela }
+		}
+		else_if = {
+			limit = { scope:elf_bloodline = 3 }
+			toggle_elf_bloodline_filter = { ELF_BLOODLINE = myrvessa }
+		}
+		else_if = {
+			limit = { scope:elf_bloodline = 4 }
+			toggle_elf_bloodline_filter = { ELF_BLOODLINE = syldranis }
+		}
+
+		elf_finder_create_elf_list = yes
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}

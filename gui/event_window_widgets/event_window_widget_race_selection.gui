@@ -1,3 +1,5 @@
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's event_window_widget_race_selection.gui (full copy).
+# Change: adds a dark-variant toggle row (fenced # Dark Elf Beta) before the divider.
 vbox = {
 	name = "event_window_widget_race_selection"
 	layoutpolicy_horizontal = expanding
@@ -406,6 +408,40 @@ vbox = {
 		}
 
 	}
+
+	# Dark Elf Beta - dark variant toggle for the debug race menu
+	flowcontainer = {
+		spacing = 5
+
+		elf_filter_button_small = {
+			blockoverride "elf_click_button_effect" {
+				datacontext = "[GetScriptedGui( 'dark_elf_toggle_button' )]"
+				onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( EventWindowWidget.GetScope.sC('recipient').MakeScope ).End )]"
+			}
+			blockoverride "elf_filter_button_texture" {
+				texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+			}
+			blockoverride "elf_filter_button_selected" {
+				enabled = yes
+			}
+			blockoverride "elf_icon_glow_enabled" {
+				visible = no
+			}
+			blockoverride "elf_icon_glow_disabled" {
+				visible = no
+			}
+			blockoverride "tooltip_race_icon_texture"  {
+				texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+			}
+			blockoverride "tooltip_race_icon_name" {
+				text = "[Localize( 'dark_elf_toggle_button_name') ]"
+			}
+			blockoverride "tooltip_race_icon_desc" {
+				text = "[Localize( 'dark_elf_toggle_button_tooltip') ]"
+			}
+		}
+	}
+	# End Dark Elf Beta
 
 	divider_light = {
 		layoutpolicy_horizontal = expanding

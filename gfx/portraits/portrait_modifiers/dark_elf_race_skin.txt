@@ -1,0 +1,178 @@
+﻿# Dark Elf Beta
+# DNA-first dark elf skin rendering. A character's authored/inherited
+# gene_special_skin_color DNA is the default source of truth for their look.
+# The forced entries below apply ONLY to characters carrying
+# var:dark_elf_skin_color (flag:purple / flag:grey / flag:blue) - i.e. CONVERTS
+# whose DNA has no drow genes (story conversions, debug toggles, ruler-designer
+# picks made without choosing a skin variant). The variable is set at conversion
+# by dark_elf_init_skin_color_effect and inherited 50/50 at birth, so convert
+# bloodlines breed true down the line. Forced entries render across the full
+# curve band (range 0.0-1.0, seeded per character) and pin base skin/hair/eye
+# coordinates to 0,0 so the drow shift lands in its intended palette.
+# Everyone without the variable renders their DNA untouched.
+
+dark_elf_race_skin = {
+    usage = game
+
+    dark_elf_skin_purple = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_skin_color
+                template = drow_skin_purple
+                range = { 0.0 1.0 }
+            }
+            color = {
+                gene = skin_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = hair_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = eye_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                var:dark_elf_skin_color = flag:purple
+            }
+        }
+    }
+
+    dark_elf_skin_grey = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_skin_color
+                template = drow_skin_grey
+                range = { 0.0 1.0 }
+            }
+            color = {
+                gene = skin_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = hair_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = eye_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                var:dark_elf_skin_color = flag:grey
+            }
+        }
+    }
+
+    dark_elf_skin_blue = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_skin_color
+                template = drow_skin_blue
+                range = { 0.0 1.0 }
+            }
+            color = {
+                gene = skin_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = hair_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = eye_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                var:dark_elf_skin_color = flag:blue
+            }
+        }
+    }
+
+    # Base-tone pin only: designed characters (and their descendants) who carry
+    # var:dark_elf_base_tone get the 0,0 base pinning while their own DNA skin
+    # gene renders. Loses to the forced color entries (999) when a convert
+    # carries both variables - those already include the same pins.
+    dark_elf_base_tone_pin = {
+        dna_modifiers = {
+            color = {
+                gene = skin_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = hair_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+            color = {
+                gene = eye_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 500
+                has_variable = dark_elf_base_tone
+            }
+        }
+    }
+
+    # No-op winner for everyone else (mode = add, value = 0 changes nothing).
+    dark_elf_skin_unchanged = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_skin_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}

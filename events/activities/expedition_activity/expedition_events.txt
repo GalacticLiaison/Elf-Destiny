@@ -1,4 +1,10 @@
-﻿namespace = expedition
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny events/activities/expedition_activity/expedition_events.txt (full copy).
+# Change vs upstream: expedition.00691 no longer transforms the party; it chains into
+# dark_elf_story.0001 (the Spark judges dark vs light, see events/dark_elf_judgment_events.txt),
+# which transforms the party and then continues to expedition.00692.
+# Re-sync with upstream on every compat pass.
+
+namespace = expedition
 
 expedition.001 = { # Set Up Base Camp
     type = activity_event
@@ -600,6 +606,8 @@ expedition.0069 = { # Find Sigil Of The Realm Lord
 }
 
 # Flash of light => you are transformed => press continue
+# Dark Elf Beta: transformation moved into dark_elf_story.0001 (the Spark's judgment),
+# which fires next and then continues to expedition.00692.
 expedition.00691 = {
     type = activity_event
 
@@ -621,35 +629,7 @@ expedition.00691 = {
     option = {
         name = expedition.00691.ok
 
-        custom_tooltip = {
-            text = all_party_members_transformed_into_elves
-            scope:activity = {
-                every_attending_character = {
-                    if = {
-                        limit = {
-                            OR = {
-                                is_any_elf_type = no
-                                is_elf_blood = yes
-                            }
-                        }
-                        add_character_flag = race_elf
-                        urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-                        add_trait = magic_talent_1
-                    }
-                }
-
-                # Find Julia
-                get_julia_melwood_effect = yes
-                scope:archeologist = {
-                    add_character_flag = race_elf
-                    urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-                    add_trait = magic_talent_1
-                }
-
-            }
-        }
-
-        trigger_event = expedition.00692
+        trigger_event = dark_elf_story.0001
     }
 }
 
@@ -692,6 +672,16 @@ expedition.00692 = { # Convert To Elf Culture?
         }
 
         trigger_event = expedition.00693
+    }
+
+    # Dark Elf Beta: adopt one of the established elven cultures instead
+    # (light or dark list depending on what the party became, dark_elf_story.0003)
+    option = {
+        name = dark_elf_story.00692.adopt
+
+        custom_tooltip = dark_elf_adopt_culture_tt
+
+        trigger_event = dark_elf_story.0003
     }
 }
 

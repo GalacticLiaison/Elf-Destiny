@@ -1,0 +1,255 @@
+﻿# Dark Elf Beta
+# Core dark elf strain machinery. var:dark_elf_strain (0-100, absent = light) is the
+# heritable dark/light discriminator; the racial tier still comes from var:urf_genotype_elf.
+# Dark vs light is resolved at band assignment in urf_elf_race_set_sub (see the
+# Dark Elf Beta override of 0lib_urf_race_init_effects.txt).
+
+# Read the dark race_ flags into the strain before urf_set_genotype_elf consumes them.
+# An existing strain is never downgraded by a light-flag re-init - this is what keeps
+# the ascension ritual dark-preserving.
+dark_elf_set_strain_from_flags_effect = {
+    if = {
+        limit = { has_any_dark_elf_flag_trigger = yes }
+        set_variable = { name = dark_elf_strain value = 100 }
+    }
+    else_if = {
+        limit = { NOT = { has_variable = dark_elf_strain } }
+        set_variable = { name = dark_elf_strain value = 0 }
+    }
+}
+
+# Mean-of-parents inheritance, mirroring urf_inherit_genotype_assignment: a missing
+# parent contributes 0, and the effect only runs if either parent carries the variable.
+# An exact 50 tie is resolved once by coin flip and persisted (49/51) so that later
+# re-inits (ascension, debug re-band) stay stable.
+dark_elf_inherit_strain_effect = {
+    if = {
+        limit = {
+            OR = {
+                $MOTHER$ = { has_variable = dark_elf_strain }
+                $FATHER$ = { has_variable = dark_elf_strain }
+            }
+        }
+        $CHILD$ = {
+            set_variable = {
+                name = dark_elf_strain
+                value = {
+                    value = 0
+                    if = {
+                        limit = {
+                            $MOTHER$ = { has_variable = dark_elf_strain }
+                        }
+                        add = $MOTHER$.var:dark_elf_strain
+                    }
+                    else = {
+                        add = 0
+                    }
+                    if = {
+                        limit = {
+                            $FATHER$ = { has_variable = dark_elf_strain }
+                        }
+                        add = $FATHER$.var:dark_elf_strain
+                    }
+                    else = {
+                        add = 0
+                    }
+                    divide = 2
+                }
+            }
+            if = {
+                limit = { var:dark_elf_strain = 50 }
+                random_list = {
+                    50 = {
+                        set_variable = { name = dark_elf_strain value = 51 }
+                    }
+                    50 = {
+                        set_variable = { name = dark_elf_strain value = 49 }
+                    }
+                }
+            }
+        }
+    }
+}
+
+# --- Skin color strain -------------------------------------------------------
+# var:dark_elf_skin_color (flag:purple / flag:grey / flag:blue) is the single
+# source of truth for a dark elf's skin tone. The deterministic entries in
+# gfx/portraits/portrait_modifiers/dark_elf_race_skin.txt render it. Regional
+# rule: Dokkalfar are grey; Drow are an even purple/blue mix (keep in sync with
+# the ethnicities in common/culture/cultures/dark_elf_cultures.txt).
+
+# Culture-based init: only fills the variable when missing. DNA-FIRST: this is
+# called ONLY at conversion points (the debug toggle and future story
+# conversions) - NOT for every dark phenotype, and NOT for ruler-designer
+# characters (their designed DNA is their look, drow genes or not). A character
+# carrying var:dark_elf_skin_color is by definition a convert whose DNA lacks
+# drow genes; everyone else renders their DNA.
+# Story authors: call this (or set the variable explicitly) whenever an effect
+# turns a character into a dark elf.
+dark_elf_init_skin_color_effect = {
+    if = {
+        limit = { NOT = { has_variable = dark_elf_skin_color } }
+        if = {
+            limit = { culture = culture:elf_culture_dokkalfar }
+            set_variable = { name = dark_elf_skin_color value = flag:grey }
+        }
+        else = {
+            random_list = {
+                50 = { set_variable = { name = dark_elf_skin_color value = flag:purple } }
+                50 = { set_variable = { name = dark_elf_skin_color value = flag:blue } }
+            }
+        }
+    }
+}
+
+# Hair counterpart to the skin init: converts have no drow hair genes either, so
+# each transformee rolls one of the three drow hair tints. Only fills when
+# missing. Call at every conversion point alongside the skin color init.
+dark_elf_init_hair_color_effect = {
+    if = {
+        limit = { NOT = { has_variable = dark_elf_hair_color } }
+        random_list = {
+            34 = { set_variable = { name = dark_elf_hair_color value = flag:white } }
+            33 = { set_variable = { name = dark_elf_hair_color value = flag:purple } }
+            33 = { set_variable = { name = dark_elf_hair_color value = flag:blue } }
+        }
+    }
+}
+
+# Birth inheritance: the child takes one parent's color, 50/50 when both carry
+# one (no mutation - colors only enter a lineage by marriage). Light children of
+# dark ancestry carry the color dormantly, so a dark grandchild can resurface it.
+dark_elf_inherit_skin_color_effect = {
+    if = {
+        limit = {
+            $MOTHER$ = { has_variable = dark_elf_skin_color }
+            $FATHER$ = { has_variable = dark_elf_skin_color }
+        }
+        $CHILD$ = {
+            random_list = {
+                50 = { set_variable = { name = dark_elf_skin_color value = $MOTHER$.var:dark_elf_skin_color } }
+                50 = { set_variable = { name = dark_elf_skin_color value = $FATHER$.var:dark_elf_skin_color } }
+            }
+        }
+    }
+    else_if = {
+        limit = { $MOTHER$ = { has_variable = dark_elf_skin_color } }
+        $CHILD$ = {
+            set_variable = { name = dark_elf_skin_color value = $MOTHER$.var:dark_elf_skin_color }
+        }
+    }
+    else_if = {
+        limit = { $FATHER$ = { has_variable = dark_elf_skin_color } }
+        $CHILD$ = {
+            set_variable = { name = dark_elf_skin_color value = $FATHER$.var:dark_elf_skin_color }
+        }
+    }
+}
+
+# Hair counterpart to the skin inheritance, same rules.
+dark_elf_inherit_hair_color_effect = {
+    if = {
+        limit = {
+            $MOTHER$ = { has_variable = dark_elf_hair_color }
+            $FATHER$ = { has_variable = dark_elf_hair_color }
+        }
+        $CHILD$ = {
+            random_list = {
+                50 = { set_variable = { name = dark_elf_hair_color value = $MOTHER$.var:dark_elf_hair_color } }
+                50 = { set_variable = { name = dark_elf_hair_color value = $FATHER$.var:dark_elf_hair_color } }
+            }
+        }
+    }
+    else_if = {
+        limit = { $MOTHER$ = { has_variable = dark_elf_hair_color } }
+        $CHILD$ = {
+            set_variable = { name = dark_elf_hair_color value = $MOTHER$.var:dark_elf_hair_color }
+        }
+    }
+    else_if = {
+        limit = { $FATHER$ = { has_variable = dark_elf_hair_color } }
+        $CHILD$ = {
+            set_variable = { name = dark_elf_hair_color value = $FATHER$.var:dark_elf_hair_color }
+        }
+    }
+}
+
+# --- Base tone pin -----------------------------------------------------------
+# var:dark_elf_base_tone marks characters whose base skin/hair/eye colors should
+# be pinned to 0,0 at render time (the "Base Tone Applied" treatment) because
+# their DNA base colors would otherwise skew the drow HSV shift too dark. Set on
+# ruler-designer characters who pick a drow skin variant (appearance-editor click
+# hook + game-start fixup) and inherited by ALL their children - a pinned child
+# without drow genes just reads as a pale, platinum-haired drow-blooded elf.
+# Converts don't need it: their forced color entries carry the same pins.
+dark_elf_inherit_base_tone_effect = {
+    if = {
+        limit = {
+            OR = {
+                $MOTHER$ = { has_variable = dark_elf_base_tone }
+                $FATHER$ = { has_variable = dark_elf_base_tone }
+            }
+        }
+        $CHILD$ = {
+            set_variable = { name = dark_elf_base_tone value = yes }
+        }
+    }
+}
+
+# Debug-menu toggle: flip an elf between the dark and light variant of their current
+# tier. The genotype persists, so clearing the band flag and re-running sub_init
+# re-assigns the same tier under the new strain.
+dark_elf_toggle_dark_variant_effect = {
+    if = {
+        limit = { is_any_elf_type = yes }
+        if = {
+            limit = { dark_elf_strain_is_dark_trigger = yes }
+            set_variable = { name = dark_elf_strain value = 0 }
+        }
+        else = {
+            set_variable = { name = dark_elf_strain value = 100 }
+            # Conversion point: a toggled character has no drow DNA to show
+            dark_elf_init_skin_color_effect = yes
+            dark_elf_init_hair_color_effect = yes
+        }
+        remove_character_flag = urf_sub_race_set
+        remove_racial_modifier = yes
+        urf_elf_race_sub_init = yes
+        set_appropriate_elf_immortality_age = yes
+    }
+}
+
+# Ruler-designer fixup, run from on_game_start_after_lobby when the player picked a
+# dark tier in the designer. Order-independent w.r.t. Elf Destiny's merged after-lobby
+# effects (which apply the RD race via a capital-county variable to the LANDED holder,
+# so no is_landed/elf-state precondition can be relied on here):
+# - strain is set unconditionally; a later race init preserves it
+#   (dark_elf_set_strain_from_flags_effect never downgrades an existing strain)
+# - if the character is already an initialized elf, re-band to the dark phenotype now
+# The dark-variant global can only be 1 when the last RD selection was a dark tier.
+dark_elf_apply_rd_strain_effect = {
+    debug_log = "DARKELF dark_elf_apply_rd_strain_effect ran"
+    set_variable = { name = dark_elf_strain value = 100 }
+    # DNA-first: no skin COLOR handling here. But if the player picked a drow
+    # skin variant in the appearance editor (tracked by the click-hook global),
+    # re-apply the base-tone pin var - guaranteed to survive the finalize
+    # overwrite regardless of what happens to editor-time variables.
+    if = {
+        limit = {
+            has_global_variable = ruler_designer_dark_skin_picked
+            global_var:ruler_designer_dark_skin_picked = 1
+        }
+        set_variable = { name = dark_elf_base_tone value = yes }
+    }
+    if = {
+        limit = { has_global_variable = ruler_designer_dark_skin_picked }
+        remove_global_variable = ruler_designer_dark_skin_picked
+    }
+    if = {
+        limit = { is_any_elf_type = yes }
+        remove_character_flag = urf_sub_race_set
+        remove_racial_modifier = yes
+        urf_elf_race_sub_init = yes
+        set_appropriate_elf_immortality_age = yes
+    }
+}

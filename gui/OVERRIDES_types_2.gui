@@ -1,0 +1,152 @@
+﻿template Dark_Elf_Purple
+{
+    # color = { 0.7 0.5 0.7 1 }
+    color = { 0.5 0 1 1 }
+    # color = { 0.7 0.5 0.7 0.5 }
+}
+
+types OVERRIDE_2
+{
+	type icon_trait = container
+	{
+		block "faith_context"
+		{
+			datacontext = "[Character.GetFaith]"
+		}
+
+		trait_icon_base = {
+			name = "normal_trait"
+			visible = "[Not( Or( Or( Or( Trait.IsGenetic, Trait.IsInheritable ), Faith.IsTraitVirtue( Trait.Self ) ), Faith.IsTraitSin( Trait.Self ) ) )]"
+
+			blockoverride "glow"
+			{
+				block "trait_glow"
+				{
+				}
+			}
+		}
+
+		trait_icon_base = {
+			name = "dark_elf"
+			datacontext = "[GetScriptedGui( 'dark_elf_trait_glow' )]"
+			# visible = "[ScriptedGui.IsShown(Trait.MakeScope)]"
+			visible = "[ScriptedGui.IsShown( GuiScope.SetRoot( Trait.MakeScope ).End )]"
+			# visible = no
+
+			blockoverride "glow"
+			{
+				block "trait_glow"
+				{
+					glow = {
+						using = Dark_Elf_Purple
+						# using = Glow_Standard
+						block "glow_radius"
+						{
+							glow_radius = 5
+						}
+
+						glow_alpha = 0
+
+
+						glow_generation_rules= {
+							glow_alpha_mask = 0
+							glow_blur_passes = 10
+							glow_texture_downscale = 5.5f
+							glow_ignore_inside_pixels = yes
+						}
+					}
+				}
+			}
+		}
+
+		trait_icon_base = {
+			name = "inheritable_trait"
+			# visible = "[Or( Trait.IsGenetic, Trait.IsInheritable )]"
+			datacontext = "[GetScriptedGui( 'dark_elf_trait_glow' )]"
+			visible = "[And(Not(ScriptedGui.IsShown( GuiScope.SetRoot( Trait.MakeScope ).End )), Or( Trait.IsGenetic, Trait.IsInheritable ))]"
+
+			blockoverride "glow"
+			{
+				block "trait_glow"
+				{
+					glow = {
+						using = Color_Blue
+						using = Glow_Standard
+						block "glow_radius"
+						{
+							glow_radius = 5
+						}
+					}
+				}
+			}
+		}
+		trait_icon_base = {
+			name = "virtue_trait"
+			visible = "[Faith.IsTraitVirtue( Trait.Self )]"
+
+			blockoverride "glow"
+			{
+				block "trait_glow"
+				{
+					glow = {
+						using = Color_Green
+						using = Glow_Standard
+						block "glow_radius"
+						{
+							glow_radius = 5
+						}
+					}
+				}
+			}
+		}
+		trait_icon_base = {
+			name = "sin_trait"
+			visible = "[Faith.IsTraitSin( Trait.Self )]"
+
+			blockoverride "glow"
+			{
+				block "trait_glow"
+				{
+					glow = {
+						using = Color_Red
+						using = Glow_Standard
+						block "glow_radius"
+						{
+							glow_radius = 5
+						}
+					}
+				}
+			}
+		}
+
+		#icon = {
+		#	visible = "[Or(Trait.IsGenetic, Trait.IsInheritable)]"
+		#	parentanchor = right
+		#	position = { 2 0 }
+		#	texture = "gfx/interface/icons/traits/congenital.dds"
+		#}
+
+		# icon = {
+		# 	name = "overlay"
+		# 	alwaystransparent = yes
+		# 	texture = "[Trait.GetIconOverlayForLocalPlayer]"
+
+		# 	block "overlay_position"
+		# 	{
+		# 		position = { -10 -10 }
+		# 	}
+
+		# 	block "overlay_anchor"
+		# 	{
+		# 		parentanchor = "bottom|right"
+		# 		widgetanchor = "vcenter|hcenter"
+		# 	}
+
+		# 	block "overlay_size"
+		# 	{
+		# 		size = { 24 24 }
+		# 	}
+		# }
+	}
+}
+

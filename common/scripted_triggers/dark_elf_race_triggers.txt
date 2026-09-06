@@ -1,0 +1,91 @@
+﻿# Dark Elf Beta
+# Dark elf discriminator triggers. A character is a dark elf when they carry a
+# urf_phenotype_dark_<tier>_modifier; var:dark_elf_strain (0-100, absent = light)
+# decides dark vs light at racial band assignment.
+
+is_dark_elf_blood = {
+    has_character_modifier = urf_phenotype_dark_elf_blood_modifier
+}
+
+is_dark_elf = {
+    has_character_modifier = urf_phenotype_dark_elf_modifier
+}
+
+is_dark_high_elf = {
+    has_character_modifier = urf_phenotype_dark_high_elf_modifier
+}
+
+is_dark_true_elf = {
+    has_character_modifier = urf_phenotype_dark_true_elf_modifier
+}
+
+is_dark_fae = {
+    has_character_modifier = urf_phenotype_dark_fae_modifier
+}
+
+is_dark_fae_radiant = {
+    has_character_modifier = urf_phenotype_dark_fae_radiant_modifier
+}
+
+is_dark_celestial = {
+    has_character_modifier = urf_phenotype_dark_celestial_modifier
+}
+
+is_dark_seraphic_celestial = {
+    has_character_modifier = urf_phenotype_dark_seraphic_celestial_modifier
+}
+
+is_dark_eldar = {
+    has_character_modifier = urf_phenotype_dark_eldar_modifier
+}
+
+is_dark_maiar = {
+    has_character_modifier = urf_phenotype_dark_maiar_modifier
+}
+
+is_dark_valar = {
+    has_character_modifier = urf_phenotype_dark_valar_modifier
+}
+
+is_dark_aratar = {
+    has_character_modifier = urf_phenotype_dark_aratar_modifier
+}
+
+is_dark_elf_type = {
+    OR = {
+        is_dark_elf_blood = yes
+        is_dark_elf = yes
+        is_dark_high_elf = yes
+        is_dark_true_elf = yes
+        is_dark_fae = yes
+        is_dark_fae_radiant = yes
+        is_dark_celestial = yes
+        is_dark_seraphic_celestial = yes
+        is_dark_eldar = yes
+        is_dark_maiar = yes
+        is_dark_valar = yes
+        is_dark_aratar = yes
+    }
+}
+
+has_any_dark_elf_flag_trigger = {
+    OR = {
+        has_character_flag = race_dark_elf_blood
+        has_character_flag = race_dark_elf
+        has_character_flag = race_dark_high_elf
+        has_character_flag = race_dark_true_elf
+        has_character_flag = race_dark_fae
+        has_character_flag = race_dark_fae_radiant
+        has_character_flag = race_dark_celestial
+        has_character_flag = race_dark_seraphic_celestial
+        has_character_flag = race_dark_eldar
+        has_character_flag = race_dark_maiar
+        has_character_flag = race_dark_valar
+        has_character_flag = race_dark_aratar
+    }
+}
+
+dark_elf_strain_is_dark_trigger = {
+    exists = var:dark_elf_strain
+    var:dark_elf_strain >= 50
+}

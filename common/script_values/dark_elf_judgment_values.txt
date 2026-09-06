@@ -1,0 +1,76 @@
+﻿# Dark Elf Beta
+# The Spark's judgment score for the sigil transformation (dark_elf_story.0001).
+# Positive = the soul reads as dusk-touched (dark elf), negative = dawn-touched
+# (standard elf). Zero is a true tie, coin-flipped in dark_elf_spark_judgment_effect.
+
+dark_elf_judgment_score = {
+	value = 0
+
+	# --- Dusk: cruelty, guile, and fear ---
+	if = { limit = { has_trait = sadistic } add = 4 }
+	if = { limit = { has_trait = callous } add = 2 }
+	if = { limit = { has_trait = vengeful } add = 2 }
+	if = { limit = { has_trait = deceitful } add = 2 }
+	if = { limit = { has_trait = wrathful } add = 1 }
+	if = { limit = { has_trait = paranoid } add = 1 }
+	if = { limit = { has_trait = arrogant } add = 1 }
+	if = { limit = { has_trait = greedy } add = 1 }
+	if = { limit = { has_trait = ambitious } add = 1 }
+	if = { limit = { has_trait = cynical } add = 1 }
+	if = { limit = { has_trait = arbitrary } add = 1 }
+
+	if = { limit = { has_trait = torturer } add = 3 }
+	if = { limit = { has_trait = schemer } add = 2 }
+	if = { limit = { has_trait = seducer } add = 1 }
+	if = { limit = { has_trait = education_intrigue_3 } add = 1 }
+	if = { limit = { has_trait = education_intrigue_4 } add = 2 }
+	if = {
+		limit = {
+			OR = {
+				has_focus = intrigue_skulduggery_focus
+				has_focus = intrigue_temptation_focus
+				has_focus = intrigue_intimidation_focus
+			}
+		}
+		add = 2
+	}
+	if = { limit = { dread >= 25 } add = 1 }
+	if = { limit = { dread >= 60 } add = 1 }
+
+	# --- Dawn: mercy, honor, and open hands ---
+	if = { limit = { has_trait = compassionate } add = -3 }
+	if = { limit = { has_trait = forgiving } add = -2 }
+	if = { limit = { has_trait = honest } add = -2 }
+	if = { limit = { has_trait = generous } add = -1 }
+	if = { limit = { has_trait = humble } add = -1 }
+	if = { limit = { has_trait = patient } add = -1 }
+	if = { limit = { has_trait = calm } add = -1 }
+	if = { limit = { has_trait = content } add = -1 }
+	if = { limit = { has_trait = trusting } add = -1 }
+	if = { limit = { has_trait = just } add = -1 }
+
+	if = { limit = { has_trait = diplomat } add = -2 }
+	if = { limit = { has_trait = august } add = -1 }
+	if = { limit = { has_trait = family_first } add = -1 }
+	if = { limit = { has_trait = scholar } add = -1 }
+	if = { limit = { has_trait = theologian } add = -1 }
+	if = { limit = { has_trait = whole_of_body } add = -1 }
+	if = { limit = { has_trait = gallant } add = -1 }
+	if = { limit = { has_trait = education_diplomacy_3 } add = -1 }
+	if = { limit = { has_trait = education_diplomacy_4 } add = -2 }
+	if = { limit = { has_trait = education_learning_3 } add = -1 }
+	if = { limit = { has_trait = education_learning_4 } add = -2 }
+	if = {
+		limit = {
+			OR = {
+				has_focus = diplomacy_foreign_affairs_focus
+				has_focus = diplomacy_majesty_focus
+				has_focus = diplomacy_family_focus
+				has_focus = learning_medicine_focus
+				has_focus = learning_scholarship_focus
+				has_focus = learning_theology_focus
+			}
+		}
+		add = -2
+	}
+}

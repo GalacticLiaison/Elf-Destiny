@@ -1,0 +1,133 @@
+﻿# Dark Elf Beta
+# Toggles the four dark elf bloodline traits from the debug-menu trait-selection
+# widget (elf_destiny_debug_menu.022 -> event_window_widget_trait_selection.gui).
+# Mirrors Elf Destiny's elf_bloodline_trait_selection_button but for the dark
+# houses; additive (a NEW scripted gui), so ED's version is left untouched.
+# The widget's Dark Elf Bloodlines row passes trait = 1..4 to this.
+dark_elf_bloodline_trait_selection_button = {
+	scope = character
+	saved_scopes = { trait }
+
+	effect = {
+		if = {
+			limit = { scope:trait = 1 }
+			if = {
+				limit = { has_trait = royal_elf_drenmyre }
+				remove_trait = royal_elf_drenmyre
+			}
+			else = {
+				add_trait = royal_elf_drenmyre
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			if = {
+				limit = { has_trait = royal_elf_rynvela }
+				remove_trait = royal_elf_rynvela
+			}
+			else = {
+				add_trait = royal_elf_rynvela
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			if = {
+				limit = { has_trait = royal_elf_myrvessa }
+				remove_trait = royal_elf_myrvessa
+			}
+			else = {
+				add_trait = royal_elf_myrvessa
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 4 }
+			if = {
+				limit = { has_trait = royal_elf_syldranis }
+				remove_trait = royal_elf_syldranis
+			}
+			else = {
+				add_trait = royal_elf_syldranis
+			}
+		}
+	}
+}
+
+# Unconventional beauty tiers for the debug-menu trait widget (value 1-3).
+# Simple toggles; cross-variant exclusivity is handled by the traits' own
+# `opposites` blocks, so no manual cross-removes are needed.
+dark_elf_unconventional_beauty_selection_button = {
+	scope = character
+	saved_scopes = { trait }
+
+	effect = {
+		if = {
+			limit = { scope:trait = 1 }
+			if = {
+				limit = { has_trait = unconventional_beauty_good_1 }
+				remove_trait = unconventional_beauty_good_1
+			}
+			else = {
+				add_trait = unconventional_beauty_good_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			if = {
+				limit = { has_trait = unconventional_beauty_good_2 }
+				remove_trait = unconventional_beauty_good_2
+			}
+			else = {
+				add_trait = unconventional_beauty_good_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			if = {
+				limit = { has_trait = unconventional_beauty_good_3 }
+				remove_trait = unconventional_beauty_good_3
+			}
+			else = {
+				add_trait = unconventional_beauty_good_3
+			}
+		}
+	}
+}
+
+# Exotic beauty tiers for the debug-menu trait widget (value 1-3).
+dark_elf_exotic_beauty_selection_button = {
+	scope = character
+	saved_scopes = { trait }
+
+	effect = {
+		if = {
+			limit = { scope:trait = 1 }
+			if = {
+				limit = { has_trait = exotic_beauty_good_1 }
+				remove_trait = exotic_beauty_good_1
+			}
+			else = {
+				add_trait = exotic_beauty_good_1
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 2 }
+			if = {
+				limit = { has_trait = exotic_beauty_good_2 }
+				remove_trait = exotic_beauty_good_2
+			}
+			else = {
+				add_trait = exotic_beauty_good_2
+			}
+		}
+		else_if = {
+			limit = { scope:trait = 3 }
+			if = {
+				limit = { has_trait = exotic_beauty_good_3 }
+				remove_trait = exotic_beauty_good_3
+			}
+			else = {
+				add_trait = exotic_beauty_good_3
+			}
+		}
+	}
+}

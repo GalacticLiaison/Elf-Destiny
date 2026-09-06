@@ -1,4 +1,10 @@
-﻿elf_finder_create_elf_list = {
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's elf_finder_main.txt (full copy).
+# Changes: tier gates use the shared is_<tier> triggers (dark elves were
+# invisible to every tier filter before); new light/dark variant gates; four
+# DEB bloodline gates. no_bloodline works via the extended
+# is_of_any_royal_elf_bloodline trigger.
+
+elf_finder_create_elf_list = {
     if = {
         limit = {
             NOT = { has_global_variable = is_elf_finder_building_list }
@@ -196,7 +202,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:elf_blood
+                                is_elf_blood = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -206,7 +212,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:elf
+                                is_elf = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -216,7 +222,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:high_elf
+                                is_high_elf = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -226,7 +232,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:true_elf
+                                is_true_elf = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -236,7 +242,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:fae
+                                is_fae = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -246,7 +252,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:fae_radiant
+                                is_fae_radiant = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -256,7 +262,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:celestial
+                                is_celestial = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -266,7 +272,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:seraphic_celestial
+                                is_seraphic_celestial = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -276,7 +282,7 @@
                                 }
                             }
                             NOT = {   
-                                var:urf_phenotype = flag:eldar
+                                is_eldar = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -286,7 +292,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:maiar
+                                is_maiar = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -296,7 +302,7 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:valar
+                                is_valar = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
                         trigger_if = {
@@ -306,10 +312,28 @@
                                 }
                             }
                             NOT = {
-                                var:urf_phenotype = flag:aratar
+                                is_aratar = yes # Dark Elf Beta - shared trigger matches dark variants
                             }
                         }
     
+                        ### DARK ELF VARIANT ### (Dark Elf Beta)
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_variant_filter_light
+                                }
+                            }
+                            is_dark_elf_type = yes
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_variant_filter_dark
+                                }
+                            }
+                            is_dark_elf_type = no
+                        }
+
                         ### DYNASTY ###
                         trigger_if = {
                             limit = {
@@ -481,6 +505,47 @@
                             }
                             NOT = {
                                 has_trait = royal_elf_lormelis
+                            }
+                        }
+                        ### Dark Elf Beta bloodlines ###
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_drenmyre
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_drenmyre
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_rynvela
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_rynvela
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_myrvessa
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_myrvessa
+                            }
+                        }
+                        trigger_if = {
+                            limit = {
+                                NOT = {
+                                    exists = global_var:elf_bloodline_filter_syldranis
+                                }
+                            }
+                            NOT = {
+                                has_trait = royal_elf_syldranis
                             }
                         }
                         trigger_if = {
