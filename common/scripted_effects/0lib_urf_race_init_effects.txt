@@ -1,4 +1,8 @@
-﻿urf_for_all_phenotypes = {
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's 0lib_urf_race_init_effects.txt (full copy).
+# Changes: urf_elf_race_set_sub branches on dark_elf_strain to assign the dark
+# phenotype/modifier of the matched band; urf_remove_modifier clears dark modifiers.
+
+urf_for_all_phenotypes = {
     #Elf Destiny
     if = {
         limit = {
@@ -92,8 +96,17 @@ urf_elf_race_set_sub = {
             var:urf_genotype_elf < half_$SUB_RACE_2$_genetic_threshold_value
         }
 
-        urf_set_race_phenotype = { RACE_PHENOTYPE = $SUB_RACE_1$ }
-        urf_base_modifier_init = { RACE = $SUB_RACE_1$ }
+        # Dark Elf Beta - the strain decides dark vs light phenotype for the matched band
+        if = {
+            limit = { dark_elf_strain_is_dark_trigger = yes }
+            urf_set_race_phenotype = { RACE_PHENOTYPE = dark_$SUB_RACE_1$ }
+            urf_base_modifier_init = { RACE = dark_$SUB_RACE_1$ }
+        }
+        else = {
+            urf_set_race_phenotype = { RACE_PHENOTYPE = $SUB_RACE_1$ }
+            urf_base_modifier_init = { RACE = $SUB_RACE_1$ }
+        }
+        # End Dark Elf Beta
 
         if = {
             limit = {
@@ -130,6 +143,20 @@ urf_remove_modifier = {
     remove_character_modifier = urf_phenotype_maiar_modifier
     remove_character_modifier = urf_phenotype_valar_modifier
     remove_character_modifier = urf_phenotype_aratar_modifier
+    # Dark Elf Beta
+    remove_character_modifier = urf_phenotype_dark_elf_blood_modifier
+    remove_character_modifier = urf_phenotype_dark_elf_modifier
+    remove_character_modifier = urf_phenotype_dark_high_elf_modifier
+    remove_character_modifier = urf_phenotype_dark_true_elf_modifier
+    remove_character_modifier = urf_phenotype_dark_fae_modifier
+    remove_character_modifier = urf_phenotype_dark_fae_radiant_modifier
+    remove_character_modifier = urf_phenotype_dark_celestial_modifier
+    remove_character_modifier = urf_phenotype_dark_seraphic_celestial_modifier
+    remove_character_modifier = urf_phenotype_dark_eldar_modifier
+    remove_character_modifier = urf_phenotype_dark_maiar_modifier
+    remove_character_modifier = urf_phenotype_dark_valar_modifier
+    remove_character_modifier = urf_phenotype_dark_aratar_modifier
+    # End Dark Elf Beta
 }
 
 # End Elf Destiny

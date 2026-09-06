@@ -1,0 +1,102 @@
+﻿# Dark Elf Beta
+# Entry-point toggle buttons for the dark elf racial variant.
+
+# Debug menu: flip the target character between the dark and light variant of
+# their current elf tier (no-op for non-elves).
+dark_elf_toggle_button = {
+	scope = character
+
+	effect = {
+		debug_log = "SCRIPTED dark_elf_toggle_button GUI"
+		dark_elf_toggle_dark_variant_effect = yes
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}
+
+# GUI visibility probe: is this character a dark elf variant? Used by the race-icon
+# purple glow (ed_window_character.gui / elf_finder_character_presentation.gui
+# overrides), mirroring the dark_elf_trait_glow pattern.
+dark_elf_race_glow = {
+	scope = character
+
+	is_shown = {
+		is_dark_elf_type = yes
+	}
+}
+
+# Ruler designer: explicit dark/light variant selection, applied at game start by
+# dark_elf_ruler_designer_fixup (see dark_elf_on_actions.txt). The tier rows in the
+# reworked category -> tier race list call one of these alongside Elf Destiny's
+# character_race_selection_button. Stored as 1/0 so the GUI can bind glow to
+# EqualTo_CFixedPoint.
+dark_elf_rd_set_dark_button = {
+	scope = character
+
+	effect = {
+		debug_log = "SCRIPTED dark_elf_rd_set_dark_button GUI"
+		set_global_variable = { name = ruler_designer_dark_variant value = 1 }
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}
+
+# Appearance-editor hook: fired by every morph-template button in the ruler
+# designer (see the fenced patch in the window_ruler_designer.gui override).
+# scope:variant_kind - 1 = a drow skin variant was clicked, 2 = "No Skin
+# Variant" (normal_skin) was clicked, 0 = any other template (no-op).
+# Sets the base-tone pin on the designer character for instant editor feedback
+# AND a global the game-start fixup re-applies after the finalize overwrite.
+dark_elf_rd_skin_variant_clicked = {
+	scope = character
+	saved_scopes = {
+		variant_kind
+	}
+
+	effect = {
+		if = {
+			limit = { scope:variant_kind = 1 }
+			debug_log = "SCRIPTED dark_elf rd skin variant picked"
+			set_variable = { name = dark_elf_base_tone value = yes }
+			set_global_variable = { name = ruler_designer_dark_skin_picked value = 1 }
+		}
+		else_if = {
+			limit = { scope:variant_kind = 2 }
+			debug_log = "SCRIPTED dark_elf rd skin variant cleared"
+			if = {
+				limit = { has_variable = dark_elf_base_tone }
+				remove_variable = dark_elf_base_tone
+			}
+			set_global_variable = { name = ruler_designer_dark_skin_picked value = 0 }
+		}
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}
+
+dark_elf_rd_set_light_button = {
+	scope = character
+
+	effect = {
+		debug_log = "SCRIPTED dark_elf_rd_set_light_button GUI"
+		set_global_variable = { name = ruler_designer_dark_variant value = 0 }
+	}
+
+	is_shown = {}
+
+	is_valid = {}
+
+	ai_is_valid = {}
+}

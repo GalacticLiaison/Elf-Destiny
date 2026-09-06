@@ -11,3 +11,16 @@ Ideas to improve magi reinforcements,
 - maybe have player start a war, give troops, then auto-end
 - attempt to create a special aeluran title that has title troops? (think it must be landed though...)
 
+
+
+# Dark Elf (merged from Dark Elf Beta)
+
+- Finish skin tone
+- Make polished head elf of each dynasty
+- Lock in bloodline trait portrait modifiers
+- Review basic culture stuff
+- https://discord.com/channels/735413460439007241/824697749991325747/1299044123390509188
+
+Tattoos:
+- move sleeve up a bit to center it more on arm, size was ok... I think
+- instead make tattoos accessories like hair/beard

@@ -1,4 +1,7 @@
-﻿@genetic_base_value = 8.333
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's elf_genetic_values.txt (full copy).
+# Change: elf_genetic_assignment_strength_value also reads race_dark_* flags.
+
+@genetic_base_value = 8.333
 
 elf_blood_genetic_threshold_value = {
     value = @genetic_base_value
@@ -136,6 +139,21 @@ elf_genetic_assignment_strength_value = {
         }
         add = aratar_genetic_threshold_value
     }
+    # Dark Elf Beta - dark race flags map to the same tier thresholds; the light
+    # branches above stay first (history characters may carry both flag families).
+    else_if = { limit = { has_character_flag = race_dark_elf_blood } add = elf_blood_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_elf } add = elf_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_high_elf } add = high_elf_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_true_elf } add = true_elf_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_fae } add = fae_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_fae_radiant } add = fae_radiant_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_celestial } add = celestial_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_seraphic_celestial } add = seraphic_celestial_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_eldar } add = eldar_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_maiar } add = maiar_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_valar } add = valar_genetic_threshold_value }
+    else_if = { limit = { has_character_flag = race_dark_aratar } add = aratar_genetic_threshold_value }
+    # End Dark Elf Beta
 }
 
 half_max_int_genetic_threshold_value = {

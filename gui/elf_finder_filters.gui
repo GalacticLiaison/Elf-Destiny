@@ -1,4 +1,8 @@
-﻿types elf_finder_filters_types {
+﻿# Dark Elf Beta OVERRIDE of Elf Destiny's elf_finder_filters.gui (full copy).
+# Changes: light/dark variant filter row after the tier sections; four DEB
+# bloodline buttons appended to the Bloodlines section. Fenced # Dark Elf Beta.
+
+types elf_finder_filters_types {
     type elf_finder_window_character_filter = window {
         name = "character_filter_window"
         visible = "[Not( GetVariableSystem.Exists( 'elf_finder_filter_toggle' ) ) ]"
@@ -19,6 +23,15 @@
         state = {
             name = _hide
             using = Animation_FadeOut_Quick
+        }
+
+        # Dark Elf Beta - one-time seeding of the DEB filter globals for saves
+        # started before these filters existed (new campaigns are seeded by the
+        # dark_elf_finder_game_start on_action; the effect is latch-guarded)
+        state = {
+            name = dark_elf_finder_init
+            trigger_on_create = yes
+            on_start = "[GetScriptedGui( 'dark_elf_finder_sg_init' ).Execute( GuiScope.End )]"
         }
         
         widget = { # filters Scrollbox
@@ -73,6 +86,86 @@
                                 next = idle
                             }
 
+                            # Dark Elf Beta - light/dark variant filter
+                            flowcontainer = {
+                                direction = horizontal
+
+                                text_single = {
+                                    text = "elf_finder_label_dark_variant"
+                                    default_format = "#high;bold;glow_color:{0,0,0,1}"
+                                    using = Font_Size_Big
+                                }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'dark_elf_variant_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_variant', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_light' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_light' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_light' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_elf').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'dark_elf_finder_light_name') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'dark_elf_finder_light_desc') ]"
+                                    }
+                                }
+                                elf_filter_button = {
+                                    blockoverride "elf_click_button_effect" {
+                                        datacontext = "[GetScriptedGui( 'dark_elf_variant_filter_button' )]"
+                                        onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_variant', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+                                    }
+                                    blockoverride "elf_filter_button_texture" {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+                                    }
+                                    blockoverride "elf_filter_button_selected" {
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_dark' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled" {
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_dark' ).GetValue, '(CFixedPoint)1' )]"
+                                    }
+                                    blockoverride "elf_icon_glow_disabled" {
+                                        visible = "[Not( EqualTo_CFixedPoint( GetGlobalVariable( 'elf_variant_filter_dark' ).GetValue, '(CFixedPoint)1' ) )]"
+                                    }
+                                    blockoverride "elf_icon_glow_enabled_config" {
+                                        using = Dark_Elf_Purple
+                                        glow_radius = 4
+                                        using = Glow_Standard
+                                    }
+                                    blockoverride "elf_filter_button_halo_color" {
+                                        color = { 0.62 0.4 1 1 }
+                                    }
+                                    blockoverride "tooltip_race_icon_texture"  {
+                                        texture = "[GetCultureInnovationType('urf_phenotype_dark_elf').GetIcon]"
+                                    }
+                                    blockoverride "tooltip_race_icon_name" {
+                                        text = "[Localize( 'dark_elf_finder_dark_name') ]"
+                                    }
+                                    blockoverride "tooltip_race_icon_desc" {
+                                        text = "[Localize( 'dark_elf_finder_dark_desc') ]"
+                                    }
+                                }
+                            }
+                            spacer = {
+                                size = { 20 1 }
+                            }
+                            # End Dark Elf Beta
                             widget = {
                                 layoutpolicy_horizontal = expanding
 
@@ -667,10 +760,12 @@
                             spacer = {
                                 size = { 10 10 }
                             }
+                            # Dark Elf Beta - bloodline grid rebuilt: ED six, then DEB four wrapping on,
+                            # no_bloodline last; uniform rows and spacing
                             flowcontainer = {
                                 direction = horizontal
                                 margin = { 5 0 }
-                                spacing = 30 
+                                spacing = 30
                                 button = {
                                     datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
                                     onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
@@ -913,12 +1008,12 @@
                                 }
                             }
                             spacer = {
-                                size = { 20 20 }
+                                size = { 10 10 }
                             }
                             flowcontainer = {
                                 direction = horizontal
                                 margin = { 5 0 }
-                                spacing = 30 
+                                spacing = 30
                                 button = {
                                     datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
                                     onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)5' ) ).End )]"
@@ -1040,6 +1135,206 @@
                                     size = { 45 45 }
                                 }
                                 button = {
+                                    datacontext = "[GetScriptedGui( 'dark_elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_drenmyre' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_drenmyre' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_drenmyre' ).GetValue, '(CFixedPoint)1' )]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Dark_Elf_Purple
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_drenmyre' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_drenmyre' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_drenmyre' ).GetValue, '(CFixedPoint)1' ))]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'dark_elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)2' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_rynvela' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_rynvela' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_rynvela' ).GetValue, '(CFixedPoint)1' )]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Dark_Elf_Purple
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_rynvela' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_rynvela' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_rynvela' ).GetValue, '(CFixedPoint)1' ))]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                            }
+                            spacer = {
+                                size = { 10 10 }
+                            }
+                            flowcontainer = {
+                                direction = horizontal
+                                margin = { 5 0 }
+                                spacing = 30
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'dark_elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)3' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_myrvessa' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_myrvessa' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_myrvessa' ).GetValue, '(CFixedPoint)1' )]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Dark_Elf_Purple
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_myrvessa' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_myrvessa' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_myrvessa' ).GetValue, '(CFixedPoint)1' ))]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
+                                    datacontext = "[GetScriptedGui( 'dark_elf_bloodline_filter_button' )]"
+                                    onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)4' ) ).End )]"
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_syldranis' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_syldranis' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_syldranis' ).GetValue, '(CFixedPoint)1' )]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Dark_Elf_Purple
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    highlight_icon = {
+                                        datacontext = "[GetTrait( 'royal_elf_syldranis' )]"
+                                        datacontext = "[GetNullCharacter]"
+                                        datacontext = "[Character.MakeScope.Faith]"
+                                        enabled = "[EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_syldranis' ).GetValue, '(CFixedPoint)1' )]"
+                                        visible = "[Not(EqualTo_CFixedPoint( GetGlobalVariable( 'elf_bloodline_filter_syldranis' ).GetValue, '(CFixedPoint)1' ))]"
+                                        texture = "[Trait.GetIcon(Character.Self)]"
+                                        size = { 72 72 }
+                                        position = { 0 1 }
+                                        parentanchor = center
+                                        tooltipwidget = {
+                                            using = character_trait_tooltip
+                                        }
+                                        glow = {
+                                            glow_radius = 3
+                                            using = Color_Red
+                                            using = Glow_Standard
+                                        }
+                                        using = Animation_Glow_Pulse
+                                    }
+
+                                    size = { 45 45 }
+                                }
+                                button = {
                                     datacontext = "[GetScriptedGui( 'elf_bloodline_filter_button' )]"
                                     onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'elf_bloodline', MakeScopeValue( '(CFixedPoint)7' ) ).End )]"
 
@@ -1089,8 +1384,8 @@
 
                                     size = { 45 45 }
                                 }
-
                             }
+                            # End Dark Elf Beta
                             spacer = {
                                 size = { 25 25 }
                             }
@@ -1165,7 +1460,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1175,9 +1472,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
     
                                     }
@@ -1213,7 +1509,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1223,9 +1521,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -1263,7 +1560,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1273,9 +1572,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -1310,7 +1608,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1320,9 +1620,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -1360,7 +1659,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1370,9 +1671,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -1407,7 +1707,9 @@
                                             size = { 86 86 }
                                             coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)172','(int32)172')]"
                                             coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)172','(int32)172')]"
-                                            coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                            coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                            coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                            coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                             
                                             modify_texture = {
                                                 texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -1417,9 +1719,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -1479,9 +1780,8 @@
                                         }
                             
                                         coa_dynasty_frame = {
-                                            framesize = { 125 130 }
-                                            size = { 125 130 }
-                                            texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                            size = { 120 120 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                            texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                         }
                                     }
                                     text_single = {
@@ -2338,7 +2638,9 @@
                                     size = { 28 28 }
                                     coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)56','(int32)56')]"
                                     coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)56','(int32)56')]"
-                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                    coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                    coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                    coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                     
                                     modify_texture = {
                                         texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -2348,9 +2650,8 @@
                                 }
                     
                                 coa_dynasty_frame = {
-                                    framesize = { 43 42 }
-                                    size = { 43 42 }
-                                    texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                    size = { 44 44 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                    texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                 }
     
                             }
@@ -2393,7 +2694,9 @@
                                     size = { 28 28 }
                                     coat_of_arms = "[Dynasty.GetDynastyCoA.GetTexture('(int32)56','(int32)56')]"
                                     coat_of_arms_slot = "[Dynasty.GetDynastyCoA.GetSlot('(int32)56','(int32)56')]"
-                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                    coat_of_arms_mask = "[Dynasty.GetCulture.GetCultureDynastyCoAMask]" # Dark Elf Beta - 1.19 culture-driven CoA
+                                    coat_of_arms_offset = "[Dynasty.GetCulture.GetCultureDynastyCoAOffset]"
+                                    coat_of_arms_scale = "[Dynasty.GetCulture.GetCultureDynastyCoAScale]"
                     
                                     modify_texture = {
                                         texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -2403,9 +2706,8 @@
                                 }
                     
                                 coa_dynasty_frame = {
-                                    framesize = { 43 42 }
-                                    size = { 43 42 }
-                                    texture = "gfx/interface/coat_of_arms/frames/dynasty.dds"
+                                    size = { 44 44 } # Dark Elf Beta - square prestige-atlas frame (1.19 fix)
+                                    texture = "[Dynasty.GetCulture.GetCultureDynastyCoAFrame]" # Dark Elf Beta - 1.19 culture-driven CoA
                                 }
     
                             }
@@ -2455,6 +2757,7 @@
 
                                 size = { 39 38 }
                                 using = CoA_House_Defaults
+                                datacontext = "[DynastyHouse.GetCulture.GetTemplateData]" # Dark Elf Beta - 1.19 house CoA
                                 datacontext = "[GetPlayer.GetHouse]"
                                 datacontext = "[GetScriptedGui( 'elf_player_house_filter_button' )]"
                                 onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
@@ -2466,7 +2769,9 @@
                                     size = { 28 28 }
                                     coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)56','(int32)56')]"
                                     coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)56','(int32)56')]"
-                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                    coat_of_arms_mask = "[CultureTemplateData.GetCultureHouseCoAMask]" # Dark Elf Beta - 1.19 house CoA
+                                    coat_of_arms_offset = "[CultureTemplateData.GetCultureHouseCoAOffset]"
+                                    coat_of_arms_scale = "[CultureTemplateData.GetCultureHouseCoAScale]"
                 
                                     modify_texture = {
                                         texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -2476,9 +2781,8 @@
                                 }
                 
                                 coa_house_frame = {
-                                    framesize = { 39 38 }
-                                    size = { 39 38 }
-                                    texture = "gfx/interface/coat_of_arms/frames/house.dds"
+                                    size = { 40 40 } # Dark Elf Beta - 1.19 house CoA
+                                    texture = "[CultureTemplateData.GetCultureHouseCoAFrame]"
                                 }
                             }    
                             
@@ -2514,6 +2818,7 @@
 
                                 size = { 39 38 }
                                 using = CoA_House_Defaults
+                                datacontext = "[DynastyHouse.GetCulture.GetTemplateData]" # Dark Elf Beta - 1.19 house CoA
                                 datacontext = "[GetPlayer.GetHouse]"
                                 datacontext = "[GetScriptedGui( 'elf_player_house_filter_button' )]"
                                 onclick = "[ScriptedGui.Execute( GuiScope.AddScope( 'ignored_scope', MakeScopeValue( '(CFixedPoint)1' ) ).End )]"
@@ -2526,7 +2831,9 @@
                                     size = { 28 28 }
                                     coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)56','(int32)56')]"
                                     coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)56','(int32)56')]"
-                                    coat_of_arms_mask = "gfx/interface/coat_of_arms/frames/house_mask.dds"
+                                    coat_of_arms_mask = "[CultureTemplateData.GetCultureHouseCoAMask]" # Dark Elf Beta - 1.19 house CoA
+                                    coat_of_arms_offset = "[CultureTemplateData.GetCultureHouseCoAOffset]"
+                                    coat_of_arms_scale = "[CultureTemplateData.GetCultureHouseCoAScale]"
                 
                                     modify_texture = {
                                         texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
@@ -2536,9 +2843,8 @@
                                 }
                 
                                 coa_house_frame = {
-                                    framesize = { 39 38 }
-                                    size = { 39 38 }
-                                    texture = "gfx/interface/coat_of_arms/frames/house.dds"
+                                    size = { 40 40 } # Dark Elf Beta - 1.19 house CoA
+                                    texture = "[CultureTemplateData.GetCultureHouseCoAFrame]"
                                 }
                             }    
                             
@@ -2939,7 +3245,10 @@ types ElfSearchTypes {
             size = { 116 116 }
             
             texture = "gfx/particles/halo.dds"
-            color = { 1 0.85 0.6 1 }
+            # Dark Elf Beta - halo tint moved into an overridable block
+            block "elf_filter_button_halo_color" {
+                color = { 1 0.85 0.6 1 }
+            }
         }
     
         button_round = {
@@ -2984,14 +3293,12 @@ types ElfSearchTypes {
                     glow = {
                         block "elf_icon_glow_enabled" {
                         }
-                        using = Color_Bright_Yellow
-                        # color = { 0 0 0 0.8 }
-                        glow_radius = 4
-                        # using = Color_Blue
-                        # using = Color_Bright_Yellow
-                        # using = Color_Red
-                        # using = Color_Green
-                        using = Glow_Standard
+                        # Dark Elf Beta - color config moved into an overridable block (as _small has)
+                        block "elf_icon_glow_enabled_config" {
+                            using = Color_Bright_Yellow
+                            glow_radius = 4
+                            using = Glow_Standard
+                        }
                         # glow_alpha = 1
                     }
 

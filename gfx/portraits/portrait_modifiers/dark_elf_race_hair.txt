@@ -1,0 +1,86 @@
+﻿# Dark Elf Beta
+# Hair counterpart to dark_elf_race_skin.txt. Forced entries apply ONLY to
+# characters carrying var:dark_elf_hair_color (flag:white / flag:purple /
+# flag:blue) - i.e. CONVERTS whose DNA has no drow hair genes. The variable is
+# rolled per character at conversion by dark_elf_init_hair_color_effect and
+# inherited 50/50 at birth. The base hair_color 0,0 pin comes from the matching
+# skin entry (converts always carry both variables), so the HSV tint lands on
+# the intended platinum base. Everyone without the variable renders their DNA.
+
+dark_elf_race_hair = {
+    usage = game
+
+    dark_elf_hair_white = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_hair_color
+                template = drow_hair_white
+                range = { 0.0 1.0 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_hair_color
+                var:dark_elf_hair_color = flag:white
+            }
+        }
+    }
+
+    dark_elf_hair_purple = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_hair_color
+                template = drow_hair_purple
+                range = { 0.0 1.0 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_hair_color
+                var:dark_elf_hair_color = flag:purple
+            }
+        }
+    }
+
+    dark_elf_hair_blue = {
+        dna_modifiers = {
+            morph = {
+                mode = replace
+                gene = gene_special_hair_color
+                template = drow_hair_blue
+                range = { 0.0 1.0 }
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_hair_color
+                var:dark_elf_hair_color = flag:blue
+            }
+        }
+    }
+
+    # No-op winner for everyone else (mode = add, value = 0 changes nothing).
+    dark_elf_hair_unchanged = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_hair_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}

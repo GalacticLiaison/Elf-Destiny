@@ -1,0 +1,371 @@
+﻿# Dark Elf Beta
+# The Spark judges the sigil-finder's soul and names them dawn- or dusk-touched;
+# the expedition party transforms to match (or the ruler defies the verdict at a
+# stress cost). Chain: expedition.00691 -> dark_elf_story.0001 -> expedition.00692.
+# expedition.00691 itself is changed in the DEB same-path override copy of
+# events/activities/expedition_activity/expedition_events.txt (single-event
+# redefinition across files loses to the upstream definition, per error.log).
+
+namespace = dark_elf_story
+
+# The Judgment: the Spark weighs the ruler and delivers its verdict.
+dark_elf_story.0001 = {
+	type = activity_event
+
+	title = dark_elf_story.0001.t
+	desc = {
+		desc = dark_elf_story.0001.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:spark_judgment = flag:dark }
+				desc = dark_elf_story.0001.desc.dark
+			}
+			desc = dark_elf_story.0001.desc.light
+		}
+	}
+
+	theme = dead_elf_king_with_light
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		dark_elf_spark_judgment_effect = yes
+	}
+
+	# Judged dusk-touched: accept. The transformation happens in dark_elf_story.0002
+	# once the ruler picks the party's hue.
+	option = {
+		trigger = { var:spark_judgment = flag:dark }
+		name = dark_elf_story.0001.accept_dark
+
+		custom_tooltip = dark_elf_choose_hue_tt
+		remove_variable = spark_judgment
+
+		ai_chance = { base = 100 }
+
+		trigger_event = dark_elf_story.0002
+	}
+
+	# Judged dusk-touched: defy the verdict
+	option = {
+		trigger = { var:spark_judgment = flag:dark }
+		name = dark_elf_story.0001.defy_dark
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+		custom_tooltip = {
+			text = all_party_members_transformed_into_elves
+			dark_elf_sigil_transform_party_effect = { DARK = no }
+		}
+		remove_variable = spark_judgment
+
+		ai_chance = { base = 0 }
+
+		trigger_event = expedition.00692
+	}
+
+	# Judged dawn-touched: accept
+	option = {
+		trigger = { var:spark_judgment = flag:light }
+		name = dark_elf_story.0001.accept_light
+
+		custom_tooltip = {
+			text = all_party_members_transformed_into_elves
+			dark_elf_sigil_transform_party_effect = { DARK = no }
+		}
+		remove_variable = spark_judgment
+
+		ai_chance = { base = 100 }
+
+		trigger_event = expedition.00692
+	}
+
+	# Judged dawn-touched: defy the verdict. Transformation happens in dark_elf_story.0002.
+	option = {
+		trigger = { var:spark_judgment = flag:light }
+		name = dark_elf_story.0001.defy_light
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+		custom_tooltip = dark_elf_choose_hue_tt
+		remove_variable = spark_judgment
+
+		ai_chance = { base = 0 }
+
+		trigger_event = dark_elf_story.0002
+	}
+}
+
+# The Shaping: the ruler chooses the hue their new people will wear.
+dark_elf_story.0002 = {
+	type = activity_event
+
+	title = dark_elf_story.0002.t
+	desc = dark_elf_story.0002.desc
+
+	theme = dead_elf_king_with_light
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
+	}
+
+	option = {
+		name = dark_elf_story.0002.purple
+
+		set_variable = { name = dark_elf_chosen_skin value = flag:purple }
+		custom_tooltip = dark_elf_choose_hair_tt
+
+		ai_chance = { base = 40 }
+
+		trigger_event = dark_elf_story.0004
+	}
+
+	option = {
+		name = dark_elf_story.0002.grey
+
+		set_variable = { name = dark_elf_chosen_skin value = flag:grey }
+		custom_tooltip = dark_elf_choose_hair_tt
+
+		ai_chance = { base = 30 }
+
+		trigger_event = dark_elf_story.0004
+	}
+
+	option = {
+		name = dark_elf_story.0002.blue
+
+		set_variable = { name = dark_elf_chosen_skin value = flag:blue }
+		custom_tooltip = dark_elf_choose_hair_tt
+
+		ai_chance = { base = 30 }
+
+		trigger_event = dark_elf_story.0004
+	}
+}
+
+# The Crowning: the ruler chooses the hair color their new people will wear.
+# Fires after the skin choice; the transformation itself happens here, with both
+# stored choices applied to the whole party.
+dark_elf_story.0004 = {
+	type = activity_event
+
+	title = dark_elf_story.0004.t
+	desc = dark_elf_story.0004.desc
+
+	theme = dead_elf_king_with_light
+
+	left_portrait = {
+		character = scope:host
+		animation = shock
+	}
+
+	artifact = {
+		target = scope:newly_created_artifact
+		position = lower_center_portrait
+	}
+
+	option = {
+		name = dark_elf_story.0004.white
+
+		set_variable = { name = dark_elf_chosen_hair value = flag:white }
+		custom_tooltip = {
+			text = all_party_members_transformed_into_dark_elves
+			dark_elf_sigil_transform_party_effect = { DARK = yes }
+		}
+		remove_variable = dark_elf_chosen_skin
+		remove_variable = dark_elf_chosen_hair
+
+		ai_chance = { base = 40 }
+
+		trigger_event = expedition.00692
+	}
+
+	option = {
+		name = dark_elf_story.0004.purple
+
+		set_variable = { name = dark_elf_chosen_hair value = flag:purple }
+		custom_tooltip = {
+			text = all_party_members_transformed_into_dark_elves
+			dark_elf_sigil_transform_party_effect = { DARK = yes }
+		}
+		remove_variable = dark_elf_chosen_skin
+		remove_variable = dark_elf_chosen_hair
+
+		ai_chance = { base = 30 }
+
+		trigger_event = expedition.00692
+	}
+
+	option = {
+		name = dark_elf_story.0004.blue
+
+		set_variable = { name = dark_elf_chosen_hair value = flag:blue }
+		custom_tooltip = {
+			text = all_party_members_transformed_into_dark_elves
+			dark_elf_sigil_transform_party_effect = { DARK = yes }
+		}
+		remove_variable = dark_elf_chosen_skin
+		remove_variable = dark_elf_chosen_hair
+
+		ai_chance = { base = 30 }
+
+		trigger_event = expedition.00692
+	}
+}
+
+# Kindred of Old: adopt one of the established elven cultures. Reached from the
+# Dark Elf Beta third option in expedition.00692. Light elves see the six named
+# Elf Destiny cultures; dark elves see the Drow and the Dokkalfar.
+dark_elf_story.0003 = {
+	type = activity_event
+
+	title = dark_elf_story.0003.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { dark_elf_strain_is_dark_trigger = yes }
+				desc = dark_elf_story.0003.desc.dark
+			}
+			desc = dark_elf_story.0003.desc.light
+		}
+	}
+
+	theme = dead_elf_king_with_light
+
+	left_portrait = {
+		character = scope:host
+		animation = thinking
+	}
+
+	immediate = {
+		get_julia_melwood_effect = yes
+	}
+
+	# --- Light elf cultures ---
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.daelurin
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_daelurin
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_daelurin }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.serelion
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_serelion
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_serelion }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.gwynthorn
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_gwynthorn
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_gwynthorn }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.thundarael
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_thundarael
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_thundarael }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.valerith
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_valerith
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_valerith }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = no }
+		name = dark_elf_story.0003.lormelis
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_lormelis
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_lormelis }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+
+	# --- Dark elf cultures ---
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = yes }
+		name = dark_elf_story.0003.drow
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_drow
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_drow }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+	option = {
+		trigger = { dark_elf_strain_is_dark_trigger = yes }
+		name = dark_elf_story.0003.dokkalfar
+		convert_family_culture_and_notify_vassals_effect = {
+			CONVERTER = root
+			OLD_CULTURE = root.culture
+			NEW_CULTURE = culture:elf_culture_dokkalfar
+		}
+		scope:archeologist = { set_culture = culture:elf_culture_dokkalfar }
+		ai_chance = { base = 10 }
+		trigger_event = expedition.00693
+	}
+
+	# Change of heart: same outcome as keeping your own culture in expedition.00692
+	option = {
+		name = dark_elf_story.0003.none
+		root = {
+			culture = {
+				add_innovation = innovation_elven_adaptability
+			}
+		}
+		ai_chance = { base = 0 }
+		trigger_event = expedition.00693
+	}
+}

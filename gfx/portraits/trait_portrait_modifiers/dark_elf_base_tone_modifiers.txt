@@ -1,0 +1,46 @@
+﻿# Dark Elf Beta
+# Base-tone pin (0,0 base skin/hair/eye colors) for characters carrying
+# var:dark_elf_base_tone - designed drow-skinned characters and their
+# descendants. Lives in trait_portrait_modifiers so it evaluates on designer
+# portrait rebuilds (weighted portrait modifier groups only re-roll on DNA
+# randomization); the matching weighted entry in dark_elf_race_skin.txt covers
+# ordinary in-game portrait creation. Same values in both - no conflict.
+dark_elf_base_tone_pin_preview = {
+    dark_elf_base_tone_pin = {
+        traits = {}
+        trigger = {
+            # Variable covers real characters (in-game, lobby); the global covers
+            # the designer preview portrait, which does not reliably carry the
+            # character's variables (same reason ED's ear preview uses globals).
+            OR = {
+                has_variable = dark_elf_base_tone
+                AND = {
+                    exists = global_var:ruler_designer_dark_skin_picked
+                    global_var:ruler_designer_dark_skin_picked = 1
+                }
+            }
+        }
+        dna_modifiers = {
+            human = {
+                color = {
+                    gene = skin_color
+                    mode = replace
+                    x = 0.0
+                    y = 0.0
+                }
+                color = {
+                    gene = hair_color
+                    mode = replace
+                    x = 0.0
+                    y = 0.0
+                }
+                color = {
+                    gene = eye_color
+                    mode = replace
+                    x = 0.0
+                    y = 0.0
+                }
+            }
+        }
+    }
+}
