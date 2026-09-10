@@ -1,0 +1,93 @@
+﻿
+
+
+#Needs CHARACTER and FAITH
+relation_with_character_is_not_incestuous_in_faith_trigger = {
+	AND = {
+		$FAITH$ = { has_doctrine = doctrine_consanguinity_mandatory }
+		NOT = { 
+			is_close_or_extended_family_of = $CHARACTER$ #[parents, children, siblings, grandparents, grandchildren, cousins, uncles, aunts, nephews, nieces]
+		}
+	}
+}
+
+#relation_with_character_is_not_incestuous_in_my_or_lieges_faith_trigger = {
+#	OR = {
+#		AND = {
+#			faith = { #My faith doesn't approve
+#				save_temporary_scope_as = check_faith
+#			}
+#			relation_with_character_is_not_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:check_faith }
+#		}
+#		AND = { #Liege's faith doesn't approve
+#			exists = liege
+#			liege = {
+#				faith = {
+#					save_temporary_scope_as = check_faith
+#				}
+#			}
+#			relation_with_character_is_not_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:check_faith }
+#		}
+#	}
+#}
+
+#Note: only checks from the viewpoint of current scope. Needs CHARACTER
+#relation_with_character_is_not_incestuous_in_my_faith_trigger = {
+#	faith = { save_temporary_scope_as = my_faith }
+#	relation_with_character_is_not_incestuous_in_faith_trigger = { CHARACTER = $CHARACTER$ FAITH = scope:my_faith }
+#}
+
+#is_notincestuous_trigger = {
+#	OR = {
+#		has_trait = notincestuous
+#		any_secret = {
+#			secret_type = secret_notincest
+#		}
+#	}
+#}
+
+# SECRET not INCEST
+#secret_notincest_is_valid_trigger = {
+#	$OWNER$ = {
+#		NOT = {
+#			has_trait = notincestuous
+#		}
+#	}
+#}
+
+#secret_notincest_is_shunned_trigger = {
+#	$OWNER$ = { always = no }
+#}
+
+#secret_notincest_is_criminal_trigger = {
+#	$OWNER$ = {
+#		OR = {
+#			faith = { has_doctrine_parameter = consanguinity_mandatory_incest }
+#			any_liege_or_above = { faith = { has_doctrine_parameter = consanguinity_mandatory_incest } }
+#		}
+#	}
+#}
+
+#give_random_likely_secret_notincestous_lover_trigger = {
+#	is_adult = yes
+#	is_ai = yes
+#	NOT = { any_relation = { type = lover this = scope:lover_1 } }
+#	NOT = { is_spouse_of = scope:lover_1 }
+#	NOT = { relation_with_character_is_not_incestuous_in_my_or_lieges_faith_trigger = { CHARACTER = scope:lover_1 } }
+#	OR = {
+#		save_temporary_scope_as = lover_2
+#		possible_mutual_interest_trigger = { CHARACTER_1 = scope:lover_1 CHARACTER_2 = scope:lover_2 }
+#		AND = {
+#			matching_gender_and_sexuality_trigger = { CHARACTER_1 = scope:lover_1 CHARACTER_2 = scope:lover_2 }
+#			opinion = {
+#				target = scope:lover_1
+#				value >= 40
+#			}
+#			reverse_opinion = {
+#				target = scope:lover_1
+#				value >= 40
+#			}
+#		}
+#	}
+#	
+#}
