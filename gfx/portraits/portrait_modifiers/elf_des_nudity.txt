@@ -1,0 +1,50 @@
+﻿# Dark Elf Beta - a nudity toggle that sits BESIDE the Clothes dropdown rather
+# than inside it, so no base-game file has to be overridden to offer it.
+#
+# Clearing clothes alone is not enough to actually see a character: a cloak or
+# legwear stays on and covers the body, which is the whole point of the option.
+# Vanilla's own clothes_special group clears cloaks alongside clothes for the
+# same reason (06_clothes_special.txt); legwear is added here because leg
+# tattoos are otherwise hidden.
+#
+# interface_position 26: 0-8 are the base game's, 9-25 are the tattoo slots and
+# the ink picker. Two groups sharing a position silently drop out of the
+# designer -- that is what once knocked three tattoo groups out.
+elf_nudity = {
+	usage = customization
+	interface_position = 26
+
+	dressed = {
+		dna_modifiers = {
+		}
+		weight = {
+			base = 100
+		}
+	}
+
+	no_clothes = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+}
