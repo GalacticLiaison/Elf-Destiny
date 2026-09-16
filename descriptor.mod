@@ -1,4 +1,4 @@
-version="Beta_v1.7.7"
+version="Beta_v2.0.1"
 tags={
 	"Alternative History"
 	"Gameplay"
@@ -7,6 +7,5 @@ tags={
 	"Culture"
 	"Religion"
 }
-name="Elf Destiny"
+name="Elf Destiny (Dev)"
 supported_version="1.19.*"
-remote_file_id="3114064450"
