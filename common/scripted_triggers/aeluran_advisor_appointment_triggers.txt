@@ -1,0 +1,55 @@
+﻿# Placing Sisters (see common/scripted_effects/aeluran_advisor_appointment_effects.txt)
+
+# Scope: a character. POST = the ruler whose Advisor is being chosen, APPOINTER = who chooses.
+# Can she be appointed? A free Sister within the appointer's reach: her own Matronate for a Matron; for the High
+# Matriarch, the ruler's own realm or anywhere outside the Matronates.
+aeluran_advisor_candidate_trigger = {
+	has_trait = aeluran_sister
+	faith = faith:aeluran_weavers
+	is_capable_adult = yes
+	is_imprisoned = no
+	NOT = { this = $POST$ }
+	NOT = { has_council_position = councillor_aeluran_advisor }
+	NOT = { var:appointed_to_advise ?= { is_alive = yes } }
+	# A council seat needs a courtier or a vassal of the ruler
+	trigger_if = {
+		limit = { is_ruler = yes }
+		is_vassal_of = $POST$
+	}
+	# Her reach
+	trigger_if = {
+		limit = {
+			$POST$.capital_county.clerical_region_title ?= {
+				aeluran_is_matronate_title_trigger = yes
+				holder ?= $APPOINTER$
+			}
+		}
+		$POST$.capital_county.clerical_region_title = { save_temporary_scope_as = matronate }
+		aeluran_in_matronate_region_trigger = yes
+	}
+	trigger_else = {
+		OR = {
+			is_courtier_of = $POST$
+			is_vassal_of = $POST$
+			location.county.holder.top_liege ?= $POST$.top_liege
+			NOT = { location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+	}
+}
+
+# Scope: a character (a Matron or the High Matriarch); scope:recipient = an Aeluran ruler.
+# May she recall the ruler's Advisor? The High Matriarch may recall anyone's; a Matron those of the counts and dukes of
+# her Matronate.
+aeluran_has_advisor_authority_over_trigger = {
+	OR = {
+		has_title = title:d_high_matriarch
+		AND = {
+			has_trait = aeluran_matron
+			scope:recipient.highest_held_title_tier <= tier_duchy
+			scope:recipient.capital_county.clerical_region_title ?= {
+				aeluran_is_matronate_title_trigger = yes
+				holder ?= root
+			}
+		}
+	}
+}

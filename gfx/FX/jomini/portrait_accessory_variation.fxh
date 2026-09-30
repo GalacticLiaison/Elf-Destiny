@@ -64,6 +64,7 @@ PixelShader =
 
 	Code
 	[[
+		#define SECOND_COLOR_MASK_OFFSET 4
 		#ifdef VARIATIONS_ENABLED
 			struct SPatternOutput
 			{
@@ -165,14 +166,13 @@ PixelShader =
 
 				//Currently, we're only using 2 channels, leaving 2 channels available.
 				#ifdef SECOND_COLOR_MASK
-					float MaskOffset = 4.0f;
 					for( int i = 0; i < 2; ++i )
 					{
 						if( SecondColorMask[i] > 0.0f )
 						{
 							float OpacityMask = 0;
 							// CfV (POD) (TODO: check what the second mask actually does)
-							SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetSecondPatternDesc( Input.InstanceIndex, i ), RandomNumber, ( i + MaskOffset ), 0, OpacityMask, PortraitEffect );
+							SPatternOutput PatternOutput = ApplyPattern( Input.UV1, GetSecondPatternDesc( Input.InstanceIndex, i ), RandomNumber, ( i + SECOND_COLOR_MASK_OFFSET ), 0, OpacityMask, PortraitEffect );
 							// CfV end
 
 							PatternDiffuse = lerp( PatternDiffuse, PatternOutput._Diffuse, SecondColorMask[i] * OpacityMask);

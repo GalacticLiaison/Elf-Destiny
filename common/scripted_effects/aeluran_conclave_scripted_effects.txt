@@ -1,0 +1,495 @@
+﻿# Council of Matrons: every Matron holds a Matron Seat, a landless title registered as a clerical elector of the Aeluran faith.
+# Seat holders are the electors and candidates of aeluran_matron_conclave, the election on the Seat of the High Matriarch.
+
+# Root = a Matron. Grants her a Matron Seat if she has none.
+aeluran_grant_matron_seat_effect = {
+	# Saved scopes outlive one call; clear them so one Matron's liege or county never leaks into the next grant
+	clear_saved_scope = matron_seat_recipient
+	clear_saved_scope = matron_seat_government_base
+	clear_saved_scope = matron_seat_liege
+	clear_saved_scope = matron_seat_county
+	clear_saved_scope = matron_seat
+	clear_saved_scope = new_title
+	clear_saved_scope = matron_seat_change
+	if = {
+		limit = {
+			is_alive = yes
+			has_trait = aeluran_matron
+			NOT = { exists = clerical_elector_title }
+			NOT = { has_title = title:d_high_matriarch }
+		}
+		save_scope_as = matron_seat_recipient
+		# A Matron without land takes the government of the Order
+		if = {
+			limit = { is_landed = yes }
+			save_scope_as = matron_seat_government_base
+		}
+		else_if = {
+			limit = { exists = title:d_high_matriarch.holder }
+			title:d_high_matriarch.holder = { save_scope_as = matron_seat_government_base }
+		}
+		else = {
+			save_scope_as = matron_seat_government_base
+		}
+		# A Matron without land stays in the realm she serves instead of becoming independent
+		if = {
+			limit = {
+				is_landed = no
+				exists = employer
+			}
+			if = {
+				limit = { employer.highest_held_title_tier > tier_duchy }
+				employer = { save_scope_as = matron_seat_liege }
+			}
+			else_if = {
+				limit = { employer.top_liege.highest_held_title_tier > tier_duchy }
+				employer.top_liege = { save_scope_as = matron_seat_liege }
+			}
+		}
+		# The seat is named after the county she calls home
+		if = {
+			limit = { exists = capital_county }
+			capital_county = { save_scope_as = matron_seat_county }
+		}
+		else_if = {
+			limit = { exists = location.county }
+			location.county = { save_scope_as = matron_seat_county }
+		}
+		# Duchy tier, as the vanilla cardinalates (create_dynamic_title does not accept county tier)
+		create_dynamic_title = {
+			tier = duchy
+			name = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { exists = scope:matron_seat_county }
+						desc = aeluran_matron_seat_name_county
+					}
+					desc = aeluran_matron_seat_name_person
+				}
+			}
+			adj = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { exists = scope:matron_seat_county }
+						desc = aeluran_matron_seat_adj_county
+					}
+					desc = aeluran_matron_seat_adj_person
+				}
+			}
+		}
+		scope:new_title ?= {
+			add_clerical_elector = faith:aeluran_weavers
+			set_variable = aeluran_matron_seat
+			save_scope_as = matron_seat
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = matron_seat_change
+			add_claim_on_loss = no
+		}
+		scope:matron_seat ?= {
+			if = {
+				limit = { exists = scope:matron_seat_county }
+				set_coa = scope:matron_seat_county
+				set_color_from_title = scope:matron_seat_county
+				set_capital_county = scope:matron_seat_county
+			}
+			else = {
+				set_coa = title:d_high_matriarch
+				set_color_from_title = title:d_high_matriarch
+				set_capital_county = title:c_martyuba
+			}
+			set_landless_title = yes
+			set_destroy_on_succession = yes
+			set_no_automatic_claims = yes
+			set_can_be_named_after_dynasty = no
+			set_can_use_nomadic_naming = no
+			change_title_holder = {
+				holder = scope:matron_seat_recipient
+				change = scope:matron_seat_change
+				government_base = scope:matron_seat_government_base
+			}
+		}
+		if = {
+			limit = { exists = scope:matron_seat_liege }
+			change_liege = {
+				liege = scope:matron_seat_liege
+				change = scope:matron_seat_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:matron_seat_change
+		scope:matron_seat_recipient = {
+			recalculate_succession_election_vote = yes
+			aeluran_refresh_matron_rank_flag_effect = yes
+		}
+	}
+}
+
+# Root = a character. Gives up her Matron Seat, if she holds one.
+aeluran_remove_matron_seat_effect = {
+	if = {
+		limit = {
+			exists = clerical_elector_title
+			clerical_elector_title = { has_variable = aeluran_matron_seat }
+		}
+		destroy_title = clerical_elector_title
+	}
+	aeluran_refresh_matron_rank_flag_effect = yes
+}
+
+# Root = a character. A Matron whose rank comes from the Order (her seat or her Matronate is her primary title) is styled
+# "Matron" (flavorization aeluran_matron_female) instead of "Duchess". Matrons who rule a higher realm keep their own style.
+aeluran_refresh_matron_rank_flag_effect = {
+	if = {
+		limit = {
+			is_alive = yes
+			primary_title ?= {
+				OR = {
+					has_variable = aeluran_matron_seat
+					aeluran_is_matronate_title_trigger = yes
+				}
+			}
+		}
+		if = {
+			limit = { NOT = { has_character_flag = aeluran_matron_seat_rank } }
+			add_character_flag = aeluran_matron_seat_rank
+		}
+	}
+	else_if = {
+		limit = { has_character_flag = aeluran_matron_seat_rank }
+		remove_character_flag = aeluran_matron_seat_rank
+	}
+}
+
+# Every Matron holds a seat, and only Matrons do.
+aeluran_sync_matron_seats_effect = {
+	faith:aeluran_weavers = {
+		every_clerical_elector_title = {
+			limit = {
+				exists = holder
+				holder = {
+					OR = {
+						NOT = { has_trait = aeluran_matron }
+						has_title = title:d_high_matriarch
+					}
+				}
+			}
+			holder = { add_to_temporary_list = aeluran_seats_to_vacate }
+		}
+	}
+	every_in_list = {
+		list = aeluran_seats_to_vacate
+		aeluran_remove_matron_seat_effect = yes
+	}
+	every_living_character = {
+		limit = {
+			has_trait = aeluran_matron
+			NOT = { exists = clerical_elector_title }
+		}
+		aeluran_grant_matron_seat_effect = yes
+	}
+	aeluran_conclave_electors_vote_effect = yes
+}
+
+# Root = the new High Matriarch, just elected to d_high_matriarch. scope:dead_aeluran = the previous Matriarch.
+aeluran_matriarch_succession_effect = {
+	save_scope_as = new_matriarch
+
+	# She leaves the Council of Matrons for the Seat (her Matron's Seat is given up in aeluran_repeating.007)
+	if = {
+		limit = { has_trait = aeluran_matron }
+		remove_trait = aeluran_matron
+	}
+	if = {
+		limit = { has_trait = aeluran_sister }
+		remove_trait = aeluran_sister
+	}
+	if = {
+		limit = { NOT = { has_trait = aeluran_high_matriarch } }
+		add_trait = aeluran_high_matriarch
+	}
+	set_aeluran_clothing_colors = yes
+	change_government = aeluran_weavers_government
+	if = {
+		limit = { has_character_flag = aeluran_matron_seat_rank }
+		remove_character_flag = aeluran_matron_seat_rank
+	}
+
+	set_global_variable = {
+		name = high_matriarch
+		value = scope:new_matriarch
+	}
+	remove_list_global_variable = {
+		name = aeluran_matrons
+		target = scope:new_matriarch
+	}
+
+	aeluran_ensure_conclave_law_effect = yes
+
+	# A player moved onto the expected successor before the election resolved follows the actual winner
+	every_player = {
+		limit = {
+			has_character_flag = aeluran_expected_matriarch_player
+			this != scope:new_matriarch
+			scope:new_matriarch = { is_ai = yes }
+		}
+		set_player_character = scope:new_matriarch
+	}
+
+	every_player = {
+		limit = {
+			faith = {
+				has_tenet = tenet_aeluran_sisters
+			}
+			NOT = { has_character_flag = aeluran_matriarch_heir_player }
+		}
+		trigger_event = aeluran_repeating.003 # Notify Players about the New Matriarch
+	}
+	# The player who played the late Matriarch continues as her heir, and may take up the Seat instead
+	every_player = {
+		limit = {
+			has_character_flag = aeluran_matriarch_heir_player
+			this != scope:new_matriarch
+		}
+		trigger_event = {
+			id = aeluran_repeating.008
+			days = 1
+		}
+	}
+
+	# Head of faith link, government, and the Seat's own lands settle once succession has resolved
+	trigger_event = {
+		id = aeluran_repeating.006
+		days = 1
+	}
+	# The Council fills the seat she left, outside the succession's own title change
+	trigger_event = {
+		id = aeluran_repeating.007
+		days = 1
+	}
+}
+
+# Root = the High Matriarch. She holds the conclave succession law.
+aeluran_ensure_conclave_law_effect = {
+	if = {
+		limit = { NOT = { has_realm_law = aeluran_conclave_succession_law } }
+		add_realm_law_skip_effects = aeluran_conclave_succession_law
+	}
+}
+
+# Every Matron casts her vote now instead of waiting for her next AI tick, so the Seat always has an elected heir.
+aeluran_conclave_electors_vote_effect = {
+	faith:aeluran_weavers = {
+		every_clerical_elector_title = {
+			limit = { has_variable = aeluran_matron_seat }
+			holder ?= { recalculate_succession_election_vote = yes }
+		}
+	}
+}
+
+# Root = the High Matriarch. Spirits' Landing passes with the office (see aeluran_title_passes_with_office_trigger):
+# anything of it her predecessor held that ended up elsewhere comes to her.
+aeluran_claim_seat_lands_effect = {
+	save_scope_as = new_matriarch
+	if = {
+		limit = { exists = scope:dead_aeluran }
+		title:c_martyuba = {
+			every_in_de_jure_hierarchy = {
+				limit = { aeluran_title_passes_with_office_trigger = yes }
+				aeluran_claim_seat_land_title_effect = yes
+			}
+		}
+	}
+}
+
+# Root = the dying High Matriarch. Finds the kin who inherits her own lands: eldest living child,
+# else eldest living sibling, else the head of her house, else her eldest living dynasty member.
+# Saves scope:matriarch_family_heir, or nothing if she has no living kin.
+aeluran_find_family_heir_effect = {
+	clear_saved_scope = matriarch_family_heir
+	save_scope_as = aeluran_heir_search_root
+	if = {
+		limit = { any_child = { is_alive = yes } }
+		ordered_child = {
+			limit = { is_alive = yes }
+			order_by = age
+			save_scope_as = matriarch_family_heir
+		}
+	}
+	else_if = {
+		limit = { any_sibling = { is_alive = yes } }
+		ordered_sibling = {
+			limit = { is_alive = yes }
+			order_by = age
+			save_scope_as = matriarch_family_heir
+		}
+	}
+	else_if = {
+		limit = {
+			house ?= {
+				house_head ?= {
+					is_alive = yes
+					this != scope:aeluran_heir_search_root
+				}
+			}
+		}
+		house.house_head = { save_scope_as = matriarch_family_heir }
+	}
+	else_if = {
+		limit = {
+			exists = dynasty
+			any_dynasty_member = {
+				is_alive = yes
+				this != scope:aeluran_heir_search_root
+			}
+		}
+		ordered_dynasty_member = {
+			limit = {
+				is_alive = yes
+				this != scope:aeluran_heir_search_root
+			}
+			order_by = age
+			save_scope_as = matriarch_family_heir
+		}
+	}
+}
+
+# Root = the dying High Matriarch, scope:matriarch_family_heir set. Before the Council's election resolves,
+# everything she holds except the office's own titles passes to her family heir, as an inheritance would.
+aeluran_pass_matriarch_lands_to_family_effect = {
+	if = {
+		limit = {
+			exists = scope:matriarch_family_heir
+			any_held_title = {
+				aeluran_title_passes_with_office_trigger = no
+				NOT = { has_variable = aeluran_matron_seat }
+			}
+		}
+		every_held_title = {
+			limit = {
+				aeluran_title_passes_with_office_trigger = no
+				NOT = { has_variable = aeluran_matron_seat }
+				# A county she holds carries its baronies with it (take_baronies below)
+				NOT = {
+					AND = {
+						tier = tier_barony
+						de_jure_liege ?= { holder ?= root }
+					}
+				}
+			}
+			add_to_temporary_list = aeluran_family_titles
+		}
+		create_title_and_vassal_change = {
+			type = stepped_down
+			save_scope_as = aeluran_family_change
+			add_claim_on_loss = no
+		}
+		every_in_list = {
+			list = aeluran_family_titles
+			change_title_holder_include_vassals = {
+				holder = scope:matriarch_family_heir
+				change = scope:aeluran_family_change
+				take_baronies = yes
+			}
+		}
+		# An heir who is landless or one of the Matriarch's own vassals takes the Matriarch's place in the wider realm,
+		# instead of ending up serving the next Matriarch
+		if = {
+			limit = {
+				scope:matriarch_family_heir = {
+					OR = {
+						is_ruler = no
+						liege ?= root
+					}
+				}
+			}
+			if = {
+				limit = { is_independent_ruler = no }
+				scope:matriarch_family_heir = {
+					change_liege = {
+						liege = root.liege
+						change = scope:aeluran_family_change
+					}
+				}
+			}
+			else = {
+				scope:matriarch_family_heir = {
+					becomes_independent = { change = scope:aeluran_family_change }
+				}
+			}
+		}
+		resolve_title_and_vassal_change = scope:aeluran_family_change
+		scope:matriarch_family_heir = {
+			add_character_flag = {
+				flag = aeluran_matriarch_lands_received
+				days = 30
+			}
+		}
+	}
+}
+
+# Root = the dying High Matriarch, played by a human. So her death is not a game over, the player moves now to her
+# family heir (who is later offered the Seat's new holder, aeluran_repeating.008), or, with no kin, to the Matron
+# the Council is electing.
+aeluran_matriarch_player_continuity_effect = {
+	# Only an heir who now holds land can be played; a landless one would leave the player stranded
+	if = {
+		limit = {
+			is_ai = no
+			exists = scope:matriarch_family_heir
+			scope:matriarch_family_heir = {
+				is_ai = yes
+				is_landed = yes
+			}
+		}
+		scope:matriarch_family_heir = {
+			add_character_flag = {
+				flag = aeluran_matriarch_heir_player
+				days = 30
+			}
+		}
+		set_player_character = scope:matriarch_family_heir
+	}
+	else_if = {
+		limit = {
+			is_ai = no
+			exists = title:d_high_matriarch.current_heir
+			title:d_high_matriarch.current_heir = {
+				is_ai = yes
+				this != root
+			}
+		}
+		title:d_high_matriarch.current_heir = {
+			add_character_flag = {
+				flag = aeluran_expected_matriarch_player
+				days = 30
+			}
+			save_scope_as = aeluran_expected_matriarch
+		}
+		set_player_character = scope:aeluran_expected_matriarch
+	}
+}
+
+# Title scope. Moves the title to scope:new_matriarch if it passed from scope:dead_aeluran to someone else.
+aeluran_claim_seat_land_title_effect = {
+	if = {
+		limit = {
+			exists = holder
+			holder != scope:new_matriarch
+			previous_holder ?= scope:dead_aeluran
+		}
+		save_scope_as = seat_land_title
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = seat_land_change
+			add_claim_on_loss = no
+		}
+		scope:seat_land_title = {
+			change_title_holder_include_vassals = {
+				holder = scope:new_matriarch
+				change = scope:seat_land_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:seat_land_change
+	}
+}

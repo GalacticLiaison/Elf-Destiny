@@ -1,0 +1,219 @@
+﻿##########################################
+# The High Matriarch's Matronate powers #
+##########################################
+
+# Founding a Matronate
+aeluran_matronate_found_piety_cost = 500
+
+# Entrusting a Matronate (interaction scopes: scope:recipient, scope:target). A vacant one costs piety only; deposing a
+# sitting Matron costs more, and three times as much when the new Matron is not of the Matronate's own rite.
+aeluran_matronate_entrust_piety_cost = {
+	value = 250
+	if = {
+		limit = { exists = scope:target.holder }
+		add = 250
+	}
+	if = {
+		limit = {
+			exists = scope:target.title_capital_county.rite
+			NOT = { scope:recipient.rite = scope:target.title_capital_county.rite }
+		}
+		multiply = 3
+	}
+}
+aeluran_matronate_entrust_prestige_cost = {
+	value = 0
+	if = {
+		limit = { exists = scope:target.holder }
+		add = 250
+	}
+	if = {
+		limit = {
+			exists = scope:target.title_capital_county.rite
+			NOT = { scope:recipient.rite = scope:target.title_capital_county.rite }
+		}
+		multiply = 3
+	}
+}
+# The AI High Matriarch only replaces with a Sister of the Matronate itself, whose rite it scores highly
+aeluran_matronate_entrust_ai_piety_cost = 500
+aeluran_matronate_entrust_ai_prestige_cost = 250
+
+# Scope: a candidate for a new Matronate. The AI High Matriarch prefers a Matron without one, then the most learned.
+aeluran_matronate_ai_found_score = {
+	value = learning
+	if = {
+		limit = { has_trait = aeluran_matron }
+		add = 100
+	}
+}
+
+# Scope: a candidate Sister, scope:matronate = the Matronate to fill, scope:matronate_capital = its capital county.
+# Who the Council of Matrons raises to Matron to take a vacant Matronate: a Sister of the region above all, then one of
+# the Matronate's own rite (a Dark Sister for a Dark Sisters' Matronate) and culture, then the Order's usual criteria
+# (the weights of the old Matron promotion) and her learning.
+aeluran_matronate_successor_score = {
+	value = 0
+	if = {
+		limit = { aeluran_in_matronate_region_trigger = yes }
+		add = 1000
+	}
+	# A Matron's Seat and Matronate are duchy rank: a Sister who rules land under a duke or count would break away from
+	# her liege, taking her land out of the realm. Prefer another Sister of the region when there is one.
+	if = {
+		limit = {
+			any_held_title = { is_landless_type_title = no }
+			is_independent_ruler = no
+			liege = { highest_held_title_tier <= tier_duchy }
+		}
+		add = -500
+	}
+	if = {
+		limit = {
+			exists = scope:matronate_capital.rite
+			rite = scope:matronate_capital.rite
+		}
+		add = 200
+	}
+	if = {
+		limit = { culture = scope:matronate_capital.culture }
+		add = 50
+	}
+	if = {
+		limit = { highest_held_title_tier = tier_empire }
+		add = 20
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_kingdom }
+		add = 10
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_duchy }
+		add = 5
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_county }
+		add = 3
+	}
+	if = {
+		limit = { has_trait = born_in_the_red }
+		add = 15
+	}
+	if = {
+		limit = { has_trait = magic_talent_3 }
+		add = 10
+	}
+	else_if = {
+		limit = { has_trait = magic_talent_2 }
+		add = 5
+	}
+	if = {
+		limit = { is_ainur_elf_tier = yes }
+		add = 75
+	}
+	else_if = {
+		limit = { is_celestial_elf_tier = yes }
+		add = 50
+	}
+	else_if = {
+		limit = { is_fae_elf_tier = yes }
+		add = 25
+	}
+	if = {
+		limit = { is_high_elf = yes }
+		add = 10
+	}
+	if = {
+		limit = { is_of_any_royal_elf_bloodline = yes }
+		add = 15
+	}
+	add = learning
+}
+
+##############################
+# The flock: piety to the Order #
+##############################
+# Scope: an Aeluran ruler (count or above). Monthly piety they yield to the Matron of their Matronate (or to the High
+# Matriarch outside every Matronate): rank, plus bloodline worth and elven tier, times their Spiritual Fulfillment.
+# Paid quarterly (x3) by aeluran_flock_piety_pulse. Numbers are first-pass (2026-09-30), tune freely.
+aeluran_flock_piety_value = {
+	value = 0
+	# Rank
+	if = {
+		limit = { highest_held_title_tier >= tier_empire }
+		add = 1.2
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_kingdom }
+		add = 0.8
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_duchy }
+		add = 0.4
+	}
+	else = {
+		add = 0.2
+	}
+	# Bloodline: each point of genetic worth is worth 0.05 (bad genetics lower it)
+	add = {
+		value = genetic_worthiness
+		multiply = 0.05
+	}
+	# Elven tier
+	if = {
+		limit = { is_ainur_elf_tier = yes }
+		add = 0.6
+	}
+	else_if = {
+		limit = { is_celestial_elf_tier = yes }
+		add = 0.4
+	}
+	else_if = {
+		limit = { is_fae_elf_tier = yes }
+		add = 0.2
+	}
+	else_if = {
+		limit = { is_high_elf = yes }
+		add = 0.1
+	}
+	# Devotion (aeluran_fulfillment levels)
+	if = {
+		limit = { spiritual_fulfillment >= 65 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { spiritual_fulfillment >= 30 }
+		multiply = 1.5
+	}
+	else_if = {
+		limit = { spiritual_fulfillment > -30 }
+		multiply = 1
+	}
+	else_if = {
+		limit = { spiritual_fulfillment > -65 }
+		multiply = 0.5
+	}
+	else = {
+		multiply = 0
+	}
+	min = 0
+}
+
+# Scope: a candidate Sister; scope:advisor_post = the ruler she would advise. How well she fits the post.
+aeluran_advisor_candidate_score = {
+	value = learning
+	multiply = 2
+	add = diplomacy
+	if = {
+		limit = { culture = scope:advisor_post.culture }
+		add = 10
+	}
+	if = {
+		limit = { rite = scope:advisor_post.rite }
+		add = 10
+	}
+	add = {
+		value = "opinion(scope:advisor_post)"
+		divide = 5
+	}
+}

@@ -75,7 +75,8 @@ dark_elf_inherit_strain_effect = {
 # var:dark_elf_skin_color (flag:purple / flag:grey / flag:blue) is the single
 # source of truth for a dark elf's skin tone. The deterministic entries in
 # gfx/portraits/portrait_modifiers/dark_elf_race_skin.txt render it. Regional
-# rule: Dokkalfar are grey; Drow are an even purple/blue mix (keep in sync with
+# rule: Dokkalfar are grey; Drow are an even purple/blue mix; the basic dark elf
+# culture (elf_culture_dark_elf) spans all three (keep in sync with
 # the ethnicities in common/culture/cultures/dark_elf_cultures.txt).
 
 # Culture-based init: only fills the variable when missing. DNA-FIRST: this is
@@ -92,6 +93,15 @@ dark_elf_init_skin_color_effect = {
         if = {
             limit = { culture = culture:elf_culture_dokkalfar }
             set_variable = { name = dark_elf_skin_color value = flag:grey }
+        }
+        # The basic dark elf culture spans all three strains, like its ethnicities
+        else_if = {
+            limit = { culture = culture:elf_culture_dark_elf }
+            random_list = {
+                34 = { set_variable = { name = dark_elf_skin_color value = flag:grey } }
+                33 = { set_variable = { name = dark_elf_skin_color value = flag:purple } }
+                33 = { set_variable = { name = dark_elf_skin_color value = flag:blue } }
+            }
         }
         else = {
             random_list = {

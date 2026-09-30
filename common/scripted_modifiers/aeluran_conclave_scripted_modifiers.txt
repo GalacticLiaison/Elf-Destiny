@@ -1,0 +1,145 @@
+﻿# Voting patterns for the Council of Matrons (aeluran_matron_conclave).
+# Root = the voting Matron, scope:candidate = the Matron she is weighing, scope:holder = the sitting High Matriarch.
+
+# A candidate votes for herself. Only a pile of reasons to back a rival (e.g. a beloved Matriarch's choice, +75 at most,
+# plus rite and Born in the Red) can turn her, or a hook: force_vote_in_succession_election overrides the score entirely.
+aeluran_conclave_elector_self_voting_modifier = {
+	modifier = {
+		desc = aeluran_conclave_vote_myself
+		this = scope:candidate
+		add = 150
+	}
+	modifier = {
+		desc = aeluran_conclave_vote_myself_ambitious
+		this = scope:candidate
+		OR = {
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+		add = 50
+	}
+	# Still +75 in all: a humble candidate can be talked round, but not easily
+	modifier = {
+		desc = aeluran_conclave_vote_not_myself
+		this = scope:candidate
+		OR = {
+			has_trait = humble
+			has_trait = content
+		}
+		add = -75
+	}
+}
+
+aeluran_conclave_elector_voting_modifier = {
+	# Sisters of the same rite stand together
+	modifier = {
+		desc = aeluran_conclave_vote_same_rite
+		this != scope:candidate
+		root.rite = scope:candidate.rite
+		add = 20
+	}
+	# Dark Sisters back Dark Sisters, and Aeluran Sisters their own, even across rites
+	modifier = {
+		desc = aeluran_conclave_vote_same_sisterhood
+		this != scope:candidate
+		root.rite != scope:candidate.rite
+		aeluran_same_sisterhood_trigger = { A = root B = scope:candidate }
+		add = 10
+	}
+	# The Aeluran Sisters and the Dark Sisters do not trust one another
+	modifier = {
+		desc = aeluran_conclave_vote_other_rite
+		this != scope:candidate
+		root.rite != scope:candidate.rite
+		NOT = { aeluran_same_sisterhood_trigger = { A = root B = scope:candidate } }
+		add = -20
+	}
+	# Electors like backing a daughter of a Matriarch
+	modifier = {
+		desc = aeluran_conclave_vote_born_in_the_red
+		this != scope:candidate
+		scope:candidate = { has_trait = born_in_the_red }
+		add = 20
+	}
+	# The sitting Matriarch favours a daughter of her own (an AI Matriarch; a player chooses in the election window)
+	modifier = {
+		desc = aeluran_conclave_vote_own_daughter
+		this = scope:holder
+		scope:candidate = { is_child_of = root }
+		add = 30
+	}
+	# The Matriarch's choice of successor is her vote (the aeluran_conclave_matriarch elector set). Matrons weigh it by
+	# what they think of her. Half the scale of the Elven elective's ruler-opinion modifiers (which skip this election),
+	# so the Council does not simply copy her.
+	modifier = {
+		desc = aeluran_conclave_vote_matriarch_choice_disliked
+		exists = scope:holder_candidate
+		scope:candidate = scope:holder_candidate
+		NOR = {
+			this = scope:holder
+			this = scope:candidate
+		}
+		save_temporary_opinion_value_as = {
+			name = opinion_of_holder
+			target = scope:holder
+		}
+		scope:opinion_of_holder <= low_negative_opinion
+		add = {
+			subtract = 5
+			if = {
+				limit = { scope:opinion_of_holder <= medium_negative_opinion }
+				subtract = 7 #-12 total
+			}
+			if = {
+				limit = { scope:opinion_of_holder <= high_negative_opinion }
+				subtract = 13 #-25 total
+			}
+			if = {
+				limit = { scope:opinion_of_holder <= very_high_negative_opinion }
+				subtract = 25 #-50 total
+			}
+			if = {
+				limit = { has_relation_rival = scope:holder }
+				subtract = 25 #-75 total
+			}
+		}
+	}
+	modifier = {
+		desc = aeluran_conclave_vote_matriarch_choice_liked
+		exists = scope:holder_candidate
+		scope:candidate = scope:holder_candidate
+		NOR = {
+			this = scope:holder
+			this = scope:candidate
+		}
+		save_temporary_opinion_value_as = {
+			name = opinion_of_holder
+			target = scope:holder
+		}
+		scope:opinion_of_holder >= low_positive_opinion
+		add = {
+			value = 5
+			if = {
+				limit = { scope:opinion_of_holder >= medium_positive_opinion }
+				add = 7 #12 total
+			}
+			if = {
+				limit = { scope:opinion_of_holder >= high_positive_opinion }
+				add = 13 #25 total
+			}
+			if = {
+				limit = { scope:opinion_of_holder >= very_high_positive_opinion }
+				add = 25 #50 total
+			}
+			if = {
+				limit = {
+					OR = {
+						has_relation_friend = scope:holder
+						has_relation_lover = scope:holder
+					}
+				}
+				add = 25 #75 total
+			}
+		}
+	}
+}

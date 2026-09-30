@@ -1,0 +1,25 @@
+﻿# Clicking a divine task pin on the map (gui/map_icon_layer.gui, deity_task_marker) opens the offers at that province.
+# Root = the player, scope:pin_province = the province under the pin.
+deity_pin_click = {
+	scope = character
+	saved_scopes = {
+		pin_province
+	}
+
+	is_shown = {
+		scope:pin_province = {
+			OR = {
+				has_variable = deity_pin_offers
+				has_variable = deity_pin_active
+			}
+		}
+	}
+
+	is_valid = {
+		is_ai = no
+	}
+
+	effect = {
+		trigger_event = dark_elf_deity.5001
+	}
+}

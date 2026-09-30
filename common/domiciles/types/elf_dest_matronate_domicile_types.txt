@@ -1,0 +1,47 @@
+﻿# Matron's Hall: the domicile of an Aeluran Matron, carried by the Order government (aeluran_weavers_government).
+# A clerical region takes its domicile type from its holder's government, and the engine cannot move a region between
+# holders without one (CLandedTitle::SetHolder crash), so every Matronate holder needs a Hall.
+# Empty for now: no buildings use this type yet. Art borrowed from the vanilla ecclesiastical domicile.
+aeluran_matron_hall = {
+	allowed_for_character = {
+		OR = {
+			has_trait = aeluran_matron
+			has_trait = aeluran_high_matriarch
+		}
+	}
+	rename_window = primary_title
+	illustration = "gfx/interface/illustrations/event_scenes/pam_romanesque_church_exterior.dds"
+	icon = "gfx/interface/icons/flat_icons/domicile_church.dds"
+	map_pin_texture = "gfx/interface/icons/map_icons/map_icon_estate_church.dds"
+	map_pin_anchor = up
+	map_pin_lobby = no
+	can_move_manually = no
+
+	base_external_slots = 0
+
+	domicile_building_slots = {
+		main_slot = {
+			slot_type = main
+			position = { 28.2% 16% }
+			size = { 28% 34.5% }
+
+			empty_slot_asset = {
+				icon = "gfx/interface/icons/flat_icons/plus.dds"
+				texture = "gfx/interface/window_domiciles/estate_grassland_empty.dds"
+				intersectionmask_texture = "gfx/interface/window_domiciles/estate_building_grain_fields_byzantine_mask.png"
+			}
+
+			construction_slot_asset = {
+				icon = "gfx/interface/icons/flat_icons/plus.dds"
+				texture = "gfx/interface/window_domiciles/estate_building_manor_construction_byzantine.dds"
+				intersectionmask_texture = "gfx/interface/window_domiciles/estate_building_manor_construction_byzantine_mask.png"
+			}
+		}
+	}
+
+	domicile_asset = {
+		background = "gfx/interface/window_domiciles/church_terrain_green_bg.dds"
+		foreground = "gfx/interface/window_domiciles/church_terrain_fg.dds"
+		ambience = "event:/DLC/EP3/SFX/Ambience/2D/Domicile/ep3_amb_2d_domicile_green_lands"
+	}
+}

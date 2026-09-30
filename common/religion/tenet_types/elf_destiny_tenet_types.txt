@@ -1,0 +1,320 @@
+﻿tenet_aeluran_sisters = {
+	icon = tenet_aeluran_sisters
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+	}
+
+	is_shown = {
+		religion = religion:spark_religion
+	}
+	can_pick = {
+		religion = religion:spark_religion
+		custom_description = {
+			text = incompatible_tenet_aeluran_dark_sisters_trigger
+			NOT = { tenet:tenet_dark_sisters = { is_in_list = selected_doctrines } }
+		}
+		aeluran_sisterhood_doctrines_selected_trigger = yes
+	}
+
+	parameters = {
+		tenet_aeluran_sisters
+	}
+
+	traits = {
+		virtues = {
+			pregnant = { weight = 15 scale = 1 }
+			pure_blooded = { weight = 15 scale = 1 }
+			purer_blooded = { weight = 20 scale = 2 }
+			purest_blooded = { weight = 30 scale = 3 }
+		}
+	}
+}
+
+# For non-elf faiths: the vanilla syncretism pattern (see tenet_christian_syncretism). Together with Elven Adaptability
+# (special_doctrine_is_elf_faith) both sides see each other as Astray instead of Evil, with a mutual opinion bonus.
+# No "Spark Rejection" counterpart: abrahamic and pagan faiths already hold unrelated religions (elves) to be Evil.
+tenet_elf_syncretism = {
+	icon = tenet_elf_syncretism
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+
+		# Multiplier for keeping same tenet
+		if = {
+			limit = { rite_has_parameter = elf_syncretic_actor }
+			multiply = faith_unchanged_doctrine_cost_mult
+		}
+	}
+
+	is_shown = {
+		NOT = { religion = religion:spark_religion }
+	}
+	can_pick = {
+		NOT = { religion = religion:spark_religion }
+		# One syncretism per faith. Checking the vanilla ones from our side is enough: whichever is picked second fails.
+		unique_syncretism_trigger = yes
+		trigger_if = {
+			limit = { scope:actor ?= { is_ai = yes } }
+			scope:actor = { elf_meaningful_spark_presence_trigger = yes }
+		}
+	}
+
+	# A human living among elves can hold it personally without the whole faith reforming
+	can_pick_as_personal_tenet = {
+		NOT = {
+			faith = { religion = religion:spark_religion }
+		}
+		trigger_if = {
+			limit = { is_ai = yes }
+			elf_meaningful_spark_presence_trigger = yes
+		}
+	}
+
+	personal_tenet_parameters = {
+		tenet_spark_syncretism_county_bonus
+	}
+
+	personal_tenet_modifier = {
+		spark_religion_opinion = 15
+	}
+
+	parameters = {
+		#For loc:
+		is_elf_faith_bilateral_loc_override
+		# Actor opinion is delivered by special_parameters; the syncretic trigger checks the doctrine.
+		elf_syncretic_actor
+	}
+
+	special_parameters = {
+		hostility_level_override = {
+			special_doctrine_is_elf_faith = astray
+		}
+		parameter_opinion_override = {
+			#Sync this to syncretic_mutual_opinion_bonus_value
+			elf_syncretic_recipient = 30
+		}
+	}
+}
+
+# The Dark Elf rites' counterpart to the Aeluran Sisters. Same effects for now, shares its art.
+tenet_dark_sisters = {
+	icon = tenet_dark_sisters
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+	}
+
+	is_shown = {
+		religion = religion:spark_religion
+	}
+	can_pick = {
+		religion = religion:spark_religion
+		custom_description = {
+			text = incompatible_tenet_aeluran_dark_sisters_trigger
+			NOT = { tenet:tenet_aeluran_sisters = { is_in_list = selected_doctrines } }
+		}
+		aeluran_sisterhood_doctrines_selected_trigger = yes
+	}
+
+	parameters = {
+		tenet_dark_sisters
+	}
+
+	traits = {
+		virtues = {
+			pregnant = { weight = 15 scale = 1 }
+			pure_blooded = { weight = 15 scale = 1 }
+			purer_blooded = { weight = 20 scale = 2 }
+			purest_blooded = { weight = 30 scale = 3 }
+		}
+	}
+}
+
+###################
+# Dark Elf patron deities, one per rite. Each unlocks a "Commune with <deity>" decision, art is borrowed from vanilla.
+###################
+
+# Dokkalfar: Melkor, the Fallen Vala. God of the Void and First Dark Lord
+tenet_melkor_void = {
+	icon = tenet_esotericism
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+
+		# Multiplier for keeping same tenet
+		if = {
+			limit = { rite_has_tenet = tenet_melkor_void }
+			multiply = faith_unchanged_doctrine_cost_mult
+		}
+	}
+
+	is_shown = {
+		religion = religion:spark_religion
+	}
+	can_pick = {
+		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
+		# Vanilla bars Human Sacrifice alongside the pacifist tenets
+		custom_description = {
+			text = incompatible_tenet_pacifism_trigger
+			NOT = { tenet:tenet_pacifism = { is_in_list = selected_doctrines } }
+		}
+		custom_description = {
+			text = incompatible_tenet_dharmic_pacifism_trigger
+			NOT = { tenet:tenet_dharmic_pacifism = { is_in_list = selected_doctrines } }
+		}
+	}
+	can_pick_as_personal_tenet = {
+		faith = { religion = religion:spark_religion }
+	}
+
+	parameters = {
+		commune_with_melkor_unlocked
+		# The faith-level parameters of Human Sacrifice: vanilla's Raid for Captives (flowery_war_cb) is invalid,
+		# and takes no captives, unless the attacker's faith has human_sacrifice_active
+		human_sacrifice_active
+		human_sacrifice_sharing_power_prestige
+		flower_war_cb_active
+		sanctify_artifacts_sacrificial
+	}
+	# Taking the tenet personally unlocks the decision too
+	personal_tenet_parameters = {
+		commune_with_melkor_unlocked
+	}
+
+	personal_tenet_modifier = {
+		prowess = 2
+		dread_gain_mult = 0.1
+	}
+
+	traits = {
+		virtues = {
+			sadistic = { weight = 20 scale = 1 }
+			arrogant = { weight = 15 scale = 1 }
+			wrathful = { weight = 15 scale = 1 }
+		}
+		sins = {
+			compassionate = { weight = 20 scale = 1 }
+			humble = { weight = 15 scale = 1 }
+			forgiving = { weight = 15 scale = 1 }
+		}
+	}
+}
+
+# Myrvessa: Lloth, the Spider Queen
+tenet_lloth_web = {
+	icon = tenet_esotericism
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+
+		# Multiplier for keeping same tenet
+		if = {
+			limit = { rite_has_tenet = tenet_lloth_web }
+			multiply = faith_unchanged_doctrine_cost_mult
+		}
+	}
+
+	is_shown = {
+		religion = religion:spark_religion
+	}
+	can_pick = {
+		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
+	}
+	can_pick_as_personal_tenet = {
+		faith = { religion = religion:spark_religion }
+	}
+
+	parameters = {
+		commune_with_lloth_unlocked
+		master_assassin_court_position_unlocked # as Sacred Murder (tenet_fp3_fedayeen)
+	}
+	# Taking the tenet personally unlocks the decision too
+	personal_tenet_parameters = {
+		commune_with_lloth_unlocked
+	}
+
+	personal_tenet_modifier = {
+		enemy_hostile_scheme_success_chance_add = -10
+		max_hostile_schemes_add = 1
+	}
+
+	traits = {
+		virtues = {
+			deceitful = { weight = 20 scale = 1 }
+			ambitious = { weight = 15 scale = 1 }
+			vengeful = { weight = 15 scale = 1 }
+		}
+		sins = {
+			honest = { weight = 20 scale = 1 }
+			trusting = { weight = 15 scale = 1 }
+			content = { weight = 15 scale = 1 }
+		}
+	}
+}
+
+# Syldranis: Typhos, the serpent god of evolutionary ascent
+tenet_typhos_ascent = {
+	icon = tenet_esotericism
+
+	piety_cost = {
+		value = faith_tenet_cost_mid
+
+		# Multiplier for keeping same tenet
+		if = {
+			limit = { rite_has_tenet = tenet_typhos_ascent }
+			multiply = faith_unchanged_doctrine_cost_mult
+		}
+	}
+
+	is_shown = {
+		religion = religion:spark_religion
+	}
+	can_pick = {
+		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
+	}
+	can_pick_as_personal_tenet = {
+		faith = { religion = religion:spark_religion }
+	}
+
+	parameters = {
+		commune_with_typhos_unlocked
+		safer_childbirths_active # as Sacred Childbirth: mothers are less likely to die in pregnancy and childbirth
+	}
+	# Taking the tenet personally unlocks the decision too
+	personal_tenet_parameters = {
+		commune_with_typhos_unlocked
+	}
+
+	personal_tenet_modifier = {
+		health = 0.15
+		learning = 1
+	}
+
+	traits = {
+		virtues = {
+			ambitious = { weight = 20 scale = 1 }
+			diligent = { weight = 15 scale = 1 }
+			brave = { weight = 15 scale = 1 }
+		}
+		sins = {
+			content = { weight = 20 scale = 1 }
+			lazy = { weight = 15 scale = 1 }
+		}
+	}
+}

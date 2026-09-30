@@ -1,4 +1,4 @@
-version="Beta_v2.0.1"
+version="Beta_v2.0.2"
 tags={
 	"Alternative History"
 	"Gameplay"
@@ -8,4 +8,4 @@ tags={
 	"Religion"
 }
 name="Elf Destiny (Dev)"
-supported_version="1.19.*"
+supported_version="1.20.*"

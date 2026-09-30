@@ -1,6 +1,7 @@
 ﻿namespace = aeluran_diarchy
 
-# Aeluran Matriarch assigns new Advisor, sends letter
+# The Order assigns a new Advisor; the letter comes from the Matron or High Matriarch who appointed her
+# (scope:advisor_appointer, aeluran_fill_advisor_post_effect). A chosen Sister arrives as scope:aeluran_sister_advisor.
 aeluran_diarchy.100 = {
 	type = letter_event
 
@@ -8,7 +9,7 @@ aeluran_diarchy.100 = {
 		NOT = {
 			has_character_flag = aeluran_advisor_is_on_the_way
 		}
-		exists = global_var:high_matriarch
+		exists = scope:advisor_appointer
 	}
 
 	opening = aeluran_diarchy.100.title
@@ -16,6 +17,10 @@ aeluran_diarchy.100 = {
 	desc = {
 		desc = aeluran_diarchy.100.desc
 		first_valid = {
+			triggered_desc = {
+				trigger = { scope:advisor_type = flag:chosen }
+				desc = aeluran_diarchy.100.desc.chosen
+			}
 			triggered_desc = {
 				trigger = { 
 					scope:advisor_type = flag:vassal
@@ -37,12 +42,15 @@ aeluran_diarchy.100 = {
 		}
 	}
 
-	sender = global_var:high_matriarch
+	sender = scope:advisor_appointer
 
 	# cooldown = { years = 1 } # is this global?
 
 	immediate = {
-		determine_new_aeluran_advisor_effect = yes
+		if = {
+			limit = { NOT = { exists = scope:aeluran_sister_advisor } }
+			determine_new_aeluran_advisor_effect = yes
+		}
 	}
 
 	option = {

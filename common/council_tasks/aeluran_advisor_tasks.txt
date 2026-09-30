@@ -367,7 +367,6 @@ task_aeluran_conversion = {
 				scope:councillor.liege = { has_character_modifier = fp2_council_conversion_modifier }
 				scope:county.faith = {
 					religion = scope:councillor.liege.religion
-					fp2_struggle_faith_is_mozarabic_trigger = no
 					NOT = { exists = religious_head }
 				}
 			}
@@ -412,33 +411,6 @@ task_aeluran_conversion = {
 			multiply = {
 				value = significantly_faster_game_rule_value
 				desc = GAME_RULE_SIGNIFICANTLY_FASTER_REASON
-			}
-		}
-		if = {
-			limit = {
-				exists = scope:county
-				OR = {
-					AND = {
-						scope:councillor.faith = { has_doctrine_parameter = unreformed_syncretic_actor_opinion_active }
-						scope:county.faith = { has_doctrine_parameter = unreformed }
-					}
-					AND = {
-						scope:councillor.faith = { has_doctrine_parameter = christian_syncretic_actor_opinion_active }
-						scope:county.faith = { religion_tag = christianity_religion }
-					}
-					AND = {
-						scope:councillor.faith = { has_doctrine_parameter = islamic_syncretic_actor_opinion_active }
-						scope:county.faith = { religion_tag = islam_religion }
-					}
-					AND = {
-						scope:councillor.faith = { has_doctrine_parameter = jewish_syncretic_actor_opinion_active }
-						scope:county.faith = { religion_tag = judaism_religion }
-					}
-				}
-			}
-			min = {
-				value = 0.1
-				desc = minimum_conversion
 			}
 		}
 	}
@@ -591,38 +563,13 @@ task_aeluran_conversion = {
 					}
 				}
 			}
-			# Ash'ari in Spain tend to not convert Muwhalladi often
-			trigger_if = {
-				limit = {
-					scope:councillor_liege = {
-						is_ai = yes
-						faith = faith:ashari
-						capital_province ?= { geographical_region = world_europe_west_iberia }
-						scope:county.faith = faith:muwalladi
-					}
-					scope:county = {
-						title_province = { geographical_region = world_europe_west_iberia }
-					}
-				}
-				OR = {
-					scope:councillor_liege = { ai_zeal >= 50 }
-					scope:county = { county_opinion <= -20 }
-					scope:county = { # Always convert holy sites
-						any_county_province = {
-							barony = {
-								is_holy_site_of = scope:councillor_liege.faith
-							}
-						}
-					}
-				}
-			}
 			# If a ruler has Jizya tax, they'll only convert the same *religious family* when ai_zeal is really high, they're converting unreformed pagans, counties in a kingdom with a Holy Site, or others of the same religion
 			trigger_if = {
 				limit = {
 					scope:councillor_liege = {
 						is_ai = yes
 						faith = {
-							has_doctrine = tenet_tax_nonbelievers
+							has_tenet = tenet_tax_nonbelievers
 						}
 					}
 					OR = {
@@ -645,7 +592,7 @@ task_aeluran_conversion = {
 					scope:county.faith = { has_doctrine_parameter = unreformed }
 					scope:councillor_liege.faith = {
 						any_holy_site = {
-							county = {
+							holy_site_county = {
 								kingdom = scope:county.kingdom
 							}
 						}

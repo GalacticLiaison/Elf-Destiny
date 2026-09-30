@@ -1,0 +1,1033 @@
+﻿# Elf Destiny: fork of the vanilla 1.20.0 gui/window_cardinals.gui. For the Aeluran faiths the College window is the
+# Council of Matrons (scripted gui elf_dest_aeluran_college); Catholics see it unchanged. Every change is marked
+# "Elf Destiny". Re-diff against vanilla after each game patch.
+window = {
+	name = "cardinals_window"
+	datacontext = "[GetVariableSystem]"
+	datacontext = "[CardinalsWindow.GetFaith]"
+
+	parentanchor = top|right
+	allow_outside = yes
+	movable = no
+	layer = windows_layer
+
+	using = Window_Size_MainTab
+
+	state = {
+		name = on_create
+		trigger_on_create = yes
+
+		on_start = "[GetVariableSystem.Set( 'bookmark_college', 'true' )]"
+		on_start = "[GetVariableSystem.Clear( 'bookmark_succession' )]"
+	}
+
+	state = {
+		name = _show
+		next = refresh_bookmark_tabs
+
+		using = Animation_FadeIn_Quick
+		using = Sound_WindowShow_Standard
+		using = Window_Position_MainTab
+	}
+
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Quick
+		using = Sound_WindowHide_Standard
+		using = Window_Position_MainTab_Hide
+	}
+
+	state = {
+		name = refresh_bookmark_tabs
+		on_start = "[GetVariableSystem.Set( 'bookmark_college', 'true' )]"
+		on_start = "[GetVariableSystem.Set( 'bookmark_succession', 'true' )]"
+		on_start = "[GetVariableSystem.ClearIf( 'bookmark_college', Not( CardinalsWindow.IsActiveTab( 'bookmark_college' ) ) )]"
+		on_start = "[GetVariableSystem.ClearIf( 'bookmark_succession', Not( CardinalsWindow.IsActiveTab( 'bookmark_succession' ) ) )]"
+	}
+
+	margin_widget = {
+		size = { 100% 100% }
+		margin_top = 30
+		margin_bottom = 25
+		margin_right = 13
+
+		widget = {
+			size = { 100% 100% }
+
+			### WINDOW CONTENT
+			vbox = {
+				using = Window_Margins
+
+				header_pattern = {
+					layoutpolicy_horizontal = expanding
+
+					blockoverride "header_text"
+					{
+						# Elf Destiny: Council of Matrons title for the Aeluran faiths
+						text = "[SelectLocalization( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), 'AELURAN_COLLEGE_VIEW_TITLE', 'CARDINALS_VIEW_TITLE' )]"
+					}
+
+					blockoverride "button_close"
+					{
+						onclick = "[CardinalsWindow.Close]"
+					}
+				}
+
+				### CARDINALS MAIN CONTENTS / BODY
+				vbox_cardinals_college_body = {
+					visible = "[GetVariableSystem.Exists( 'bookmark_college' )]"
+				}
+
+				hbox = {
+					datacontext = "[Faith.GetCollegeElectionTitle.GetHolder]"
+					visible = "[And( Character.IsPlayerInteractionShown( 'request_clerical_elector_title_interaction' ), Character.IsValid )]"
+					layoutpolicy_horizontal = expanding
+					margin = { 0 10 }
+
+					button_standard = {
+						name = "request_clerical_elector_title_interaction"
+						min_width = 350
+						margin = { 30 0 }
+
+						onclick = "[Character.OpenPlayerInteraction( PdxGuiWidget.GetName )]"
+						enabled = "[Character.IsPlayerInteractionValid( PdxGuiWidget.GetName )]"
+						tooltip = "[Character.GetPlayerInteractionTooltip( PdxGuiWidget.GetName )]"
+
+						text = "request_clerical_elector_title_interaction"
+
+						button_icon = {
+							parentanchor = vcenter
+							position = { 5 0 }
+							size = { 25 25 }
+							alwaystransparent = yes
+
+							texture = "gfx/interface/icons/flat_icons/college_of_cardinals.dds"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+types CardinalWindow
+{
+	type widget_cardinal_candidate_item = widget
+	{
+		datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+		datacontext = "[CardinalCandidateItem.GetCardinal]"
+		datacontext = "[CardinalItem.GetCharacter]"
+		datacontext = "[Faith.GetCollegeElectionTitle]"
+		visible = "[Character.IsValid]"
+		size = { 180 286 }
+
+		allow_outside = yes
+
+		icon = {
+			parentanchor = top|hcenter
+			position = { 0 5 }
+			size = { 176 244 }
+
+			icon = {
+				size = { 100% 100% }
+				texture = "gfx/interface/window_college_of_cardinals/arched_stained_glass_blue.dds"
+			}
+
+			icon = {
+				size = { 100% 100% }
+				visible = "[ObjectsEqual( CardinalCandidateItem.Self, CardinalVoterCharacterList.GetListOwner )]"
+				texture = "gfx/interface/window_college_of_cardinals/arched_stained_glass_yellow.dds"
+
+				state = {
+					name = _show
+					using = Animation_FadeIn_Quick
+				}
+
+				state = {
+					name = _hide
+					using = Animation_FadeOut_Quick
+				}
+			}
+		}
+
+		portrait_torso = {
+			visible = "[Character.IsValid]"
+			position = { 0 5 }
+			size = { 176 244 }
+			parentanchor = top|hcenter
+
+			allow_outside = yes
+			scissor = yes
+
+			blockoverride "extra_info" {
+				vbox_cardinal_papabile_scores = {}
+			}
+
+			blockoverride "schism_stance" {
+				widget_schism_stance = {}
+			}
+
+			blockoverride "portrait_mask"
+			{
+				mask = "gfx/interface/window_college_of_cardinals/arched_frame_portrait_mask.dds"
+			}
+
+			blockoverride "portrait_status_icons"
+			{
+				portrait_status_icons = {
+					parentanchor = bottom|right
+					position = { -20 -56 }
+					scale = 0.85
+
+					background = {
+						using = Background_Area_Dark
+						margin = { 2 3 }
+						alpha = 0.8
+					}
+				}
+			}
+
+			blockoverride "coa" {}
+
+			blockoverride "opinion_box"
+			{
+				portrait_opinion = {
+					parentanchor = bottom|hcenter
+					position = { 0 -56 }
+				}
+			}
+		}
+
+		icon = {
+			parentanchor = top|hcenter
+			position = { 0 5 }
+			size = { 176 244 }
+			texture = "gfx/interface/window_college_of_cardinals/arched_frame.dds"
+		}
+
+		### Supported candidate banner
+		widget = {
+			name = "supported_candidate_banner"
+			visible = "[And( Title.IsPlayerElector, EqualTo_uint32( Title.GetPlayerNominee.GetID, Character.GetID ) )]"
+			parentanchor = top|right
+			position = { -15 0 }
+			size = { 44 68 }
+
+			tooltip = "CARDINALS_VIEW_SUPPORTED_CANDIDATE_TT"
+
+			state = {
+				name = _show
+				using = Animation_FadeIn_Quick
+				position = { -15 14 }
+			}
+
+			state = {
+				name = _hide
+				using = Animation_FadeOut_Quick
+				position = { -15 0 }
+			}
+
+			icon = {
+				parentanchor = center
+				size = { 44 68 }
+				texture = "gfx/interface/window_college_of_cardinals/supported_candidate_banner.dds"
+			}
+
+			icon_flat_standard = {
+				parentanchor = center
+				position = { 2 4 }
+				size = { 30 30 }
+				texture = "gfx/interface/icons/flat_icons/election_vote_strength.dds"
+			}
+		}
+
+		vbox = {
+			layoutpolicy_vertical = expanding
+
+			expand = {}
+
+			vbox = {
+				datacontext = "[Character.GetFaith]"
+				datacontext = "[Character.GetRite]"
+				layoutpolicy_horizontal = expanding
+
+				text_label_center = {
+					text = "[Character.GetShortUINameNoTooltip|U]"
+					default_format = "#High"
+					max_width = 140
+				}
+
+				### Candidate archetype (which character_sets group they were selected as top candidate of)
+				text_label_center = {
+					text = "[CardinalCandidateItem.GetArchetypeName]"
+					default_format = "#I;underline"
+					max_width = 140
+					align = nobaseline
+
+					tooltip = "CARDINALS_VIEW_CANDIDATE_ARCHETYPE_TT"
+				}
+			}
+
+			button_tab = {
+				onclick = "[CardinalsWindow.OnClickCardinalCandidate( CardinalCandidateItem.Self )]"
+				down = "[ObjectsEqual( CardinalCandidateItem.Self, CardinalVoterCharacterList.GetListOwner )]"
+
+				blockoverride "tab_label"
+				{
+					text = "CARDINALS_VIEW_VOTER_BUTTON"
+					max_width = 140
+				}
+
+				blockoverride "extra_info"
+				{
+					text_single = {
+						text = "[CardinalCandidateItem.GetSupporterCount]"
+						align = nobaseline
+						default_format = "#v"
+						margin_top = 3
+					}
+				}
+			}
+		}
+	}
+
+	type widget_cardinal_voter_item = widget
+	{
+		datacontext = "[CharacterListItem.GetCharacter]"
+		datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+
+		visible = "[Character.IsValid]"
+		size = { 86 168 }
+
+		background = {
+			using = Background_Area_Border_Solid
+		}
+		background = {
+			using = Background_Frame
+		}
+
+		vbox = {
+			margin = { 0 6 }
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				hbox_election_vote_reason = {
+					visible = "[Not( Character.IsLocalPlayer )]"
+					datacontext = "[CardinalVoterCharacterList.GetElectorFromCharacter( Character.Self )]"
+					using = tooltip_ne
+				}
+
+				text_single = {
+					visible = "[Character.IsLocalPlayer]"
+					layoutpolicy_horizontal = expanding
+					autoresize = no
+					text = "[Localize( 'relation_you' )|U]"
+					align = center
+				}
+
+				expand = {}
+			}
+
+			portrait_head_small = {
+				background = {
+					visible = "[GetScriptedGui( 'pam_is_papabile' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+					fittype = centercrop
+					margin_top = -9
+					margin_bottom = -10
+					texture = "gfx/interface/window_college_of_cardinals/arched_stained_glass_blue.dds"
+				}
+
+				blockoverride "extra_info" {
+					# Elf Destiny: the Council's candidacy scores for the Aeluran faiths, the papabile scores otherwise
+					vbox_cardinal_papabile_scores = {
+						visible = "[Not( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+					}
+					vbox_aeluran_candidacy_scores = {
+						visible = "[GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				}
+			}
+
+			hbox = {
+				block "cardinal_interactions" {}
+				spacing = 4
+
+				button_round = {
+					size = { 34 34 }
+
+					# Elf Destiny: Matron wording for the Aeluran faiths
+					tooltip = "[SelectLocalization( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), 'AELURAN_COLLEGE_VIEW_INTERACTIONS_BUTTON_TT', 'CARDINALS_VIEW_INTERACTIONS_BUTTON_TT' )]"
+					tooltip_visible = "[Not( IsInteractionMenuOpenForCharacterWithFilter( Character.Self, 'papabile' ) )]"
+
+					onclick = "[ToggleFilteredCharacterInteractionMenu( Character.Self, 'papabile' )]"
+
+					button_icon = {
+						alwaystransparent = yes
+						parentanchor = center
+						size = { 24 24 }
+						texture = "gfx/interface/icons/flat_icons/character_interactions.dds"
+					}
+
+					text_single = {
+						parentanchor = bottom|hcenter
+						position = { 0 3 }
+						text = "[GetNumberOfValidInteractionsWithFilter( Character.Self, 'papabile' )]"
+						default_format = "#glow_color:{0.1,0.1,0.1,1.0}"
+
+						background = {
+							margin = { 5 0 }
+							margin_top = -5
+							using = Background_Area_Dark
+						}
+					}
+				}
+			}
+
+			spacer = {
+				size = { 0 2 }
+			}
+		}
+	}
+
+	type hbox_cardinal_papabile_score = hbox {
+		spacing = 15
+
+		text_single = {
+			min_width = 35
+			max_width = 35
+			block "papabile_value" {
+				text = "[GetPlayer.MakeScope.ScriptValue( 'pam_papal_powerful_priority_value' )|0]"
+			}
+			default_format = "#L;V"
+			align = nobaseline|right
+			using = tooltip_ws
+		}
+
+		text_single = {
+			min_width = 180
+			max_width = 275
+
+			block "papabile_text" {
+				text = "theocratic_elective_powerful"
+				tooltip = "theocratic_elective_powerful_desc"
+			}
+			align = nobaseline
+		}
+	}
+
+	type vbox_cardinal_papabile_scores = vbox {
+		layoutpolicy_horizontal = expanding
+		margin_top = 15
+		spacing = 2
+
+		hbox = {
+			margin_left = 12
+			layoutpolicy_horizontal = expanding
+			spacing = 10
+
+			icon = {
+				size = { 25 25 }
+				texture = "gfx/interface/icons/clerical_score.dds"
+			}
+
+			text_label_left = {
+				text = "[papabile_scores|E]"
+			}
+
+			expand = {}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+
+			background = {
+				using = Background_Area
+				margin = { 15 0 }
+			}
+
+			vbox = {
+				margin = { 10 12 }
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'pam_papal_powerful_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'pam_papal_powerful_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "[papabile_score|E]"
+								}
+							}
+						}
+					}
+				}
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_text" {
+						text = "theocratic_elective_pious"
+						tooltip = "theocratic_elective_pious_desc"
+					}
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'pam_papal_pious_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'pam_papal_pious_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "[papabile_score|E]"
+								}
+							}
+						}
+					}
+				}
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_text" {
+						text = "theocratic_elective_populist"
+						tooltip = "theocratic_elective_populist_desc"
+					}
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'pam_papal_populist_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'pam_papal_populist_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "[papabile_score|E]"
+								}
+							}
+						}
+					}
+				}
+			}
+
+			expand = {}
+		}
+	}
+
+	# Elf Destiny: the Council of Matrons' candidacy scores (aeluran_matron_conclave archetypes, aeluran_conclave_values.txt)
+	type vbox_aeluran_candidacy_scores = vbox {
+		layoutpolicy_horizontal = expanding
+		margin_top = 15
+		spacing = 2
+
+		hbox = {
+			margin_left = 12
+			layoutpolicy_horizontal = expanding
+			spacing = 10
+
+			icon = {
+				size = { 25 25 }
+				texture = "gfx/interface/icons/clerical_score.dds"
+			}
+
+			text_label_left = {
+				text = "AELURAN_COLLEGE_VIEW_CANDIDACY_SCORES"
+			}
+
+			expand = {}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+
+			background = {
+				using = Background_Area
+				margin = { 15 0 }
+			}
+
+			vbox = {
+				margin = { 10 12 }
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_text" {
+						text = "aeluran_conclave_spark_touched"
+						tooltip = "aeluran_conclave_spark_touched_desc"
+					}
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'aeluran_conclave_spark_touched_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'aeluran_conclave_spark_touched_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "AELURAN_COLLEGE_VIEW_CANDIDACY_SCORE"
+								}
+							}
+						}
+					}
+				}
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_text" {
+						text = "aeluran_conclave_highborn"
+						tooltip = "aeluran_conclave_highborn_desc"
+					}
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'aeluran_conclave_highborn_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'aeluran_conclave_highborn_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "AELURAN_COLLEGE_VIEW_CANDIDACY_SCORE"
+								}
+							}
+						}
+					}
+				}
+
+				hbox_cardinal_papabile_score = {
+					blockoverride "papabile_text" {
+						text = "aeluran_conclave_regnant"
+						tooltip = "aeluran_conclave_regnant_desc"
+					}
+					blockoverride "papabile_value" {
+						text = "[Character.MakeScope.ScriptValue( 'aeluran_conclave_regnant_priority_value' )|0]"
+
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).GetScriptValueBreakdown( 'aeluran_conclave_regnant_priority_value' )]"
+								blockoverride "header_text"
+								{
+									text = "AELURAN_COLLEGE_VIEW_CANDIDACY_SCORE"
+								}
+							}
+						}
+					}
+				}
+			}
+
+			expand = {}
+		}
+	}
+
+	type vbox_cardinals_college_body = vbox
+	{
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+
+		### Head of Faith
+		widget = {
+			datacontext = "[Faith.GetCollegeElectionTitle]"
+			datacontext = "[Title.GetHolder]"
+			size = { 558 170 }
+
+			background = {
+				layoutpolicy_horizontal = expanding
+				texture = "gfx/interface/illustrations/interior/church.dds"
+				fittype = centercrop
+				using = Mask_Rough_Edges
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_vertical_up.dds"
+					blend_mode = alphamultiply
+				}
+			}
+
+			widget = {
+				visible = "[Character.IsValid]"
+				parentanchor = bottom|hcenter
+				size = { 140 160 }
+				allow_outside = yes
+
+				portrait_shoulders = {
+					parentanchor = center
+					allow_outside = yes
+
+					blockoverride "portrait_size"
+					{
+						size = { 200 175 }
+					}
+
+					blockoverride "portrait_mask"
+					{
+						mask = "gfx/portraits/portrait_mask_blank.dds"
+					}
+
+					blockoverride "coa" {
+						coa_realm_small_crown = {
+							visible = "[Character.HasLandedTitles]"
+							parentanchor = bottom|left
+							position = { -30 -30 }
+							scale = 0.8
+						}
+					}
+
+					blockoverride "opinion_box"
+					{
+						portrait_opinion = {
+							parentanchor = bottom|hcenter
+							position = { 0 -30 }
+						}
+					}
+
+					blockoverride "portrait_status_icons" {
+						portrait_status_icons = {
+							parentanchor = bottom|right
+							position = { 0 -30 }
+							scale = 0.85
+
+							background = {
+								using = Background_Area_Dark
+								margin = { 2 3 }
+								alpha = 0.8
+							}
+						}
+					}
+				}
+			}
+
+			flowcontainer = {
+				parentanchor = bottom|hcenter
+				position = { 0 -5 }
+				spacing = 10
+
+				background = {
+					margin_bottom = 5
+					margin_left = 40
+					margin_right = 40
+
+					texture = "gfx/interface/component_tiles/tile_title_bg_01.dds"
+					spriteType = Corneredtiled
+					spriteborder = { 40 8 }
+					texture_density = 2
+
+					modify_texture = {
+						name = "mask"
+						texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+						spriteType = Corneredstretched
+						spriteborder = { 0 0 }
+						blend_mode = alphamultiply
+					}
+				}
+
+				text_single = {
+					max_width = 520
+					# Elf Destiny: "High Matriarch: <name>" for the Aeluran faiths
+					text = "[SelectLocalization( Character.IsValid, SelectLocalization( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), 'AELURAN_COLLEGE_VIEW_MATRIARCH', 'CARDINALS_VIEW_HEAD_OF_PAPACY' ), 'CARDINALS_VIEW_HEAD_OF_PAPACY_VACANT' )]"
+					using = Font_Size_Medium
+					align = nobaseline
+				}
+			}
+
+			button_situation_banner = {
+				datacontext = "[GetSituation( 'the_christian_church' )]"
+				# Elf Destiny: the Christian Church situation has nothing to do with the Council of Matrons
+				visible = "[And( Situation.IsValid, Not( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ) )]"
+				parentanchor = top|right
+				position = { -5 5 }
+				size = { 70 70 }
+			}
+
+			button_round = {
+				parentanchor = top|left
+				position = { 5 5 }
+
+				onclick = "[ToggleGameViewData( 'title_election', Title.Self )]"
+				tooltip = "TITLE_VIEW_SHOW_ELECTION_TT"
+				using = tooltip_ne
+
+				button_icon = {
+					parentanchor = center
+					alwaystransparent = yes
+					texture = "gfx/interface/icons/flat_icons/election_vote_strength.dds"
+					size = { 30 30 }
+				}
+			}
+		}
+
+		widget = {
+			size = { 558 5 }
+
+			icon = {
+				parentanchor = hcenter
+				size = { 610 22 }
+				position = { 0 -4 }
+				texture = "gfx/interface/component_decoration/decoration_frame_bottom_thin.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 60 0 }
+				texture_density = 2
+			}
+		}
+
+		### Candidates
+		vbox = {
+			layoutpolicy_horizontal = expanding
+
+			hbox = {
+				layoutpolicy_horizontal = expanding
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					background = {
+						using = Background_Area_ExtraDark
+						margin_right = 5
+						margin_top = -80
+
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_vertical_up.dds"
+							blend_mode = alphamultiply
+						}
+					}
+				}
+
+				fixedgridbox = {
+					flipdirection = yes
+
+					addcolumn = 180
+					addrow = 286
+
+					datamodel = "[CardinalsWindow.GetCardinalCandidates]"
+
+					item = {
+						widget_cardinal_candidate_item = {}
+					}
+				}
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					background = {
+						using = Background_Area_ExtraDark
+						margin_left = 5
+						margin_top = -80
+
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_vertical_up.dds"
+							blend_mode = alphamultiply
+						}
+					}
+				}
+			}
+		}
+
+		hbox = {
+			datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+			datacontext = "[CardinalVoterCharacterList.GetListOwner]"
+			datacontext = "[CardinalCandidateItem.GetCardinal]"
+			datacontext = "[CardinalItem.GetCharacter]"
+			datacontext = "[Faith.GetCollegeElectionTitle]"
+			datacontext = "[Faith.GetMainRite]"
+			layoutpolicy_horizontal = expanding
+			margin = { 10 10 }
+
+			widget = {
+				size = { 50 65 }
+
+				container_tenet_item_small = {
+					datacontext = "[CardinalCandidateItem.GetPreferredTenet]"
+					visible = "[CardinalCandidateItem.WillSwapTenets]"
+					size = { 50 65 }
+
+					using = tooltip_sw
+				}
+
+				button_rite_icon = {
+					visible = "[Not( CardinalCandidateItem.WillSwapTenets )]"
+					parentanchor = center
+					size = { 55 55 }
+				}
+			}
+
+			hbox = {
+				datacontext = "[CardinalCandidateItem.GetCardinal]"
+				datacontext = "[CardinalItem.GetCharacter]"
+				visible = "[And( Not( Character.IsLocalPlayer ), CardinalCandidateItem.WillSwapTenets )]"
+				layoutpolicy_horizontal = expanding
+
+				text_multi = {
+					text = "CARDINALS_VIEW_WILL_CHANGE_TENET"
+					align = nobaseline
+					autoresize = yes
+					default_format = "#I"
+					max_width = 430
+
+					margin_left = 15
+				}
+
+				expand = {}
+			}
+
+			text_multi = {
+				datacontext = "[CardinalCandidateItem.GetCardinal]"
+				datacontext = "[CardinalItem.GetCharacter]"
+				visible = "[Character.IsLocalPlayer]"
+
+				text = "CARDINALS_VIEW_YOU_WILL_CHANGE_RITE"
+				align = nobaseline
+				autoresize = yes
+				default_format = "#I"
+				max_width = 430
+
+				margin_left = 15
+			}
+
+			spacer = {
+				visible = "[AIWatchWindowsEnabled]"
+				size = { 15 0 }
+			}
+			debug_square = {
+				visible = "[AIWatchWindowsEnabled]"
+				size = { 30 30 }
+				tooltip = "CARDINALS_VIEW_DEBUG_CANDIDATE"
+			}
+
+			expand = {}
+
+			button_round = {
+				name = "cast_vote_button"
+				visible = "[NotEqualTo_uint32( Title.GetPlayerNominee.GetID, Character.GetID )]"
+				size = { 50 50 }
+
+				enabled = "[Title.IsPlayerElector]"
+				onclick = "[PdxGuiTriggerAllAnimations('add_candidate')]"
+
+				tooltip = "[SelectLocalization( Title.IsPlayerElector, 'CARDINALS_VIEW_CAST_VOTE_TT', 'CARDINALS_VIEW_NOT_ELECTOR_TT' )]"
+
+				state = {
+					name = _mouse_click
+					delay = 0.15
+					on_finish = "[Title.OnPlayerNominatesSuccessor( Character.Self )]"
+				}
+
+				button_election_vote = {
+					alwaystransparent = yes
+					parentanchor = center
+					size = { 30 30 }
+				}
+			}
+
+			widget = {
+				visible = "[And( Title.IsPlayerElector, EqualTo_uint32( Title.GetPlayerNominee.GetID, Character.GetID ) )]"
+				size = { 50 50 }
+
+				icon_flat_standard = {
+					parentanchor = center
+					size = { 40 40 }
+
+					texture = "gfx/interface/icons/flat_icons/election_vote_strength.dds"
+
+					tooltip = "CARDINALS_VIEW_SUPPORTED_CANDIDATE_TT"
+				}
+			}
+
+		}
+
+		text_multi = {
+			datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+			datacontext = "[CardinalVoterCharacterList.GetListOwner]"
+			datacontext = "[CardinalCandidateItem.GetCardinal]"
+			datacontext = "[CardinalItem.GetCharacter]"
+			layoutpolicy_horizontal = expanding
+
+			# Elf Destiny: hidden for the Aeluran faiths, where a High Matriarch of another rite does not change the mainline rite
+			# (vanilla only does that for Christianity, title_on_actions.txt pam_set_pope_rite_mainline_effect)
+			visible = "[And( Not( ObjectsEqual( Character.GetRite, Character.GetFaith.GetMainRite ) ), Not( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ) )]"
+			text = "cardinals_view_candidate_different_rite"
+		}
+		
+		divider_light = {
+			layoutpolicy_horizontal = expanding
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+				blend_mode = alphamultiply
+			}
+		}
+
+		vbox = {
+			datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+			datacontext = "[CardinalVoterCharacterList.GetListOwner.GetCardinal]"
+			datacontext = "[CardinalItem.GetCharacter]"
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			
+			margin_top = 10
+			spacing = 5
+
+			text_label_center = {
+				# Elf Destiny: Matron wording for the Aeluran faiths
+				text = "[SelectLocalization( GetScriptedGui( 'elf_dest_aeluran_college' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), 'AELURAN_COLLEGE_VIEW_WILL_VOTE_FOR', 'CARDINALS_VIEW_WILL_VOTE_FOR' )]"
+				max_width = 450
+				align = nobaseline
+			}
+
+			### Cardinals
+			vbox_character_list = {
+				datacontext = "[CardinalsWindow.GetCardinalVoterCharacters]"
+				datacontext = "[CardinalsWindow.GetCardinalVoterList]"
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				blockoverride "character_count" {}
+
+				blockoverride "sort_buttons"{}
+
+				blockoverride "skill_sort_buttons" {}
+
+				blockoverride "scrollbox_empty_visibility"
+				{
+					visible = "[Not( CharacterSelectionList.HasItems )]"
+					layoutpolicy_vertical = expanding
+					text = "CARDINALS_VIEW_VOTER_MISSING"
+				}
+
+				blockoverride "scrollbox_margins" {
+					margin = { 0 15 }
+					margin_left = 10
+					margin_right = 20
+				}
+
+				blockoverride "container_implementation"
+				{
+					fixedgridbox = {
+						name = "characters_grid"
+						datamodel = "[CharacterSelectionList.GetList]"
+						visible = "[HasDlcFeature( 'by_god_alone' )]"
+						flipdirection = yes
+						addcolumn = 90
+						addrow = 175
+						datamodel_wrap = 6
+						maxhorizontalslots = 6
+
+						item = {
+							widget_cardinal_voter_item = {}
+						}
+					}
+
+					fixedgridbox = {
+						datamodel = "[CharacterSelectionList.GetList]"
+						visible = "[Not( HasDlcFeature( 'by_god_alone' ) )]"
+						flipdirection = yes
+						addcolumn = 90
+						addrow = 145
+						datamodel_wrap = 6
+						maxhorizontalslots = 6
+
+						item = {
+							widget_cardinal_voter_item = {
+								size = { 86 136 }
+								blockoverride "cardinal_interactions" {
+									visible = no
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

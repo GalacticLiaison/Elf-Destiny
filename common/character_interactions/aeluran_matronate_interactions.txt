@@ -1,0 +1,152 @@
+﻿# The High Matriarch's Matronate powers (effects in common/scripted_effects/aeluran_matronate_scripted_effects.txt).
+# Both are used on the Sister or Matron who is to receive the Matronate; a Sister is raised to Matron.
+# The AI High Matriarch uses the same effects from a yearly pulse instead (aeluran_matronate_ai_yearly_effect).
+
+# Found a new Matronate around the recipient's home county
+aeluran_found_matronate_interaction = {
+	category = interaction_category_religion
+	icon = icon_clergy_claim_unformed_kingdom
+	interface_priority = 45
+	common_interaction = no
+	use_diplomatic_range = no
+	popup_on_receive = yes
+	desc = aeluran_found_matronate_interaction_desc
+
+	is_shown = {
+		scope:actor = { has_title = title:d_high_matriarch }
+		scope:recipient = {
+			this != scope:actor
+			aeluran_may_receive_matronate_trigger = yes
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+		}
+		scope:recipient = {
+			is_adult = yes
+			is_imprisoned = no
+			custom_tooltip = {
+				text = aeluran_matronate_home_county_tt
+				aeluran_matronate_home_county_foundable_trigger = yes
+			}
+			custom_tooltip = {
+				text = aeluran_matronate_break_realm_tt
+				aeluran_matronate_would_break_realm_trigger = no
+			}
+		}
+	}
+
+	cost = {
+		piety = aeluran_matronate_found_piety_cost
+	}
+
+	on_accept = {
+		scope:recipient = {
+			if = {
+				limit = { NOT = { has_trait = aeluran_matron } }
+				custom_tooltip = aeluran_matronate_raised_tt
+			}
+			custom_tooltip = aeluran_matronate_found_tt
+			hidden_effect = { aeluran_matronate_found_effect = yes }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+# Entrust an existing Matronate to the recipient, deposing its Matron
+aeluran_entrust_matronate_interaction = {
+	category = interaction_category_religion
+	icon = icon_clergy_move_lands
+	interface_priority = 44
+	common_interaction = no
+	use_diplomatic_range = no
+	popup_on_receive = yes
+	desc = aeluran_entrust_matronate_interaction_desc
+	target_type = title
+	target_filter = clerical_region
+	show_all_targets = no
+
+	is_shown = {
+		scope:actor = { has_title = title:d_high_matriarch }
+		scope:recipient = {
+			this != scope:actor
+			aeluran_may_receive_matronate_trigger = yes
+		}
+	}
+
+	cooldown = { years = 10 }
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+		}
+		scope:recipient = {
+			is_adult = yes
+			is_imprisoned = no
+			custom_tooltip = {
+				text = aeluran_matronate_break_realm_tt
+				aeluran_matronate_would_break_realm_trigger = no
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:target
+				scope:recipient = { any_held_title = { is_landless_type_title = no } }
+			}
+			custom_tooltip = {
+				text = aeluran_matronate_entrust_realm_outside_tt
+				scope:recipient = { aeluran_lives_in_target_matronate_trigger = yes }
+			}
+		}
+	}
+
+	# Every Matronate but one the High Matriarch holds; a Sister who rules land may only take the one her realm lies in
+	can_be_picked_title = {
+		scope:target = {
+			aeluran_is_matronate_title_trigger = yes
+			NOT = { holder ?= scope:actor }
+		}
+		trigger_if = {
+			limit = { scope:recipient = { any_held_title = { is_landless_type_title = no } } }
+			scope:recipient = { aeluran_lives_in_target_matronate_trigger = yes }
+		}
+	}
+
+	cost = {
+		piety = aeluran_matronate_entrust_piety_cost
+		prestige = aeluran_matronate_entrust_prestige_cost
+	}
+
+	on_accept = {
+		scope:recipient = {
+			if = {
+				limit = { NOT = { has_trait = aeluran_matron } }
+				custom_tooltip = aeluran_matronate_raised_tt
+			}
+			custom_tooltip = aeluran_matronate_entrust_tt
+		}
+		scope:target.holder ?= {
+			custom_tooltip = aeluran_matronate_deposed_tt
+		}
+		hidden_effect = {
+			scope:recipient = { aeluran_matronate_entrust_effect = yes }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}

@@ -37,27 +37,16 @@ dark_elf_finder_game_start = {
 # these characters already carry drow DNA from their ethnicity).
 # Runs at on_game_start (before the RD ruler exists), so the designer ruler is
 # left to Elf Destiny's own after-lobby race logic.
+# Characters whose history already sets a race flag (e.g. race_high_elf) are skipped: this pass can run before
+# urf_game_start_init, and stacking race_elf on them used to demote them to plain Elves. Characters created later
+# get the same treatment from on_character_created (elf_character_created_on_actions.txt).
 dark_elf_convert_ethnicity_elves = {
 	effect = {
 		every_living_character = {
 			limit = {
-				is_any_elf_type = no
-				culture = { has_cultural_pillar = heritage_elf }
+				elf_needs_culture_race_trigger = yes
 			}
-			if = {
-				limit = {
-					OR = {
-						culture = culture:elf_culture_drow
-						culture = culture:elf_culture_dokkalfar
-					}
-				}
-				add_character_flag = race_dark_elf
-			}
-			else = {
-				add_character_flag = race_elf
-			}
-			urf_for_all_phenotypes = { APPLY = urf_base_race_init }
-			set_appropriate_elf_immortality_age = yes
+			elf_apply_culture_race_effect = yes
 		}
 	}
 }

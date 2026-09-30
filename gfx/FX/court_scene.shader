@@ -20,6 +20,7 @@ Includes = {
 	# CfV (godherja)
 	"GH_portrait_effects.fxh"
 	# CfV end
+	"pdxmesh_vfx.fxh"
 }
 
 PixelShader =
@@ -81,7 +82,7 @@ PixelShader =
 		SampleModeV = "Clamp"
 		Type = "Cube"
 	}
-#ifdef ENABLE_TEXTURE_OVERRIDE	
+#ifdef ENABLE_TEXTURE_OVERRIDE
 	TextureSampler DiffuseMapOverride
 	{
 		Index = 9
@@ -111,7 +112,7 @@ PixelShader =
 	}
 #endif
 #ifdef COA_ENABLED
-	TextureSampler CoaTexture 
+	TextureSampler CoaTexture
 	{
 		Index = 12
 		MagFilter = "Linear"
@@ -298,7 +299,7 @@ ConstantBuffer( 5 )
 	float HasNormalMapOverride;
 	float HasPropertiesMapOverride;
 	float HoverMult;
-	
+
 	float4		CoaColor1;
 	float4		CoaColor2;
 	float4		CoaColor3;
@@ -338,7 +339,7 @@ VertexShader = {
 		VS_OUTPUT_PDXMESHPORTRAIT ConvertOutput( VS_OUTPUT_PDXMESH In )
 		{
 			VS_OUTPUT_PDXMESHPORTRAIT Out;
-			
+
 			Out.Position = In.Position;
 			Out.Normal = In.Normal;
 			Out.Tangent = In.Tangent;
@@ -378,9 +379,9 @@ PixelShader =
 			float NdotL = saturate( dot( MaterialProps._Normal, LightingProps._ToLightDir ) ) + 1e-5;
 			float NdotH = saturate( dot( MaterialProps._Normal, H ) );
 			float LdotH = saturate( dot( LightingProps._ToLightDir, H ) );
-			
+
 			float3 LightIntensity = LightingProps._LightIntensity * NdotL * LightingProps._ShadowTerm;
-			
+
 			// Diffuse
 			float DiffuseBRDF = CalcDiffuseBRDF( NdotV, NdotL, LdotH, MaterialProps._PerceptualRoughness );
 			DiffuseOut = DiffuseBRDF * MaterialProps._DiffuseColor * LightIntensity;
@@ -392,58 +393,58 @@ PixelShader =
 			LdotH = saturate( dot( SpecToLightDir, H ) );
 
 			float3 SpecularBRDF = CalcSpecularBRDF( MaterialProps._SpecularColor, LdotH, NdotH, NdotL, NdotV, MaterialProps._Roughness );
-			SpecularOut = SpecularBRDF * LightIntensity;	
+			SpecularOut = SpecularBRDF * LightIntensity;
 		}
 
 		float SampleShadowMapAtlas( float2 UV, float Depth, float2 Offset, float2 Scale )
 		{
 			//return PdxTex2DCmpLod0( ShadowTexture, UV * Scale + Offset, Depth - Bias );
-			
+
 			float RandomAngle = CalcRandom( round( ShadowScreenSpaceScale * UV ) ) * 3.14159 * 2.0;
 			float2 Rotate = float2( cos( RandomAngle ), sin( RandomAngle ) );
-			
+
 			// Sample each of them checking whether the pixel under test is shadowed or not
 			float ShadowTerm = 0.0;
 			for( int i = 0; i < NumSamples; i++ )
 			{
 				float4 Samples = DiscSamples[i] * KernelScale;
-				
+
 				float2 OffsetUV = saturate( UV + RotateDisc( Samples.xy, Rotate ) );
 				float2 SampleUV = OffsetUV * Scale + Offset;
 				ShadowTerm += PdxTex2DCmpLod0( ShadowTexture, SampleUV, Depth - Bias );
-				
+
 				OffsetUV = saturate( UV + RotateDisc( Samples.zw, Rotate ) );
 				SampleUV = OffsetUV * Scale + Offset;
 				ShadowTerm += PdxTex2DCmpLod0( ShadowTexture, SampleUV, Depth - Bias );
 			}
-			
+
 			// Get the average
 			ShadowTerm *= 0.5; // We have 2 samples per "sample"
 			ShadowTerm = ShadowTerm / float( NumSamples );
-			
+
 			return lerp( 1.0, ShadowTerm, ShadowFadeFactor );
 		}
-		
+
 		float CalcDepthFadeFactor( float Depth, int Index )
 		{
 			float DepthFactor = _ShadowFade[ Index ] < 0.f ? ShadowDepthFactor : _ShadowFade[ Index ];
 			return ( 1.0 - Depth ) * DepthFactor;
 		}
-		
+
 		float CalcShadow( float3 WorldSpacePos, int ShadowIndex )
 		{
 			float4 ShadowProj = mul( _ShadowMapTextureMatrices[ShadowIndex], float4( WorldSpacePos, 1.0 ) );
 			ShadowProj.xyz = ShadowProj.xyz / ShadowProj.w;
-			
-			float4 OffsetAndScale = _AtlasOffsetAndScale[ShadowIndex * 6];			
+
+			float4 OffsetAndScale = _AtlasOffsetAndScale[ShadowIndex * 6];
 			float ShadowTerm = SampleShadowMapAtlas( ShadowProj.xy, ShadowProj.z, OffsetAndScale.xy, OffsetAndScale.zw );
-			
+
 			float3 FadeFactor = saturate( float3( ( 1.0 - abs( 0.5 - ShadowProj.xy ) * 2.0 ) * 32.0, CalcDepthFadeFactor( ShadowProj.z, ShadowIndex ) ) ); // 32 is just a random strength on the fade
 			ShadowTerm = lerp( 1.0, ShadowTerm, min( min( FadeFactor.x, FadeFactor.y ), FadeFactor.z ) );
-			
+
 			return ShadowTerm;
 		}
-		
+
 		// This will calculate the UV and FaceIndex for a Cube face from LightSpacePosition (https://www.gamedev.net/forums/topic/687535-implementing-a-cube-map-lookup-function/5337472/)
 		float2 SampleCube( float3 LightSpacePosition, out int FaceIndex )
 		{
@@ -466,7 +467,7 @@ PixelShader =
 			}
 			return UV + 0.5;
 		}
-		
+
 		// Calculate shadow map space projected depth (https://community.khronos.org/t/glsl-cube-shadows-projecting/64080/14)
 		float CalcCubeShadowDepth( float3 LightSpacePosition, float2 ProjectionFactors )
 		{
@@ -482,21 +483,21 @@ PixelShader =
 			int FaceIndex = 0;
 			float2 UV = SampleCube( LightSpacePosition, FaceIndex );
 			float Depth = CalcCubeShadowDepth( LightSpacePosition, _ProjectionFactors_ShadowType[ShadowIndex].xy );
-			
+
 			float4 OffsetAndScale = _AtlasOffsetAndScale[ShadowIndex * 6 + FaceIndex];
 			float ShadowTerm = SampleShadowMapAtlas( UV, Depth, OffsetAndScale.xy, OffsetAndScale.zw );
-			
+
 			float FadeFactor = saturate( CalcDepthFadeFactor( Depth, ShadowIndex ) );
 			ShadowTerm = lerp( 1.0, ShadowTerm, FadeFactor );
-			
+
 			return ShadowTerm;
 		}
-		
+
 		bool IsCubeShadow( int ShadowIndex )
 		{
 			return ( _ProjectionFactors_ShadowType[ShadowIndex].z == 1.0 );
 		}
-		
+
 		void CalculateShadowTerms( float3 WorldSpacePos, inout float ShadowTerm[ SHADOWS_COUNT ] )
 		{
 			// Note, light list is sorted so that shadow generators are first, this is why we can just loop over _NumShadows here
@@ -540,12 +541,12 @@ PixelShader =
 
 			float LightAngleScale = 1.0f / max( 0.001f, ( CosInner - CosOuter ) );
 			float LightAngleOffset = -CosOuter * LightAngleScale;
-		
+
 			float cd = dot( LightDir, NormalizedLightVector );
 			float attenuation = saturate ( cd * LightAngleScale + LightAngleOffset );
 			// smooth the transition
 			attenuation *= attenuation;
-			
+
 			return attenuation;
 		}
 
@@ -564,7 +565,7 @@ PixelShader =
 				float x = sqrt (1.0f / sinSigmaSqr - 1.0f );
 				float y = -x * ( cosTheta / sinTheta );
 				float sinThetaSqrtY = sinTheta * sqrt ( 1.0f - y * y );
-				illuminance = ( cosTheta * acos( y ) - x * sinThetaSqrtY ) * sinSigmaSqr + 
+				illuminance = ( cosTheta * acos( y ) - x * sinThetaSqrtY ) * sinSigmaSqr +
 				atan( sinThetaSqrtY / x );
 			}
 			return max( illuminance, 0.0f );
@@ -628,8 +629,8 @@ PixelShader =
 			}
 
 			return ClosestPoint;
-		}	
-		
+		}
+
 		void CalculateSceneLights( float3 WorldSpacePos, float ShadowTerm[ SHADOWS_COUNT ], SMaterialProperties MaterialProps, inout float3 DiffuseLightOut, inout float3 SpecularLightOut, inout float3 TranslucencyOut, STranslucencyProperties TranslucencyProps, float3 DiffuseIBL )
 		{
 			for( int i = 0; i < CurrentLightCount; ++i )
@@ -672,7 +673,7 @@ PixelShader =
 				if( Light_Direction_Type[i].w == LIGHT_TYPE_SPOTLIGHT )
 				{
 					float3 LightDirection = normalize( Light_Direction_Type[i].xyz );
-					
+
 					float ScaledRadius = Light_Position_Radius[i].w;
 					float Attenuation = CalculatePointLightAttenuation( PosToLight, ScaledRadius );
 					float3 LightColorIntensity = Light_Color_Intensity[i].xyz * Light_Color_Intensity[i].w * 1000.0f * Attenuation;
@@ -720,14 +721,14 @@ PixelShader =
 					float3 LightDirection = normalize( Light_Direction_Type[i].xyz );
 					float LightIntensity = CalcDiscDiffuse( PosToLight, Light_Position_Radius[i].w, MaterialProps._Normal, LightDirection );
 					float3 LightColorIntensity = Light_Color_Intensity[i].xyz * Light_Color_Intensity[i].w * LightIntensity;
-					
+
 					// Angle Attenuation
 					float InnerAngle = RemapClamped( Light_InnerCone_OuterCone_ShadowToUse[i].x, 0.0f, 1.0f, 0.0f, PI );
 					float OuterAngle = RemapClamped( Light_InnerCone_OuterCone_ShadowToUse[i].y, 0.0f, 1.0f, 0.0f, PI );
 					float HalfOuterAngle = OuterAngle * 0.5f;
 					float3 VirtualPos = Light_Position_Radius[i].xyz - LightDirection * ( Light_Position_Radius[i].w / tan( HalfOuterAngle ) );
 					LightColorIntensity *= GetAngleAttenuation( normalize( VirtualPos - WorldSpacePos ), -LightDirection, InnerAngle, OuterAngle );
-					
+
 					float3 ViewVectorR = reflect( ViewVector, MaterialProps._Normal );
 					float3 ClosestPoint = CalcDiscSpecMRP( Light_Position_Radius[i].xyz, Light_Position_Radius[i].w, WorldSpacePos, ViewVectorR, LightDirection );
 					ClosestPoint = normalize( ClosestPoint );
@@ -842,7 +843,7 @@ PixelShader =
 			float3 SpecularLight = vec3( 0.0f );
 
 			// Must match in size with CCourtSceneShadowMap::MaxShadows
-			float Shadows[ SHADOWS_COUNT ] = 
+			float Shadows[ SHADOWS_COUNT ] =
 			#ifdef PDX_GLSL
 				float[ SHADOWS_COUNT ]( 1.0, 1.0, 1.0, 1.0 );
 			#else
@@ -915,11 +916,11 @@ PixelShader =
 			return IntervalStart + Value * ( IntervalEnd - IntervalStart );
 		}
 
-		// The skin, eye and hair assets come with a special texture  (the "Color Mask", typically packed into 
-		// another texture) that determines the Diffuse-PaletteColor blend. Artists also supply a remap interval 
-		// used to bias this texture's values; essentially allowing the texture's full range of values to be 
+		// The skin, eye and hair assets come with a special texture  (the "Color Mask", typically packed into
+		// another texture) that determines the Diffuse-PaletteColor blend. Artists also supply a remap interval
+		// used to bias this texture's values; essentially allowing the texture's full range of values to be
 		// mapped into a small interval of the diffuse lerp (e.g. [0.8, 1]).
-		// If the texture value is 0.0, that is a special case indicating there shouldn't be any palette color, 
+		// If the texture value is 0.0, that is a special case indicating there shouldn't be any palette color,
 		// (it is used for non-hair things such as hair bands, earrings etc)
 		float3 GetColorMaskColorBLend( float3 DiffuseColor, float3 PaletteColor, uint InstanceIndex, float ColorMaskStrength )
 		{
@@ -1009,7 +1010,7 @@ PixelShader =
 				}
 
 				float4 ColorIntensity = Light_Color_Intensity[ i ];
-				
+
 				float3 PosToLight = Light_Position_Radius[ i ].xyz - WorldSpacePos;
 				float DistanceToLight = length( PosToLight );
 				float3 ViewVector = normalize( CameraPosition - WorldSpacePos );
@@ -1022,7 +1023,7 @@ PixelShader =
 				if( Light_Direction_Type[ i ].w == LIGHT_TYPE_SPOTLIGHT )
 				{
 					float3 LightDirection = normalize( Light_Direction_Type[ i ].xyz );
-					
+
 					float ScaledRadius = Light_Position_Radius[ i ].w;
 					float Attenuation = CalculatePointLightAttenuation( PosToLight, ScaledRadius );
 					float3 LightColorIntensity = Light_Color_Intensity[ i ].xyz * Light_Color_Intensity[ i ].w * 1000.0f * Attenuation;
@@ -1070,7 +1071,7 @@ PixelShader =
 						float HalfOuterAngle = OuterAngle * 0.5f;
 						float3 VirtualPos = Light_Position_Radius[ i ].xyz - LightDirection * ( Light_Position_Radius[ i ].w / tan( HalfOuterAngle ) );
 						LightColorIntensity *= GetAngleAttenuation( normalize( VirtualPos - WorldSpacePos ), -LightDirection, InnerAngle, OuterAngle );
-						
+
 						float3 ViewVectorR = reflect( ViewVector, MaterialProps._Normal );
 						float3 ClosestPoint = CalcDiscSpecMRP( Light_Position_Radius[ i ].xyz, Light_Position_Radius[ i ].w, WorldSpacePos, ViewVectorR, LightDirection );
 						ClosestPoint = normalize( ClosestPoint );
@@ -1090,7 +1091,7 @@ PixelShader =
 						float3 ViewVectorR = reflect( ViewVector, MaterialProps._Normal );
 						float3 ClosestPoint = CalcSphereSpecMRP( Light_Position_Radius[ i ].xyz, Light_Position_Radius[ i ].w, WorldSpacePos, ViewVectorR );
 						ClosestPoint = normalize( ClosestPoint );
-					
+
 						LightingProps._ToLightDir = normalize( PosToLight );
 						LightingProps._LightIntensity = LightColorIntensity;
 						CalculateHairLightingFromAreaLight( MaterialProps, LightingProps, HairProps, DiffuseLight, SpecularLight, ClosestPoint );
@@ -1119,7 +1120,7 @@ PixelShader =
 			float3 DiffuseLight = vec3( 0.0f );
 			float3 SpecularLight = vec3( 0.0f );
 			CalculateHairLightingFromLights( WorldSpacePosition, ShadowTerm, MaterialProps, LightingProps, HairProps,  DiffuseLight, SpecularLight );
-			
+
 			float3 DiffuseIBL;
 			float3 SpecularIBL;
 			CalculateDiffuseIBL( MaterialProps, LightingProps, EnvironmentMap, DiffuseIBL );
@@ -1130,7 +1131,7 @@ PixelShader =
 
 		float3 CalculateHairLighting( float2 PixelPosition, float3 WorldSpacePosition, float ShadowTerm[ SHADOWS_COUNT ], SMaterialProperties MaterialProps, SLightingProperties LightingProps, SHairProperties HairProps, PdxTextureSamplerCube EnvironmentMap )
 		{
-			float3 Lighting = CalculateHairLighting( WorldSpacePosition, ShadowTerm, MaterialProps, LightingProps, HairProps, EnvironmentMap );	
+			float3 Lighting = CalculateHairLighting( WorldSpacePosition, ShadowTerm, MaterialProps, LightingProps, HairProps, EnvironmentMap );
 			return Lighting;
 		}
 	]]
@@ -1246,6 +1247,20 @@ PixelShader =
 		Output = "PS_COLOR_SSAO"
 		Code
 		[[
+			void DitheredOpacity( in float Opacity, in float2 NoiseCoordinate )
+			{
+				const float4x4 ThresholdMatrix =
+				{
+					0.0588235f, 0.5294117f, 0.1764705f, 0.6470588f,
+					0.7647058f, 0.2941176f, 0.8823529f, 0.4117647f,
+					0.2352941f, 0.7058823f, 0.1176470f, 0.5882352f,
+					0.9411764f, 0.4705882f, 0.8235294f, 0.3529411f
+				};
+				int2 Coordinate = (int2)NoiseCoordinate & 3;
+				float Factor = ThresholdMatrix[Coordinate.x][Coordinate.y];
+				clip( Opacity - Factor );
+			}
+
 			PDX_MAIN
 			{
 				PS_COLOR_SSAO Out;
@@ -1259,11 +1274,14 @@ PixelShader =
 					float3 NormalSample = UnpackRRxGNormal( NormalSampleRaw );
 				#endif
 
-			
 				Diffuse.a = PdxMeshApplyOpacity( Diffuse.a, Input.Position.xy, PdxMeshGetOpacity( Input.InstanceIndex ) );
 
 				// CfV (godherja)
 				GH_SPortraitEffect PortraitEffect = GH_ScanMarkerDecals(DecalCount, true, false, false);
+				#ifdef DITHERED_OPACITY
+					DitheredOpacity( Diffuse.a, Input.Position.xz );
+					Diffuse.a = 1.0f;
+				#endif
 
 				#ifdef VARIATIONS_ENABLED
 					float4 SecondColorMask = vec4( 0.0f );
@@ -1274,7 +1292,7 @@ PixelShader =
 					// CfV (POD)
 					ApplyVariationPatterns( Input, Diffuse, Properties, PatternNormal, SecondColorMask, PortraitEffect, NormalUVChannel );
 				#endif
-				
+
 				#ifdef COA_ENABLED
 					Properties.r = 1.0; // wipe this clean now, ready to be modified later
 					ApplyCoa( Input, Diffuse, CoaColor1, CoaColor2, CoaColor3, CoaOffsetAndScale.xy, CoaOffsetAndScale.zw, CoaTexture, Properties.r );
@@ -1304,7 +1322,7 @@ PixelShader =
 				// CfV (godherja)
 				#ifdef VARIATIONS_ENABLED
 					float3 Color = CommonPixelShaderWithTwoNormal( Diffuse, Properties, NormalSample, PatternNormal, NormalUVChannel, Input, PortraitEffect, AppliedHover );
-				#else 
+				#else
 					float3 Color = CommonPixelShader( Diffuse, Properties, NormalSample, Input, PortraitEffect, AppliedHover );
 				#endif
 
@@ -1432,14 +1450,14 @@ PixelShader =
 			#endif
 			#ifndef PROPERTIES_UV_SET
 			#define PROPERTIES_UV_SET Input.UV0
-			#endif	
+			#endif
 			#ifndef ANISOTROPY_UV_SET
 			#define ANISOTROPY_UV_SET Input.UV0
 			#endif
 			#ifndef FLOWMAP_UV_SET
 			#define FLOWMAP_UV_SET Input.UV0
 			#endif
-			
+
 			SCharacterHairSettings GetCharacterHairSettings()
 			{
 				SCharacterHairSettings HairSettings;
@@ -1513,7 +1531,7 @@ PixelShader =
 				HairProps._ColorMaskStrength = ColorMaskStrength;
 
 				// Must match in size with CCourtSceneShadowMap::MaxShadows
-				float Shadows[ SHADOWS_COUNT ] = 
+				float Shadows[ SHADOWS_COUNT ] =
 				#ifdef PDX_GLSL
 					float[ SHADOWS_COUNT ]( 1.0f, 1.0f, 1.0f, 1.0f );
 				#else
@@ -1570,7 +1588,7 @@ PixelShader =
 				#endif
 
 				float4 RgbMask = PdxTex2D( RGBMaksMap, UV1 );
-				
+
 				float4 BaseDiffuse = PdxTex2D( DiffuseMap, UV0 );
 				float4 Diffuse1 = PdxTex2D( DiffuseMap1, UVTiling1 );
 				float4 Diffuse2 = PdxTex2D( DiffuseMap2, UVTiling2 );
@@ -1580,7 +1598,7 @@ PixelShader =
 				Diffuse = lerp( Diffuse, Diffuse2, RgbMask.g );
 				Diffuse = lerp( Diffuse, Diffuse3, RgbMask.b );
 				Diffuse.a = PdxMeshApplyOpacity( BaseDiffuse.a, Input.Position.xy, PdxMeshGetOpacity( Input.InstanceIndex ) );
-				
+
 				float4 BaseProperties = PdxTex2D( PropertiesMap, UV0 );
 				float4 Properties1 = PdxTex2D( PropertiesMap1, UVTiling1 );
 				float4 Properties2 = PdxTex2D( PropertiesMap2, UVTiling2 );
@@ -1598,7 +1616,7 @@ PixelShader =
 				float4 BlendNormal = lerp( BaseNormalMap,NormalMap01, RgbMask.r );
 				BlendNormal = lerp( BlendNormal, NormalMap02, RgbMask.g );
 				BlendNormal = lerp( BlendNormal, NormalMap03, RgbMask.b );
-				
+
 				float3 NormalSample = UnpackRRxGNormal( BaseNormalMap );
 				float3 BlendNormalSample = UnpackRRxGNormal( BlendNormal );
 				float3 ReorientNormal01 = ReorientNormal( NormalSample, BlendNormalSample );
@@ -1620,7 +1638,7 @@ PixelShader =
 				float3 SpecularLight = vec3( 0.0f );
 
 				// Must match in size with CCourtSceneShadowMap::MaxShadows
-				float Shadows[ SHADOWS_COUNT ] = 
+				float Shadows[ SHADOWS_COUNT ] =
 				#ifdef PDX_GLSL
 					float[ SHADOWS_COUNT ]( 1.0, 1.0, 1.0, 1.0 );
 				#else
@@ -1710,7 +1728,7 @@ PixelShader =
 			PDX_MAIN
 			{
 				PS_COLOR_SSAO Out;
-				
+
 				#ifdef PARALLAX
 					#ifdef LOW_SPEC_SHADERS
 						Input.UV0 = ParallaxMappingLowSpec( ParallaxMap, Input.UV0, Input.Tangent, Input.Bitangent, Input.Normal, Input.WorldSpacePos, CameraPosition );
@@ -1803,6 +1821,23 @@ PixelShader =
 				Out.Color = float4( Color, Diffuse.a );
 				Out.SSAOColor = float4( 0.0f, 0.0f, 0.0f, Diffuse.a );
 
+				return Out;
+			}
+		]]
+	}
+
+	MainCode PS_mesh_vfx_head_halo_court
+	{
+		Input = "VS_OUTPUT_PDXMESH_VFX"
+		Output = "PS_COLOR_SSAO"
+		Code
+		[[
+			PDX_MAIN
+			{
+				PS_COLOR_SSAO Out;
+
+				Out.Color.a = 0.0f;
+				Out.SSAOColor = float4( 1.0f, 1.0f, 1.0f, 0.0f );
 				return Out;
 			}
 		]]
@@ -2252,7 +2287,7 @@ Effect portrait_hair_opaque
 {
 	VertexShader = "VS_standard"
 	PixelShader = "PS_hair"
-	
+
 	Defines = { "WRITE_ALPHA_ONE" "PDX_MESH_BLENDSHAPES" }
 }
 
@@ -2372,7 +2407,7 @@ Effect court_usercolor_coa
 Effect court_parallax
 {
 	VertexShader = "VS_standard"
-	PixelShader = "PS_court"	
+	PixelShader = "PS_court"
 	Defines = { "PARALLAX" }
 }
 
@@ -2449,7 +2484,7 @@ Effect court_usercolor_coa_selection
 Effect court_parallax_selection
 {
 	VertexShader = "VS_standard"
-	PixelShader = "PS_court_selection"	
+	PixelShader = "PS_court_selection"
 	Defines = { "PARALLAX" }
 }
 
@@ -3032,3 +3067,17 @@ Effect portrait_emissive_selection
 	Defines = { "EMISSIVE" "PDX_MESH_BLENDSHAPES" }
 }
 # CfV end
+Effect mesh_vfx_head_halo
+{
+	VertexShader = "VS_mesh_vfx_standard"
+	PixelShader = "PS_mesh_vfx_head_halo_court"
+	BlendState = "alpha_to_coverage"
+	RasterizerState = "rasterizer_no_culling"
+	Defines = { "BILLBOARD_HALO_MESH" "BILLBOARD_OFFSET_DISTANCE 30.0"}
+}
+
+Effect mesh_vfx_head_halo_selection
+{
+	VertexShader = "VS_standard"
+	PixelShader = "PS_noop"
+}

@@ -1,0 +1,339 @@
+﻿# Divine tasks under way. One contract type per task, created and accepted by script when the player takes an offer
+# from a map pin (accept_deity_offer_effect). Each contract carries its own deadline (var:deity_deadline_year) and star
+# tier, drops itself when the deadline passes or the target dies by another hand, and pays favor + piety on completion.
+# Never offered by the contract system itself (weight 0).
+
+deity_task_melkor_break_them = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/dread.dds"
+	travel = no
+	use_diplomatic_range = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+		task_contract_target ?= {
+			OR = {
+				is_alive = yes
+				killer ?= root.task_contract_taker
+			}
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	# Deadline passed, target lost, or abandoned from the contract window
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = melkor }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = break_them DEITY = melkor }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}
+
+deity_task_melkor_be_feared = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/dread.dds"
+	travel = no
+	use_diplomatic_range = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = melkor }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = be_feared DEITY = melkor }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}
+
+deity_task_lloth_thread_cut = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/death_murder.dds"
+	travel = no
+	use_diplomatic_range = yes
+	is_criminal = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+		task_contract_target ?= {
+			OR = {
+				is_alive = yes
+				killer ?= root.task_contract_taker
+			}
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = lloth }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = thread_cut DEITY = lloth }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}
+
+deity_task_lloth_thread_tied = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/hook.dds"
+	travel = no
+	use_diplomatic_range = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+		task_contract_target ?= {
+			is_alive = yes
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = lloth }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = thread_tied DEITY = lloth }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}
+
+deity_task_typhos_strong_blood = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/child.dds"
+	travel = no
+	use_diplomatic_range = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = typhos }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = strong_blood DEITY = typhos }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}
+
+deity_task_typhos_shed_skin = {
+	group = dark_elf_deity_group
+	icon = "gfx/interface/icons/message_feed/prison.dds"
+	travel = no
+	use_diplomatic_range = yes
+
+	valid_to_create = {
+		always = yes
+	}
+	valid_to_accept = {
+		always = yes
+	}
+	valid_to_keep = {
+		always = yes
+	}
+	valid_to_continue = {
+		trigger_if = {
+			limit = { has_variable = deity_deadline_year }
+			current_year <= var:deity_deadline_year
+		}
+	}
+
+	on_completed = {
+		deity_contract_pin_release_effect = yes
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3001
+		}
+	}
+
+	on_invalidated = {
+		deity_contract_pin_release_effect = yes
+		deity_contract_failure_effect = { DEITY = typhos }
+		save_scope_as = deity_contract
+		task_contract_taker ?= {
+			trigger_event = dark_elf_deity.3002
+		}
+	}
+
+	task_contract_reward = {
+		deity_success = {
+			should_print_on_complete = yes
+			effect = {
+				deity_contract_reward_effect = { TASK = shed_skin DEITY = typhos }
+			}
+		}
+	}
+
+	weight = {
+		value = 0
+	}
+}

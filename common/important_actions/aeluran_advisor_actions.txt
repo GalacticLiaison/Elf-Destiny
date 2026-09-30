@@ -1,0 +1,33 @@
+﻿# HIDDEN for release: the Advisor Post Open alert (advisor placement is still under development).
+# Uncomment this file to re-enable it.
+## An Advisor post in the player's flock awaits her choice. Clicking opens Appoint an Advisor for that ruler.
+## Posts are listed on the appointer (var list aeluran_open_advisor_posts, aeluran_open_advisor_post_effect).
+#action_aeluran_advisor_post_open = {
+#	type = alert
+#	icon = action_empty_council_position
+#	combine_into_one = yes
+#
+#	check_create_action = {
+#		every_in_list = {
+#			variable = aeluran_open_advisor_posts
+#			limit = {
+#				is_alive = yes
+#				var:aeluran_advisor_vacancy ?= root
+#				NOT = { exists = cp:councillor_aeluran_advisor }
+#			}
+#			try_create_important_action = {
+#				important_action_type = action_aeluran_advisor_post_open
+#				actor = root
+#				recipient = this
+#			}
+#		}
+#	}
+#
+#	effect = {
+#		open_interaction_window = {
+#			interaction = aeluran_appoint_advisor_interaction
+#			actor = scope:actor
+#			recipient = scope:recipient
+#		}
+#	}
+#}

@@ -1,0 +1,122 @@
+﻿# Overrides of vanilla 1.20 clerical elector (College of Cardinals) effects, copied from
+# common/scripted_effects/11_dlc_pam_scripted_effects.txt. Each change is marked "Elf Destiny".
+# Matron's Seats (aeluran_conclave_scripted_effects.txt) are clerical electors held by lay rulers of the Aeluran Order.
+
+# Holy orders stay as they are, since a holy-order primary never moves onto ecclesiastical government
+# Non-rulers stay: a new holder only rules once the transfer resolves
+pam_strip_illegal_cardinalate_effect = {
+	if = {
+		limit = {
+			is_ruler = yes
+			NOR = {
+				government_has_flag = government_is_theocracy
+				government_has_flag = government_is_holy_order
+			}
+			exists = clerical_elector_title
+			# Elf Destiny: Matron's Seats are held by lay rulers by design
+			NOT = { clerical_elector_title ?= { has_variable = aeluran_matron_seat } }
+		}
+		pam_destroy_cardinal_title_effect = { CARDINALATE = clerical_elector_title }
+	}
+}
+
+# ROOT = faith. Fill the College up to 10 so vacancy AI does not spam the HoF on creation.
+pam_seed_cardinals_effect = {
+	if = {
+		limit = {
+			has_pam_dlc_trigger = yes
+			has_doctrine_parameter = has_clerical_electors
+			# Elf Destiny: the Aeluran faiths fill their Council of Matrons themselves; the vanilla College seeding cannot grant them seats
+			NOT = { religion_tag = spark_religion }
+			any_clerical_elector_title = { count < 10 }
+			OR = {
+				exists = religious_head
+				exists = title:k_papal_state.holder
+			}
+		}
+		# Callers fire this from on_actions whose root is a character, so the faith needs its own scope
+		save_scope_as = pam_seed_faith
+		if = {
+			limit = { exists = religious_head }
+			religious_head = { save_scope_as = pam_seed_hof }
+		}
+		else = {
+			title:k_papal_state.holder = { save_scope_as = pam_seed_hof }
+		}
+		scope:pam_seed_hof.capital_county ?= { save_scope_as = pam_seed_cardinal_county }
+		if = {
+			limit = { NOT = { exists = scope:pam_seed_cardinal_county } }
+			title:c_roma = { save_scope_as = pam_seed_cardinal_county }
+		}
+		# One ordered pass - same eligibility as pam_cardinal_vacancy_on_death_effect
+		ordered_clerical_region_title = {
+			limit = {
+				holder ?= {
+					is_alive = yes
+					is_adult = yes
+					is_incapable = no
+					NOT = { has_trait = excommunicated }
+					NOT = { exists = clerical_elector_title }
+					this != scope:pam_seed_hof
+					pam_can_hold_cardinalate_trigger = yes
+					pam_pope_is_head_of_faith_or_rite_trigger = yes
+				}
+			}
+			order_by = holder.piety_level
+			max = 10
+			check_range_bounds = no
+			holder = {
+				if = {
+					limit = {
+						scope:pam_seed_faith = { any_clerical_elector_title = { count < 10 } }
+					}
+					grant_cardinal_title_effect = {
+						CARDINAL_COUNTY = capital_county
+					}
+					add_to_list = pam_seeded_cardinals
+				}
+			}
+		}
+		# Mint only what the promotion pass could not fill (count = 10 is a hard bound)
+		scope:pam_seed_hof = {
+			while = {
+				count = 10
+				limit = {
+					scope:pam_seed_faith = { any_clerical_elector_title = { count < 10 } }
+				}
+				pam_create_seed_cardinal_effect = {
+					HOF = scope:pam_seed_hof
+					LOCATION = scope:pam_seed_cardinal_county.title_province
+					FAITH = scope:pam_seed_faith
+				}
+				scope:pam_new_cardinal ?= {
+					grant_cardinal_title_effect = {
+						CARDINAL_COUNTY = scope:pam_seed_cardinal_county
+					}
+					add_to_list = pam_seeded_cardinals
+				}
+			}
+		}
+		# Seeding at game start is part of the setup, but mid-game it would otherwise be silent
+		if = {
+			limit = {
+				NOT = { current_date_is_start_date_trigger = yes }
+				any_in_list = { list = pam_seeded_cardinals count >= 1 }
+				scope:pam_seed_hof = { is_ai = no }
+			}
+			ordered_in_list = {
+				list = pam_seeded_cardinals
+				order_by = piety_level
+				max = 1
+				check_range_bounds = no
+				save_scope_as = cardinal_candidate
+			}
+			scope:pam_seed_hof = {
+				trigger_event = {
+					id = pam_clergy_events.0042
+					days = 3
+				}
+			}
+		}
+	}
+}

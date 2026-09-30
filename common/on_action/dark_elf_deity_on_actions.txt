@@ -1,0 +1,88 @@
+﻿# Dark Elf patron deities: yearly offers and decay, and the instant completion checks
+
+yearly_playable_pulse = {
+	on_actions = {
+		dark_elf_deity_yearly_pulse
+	}
+}
+
+dark_elf_deity_yearly_pulse = {
+	trigger = {
+		is_ai = no
+		OR = {
+			has_variable = melkor_favor
+			has_variable = lloth_favor
+			has_variable = typhos_favor
+		}
+	}
+	effect = {
+		deity_yearly_pulse_effect = yes
+	}
+}
+
+# A Thread Cut / Break Them: the named target died by the devotee's hand
+on_death = {
+	on_actions = {
+		dark_elf_deity_on_death
+	}
+}
+
+dark_elf_deity_on_death = {
+	trigger = {
+		exists = killer
+		killer = {
+			any_character_active_contract = {
+				has_task_contract_group = dark_elf_deity_group
+				task_contract_target ?= root
+			}
+		}
+	}
+	effect = {
+		killer = {
+			every_character_active_contract = {
+				limit = {
+					has_task_contract_group = dark_elf_deity_group
+					task_contract_target ?= root
+					OR = {
+						has_task_contract_type = deity_task_lloth_thread_cut
+						has_task_contract_type = deity_task_melkor_break_them
+					}
+				}
+				complete_task_contract = deity_success
+			}
+		}
+	}
+}
+
+# Strong Blood: a child of the devotee is born with a good congenital trait
+on_birth_child = {
+	on_actions = {
+		dark_elf_deity_on_birth
+	}
+}
+
+dark_elf_deity_on_birth = {
+	trigger = {
+		has_good_congenital_trait_trigger = yes
+	}
+	effect = {
+		if = {
+			limit = { exists = scope:mother }
+			scope:mother = {
+				every_character_active_contract = {
+					limit = { has_task_contract_type = deity_task_typhos_strong_blood }
+					complete_task_contract = deity_success
+				}
+			}
+		}
+		if = {
+			limit = { exists = scope:father }
+			scope:father = {
+				every_character_active_contract = {
+					limit = { has_task_contract_type = deity_task_typhos_strong_blood }
+					complete_task_contract = deity_success
+				}
+			}
+		}
+	}
+}

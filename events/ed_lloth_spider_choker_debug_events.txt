@@ -1,0 +1,48 @@
+﻿namespace = ed_spider_choker_debug
+
+# Debug preview of Lloth's spider choker on a woman (the player if female, else a woman
+# of the court, else a newly created one). Fire with the console:
+#   event ed_spider_choker_debug.1
+ed_spider_choker_debug.1 = {
+	type = character_event
+	title = ed_spider_choker_debug.1.t
+	desc = ed_spider_choker_debug.1.desc
+	theme = faith
+
+	immediate = {
+		if = {
+			limit = { is_female = yes }
+			save_scope_as = choker_wearer
+		}
+		else_if = {
+			limit = { any_courtier_or_guest = { is_female = yes is_adult = yes } }
+			random_courtier_or_guest = {
+				limit = { is_female = yes is_adult = yes }
+				save_scope_as = choker_wearer
+			}
+		}
+		else = {
+			create_character = {
+				gender = female
+				age = 25
+				location = root.location
+				culture = root.culture
+				faith = root.faith
+				save_scope_as = choker_wearer
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:choker_wearer
+		animation = ed_wearing_spider_choker
+	}
+	right_portrait = {
+		character = scope:choker_wearer
+		animation = ed_wearing_spider_choker_empty
+	}
+
+	option = {
+		name = ed_spider_choker_debug.1.a
+	}
+}

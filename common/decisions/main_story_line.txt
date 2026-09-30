@@ -98,11 +98,15 @@ transport_the_grand_portal_decision = {
 	widget = {
 		controller = create_holy_order
 		gui = "decision_view_widget_move_portal"
-		barony_valid = {
-			holder = scope:ruler
-			title_province = {
-				has_special_building = no
+		title_valid = {	# 1.20: was barony_valid; also evaluated with no barony selected
+			trigger_if = {
+				limit = { exists = this }
+				holder = scope:ruler
+				title_province = {
+					has_special_building = no
+				}
 			}
+			trigger_else = { always = no }
 		}
 	}
 	
@@ -266,7 +270,7 @@ reform_the_aeluran_faith_decision = {
 		has_global_variable = 02_spoke_with_the_aeluran_order
 
 		faith = {
-			has_doctrine = tenet_aeluran_sisters
+			has_tenet = tenet_aeluran_sisters
 		}
 
 		NOT = {  #Can only do it once.

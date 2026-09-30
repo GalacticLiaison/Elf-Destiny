@@ -13,6 +13,7 @@ quarterly_playable_pulse = {
 		gain_varangian_adventure_innovation_pulse
 		
 		aeluran_order_maintenance
+		spark_syncretism_county_pulse
 
 		# handle_elf_tradition_effects_pulse
 	}
@@ -49,7 +50,7 @@ elf_daughters_to_school = {
 	trigger = {
 		is_ruler = yes
 		faith = {
-			has_doctrine = tenet_aeluran_sisters
+			has_tenet = tenet_aeluran_sisters
 		}
 		exists = cp:councillor_aeluran_advisor
 		any_child = {
@@ -72,7 +73,7 @@ elf_daughters_back_from_school = {
 	trigger = {
 		is_ruler = yes
 		faith = {
-			has_doctrine = tenet_aeluran_sisters
+			has_tenet = tenet_aeluran_sisters
 		}
 		any_child = {
 			is_female = yes
@@ -421,7 +422,7 @@ distribute_aeluran_advisors_pulse = {
 			}
 		}
 		faith = {
-			has_doctrine = tenet_aeluran_sisters
+			has_tenet = tenet_aeluran_sisters
 		}
 		NOT = {
 			exists = root.cp:councillor_aeluran_advisor
@@ -430,6 +431,8 @@ distribute_aeluran_advisors_pulse = {
 		NOT = {
 			has_character_flag = aeluran_advisor_is_on_the_way
 		}
+		# A player appointer still has time to choose (aeluran_open_advisor_post_effect)
+		NOT = { has_variable = aeluran_advisor_vacancy_timer }
 		trigger_if = {
 			limit = { has_active_diarchy = yes }
 			NOT = {
@@ -447,7 +450,33 @@ distribute_aeluran_advisors_pulse = {
 				}
 			}
 
-			trigger_event = aeluran_diarchy.100
+			if = {
+				# The appointer let the post lapse: the Order fills it
+				limit = { has_variable = aeluran_advisor_vacancy }
+				aeluran_fill_advisor_post_effect = yes
+			}
+			else = {
+				aeluran_open_advisor_post_effect = yes
+			}
+		}
+	}
+}
+# Personal Spark Syncretism tenet: once a year, refresh a modifier on personally held counties of the Spark faith
+# (vanilla does the same for its personal syncretism tenets in yearly_on_actions.txt)
+spark_syncretism_county_pulse = {
+	trigger = {
+		scope:quarter = 1
+		has_personal_tenet_flag = tenet_spark_syncretism_county_bonus
+	}
+	effect = {
+		every_held_county = {
+			limit = {
+				faith ?= { religion = religion:spark_religion }
+			}
+			add_county_modifier = {
+				modifier = spark_syncretism_county_modifier
+				years = 2
+			}
 		}
 	}
 }

@@ -1,0 +1,174 @@
+﻿# Candidate archetype scores for the Council of Matrons (aeluran_matron_conclave).
+# Root = the candidate Matron. The highest-scoring Matron of each archetype stands for election.
+
+aeluran_conclave_spark_touched_priority_value = {
+	value = 0
+	if = {
+		limit = { is_ainur_elf_tier = yes }
+		add = 75
+	}
+	else_if = {
+		limit = { is_celestial_elf_tier = yes }
+		add = 50
+	}
+	else_if = {
+		limit = { is_fae_elf_tier = yes }
+		add = 25
+	}
+	else_if = {
+		limit = { is_high_elf = yes }
+		add = 10
+	}
+	if = {
+		limit = { has_trait = magic_talent_3 }
+		add = 30
+	}
+	else_if = {
+		limit = { has_trait = magic_talent_2 }
+		add = 15
+	}
+	else_if = {
+		limit = { has_trait = magic_talent_1 }
+		add = 5
+	}
+	add = learning
+	add = {
+		value = piety_level
+		multiply = 5
+	}
+}
+
+# Genetic excellence: the purity of blood the Sisterhood weaves for, royal Elven blood and congenital gifts.
+# Elven ascension is left to the Spark-Touched so it is not counted twice.
+aeluran_conclave_highborn_priority_value = {
+	value = 0
+	if = {
+		limit = { has_trait = purest_blooded }
+		add = 50
+	}
+	else_if = {
+		limit = { has_trait = purer_blooded }
+		add = 30
+	}
+	else_if = {
+		limit = { has_trait = pure_blooded }
+		add = 15
+	}
+	if = {
+		limit = { is_of_any_royal_elf_bloodline = yes }
+		add = 25
+	}
+	# A daughter of a Matriarch (electors also favour her, see aeluran_conclave_elector_voting_modifier)
+	if = {
+		limit = { has_trait = born_in_the_red }
+		add = 10
+	}
+	# Congenital gifts
+	if = {
+		limit = { has_trait = beauty_good_3 }
+		add = 15
+	}
+	else_if = {
+		limit = { has_trait = beauty_good_2 }
+		add = 10
+	}
+	else_if = {
+		limit = { has_trait = beauty_good_1 }
+		add = 5
+	}
+	if = {
+		limit = { has_trait = intellect_good_3 }
+		add = 15
+	}
+	else_if = {
+		limit = { has_trait = intellect_good_2 }
+		add = 10
+	}
+	else_if = {
+		limit = { has_trait = intellect_good_1 }
+		add = 5
+	}
+	if = {
+		limit = { has_trait = physique_good_3 }
+		add = 15
+	}
+	else_if = {
+		limit = { has_trait = physique_good_2 }
+		add = 10
+	}
+	else_if = {
+		limit = { has_trait = physique_good_1 }
+		add = 5
+	}
+}
+
+aeluran_conclave_regnant_priority_value = {
+	value = 0
+	# Her own rank counts for less than the Matronate she commands
+	if = {
+		limit = { exists = primary_title }
+		if = {
+			limit = { primary_title.tier = tier_empire }
+			add = 30
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_kingdom }
+			add = 20
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_duchy }
+			add = 10
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_county }
+			add = 5
+		}
+	}
+	# add = aeluran_conclave_regnant_flock_value	# HIDDEN for release: flock count is broken (holder scope errors), re-enable once fixed
+	add = {
+		value = prestige_level
+		multiply = 5
+	}
+	add = {
+		value = diplomacy
+		divide = 2
+	}
+}
+
+# The rulers of her Matronate, by rank: a few kings outweigh a crowd of counts. Capped at 60.
+# Same flock as aeluran_flock_piety_pulse (Aeluran rulers whose capital lies in the Matronate), counted once each by
+# their capital county, the Matron herself excluded.
+aeluran_conclave_regnant_flock_value = {
+	value = 0
+	save_temporary_scope_as = regnant_matron
+	every_held_title = {
+		limit = { aeluran_is_matronate_title_trigger = yes }
+		every_county_in_clerical_region = {
+			limit = {
+				holder ?= {
+					this != scope:regnant_matron
+					aeluran_flock_member_trigger = yes
+					capital_county ?= prev
+				}
+			}
+			holder = {
+				if = {
+					limit = { highest_held_title_tier >= tier_empire }
+					add = 20
+				}
+				else_if = {
+					limit = { highest_held_title_tier = tier_kingdom }
+					add = 12
+				}
+				else_if = {
+					limit = { highest_held_title_tier = tier_duchy }
+					add = 4
+				}
+				else = {
+					add = 1
+				}
+			}
+		}
+	}
+	max = 60
+}

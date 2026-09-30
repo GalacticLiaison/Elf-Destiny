@@ -1,0 +1,463 @@
+﻿# Aeluran Matronates: clerical regions of the Aeluran faith, each held by a Matron (see common/landed_titles/elf_dest_matronate_titles.txt).
+# Every Matronate title carries the variable aeluran_matronate, set at game start for the bookmark Matronates
+# and at founding for new ones.
+
+# Game start: tag the bookmark Matronates and give each the arms of its capital county.
+aeluran_matronate_game_start_effect = {
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_feyswood }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_crystal_glades }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_high_hills }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_valusia }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_menzoberranzan }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_middle_sea }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_western_shores }
+}
+
+aeluran_matronate_init_title_effect = {
+	title:$TITLE$ ?= {
+		set_variable = aeluran_matronate
+		set_coa = title_capital_county
+		if = {
+			limit = { has_clerical_region = no }
+			debug_log = "Matronate $TITLE$ has no clerical region at game start"
+		}
+		if = {
+			limit = {
+				NOT = { holder ?= { has_trait = aeluran_matron } }
+			}
+			debug_log = "Matronate $TITLE$ is not held by a Matron at game start"
+		}
+	}
+}
+
+# After the lobby (the elven kingdoms exist by then): a Matron who holds a Matronate but no land becomes a ruler
+# from title history, with no liege. Like a Matron's Seat holder, she stays in the realm she serves: she swears
+# to the top liege of her Matronate's capital when that realm is above duchy rank (Valindra to Queen Seraphine).
+aeluran_matronate_place_landless_holders_effect = {
+	title:d_matronate_feyswood ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_crystal_glades ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_high_hills ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_valusia ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_menzoberranzan ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_middle_sea ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_western_shores ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	every_in_list = {
+		list = aeluran_matronate_start_titles
+		aeluran_matronate_place_landless_holder_effect = yes
+		# A Matronate outranks a count's land, so it is often her primary title: style her "Matron"
+		holder ?= { aeluran_refresh_matron_rank_flag_effect = yes }
+	}
+}
+
+# Scope: a Matronate title
+aeluran_matronate_place_landless_holder_effect = {
+	# Saved scopes outlive one call; clear them so one Matronate's liege never leaks into the next
+	clear_saved_scope = matronate_vassal
+	clear_saved_scope = matronate_liege
+	clear_saved_scope = matronate_liege_change
+	if = {
+		limit = {
+			exists = holder
+			holder = {
+				# Not "exists = liege": an independent ruler's liege is herself
+				is_independent_ruler = yes
+				NOT = { any_held_title = { is_landless_type_title = no } }
+			}
+			exists = title_capital_county.holder.top_liege
+		}
+		holder = { save_scope_as = matronate_vassal }
+		title_capital_county.holder.top_liege = { save_scope_as = matronate_liege }
+		if = {
+			limit = {
+				scope:matronate_liege = {
+					highest_held_title_tier > tier_duchy
+					this != scope:matronate_vassal
+					# Never the Matron she replaces, whose lands are about to pass on
+					trigger_if = {
+						limit = { exists = scope:outgoing_matron }
+						NOT = { this = scope:outgoing_matron }
+					}
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = matronate_liege_change
+				add_claim_on_loss = no
+			}
+			scope:matronate_vassal = {
+				change_liege = {
+					liege = scope:matronate_liege
+					change = scope:matronate_liege_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:matronate_liege_change
+		}
+	}
+}
+
+########################
+# Matronate succession #
+########################
+# A Matronate never passes to its holder's family. When its Matron dies, is elected High Matriarch, or leaves the
+# faith, the Council of Matrons raises a Sister, preferably one of the Matronate's own region, to Matron and grants
+# her the Matronate. With no Sister anywhere, the Order sends a new one to the Matronate's capital.
+
+# Root = a character giving up her Matronates (dying, elected High Matriarch, converted). Each passes on.
+aeluran_matronate_vacate_held_effect = {
+	save_scope_as = outgoing_matron
+	every_held_title = {
+		limit = { aeluran_is_matronate_title_trigger = yes }
+		add_to_temporary_list = aeluran_matronates_to_vacate
+	}
+	every_in_list = {
+		list = aeluran_matronates_to_vacate
+		aeluran_matronate_succession_effect = yes
+	}
+}
+
+# Scope = a Matronate title. Optional scope:outgoing_matron = the Matron leaving it (never chosen as her own successor).
+aeluran_matronate_succession_effect = {
+	# Saved scopes outlive one call; clear them so one Matronate's successor never leaks into the next
+	clear_saved_scope = matronate_successor
+	clear_saved_scope = matronate_capital
+	clear_saved_scope = matronate_change
+	save_scope_as = matronate
+	title_capital_county = { save_scope_as = matronate_capital }
+
+	# The best Sister: of the region first, then of the Matronate's rite and culture, then the Order's usual criteria
+	ordered_living_character = {
+		limit = { aeluran_matronate_successor_candidate_trigger = yes }
+		order_by = aeluran_matronate_successor_score
+		save_scope_as = matronate_successor
+	}
+	if = {
+		limit = { NOT = { exists = scope:matronate_successor } }
+		aeluran_matronate_create_sister_effect = yes
+	}
+
+	if = {
+		limit = { exists = scope:matronate_successor }
+		debug_log = "Matronate succession"
+		debug_log_scopes = yes
+		scope:matronate = { aeluran_matronate_grant_effect = yes }
+	}
+	else = {
+		debug_log = "Matronate succession found no successor"
+		debug_log_scopes = yes
+	}
+}
+
+# Root = a Sister or Matron about to hold a Matronate. Raised to Matron if a Sister (her Matron's Seat also makes a
+# courtier a landless ruler of the Order), and put on the Order government, whose Matron's Hall the region needs.
+aeluran_matronate_prepare_holder_effect = {
+	if = {
+		limit = { NOT = { has_trait = aeluran_matron } }
+		aeluran_raise_to_matron_effect = yes
+		save_scope_as = matronate_raised_matron
+	}
+	if = {
+		limit = {
+			is_ruler = yes
+			NOT = { has_government = aeluran_weavers_government }
+		}
+		change_government = aeluran_weavers_government
+	}
+}
+
+# Scope = a Matronate title, also saved as scope:matronate; scope:matronate_successor = who takes it.
+# Optional scope:outgoing_matron = the Matron leaving it. Used by succession, founding and the High Matriarch's grant.
+aeluran_matronate_grant_effect = {
+	clear_saved_scope = matronate_change
+	clear_saved_scope = matronate_raised_matron
+	scope:matronate_successor = { aeluran_matronate_prepare_holder_effect = yes }
+	create_title_and_vassal_change = {
+		type = granted
+		save_scope_as = matronate_change
+		add_claim_on_loss = no
+	}
+	if = {
+		limit = { scope:matronate_successor = { is_ruler = yes } }
+		scope:matronate = {
+			change_title_holder = {
+				holder = scope:matronate_successor
+				change = scope:matronate_change
+			}
+		}
+	}
+	# Normally unreachable (the Matron's Seat makes her a ruler); a courtier takes the Order's government
+	else_if = {
+		limit = { exists = title:d_high_matriarch.holder }
+		scope:matronate = {
+			change_title_holder = {
+				holder = scope:matronate_successor
+				change = scope:matronate_change
+				government_base = title:d_high_matriarch.holder
+			}
+		}
+	}
+	else = {
+		scope:matronate = {
+			change_title_holder = {
+				holder = scope:matronate_successor
+				change = scope:matronate_change
+			}
+		}
+	}
+	resolve_title_and_vassal_change = scope:matronate_change
+
+	# A landless Matron stays in the realm around her Matronate
+	scope:matronate = { aeluran_matronate_place_landless_holder_effect = yes }
+	scope:matronate_successor = { aeluran_refresh_matron_rank_flag_effect = yes }
+
+	# A player raised to Matron is told why; players whose realm lies in the Matronate see a toast
+	if = {
+		limit = {
+			exists = scope:matronate_raised_matron
+			scope:matronate_successor = { is_ai = no }
+		}
+		scope:matronate_successor = { trigger_event = aeluran_repeating.004 }
+	}
+	scope:matronate = {
+		every_ruler_in_clerical_region = {
+			limit = {
+				is_ai = no
+				this != scope:matronate_successor
+			}
+			send_interface_toast = {
+				type = event_toast_effect_neutral
+				title = aeluran_matronate_new_matron_toast
+				left_icon = scope:matronate_successor
+				custom_tooltip = aeluran_matronate_new_matron_toast_desc
+			}
+		}
+	}
+	aeluran_conclave_electors_vote_effect = yes
+}
+
+# Scope = a Matronate title, scope:matronate_capital saved. No Sister exists: the Order sends one to the capital,
+# of its culture, and of its rite (a Dark Sister for a Matronate of one of the Dark Sisters' rites).
+aeluran_matronate_create_sister_effect = {
+	if = {
+		limit = { scope:matronate_capital.rite ?= { rite_has_tenet = tenet_dark_sisters } }
+		create_character = {
+			template = dark_aeluran_sister_advisor
+			dynasty = none
+			location = scope:matronate_capital.title_province
+			faith = faith:aeluran_weavers
+			culture = scope:matronate_capital.culture
+			save_scope_as = matronate_successor
+		}
+	}
+	else = {
+		create_character = {
+			template = aeluran_sister_advisor
+			dynasty = none
+			location = scope:matronate_capital.title_province
+			faith = faith:aeluran_weavers
+			culture = scope:matronate_capital.culture
+			save_scope_as = matronate_successor
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:matronate_successor
+			scope:matronate_capital.faith = faith:aeluran_weavers
+		}
+		scope:matronate_successor = { set_character_rite = scope:matronate_capital.rite }
+	}
+}
+
+####################################
+# The High Matriarch's powers      #
+####################################
+# She may found a new Matronate for a Sister or Matron (aeluran_found_matronate_interaction), or entrust an existing
+# one to her, deposing its Matron (aeluran_entrust_matronate_interaction). An AI High Matriarch does both from a
+# yearly pulse (aeluran_matronate_ai_yearly_effect).
+
+# Root = the Sister or Matron receiving the new Matronate; scope:actor = the High Matriarch.
+# The region is created around her home county (her capital, or her court's county if she rules no land): the engine
+# gives it every free county of that county's de jure kingdom that it can reach over land. Script cannot shrink a
+# region afterwards (tested 2026-09-28: split_clerical_region fails in the creating tick, and a destroyed region title
+# keeps its counties as a vacant region), so the extent is the engine's.
+aeluran_matronate_found_effect = {
+	clear_saved_scope = matronate
+	clear_saved_scope = matronate_capital
+	clear_saved_scope = matronate_found_county
+	clear_saved_scope = outgoing_matron
+	clear_saved_scope = new_title
+	save_scope_as = matronate_successor
+	if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		capital_county = { save_scope_as = matronate_found_county }
+	}
+	else = {
+		location.county = { save_scope_as = matronate_found_county }
+	}
+	# Raised and on the Order government first: the region takes its domicile type from the Matron's Hall
+	aeluran_matronate_prepare_holder_effect = yes
+	scope:matronate_found_county.title_province = {
+		create_clerical_region = {
+			domicile_type = aeluran_matron_hall
+			name = aeluran_matronate_founded_name
+			adj = aeluran_matronate_founded_adj
+			save_scope_as = new_title
+		}
+	}
+	scope:new_title ?= {
+		set_variable = aeluran_matronate
+		set_coa = scope:matronate_found_county
+		set_color_from_title = scope:matronate_found_county
+		set_capital_county = scope:matronate_found_county
+		set_landless_title = yes
+		set_no_automatic_claims = yes
+		set_can_be_named_after_dynasty = no
+		save_scope_as = matronate
+		scope:matronate_found_county = { save_scope_as = matronate_capital }
+		aeluran_matronate_grant_effect = yes
+	}
+	if = {
+		limit = { NOT = { exists = scope:new_title } }
+		debug_log = "Matronate founding: create_clerical_region made no title"
+		debug_log_scopes = yes
+	}
+}
+
+# Root = the Sister or Matron receiving the Matronate; scope:target = the Matronate; scope:actor = the High Matriarch.
+# A sitting Matron is deposed: she keeps her rank, her Matron's Seat and her lands, and resents it. The rest of the
+# Council of Matrons takes it ill too.
+aeluran_matronate_entrust_effect = {
+	clear_saved_scope = outgoing_matron
+	save_scope_as = matronate_successor
+	scope:target = {
+		save_scope_as = matronate
+		title_capital_county = { save_scope_as = matronate_capital }
+		holder ?= { save_scope_as = outgoing_matron }
+	}
+	scope:matronate = { aeluran_matronate_grant_effect = yes }
+	scope:outgoing_matron ?= {
+		aeluran_refresh_matron_rank_flag_effect = yes
+		if = {
+			limit = { is_ai = no }
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = aeluran_matronate_deposed_toast
+				left_icon = scope:actor
+				right_icon = scope:matronate_successor
+				custom_tooltip = aeluran_matronate_deposed_toast_desc
+			}
+		}
+		add_opinion = {
+			target = scope:actor
+			modifier = fp3_resentful_opinion
+			opinion = -40
+		}
+		every_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+				NOR = {
+					this = scope:outgoing_matron
+					this = scope:matronate_successor
+					this = scope:actor
+				}
+			}
+			add_opinion = {
+				target = scope:actor
+				modifier = aeluran_meddled_in_matronate_opinion
+			}
+		}
+	}
+	scope:actor = {
+		reverse_add_opinion = {
+			target = scope:matronate_successor
+			modifier = grateful_opinion
+			opinion = 30
+		}
+	}
+}
+
+# Root = the AI High Matriarch, once a year.
+aeluran_matronate_ai_yearly_effect = {
+	save_scope_as = actor
+	# Found: a Sister or idle Matron whose home county is a free Aeluran county, about once in four years
+	if = {
+		limit = {
+			NOT = { has_variable = aeluran_ai_found_matronate_cooldown }
+			piety >= aeluran_matronate_found_piety_cost
+		}
+		random = {
+			chance = 25
+			clear_saved_scope = matronate_ai_recipient
+			ordered_living_character = {
+				limit = {
+					aeluran_may_receive_matronate_trigger = yes
+					is_adult = yes
+					is_imprisoned = no
+					aeluran_matronate_would_break_realm_trigger = no
+					aeluran_matronate_home_county_foundable_trigger = yes
+				}
+				order_by = aeluran_matronate_ai_found_score
+				save_scope_as = matronate_ai_recipient
+			}
+			scope:matronate_ai_recipient ?= {
+				scope:actor = {
+					add_piety = { value = aeluran_matronate_found_piety_cost multiply = -1 }
+					set_variable = {
+						name = aeluran_ai_found_matronate_cooldown
+						years = 5
+					}
+				}
+				aeluran_matronate_found_effect = yes
+			}
+		}
+	}
+	# Replace: a Matron who hates her (a player's Matron too), when a Sister of that Matronate can take her place
+	if = {
+		limit = { NOT = { has_variable = aeluran_ai_replace_matron_cooldown } }
+		clear_saved_scope = target
+		random_living_character = {
+			limit = {
+				has_trait = aeluran_matron
+				opinion = {
+					target = scope:actor
+					value <= -50
+				}
+				any_held_title = { aeluran_is_matronate_title_trigger = yes }
+			}
+			random_held_title = {
+				limit = { aeluran_is_matronate_title_trigger = yes }
+				save_scope_as = target
+			}
+		}
+		scope:target ?= {
+			save_scope_as = matronate
+			title_capital_county = { save_scope_as = matronate_capital }
+			holder = { save_scope_as = outgoing_matron }
+			clear_saved_scope = matronate_ai_recipient
+			ordered_living_character = {
+				limit = {
+					aeluran_matronate_successor_candidate_trigger = yes
+					aeluran_in_matronate_region_trigger = yes
+					aeluran_matronate_would_break_realm_trigger = no
+				}
+				order_by = aeluran_matronate_successor_score
+				save_scope_as = matronate_ai_recipient
+			}
+			if = {
+				limit = {
+					exists = scope:matronate_ai_recipient
+					scope:actor.piety >= aeluran_matronate_entrust_ai_piety_cost
+					scope:actor.prestige >= aeluran_matronate_entrust_ai_prestige_cost
+				}
+				scope:actor = {
+					add_piety = { value = aeluran_matronate_entrust_ai_piety_cost multiply = -1 }
+					add_prestige = { value = aeluran_matronate_entrust_ai_prestige_cost multiply = -1 }
+					set_variable = {
+						name = aeluran_ai_replace_matron_cooldown
+						years = 10
+					}
+				}
+				scope:matronate_ai_recipient = { aeluran_matronate_entrust_effect = yes }
+			}
+		}
+	}
+}

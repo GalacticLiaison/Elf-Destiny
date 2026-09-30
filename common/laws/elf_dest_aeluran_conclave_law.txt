@@ -1,0 +1,36 @@
+﻿# Realm succession law of the High Matriarch: the Council of Matrons elects her successor.
+# Modelled on vanilla theocratic_elective_succession_law (the Papacy), which is also a realm law.
+aeluran_conclave_succession_law = {
+	law_group_type = succession_order_laws
+	index = 101
+
+	can_have = {
+		faith = {
+			has_doctrine_parameter = has_clerical_electors
+			religious_head ?= prev
+		}
+	}
+	can_pass = {
+		always = no
+	}
+	can_title_have = {
+		always = yes
+	}
+
+	succession = {
+		order_of_succession = election
+		election_type = aeluran_matron_conclave
+		faith = same_faith
+		# The elected Matron keeps the lands she already rules
+		resign_outside_realm = no
+	}
+
+	flag = elective_succession_law
+	title_allegiance_opinion = 10
+	revoke_cost = {
+		prestige = change_title_succession_law_prestige_cost
+	}
+	pass_cost = {
+		prestige = change_title_succession_law_prestige_cost
+	}
+}

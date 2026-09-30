@@ -1,0 +1,111 @@
+﻿# Scope: a character, scope:matronate = a Matronate. Does she live in its region? A ruler of land by her capital,
+# anyone else by where she is (her court).
+aeluran_in_matronate_region_trigger = {
+	trigger_if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		capital_county.clerical_region_title ?= scope:matronate
+	}
+	trigger_else = {
+		location.county.clerical_region_title ?= scope:matronate
+	}
+}
+
+# Scope: a character, scope:matronate = the Matronate to fill, scope:outgoing_matron (optional) = the Matron leaving it.
+# Can she be raised to Matron to take the Matronate?
+aeluran_matronate_successor_candidate_trigger = {
+	has_trait = aeluran_sister
+	is_female = yes
+	is_adult = yes
+	faith = faith:aeluran_weavers
+	is_imprisoned = no
+	trigger_if = {
+		limit = { exists = scope:outgoing_matron }
+		NOT = { this = scope:outgoing_matron }
+	}
+	# One clerical region per ruler
+	NOT = { any_held_title = { has_clerical_region = yes } }
+	# A Sister who rules land must rule it inside the Matronate: a Matronate far from her own realm is not hers to keep
+	trigger_if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		aeluran_in_matronate_region_trigger = yes
+	}
+}
+
+##########################################
+# The High Matriarch's Matronate powers #
+##########################################
+
+# Scope: a character. Is she of the kind the High Matriarch may give a Matronate to (a Sister, or a Matron without one)?
+aeluran_may_receive_matronate_trigger = {
+	OR = {
+		has_trait = aeluran_sister
+		has_trait = aeluran_matron
+	}
+	faith = faith:aeluran_weavers
+	NOT = { has_title = title:d_high_matriarch }
+	# One clerical region per ruler
+	NOT = { any_held_title = { has_clerical_region = yes } }
+}
+
+# Scope: a character. She rules land under a duke or a count: a Matronate (duchy rank, like her Matron's Seat) would
+# raise her above her liege and pull her land out of the realm.
+aeluran_matronate_would_break_realm_trigger = {
+	any_held_title = { is_landless_type_title = no }
+	is_independent_ruler = no
+	liege = { highest_held_title_tier <= tier_duchy }
+}
+
+# Scope: a county. Can a new Matronate be founded with this county as its capital?
+aeluran_matronate_foundable_county_trigger = {
+	# A region takes its faith from its capital
+	faith = faith:aeluran_weavers
+	NOT = { exists = clerical_region_title }
+	# Spirits' Landing is the High Matriarch's own see
+	NOT = { this = title:d_high_matriarch.title_capital_county }
+}
+
+# Scope: a character. Is the county she calls home (her capital, or her court's county if she rules no land) one a
+# Matronate can be founded around?
+aeluran_matronate_home_county_foundable_trigger = {
+	trigger_if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		capital_county ?= { aeluran_matronate_foundable_county_trigger = yes }
+	}
+	trigger_else = {
+		location.county ?= { aeluran_matronate_foundable_county_trigger = yes }
+	}
+}
+
+# Scope: a character, scope:target = a Matronate. Does she live in it (by capital if she rules land, else by court)?
+aeluran_lives_in_target_matronate_trigger = {
+	trigger_if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		capital_county.clerical_region_title ?= scope:target
+	}
+	trigger_else = {
+		location.county.clerical_region_title ?= scope:target
+	}
+}
+
+# Scope: a character. Is she or he one of the Order's flock: an Aeluran ruler of count rank or above?
+# Human (non-Aeluran) rulers are not; by default the Order wants them gone (PM 2026-09-30).
+aeluran_flock_member_trigger = {
+	is_ruler = yes
+	faith = faith:aeluran_weavers
+	highest_held_title_tier >= tier_county
+}
+
+# Scope: a landed title. Is it an Aeluran Matronate?
+# The bookmark Matronates are named explicitly so this holds before game start tags them with aeluran_matronate.
+aeluran_is_matronate_title_trigger = {
+	OR = {
+		has_variable = aeluran_matronate
+		this = title:d_matronate_feyswood
+		this = title:d_matronate_crystal_glades
+		this = title:d_matronate_high_hills
+		this = title:d_matronate_valusia
+		this = title:d_matronate_menzoberranzan
+		this = title:d_matronate_middle_sea
+		this = title:d_matronate_western_shores
+	}
+}

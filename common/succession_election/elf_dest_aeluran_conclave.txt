@@ -1,0 +1,79 @@
+﻿# The Council of Matrons elects the High Matriarch.
+# Electors and candidates are the holders of the faith's Matron Seats (clerical elector titles, see aeluran_conclave_scripted_effects.txt).
+# Root scope - Elector, the character voting in the election.
+# scope:candidate scope - Candidate, Character considered for the title.
+# scope:title scope - Title, The title the nomination is for (d_high_matriarch).
+# scope:holder scope - Ruler, The current High Matriarch.
+# scope:holder_candidate scope - Favored Candidate, The High Matriarch's candidate.
+
+aeluran_matron_conclave = {
+	elector_vote_strength = {
+		base = 1
+	}
+
+	electors = {
+		character_sets = {
+			aeluran_conclave_electors = {
+				type = same_faith_clerical_electors
+
+				# The sitting High Matriarch votes through the set below (she holds no Matron Seat of her own)
+				limit = {
+					this != scope:holder
+				}
+			}
+			# The High Matriarch steers her succession with her own vote. It becomes scope:holder_candidate, which
+			# loyal Matrons follow (aeluran_conclave_elector_voting_modifier), and a player Matriarch casts it in the election window.
+			aeluran_conclave_matriarch = {
+				type = holder
+			}
+		}
+	}
+
+	candidate_score = {
+		base = 0
+		######################	Elector self-voting pattern	##########################
+		aeluran_conclave_elector_self_voting_modifier = yes
+
+		##########################	Council politics	##########################
+		aeluran_conclave_elector_voting_modifier = yes
+
+		##########################	Shared with the Elven elective	##########################
+		elf_elector_voting_pattern_traits_elf_elective_modifier = yes
+		elf_elector_voting_pattern_opinion_elf_elective_modifier = yes
+	}
+
+	candidates = {
+		limit = {
+			is_female = yes
+			has_trait = aeluran_matron
+		}
+
+		character_sets = {
+			# The Matron most gifted in the Spark
+			aeluran_conclave_spark_touched = {
+				type = same_faith_clerical_electors
+				priority_value = {
+					value = aeluran_conclave_spark_touched_priority_value
+				}
+			}
+
+			# The Matron of the finest blood
+			aeluran_conclave_highborn = {
+				type = same_faith_clerical_electors
+				priority_value = {
+					value = aeluran_conclave_highborn_priority_value
+				}
+			}
+
+			# The Matron with the most temporal power
+			aeluran_conclave_regnant = {
+				type = same_faith_clerical_electors
+				priority_value = {
+					value = aeluran_conclave_regnant_priority_value
+				}
+			}
+		}
+
+		candidate_policy = one_candidate_per_set
+	}
+}
