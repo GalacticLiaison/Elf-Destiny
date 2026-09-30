@@ -30,14 +30,18 @@
 	widget = {
 		controller = create_holy_order
 		gui = "decision_view_widget_move_portal"
-		barony_valid = {
-			holder = scope:ruler
-			county = {
-				save_temporary_scope_as = county_to_check
+		title_valid = {	# 1.20: was barony_valid; also evaluated with no barony selected
+			trigger_if = {
+				limit = { exists = this }
+				holder = scope:ruler
+				county = {
+					save_temporary_scope_as = county_to_check
+				}
+				NOT = {
+					scope:ruler.capital_county = scope:county_to_check
+				}
 			}
-			NOT = {
-				scope:ruler.capital_county = scope:county_to_check
-			}
+			trigger_else = { always = no }
 			# NOT = {
 			# 	any_barony = {
 			# 		county = scope:county_to_check

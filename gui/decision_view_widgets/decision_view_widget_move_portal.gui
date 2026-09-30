@@ -15,7 +15,7 @@ flowcontainer = {
 		parentanchor = hcenter
 
 		text_single = {
-			visible = "[And(DecisionViewWidgetCreateHolyOrder.IsCreate, DecisionViewWidgetCreateHolyOrder.HasCurrentCapital)]"
+			visible = "[And(DecisionViewWidgetSelectBarony.IsCreate, DecisionViewWidgetSelectBarony.HasCurrentTitle)]"
 			parentanchor = vcenter
 			fontsize_min = 14
 			text = "TRANSPORT_THE_GRAND_PORTAL_DECISION_DESTINATION_LABEL"
@@ -26,11 +26,11 @@ flowcontainer = {
 		}
 
 		text_single = {
-			visible = "[DecisionViewWidgetCreateHolyOrder.HasCurrentCapital]"
+			visible = "[DecisionViewWidgetSelectBarony.HasCurrentTitle]"
 			parentanchor = vcenter
 			fontsize_min = 14
 			default_format = "#high"
-			text = "[DecisionViewWidgetCreateHolyOrder.GetCurrentCapital.GetNameNoTier]"
+			text = "[DecisionViewWidgetSelectBarony.GetCurrentTitle.GetNameNoTier]"
 		}
 
 		widget = { size = { 15 0 } }
@@ -39,14 +39,14 @@ flowcontainer = {
 			name = "change_capital"
 			minimumsize = { 200 0 }
 
-			onclick = "[DecisionViewWidgetCreateHolyOrder.OnSelectCapital]"
+			onclick = "[DecisionViewWidgetSelectBarony.OnSelectCapital]"
 			onclick = "[GetVariableSystem.Toggle('move_portal')]"
 			clicksound = "event:/SFX/UI/Generic/sfx_ui_generic_select"
-			enabled = "[DecisionViewWidgetCreateHolyOrder.HasValidBaronies]"
+			enabled = "[DecisionViewWidgetSelectBarony.HasValidTitles]"
 			tooltip = "LEASE_OUT_BARONIES_TOOLTIP"
 
 			text_single = {
-				visible = "[And(DecisionViewWidgetCreateHolyOrder.IsCreate, DecisionViewWidgetCreateHolyOrder.HasCurrentCapital)]"
+				visible = "[And(DecisionViewWidgetSelectBarony.IsCreate, DecisionViewWidgetSelectBarony.HasCurrentTitle)]"
 				text = "TRANSPORT_THE_GRAND_PORTAL_DECISION_SELECT_DESTINATION"
 				parentanchor = left|vcenter
 				align = nobaseline
@@ -55,7 +55,7 @@ flowcontainer = {
 			}
 
 			button_change = {
-				visible = "[DecisionViewWidgetCreateHolyOrder.HasCurrentCapital]"
+				visible = "[DecisionViewWidgetSelectBarony.HasCurrentTitle]"
 				parentanchor = right|vcenter
 				position = { -5 0 }
 				alwaystransparent = yes
@@ -63,7 +63,7 @@ flowcontainer = {
 			}
 
 			button_select_arrow = {
-				visible = "[Not(DecisionViewWidgetCreateHolyOrder.HasCurrentCapital)]"
+				visible = "[Not(DecisionViewWidgetSelectBarony.HasCurrentTitle)]"
 				parentanchor = right|vcenter
 				position = { -5 0 }
 				alwaystransparent = yes

@@ -19,9 +19,14 @@ NEW! Dark Elf Rites
 
 # Bugs/Balance
 - Updated for CK3 1.20: religions, tenets, laws, holy sites, and the faith, council, ruler designer, lobby and main menu screens have been brought in line with the new game version
+- The character window is fully up to date with 1.20, including the new portrait buttons, while keeping the Elf Destiny modifier grid
+- Birth events updated for 1.20. Bastard births work again, and fathers see what they got once more.
+- The Transport The Portal and Create New Aeluran Vassal decisions let you pick a barony again
+- The Swing Aeluran Control button has its icon back
+- Updated the portrait shaders for 1.20
+- Characters who had the Scholar trait (removed in 1.20) now have Erudite
 - The High Matriarch now properly fills the Head of Faith slot from game start
 - Faiths with more than three core tenets show them in a single scrolling row instead of wrapping
-- Incestuous is no longer a virtue of the Divine Marriage tenet. Note: this applies to every faith with Divine Marriage, not just elves.
 - War Magi and Magi Artillery are limited to one regiment each
 - Counties held by elves now take their lord's culture and faith at game start. East Kiilt is back to normal.
 - Expeditions can find new sites after your first expedition
