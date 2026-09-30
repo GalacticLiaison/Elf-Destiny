@@ -144,7 +144,7 @@ aeluran_realm_authority_2 = { # Institutionalized Authority
 		# monthly_legitimacy_add = 1
 		monthly_piety_gain_per_legitimacy_level_mult = 0.025
 		aeluran_weavers_government_opinion = 10
-		faith_creation_piety_cost_mult = 0.25
+		rite_creation_piety_cost_mult = 0.25
 
 	}
 
@@ -219,26 +219,22 @@ aeluran_realm_authority_2 = { # Institutionalized Authority
 		debug_log = "PASSED aeluran_realm_authority_2"
 		add_piety = 500
 
-		try_start_diarchy = aeluran_regency
-
+		# Members of the Order are never put under a regency (PM 2026-09-30)
 		if = {
-			limit = { exists = cp:councillor_aeluran_advisor }
-			set_diarch = cp:councillor_aeluran_advisor 
-		}
+			limit = { is_aeluran_sister_or_higher = no }
+			try_start_diarchy = aeluran_regency
 
-
-		# if = {
-		# 	limit = {
-		# 		has_active_diarchy = no
-		# 	}
-		# 	start_diarchy = aeluran_regency
-		# }
-
-		if = {
-			limit = {
-				NOT = { has_diarchy_type = aeluran_regency }
+			if = {
+				limit = { exists = cp:councillor_aeluran_advisor }
+				set_diarch = cp:councillor_aeluran_advisor
 			}
-			set_diarchy_type = aeluran_regency
+
+			if = {
+				limit = {
+					NOT = { has_diarchy_type = aeluran_regency }
+				}
+				set_diarchy_type = aeluran_regency
+			}
 		}
 
 		custom_tooltip = {
@@ -278,13 +274,15 @@ aeluran_realm_authority_3 = { # Aeluran Judiciary
 	modifier = {
 		tyranny_gain_mult = -0.2
 		# religious_head_opinion = 5
-		faith_creation_piety_cost_mult = 0.25
+		rite_creation_piety_cost_mult = 0.25
 		monthly_piety_gain_per_legitimacy_level_mult = 0.025
 
 		# elderly_health = 0.5
 		# monthly_legitimacy_add = 1
 		aeluran_weavers_government_opinion = 5
 	}
+	# Level 3 keeps level 2's regency: a newly arrived Advisor becomes regent here too
+	flag = aeluran_regency_enabled
 	# flag = uses_imperial_bureaucracy
 	# flag = admin_vassal_wars_permission_only
 	

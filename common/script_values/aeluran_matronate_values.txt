@@ -129,3 +129,72 @@ aeluran_matronate_successor_score = {
 	}
 	add = learning
 }
+
+##############################
+# The flock: piety to the Order #
+##############################
+# Scope: an Aeluran ruler (count or above). Monthly piety they yield to the Matron of their Matronate (or to the High
+# Matriarch outside every Matronate): rank, plus bloodline worth and elven tier, times their Spiritual Fulfillment.
+# Paid quarterly (x3) by aeluran_flock_piety_pulse. Numbers are first-pass (2026-09-30), tune freely.
+aeluran_flock_piety_value = {
+	value = 0
+	# Rank
+	if = {
+		limit = { highest_held_title_tier >= tier_empire }
+		add = 1.2
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_kingdom }
+		add = 0.8
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_duchy }
+		add = 0.4
+	}
+	else = {
+		add = 0.2
+	}
+	# Bloodline: each point of genetic worth is worth 0.05 (bad genetics lower it)
+	add = {
+		value = genetic_worthiness
+		multiply = 0.05
+	}
+	# Elven tier
+	if = {
+		limit = { is_ainur_elf_tier = yes }
+		add = 0.6
+	}
+	else_if = {
+		limit = { is_celestial_elf_tier = yes }
+		add = 0.4
+	}
+	else_if = {
+		limit = { is_fae_elf_tier = yes }
+		add = 0.2
+	}
+	else_if = {
+		limit = { is_high_elf = yes }
+		add = 0.1
+	}
+	# Devotion (aeluran_fulfillment levels)
+	if = {
+		limit = { spiritual_fulfillment >= 65 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { spiritual_fulfillment >= 30 }
+		multiply = 1.5
+	}
+	else_if = {
+		limit = { spiritual_fulfillment > -30 }
+		multiply = 1
+	}
+	else_if = {
+		limit = { spiritual_fulfillment > -65 }
+		multiply = 0.5
+	}
+	else = {
+		multiply = 0
+	}
+	min = 0
+}

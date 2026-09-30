@@ -1,0 +1,114 @@
+﻿# Aeluran temple lease (theocracy_lease_contract_type of spark_religion, which holds doctrine_theocracy_temporal).
+# An Aeluran ruler's temples are leased to her or his Aeluran Advisor, the Order's Sister at court. The Advisor's
+# religious superior is the Matron whose Matronate holds the ruler's capital; with no Matron there, the High Matriarch.
+# Modelled on vanilla's ecclesiastical_lease (common/lease_contracts/00_theocracy_lease.txt) with fixed shares in place
+# of the Christian Church's centralization.
+aeluran_lease = {
+	hierarchy = {
+		type = clerical_region
+		ruler_valid = {
+			faith = faith:aeluran_weavers
+			rite = { rite_has_doctrine = doctrine_theocracy_temporal }
+			NOT = { government_has_flag = government_is_theocracy }
+		}
+		liege_or_vassal_valid = {
+			faith = scope:target.faith
+		}
+		lessee = cp:councillor_aeluran_advisor
+
+		barony_valid = {
+			title_province = { has_holding_type = church_holding }
+			# Sisters and Matrons who rule under the Order keep their own temples
+			NOT = {
+				county = {
+					holder = { has_government = aeluran_weavers_government }
+				}
+			}
+		}
+	}
+
+	government = aeluran_weavers_government
+	valid_holdings = { church_holding }
+
+	ruler_share_min_opinion_from_lessee = 1
+	hook_strength_max_opinion = strong
+
+	tax_split = {
+		# The Matron of the Matronate (or the High Matriarch where there is none)
+		lease_liege = {
+			value = 0
+			add = {
+				desc = AELURAN_LEASE_RATIO_MATRONATE
+				value = 0.15
+			}
+		}
+		# The High Matriarch, always
+		top_lease_liege_direct = {
+			value = 0
+			add = {
+				desc = AELURAN_LEASE_RATIO_HIGH_MATRIARCH
+				value = 0.05
+			}
+		}
+
+		ruler_max = 0.25	# Ceiling on the ruler's share, also quoted by the 'up to' tooltips.
+		ruler = {
+			value = 0
+			if = {
+				limit = {
+					scope:ruler = { has_strong_hook = scope:lessee }
+				}
+				add = {
+					desc = THEOCRATIC_LEASE_RATIO_STRONG_HOOK
+					value = 0.25
+				}
+			}
+			else = {
+				add = {
+					desc = THEOCRATIC_LEASE_RATIO_FROM_OPINION
+					value = {
+						scope:lessee = { value = "opinion(scope:ruler)" }
+					}
+					divide = 400 # Opinion -100/+100 gives -0.25/+0.25
+				}
+			}
+			save_temporary_value_as = current_total
+			if = {
+				limit = {
+					scope:current_total > 0.25
+				}
+				max = {
+					desc = THEOCRATIC_LEASE_RATIO_MAX_25
+					value = 0.25
+				}
+			}
+		}
+	}
+
+	levy_split = {
+		lease_liege = 0.15
+
+		ruler_max = 0.50	# Ceiling on the ruler's share, also quoted by the 'up to' tooltips.
+		ruler = {
+			if = {
+				limit = {
+					scope:ruler = { has_strong_hook = scope:lessee }
+				}
+				add = {
+					desc = THEOCRATIC_LEASE_RATIO_STRONG_HOOK
+					value = 0.50
+				}
+			}
+			else = {
+				add = {
+					desc = THEOCRATIC_LEASE_RATIO_FROM_OPINION
+					value = {
+						scope:lessee = { value = "opinion(scope:ruler)" }
+					}
+					divide = 200 # Opinion -100/+100 gives -0.5/+0.5
+				}
+			}
+			max = 0.50
+		}
+	}
+}

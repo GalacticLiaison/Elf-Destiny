@@ -28,36 +28,19 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 			else = {
 				location = { save_scope_as = target_location }
 			}
+			# TODO: an "enhanced magi recruitment" perk would switch to the new_high_magi / new_advanced_twin templates
 			random_list = {
 				90 = { # standard magi recruit
-					if = { 
-						limit = {
-							# has enhanced magi recruitment perk
-						}
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_high_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi
-						}
-					}
-					else = {
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi
-						}
+					create_character = {
+						gender_female_chance = 100
+						location = scope:target_location
+						template = new_magi_recruit_character
+						faith = scope:origin.faith
+						culture = scope:origin.culture
+						save_scope_as = new_magi
 					}
 				}
 				10 = { # twin magi recruit
-					trigger = {
-						# has enhanced breeding culture perk
-					}
 					create_character = {
 						location = scope:target_location
 						template = generic_elf_mother
@@ -72,69 +55,34 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 						culture = scope:origin.culture
 						save_scope_as = new_father
 					}
-
-					if = { 
-						limit = {
-							# has enhanced magi recruitment perk
-						}
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_advanced_twin_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi_t1
-						}
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_advanced_twin_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi_t2
-						}
+					create_character = {
+						gender_female_chance = 100
+						location = scope:target_location
+						template = new_twin_magi_recruit_character
+						faith = scope:origin.faith
+						culture = scope:origin.culture
+						save_scope_as = new_magi
 					}
-					else = {
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_twin_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi_t1
-						}
-						create_character = {
-							gender_female_chance = 100
-							location = scope:target_location
-							template = new_twin_magi_recruit_character
-							faith = scope:origin.faith
-							culture = scope:origin.culture
-							save_scope_as = new_magi_t2
-						}
+					create_character = {
+						gender_female_chance = 100
+						location = scope:target_location
+						template = new_twin_magi_recruit_character
+						faith = scope:origin.faith
+						culture = scope:origin.culture
+						save_scope_as = new_magi_twin
 					}
-
-					scope:new_magi_t1 = {
+					scope:new_magi = {
 						set_father = scope:new_father
 						set_mother = scope:new_mother
 						set_house = scope:new_father.house
 					}
-
-					scope:new_magi_t2 = {
+					scope:new_magi_twin = {
 						set_father = scope:new_father
 						set_mother = scope:new_mother
 						set_house = scope:new_father.house
 					}
+					add_visiting_courtier = scope:new_magi_twin
 				}
-			}
-			
-
-			create_character = {
-				gender_female_chance = 100
-				location = scope:target_location
-				template = new_magi_recruit_character
-				faith = scope:origin.faith
-				culture = scope:origin.culture
-				save_scope_as = new_magi
 			}
 			add_visiting_courtier = scope:new_magi
 		}
@@ -179,6 +127,7 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 	option = {
 		name = aeluran_advisor_task.0101.a
 		add_courtier = scope:new_magi
+		scope:new_magi_twin ?= { root = { add_courtier = prev } }
 		ai_chance = {
 			base = 100
 		}
@@ -189,6 +138,7 @@ aeluran_advisor_task.0101 = { # New Magi is recruited
 		scope:new_magi = {
 			select_and_move_to_pool_effect = yes
 		}
+		scope:new_magi_twin ?= { select_and_move_to_pool_effect = yes }
 		ai_chance = {
 			base = 10
 		}

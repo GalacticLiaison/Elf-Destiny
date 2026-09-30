@@ -23,6 +23,49 @@ aeluran_matronate_game_start_after_lobby = {
 	}
 }
 
+# The flock's piety: every quarter a Matron receives piety from the Aeluran rulers whose capital lies in her Matronate,
+# and the High Matriarch from those outside every Matronate (aeluran_flock_piety_value). The monthly total is kept in
+# var:aeluran_flock_piety for the Order window.
+quarterly_playable_pulse = {
+	on_actions = {
+		aeluran_flock_piety_pulse
+	}
+}
+
+aeluran_flock_piety_pulse = {
+	trigger = {
+		OR = {
+			has_title = title:d_high_matriarch
+			any_held_title = { aeluran_is_matronate_title_trigger = yes }
+		}
+	}
+	effect = {
+		save_scope_as = flock_shepherd
+		set_variable = { name = aeluran_flock_piety value = 0 }
+		every_ruler = {
+			limit = {
+				aeluran_flock_member_trigger = yes
+				this != scope:flock_shepherd
+				OR = {
+					# In her Matronate
+					capital_county.clerical_region_title.holder ?= scope:flock_shepherd
+					# The High Matriarch's: outside every Matronate
+					AND = {
+						scope:flock_shepherd = { has_title = title:d_high_matriarch }
+						NOT = { capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+					}
+				}
+			}
+			save_temporary_scope_value_as = { name = flock_piety value = aeluran_flock_piety_value }
+			scope:flock_shepherd = { change_variable = { name = aeluran_flock_piety add = scope:flock_piety } }
+		}
+		add_piety = {
+			value = var:aeluran_flock_piety
+			multiply = 3
+		}
+	}
+}
+
 # An AI High Matriarch founds Matronates and replaces Matrons who hate her
 yearly_global_pulse = {
 	on_actions = {
