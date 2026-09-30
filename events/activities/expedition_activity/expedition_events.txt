@@ -647,6 +647,7 @@ expedition.00692 = { # Convert To Elf Culture?
     }
 
     option = {
+        trigger = { dark_elf_strain_is_dark_trigger = no }
         name = expedition.00692.convert
 
         convert_family_culture_and_notify_vassals_effect = {
@@ -657,6 +658,24 @@ expedition.00692 = { # Convert To Elf Culture?
 
         scope:archeologist = {
             set_culture = culture:culture_elf
+        }
+
+        trigger_event = expedition.00693
+    }
+
+    # A Dark Elf party takes the basic dark elf culture instead (dark Old Ways, dark elf skin tones)
+    option = {
+        trigger = { dark_elf_strain_is_dark_trigger = yes }
+        name = expedition.00692.convert_dark
+
+        convert_family_culture_and_notify_vassals_effect = {
+            CONVERTER = root
+            OLD_CULTURE = root.culture
+            NEW_CULTURE = culture:elf_culture_dark_elf
+        }
+
+        scope:archeologist = {
+            set_culture = culture:elf_culture_dark_elf
         }
 
         trigger_event = expedition.00693

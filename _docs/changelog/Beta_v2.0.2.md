@@ -1,10 +1,10 @@
 # Beta_v2.0.2 - By God Alone
 
-Updated for CK3 1.20 and By God Alone. Older game versions are no longer supported.
+Updated for CK3 1.20 and By God Alone.
 
 NEW! The Council of Matrons
    - The High Matriarch is no longer simply inherited. When she dies, the Council of Matrons elects her successor.
-   - Every Matron holds a seat and a vote. Politics among the Sisterhood has never been more polite, or more lethal.
+   - Every Matron holds a seat and a vote.
 
 NEW! Aeluran Matronates
    - The Aeluran church is now organized into Matronates, each overseen by its own Matron
@@ -17,21 +17,19 @@ NEW! Dark Elf Rites
    - New Dark Sisters tenet for the dark chapters of the Order
    - Coming soon: commune with your patron god directly. The decisions are already there to tease you.
 
+NEW! Dark Elven Culture
+   - Chose the dark path on your first expedition? Taking up elven culture now gives you the new Dark Elven culture, with the dark Old Ways and dark elf looks, instead of the light Elven culture
+
 # Bugs/Balance
 - Updated for CK3 1.20: religions, tenets, laws, holy sites, and the faith, council, ruler designer, lobby and main menu screens have been brought in line with the new game version
 - The character window is fully up to date with 1.20, including the new portrait buttons, while keeping the Elf Destiny modifier grid
 - Birth events updated for 1.20. Bastard births work again, and fathers see what they got once more.
-- The Transport The Portal and Create New Aeluran Vassal decisions let you pick a barony again
-- The Swing Aeluran Control button has its icon back
 - Updated the portrait shaders for 1.20
-- Characters who had the Scholar trait (removed in 1.20) now have Erudite
 - Random courtiers, guests and wanderers no longer show up already Heroic or Passionate. Those traits are earned again, through your blessing traditions and your deeds.
+- Fixed some starter characters not being High Elves
 - The High Matriarch now properly fills the Head of Faith slot from game start
-- Faiths with more than three core tenets show them in a single scrolling row instead of wrapping
-- War Magi and Magi Artillery are limited to one regiment each
+- To help a bit with OP AI Elf Queens, War Magi and Magi Artillery are limited to one regiment each.
 - Counties held by elves now take their lord's culture and faith at game start. East Kiilt is back to normal.
-- Expeditions can find new sites after your first expedition
 - Elves spawned mid-game (courtiers, guests, children) are now proper elves of the right kind
 - Dökkálfar and Drow cultures start with the innovations they should have
-- An Advisor who leaves her seat is no longer marked as still advising
 - Fixed several Aeluran regency, title and conversion bugs, including Order members being put under regency

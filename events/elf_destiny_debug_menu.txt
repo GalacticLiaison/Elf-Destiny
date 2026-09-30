@@ -369,14 +369,27 @@ elf_destiny_debug_menu.1112 = { # STORYLINE Skip First Expedition
 	option = {
 		name = elf_destiny_debug_menu.1112.take_culture
 
-		convert_family_culture_and_notify_vassals_effect = {
-			CONVERTER = root
-			OLD_CULTURE = root.culture
-			NEW_CULTURE = culture:culture_elf
+		# Same split as expedition.00692: a Dark Elf party takes the basic dark elf culture
+		if = {
+			limit = { dark_elf_strain_is_dark_trigger = yes }
+			convert_family_culture_and_notify_vassals_effect = {
+				CONVERTER = root
+				OLD_CULTURE = root.culture
+				NEW_CULTURE = culture:elf_culture_dark_elf
+			}
+			scope:archeologist = {
+				set_culture = culture:elf_culture_dark_elf
+			}
 		}
-
-		scope:archeologist = {
-			set_culture = culture:culture_elf
+		else = {
+			convert_family_culture_and_notify_vassals_effect = {
+				CONVERTER = root
+				OLD_CULTURE = root.culture
+				NEW_CULTURE = culture:culture_elf
+			}
+			scope:archeologist = {
+				set_culture = culture:culture_elf
+			}
 		}
 
 		trigger_event = elf_destiny_debug_menu.011
