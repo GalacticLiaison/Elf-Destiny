@@ -1,0 +1,48 @@
+﻿namespace = aeluran_bloodlines
+
+# A shepherd of the Order proposes a match for a player's ward (the Bloodlines board).
+# Scopes: bl_matron (the shepherd), bl_ward (the player's ward), bl_partner, bl_a, bl_b.
+aeluran_bloodlines.001 = {
+	type = character_event
+	title = aeluran_bloodlines.001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:bl_ward = root }
+				desc = aeluran_bloodlines.001.desc_self
+			}
+			desc = aeluran_bloodlines.001.desc_ward
+		}
+	}
+	theme = faith
+	override_background = { reference = council_chamber }
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = scope:bl_matron
+		animation = personality_zealous
+	}
+	right_portrait = {
+		character = scope:bl_partner
+		animation = personality_content
+	}
+	lower_left_portrait = scope:bl_ward
+
+	option = {
+		name = aeluran_bloodlines.001.a
+		aeluran_bloodlines_player_accepted_effect = yes
+		ai_chance = { base = 100 }
+	}
+
+	option = {
+		name = aeluran_bloodlines.001.b
+		aeluran_bloodlines_refused_effect = yes
+		scope:bl_matron = {
+			add_opinion = {
+				target = root
+				modifier = refused_aeluran_matchmaking
+			}
+		}
+		ai_chance = { base = 0 }
+	}
+}

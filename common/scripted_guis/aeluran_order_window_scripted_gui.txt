@@ -62,3 +62,84 @@ aeluran_order_open_appoint = {
 		}
 	}
 }
+
+####################
+# Bloodlines board #
+####################
+# The player picks two unwed elves (player vars aeluran_bl_first / aeluran_bl_second) and proposes the match.
+
+# Rebuild the board (var list aeluran_bloodlines on the player)
+aeluran_bl_refresh = {
+	scope = character
+
+	effect = {
+		aeluran_bloodlines_build_list_effect = yes
+	}
+}
+
+# Select or deselect an elf (scope:target)
+aeluran_bl_select = {
+	scope = character
+	saved_scopes = { target }
+
+	effect = {
+		if = {
+			limit = { var:aeluran_bl_first ?= scope:target }
+			remove_variable = aeluran_bl_first
+		}
+		else_if = {
+			limit = { var:aeluran_bl_second ?= scope:target }
+			remove_variable = aeluran_bl_second
+		}
+		else_if = {
+			limit = { NOT = { has_variable = aeluran_bl_first } }
+			set_variable = { name = aeluran_bl_first value = scope:target }
+		}
+		else = {
+			set_variable = { name = aeluran_bl_second value = scope:target }
+		}
+	}
+}
+
+# Is this elf (scope:target) one of the chosen pair?
+aeluran_bl_is_selected = {
+	scope = character
+	saved_scopes = { target }
+
+	is_shown = {
+		OR = {
+			var:aeluran_bl_first ?= scope:target
+			var:aeluran_bl_second ?= scope:target
+		}
+	}
+}
+
+# Can the chosen pair be proposed?
+aeluran_bl_propose = {
+	scope = character
+
+	is_valid = {
+		exists = var:aeluran_bl_first
+		exists = var:aeluran_bl_second
+		custom_tooltip = {
+			text = aeluran_bl_cannot_wed_tt
+			var:aeluran_bl_first = { aeluran_bloodlines_pair_trigger = { OTHER = root.var:aeluran_bl_second } }
+		}
+		custom_tooltip = {
+			text = aeluran_bl_awaiting_answer_tt
+			trigger_if = {
+				limit = { has_variable = aeluran_bl_pending }
+				var:aeluran_bl_pending <= 0
+			}
+		}
+	}
+
+	effect = {
+		var:aeluran_bl_first = { save_scope_as = bl_a }
+		var:aeluran_bl_second = { save_scope_as = bl_b }
+		remove_variable = aeluran_bl_first
+		remove_variable = aeluran_bl_second
+		aeluran_bloodlines_propose_effect = yes
+		aeluran_bloodlines_build_list_effect = yes
+	}
+}

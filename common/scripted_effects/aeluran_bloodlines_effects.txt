@@ -1,0 +1,223 @@
+﻿# The Bloodlines board: a shepherd of the Order (a Matron holding a Matronate, or the High Matriarch) matches the unwed
+# noble elves in her care. (Matron gameplay Phase C, reports/proposals/2026-09-30-matron-gameplay-proposal.md.)
+#
+# A proposal goes to each ward's matchmaker (their guardian: themselves if they rule). An AI guardian answers at once,
+# by opinion of the shepherd, the partner's blood and their own devotion; a player guardian gets aeluran_bloodlines.001.
+# Accepted: two adults wed, otherwise they are betrothed; the shepherd gains piety by the pair's worth, and again when a
+# child of the match is born gifted. Refused: neither ward can be proposed again for five years.
+
+# Root = the shepherd. Rebuilds her board (var list aeluran_bloodlines), the worthiest first.
+aeluran_bloodlines_build_list_effect = {
+	clear_variable_list = aeluran_bloodlines
+	save_scope_as = bl_shepherd
+	ordered_living_character = {
+		limit = {
+			is_married = no
+			is_betrothed = no
+			aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
+		}
+		order_by = genetic_worthiness
+		min = 0
+		max = 99
+		check_range_bounds = no
+		scope:bl_shepherd = { add_to_variable_list = { name = aeluran_bloodlines target = prev } }
+	}
+}
+
+# Root = the shepherd; scope:bl_a and scope:bl_b = the pair. Sends the proposal to both guardians.
+aeluran_bloodlines_propose_effect = {
+	save_scope_as = bl_matron
+	clear_saved_scope = bl_declined
+	set_variable = { name = aeluran_bl_pending value = 0 }
+	scope:bl_a = { save_scope_as = bl_ward }
+	scope:bl_b = { save_scope_as = bl_partner }
+	aeluran_bloodlines_ask_guardian_effect = yes
+	scope:bl_b = { save_scope_as = bl_ward }
+	scope:bl_a = { save_scope_as = bl_partner }
+	aeluran_bloodlines_ask_guardian_effect = yes
+
+	if = {
+		limit = { exists = scope:bl_declined }
+		aeluran_bloodlines_refused_effect = yes
+	}
+	else_if = {
+		limit = { var:aeluran_bl_pending <= 0 }
+		aeluran_bloodlines_finalize_effect = yes
+	}
+	else = {
+		send_interface_toast = {
+			type = event_toast_effect_neutral
+			title = aeluran_bloodlines_proposed_toast
+			left_icon = scope:bl_a
+			right_icon = scope:bl_b
+			custom_tooltip = aeluran_bloodlines_proposed_toast_desc
+		}
+	}
+}
+
+# Scope:bl_ward's guardian answers. Needs scope:bl_matron, scope:bl_ward, scope:bl_partner, scope:bl_a, scope:bl_b.
+aeluran_bloodlines_ask_guardian_effect = {
+	scope:bl_ward.matchmaker ?= { save_scope_as = bl_guardian }
+	if = {
+		limit = { NOT = { exists = scope:bl_guardian } }
+		scope:bl_ward = { save_scope_as = bl_guardian }
+	}
+	# The shepherd needs no one's leave for her own wards
+	if = {
+		limit = {
+			NOT = { scope:bl_guardian = scope:bl_matron }
+			scope:bl_guardian = { is_ai = yes }
+		}
+		random = {
+			chance = {
+				value = 100
+				subtract = scope:bl_guardian.aeluran_bloodlines_accept_chance
+			}
+			save_scope_value_as = { name = bl_declined value = yes }
+			scope:bl_guardian = { save_scope_as = bl_decliner }
+		}
+	}
+	else_if = {
+		limit = { NOT = { scope:bl_guardian = scope:bl_matron } }
+		scope:bl_matron = { change_variable = { name = aeluran_bl_pending add = 1 } }
+		scope:bl_guardian = { trigger_event = aeluran_bloodlines.001 }
+	}
+	clear_saved_scope = bl_guardian
+}
+
+# A player guardian answered yes (aeluran_bloodlines.001). When no answer is still awaited, the match is made.
+aeluran_bloodlines_player_accepted_effect = {
+	scope:bl_matron = {
+		change_variable = { name = aeluran_bl_pending add = -1 }
+		if = {
+			limit = {
+				var:aeluran_bl_pending <= 0
+				scope:bl_a = { aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_b } }
+				scope:bl_a = { is_married = no is_betrothed = no }
+				scope:bl_b = { is_married = no is_betrothed = no }
+			}
+			aeluran_bloodlines_finalize_effect = yes
+		}
+	}
+}
+
+# The match is refused (an AI guardian said no, or a player guardian declined).
+aeluran_bloodlines_refused_effect = {
+	scope:bl_a = { set_variable = { name = aeluran_bloodlines_refused value = yes years = 5 } }
+	scope:bl_b = { set_variable = { name = aeluran_bloodlines_refused value = yes years = 5 } }
+	scope:bl_matron = {
+		set_variable = { name = aeluran_bl_pending value = 0 }
+		send_interface_toast = {
+			type = event_toast_effect_bad
+			title = aeluran_bloodlines_refused_toast
+			left_icon = scope:bl_a
+			right_icon = scope:bl_b
+			custom_tooltip = aeluran_bloodlines_refused_toast_desc
+		}
+	}
+}
+
+# The match is made. Two adults wed, otherwise they are betrothed. Matrilineal when the woman rules and outranks the man.
+aeluran_bloodlines_finalize_effect = {
+	if = {
+		limit = { scope:bl_a = { is_female = yes } }
+		scope:bl_a = { save_scope_as = bl_woman }
+		scope:bl_b = { save_scope_as = bl_man }
+	}
+	else = {
+		scope:bl_b = { save_scope_as = bl_woman }
+		scope:bl_a = { save_scope_as = bl_man }
+	}
+	if = {
+		limit = {
+			scope:bl_woman = { is_ruler = yes }
+			OR = {
+				scope:bl_man = { is_ruler = no }
+				scope:bl_woman.highest_held_title_tier > scope:bl_man.highest_held_title_tier
+			}
+		}
+		save_scope_value_as = { name = bl_matrilineal value = yes }
+	}
+	if = {
+		limit = {
+			scope:bl_woman = { is_adult = yes }
+			scope:bl_man = { is_adult = yes }
+		}
+		if = {
+			limit = { exists = scope:bl_matrilineal }
+			scope:bl_woman = { marry_matrilineal = scope:bl_man }
+		}
+		else = {
+			scope:bl_man = { marry = scope:bl_woman }
+		}
+	}
+	else = {
+		if = {
+			limit = { exists = scope:bl_matrilineal }
+			scope:bl_woman = { create_betrothal_matrilineal = scope:bl_man }
+		}
+		else = {
+			scope:bl_man = { create_betrothal = scope:bl_woman }
+		}
+	}
+	scope:bl_a = { set_variable = { name = aeluran_order_match value = scope:bl_matron years = 60 } }
+	scope:bl_b = { set_variable = { name = aeluran_order_match value = scope:bl_matron years = 60 } }
+	scope:bl_matron = {
+		set_variable = { name = aeluran_bl_pending value = 0 }
+		add_piety = aeluran_bloodlines_match_piety
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = aeluran_bloodlines_match_made_toast
+			left_icon = scope:bl_a
+			right_icon = scope:bl_b
+			custom_tooltip = aeluran_bloodlines_match_made_toast_desc
+		}
+	}
+	scope:bl_a.matchmaker ?= {
+		if = {
+			limit = { NOT = { this = scope:bl_matron } }
+			add_opinion = { target = scope:bl_matron modifier = aeluran_arranged_a_fine_match_opinion }
+		}
+	}
+	scope:bl_b.matchmaker ?= {
+		if = {
+			limit = {
+				NOT = { this = scope:bl_matron }
+				NOT = { this = scope:bl_a.matchmaker }
+			}
+			add_opinion = { target = scope:bl_matron modifier = aeluran_arranged_a_fine_match_opinion }
+		}
+	}
+}
+
+# Root = an AI shepherd, yearly. Matches the worthiest unwed elf in her care with the worthiest partner for them.
+aeluran_bloodlines_ai_yearly_effect = {
+	save_scope_as = bl_shepherd
+	clear_saved_scope = bl_a
+	clear_saved_scope = bl_b
+	ordered_living_character = {
+		limit = {
+			is_married = no
+			is_betrothed = no
+			aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
+		}
+		order_by = genetic_worthiness
+		save_scope_as = bl_a
+	}
+	scope:bl_a ?= {
+		ordered_living_character = {
+			limit = {
+				is_married = no
+				is_betrothed = no
+				aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
+				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_a }
+			}
+			order_by = genetic_worthiness
+			save_scope_as = bl_b
+		}
+	}
+	if = {
+		limit = { exists = scope:bl_b }
+		aeluran_bloodlines_propose_effect = yes
+	}
+}

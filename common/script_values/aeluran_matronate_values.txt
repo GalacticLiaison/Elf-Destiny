@@ -217,3 +217,48 @@ aeluran_advisor_candidate_score = {
 		divide = 5
 	}
 }
+
+####################
+# Bloodlines board #
+####################
+# Piety for a match made (scope:bl_a, scope:bl_b): 25, plus 10 per point of the pair's combined genetic worth.
+aeluran_bloodlines_match_piety = {
+	value = 25
+	add = {
+		value = scope:bl_a.genetic_worthiness
+		add = scope:bl_b.genetic_worthiness
+		multiply = 10
+	}
+	min = 25
+}
+
+# Scope: an AI guardian; scope:bl_matron = the shepherd, scope:bl_ward = their ward, scope:bl_partner = the proposed
+# partner. Chance in percent that they accept.
+aeluran_bloodlines_accept_chance = {
+	value = 40
+	add = {
+		value = "opinion(scope:bl_matron)"
+		divide = 2
+	}
+	# A better-blooded partner than their own ward
+	add = {
+		value = scope:bl_partner.genetic_worthiness
+		subtract = scope:bl_ward.genetic_worthiness
+		multiply = 5
+	}
+	if = {
+		limit = { scope:bl_partner = { is_ruler = yes } }
+		add = 10
+	}
+	# Devotion to the Order
+	if = {
+		limit = { spiritual_fulfillment >= 30 }
+		add = 15
+	}
+	else_if = {
+		limit = { spiritual_fulfillment <= -30 }
+		add = -20
+	}
+	min = 5
+	max = 95
+}

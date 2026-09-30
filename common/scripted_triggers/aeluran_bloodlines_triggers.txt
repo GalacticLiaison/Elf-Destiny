@@ -1,0 +1,48 @@
+﻿# The Bloodlines board (Order window): the unwed noble elves in a shepherd's care, and the matches she may propose.
+# Effects in common/scripted_effects/aeluran_bloodlines_effects.txt.
+
+# Scope: a character; SHEPHERD = a Matron holding a Matronate, or the High Matriarch.
+# Is this an unwed, unpromised noble elf of the Aeluran faith within her care? Rulers count by their capital, everyone
+# else by where they live. The High Matriarch's care is everywhere outside the Matronates.
+aeluran_bloodlines_candidate_trigger = {
+	is_alive = yes
+	is_any_elf_type = yes
+	faith = faith:aeluran_weavers
+	exists = dynasty
+	age >= 12
+	is_married = no
+	is_betrothed = no
+	is_imprisoned = no
+	can_marry_common_trigger = yes
+	NOT = { this = $SHEPHERD$ }
+	NOR = {
+		has_trait = aeluran_matron
+		has_trait = aeluran_high_matriarch
+	}
+	NOT = { has_variable = aeluran_bloodlines_refused }
+	trigger_if = {
+		limit = { is_landed = yes }
+		trigger_if = {
+			limit = { $SHEPHERD$ = { has_title = title:d_high_matriarch } }
+			NOT = { capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+		trigger_else = {
+			capital_county.clerical_region_title.holder ?= $SHEPHERD$
+		}
+	}
+	trigger_else = {
+		trigger_if = {
+			limit = { $SHEPHERD$ = { has_title = title:d_high_matriarch } }
+			NOT = { location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+		trigger_else = {
+			location.county.clerical_region_title.holder ?= $SHEPHERD$
+		}
+	}
+}
+
+# Scope: a character; OTHER = the proposed partner. Could the two be wed (sex, kinship law, the Order's reach)?
+aeluran_bloodlines_pair_trigger = {
+	NOT = { this = $OTHER$ }
+	could_marry_character_trigger = { CHARACTER = $OTHER$ }
+}

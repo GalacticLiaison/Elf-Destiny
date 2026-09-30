@@ -1,10 +1,13 @@
-﻿# The Order window: the player's flock (the Aeluran rulers of her Matronate, or the High Matriarch's outside every
-# Matronate), each with the Red Sister who advises them. An open post she may fill shows an Assign button.
-# The list is built by the scripted gui aeluran_order_refresh when the window opens (gui/aeluran_order_button.gui).
+﻿# The Order window, for a Matron holding a Matronate and for the High Matriarch. Two tabs:
+#   Flock: the Aeluran rulers in her care, each with the Red Sister who advises them; an open post she may fill shows
+#          an Assign button (Appoint an Advisor).
+#   Bloodlines: the unwed noble elves in her care, the worthiest first; choose two and propose the match.
+# The lists are built by scripted guis (aeluran_order_refresh, aeluran_bl_refresh) when the window or a tab opens.
+# The selected tab is the GUI variable aeluran_order_tab ('bloodlines', or unset for the Flock).
 window = {
 	name = "aeluran_order_window"
 	parentanchor = center
-	size = { 640 720 }
+	size = { 660 760 }
 	layer = middle
 	allow_outside = yes
 	movable = yes
@@ -37,73 +40,198 @@ window = {
 			}
 		}
 
-		text_single = {
+		# Tabs
+		hbox = {
 			layoutpolicy_horizontal = expanding
-			margin = { 15 6 }
-			text = "AELURAN_ORDER_FLOCK_PIETY"
+			margin = { 10 4 }
+			spacing = 8
+
+			button_standard = {
+				size = { 200 36 }
+				text = "AELURAN_ORDER_TAB_FLOCK"
+				onclick = "[GetScriptedGui( 'aeluran_order_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				onclick = "[GetVariableSystem.Clear( 'aeluran_order_tab' )]"
+			}
+			button_standard = {
+				size = { 200 36 }
+				text = "AELURAN_ORDER_TAB_BLOODLINES"
+				onclick = "[GetScriptedGui( 'aeluran_bl_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				onclick = "[GetVariableSystem.Set( 'aeluran_order_tab', 'bloodlines' )]"
+			}
+			expand = {}
 		}
 
-		scrollbox = {
+		##########
+		# Flock  #
+		##########
+		vbox = {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
+			visible = "[Not( GetVariableSystem.HasValue( 'aeluran_order_tab', 'bloodlines' ) )]"
 
-			blockoverride "scrollbox_content" {
-				vbox = {
-					name = "aeluran_order_flock_list"
-					layoutpolicy_horizontal = expanding
-					datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_order_flock' )]"
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				margin = { 15 6 }
+				text = "AELURAN_ORDER_FLOCK_PIETY"
+			}
 
-					item = {
-						widget = {
-							size = { 590 96 }
-							datacontext = "[Scope.GetCharacter]"
+			scrollbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
 
-							background = {
-								using = Background_Area
-							}
+				blockoverride "scrollbox_content" {
+					vbox = {
+						name = "aeluran_order_flock_list"
+						layoutpolicy_horizontal = expanding
+						datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_order_flock' )]"
 
-							# The ruler
-							portrait_head_small = {
-								position = { 4 3 }
-							}
-							text_single = {
-								position = { 100 10 }
-								text = "[Character.GetShortUIName]"
-								using = Font_Size_Medium
-							}
-							text_single = {
-								position = { 100 38 }
-								text = "[Character.GetPrimaryTitle.GetNameNoTooltip]"
-							}
-							text_single = {
-								position = { 100 62 }
-								text = "AELURAN_ORDER_ROW_DEVOTION"
-							}
-
-							# Her Red Sister, or an open post
+						item = {
 							widget = {
-								position = { 470 0 }
-								size = { 110 96 }
+								size = { 600 96 }
+								datacontext = "[Scope.GetCharacter]"
+
+								background = {
+									using = Background_Area
+								}
+
+								# The ruler
+								portrait_head_small = {
+									position = { 4 3 }
+								}
+								text_single = {
+									position = { 100 10 }
+									text = "[Character.GetShortUIName]"
+									using = Font_Size_Medium
+								}
+								text_single = {
+									position = { 100 38 }
+									text = "[Character.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								text_single = {
+									position = { 100 62 }
+									text = "AELURAN_ORDER_ROW_DEVOTION"
+								}
+
+								# Her Red Sister, or an open post
+								widget = {
+									position = { 480 0 }
+									size = { 110 96 }
+
+									portrait_head_small = {
+										position = { 10 3 }
+										datacontext = "[Character.MakeScope.Var( 'religious_advisor' ).GetCharacter]"
+										visible = "[Character.MakeScope.Var( 'religious_advisor' ).IsSet]"
+									}
+
+									button_standard = {
+										parentanchor = center
+										size = { 100 40 }
+										text = "AELURAN_ORDER_ASSIGN"
+										tooltip = "AELURAN_ORDER_ASSIGN_TT"
+										visible = "[GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+										onclick = "[GetScriptedGui( 'aeluran_order_open_appoint' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+									}
+
+									text_single = {
+										parentanchor = center
+										text = "AELURAN_ORDER_NO_ADVISOR"
+										visible = "[And( Not( Character.MakeScope.Var( 'religious_advisor' ).IsSet ), Not( GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ) )]"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		##############
+		# Bloodlines #
+		##############
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			visible = "[GetVariableSystem.HasValue( 'aeluran_order_tab', 'bloodlines' )]"
+
+			# The chosen pair and the proposal
+			widget = {
+				layoutpolicy_horizontal = expanding
+				size = { 600 70 }
+
+				background = {
+					using = Background_Area_Dark
+				}
+				text_single = {
+					position = { 12 8 }
+					text = "AELURAN_BL_CHOOSE"
+				}
+				text_single = {
+					position = { 12 30 }
+					visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
+					text = "AELURAN_BL_FIRST"
+				}
+				text_single = {
+					position = { 12 50 }
+					visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet]"
+					text = "AELURAN_BL_SECOND"
+				}
+				button_standard = {
+					parentanchor = right|vcenter
+					position = { -12 0 }
+					size = { 150 44 }
+					text = "AELURAN_BL_PROPOSE"
+					enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+			}
+
+			scrollbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				blockoverride "scrollbox_content" {
+					vbox = {
+						name = "aeluran_bloodlines_list"
+						layoutpolicy_horizontal = expanding
+						datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_bloodlines' )]"
+
+						item = {
+							widget = {
+								size = { 600 84 }
+								datacontext = "[Scope.GetCharacter]"
+
+								background = {
+									using = Background_Area
+								}
+								background = {
+									using = Background_Area_Light
+									visible = "[GetScriptedGui( 'aeluran_bl_is_selected' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+								}
 
 								portrait_head_small = {
-									position = { 10 3 }
-									datacontext = "[Character.MakeScope.Var( 'religious_advisor' ).GetCharacter]"
-									visible = "[Character.MakeScope.Var( 'religious_advisor' ).IsSet]"
+									position = { 4 0 }
+								}
+								text_single = {
+									position = { 100 8 }
+									text = "[Character.GetShortUIName]"
+									using = Font_Size_Medium
+								}
+								text_single = {
+									position = { 100 36 }
+									text = "AELURAN_BL_ROW_INFO"
+								}
+								text_single = {
+									position = { 100 58 }
+									text = "AELURAN_BL_ROW_WORTH"
 								}
 
 								button_standard = {
-									parentanchor = center
-									size = { 100 40 }
-									text = "AELURAN_ORDER_ASSIGN"
-									tooltip = "AELURAN_ORDER_ASSIGN_TT"
-									visible = "[GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
-									onclick = "[GetScriptedGui( 'aeluran_order_open_appoint' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
-								}
-
-								text_single = {
-									parentanchor = center
-									text = "AELURAN_ORDER_NO_ADVISOR"
-									visible = "[And( Not( Character.MakeScope.Var( 'religious_advisor' ).IsSet ), Not( GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ) )]"
+									parentanchor = right|vcenter
+									position = { -12 0 }
+									size = { 110 36 }
+									text = "AELURAN_BL_SELECT"
+									onclick = "[GetScriptedGui( 'aeluran_bl_select' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
 								}
 							}
 						}

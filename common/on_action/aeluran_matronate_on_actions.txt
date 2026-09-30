@@ -81,6 +81,57 @@ aeluran_matronate_ai_yearly = {
 				aeluran_matronate_ai_yearly_effect = yes
 			}
 		}
+		# AI shepherds weave the bloodlines in their care: about one proposal every two years each
+		every_living_character = {
+			limit = {
+				is_ai = yes
+				OR = {
+					has_title = title:d_high_matriarch
+					any_held_title = { aeluran_is_matronate_title_trigger = yes }
+				}
+			}
+			random = {
+				chance = 50
+				aeluran_bloodlines_ai_yearly_effect = yes
+			}
+		}
+	}
+}
+
+# A child born of a match the Order made: the shepherd who made it rejoices when the child is gifted
+# (genetic worth 2 or more). root = the child; scope:mother, scope:father.
+on_birth_child = {
+	on_actions = {
+		aeluran_bloodlines_on_birth
+	}
+}
+
+aeluran_bloodlines_on_birth = {
+	trigger = {
+		OR = {
+			scope:mother ?= { var:aeluran_order_match ?= { is_alive = yes } }
+			scope:father ?= { var:aeluran_order_match ?= { is_alive = yes } }
+		}
+		genetic_worthiness >= 2
+	}
+	effect = {
+		save_scope_as = bl_child
+		if = {
+			limit = { scope:mother ?= { var:aeluran_order_match ?= { is_alive = yes } } }
+			scope:mother.var:aeluran_order_match = { save_scope_as = bl_matron }
+		}
+		else = {
+			scope:father.var:aeluran_order_match = { save_scope_as = bl_matron }
+		}
+		scope:bl_matron = {
+			add_piety = 50
+			send_interface_toast = {
+				type = event_toast_effect_good
+				title = aeluran_bloodlines_gifted_child_toast
+				left_icon = scope:bl_child
+				custom_tooltip = aeluran_bloodlines_gifted_child_toast_desc
+			}
+		}
 	}
 }
 
