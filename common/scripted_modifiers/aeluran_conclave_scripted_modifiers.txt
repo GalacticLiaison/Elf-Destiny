@@ -1,0 +1,61 @@
+﻿# Voting patterns for the Council of Matrons (aeluran_matron_conclave).
+# Root = the voting Matron, scope:candidate = the Matron she is weighing, scope:holder = the sitting High Matriarch.
+
+aeluran_conclave_elector_self_voting_modifier = {
+	modifier = {
+		desc = aeluran_conclave_vote_myself
+		this = scope:candidate
+		NOR = {
+			has_trait = humble
+			has_trait = content
+		}
+		add = 25
+	}
+	modifier = {
+		desc = aeluran_conclave_vote_myself_ambitious
+		this = scope:candidate
+		OR = {
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+		add = 40
+	}
+	modifier = {
+		desc = aeluran_conclave_vote_not_myself
+		this = scope:candidate
+		OR = {
+			has_trait = humble
+			has_trait = content
+		}
+		add = -25
+	}
+}
+
+aeluran_conclave_elector_voting_modifier = {
+	# Sisters of the same rite stand together
+	modifier = {
+		desc = aeluran_conclave_vote_same_rite
+		this != scope:candidate
+		root.rite = scope:candidate.rite
+		add = 20
+	}
+	# The mainline and the dark rites do not trust one another
+	modifier = {
+		desc = aeluran_conclave_vote_other_rite
+		this != scope:candidate
+		root.rite != scope:candidate.rite
+		add = -20
+	}
+	# A loyal Matron backs the sitting Matriarch's choice
+	modifier = {
+		desc = aeluran_conclave_vote_matriarch_choice
+		this != scope:candidate
+		exists = scope:holder_candidate
+		scope:candidate = scope:holder_candidate
+		opinion = {
+			target = scope:holder
+			value >= 20
+		}
+		add = 25
+	}
+}

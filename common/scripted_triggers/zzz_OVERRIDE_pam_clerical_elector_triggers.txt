@@ -1,0 +1,26 @@
+﻿# Overrides of vanilla 1.20 clerical elector (College of Cardinals) triggers. Each change is marked "Elf Destiny".
+# Matron's Seats (aeluran_conclave_scripted_effects.txt) are clerical electors of the Aeluran faith, not cardinalates.
+
+# From common/scripted_triggers/pam_scripted_triggers.txt
+pam_can_hold_cardinalate_trigger = {
+	faith ?= {
+		has_doctrine_parameter = has_clerical_electors
+		# Elf Destiny: Aeluran seats are granted by aeluran_grant_matron_seat_effect, never through the vanilla cardinal interactions
+		NOT = { religion_tag = spark_religion }
+	}
+}
+
+# From common/scripted_triggers/00_clothing_triggers.txt
+portrait_is_cardinal_trigger = {
+	exists = this
+	has_pam_dlc_trigger = yes
+	exists = clerical_elector_title
+	# Elf Destiny: Matrons keep their Aeluran robes
+	NOT = { clerical_elector_title ?= { has_variable = aeluran_matron_seat } }
+	portrait_religious_head_no_poverty_trigger = no
+	NOT = {
+		rite = {
+			rite_has_parameter = vows_of_poverty_active
+		}
+	}
+}

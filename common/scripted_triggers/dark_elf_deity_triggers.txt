@@ -1,0 +1,48 @@
+﻿# Dark Elf patron deities: favor, divine tasks and the Blood Rite
+
+# Is the character a devotee of the deity: their rite carries the deity tenet, or they hold it as a personal tenet
+# $DEITY$ = melkor | lloth | typhos
+is_deity_devotee_trigger = {
+	OR = {
+		rite ?= { rite_has_parameter = commune_with_$DEITY$_unlocked }
+		has_personal_tenet_flag = commune_with_$DEITY$_unlocked
+	}
+}
+
+# Has the character reached the given tier (0 Supplicant, 1 Heard, 2 Sworn, 3 Anointed, 4 Chosen) with the deity
+deity_tier_at_least_trigger = {
+	has_variable = $DEITY$_tier
+	var:$DEITY$_tier >= $TIER$
+}
+
+# The god has visited in a dream: divine tasks now appear on the map for this character
+deity_signs_unlocked_trigger = {
+	has_character_flag = $DEITY$_signs_unlocked
+}
+
+# Any divine task under way (an accepted task contract of ours)
+has_active_deity_task_trigger = {
+	any_character_active_contract = {
+		has_task_contract_group = dark_elf_deity_group
+	}
+}
+
+has_good_congenital_trait_trigger = {
+	OR = {
+		has_trait = physique_good_1
+		has_trait = physique_good_2
+		has_trait = physique_good_3
+		has_trait = intellect_good_1
+		has_trait = intellect_good_2
+		has_trait = intellect_good_3
+		has_trait = beauty_good_1
+		has_trait = beauty_good_2
+		has_trait = beauty_good_3
+	}
+}
+
+# Can this prisoner be marked for the Blood Rite by scope:actor
+can_be_marked_for_blood_rite_trigger = {
+	is_imprisoned_by = scope:actor
+	NOT = { has_character_flag = marked_for_blood_rite }
+}

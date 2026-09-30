@@ -1,0 +1,247 @@
+﻿# Favor with the Dark Elf patron deities (design: modkit reports/proposals/2026-09-26-commune-with-deity-v1-design.md, rev 3)
+
+# Tier thresholds. Tier 0 = Supplicant, 1 = Heard, 2 = Sworn, 3 = Anointed, 4 = Chosen
+deity_favor_heard = 10
+deity_favor_sworn = 30
+deity_favor_anointed = 60
+deity_favor_chosen = 90
+
+deity_favor_first_commune = 10
+deity_favor_task_failed = 15
+deity_favor_yearly_decay = 2
+
+# The first (and for now only) commune costs piety
+deity_commune_piety_cost = 100
+
+# Offers: how many divine tasks wait on the map at once. Topped up every New Year
+deity_offer_max = 3
+
+# Deadlines in years, by task. Far tasks (2-3 stars) get extra time
+deity_task_years_break_them = 10
+deity_task_years_be_feared = 5
+deity_task_years_thread_cut = 10
+deity_task_years_thread_tied = 5
+deity_task_years_strong_blood = 10
+deity_task_years_shed_skin = 10
+deity_task_deadline_bonus_years = 3
+
+deity_task_dread_threshold = 50
+
+# Rewards, evaluated in the task contract's scope so the star tier scales them:
+# 1 star (tier 0) x1, 2 stars (tier 3) x1.5, 3 stars (tier 4) x2
+deity_task_favor_break_them = {
+	value = 25
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+deity_task_favor_be_feared = {
+	value = 15
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+deity_task_favor_thread_cut = {
+	value = 20
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+deity_task_favor_thread_tied = {
+	value = 15
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+deity_task_favor_strong_blood = {
+	value = 25
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+deity_task_favor_shed_skin = {
+	value = 15
+	if = {
+		limit = { task_contract_tier >= 4 }
+		multiply = 2
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+
+# A healthy piety reward: a major sum for a 1 star task, more the further the god sends you
+deity_task_piety_reward = {
+	value = major_piety_gain
+	if = {
+		limit = { task_contract_tier >= 4 }
+		value = massive_piety_gain
+	}
+	else_if = {
+		limit = { task_contract_tier >= 3 }
+		multiply = 1.5
+	}
+}
+
+# Blood Rite. Quality is summed over every prisoner marked for the rite
+blood_rite_max_marked = 3
+blood_rite_fair = 5
+blood_rite_strong = 10
+blood_rite_exceptional = 15
+
+blood_rite_prisoner_value = {
+	value = 0
+	# Rank
+	if = {
+		limit = { highest_held_title_tier = tier_barony }
+		add = 1
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_county }
+		add = 2
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_duchy }
+		add = 3
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_kingdom }
+		add = 5
+	}
+	else_if = {
+		limit = { highest_held_title_tier = tier_empire }
+		add = 8
+	}
+	# Elf blood
+	if = {
+		limit = { is_any_elf_type = yes }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = pure_blooded }
+		add = 2
+	}
+	else_if = {
+		limit = { has_trait = purer_blooded }
+		add = 3
+	}
+	else_if = {
+		limit = { has_trait = purest_blooded }
+		add = 4
+	}
+	# The blood carries what the Serpent wants
+	if = {
+		limit = { has_trait = physique_good_1 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = physique_good_2 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = physique_good_3 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = intellect_good_1 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = intellect_good_2 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = intellect_good_3 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = beauty_good_1 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = beauty_good_2 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = beauty_good_3 }
+		add = 2
+	}
+	if = {
+		limit = { has_trait = physique_bad_1 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = physique_bad_2 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = physique_bad_3 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = intellect_bad_1 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = intellect_bad_2 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = intellect_bad_3 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = beauty_bad_1 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = beauty_bad_2 }
+		subtract = 1
+	}
+	if = {
+		limit = { has_trait = beauty_bad_3 }
+		subtract = 1
+	}
+	# The strongest blood is your own. Root is the character performing the rite
+	if = {
+		limit = {
+			is_close_family_of = root
+		}
+		add = 5
+	}
+}
+
+# Root = the character performing the rite
+blood_rite_quality = {
+	value = 0
+	every_prisoner = {
+		limit = { has_character_flag = marked_for_blood_rite }
+		add = blood_rite_prisoner_value
+	}
+}

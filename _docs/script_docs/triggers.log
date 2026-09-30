@@ -61,7 +61,7 @@ Supported Targets: activity_type
 
 --------------------
 
-any_artifact - Iterate through all existing artifacts
+any_artifact - Iterate through ALL existing artifacts in the ENTIRE GAME
 any_artifact = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: none
 Supported Targets: artifact
@@ -262,24 +262,10 @@ Supported Targets: holding_type
 
 --------------------
 
-any_house_aspiration - Iterate through every house_aspiration in the database
-any_house_aspiration = { <count=num/all> / <percent=fixed_point> <triggers> }
+any_holy_site_type - Iterate through every holy_site_type in the database
+any_holy_site_type = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: none
-Supported Targets: house_aspiration
-
---------------------
-
-any_house_relation_level - Iterate through every house_relation_level in the database
-any_house_relation_level = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: none
-Supported Targets: house_relation_level
-
---------------------
-
-any_house_relation_type - Iterate through every house_relation_type in the database
-any_house_relation_type = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: none
-Supported Targets: house_relation_type
+Supported Targets: holy_site_type
 
 --------------------
 
@@ -406,6 +392,13 @@ Supported Targets: religion
 
 --------------------
 
+any_rite_type - Iterate through every rite_type in the database
+any_rite_type = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: none
+Supported Targets: rite_type
+
+--------------------
+
 any_ruler - Rulers list with a COUNT tier o above.
 Can optionally filter by:
 * government:	government_type_filter = government_type:mandala_government (accepts saved scopes)
@@ -450,6 +443,13 @@ any_task_contract_type - Iterate through every task_contract_type in the databas
 any_task_contract_type = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: none
 Supported Targets: task_contract_type
+
+--------------------
+
+any_tenet - Iterate through every tenet in the database
+any_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: none
+Supported Targets: tenet
 
 --------------------
 
@@ -629,13 +629,13 @@ Supported Scopes: none
 --------------------
 
 has_dlc - Does the host have this DLC
-Traits: Valid DLCs: Coronations, West Slavic Attire, The Fate of Iberia, Tours and Tournaments, Elegance of the Empire, North African Attire, Roads to Power, Couture of the Capets, Legends of the Dead, The Northern Lords, All Under Heaven, Medieval Monuments, Garments of the Holy Roman Empire, The Royal Court, Legacy of Persia, Wandering Nobles, Fashion of the Abbasid Court, Friends and Foes, Khans of the Steppe, Symbols of Authority, Crowns of the World, Songs of the Realm, Arctic Attire, and Wards and Wardens
+Traits: Valid DLCs: West Slavic Attire, Tours and Tournaments, North African Attire, Roads to Power, Legends of the Dead, Celestial Court Attire, The Northern Lords, All Under Heaven, Garments of the Holy Roman Empire, Legacy of Persia, The Royal Court, Fashion of the Abbasid Court, Songs of the Realm, Holy Buildings, Wards and Wardens, Coronations, East Asian Wonders, The Fate of Iberia, Elegance of the Empire, North Pacific Attire, Couture of the Capets, High Medieval Warfare Attire, Medieval Monuments, Wandering Nobles, Friends and Foes, Khans of the Steppe, Symbols of Authority, Crowns of the World, Arctic Attire, and By God Alone
 Supported Scopes: none
 
 --------------------
 
 has_dlc_feature - Does the host have DLC that enables this particular feature
-Traits: Valid Features: garments_of_the_hre, fashion_of_the_abbasid_court, the_northern_lords, hybridize_culture, diverge_culture, royal_court, reform_culture, court_artifacts, the_fate_of_iberia, friends_and_foes, tours_and_tournaments, advanced_activities, accolades, legacy_of_persia, elegance_of_the_empire, wards_and_wardens, legends_of_the_dead, legends, north_african_attire, couture_of_the_capets, landless_playable, admin_gov, roads_to_power, court_room_view, wandering_nobles, west_slavic_attire, medieval_monuments, khans_of_the_steppe, nomads, arctic_attire, crowns_of_the_world, landless_adventurer, coronations, all_under_heaven, merit_admin, advanced_aspirations, barter_troops, high_medieval_warfare_attire, holy_buildings, north_pacific_attire, east_asian_wonders, celestial_court_attire, symbols_of_authority, and songs_of_the_realm
+Traits: Valid Features: garments_of_the_hre, fashion_of_the_abbasid_court, the_northern_lords, hybridize_culture, diverge_culture, royal_court, reform_culture, court_artifacts, the_fate_of_iberia, friends_and_foes, tours_and_tournaments, advanced_activities, accolades, legacy_of_persia, elegance_of_the_empire, wards_and_wardens, legends_of_the_dead, legends, north_african_attire, couture_of_the_capets, landless_playable, admin_gov, roads_to_power, court_room_view, wandering_nobles, west_slavic_attire, medieval_monuments, khans_of_the_steppe, nomads, arctic_attire, crowns_of_the_world, landless_adventurer, coronations, all_under_heaven, merit_admin, advanced_aspirations, high_medieval_warfare_attire, holy_buildings, north_pacific_attire, east_asian_wonders, celestial_court_attire, symbols_of_authority, songs_of_the_realm, and by_god_alone
 Supported Scopes: none
 
 --------------------
@@ -1010,6 +1010,13 @@ Supported Scopes: none
 
 --------------------
 
+should_limit_age_for_dead_portraits - is the beautify deceased characters setting enabled?
+An interface trigger, can only be used in specific places
+Traits: yes/no 
+Supported Scopes: none
+
+--------------------
+
 should_show_disturbing_portrait_modifiers - can disturbing portrait modifiers be shown?
 An interface trigger, can only be used in specific places
 Traits: yes/no 
@@ -1091,6 +1098,17 @@ years_from_game_start - How many years it has been since the start of the game
 years_from_game_start > 5
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: none
+
+--------------------
+
+great_project_type_is_important - Check if the specified project type is marked as important. Used to drive the notification system.
+
+usage:
+scope:great_project_type = {
+	great_project_type_is_important = yes
+}
+Traits: yes/no 
+Supported Scopes: great_project_type
 
 --------------------
 
@@ -1273,6 +1291,18 @@ Supported Targets: army
 
 --------------------
 
+any_available_rite - Iterate through all enabled rites.
+
+* sort_by_spiritual_fulfillment = no	-> Set to 'yes' to sort by decreasing starting spiritual fulfillment
+* only_better = no						-> Set to 'yes' to only include Rites with a better starting spiritual fulfillment than the current one
+* same_faith = yes						-> Set to 'no' to also include Rites from other faiths
+
+any_available_rite = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: rite
+
+--------------------
+
 any_available_task_contract - Iterate through all task contracts of location of root province
 any_available_task_contract = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
@@ -1293,6 +1323,23 @@ any_character_artifact - Iterate through all artifacts in a given characters inv
 any_character_artifact = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: artifact
+
+--------------------
+
+any_character_doctrine - Iterate through doctrines, taking into account the character in scope and their knowledge of doctrines.
+Can filter by knowledge status and by adoption by faith/rite. If a rite is specified, doctrines from the faith are also included
+
+scope:character = {
+  random_character_doctrine = {
+    knowledge_filter = known | unknown | all
+    rite_filter = scope:rite	# will take precedence over faith_filter if both are set
+    faith_filter = scope:faith
+    ...
+  }
+}
+any_character_doctrine = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: doctrine
 
 --------------------
 
@@ -1323,6 +1370,24 @@ any_character_task_contract = { task_contract_type = laamp_raid_contract }
 any_character_task_contract = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: task_contract
+
+--------------------
+
+any_character_tenet - Iterate through tenets, taking into account the character in scope and their knowledge of tenets.
+Can filter by knowledge status and by core/permitted status for a faith/rite. If a rite is specified, approved tenets from the faith are also included
+
+scope:character = {
+  random_character_tenet = {
+    knowledge_filter = known | unknown | all
+    rite_filter = scope:rite	# will take precedence over faith_filter if both are set
+    faith_filter = scope:faith
+	status = core | permitted | prohibited | known | unknown	# if you specified a rite or faith filter, only keeps tenets with this status
+    ...
+  }
+}
+any_character_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: tenet
 
 --------------------
 
@@ -1417,6 +1482,13 @@ Supported Targets: artifact
 
 --------------------
 
+any_clerical_region_in_realm - Iterate over clerical regions that has counties withind scoped dejure title
+any_clerical_region_in_realm = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: landed_title
+
+--------------------
+
 any_close_family_member - Iterate through all the close family [father, mother, siblings, children, grandparents]
 any_close_family_member = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
@@ -1480,6 +1552,10 @@ Supported Targets: character
 --------------------
 
 any_court_position_holder - Iterates through all characters employed by the scoped character in the target court position.
+*_court_position_holder = {
+    type = bodyguard_court_position/scope:my_scoped_court_position_type # Optionally filter by court position type.
+   ...
+}
 any_court_position_holder = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: character
@@ -1511,6 +1587,25 @@ any_de_jure_claim - Iterate through all de jure claims for a character
 any_de_jure_claim = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: landed_title
+
+--------------------
+
+any_desired_tenet - Which tenets known to the character would the character choose as core tenets for their faith, ordered by influence on starting fulfillment (best to worst).
+* Tenets that don't benefit the character's starting Fulfillment can be optionally left out with only_negative = yes
+* You can limit to the first N best tenets with selection_count = N (Core Tenets are still limited by the FAITH_CORE_TENET_CAP define) 
+* use threshold = x to only allow tenets with fulfillment change of that value and above in the list. only active with only_positive = yes, default is 0
+
+character = {
+	random_desired_tenet = {
+		selection_count = 1		# only keep the best tenet - default equals to FAITH_CORE_TENETS_CAP
+		only_positive = yes		# only consider tenets that give positive spiritual fulfillment - default yes, set to no to get all
+		threshold = 10			# only tenets that give at least 10 spiritual fulfillment
+		...
+	}
+}
+any_desired_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: tenet
 
 --------------------
 
@@ -1591,8 +1686,22 @@ Supported Targets: character
 
 --------------------
 
+any_grandchild - Iterate through all grandchildren of the scope character
+any_grandchild = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
 any_grandparent - Iterate through all grand-parents of the scope character
 any_grandparent = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+any_great_grandchild - Iterate through all great-grandchildren of the scope character
+any_great_grandchild = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: character
 
@@ -1605,7 +1714,7 @@ Supported Targets: character
 
 --------------------
 
-any_heir - Heirs of the scoped character
+any_heir - First-in-line Heirs for held titles of the scoped character
 any_heir = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: character
@@ -1871,6 +1980,13 @@ Supported Targets: artifact
 
 --------------------
 
+any_personal_tenet - Personal Tenets of the character in scope
+any_personal_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: tenet
+
+--------------------
+
 any_pinned_character - Iterate through characters this player has pinned
 any_pinned_character = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
@@ -1979,6 +2095,27 @@ Supported Targets: character
 
 any_raid_target - Iterate through anyone the character is hostile to due to having raided them. Only returns top lieges
 any_raid_target = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+any_real_grandparent - Iterate through all real grandparents of the scope character
+any_real_grandparent = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+any_real_great_grandparent - Iterate through all real great-grandparents of the scope character
+any_real_great_grandparent = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
+any_real_parent - Iterate through all (both) real parents of the scope character
+any_real_parent = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: character
 
@@ -2148,6 +2285,13 @@ Supported Targets: character
 
 --------------------
 
+any_subordinate - Iterates through all religious subordinates of the scoped character. Challengers (antipopes) are considered subordinates to the top superior, so be careful
+any_subordinate = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: character
+
+--------------------
+
 any_succession_appointment_invested_candidate - Iterate through all candidates supported by the scoped investor character for any title
 It may contain people outside of investor's top realm or no longer valid for appointment
 any_succession_appointment_invested_candidate = { <count=num/all> / <percent=fixed_point> <triggers> }
@@ -2248,6 +2392,27 @@ any_unassigned_taxpayers - Iterates through all unassigned taxpayers for scoped 
 any_unassigned_taxpayers = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: character
 Supported Targets: character
+
+--------------------
+
+any_undesired_tenet - Which core tenets of the character's Rite would the character swap out, ordered by influence on starting fulfillment (worst to best).
+* Tenets that benefit the character's starting Fulfillment can be optionally left out with only_negative = yes
+* You can limit to the first N worst tenets with selection_count = N (Core Tenets are still limited by the FAITH_CORE_TENET_CAP define).
+* use threshold = x to only allow tenets with fulfillment change of that value and below in the list. only active with only_negative = yes, default is 0
+* use known_tenets = yes to evaluate all tenets known to the character, not only the current core tenets of its Rite (default is no)
+
+Below an example that iterates over all core tenets of the Rite that decrease the character's fulfillment by at least 10 points
+
+character = {
+	every_undesired_core_tenet = {
+		only_negative = yes
+		threshold = -10
+		...
+	}
+}
+any_undesired_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: character
+Supported Targets: tenet
 
 --------------------
 
@@ -2367,6 +2532,15 @@ Supported Scopes: character
 
 base_weight - Base weight of the scoped character
 base_weight > 10
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+birth_date - Gets the year and day of birth combined in a single number (days since Jan 1st year 0) that can be directly compared:
+limit = {
+    scope:character_a.birth_date > scope:character_b.birth_date
+}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -2526,6 +2700,16 @@ Supported Scopes: character
 
 --------------------
 
+can_enshrine_holy_site_artifact - Can the scoped character enshrine the given artifact into the given holy site?
+can_enshrine_holy_site_artifact = {
+	holy_site = X
+	artifact = Y
+	slot = Z (optional)
+}
+Supported Scopes: character
+
+--------------------
+
 can_equip_artifact - Can the scoped character equip given artifact?
 Traits: artifact scope
 Supported Scopes: character
@@ -2617,6 +2801,14 @@ Supported Targets: province
 
 --------------------
 
+can_pick_personal_tenet - Can the character pick the target Tenet as personal tenet?
+can_pick_personal_tenet = tenet_communion 
+Traits: class CTenetTypeDatabase key
+Supported Scopes: character
+Supported Targets: tenet
+
+--------------------
+
 can_plan_great_project - Checks if the given Character can start planning a Great Project with the given type somewhere in their realm.
 Will check both is_shown and can_start_planning triggers, as well as the cost required to start the project.
 
@@ -2640,6 +2832,15 @@ usage:
 		province = <province>
 	}
 } 
+Supported Scopes: character
+
+--------------------
+
+can_remove_holy_site_artifact - Can the scoped character remove the given artifact from the given holy site?
+can_remove_holy_site_artifact = {
+	holy_site = X
+	artifact = Y
+}
 Supported Scopes: character
 
 --------------------
@@ -2834,6 +3035,24 @@ Supported Scopes: character
 
 --------------------
 
+day_of_month_of_birth - Get which day of the month (1-31, but max 28 for February etc.) the character was born on:
+scope:character = {
+    day_of_month_of_birth = 13
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+day_of_year_of_birth - Get which day (1-365) of the year the character was born on:
+scope:character = {
+    day_of_year_of_birth = 40 # Day 40 of the year is Feb 9
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 days_as_ruler - Number of days this character has been a ruler, returns -1 if character isn't a ruler
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -2853,6 +3072,15 @@ Supported Scopes: character
 --------------------
 
 days_of_continuous_war - Number of days the character has been in peace (0 if in peace)
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+days_since_birth - Get age expressed as a number of days:
+scope:character = {
+    days_since_birth > 395 # Is age over 1 year and 30 days?
+}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -2954,6 +3182,24 @@ Supported Scopes: character
 
 --------------------
 
+doctrine_fulfillment_value - Expected base fulfillment value due to virtues/sins.
+doesn't take into account rite virtues/sins, only doctrine traits.
+
+scope:character = {
+	"doctrine_fulfillment_value(scope:some_doctrine)" > 0
+}
+
+scope:rite = {
+	doctrine_fulfillment_value = {
+		target = scope:some_doctrine
+		value > 0
+	}
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 does_ai_liege_in_vassal_contract_desire_admin_province_obligation_change - Does the AI liege in a vassal contract desire changing an obligation level - only applies to Admin Province Type obligations
 Traits: yes/no 
 Supported Scopes: character
@@ -3047,6 +3293,37 @@ Supported Scopes: character
 
 --------------------
 
+expected_rite_fulfillment_change - What is the expected change in base spiritual fulfillment score for the character in scope and the target rite with respect to the rite they are practicing now?
+Functionally equivalent to rite_fulfillment_score(target rite) - rite_fulfillment_score(current rite).
+
+"expected_rite_fulfillment_change(scope:some_rite)" > 0
+
+expected_rite_fulfillment_change {
+	target = scope:some_rite
+	value > 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+expected_tenet_fulfillment_change - Expected fulfillment change due to changed virtues/sins weights.
+
+scope:character = {
+	"expected_tenet_fulfillment_change(scope:some_tenet)" > 0
+}
+
+scope:rite = {
+	expected_tenet_fulfillment_change = {
+		target = scope:some_tenet
+		value > 0
+	}
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 fertility - does the character have the required fertility?
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -3054,6 +3331,14 @@ Supported Scopes: character
 --------------------
 
 focus_progress - Does the character have this much focus progress
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+free_personal_tenet_slots - The amount of personal tenets this character can choose. Always 0 for dead or non-playable characters.
+
+<character>.free_personal_tenet_slots > 0
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -3076,6 +3361,12 @@ Supported Scopes: character
 --------------------
 
 government_has_flag - checks if the government of the character has a specific flag
+Supported Scopes: character
+
+--------------------
+
+government_has_mechanic - checks if the character has a government with specific mechanic
+Traits: feudal, mercenary, holy_order, clan, theocracy, administrative, landless_adventurer, herder, nomad, mandala
 Supported Scopes: character
 
 --------------------
@@ -3312,6 +3603,17 @@ Supported Targets: landed_title
 
 --------------------
 
+has_clerical_region_in_realm - Does the character's realm contain counties of the target clerical region.
+
+scope:character = {
+	has_clerical_region_in_realm = scope:clerical_region_title
+}
+Traits: landed_title scope
+Supported Scopes: character
+Supported Targets: landed_title
+
+--------------------
+
 has_completed_activity_intent - has_completed_activity_intent = { type = <key> target = <character> }
 has_completed_activity_intent = <key>
 Has the scoped character completed an intent of the given type in their involved activity, optionally against a specific target.
@@ -3366,7 +3668,9 @@ Supported Targets: culture
 --------------------
 
 has_court_position - is the scoped character holding the target court position type?
+Traits: class CCourtPositionTypesDatabase key
 Supported Scopes: character
+Supported Targets: court_position_type
 
 --------------------
 
@@ -3530,6 +3834,11 @@ Supported Scopes: character
 
 --------------------
 
+has_fulfillment_parameter - Does the given character have the given parameter in their current Spiritual Fulfillment level?has_fulfillment_parameter = parameter_key
+Supported Scopes: character
+
+--------------------
+
 has_gene - Does the character have the specified gene template? Only works for morph genes. An interface trigger. has_gene = { category = X template = Y }
 An interface trigger, can only be used in specific places
 Supported Scopes: character
@@ -3586,6 +3895,16 @@ Supported Scopes: character
 
 has_legitimacy_flag - Does the scoped character's current legitimacy level have the given flag
 has_legitimacy_flag = cool_folk
+Supported Scopes: character
+
+--------------------
+
+has_lessee_approval - Does the character (liege) in scope have approval of the specified lessee?.
+
+scope:liege = {
+	has_lessee_approval = scope:lessee
+} 
+Traits: character target 
 Supported Scopes: character
 
 --------------------
@@ -3686,6 +4005,24 @@ Supported Targets: legend_type
 
 --------------------
 
+has_personal_tenet - Does the character subscribe to the specified tenet?
+
+<character> = { has_personal_tenet = tenet_communion }
+Traits: class CTenetTypeDatabase key
+Supported Scopes: character
+Supported Targets: tenet
+
+--------------------
+
+has_personal_tenet_flag - Does any personal tenet of the character have the given flag as personal_tenet_parameter?.
+
+<character> = {
+	has_personal_tenet_flag = some_personal_tenet_flag
+}
+Supported Scopes: character
+
+--------------------
+
 has_player_court_position_automation_assign_best - Is the scoped character a player that has automated the target court position to auto-assign the best candidate?
 Traits: class CCourtPositionTypesDatabase key
 Supported Scopes: character
@@ -3729,6 +4066,16 @@ Supported Targets: landed_title
 
 has_prisoners - Does the character have prisoners?
 Traits: yes/no 
+Supported Scopes: character
+
+--------------------
+
+has_puppet_type - Check if the given Puppet type is valid for the character in scope.
+
+usage:
+<scope:puppeteer> = {
+	has_puppet_type = theological_agent_puppet
+}
 Supported Scopes: character
 
 --------------------
@@ -4351,6 +4698,16 @@ Supported Scopes: character
 
 --------------------
 
+has_spiritual_fulfillment_type - Does the character use the specified spiritual_fulfillment_type?.
+
+<character> = {
+	has_spiritual_fulfillment_type = christian_fulfillment
+}
+Traits: class CSpiritualFulfillmentTypeDatabase key
+Supported Scopes: character
+
+--------------------
+
 has_strong_claim_on - does the character have an explicit Pressed Claim on the target title?
 Traits: landed_title scope
 Supported Scopes: character
@@ -4785,6 +5142,20 @@ Supported Scopes: character
 
 --------------------
 
+is_candidate_from_set - Checks if the character's candidacy for Elective Succession for the target title comes from the specified set.
+Note that the character may have been eligible for multiple sets, this is the first in order of definition.
+The trigger will fail if the character is not a candidate for the target title or if the title doesn't use election succession laws.
+
+scope:character = {
+	is_candidate_from_set = {
+		title = scope:some_title
+		source = theocratic_elective_obvious
+	}
+}
+Supported Scopes: character
+
+--------------------
+
 is_causing_raid_hostility_towards - Is the scoped character making the target hostile due to having raided their (top-liege's) realm?
 is_causing_raid_hostility_towards = scope:character
 Traits: character scope
@@ -5014,6 +5385,19 @@ Supported Scopes: character
 
 --------------------
 
+is_following_religious_head_challenger - Does the character follow a religious head challenger? They will if:
+* they are a religious head challenger or sponsor one
+* are a vassal of a challenger or their sponsor
+* are religious subordinate of a challenger or their sponsor
+
+scope:character = {
+	is_following_religious_head_challenger = yes
+}
+Traits: yes/no 
+Supported Scopes: character
+
+--------------------
+
 is_forbidden_from_scheme - Is the scope character forbidden from the target scheme?
 Traits: scheme scope
 Supported Scopes: character
@@ -5171,6 +5555,18 @@ is_in_guest_subset = {
 }
 If phase is not specified, it will check the current phase, otherwise it will 
 check all phases matching the phase key.
+Supported Scopes: character
+
+--------------------
+
+is_in_line_for_external_clerical_region - Is the character next in line for a clerical region title that would cause them to lose their land?
+If the character has land but is appointed to a clerical region that doesn't overlap their realm, they will lose their old realm on succession.
+Head of Faith characters can retain their realm.
+
+scope:character = {
+	is_in_line_for_external_clerical_region = yes
+}
+Traits: yes/no 
 Supported Scopes: character
 
 --------------------
@@ -5342,6 +5738,12 @@ Supported Scopes: character
 
 --------------------
 
+is_papabile - Is the scoped character one of the current candidates (papabile) in their faith's clerical/theocratic elective succession? Reads the same candidate set as the College of Cardinals window.
+Traits: yes/no 
+Supported Scopes: character
+
+--------------------
+
 is_parent_of - Is the character a parent of the target character?
 Traits: character target 
 Supported Scopes: character
@@ -5463,6 +5865,27 @@ Supported Scopes: character
 
 is_primary_heir_of - Is the character the heir of the target's primary title?
 Traits: character target 
+Supported Scopes: character
+
+--------------------
+
+is_puppet_action_valid - Check if the given Puppet action is possible to execute with any puppet available to the puppeteer (puppet type is active, and action passes 'is_enabled' check).
+Will error if the Puppet Action is not 'type = trigger'.
+
+usage:
+<scope:puppeteer> = {
+	is_puppet_action_valid = puppet_trigger_allowed_to_confess
+}
+Supported Scopes: character
+
+--------------------
+
+is_puppet_of_type - Check if the character in scope is their puppeteer's puppet of the given type.
+
+usage:
+<scope:puppet> = {
+	is_puppet_of_type = theological_agent_puppet
+}
 Supported Scopes: character
 
 --------------------
@@ -5684,9 +6107,25 @@ Supported Targets: character
 
 --------------------
 
+knows_doctrine - Does the character know the target Doctrine?
+knows_doctrine = doctrine_polygamy
+Traits: class CDoctrineTypeDatabase key
+Supported Scopes: character
+Supported Targets: doctrine
+
+--------------------
+
 knows_language - Does the character know the language?
 knows_language = language_norwegian
 Supported Scopes: character
+
+--------------------
+
+knows_language_of_character - Does the character know any language that the target character also knows?
+knows_language_of_character = scope:target_character
+Traits: character scope
+Supported Scopes: character
+Supported Targets: character
 
 --------------------
 
@@ -5695,6 +6134,35 @@ knows_language_of_culture = scope:target_culture
 Traits: culture scope
 Supported Scopes: character
 Supported Targets: culture
+
+--------------------
+
+knows_rite_level - Does the character know the target Rite by at least the specified percentage?
+The trigger value is measured as a percentage of the tenets and doctrines of the target Rite known by the character.
+Both Core tenets for the Rite and Permitted tenets for the related Faith are considered.
+Keep in mind that doctrines may range in the count of 20-30, while tenets tend to be way lower in number at least in the early game.
+Non-playable characters only know tenets and doctrines of their professed Rite.
+The percentage is 1-based (1 = 100%)
+
+<scope:character> = {
+	knows_rite_level = {
+		target = scope:rite_to_check
+		value = Y						# comparison
+		value < Y , value <=Y
+		value > Y , value >=Y
+		value = { min max }				# range check
+	}
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+knows_tenet - Does the character know the target Tenet?
+knows_tenet = tenet_communion 
+Traits: class CTenetTypeDatabase key
+Supported Scopes: character
+Supported Targets: tenet
 
 --------------------
 
@@ -5960,6 +6428,15 @@ Supported Scopes: character
 
 min_title_maa_tier - What is the minimum title tier to be able to have Title MaA?
 min_title_maa_tier > tier_county
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+month_of_year_of_birth - Get which month (1-12) of the year the character was born on:
+scope:character = {
+    month_of_year_of_birth = 12 # December
+}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -6380,11 +6857,14 @@ Supported Scopes: character
 --------------------
 
 num_sinful_traits - Does the scoped character have this number of sinful traits?
-	num_sinful_traits > 5
-	or to base it on what a specific faith considers sinful
+
+	num_sinful_traits > 5 (implicitly checked on the character's rite)
+
+	or to base it on what a specific rite considers sinful
+
 	num_sinful_traits = {
 		value > 5
-		target = scope:faith
+		target = scope:rite
 	}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -6412,11 +6892,14 @@ Supported Scopes: character
 --------------------
 
 num_virtuous_traits - Does the scoped character have this number of virtous traits?
-	num_virtous_traits > 5
-	or to base it on what a specific faith considers virtuous
-	num_virtous_traits = {
+
+	num_virtuous_traits > 5 (implicitly checked on the character's rite)
+
+	or to base it on what a specific rite considers virtuous
+
+	num_virtuous_traits = {
 		value > 5
-		target = scope:faith
+		target = scope:rite
 	}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -6747,6 +7230,16 @@ Supported Scopes: character
 
 --------------------
 
+remaining_saint_relics - How many relics can still be extracted by the given saint. Will be 0 if the character is not a saint.
+
+scope:saint = {
+	remaining_saint_relics > 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 reserved_gold - does the character have the required gold? (AI category 'reserved')
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -6783,6 +7276,19 @@ Supported Scopes: character
 --------------------
 
 reverse_opinion - is the target character's opinion of the scope character greater or equal than the value? opinion = { target = X [*value >/</>=/<= Y* or *value = { min max }*  }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+rite_fulfillment_score - What is the spiritual fulfillment score for the character in scope and the target rite?
+
+"rite_fulfillment_score(scope:some_rite)" > 50
+
+rite_fulfillment_score {
+	target = scope:some_rite
+	value > 50
+}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -6874,6 +7380,24 @@ Should the scoped character be alerted that they can join the target activity ty
 Traits: class CActivityTypeDatabase key
 Supported Scopes: character
 Supported Targets: activity_type
+
+--------------------
+
+spiritual_fulfillment - The current Spiritual Fulfillment of the character.
+If the character is not playable, this will yield the starting Spiritual Fulfillment.
+
+<character>.spiritual_fulfillment > 30
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+split_clerical_region_size - What size will get a new split clerical region if split from this province
+scope:province = {
+	split_clerical_region_size > 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
 
 --------------------
 
@@ -7047,13 +7571,20 @@ Supported Scopes: character
 
 --------------------
 
-tax_collector_aptitude - What is the scoped character's Tax Collector aptitude in the target tax slot type? tax_collector_aptitude = { target = tax_slot_type value >= 1 }
+tax_collector_aptitude - What is the scoped character's Tax Collector aptitude in the target tax slot type? Min is 0, max is 4.
+tax_collector_aptitude = { target = tax_slot_type value >= 1 }
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
 --------------------
 
 tax_to_liege - The amount of tax a character sends to their liege
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+tenets_doctrines_unknown_to_faith - Returns how many tenets and doctrines are known to the character but unknown to the faith. Unknown doctrines are doctrines that are not practiced in any rite.
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -7106,6 +7637,23 @@ Supported Scopes: character
 
 --------------------
 
+trait_rank - Compare the level of the specified trait group for the character in scope.
+The value is 0 if the character doesn't have any trait in the group.
+Does not support comparing against another character's trait level - use has_trait_rank instead.
+
+scope:character = {
+	trait_rank = {
+		target = erudite
+		value > 1
+	}
+
+	\"trait_rank(erudite)\" > 1
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 travel_leader_cost - What this character would cost as a travel leader
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -7130,6 +7678,12 @@ Supported Scopes: character
 
 --------------------
 
+treasury_budget_allocation_cardinal - Was the scoped character's current cardinal budget allocation this big? (value 0.0 - 1.0)
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
 treasury_budget_allocation_excess - Was the scoped character's current budget allocation excess this big? Negative values indicate deficit allocation, positive values indicate unallocated budget.
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
@@ -7149,6 +7703,12 @@ Supported Scopes: character
 --------------------
 
 treasury_budget_allocation_salaries - Was the scoped character's current salary budget allocation this big? (value 0.0 - 1.0)
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: character
+
+--------------------
+
+treasury_budget_base_rate_cardinal - Is the scoped character's cardinal budget base rate this big?
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
 
@@ -7226,6 +7786,28 @@ Supported Scopes: character
 tyranny - does the character have the required tyranny?
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: character
+
+--------------------
+
+uses_treasury_vassal_development - Does the scoped characters government 'vassal development' in their treasury system. (treasury flows down to vassals from their liege based on their taxes paid)
+uses_treasury_vassal_development = yes
+Traits: yes/no 
+Supported Scopes: character
+
+--------------------
+
+valid_for_council_position - Is the scoped character valid for the target council position
+scope:candidate = { valid_for_council_position = councillor_spymaster }
+Traits: class CCouncilPositionDatabase key
+Supported Scopes: character
+
+--------------------
+
+valid_for_council_task - Is the scoped character valid for the target active council task
+scope:candidate = { valid_for_council_task = scope:active_council_task }
+Traits: council_task scope
+Supported Scopes: character
+Supported Targets: council_task
 
 --------------------
 
@@ -7446,43 +8028,62 @@ Supported Scopes: character
 
 --------------------
 
-any_potential_contributor - Iterate through all characters that may contribute to this contribution. The list depends on the allowed_contributor_filter field of the great project for this contribution.
-Keep in mind that dead founders and non-ruler founders will yield empty lists. Contributions that don't accept funding will likewise yield empty lists.
-any_potential_contributor = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: project_contribution
+any_confederation_member - Iterates through all member characters of the scoped confederation
+any_confederation_member = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: confederation
 Supported Targets: character
 
 --------------------
 
-contribution_id - Checks if the Contribution in scope is of the specified type (by key).
-
-usage:
-<scope:great_project_contribution> = {
-	contribution_id = great_ballista
-}
-Supported Scopes: project_contribution
+any_confederation_member_house - Iterates through all member houses of the scoped confederation
+any_confederation_member_house = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: confederation
+Supported Targets: dynasty_house
 
 --------------------
 
-contribution_is_funded - Checks if the Contribution in scope was already funded.
-
-usage:
-<scope:great_project_contribution> = {
-	contribution_is_funded = yes
-}
-Traits: yes/no 
-Supported Scopes: project_contribution
+cohesion - Current total cohesion of the confederation/bloc.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: confederation
 
 --------------------
 
-contribution_is_required - Checks if the Contribution in scope must be funded in order to be able to start the Great Project.
+combined_military_strength - Current combined military power of the confederation/bloc.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: confederation
 
-usage:
-<scope:great_project_contribution> = {
-	contribution_is_required = yes
-}
+--------------------
+
+has_cohesion - Does the confederation/bloc have a cohesion?
 Traits: yes/no 
-Supported Scopes: project_contribution
+Supported Scopes: confederation
+
+--------------------
+
+has_cohesion_level_parameter - Does current cohesion level of the given confederation/bloc have the given parameter?
+usage:
+<bloc> = {
+	has_cohesion_level_parameter = <parameter_key>
+}
+Supported Scopes: confederation
+
+--------------------
+
+has_leading_house - Does the confederation have a leading house?
+Traits: yes/no 
+Supported Scopes: confederation
+
+--------------------
+
+is_house_based - Is the confederation house based? i.e bloc
+Traits: yes/no 
+Supported Scopes: confederation
+
+--------------------
+
+member_count - Number of members in the scoped confederation
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: confederation
 
 --------------------
 
@@ -7492,10 +8093,31 @@ Supported Scopes: landed_title
 
 --------------------
 
+any_barony_holy_site - Iterate through all holy sites located in the scoped barony
+any_barony_holy_site = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: holy_site
+
+--------------------
+
 any_claimant - Iterate through all claimants to title. parameters: explicit = yes/no/all - default yes
 any_claimant = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: landed_title
 Supported Targets: character
+
+--------------------
+
+any_clerical_elector_title_in_clerical_region - All clerical elector titles within clerical region
+any_clerical_elector_title_in_clerical_region = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: landed_title
+
+--------------------
+
+any_clerical_region_in_dejure_title - Iterate over clerical regions that has counties within scoped dejure title
+any_clerical_region_in_dejure_title = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: landed_title
 
 --------------------
 
@@ -7520,6 +8142,20 @@ any_controlled_title_maa_regiment - Iterate through controlled title regiments
 any_controlled_title_maa_regiment = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: landed_title
 Supported Targets: regiment
+
+--------------------
+
+any_county_holy_site - Iterate through all holy sites in the county
+any_county_holy_site = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: holy_site
+
+--------------------
+
+any_county_in_clerical_region - All county landed titles within clerical region
+any_county_in_clerical_region = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: landed_title
 
 --------------------
 
@@ -7669,6 +8305,13 @@ Supported Targets: character
 
 --------------------
 
+any_ruler_in_clerical_region - Rulers with realm capital in clerical region
+any_ruler_in_clerical_region = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: landed_title
+Supported Targets: character
+
+--------------------
+
 any_succession_appointment_investors - Iterate through all investors of target candidate within the scoped title. Optionally specify a value to filter by investment amount
 scope:landed_title = {
 	any/every/ordered/random_succession_appointment_investors = {
@@ -7776,7 +8419,7 @@ Supported Targets: landed_title
 
 --------------------
 
-can_be_leased_out - Can the scoped title be leased out?
+can_be_leased_out - Can the scoped title be leased out? (to a holy order)
 Traits: yes/no 
 Supported Scopes: landed_title
 
@@ -7798,6 +8441,15 @@ can_title_join_faction - Can the scope title join the faction? can_title_join_fa
 Traits: faction scope
 Supported Scopes: landed_title
 Supported Targets: faction
+
+--------------------
+
+clerical_region_size - Number of counties in the existing clerical region
+scope:clerical_region_title = {
+	clerical_region_size > 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: landed_title
 
 --------------------
 
@@ -7896,6 +8548,16 @@ Supported Scopes: landed_title
 
 --------------------
 
+has_clerical_region - Does the scoped Landed Title have a Clerical Region?
+usage:
+<scope:title> = {
+	has_clerical_region = yes/no
+}
+Traits: yes/no 
+Supported Scopes: landed_title
+
+--------------------
+
 has_coastal_province - does the county contain a coastal province?
 Traits: yes/no 
 Supported Scopes: landed_title
@@ -7970,6 +8632,30 @@ Supported Scopes: landed_title
 has_wrong_holding_type - Is the scope landed title connected to a holding that cannot be governed by the current lessee or holder?
 Traits: yes/no 
 Supported Scopes: landed_title
+
+--------------------
+
+heir_resigns_realm_on_inheriting - Will the target character resign their current realm titles back into their liege's realm,
+rather than carry them out, upon inheriting the scoped title? E.g. a cardinal abdicating when elected Pope.
+Non-ruler characters will make this trigger fail. Can also target characters who are not currently in line for the title.
+
+scope:title = {
+	heir_resigns_realm_on_inheriting = scope:ruler
+}
+Traits: character target 
+Supported Scopes: landed_title
+
+--------------------
+
+is_adjacent_to_clerical_region - Checks if the target title has at least one county not already in a clerical region that borders the clerical region in scope.
+Will fail if checked on not-clerical-region titles.
+
+scope:clerical_region_title = {
+	is_adjacent_to_clerical_region  = scope:title
+}
+Traits: landed_title scope
+Supported Scopes: landed_title
+Supported Targets: landed_title
 
 --------------------
 
@@ -8250,6 +8936,8 @@ Possible types:
 	stepped_down
 	appointment
 	appointment_succession
+	migration
+	confederation
 Supported Scopes: landed_title
 
 --------------------
@@ -8329,96 +9017,9 @@ Supported Scopes: landed_title
 
 --------------------
 
-culture_can_know_innovation - Can the culture gain progress towards this innovation?
-
-usage:
-<innovation> = {
-	culture_can_know_innovation = scope:target_culture
-}
-Traits: culture scope
-Supported Scopes: culture_innovation
-Supported Targets: culture
-
---------------------
-
-has_innovation_parameter - Does the innovation type have this parameter?
-<innovation> = { has_innovation_parameter = name }
-Supported Scopes: culture_innovation
-
---------------------
-
-innovation_era - Does the scoped innovation belong to the specified era?
-scope:innovation = { innovation_era = culture_era_early_medieval }
-Supported Scopes: culture_innovation
-
---------------------
-
-innovation_is_regional - Is the scoped innovation regional?
-scope:innovation = { innovation_is_regional = yes }
-Traits: yes/no 
-Supported Scopes: culture_innovation
-
---------------------
-
-innovation_key - Is the scoped innovation the same as the specified one?
-scope:innovation = { innovation_key = gunpowder }
-Supported Scopes: culture_innovation
-
---------------------
-
-is_ahead_of_time_for_culture - Is scoped innovation ahead of time for the specified culture? same as checking if innovation era > current culture era.
-scope:innovation = { is_ahead_of_time_for_culture = scope:culture }
-Traits: culture scope
-Supported Scopes: culture_innovation
-Supported Targets: culture
-
---------------------
-
-is_known_by_culture - Is scoped innovation known by the specified culture?
-scope:innovation = { is_known_by_culture = scope:culture }
-Traits: culture scope
-Supported Scopes: culture_innovation
-Supported Targets: culture
-
---------------------
-
 is_in_family - Is the scoped faith/religion in a given religious family
 is_in_family = abrhamic
 Supported Scopes: faith, religion
-
---------------------
-
-any_infected_province - Gets all provinces infected by the scoped epidemic
-any_infected_province = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: epidemic
-Supported Targets: province
-
---------------------
-
-days_since_outbreak_start - Number of days since the epidemic outbreak started.
-days_since_outbreak_start >= 20
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: epidemic
-
---------------------
-
-outbreak_intensity - Get the outbreak intensity of this epidemic.
-outbreak_intensity = major
-Traits: minor, major, apocalyptic
-Supported Scopes: epidemic
-
---------------------
-
-outbreak_start_date - Date when the epidemic outbreak began.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: epidemic
-
---------------------
-
-total_infected_provinces - Get the total number of provinces infected over the lifetime of this epidemic.
-total_infected_provinces >= 20
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: epidemic
 
 --------------------
 
@@ -8429,88 +9030,52 @@ Supported Targets: landed_title
 
 --------------------
 
+is_military_order - Is the scoped holy order military?
+scope:holy_order = { is_military_order = yes }
+Traits: yes/no 
+Supported Scopes: holy_order
+
+--------------------
+
 num_leased_titles - How many holdings the holy order has under lease
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: holy_order
 
 --------------------
 
-can_upgrade_maa - Can target MaA regiment be upgraded
-Traits: yes/no 
-Supported Scopes: regiment
+order_worldliness - Returns the worldliness of scoped Holy Order.
 
---------------------
-
-is_event_maa_regiment - Is target MaA regiment part of event troops
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_hired_maa_regiment - Was target MaA regiment hired from merc or holy order
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_maa_in_combat - Is target MaA regiment engaged in combat
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_maa_type - Check MaA type of a regiment
-scope:regiment = { is_maa_type = light_footmen }
-Traits: class CMenAtArmsTypeDatabase key
-Supported Scopes: regiment
-
---------------------
-
-is_personal_maa_regiment - Is target MaA regiment personal
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_raised - Is target MaA regiment raised
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_regular_maa_regiment - Is target MaA regiment just a normal one recruited by a ruler
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_title_maa_regiment - Is target MaA regiment belongs to a title
-Traits: yes/no 
-Supported Scopes: regiment
-
---------------------
-
-is_unit_type - Check base MaA type of a regiment
-scope:regiment = { is_unit_type = skirmishers }
-Supported Scopes: regiment
-
---------------------
-
-maa_current_troops_count - Get current number of soldiers in MaA regiment
+usage:
+<scope:holy_order> = {
+	order_worldliness >= 50
+}
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: regiment
+Supported Scopes: holy_order
 
 --------------------
 
-maa_max_troops_count - Get max number of soldiers in MaA regiment
+agent_slot_contribution - The contribution value given by the scoped filled agent slot.
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: regiment
+Supported Scopes: agent_slot
 
 --------------------
 
-maa_size - Get regiment size - number of subregiments in it
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: regiment
+agent_slot_has_contribution_type - Does the agent slot have provide the given type of contribution?
+Supported types: 'secrecy', 'success_chance', 'success_chance_growth', 'success_chance_max' and 'speed'
+agent_slot_has_contribution_type = <type>
+Supported Scopes: agent_slot
+
+--------------------
+
+is_agent_slot_type - Does the Agent Slot have the given type?
+is_agent_slot_type = key
+Supported Scopes: agent_slot
+
+--------------------
+
+is_filled - Is this agent slot filled?
+Traits: yes/no 
+Supported Scopes: agent_slot
 
 --------------------
 
@@ -8733,59 +9298,108 @@ Supported Scopes: house_relation
 
 --------------------
 
-any_situation_group_participant - Iterate through all characters that are part of a participation group in a situation.
-any_situation_group_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation_participant_group
-Supported Targets: character
+region_is_adjacent - Checks if given region is adjacent or overlaps with the target region.
+You can use both situation subregions or geographical regions as scopes. Targets a geographical bregion.
+
+usage:
+scope:situation_subregion/geographical_region:key = {
+	region_is_adjacent = scope:geographical_region
+}
+Traits: geographical_region scope
+Supported Scopes: geographical_region, situation_sub_region
+Supported Targets: geographical_region
 
 --------------------
 
-auto_add_rulers - If region rulers are automatically checked to be valid participants for this group.
-If disabled, only manually added characters could join..
-auto_add_rulers = yes/no
+region_is_adjacent_situation_subregion - Checks if given region is adjacent or overlaps with the target region.
+You can use both situation subregions or geographical regions as scopes. Targets a situation subregion.
+
+usage:
+scope:situation_subregion/geographical_region:key = {
+	region_is_adjacent_situation_subregion = scope:situation_subregion
+}
+Traits: situation_sub_region scope
+Supported Scopes: geographical_region, situation_sub_region
+Supported Targets: situation_sub_region
+
+--------------------
+
+can_upgrade_maa - Can target MaA regiment be upgraded
 Traits: yes/no 
-Supported Scopes: situation_participant_group
+Supported Scopes: regiment
 
 --------------------
 
-has_participant_group_parameter - Checks if scoped participant group currently has the parameter or not
-has_participant_group_parameter = parameter_key
-Supported Scopes: situation_participant_group
-
---------------------
-
-participant_group_has_character - Is this character a participant in this participant group?
-participant_group_has_character = scope:character
-Traits: character scope
-Supported Scopes: situation_participant_group
-Supported Targets: character
-
---------------------
-
-participant_group_type - Is the scoped participant group of a specific type?
-participant_group_type = group_key
-Supported Scopes: situation_participant_group
-
---------------------
-
-require_capital_in_sub_region - Is it required that the capital of participants is in the sub-region?
-require_capital_in_sub_region = yes/no
+is_event_maa_regiment - Is target MaA regiment part of event troops
 Traits: yes/no 
-Supported Scopes: situation_participant_group
+Supported Scopes: regiment
 
 --------------------
 
-require_domain_in_sub_region - Is it required that some part of the domain of participants is in the sub-region?
-require_domain_in_sub_region = yes/no
+is_hired_maa_regiment - Was target MaA regiment hired from merc or holy order
 Traits: yes/no 
-Supported Scopes: situation_participant_group
+Supported Scopes: regiment
 
 --------------------
 
-require_realm_in_sub_region - Is it required that some part of the realm of participants is in the sub-region?
-require_realm_in_sub_region = yes/no
+is_maa_in_combat - Is target MaA regiment engaged in combat
 Traits: yes/no 
-Supported Scopes: situation_participant_group
+Supported Scopes: regiment
+
+--------------------
+
+is_maa_type - Check MaA type of a regiment
+scope:regiment = { is_maa_type = light_footmen }
+Traits: class CMenAtArmsTypeDatabase key
+Supported Scopes: regiment
+
+--------------------
+
+is_personal_maa_regiment - Is target MaA regiment personal
+Traits: yes/no 
+Supported Scopes: regiment
+
+--------------------
+
+is_raised - Is target MaA regiment raised
+Traits: yes/no 
+Supported Scopes: regiment
+
+--------------------
+
+is_regular_maa_regiment - Is target MaA regiment just a normal one recruited by a ruler
+Traits: yes/no 
+Supported Scopes: regiment
+
+--------------------
+
+is_title_maa_regiment - Is target MaA regiment belongs to a title
+Traits: yes/no 
+Supported Scopes: regiment
+
+--------------------
+
+is_unit_type - Check base MaA type of a regiment
+scope:regiment = { is_unit_type = skirmishers }
+Supported Scopes: regiment
+
+--------------------
+
+maa_current_troops_count - Get current number of soldiers in MaA regiment
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: regiment
+
+--------------------
+
+maa_max_troops_count - Get max number of soldiers in MaA regiment
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: regiment
+
+--------------------
+
+maa_size - Get regiment size - number of subregiments in it
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: regiment
 
 --------------------
 
@@ -8793,6 +9407,43 @@ any_target_title - Iterate through all casus belli's target titles
 any_target_title = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: casus_belli
 Supported Targets: landed_title
+
+--------------------
+
+has_task_contract_group - Has task contract of the group
+scope:character = { has_task_contract_group = group }
+Supported Scopes: task_contract
+
+--------------------
+
+has_task_contract_type - has task contract with type 
+scope:task_contract = { has_task_contract_type = type_name }
+Supported Scopes: task_contract
+
+--------------------
+
+is_criminal - Is the contract type of criminal nature?
+Traits: yes/no 
+Supported Scopes: task_contract
+
+--------------------
+
+is_valid_to_keep - Is contract valid to keep?
+Traits: yes/no 
+Supported Scopes: task_contract
+
+--------------------
+
+task_contract_tier - Tier value for task contract
+scope:task_contract = { task_contract_tier = num }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: task_contract
+
+--------------------
+
+time_since_contract_taken - Days since the task contract was accepted.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: task_contract
 
 --------------------
 
@@ -9142,28 +9793,128 @@ Supported Scopes: travel_plan
 
 --------------------
 
-agent_slot_contribution - The contribution value given by the scoped filled agent slot.
+doctrine_has_sin - Is the target trait sinful for the doctrine in scope?
+
+scope:doctrine = {
+	doctrine_has_sin = gluttonous
+}
+Traits: class CTraitDatabase key
+Supported Scopes: doctrine
+Supported Targets: trait
+
+--------------------
+
+doctrine_has_virtue - Is the target trait virtuous for the doctrine in scope?
+
+scope:doctrine = {
+	doctrine_has_virtue = chaste
+}
+Traits: class CTraitDatabase key
+Supported Scopes: doctrine
+Supported Targets: trait
+
+--------------------
+
+any_legend_promoter - Gets all promoters of the scoped legend
+any_legend_promoter = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: legend
+Supported Targets: character
+
+--------------------
+
+any_spread_province - Gets all provinces the scoped legend has spread into
+any_spread_province = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: legend
+Supported Targets: province
+
+--------------------
+
+days_since_legend_completion - Days since when the legend was completed.
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: agent_slot
+Supported Scopes: legend
 
 --------------------
 
-agent_slot_has_contribution_type - Does the agent slot have provide the given type of contribution?
-Supported types: 'secrecy', 'success_chance', 'success_chance_growth', 'success_chance_max' and 'speed'
-agent_slot_has_contribution_type = <type>
-Supported Scopes: agent_slot
+days_since_legend_start_date - Days since when the legend was created.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: legend
 
 --------------------
 
-is_agent_slot_type - Does the Agent Slot have the given type?
-is_agent_slot_type = key
-Supported Scopes: agent_slot
+has_legend_chapter - Does the legend have the given localization key set for the named chapter.
+has_legend_chapter = { name = opening localization_key = default_legend_opening }
+has_legend_chapter = opening
+Supported Scopes: legend
 
 --------------------
 
-is_filled - Is this agent slot filled?
+has_legend_chronicle - Does the scoped legend have the specified legend chronicle.
+has_legend_chronicle = beast_slayer
+Supported Scopes: legend
+
+--------------------
+
+has_legend_county_modifier - Does the scoped legend have a given modifier affecting the counties
+has_legend_county_modifier = name
+Supported Scopes: legend
+
+--------------------
+
+has_legend_county_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the counties
+has_legend_county_modifier_duration_remaining = name
+Supported Scopes: legend
+
+--------------------
+
+has_legend_owner_modifier - Does the scoped legend have a given modifier affecting the owner
+has_legend_owner_modifier = name
+Supported Scopes: legend
+
+--------------------
+
+has_legend_owner_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the owner
+has_legend_owner_modifier_duration_remaining = name
+Supported Scopes: legend
+
+--------------------
+
+has_legend_province_modifier - Does the scoped legend have a given modifier affecting the provinces
+has_legend_province_modifier = name
+Supported Scopes: legend
+
+--------------------
+
+has_legend_province_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the provinces
+has_legend_province_modifier_duration_remaining = name
+Supported Scopes: legend
+
+--------------------
+
+is_legend_completed - Is the scoped legend completed?.
+scope:legend = {
+	is_legend_completed = yes
+}
 Traits: yes/no 
-Supported Scopes: agent_slot
+Supported Scopes: legend
+
+--------------------
+
+legend_completion_date - Date when the legend was completed.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: legend
+
+--------------------
+
+legend_quality - Get the quality of this legend.
+legend_quality = famed
+Traits: famed, illustrious, mythical
+Supported Scopes: legend
+
+--------------------
+
+legend_start_date - Date when the legend was created.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: legend
 
 --------------------
 
@@ -9188,10 +9939,31 @@ Supported Scopes: combat
 
 --------------------
 
+any_clerical_elector_title - Iterate through all active clerical elector titles with holders in this faith
+any_clerical_elector_title = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
+any_clerical_region_title - Clerical titles for regions of this faith
+any_clerical_region_title = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
 any_defensive_great_holy_wars - Iterate through all great holy wars this faith is defending against
 any_defensive_great_holy_wars = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: faith
 Supported Targets: ghw
+
+--------------------
+
+any_eminent_holy_site - Iterate through all active eminent holy sites of a faith. Equivalent to holy_site with is_eminent = yes, and the list list_size: counts eminent sites by
+any_eminent_holy_site = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: holy_site
 
 --------------------
 
@@ -9202,10 +9974,45 @@ Supported Targets: character
 
 --------------------
 
+any_faith_county - Iterate through all counties of the faith
+any_faith_county = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
+any_faith_duchy - Iterate through all duchies of the faith (duchies with at least one county of the faith
+any_faith_duchy = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
+any_faith_empire - Iterate through all empires of the faith (empires with at least one county of the faith
+any_faith_empire = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
+any_faith_hegemony - Iterate through all hegemonies of the faith (hegemonies with at least one county of the faith
+any_faith_hegemony = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
 any_faith_holy_order - Iterate through all holy orders of the faith
 any_faith_holy_order = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: faith
 Supported Targets: holy_order
+
+--------------------
+
+any_faith_kingdom - Iterate through all kingdoms of the faith (kingdoms with at least one county of the faith
+any_faith_kingdom = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
 
 --------------------
 
@@ -9216,6 +10023,13 @@ Supported Targets: character
 
 --------------------
 
+any_faith_rite - Iterates through all rites of the scoped faith
+any_faith_rite = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: rite
+
+--------------------
+
 any_faith_ruler - Iterate through rulers of the scoped faith
 any_faith_ruler = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: faith
@@ -9223,10 +10037,56 @@ Supported Targets: character
 
 --------------------
 
-any_holy_site - Iterate through all holy site baronies of a faith
+any_faith_subordinate - Iterates through all religious subordinates (entire hierarchy excluding any Head-of-Faith) of the scoped faith. Challengers (antipopes) are considered subordinates to the top superior, so be careful
+any_faith_subordinate = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: character
+
+--------------------
+
+any_faith_top_subordinate - Iterates through all religious top subordinates (first level under any Head-of-Faith) of the scoped faith. Challengers (antipopes) are considered subordinates to the top superior, so be careful
+any_faith_top_subordinate = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: character
+
+--------------------
+
+any_holy_site - any/every/random_holy_site = {
+	is_eminent = yes/no   # optional; omit to iterate every holy site of the faith
+}
+Iterate through all active holy sites of a faith, optionally only the eminent or only the non-eminent ones.
+For the eminent ones prefer the dedicated eminent_holy_site list, which list_size: also works with.
 any_holy_site = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: faith
+Supported Targets: holy_site
+
+--------------------
+
+any_holy_site_barony - Iterate through all active holy site baronies of a faith
+any_holy_site_barony = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
 Supported Targets: landed_title
+
+--------------------
+
+any_neighboring_faith - Iterates through all faiths with a county bordering a county of the faith in scope. Potentially expensive, use with caution
+any_neighboring_faith = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: faith
+
+--------------------
+
+any_religious_head_challenger - Iterate through all challenger titles of a faith
+any_religious_head_challenger = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: landed_title
+
+--------------------
+
+any_saint - Iterate through all saints of a faith
+any_saint = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: faith
+Supported Targets: character
 
 --------------------
 
@@ -9235,7 +10095,7 @@ Supported Scopes: faith
 
 --------------------
 
-controls_holy_site_with_parameter - Does scoped faith control a holy site with given parameter?
+controls_holy_site_with_parameter - Does scoped faith control an active holy site with given parameter?
 scope:faith = { controls_holy_site_with_parameter = some_parameter }
 Supported Scopes: faith
 
@@ -9247,7 +10107,12 @@ Supported Scopes: faith
 
 --------------------
 
-faith_hostility_level - What is the faith's hostility level towards the target faith? faith_hostility_level { target = scope:some_faith value > 1 }
+faith_hostility_level - What is the faith's hostility level towards the target faith?
+
+faith_hostility_level = {
+	target = scope:some_faith
+	value > 1
+}
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: faith
 
@@ -9270,14 +10135,26 @@ Supported Scopes: faith
 
 --------------------
 
-has_doctrine - Does the given faith have the given doctrine?? has_doctrine = doctrine_key
+has_county_of_faith - Does the ruler has at least one county following the target faith in their realm?
+
+scope:ruler = {
+	has_county_of_faith = scope:faith
+}
+Traits: faith scope
+Supported Scopes: faith
+Supported Targets: faith
+
+--------------------
+
+has_doctrine - Does the given faith have the given doctrine?
+has_doctrine = doctrine_key
 Traits: class CDoctrineTypeDatabase key
 Supported Scopes: faith
 Supported Targets: doctrine
 
 --------------------
 
-has_doctrine_parameter - Does the given faith have the given doctrine parameter? Can only check for bool parameters. has_doctrine_parameter = parameter_key
+has_doctrine_parameter - Does the given faith have the given parameter? Will check both in core tenets and doctrines.has_doctrine_parameter = parameter_key
 Supported Scopes: faith
 
 --------------------
@@ -9306,9 +10183,56 @@ Supported Scopes: faith
 
 --------------------
 
+has_saint_character - Does the faith in scope has the target character as saint?
+
+scope:faith = {
+	has_saint_character = scope:character_to_check
+}
+Traits: character scope
+Supported Scopes: faith
+Supported Targets: character
+
+--------------------
+
+has_tenet - Does the given faith have the given tenet?
+has_tenet = tenet_key
+Traits: class CTenetTypeDatabase key
+Supported Scopes: faith
+Supported Targets: tenet
+
+--------------------
+
+heresy_threshold - What is the faith's heresy threshold? Default is NRite.RITE_DIVERGENCE_HERETICAL_THRESHOLD but can change with doctrines.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: faith
+
+--------------------
+
 holy_sites_controlled - How many holy sites does the faith control? holy_sites_controlled > 1
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: faith
+
+--------------------
+
+is_dead_faith - Is the faith in scope dead? To fulfill the condition it has to have no counties or characters practicing the faith, and 
+Traits: yes/no 
+Supported Scopes: faith
+
+--------------------
+
+is_faith_eminent_holy_site - Is the given holy site an eminent holy site of the scoped faith?
+scope:faith = { is_faith_eminent_holy_site = scope:holy_site }
+Traits: holy_site scope
+Supported Scopes: faith
+Supported Targets: holy_site
+
+--------------------
+
+is_faith_holy_site - Is the given holy site a holy site of the scoped faith, eminent or not?
+scope:faith = { is_faith_holy_site = scope:holy_site }
+Traits: holy_site scope
+Supported Scopes: faith
+Supported Targets: holy_site
 
 --------------------
 
@@ -9331,7 +10255,21 @@ Supported Scopes: faith
 
 --------------------
 
-trait_is_sin - Does the scoped faith consider the given trait a sin?
+tenet_popularity - What is the tenet popularity for the faith in scope?
+faith = {
+	tenet_popularity = {
+		target = scope:tenet
+		value > 1
+	}
+
+	\"tenet_popularity(tenet:some_tenet)\" == 10
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: faith
+
+--------------------
+
+trait_is_sin - Does the mainline rite of the scoped faith consider the given trait a sin?
 trait_is_sin = lustful
 Traits: class CTraitDatabase key
 Supported Scopes: faith
@@ -9339,17 +10277,11 @@ Supported Targets: trait
 
 --------------------
 
-trait_is_virtue - Does the scoped faith consider the given trait a virtue?
+trait_is_virtue - Does the mainline rite of the scoped faith consider the given trait a virtue?
 trait_is_virtue = lustful
 Traits: class CTraitDatabase key
 Supported Scopes: faith
 Supported Targets: trait
-
---------------------
-
-has_tradition_category - has_tradition_category = realm
-Does the scoped tradition belong to the specified category?
-Supported Scopes: culture_tradition
 
 --------------------
 
@@ -9430,30 +10362,8 @@ Supported Scopes: ghw
 
 --------------------
 
-any_tax_slot_vassal - Iterates through all Vassals assigned to the scoped Tax Slot
-any_tax_slot_vassal = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: tax_slot
-Supported Targets: character
-
---------------------
-
-available_taxpayer_slots - How many slots for taxpayers are available in scoped tax slot?
-scope:tax_slot = { available_tax_player_slots > 2 }
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: tax_slot
-
---------------------
-
-has_tax_collector - has_tax_collector = yes
-Does the scoped Tax Slot have any Tax Collector employed?
-Traits: yes/no 
-Supported Scopes: tax_slot
-
---------------------
-
-is_active_obligation - Is this the current active tax obligation?
-scope:tax_slot = { is_active_obligation = obligation_key }
-Supported Scopes: tax_slot
+government_type_has_flag - checks if the government type has a specific flag
+Supported Scopes: government_type
 
 --------------------
 
@@ -9509,127 +10419,37 @@ Supported Scopes: character_memory
 
 --------------------
 
-domicile_building_has_free_internal_slot - Does scoped domicile have building with any free internal building slots?
-scope:domicile = { domicile_building_has_free_internal_slot = domicile building key }
-Supported Scopes: domicile
+any_infected_province - Gets all provinces infected by the scoped epidemic
+any_infected_province = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: epidemic
+Supported Targets: province
 
 --------------------
 
-domicile_uses_culture_and_faith - Does the scoped domicile use culture and faith?
-Traits: yes/no 
-Supported Scopes: domicile
-
---------------------
-
-domicile_uses_provisions - Does the scoped domicile use provisions?
-Traits: yes/no 
-Supported Scopes: domicile
-
---------------------
-
-external_domicile_building_slots - Total amount of external building slots for scoped domicile
-scope:domicile = { external_domicile_building_slots == 5 }
+days_since_outbreak_start - Number of days since the epidemic outbreak started.
+days_since_outbreak_start >= 20
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
+Supported Scopes: epidemic
 
 --------------------
 
-free_external_domicile_building_slots - Amount of free external building slots for scoped domicile
-scope:domicile = { free_external_domicile_building_slots < 1 }
+outbreak_intensity - Get the outbreak intensity of this epidemic.
+outbreak_intensity = major
+Traits: minor, major, apocalyptic
+Supported Scopes: epidemic
+
+--------------------
+
+outbreak_start_date - Date when the epidemic outbreak began.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: epidemic
+
+--------------------
+
+total_infected_provinces - Get the total number of provinces infected over the lifetime of this epidemic.
+total_infected_provinces >= 20
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-has_domicile_building - Does scoped domicile have building of specified type?
-scope:domicile = { has_domicile_building = domicile building key }
-Supported Scopes: domicile
-
---------------------
-
-has_domicile_building_or_higher - Does scoped domicile have building or one of its upgrades?
-scope:domicile = { has_domicile_building_or_higher = domicile building key }
-Supported Scopes: domicile
-
---------------------
-
-has_domicile_construction - Is the scoped domicile currently constructing the specified building?
-scope:domicile = { has_domicile_construction = domicile building key }
-Supported Scopes: domicile
-
---------------------
-
-has_domicile_parameter - Does scoped domicile have parameter in one or more of its buildings?
-scope:domicile = { has_domicile_parameter = parameter_name }
-Supported Scopes: domicile
-
---------------------
-
-has_ongoing_domicile_construction - Does the scoped domicile have an ongoing construction?)
-scope:domicile = {
-	has_ongoing_domicile_construction = yes/no
-}
-Traits: yes/no 
-Supported Scopes: domicile
-
---------------------
-
-herd - does the scoped domicile have the required herd?
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-horde - what is the amount of currently raised horde (or potential horde if none are raised) of the scoped domicile?
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-is_domicile_type - Is the scoped domicile of domicile type?
-scope:domicile = { is_domicile_type = domicile_type_key }
-Supported Scopes: domicile
-
---------------------
-
-max_herd - what is the herd limit of the scoped domicile?
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-max_provisions - does the scoped domicile have the required max provisions?
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-num_domicile_buildings - Amount of buildings constructed for scoped domicile
-scope:domicile = { num_domicile_buildings > 0 }
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-provision_cost_to_owner - Is the provision cost from the domicile's current location to it's owner.
-In order to calculate the cost we will operate in three stages:
-1. Check if the from and to provinces are direct neighbours.
-2. Check any travel plan the domicile owner might have and see if the from and
-   to are part of the travel plan. This will require domicile's location to be
-   the first entry in the travel plan.
-3. Do a pathfind between the domicile and domicile owner's current location,
-   using that path for the cost.
-scope:domicile = {
-	provision_cost_to_owner < 100
-}
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
-
---------------------
-
-provisions - does the scoped domicile have the required provisions?
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: domicile
+Supported Scopes: epidemic
 
 --------------------
 
@@ -9781,56 +10601,30 @@ Supported Scopes: army
 
 --------------------
 
-any_contribution - Iterate through all Contributions of a given Great Project, regardless of whether they were funded or not.
-any_contribution = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: great_project
-Supported Targets: project_contribution
+any_tax_slot_vassal - Iterates through all Vassals assigned to the scoped Tax Slot
+any_tax_slot_vassal = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: tax_slot
+Supported Targets: character
 
 --------------------
 
-great_project_build_progress - The project's build progress in percentage (from 0 to 1). If the project is not being built this is 0.
-
-usage:
-<scope:great_project> = {
-	great_project_build_progress > 0.5
-}
+available_taxpayer_slots - How many slots for taxpayers are available in scoped tax slot?
+scope:tax_slot = { available_tax_player_slots > 2 }
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: great_project
+Supported Scopes: tax_slot
 
 --------------------
 
-great_project_construction_phase_is - Compare against the current construction phase of this project.
-Possible values are:
-* planned = the project is gathering funds
-* in_progress = the project has started
-* completed = the project was completed
-
-usage:
-<scope:great_project> = {
-	great_project_construction_phase = in_progress
-}
-Supported Scopes: great_project
+has_tax_collector - has_tax_collector = yes
+Does the scoped Tax Slot have any Tax Collector employed?
+Traits: yes/no 
+Supported Scopes: tax_slot
 
 --------------------
 
-great_project_days_to_completion - The number of days until the project is built, taking into account the current province holder for progress bonuses. If the project is not being built this is -1.
-
-usage:
-<scope:great_project> = {
-	great_project_days_to_completion > 365
-}
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: great_project
-
---------------------
-
-great_project_type - Check if the project is of the given type. Use the key from the project definition to compare.
-
-usage:
-<scope:great_project> = {
-	great_project_type = great_wall
-}
-Supported Scopes: great_project
+is_active_obligation - Is this the current active tax obligation?
+scope:tax_slot = { is_active_obligation = obligation_key }
+Supported Scopes: tax_slot
 
 --------------------
 
@@ -10122,6 +10916,15 @@ Supported Scopes: province
 
 --------------------
 
+new_clerical_region_size - What size will get a new clerical region if created in this province
+scope:province = {
+	new_clerical_region_size > 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: province
+
+--------------------
+
 num_buildings - How many normal buildings are there? Duchy and such buildings do not count. Building under construction does count
 num_buildings > 3
 Traits: <, <=, =, !=, >, >=
@@ -10318,73 +11121,286 @@ Supported Scopes: inspiration
 
 --------------------
 
-obligation_level_score - The score in favour of the vassal for the scoped vassal contract obligation level
-obligation_level_score > 2
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: vassal_contract_obligation_level
+tenet_has_sin - Is the target trait sinful for the tenet in scope?
+
+scope:tenet = {
+	tenet_has_sin = gluttonous
+}
+Traits: class CTraitDatabase key
+Supported Scopes: tenet
+Supported Targets: trait
 
 --------------------
 
-has_task_contract_group - Has task contract of the group
-scope:character = { has_task_contract_group = group }
-Supported Scopes: task_contract
+tenet_has_virtue - Is the target trait virtuous for the tenet in scope?
+
+scope:tenet = {
+	tenet_has_virtue = chaste
+}
+Traits: class CTraitDatabase key
+Supported Scopes: tenet
+Supported Targets: trait
 
 --------------------
 
-has_task_contract_type - has task contract with type 
-scope:task_contract = { has_task_contract_type = type_name }
-Supported Scopes: task_contract
+any_opposite_trait - Iterate through all opposite traits of the scoped trait
+any_opposite_trait = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: trait
+Supported Targets: trait
 
 --------------------
 
-is_criminal - Is the contract type of criminal nature?
+has_trait_category - Does the scoped trait belong to the given trait cateogry.
+has_trait_category = health
+Traits: personality, education, childhood, commander, winter_commander, lifestyle, court_type, fame, health
+Supported Scopes: trait
+
+--------------------
+
+has_trait_flag - Does the scoped trait have the given flag.
+has_trait_flag = can_not_marry
+Supported Scopes: trait
+
+--------------------
+
+is_opposite_of_trait - Is the scoped trait an opposite trait of the target trait.
+is_opposite_of_trait = scope:trait
+Traits: class CTraitDatabase key
+Supported Scopes: trait
+Supported Targets: trait
+
+--------------------
+
+domicile_building_has_free_internal_slot - Does scoped domicile have building with any free internal building slots?
+scope:domicile = { domicile_building_has_free_internal_slot = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+domicile_uses_culture_and_faith - Does the scoped domicile use culture and faith?
 Traits: yes/no 
-Supported Scopes: task_contract
+Supported Scopes: domicile
 
 --------------------
 
-is_valid_to_keep - Is contract valid to keep?
+domicile_uses_provisions - Does the scoped domicile use provisions?
 Traits: yes/no 
-Supported Scopes: task_contract
+Supported Scopes: domicile
 
 --------------------
 
-task_contract_tier - Tier value for task contract
-scope:task_contract = { task_contract_tier = num }
+external_domicile_building_slots - Total amount of external building slots for scoped domicile
+scope:domicile = { external_domicile_building_slots == 5 }
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: task_contract
+Supported Scopes: domicile
 
 --------------------
 
-time_since_contract_taken - Days since the task contract was accepted.
+free_external_domicile_building_slots - Amount of free external building slots for scoped domicile
+scope:domicile = { free_external_domicile_building_slots < 1 }
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: task_contract
+Supported Scopes: domicile
 
 --------------------
 
-region_is_adjacent - Checks if given region is adjacent or overlaps with the target region.
-You can use both situation subregions or geographical regions as scopes. Targets a geographical bregion.
+has_domicile_building - Does scoped domicile have building of specified type?
+scope:domicile = { has_domicile_building = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+has_domicile_building_or_higher - Does scoped domicile have building or one of its upgrades?
+scope:domicile = { has_domicile_building_or_higher = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+has_domicile_construction - Is the scoped domicile currently constructing the specified building?
+scope:domicile = { has_domicile_construction = domicile building key }
+Supported Scopes: domicile
+
+--------------------
+
+has_domicile_parameter - Does scoped domicile have parameter in one or more of its buildings?
+scope:domicile = { has_domicile_parameter = parameter_name }
+Supported Scopes: domicile
+
+--------------------
+
+has_ongoing_domicile_construction - Does the scoped domicile have an ongoing construction?)
+scope:domicile = {
+	has_ongoing_domicile_construction = yes/no
+}
+Traits: yes/no 
+Supported Scopes: domicile
+
+--------------------
+
+herd - does the scoped domicile have the required herd?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+horde - what is the amount of currently raised horde (or potential horde if none are raised) of the scoped domicile?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+is_domicile_type - Is the scoped domicile of domicile type?
+scope:domicile = { is_domicile_type = domicile_type_key }
+Supported Scopes: domicile
+
+--------------------
+
+max_herd - what is the herd limit of the scoped domicile?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+max_provisions - does the scoped domicile have the required max provisions?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+num_domicile_buildings - Amount of buildings constructed for scoped domicile
+scope:domicile = { num_domicile_buildings > 0 }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+provision_cost_to_owner - Is the provision cost from the domicile's current location to it's owner.
+In order to calculate the cost we will operate in three stages:
+1. Check if the from and to provinces are direct neighbours.
+2. Check any travel plan the domicile owner might have and see if the from and
+   to are part of the travel plan. This will require domicile's location to be
+   the first entry in the travel plan.
+3. Do a pathfind between the domicile and domicile owner's current location,
+   using that path for the cost.
+scope:domicile = {
+	provision_cost_to_owner < 100
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+provisions - does the scoped domicile have the required provisions?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: domicile
+
+--------------------
+
+any_situation_group_participant - Iterate through all characters that are part of a participation group in a situation.
+any_situation_group_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation_participant_group
+Supported Targets: character
+
+--------------------
+
+auto_add_rulers - If region rulers are automatically checked to be valid participants for this group.
+If disabled, only manually added characters could join..
+auto_add_rulers = yes/no
+Traits: yes/no 
+Supported Scopes: situation_participant_group
+
+--------------------
+
+has_participant_group_parameter - Checks if scoped participant group currently has the parameter or not
+has_participant_group_parameter = parameter_key
+Supported Scopes: situation_participant_group
+
+--------------------
+
+participant_group_has_character - Is this character a participant in this participant group?
+participant_group_has_character = scope:character
+Traits: character scope
+Supported Scopes: situation_participant_group
+Supported Targets: character
+
+--------------------
+
+participant_group_type - Is the scoped participant group of a specific type?
+participant_group_type = group_key
+Supported Scopes: situation_participant_group
+
+--------------------
+
+require_capital_in_sub_region - Is it required that the capital of participants is in the sub-region?
+require_capital_in_sub_region = yes/no
+Traits: yes/no 
+Supported Scopes: situation_participant_group
+
+--------------------
+
+require_domain_in_sub_region - Is it required that some part of the domain of participants is in the sub-region?
+require_domain_in_sub_region = yes/no
+Traits: yes/no 
+Supported Scopes: situation_participant_group
+
+--------------------
+
+require_realm_in_sub_region - Is it required that some part of the realm of participants is in the sub-region?
+require_realm_in_sub_region = yes/no
+Traits: yes/no 
+Supported Scopes: situation_participant_group
+
+--------------------
+
+culture_can_know_innovation - Can the culture gain progress towards this innovation?
 
 usage:
-scope:situation_subregion/geographical_region:key = {
-	region_is_adjacent = scope:geographical_region
+<innovation> = {
+	culture_can_know_innovation = scope:target_culture
 }
-Traits: geographical_region scope
-Supported Scopes: geographical_region, situation_sub_region
-Supported Targets: geographical_region
+Traits: culture scope
+Supported Scopes: culture_innovation
+Supported Targets: culture
 
 --------------------
 
-region_is_adjacent_situation_subregion - Checks if given region is adjacent or overlaps with the target region.
-You can use both situation subregions or geographical regions as scopes. Targets a situation subregion.
+has_innovation_parameter - Does the innovation type have this parameter?
+<innovation> = { has_innovation_parameter = name }
+Supported Scopes: culture_innovation
 
-usage:
-scope:situation_subregion/geographical_region:key = {
-	region_is_adjacent_situation_subregion = scope:situation_subregion
-}
-Traits: situation_sub_region scope
-Supported Scopes: geographical_region, situation_sub_region
-Supported Targets: situation_sub_region
+--------------------
+
+innovation_era - Does the scoped innovation belong to the specified era?
+scope:innovation = { innovation_era = culture_era_early_medieval }
+Supported Scopes: culture_innovation
+
+--------------------
+
+innovation_is_regional - Is the scoped innovation regional?
+scope:innovation = { innovation_is_regional = yes }
+Traits: yes/no 
+Supported Scopes: culture_innovation
+
+--------------------
+
+innovation_key - Is the scoped innovation the same as the specified one?
+scope:innovation = { innovation_key = gunpowder }
+Supported Scopes: culture_innovation
+
+--------------------
+
+is_ahead_of_time_for_culture - Is scoped innovation ahead of time for the specified culture? same as checking if innovation era > current culture era.
+scope:innovation = { is_ahead_of_time_for_culture = scope:culture }
+Traits: culture scope
+Supported Scopes: culture_innovation
+Supported Targets: culture
+
+--------------------
+
+is_known_by_culture - Is scoped innovation known by the specified culture?
+scope:innovation = { is_known_by_culture = scope:culture }
+Traits: culture scope
+Supported Scopes: culture_innovation
+Supported Targets: culture
 
 --------------------
 
@@ -10438,6 +11454,13 @@ Supported Scopes: accolade
 has_potential_accolade_successors - Does the given Accolade's Owner have any character in their court ( including guests ) that could act as Successor of this Accolade if made into a Knight?
 Traits: yes/no 
 Supported Scopes: accolade
+
+--------------------
+
+any_organization_member - Iterate through all members of an organization
+any_organization_member = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: organization
+Supported Targets: character
 
 --------------------
 
@@ -10577,143 +11600,6 @@ Supported Scopes: combat_side
 
 --------------------
 
-any_participant_group - Iterate through all participant groups of the situation (in all sub-regions)
-any_participant_group = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation
-Supported Targets: situation_participant_group
-
---------------------
-
-any_situation_county - Iterate through all counties that are involved in a situation
-any_situation_county = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation
-Supported Targets: landed_title
-
---------------------
-
-any_situation_participant - Iterate through all characters that are participating in a situation.
-any_situation_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation
-Supported Targets: character
-
---------------------
-
-any_situation_sub_region - Iterate through all sub-regions of a situation
-any_situation_sub_region = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation
-Supported Targets: situation_sub_region
-
---------------------
-
-has_situation_top_phase_parameter - Checks if top sub-region has phase parameter or not
-has_situation_top_phase_parameter = parameter_key
-Supported Scopes: situation
-
---------------------
-
-is_manual_participant - Is this character considered a manual participant candidate in this situation?
-is_manual_participant = yes/no
-Traits: character scope
-Supported Scopes: situation
-Supported Targets: character
-
---------------------
-
-is_situation_unique - Is the type of scoped situation unique.
-is_situation_unique = yes/no
-Traits: yes/no 
-Supported Scopes: situation
-
---------------------
-
-situation_current_phase - Checks if situation current phase equals phase_type_key (will take first sub-region)
-situation_current_phase = phase_type_key
-Supported Scopes: situation
-
---------------------
-
-situation_days_since_end_date - Days since when the situation was completed.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation
-
---------------------
-
-situation_days_since_start_date - Days since the situation started.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation
-
---------------------
-
-situation_end_date - Date when the situation was completed.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation
-
---------------------
-
-situation_has_catalyst - Checks if any sub-region of the situation has any of their future phases affected by the given catalyst.
-has_situation_top_catalyst = situation_catalyst_key
-Supported Scopes: situation
-
---------------------
-
-situation_start_date - Date when the situation started.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation
-
---------------------
-
-situation_top_has_catalyst - Checks if top sub-region of situation has any of the future phases affected by the given catalyst
-has_situation_top_catalyst = situation_catalyst_key
-Supported Scopes: situation
-
---------------------
-
-situation_top_has_county - Checks if top sub-region of situation contains county
-situation_top_has_county = scope:county
-Traits: province target province scope
-Supported Scopes: situation
-Supported Targets: province
-
---------------------
-
-situation_top_has_province - Checks if top sub-region of situation contains province
-situation_top_has_province = scope:province
-Traits: province target province scope
-Supported Scopes: situation
-Supported Targets: province
-
---------------------
-
-situation_top_phase_days_since_start_date - Days since the situation top phase started.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation
-
---------------------
-
-situation_top_phase_days_until_end_date - Days until the situation top phase completes.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation
-
---------------------
-
-situation_top_phase_end_date - Date when the situation top phase Ended.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation
-
---------------------
-
-situation_top_phase_start_date - Date when the situation top phase started.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation
-
---------------------
-
-situation_type - Is the scoped situation of a specific situation type?
-situation_type = situation_key
-Supported Scopes: situation
-
---------------------
-
 any_dynasty_house - Iterate through all houses in dynasty
 any_dynasty_house = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: dynasty
@@ -10748,6 +11634,16 @@ Supported Scopes: dynasty
 
 dynasty_can_unlock_relevant_perk - Can the scoped dynasty unlock a 'relevant' perk? Relevant meaning one that isn't the first in its track unless the dynasty has no partially filled tracks
 Traits: yes/no 
+Supported Scopes: dynasty
+
+--------------------
+
+dynasty_has_base_name - Does the given dynasty have the given base name? Remember that characters can be lowborn and have no dynasty.
+
+usage:
+scope:character = {
+	dynasty ?= { dynasty_has_base_name = "dynn_name_key" }
+}
 Supported Scopes: dynasty
 
 --------------------
@@ -10871,6 +11767,12 @@ Supported Scopes: dynasty
 
 --------------------
 
+pam_legacy_track_perks - How many perks in the lifestyle does this dynasty have?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: dynasty
+
+--------------------
+
 tgp_china_legacy_track_perks - How many perks in the lifestyle does this dynasty have?
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: dynasty
@@ -10898,108 +11800,6 @@ Supported Scopes: dynasty
 mercenary_company_expiration_days - How many days are left in the mercenary contract. 0 if not hired.
 Traits: <, <=, =, !=, >, >=
 Supported Scopes: mercenary_company
-
---------------------
-
-any_situation_sub_region_county - Iterate through all counties of a situation sub-region (warning: not fast)
-any_situation_sub_region_county = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation_sub_region
-Supported Targets: landed_title
-
---------------------
-
-any_situation_sub_region_geographical_region - Iterate through all geographical regions of a situation sub-region
-any_situation_sub_region_geographical_region = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation_sub_region
-Supported Targets: geographical_region
-
---------------------
-
-any_situation_sub_region_participant - Iterate through all characters that are participating in a situation, in a specific subregion
-any_situation_sub_region_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation_sub_region
-Supported Targets: character
-
---------------------
-
-any_situation_sub_region_participant_group - Iterate through all participant groups of the situation sub-region
-any_situation_sub_region_participant_group = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: situation_sub_region
-Supported Targets: situation_participant_group
-
---------------------
-
-has_sub_region_phase_parameter - Checks if sub-region has phase parameter or not
-has_sub_region_phase_parameter = parameter_key
-Supported Scopes: situation_sub_region
-
---------------------
-
-phase_takeover_duration_days - Checks the takeover days left of a future phase in this sub-region.
-phase_takeover_duration_days:future_phase_key <= scripted_value
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation_sub_region
-
---------------------
-
-phase_takeover_points - Checks the takeover points of a future phase in this sub-region.
-phase_takeover_points:future_phase_key <= scripted_value
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation_sub_region
-
---------------------
-
-situation_sub_region_has_county - Checks if scoped sub-region of a situation contains county
-situation_sub_region_has_county = scope:county
-Traits: landed_title scope
-Supported Scopes: situation_sub_region
-Supported Targets: landed_title
-
---------------------
-
-situation_sub_region_has_geographical_region - Is geographical region part of situation sub-region?
-situation_sub_region_has_geographical_region = scope:geographical_region
-Traits: class CGeographicalRegionDatabase key
-Supported Scopes: situation_sub_region
-Supported Targets: geographical_region
-
---------------------
-
-situation_sub_region_has_province - Checks if scoped sub-region of a situation contains province
-situation_sub_region_has_province = scope:province
-Traits: province target province scope
-Supported Scopes: situation_sub_region
-Supported Targets: province
-
---------------------
-
-sub_region_current_phase - Checks if sub-region current phase equals phase_type
-sub_region_current_phase = phase_type
-Supported Scopes: situation_sub_region
-
---------------------
-
-sub_region_current_phase_days_since_start_date - Days since the sub region current situation phase started.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation_sub_region
-
---------------------
-
-sub_region_current_phase_days_until_end_date - Days until the sub region current situation phase ends.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: situation_sub_region
-
---------------------
-
-sub_region_current_phase_end_date - Date when the sub region current situation phase ends.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation_sub_region
-
---------------------
-
-sub_region_current_phase_start_date - Date when the sub region current situation phase started.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: situation_sub_region
 
 --------------------
 
@@ -11151,154 +11951,282 @@ Supported Scopes: scheme
 
 --------------------
 
-any_required_heir_government_type - Iterate through all defined required government types for a holding type
-any_required_heir_government_type = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: holding_type
-Supported Targets: government_type
+has_tradition_category - has_tradition_category = realm
+Does the scoped tradition belong to the specified category?
+Supported Scopes: culture_tradition
 
 --------------------
 
-has_holding_parameter - Does the scoped holding type have the given parameter?
-has_holding_parameter = parameter
-Supported Scopes: holding_type
+any_rite_county - Iterate through all counties of the rite
+any_rite_county = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: landed_title
 
 --------------------
 
-has_required_heir_governments - Does the scoped holding type have required heir government types defined?
-has_required_heir_governments = yes/no
+any_rite_culture - Iterate through all cultures associated with this rite
+any_rite_culture = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: culture
+
+--------------------
+
+any_rite_duchy - Iterate through all duchies of the rite (duchies with at least one county of the rite
+any_rite_duchy = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: landed_title
+
+--------------------
+
+any_rite_empire - Iterate through all empires of the rite (empires with at least one county of the rite
+any_rite_empire = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: landed_title
+
+--------------------
+
+any_rite_hegemony - Iterate through all hegemonies of the rite (hegemonies with at least one county of the rite
+any_rite_hegemony = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: landed_title
+
+--------------------
+
+any_rite_kingdom - Iterate through all kingdoms of the rite (kingdoms with at least one county of the rite
+any_rite_kingdom = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: landed_title
+
+--------------------
+
+any_rite_tenet - Iterate through the core tenets of a Rite.
+Can filter by core/permitted status for its parent faith.
+
+scope:rite = {
+  random_rite_tenet = {
+	status = core | permitted | prohibited | known
+    ...
+  }
+}
+any_rite_tenet = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: rite
+Supported Targets: tenet
+
+--------------------
+
+can_convert_to_rite - Does the target rite allow conversion? See also set_can_convert_to_rite
 Traits: yes/no 
-Supported Scopes: holding_type
+Supported Scopes: rite
 
 --------------------
 
-any_opposite_trait - Iterate through all opposite traits of the scoped trait
-any_opposite_trait = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: trait
-Supported Targets: trait
+divergence - Divergence between rites
+scope:rite = {
+	"divergence(scope:target_rite)" > 60
+}
 
---------------------
-
-has_trait_category - Does the scoped trait belong to the given trait cateogry.
-has_trait_category = health
-Traits: personality, education, childhood, commander, winter_commander, lifestyle, court_type, fame, health
-Supported Scopes: trait
-
---------------------
-
-has_trait_flag - Does the scoped trait have the given flag.
-has_trait_flag = can_not_marry
-Supported Scopes: trait
-
---------------------
-
-is_opposite_of_trait - Is the scoped trait an opposite trait of the target trait.
-is_opposite_of_trait = scope:trait
-Traits: class CTraitDatabase key
-Supported Scopes: trait
-Supported Targets: trait
-
---------------------
-
-any_legend_promoter - Gets all promoters of the scoped legend
-any_legend_promoter = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: legend
-Supported Targets: character
-
---------------------
-
-any_spread_province - Gets all provinces the scoped legend has spread into
-any_spread_province = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: legend
-Supported Targets: province
-
---------------------
-
-days_since_legend_completion - Days since when the legend was completed.
+scope:rite = {
+	divergence = {
+		target = scope:target_rite
+		value > 60
+	}
+}
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: legend
+Supported Scopes: rite
 
 --------------------
 
-days_since_legend_start_date - Days since when the legend was created.
-Traits: <, <=, =, !=, >, >=
-Supported Scopes: legend
+has_at_least_tenet_status - Does the Rite hold the specified stance on the specified tenet? Will be true also if the tenet has a more welcoming/defined stance.
+Rites only override core tenets from the Faith, and Core Tenets from the Faith are Permitted for the Rite.
+
+unknown < known < permitted < core
+unknown < known < prohibited
+
+<rite> = {
+	has_at_least_tenet_status = {
+		tenet = tenet_communion
+		status = unknown | known | prohibited | permitted | core
+	}
+}
+Traits: class CTenetTypeDatabase key
+Supported Scopes: rite
+Supported Targets: tenet
 
 --------------------
 
-has_legend_chapter - Does the legend have the given localization key set for the named chapter.
-has_legend_chapter = { name = opening localization_key = default_legend_opening }
-has_legend_chapter = opening
-Supported Scopes: legend
+has_tenet_status - Does the Rite hold the specified stance on the specified tenet? Only exact match.
+Rites only override core tenets from the Faith, and Core Tenets from the Faith are Permitted for the Rite.
+
+<rite> = {
+	has_tenet_status = {
+		tenet = tenet_communion
+		status = unknown | known | prohibited | permitted | core
+	}
+}
+Traits: class CTenetTypeDatabase key
+Supported Scopes: rite
+Supported Targets: tenet
 
 --------------------
 
-has_legend_chronicle - Does the scoped legend have the specified legend chronicle.
-has_legend_chronicle = beast_slayer
-Supported Scopes: legend
+is_inactive_rite - Is the scoped rite inactive? True if no characters and no counties are following it.
+Traits: yes/no 
+Supported Scopes: rite
 
 --------------------
 
-has_legend_county_modifier - Does the scoped legend have a given modifier affecting the counties
-has_legend_county_modifier = name
-Supported Scopes: legend
+is_rite_enabled - Is the Rite enabled? It can be disabled either in history or via effect
 
---------------------
-
-has_legend_county_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the counties
-has_legend_county_modifier_duration_remaining = name
-Supported Scopes: legend
-
---------------------
-
-has_legend_owner_modifier - Does the scoped legend have a given modifier affecting the owner
-has_legend_owner_modifier = name
-Supported Scopes: legend
-
---------------------
-
-has_legend_owner_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the owner
-has_legend_owner_modifier_duration_remaining = name
-Supported Scopes: legend
-
---------------------
-
-has_legend_province_modifier - Does the scoped legend have a given modifier affecting the provinces
-has_legend_province_modifier = name
-Supported Scopes: legend
-
---------------------
-
-has_legend_province_modifier_duration_remaining - Does the scoped legend have the duration remaining on a given modifier affecting the provinces
-has_legend_province_modifier_duration_remaining = name
-Supported Scopes: legend
-
---------------------
-
-is_legend_completed - Is the scoped legend completed?.
-scope:legend = {
-	is_legend_completed = yes
+scope:rite = {
+	is_rite_enabled = yes
 }
 Traits: yes/no 
-Supported Scopes: legend
+Supported Scopes: rite
 
 --------------------
 
-legend_completion_date - Date when the legend was completed.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: legend
+num_rite_character_followers - Returns how many characters follow the given faith
+
+num_rite_character_followers > 0
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: rite
 
 --------------------
 
-legend_quality - Get the quality of this legend.
-legend_quality = famed
-Traits: famed, illustrious, mythical
-Supported Scopes: legend
+num_rite_county_followers - Returns how many counties follow the given rite
+
+num_rite_county_followers > 0
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: rite
 
 --------------------
 
-legend_start_date - Date when the legend was created.
-Traits: <, <=, =, >, >= valid date
-Supported Scopes: legend
+rite_can_choose_doctrine - Can the given rite pick the target doctrine? Checks both is_shown and can_pick, using the head of rite as reference character.
+<scope:rite> = { rite_can_choose_doctrine = doctrine_key }
+Traits: class CDoctrineTypeDatabase key
+Supported Scopes: rite
+Supported Targets: doctrine
+
+--------------------
+
+rite_can_choose_tenet - Can the given rite pick the target tenet as core tenet? Checks both is_shown and can_pick, using the head of rite as reference character.
+<scope:rite> = { rite_can_choose_tenet = tenet_key }
+Traits: class CTenetTypeDatabase key
+Supported Scopes: rite
+Supported Targets: tenet
+
+--------------------
+
+rite_counties - How many counties does rite control?
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: rite
+
+--------------------
+
+rite_has_allowed_gender_for_clergy - Is the target character of the allowed gender to be clergy of the rite in scope?
+Traits: character target 
+Supported Scopes: rite
+
+--------------------
+
+rite_has_culture - Is the given rite associated with the target culture
+Traits: culture scope
+Supported Scopes: rite
+Supported Targets: culture
+
+--------------------
+
+rite_has_doctrine - Does the given rite have the given doctrine?
+rite_has_doctrine = doctrine_key
+Traits: class CDoctrineTypeDatabase key
+Supported Scopes: rite
+Supported Targets: doctrine
+
+--------------------
+
+rite_has_dominant_ruling_gender - Is the target character's gender a dominant ruling gender of the rite? Also evaluates to true if there's no dominant ruling gender
+Traits: character target 
+Supported Scopes: rite
+
+--------------------
+
+rite_has_parameter - Does the given rite have the given parameter? Will check both in core tenets and doctrines.<scope:rite> = { rite_has_parameter = parameter_key }
+Supported Scopes: rite
+
+--------------------
+
+rite_has_preferred_gender_for_clergy - Is the target character of the preferred gender to be clergy of the rite in scope?
+Traits: character target 
+Supported Scopes: rite
+
+--------------------
+
+rite_has_tenet - Does the given rite have the given tenet as core tenet?
+<scope:rite> = { has_tenet = tenet_key }
+Traits: class CTenetTypeDatabase key
+Supported Scopes: rite
+Supported Targets: tenet
+
+--------------------
+
+rite_hostility_level - What is the rite's hostility level towards the target rite?
+
+rite_hostility_level = {
+	target = scope:some_rite
+	value > 1
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: rite
+
+--------------------
+
+rite_hostility_level_comparison - Compares the scoped rite's hostility level towards two other rites. rite_hostility_level_comparison { rite1 > rite2 }
+Supported Scopes: rite
+
+--------------------
+
+rite_religion_tag - checks the tag of the religion of the current rite
+Supported Scopes: rite
+
+--------------------
+
+trait_base_spiritual_fulfillment - Signed base spiritual fulfillment the target trait contributes under the scoped rite, with no
+character or personal-tenet context: positive for a virtue, negative for a sin, 0 if neutral.
+
+<scope:rite> = {
+	trait_base_spiritual_fulfillment = {
+		target = scope:some_trait
+		value < 0
+	}
+
+	"trait_base_spiritual_fulfillment(scope:some_trait)" < 0
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: rite
+
+--------------------
+
+trait_is_sin_rite - Does the scoped rite consider given trait a sin?
+This status may come from the rite's core tenets or the approved tenets of the parent faith.
+
+<scope:rite> = {
+	trait_is_sin_rite = trait:vengeful
+}
+Traits: class CTraitDatabase key
+Supported Scopes: rite
+Supported Targets: trait
+
+--------------------
+
+trait_is_virtue_rite - Does the scoped rite consider given trait a virtue?
+This status may come from the rite's core tenets or the approved tenets of the parent faith.
+
+<scope:rite> = {
+	trait_is_virtue_rite = trait:vengeful
+}
+Traits: class CTraitDatabase key
+Supported Scopes: rite
+Supported Targets: trait
 
 --------------------
 
@@ -11318,6 +12246,13 @@ Supported Targets: landed_title
 
 any_culture_empire - Iterate through all empires of the culture (empires with at least one county of the culture
 any_culture_empire = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: culture
+Supported Targets: landed_title
+
+--------------------
+
+any_culture_hegemony - Iterate through all hegemonies of the culture (hegemonies with at least one county of the culture
+any_culture_hegemony = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: culture
 Supported Targets: landed_title
 
@@ -11640,6 +12575,85 @@ Supported Targets: faith
 
 --------------------
 
+eminent_holy_sites_max - Maximum number of eminent holy sites for faiths of the scoped religion
+religion = { eminent_holy_sites_max > 3 }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: religion
+
+--------------------
+
+eminent_holy_sites_min - Minimum number of eminent holy sites for faiths of the scoped religion
+religion = { eminent_holy_sites_min > 0 }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: religion
+
+--------------------
+
+holy_sites_max - Maximum number of regular holy sites for faiths of the scoped religion
+religion = { holy_sites_max > 5 }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: religion
+
+--------------------
+
+holy_sites_min - Minimum number of regular holy sites for faiths of the scoped religion
+religion = { holy_sites_min > 0 }
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: religion
+
+--------------------
+
+any_holy_site_enshrined_artifact - Iterate through all enshrined artifacts in a holy site
+any_holy_site_enshrined_artifact = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: holy_site
+Supported Targets: artifact
+
+--------------------
+
+any_holy_site_faith - Iterate through all faiths that have the scoped holy site as one of theirs
+any_holy_site_faith = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: holy_site
+Supported Targets: faith
+
+--------------------
+
+holy_site_artifact_count - compare the number of artifacts in the scoped holy site's inventory
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: holy_site
+
+--------------------
+
+holy_site_has_artifact - does the scoped holy site have any artifacts in its inventory?
+Traits: yes/no 
+Supported Scopes: holy_site
+
+--------------------
+
+holy_site_has_artifact_in_slot - does the scoped holy site have an artifact equipped in the named slot?
+holy_site_has_artifact_in_slot = slot_key
+Supported Scopes: holy_site
+
+--------------------
+
+is_holy_site_type - Is the scoped holy site of the given holy site type?
+is_holy_site_type = holy_site_rome
+Supported Scopes: holy_site
+
+--------------------
+
+related_building_type - Does the scoped holy site's barony currently host this building type
+(any building whose type carries the holy_building flag)?
+related_building_type = temple_01
+Supported Scopes: holy_site
+
+--------------------
+
+total_active_artifact_rarity_sum - Sum of rarity level values (Common = 1, etc) across artifacts enshrined in the scoped holy site whose is_holy_trigger trigger passes. Holy Site needs to be appropriate for county controlling faith.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: holy_site
+
+--------------------
+
 any_artifact_claimant - Iterate through all characters with a claim on the scoped artifact
 any_artifact_claimant = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: artifact
@@ -11651,6 +12665,13 @@ any_artifact_house_claimant - Iterate through all dynasty houses with a claim on
 any_artifact_house_claimant = { <count=num/all> / <percent=fixed_point> <triggers> }
 Supported Scopes: artifact
 Supported Targets: dynasty_house
+
+--------------------
+
+any_sanctified_for_faith - Iterate through all faiths the scoped artifact is sanctified for
+any_sanctified_for_faith = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: artifact
+Supported Targets: faith
 
 --------------------
 
@@ -11706,9 +12727,47 @@ Supported Scopes: artifact
 
 --------------------
 
+has_durability_decay - Will the scoped artifact decay over time (also considering ownership type).
+Note: artifacts owned by a holy site do not decay.
+Traits: yes/no 
+Supported Scopes: artifact
+
+--------------------
+
+is_active_holy_relic_for - Can the scoped artifact benefit the holy site? (is it a relic for the controlling faith of the holy site)
+is_active_holy_relic_for = scope:holy_site
+Traits: holy_site scope
+Supported Scopes: artifact
+Supported Targets: holy_site
+
+--------------------
+
 is_equipped - is the scoped artifact currently equipped in its owners inventory?
 Traits: yes/no 
 Supported Scopes: artifact
+
+--------------------
+
+is_holy_relic - Is this artifact (potentially) a holy relic for a faith
+is_holy_relic = yes
+Traits: yes/no 
+Supported Scopes: artifact
+
+--------------------
+
+is_holy_relic_for - Is this artifact a holy relic for the target faith?
+is_holy_relic_for = scope:faith
+Traits: faith scope
+Supported Scopes: artifact
+Supported Targets: faith
+
+--------------------
+
+is_sanctified_for_faith - Is the scoped artifact sanctified for the given faith?
+is_sanctified_for_faith = faith:catholic
+Traits: faith scope
+Supported Scopes: artifact
+Supported Targets: faith
 
 --------------------
 
@@ -11730,9 +12789,212 @@ Supported Scopes: artifact
 
 --------------------
 
+rarity_level - is the scoped artifact of given rarity level? Can compare with <, >, etc. Can take number (1 = common), script number, or rarity name (`common`, `masterwork`, etc)
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: artifact
+
+--------------------
+
 should_decay - should the scoped artifact decay with time?
 Traits: yes/no 
 Supported Scopes: artifact
+
+--------------------
+
+any_required_heir_government_type - Iterate through all defined required government types for a holding type
+any_required_heir_government_type = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: holding_type
+Supported Targets: government_type
+
+--------------------
+
+has_holding_parameter - Does the scoped holding type have the given parameter?
+has_holding_parameter = parameter
+Supported Scopes: holding_type
+
+--------------------
+
+has_required_heir_governments - Does the scoped holding type have required heir government types defined?
+has_required_heir_governments = yes/no
+Traits: yes/no 
+Supported Scopes: holding_type
+
+--------------------
+
+any_participant_group - Iterate through all participant groups of the situation (in all sub-regions)
+any_participant_group = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation
+Supported Targets: situation_participant_group
+
+--------------------
+
+any_situation_county - Iterate through all counties that are involved in a situation
+any_situation_county = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation
+Supported Targets: landed_title
+
+--------------------
+
+any_situation_participant - Iterate through all characters that are participating in a situation.
+any_situation_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation
+Supported Targets: character
+
+--------------------
+
+any_situation_sub_region - Iterate through all sub-regions of a situation
+any_situation_sub_region = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation
+Supported Targets: situation_sub_region
+
+--------------------
+
+has_situation_top_phase_parameter - Checks if top sub-region has phase parameter or not
+has_situation_top_phase_parameter = parameter_key
+Supported Scopes: situation
+
+--------------------
+
+is_manual_participant - Is this character considered a manual participant candidate in this situation?
+is_manual_participant = yes/no
+Traits: character scope
+Supported Scopes: situation
+Supported Targets: character
+
+--------------------
+
+is_situation_unique - Is the type of scoped situation unique.
+is_situation_unique = yes/no
+Traits: yes/no 
+Supported Scopes: situation
+
+--------------------
+
+situation_current_phase - Checks if situation current phase equals phase_type_key (will take first sub-region)
+situation_current_phase = phase_type_key
+Supported Scopes: situation
+
+--------------------
+
+situation_days_since_end_date - Days since when the situation was completed.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation
+
+--------------------
+
+situation_days_since_start_date - Days since the situation started.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation
+
+--------------------
+
+situation_end_date - Date when the situation was completed.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation
+
+--------------------
+
+situation_has_catalyst - Checks if any sub-region of the situation has any of their future phases affected by the given catalyst.
+has_situation_top_catalyst = situation_catalyst_key
+Supported Scopes: situation
+
+--------------------
+
+situation_start_date - Date when the situation started.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation
+
+--------------------
+
+situation_top_has_catalyst - Checks if top sub-region of situation has any of the future phases affected by the given catalyst
+has_situation_top_catalyst = situation_catalyst_key
+Supported Scopes: situation
+
+--------------------
+
+situation_top_has_county - Checks if top sub-region of situation contains county
+situation_top_has_county = scope:county
+Traits: province target province scope
+Supported Scopes: situation
+Supported Targets: province
+
+--------------------
+
+situation_top_has_province - Checks if top sub-region of situation contains province
+situation_top_has_province = scope:province
+Traits: province target province scope
+Supported Scopes: situation
+Supported Targets: province
+
+--------------------
+
+situation_top_phase_days_since_start_date - Days since the situation top phase started.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation
+
+--------------------
+
+situation_top_phase_days_until_end_date - Days until the situation top phase completes.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation
+
+--------------------
+
+situation_top_phase_end_date - Date when the situation top phase Ended.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation
+
+--------------------
+
+situation_top_phase_start_date - Date when the situation top phase started.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation
+
+--------------------
+
+situation_type - Is the scoped situation of a specific situation type?
+situation_type = situation_key
+Supported Scopes: situation
+
+--------------------
+
+any_potential_contributor - Iterate through all characters that may contribute to this contribution. The list depends on the allowed_contributor_filter field of the great project for this contribution.
+Keep in mind that dead founders and non-ruler founders will yield empty lists. Contributions that don't accept funding will likewise yield empty lists.
+any_potential_contributor = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: project_contribution
+Supported Targets: character
+
+--------------------
+
+contribution_id - Checks if the Contribution in scope is of the specified type (by key).
+
+usage:
+<scope:great_project_contribution> = {
+	contribution_id = great_ballista
+}
+Supported Scopes: project_contribution
+
+--------------------
+
+contribution_is_funded - Checks if the Contribution in scope was already funded.
+
+usage:
+<scope:great_project_contribution> = {
+	contribution_is_funded = yes
+}
+Traits: yes/no 
+Supported Scopes: project_contribution
+
+--------------------
+
+contribution_is_required - Checks if the Contribution in scope must be funded in order to be able to start the Great Project.
+
+usage:
+<scope:great_project_contribution> = {
+	contribution_is_required = yes
+}
+Traits: yes/no 
+Supported Scopes: project_contribution
 
 --------------------
 
@@ -11806,6 +13068,13 @@ can_fire_position - Check if the scope task's councillor can be fired. Will chec
 scope:task = { position_can_be_fired = yes }
 Traits: yes/no 
 Supported Scopes: council_task
+
+--------------------
+
+obligation_level_score - The score in favour of the vassal for the scoped vassal contract obligation level
+obligation_level_score > 2
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: vassal_contract_obligation_level
 
 --------------------
 
@@ -11906,73 +13175,158 @@ Supported Scopes: faction
 
 --------------------
 
-any_confederation_member - Iterates through all member characters of the scoped confederation
-any_confederation_member = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: confederation
+any_situation_sub_region_county - Iterate through all counties of a situation sub-region (warning: not fast)
+any_situation_sub_region_county = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation_sub_region
+Supported Targets: landed_title
+
+--------------------
+
+any_situation_sub_region_geographical_region - Iterate through all geographical regions of a situation sub-region
+any_situation_sub_region_geographical_region = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation_sub_region
+Supported Targets: geographical_region
+
+--------------------
+
+any_situation_sub_region_participant - Iterate through all characters that are participating in a situation, in a specific subregion
+any_situation_sub_region_participant = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation_sub_region
 Supported Targets: character
 
 --------------------
 
-any_confederation_member_house - Iterates through all member houses of the scoped confederation
-any_confederation_member_house = { <count=num/all> / <percent=fixed_point> <triggers> }
-Supported Scopes: confederation
-Supported Targets: dynasty_house
+any_situation_sub_region_participant_group - Iterate through all participant groups of the situation sub-region
+any_situation_sub_region_participant_group = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: situation_sub_region
+Supported Targets: situation_participant_group
 
 --------------------
 
-cohesion - Current total cohesion of the confederation/bloc.
+has_sub_region_phase_parameter - Checks if sub-region has phase parameter or not
+has_sub_region_phase_parameter = parameter_key
+Supported Scopes: situation_sub_region
+
+--------------------
+
+phase_takeover_duration_days - Checks the takeover days left of a future phase in this sub-region.
+phase_takeover_duration_days:future_phase_key <= scripted_value
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: confederation
+Supported Scopes: situation_sub_region
 
 --------------------
 
-combined_military_strength - Current combined military power of the confederation/bloc.
+phase_takeover_points - Checks the takeover points of a future phase in this sub-region.
+phase_takeover_points:future_phase_key <= scripted_value
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: confederation
+Supported Scopes: situation_sub_region
 
 --------------------
 
-has_cohesion - Does the confederation/bloc have a cohesion?
-Traits: yes/no 
-Supported Scopes: confederation
+situation_sub_region_has_county - Checks if scoped sub-region of a situation contains county
+situation_sub_region_has_county = scope:county
+Traits: landed_title scope
+Supported Scopes: situation_sub_region
+Supported Targets: landed_title
 
 --------------------
 
-has_cohesion_level_parameter - Does current cohesion level of the given confederation/bloc have the given parameter?
+situation_sub_region_has_geographical_region - Is geographical region part of situation sub-region?
+situation_sub_region_has_geographical_region = scope:geographical_region
+Traits: class CGeographicalRegionDatabase key
+Supported Scopes: situation_sub_region
+Supported Targets: geographical_region
+
+--------------------
+
+situation_sub_region_has_province - Checks if scoped sub-region of a situation contains province
+situation_sub_region_has_province = scope:province
+Traits: province target province scope
+Supported Scopes: situation_sub_region
+Supported Targets: province
+
+--------------------
+
+sub_region_current_phase - Checks if sub-region current phase equals phase_type
+sub_region_current_phase = phase_type
+Supported Scopes: situation_sub_region
+
+--------------------
+
+sub_region_current_phase_days_since_start_date - Days since the sub region current situation phase started.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation_sub_region
+
+--------------------
+
+sub_region_current_phase_days_until_end_date - Days until the sub region current situation phase ends.
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: situation_sub_region
+
+--------------------
+
+sub_region_current_phase_end_date - Date when the sub region current situation phase ends.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation_sub_region
+
+--------------------
+
+sub_region_current_phase_start_date - Date when the sub region current situation phase started.
+Traits: <, <=, =, >, >= valid date
+Supported Scopes: situation_sub_region
+
+--------------------
+
+any_contribution - Iterate through all Contributions of a given Great Project, regardless of whether they were funded or not.
+any_contribution = { <count=num/all> / <percent=fixed_point> <triggers> }
+Supported Scopes: great_project
+Supported Targets: project_contribution
+
+--------------------
+
+great_project_build_progress - The project's build progress in percentage (from 0 to 1). If the project is not being built this is 0.
+
 usage:
-<bloc> = {
-	has_cohesion_level_parameter = <parameter_key>
+<scope:great_project> = {
+	great_project_build_progress > 0.5
 }
-Supported Scopes: confederation
-
---------------------
-
-has_leading_house - Does the confederation have a leading house?
-Traits: yes/no 
-Supported Scopes: confederation
-
---------------------
-
-is_house_based - Is the confederation house based? i.e bloc
-Traits: yes/no 
-Supported Scopes: confederation
-
---------------------
-
-member_count - Number of members in the scoped confederation
 Traits: <, <=, =, !=, >, >=
-Supported Scopes: confederation
+Supported Scopes: great_project
 
 --------------------
 
-great_project_type_is_important - Check if the specified project type is marked as important. Used to drive the notification system.
+great_project_construction_phase_is - Compare against the current construction phase of this project.
+Possible values are:
+* planned = the project is gathering funds
+* in_progress = the project has started
+* completed = the project was completed
 
 usage:
-scope:great_project_type = {
-	great_project_type_is_important = yes
+<scope:great_project> = {
+	great_project_construction_phase = in_progress
 }
-Traits: yes/no 
-Supported Scopes: great_project_type
+Supported Scopes: great_project
+
+--------------------
+
+great_project_days_to_completion - The number of days until the project is built, taking into account the current province holder for progress bonuses. If the project is not being built this is -1.
+
+usage:
+<scope:great_project> = {
+	great_project_days_to_completion > 365
+}
+Traits: <, <=, =, !=, >, >=
+Supported Scopes: great_project
+
+--------------------
+
+great_project_type - Check if the project is of the given type. Use the key from the project definition to compare.
+
+usage:
+<scope:great_project> = {
+	great_project_type = great_wall
+}
+Supported Scopes: great_project
 
 --------------------
 

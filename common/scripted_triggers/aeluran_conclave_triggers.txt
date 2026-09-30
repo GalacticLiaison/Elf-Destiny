@@ -1,0 +1,30 @@
+﻿# Root = the dying High Matriarch. True when the Council of Matrons can elect her successor:
+# she has the conclave succession law and at least one other living Matron holds a Matron Seat.
+aeluran_conclave_can_elect_trigger = {
+	has_realm_law = aeluran_conclave_succession_law
+	faith:aeluran_weavers = {
+		any_clerical_elector_title = {
+			exists = holder
+			holder = {
+				is_alive = yes
+				is_female = yes
+				has_trait = aeluran_matron
+				this != root
+			}
+		}
+	}
+}
+
+# Title scope. The titles that pass with the office to the next High Matriarch: the Seat itself and
+# Spirits' Landing, home of the Deep Wood Sanctum and the Grand Portal, with its baronies.
+# Everything else a Matriarch holds passes to her family.
+aeluran_title_passes_with_office_trigger = {
+	OR = {
+		this = title:d_high_matriarch
+		this = title:c_martyuba
+		AND = {
+			tier = tier_barony
+			de_jure_liege ?= title:c_martyuba
+		}
+	}
+}

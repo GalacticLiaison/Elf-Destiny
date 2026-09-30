@@ -1,0 +1,904 @@
+﻿# Dark Elf patron deities: favor and tiers, the one-time commune, divine tasks offered on the map, and the Blood Rite
+# Favor is per character and dies with them. Tiers only ever go up; favor never decays below the floor of the tier reached.
+# Event ids: Heard 100X, Dream 110X, Anointed 101X, Chosen 102X (X = 1 Melkor, 2 Lloth, 3 Typhos),
+#            3001 task done, 3002 task failed, 4001 Blood Rite outcome, 5001 pin clicked (offers at a province)
+#
+# Divine tasks live in two forms:
+#   offers  - our own data: variables on the province where the task would happen (deity_offer_<task>, optional
+#             deity_offer_<task>_target) plus pin counters (deity_pin_offers / deity_pin_active / deity_pin_<deity>),
+#             and a list of offer provinces on the devotee. Drawn by gui/map_icon_layer.gui (deity_task_marker).
+#   active  - an accepted task contract (common/task_contracts/dark_elf_deity_contracts.txt). The contract carries
+#             its own deadline (var:deity_deadline_year) and star tier, and pays its own reward. Several can run at once.
+
+###################
+# Favor and tiers
+###################
+
+init_deity_favor_effect = {
+	if = {
+		limit = { NOT = { has_variable = $DEITY$_favor } }
+		set_variable = {
+			name = $DEITY$_favor
+			value = 0
+		}
+	}
+	if = {
+		limit = { NOT = { has_variable = $DEITY$_tier } }
+		set_variable = {
+			name = $DEITY$_tier
+			value = 0
+		}
+	}
+}
+
+set_deity_tier_modifier_effect = {
+	remove_character_modifier = heard_by_$DEITY$
+	remove_character_modifier = sworn_to_$DEITY$
+	remove_character_modifier = anointed_by_$DEITY$
+	remove_character_modifier = chosen_of_$DEITY$
+	add_character_modifier = $MODIFIER$
+}
+
+# Promotes the character to whatever tier their favor now allows and fires the tier event
+refresh_deity_tier_effect = {
+	if = {
+		limit = {
+			var:$DEITY$_favor >= deity_favor_chosen
+			var:$DEITY$_tier < 4
+		}
+		set_variable = {
+			name = $DEITY$_tier
+			value = 4
+		}
+		set_deity_tier_modifier_effect = { DEITY = $DEITY$ MODIFIER = chosen_of_$DEITY$ }
+		trigger_event = dark_elf_deity.$CHOSEN$
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_favor >= deity_favor_anointed
+			var:$DEITY$_tier < 3
+		}
+		set_variable = {
+			name = $DEITY$_tier
+			value = 3
+		}
+		set_deity_tier_modifier_effect = { DEITY = $DEITY$ MODIFIER = anointed_by_$DEITY$ }
+		trigger_event = dark_elf_deity.$ANOINTED$
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_favor >= deity_favor_sworn
+			var:$DEITY$_tier < 2
+		}
+		set_variable = {
+			name = $DEITY$_tier
+			value = 2
+		}
+		set_deity_tier_modifier_effect = { DEITY = $DEITY$ MODIFIER = sworn_to_$DEITY$ }
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_favor >= deity_favor_heard
+			var:$DEITY$_tier < 1
+		}
+		set_variable = {
+			name = $DEITY$_tier
+			value = 1
+		}
+		set_deity_tier_modifier_effect = { DEITY = $DEITY$ MODIFIER = heard_by_$DEITY$ }
+		trigger_event = dark_elf_deity.$HEARD$
+	}
+}
+
+# Favor never drops below the floor of the tier already reached
+enforce_deity_favor_floor_effect = {
+	if = {
+		limit = {
+			var:$DEITY$_tier = 4
+			var:$DEITY$_favor < deity_favor_chosen
+		}
+		set_variable = {
+			name = $DEITY$_favor
+			value = deity_favor_chosen
+		}
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_tier = 3
+			var:$DEITY$_favor < deity_favor_anointed
+		}
+		set_variable = {
+			name = $DEITY$_favor
+			value = deity_favor_anointed
+		}
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_tier = 2
+			var:$DEITY$_favor < deity_favor_sworn
+		}
+		set_variable = {
+			name = $DEITY$_favor
+			value = deity_favor_sworn
+		}
+	}
+	else_if = {
+		limit = {
+			var:$DEITY$_tier = 1
+			var:$DEITY$_favor < deity_favor_heard
+		}
+		set_variable = {
+			name = $DEITY$_favor
+			value = deity_favor_heard
+		}
+	}
+}
+
+# $AMOUNT$ may be negative, a script value, or a saved scope value
+change_deity_favor_effect = {
+	init_deity_favor_effect = { DEITY = $DEITY$ }
+	change_variable = {
+		name = $DEITY$_favor
+		add = $AMOUNT$
+	}
+	clamp_variable = {
+		name = $DEITY$_favor
+		min = 0
+		max = 100
+	}
+	enforce_deity_favor_floor_effect = { DEITY = $DEITY$ }
+	refresh_deity_tier_effect = { DEITY = $DEITY$ HEARD = $HEARD$ ANOINTED = $ANOINTED$ CHOSEN = $CHOSEN$ }
+}
+
+# Per-deity wrappers so call sites only pass the amount
+change_melkor_favor_effect = {
+	change_deity_favor_effect = { DEITY = melkor AMOUNT = $AMOUNT$ HEARD = 1001 ANOINTED = 1011 CHOSEN = 1021 }
+}
+change_lloth_favor_effect = {
+	change_deity_favor_effect = { DEITY = lloth AMOUNT = $AMOUNT$ HEARD = 1002 ANOINTED = 1012 CHOSEN = 1022 }
+}
+change_typhos_favor_effect = {
+	change_deity_favor_effect = { DEITY = typhos AMOUNT = $AMOUNT$ HEARD = 1003 ANOINTED = 1013 CHOSEN = 1023 }
+}
+
+# Yearly decay while no task is under way, never below the tier floor
+decay_deity_favor_effect = {
+	if = {
+		limit = {
+			has_variable = $DEITY$_favor
+			var:$DEITY$_favor > 0
+		}
+		change_variable = {
+			name = $DEITY$_favor
+			subtract = deity_favor_yearly_decay
+		}
+		clamp_variable = {
+			name = $DEITY$_favor
+			min = 0
+			max = 100
+		}
+		enforce_deity_favor_floor_effect = { DEITY = $DEITY$ }
+	}
+}
+
+###################
+# Commune: taken once. The god hears you (Heard), and visits you in a dream that night
+###################
+
+commune_with_deity_effect = {
+	set_variable = {
+		name = deity_god
+		value = flag:$DEITY$
+	}
+	change_deity_favor_effect = { DEITY = $DEITY$ AMOUNT = deity_favor_first_commune HEARD = $HEARD$ ANOINTED = $ANOINTED$ CHOSEN = $CHOSEN$ }
+	trigger_event = {
+		id = dark_elf_deity.$DREAM$
+		days = 1
+	}
+}
+
+commune_with_melkor_effect = {
+	commune_with_deity_effect = { DEITY = melkor DREAM = 1101 HEARD = 1001 ANOINTED = 1011 CHOSEN = 1021 }
+}
+commune_with_lloth_effect = {
+	commune_with_deity_effect = { DEITY = lloth DREAM = 1102 HEARD = 1002 ANOINTED = 1012 CHOSEN = 1022 }
+}
+commune_with_typhos_effect = {
+	commune_with_deity_effect = { DEITY = typhos DREAM = 1103 HEARD = 1003 ANOINTED = 1013 CHOSEN = 1023 }
+}
+
+# From the dream event: from now on the god's tasks appear on the map
+unlock_deity_signs_effect = {
+	add_character_flag = $DEITY$_signs_unlocked
+	spawn_deity_offers_effect = yes
+}
+
+###################
+# Offers on the map
+###################
+
+# Root = the devotee. Tops the offers up to deity_offer_max (three attempts, each may find nothing)
+spawn_deity_offers_effect = {
+	if = {
+		limit = { NOT = { has_variable = deity_offer_count } }
+		set_variable = {
+			name = deity_offer_count
+			value = 0
+		}
+	}
+	spawn_one_deity_offer_effect = yes
+	spawn_one_deity_offer_effect = yes
+	spawn_one_deity_offer_effect = yes
+}
+
+spawn_one_deity_offer_effect = {
+	if = {
+		limit = { var:deity_offer_count < deity_offer_max }
+		if = {
+			limit = { var:deity_god = flag:melkor }
+			random_list = {
+				60 = { offer_melkor_break_them_effect = yes }
+				40 = { offer_melkor_be_feared_effect = yes }
+			}
+		}
+		else_if = {
+			limit = { var:deity_god = flag:lloth }
+			random_list = {
+				50 = { offer_lloth_thread_cut_effect = yes }
+				50 = { offer_lloth_thread_tied_effect = yes }
+			}
+		}
+		else_if = {
+			limit = { var:deity_god = flag:typhos }
+			random_list = {
+				50 = { offer_typhos_strong_blood_effect = yes }
+				50 = { offer_typhos_shed_skin_effect = yes }
+			}
+		}
+	}
+}
+
+# --- one effect per task: find a target and a province, then place the offer ---
+
+# Melkor: an independent ruler of your rank or lower, anywhere in diplomatic range, not already on the map for this task
+offer_melkor_break_them_effect = {
+	random_independent_ruler = {
+		limit = {
+			NOT = { this = root }
+			is_landed = yes
+			is_adult = yes
+			in_diplomatic_range = root
+			highest_held_title_tier <= root.highest_held_title_tier
+			NOT = { is_tributary_of = root }
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_melkor_break_them } }
+		}
+		save_scope_as = offer_target
+	}
+	if = {
+		limit = { exists = scope:offer_target }
+		scope:offer_target.capital_province = { save_scope_as = offer_province }
+		place_deity_offer_effect = { TASK = melkor_break_them TARGET = offer_target DEITY = melkor }
+	}
+}
+
+# Personal tasks sit at your own seat, one of each at a time (not offered while the same task is under way)
+offer_melkor_be_feared_effect = {
+	if = {
+		limit = {
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_melkor_be_feared } }
+			NOT = { any_character_active_contract = { has_task_contract_type = deity_task_melkor_be_feared } }
+		}
+		capital_province = { save_scope_as = offer_province }
+		place_deity_offer_effect = { TASK = melkor_be_feared TARGET = none DEITY = melkor }
+	}
+}
+
+# Lloth: a landed adult of another rite, not kin, in diplomatic range
+offer_lloth_thread_cut_effect = {
+	random_ruler = {
+		limit = {
+			NOT = { this = root }
+			is_landed = yes
+			is_adult = yes
+			in_diplomatic_range = root
+			NOT = { rite = root.rite }
+			NOT = { is_close_family_of = root }
+			highest_held_title_tier <= root.highest_held_title_tier
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_lloth_thread_cut } }
+		}
+		save_scope_as = offer_target
+	}
+	if = {
+		limit = { exists = scope:offer_target }
+		scope:offer_target.capital_province = { save_scope_as = offer_province }
+		place_deity_offer_effect = { TASK = lloth_thread_cut TARGET = offer_target DEITY = lloth }
+	}
+}
+
+# Lloth: someone in the court or realm of a rival ruler of another rite. The pin sits at the rival's seat
+offer_lloth_thread_tied_effect = {
+	random_ruler = {
+		limit = {
+			NOT = { this = root }
+			is_landed = yes
+			in_diplomatic_range = root
+			NOT = { rite = root.rite }
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_lloth_thread_tied } }
+		}
+		save_scope_as = offer_rival
+	}
+	if = {
+		limit = { exists = scope:offer_rival }
+		scope:offer_rival = {
+			random_vassal_or_below = {
+				limit = {
+					is_adult = yes
+					NOT = { this = root }
+					NOT = { has_hook = root }
+				}
+				save_scope_as = offer_target
+			}
+		}
+		if = {
+			limit = { NOT = { exists = scope:offer_target } }
+			scope:offer_rival = {
+				random_courtier = {
+					limit = {
+						is_adult = yes
+						NOT = { this = root }
+					}
+					save_scope_as = offer_target
+				}
+			}
+		}
+		if = {
+			limit = { exists = scope:offer_target }
+			scope:offer_rival.capital_province = { save_scope_as = offer_province }
+			place_deity_offer_effect = { TASK = lloth_thread_tied TARGET = offer_target DEITY = lloth }
+		}
+	}
+}
+
+offer_typhos_strong_blood_effect = {
+	if = {
+		limit = {
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_typhos_strong_blood } }
+			NOT = { any_character_active_contract = { has_task_contract_type = deity_task_typhos_strong_blood } }
+		}
+		capital_province = { save_scope_as = offer_province }
+		place_deity_offer_effect = { TASK = typhos_strong_blood TARGET = none DEITY = typhos }
+	}
+}
+
+offer_typhos_shed_skin_effect = {
+	if = {
+		limit = {
+			exists = capital_province
+			capital_province = { NOT = { has_variable = deity_offer_typhos_shed_skin } }
+			NOT = { any_character_active_contract = { has_task_contract_type = deity_task_typhos_shed_skin } }
+		}
+		capital_province = { save_scope_as = offer_province }
+		place_deity_offer_effect = { TASK = typhos_shed_skin TARGET = none DEITY = typhos }
+	}
+}
+
+# Root = the devotee, scope:offer_province = where the pin goes, scope:$TARGET$ = the named character (or none)
+place_deity_offer_effect = {
+	scope:offer_province = {
+		set_variable = {
+			name = deity_offer_$TASK$
+			value = yes
+		}
+		if = {
+			limit = { exists = scope:$TARGET$ }
+			set_variable = {
+				name = deity_offer_$TASK$_target
+				value = scope:$TARGET$
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = deity_pin_offers } }
+			set_variable = {
+				name = deity_pin_offers
+				value = 0
+			}
+		}
+		change_variable = {
+			name = deity_pin_offers
+			add = 1
+		}
+		set_variable = {
+			name = deity_pin_owner
+			value = root
+		}
+		set_variable = {
+			name = deity_pin_$DEITY$
+			value = yes
+		}
+	}
+	if = {
+		limit = {
+			NOT = {
+				is_target_in_variable_list = {
+					name = deity_offer_provinces
+					target = scope:offer_province
+				}
+			}
+		}
+		add_to_variable_list = {
+			name = deity_offer_provinces
+			target = scope:offer_province
+		}
+	}
+	change_variable = {
+		name = deity_offer_count
+		add = 1
+	}
+}
+
+# Drops every pin variable from a province once nothing is offered or under way there
+tidy_deity_pin_effect = {
+	if = {
+		limit = {
+			NOT = { has_variable = deity_pin_offers }
+			NOT = { has_variable = deity_pin_active }
+		}
+		remove_variable = deity_pin_owner
+		remove_variable = deity_pin_melkor
+		remove_variable = deity_pin_lloth
+		remove_variable = deity_pin_typhos
+	}
+}
+
+# Root = the devotee, scope:pin_province = the province. Removes one offer (accepted or discarded)
+remove_deity_offer_effect = {
+	scope:pin_province = {
+		remove_variable = deity_offer_$TASK$
+		remove_variable = deity_offer_$TASK$_target
+		change_variable = {
+			name = deity_pin_offers
+			subtract = 1
+		}
+		if = {
+			limit = { var:deity_pin_offers <= 0 }
+			remove_variable = deity_pin_offers
+		}
+		tidy_deity_pin_effect = yes
+	}
+	if = {
+		limit = { scope:pin_province = { NOT = { has_variable = deity_pin_offers } } }
+		remove_list_variable = {
+			name = deity_offer_provinces
+			target = scope:pin_province
+		}
+	}
+	change_variable = {
+		name = deity_offer_count
+		subtract = 1
+	}
+	clamp_variable = {
+		name = deity_offer_count
+		min = 0
+		max = 100
+	}
+}
+
+###################
+# Accepting an offer (from the pin event 5001). Root = the player, scope:pin_province = the province
+###################
+
+# Creates and accepts the task contract at the pin. $TIER$ = 0 (1 star), 3 (2 stars) or 4 (3 stars)
+create_deity_contract_effect = {
+	if = {
+		limit = { exists = scope:task_target }
+		create_task_contract = {
+			task_contract_type = deity_task_$TASK$
+			task_contract_tier = $TIER$
+			task_contract_employer = root
+			location = scope:pin_province
+			target = scope:task_target
+			save_scope_as = deity_contract
+		}
+	}
+	else = {
+		create_task_contract = {
+			task_contract_type = deity_task_$TASK$
+			task_contract_tier = $TIER$
+			task_contract_employer = root
+			location = scope:pin_province
+			save_scope_as = deity_contract
+		}
+	}
+}
+
+# $TASK$ = task key, $YEARS$ = deadline value name
+accept_deity_offer_effect = {
+	if = {
+		limit = { scope:pin_province = { has_variable = deity_offer_$TASK$_target } }
+		scope:pin_province.var:deity_offer_$TASK$_target = { save_scope_as = task_target }
+	}
+	# Stars by distance from your seat: beyond a Wales-sized hop is 2 stars, beyond a France-sized one is 3
+	if = {
+		limit = {
+			exists = capital_province
+			scope:pin_province = {
+				squared_distance = {
+					target = root.capital_province
+					value >= squared_distance_large
+				}
+			}
+		}
+		create_deity_contract_effect = { TASK = $TASK$ TIER = 4 }
+	}
+	else_if = {
+		limit = {
+			exists = capital_province
+			scope:pin_province = {
+				squared_distance = {
+					target = root.capital_province
+					value >= squared_distance_medium
+				}
+			}
+		}
+		create_deity_contract_effect = { TASK = $TASK$ TIER = 3 }
+	}
+	else = {
+		create_deity_contract_effect = { TASK = $TASK$ TIER = 0 }
+	}
+	if = {
+		limit = { exists = scope:deity_contract }
+		accept_task_contract = scope:deity_contract
+		scope:deity_contract = {
+			set_variable = {
+				name = deity_deadline_year
+				value = current_year
+			}
+			change_variable = {
+				name = deity_deadline_year
+				add = $YEARS$
+			}
+			if = {
+				limit = { task_contract_tier >= 3 }
+				change_variable = {
+					name = deity_deadline_year
+					add = deity_task_deadline_bonus_years
+				}
+			}
+		}
+		# The pin turns from an offer into a task under way
+		scope:pin_province = {
+			if = {
+				limit = { NOT = { has_variable = deity_pin_active } }
+				set_variable = {
+					name = deity_pin_active
+					value = 0
+				}
+			}
+			change_variable = {
+				name = deity_pin_active
+				add = 1
+			}
+		}
+	}
+	remove_deity_offer_effect = { TASK = $TASK$ }
+}
+
+###################
+# Contracts: rewards, failure, pin release. Root = the task contract
+###################
+
+# $TASK$ = short task key (break_them ...) for the value names, $DEITY$ = the god
+deity_contract_reward_effect = {
+	save_scope_value_as = {
+		name = deity_favor_amount
+		value = deity_task_favor_$TASK$
+	}
+	save_scope_value_as = {
+		name = deity_piety_amount
+		value = deity_task_piety_reward
+	}
+	task_contract_taker ?= {
+		custom_tooltip = deity_reward_favor_tt
+		change_$DEITY$_favor_effect = { AMOUNT = scope:deity_favor_amount }
+		add_piety = scope:deity_piety_amount
+	}
+}
+
+deity_contract_failure_effect = {
+	task_contract_taker ?= {
+		change_$DEITY$_favor_effect = { AMOUNT = -15 }
+	}
+}
+
+# The task ended one way or another: one fewer task under way at its province
+deity_contract_pin_release_effect = {
+	task_contract_location ?= {
+		if = {
+			limit = { has_variable = deity_pin_active }
+			change_variable = {
+				name = deity_pin_active
+				subtract = 1
+			}
+			if = {
+				limit = { var:deity_pin_active <= 0 }
+				remove_variable = deity_pin_active
+			}
+		}
+		tidy_deity_pin_effect = yes
+	}
+}
+
+###################
+# Yearly pulse. Root = the devotee
+###################
+
+deity_yearly_pulse_effect = {
+	# Favor drifts only while nothing is under way
+	if = {
+		limit = { NOT = { has_active_deity_task_trigger = yes } }
+		decay_deity_favor_effect = { DEITY = melkor }
+		decay_deity_favor_effect = { DEITY = lloth }
+		decay_deity_favor_effect = { DEITY = typhos }
+	}
+	# New signs each New Year
+	if = {
+		limit = {
+			OR = {
+				has_character_flag = melkor_signs_unlocked
+				has_character_flag = lloth_signs_unlocked
+				has_character_flag = typhos_signs_unlocked
+			}
+		}
+		spawn_deity_offers_effect = yes
+	}
+	# Progress on the tasks under way (deaths and births are caught instantly by on_actions, deadlines by the contract itself)
+	every_character_active_contract = {
+		limit = { has_task_contract_group = dark_elf_deity_group }
+		# Break Them: the target now serves you
+		if = {
+			limit = {
+				has_task_contract_type = deity_task_melkor_break_them
+				exists = task_contract_target
+				task_contract_target = {
+					OR = {
+						liege ?= root
+						is_tributary_of = root
+					}
+				}
+			}
+			complete_task_contract = deity_success
+		}
+		# Be Feared: hold the dread threshold across two New Years
+		else_if = {
+			limit = { has_task_contract_type = deity_task_melkor_be_feared }
+			if = {
+				limit = { task_contract_taker = { dread >= deity_task_dread_threshold } }
+				if = {
+					limit = {
+						has_variable = deity_feared_since
+						var:deity_feared_since < current_year
+					}
+					complete_task_contract = deity_success
+				}
+				else_if = {
+					limit = { NOT = { has_variable = deity_feared_since } }
+					set_variable = {
+						name = deity_feared_since
+						value = current_year
+					}
+				}
+			}
+			else = {
+				remove_variable = deity_feared_since
+			}
+		}
+		# A Thread Tied: you hold a hook on the target
+		else_if = {
+			limit = {
+				has_task_contract_type = deity_task_lloth_thread_tied
+				exists = task_contract_target
+			}
+			task_contract_target = { save_scope_as = deity_check_target }
+			if = {
+				limit = { task_contract_taker = { has_hook = scope:deity_check_target } }
+				complete_task_contract = deity_success
+			}
+		}
+	}
+}
+
+###################
+# Blood Rite
+###################
+
+# One step up the congenital ladder of a line ($LINE$ = physique | intellect | beauty)
+blood_rite_level_up_line_effect = {
+	if = {
+		limit = { has_trait = $LINE$_bad_3 }
+		remove_trait = $LINE$_bad_3
+		add_trait = $LINE$_bad_2
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_bad_2 }
+		remove_trait = $LINE$_bad_2
+		add_trait = $LINE$_bad_1
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_bad_1 }
+		remove_trait = $LINE$_bad_1
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_good_3 }
+		# Nothing left to give on this line
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_good_2 }
+		remove_trait = $LINE$_good_2
+		add_trait = $LINE$_good_3
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_good_1 }
+		remove_trait = $LINE$_good_1
+		add_trait = $LINE$_good_2
+	}
+	else = {
+		add_trait = $LINE$_good_1
+	}
+}
+
+# One step down
+blood_rite_level_down_line_effect = {
+	if = {
+		limit = { has_trait = $LINE$_good_3 }
+		remove_trait = $LINE$_good_3
+		add_trait = $LINE$_good_2
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_good_2 }
+		remove_trait = $LINE$_good_2
+		add_trait = $LINE$_good_1
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_good_1 }
+		remove_trait = $LINE$_good_1
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_bad_3 }
+		# Cannot get worse on this line
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_bad_2 }
+		remove_trait = $LINE$_bad_2
+		add_trait = $LINE$_bad_3
+	}
+	else_if = {
+		limit = { has_trait = $LINE$_bad_1 }
+		remove_trait = $LINE$_bad_1
+		add_trait = $LINE$_bad_2
+	}
+	else = {
+		add_trait = $LINE$_bad_1
+	}
+}
+
+blood_rite_grant_good_trait_effect = {
+	random_list = {
+		1 = { blood_rite_level_up_line_effect = { LINE = physique } }
+		1 = { blood_rite_level_up_line_effect = { LINE = intellect } }
+		1 = { blood_rite_level_up_line_effect = { LINE = beauty } }
+	}
+}
+
+blood_rite_grant_bad_trait_effect = {
+	random_list = {
+		1 = { blood_rite_level_down_line_effect = { LINE = physique } }
+		1 = { blood_rite_level_down_line_effect = { LINE = intellect } }
+		1 = { blood_rite_level_down_line_effect = { LINE = beauty } }
+	}
+}
+
+blood_rite_outcome_good_effect = {
+	set_variable = {
+		name = blood_rite_result
+		value = flag:good
+	}
+	blood_rite_grant_good_trait_effect = yes
+}
+blood_rite_outcome_none_effect = {
+	set_variable = {
+		name = blood_rite_result
+		value = flag:none
+	}
+}
+blood_rite_outcome_bad_effect = {
+	set_variable = {
+		name = blood_rite_result
+		value = flag:bad
+	}
+	blood_rite_grant_bad_trait_effect = yes
+}
+
+# Root = the sacrificer. Kills every marked prisoner, rolls the outcome by blood quality, pays the god
+perform_blood_rite_effect = {
+	save_scope_as = sacrificer
+	save_scope_value_as = {
+		name = blood_quality
+		value = blood_rite_quality
+	}
+
+	every_prisoner = {
+		limit = { has_character_flag = marked_for_blood_rite }
+		save_scope_as = victim
+		scope:sacrificer = {
+			add_kinslayer_trait_or_nothing_effect = { VICTIM = scope:victim }
+		}
+		remove_character_flag = marked_for_blood_rite
+		remove_character_modifier = marked_for_blood_rite_modifier
+		death = {
+			death_reason = death_sacrificed_to_gods
+			killer = scope:sacrificer
+		}
+	}
+
+	if = {
+		limit = { scope:blood_quality >= blood_rite_exceptional }
+		blood_rite_outcome_good_effect = yes
+		change_typhos_favor_effect = { AMOUNT = 20 }
+	}
+	else_if = {
+		limit = { scope:blood_quality >= blood_rite_strong }
+		random_list = {
+			80 = { blood_rite_outcome_good_effect = yes }
+			15 = { blood_rite_outcome_none_effect = yes }
+			5 = { blood_rite_outcome_bad_effect = yes }
+		}
+		change_typhos_favor_effect = { AMOUNT = 15 }
+	}
+	else_if = {
+		limit = { scope:blood_quality >= blood_rite_fair }
+		random_list = {
+			60 = { blood_rite_outcome_good_effect = yes }
+			25 = { blood_rite_outcome_none_effect = yes }
+			15 = { blood_rite_outcome_bad_effect = yes }
+		}
+		change_typhos_favor_effect = { AMOUNT = 10 }
+	}
+	else = {
+		random_list = {
+			40 = { blood_rite_outcome_good_effect = yes }
+			40 = { blood_rite_outcome_none_effect = yes }
+			20 = { blood_rite_outcome_bad_effect = yes }
+		}
+		change_typhos_favor_effect = { AMOUNT = 5 }
+	}
+
+	add_piety = medium_piety_gain
+	add_dread = medium_dread_gain
+	every_vassal = {
+		limit = { NOT = { faith = scope:sacrificer.faith } }
+		add_opinion = {
+			target = scope:sacrificer
+			modifier = witnessed_blood_rite_opinion
+		}
+	}
+	stress_and_fulfillment_impact = {
+		compassionate = medium_stress_impact_gain
+		just = minor_stress_impact_gain
+	}
+
+	# Shed the Skin asks for a rite of fair quality or better
+	if = {
+		limit = { scope:blood_quality >= blood_rite_fair }
+		every_character_active_contract = {
+			limit = { has_task_contract_type = deity_task_typhos_shed_skin }
+			complete_task_contract = deity_success
+		}
+	}
+
+	trigger_event = dark_elf_deity.4001
+}

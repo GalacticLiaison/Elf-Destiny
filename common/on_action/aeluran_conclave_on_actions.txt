@@ -1,0 +1,77 @@
+﻿# root = the new holder
+# scope:title = the title that changes hands
+# scope:previous_holder = previous holder. Might be dead
+on_title_gain = {
+	on_actions = {
+		aeluran_conclave_on_title_gain
+		aeluran_matron_seat_on_title_gain
+		aeluran_matron_rank_on_title_change
+	}
+}
+
+# The Council of Matrons' succession law is locked (common/law_groups/zzz_OVERRIDE_succession_law_groups.txt);
+# this re-applies it should anything ever strip it from the High Matriarch.
+yearly_global_pulse = {
+	on_actions = {
+		aeluran_conclave_yearly_check
+	}
+}
+
+aeluran_conclave_yearly_check = {
+	effect = {
+		title:d_high_matriarch.holder ?= {
+			aeluran_ensure_conclave_law_effect = yes
+		}
+	}
+}
+
+# root = the character losing the title
+on_title_lost = {
+	on_actions = {
+		aeluran_matron_rank_on_title_change
+	}
+}
+
+# A Matron is styled "Matron" only while her seat is her primary title (aeluran_refresh_matron_rank_flag_effect).
+aeluran_matron_rank_on_title_change = {
+	trigger = {
+		OR = {
+			has_trait = aeluran_matron
+			has_character_flag = aeluran_matron_seat_rank
+		}
+	}
+	effect = {
+		aeluran_refresh_matron_rank_flag_effect = yes
+	}
+}
+
+# Vanilla on_title_gain treats every clerical elector as a Catholic cardinal: undo that for Matron's Seats.
+aeluran_matron_seat_on_title_gain = {
+	trigger = {
+		scope:title = { has_variable = aeluran_matron_seat }
+	}
+	effect = {
+		remove_character_flag = cardinal_flag
+		situation:the_christian_church ?= {
+			if = {
+				limit = { is_manual_participant = prev }
+				remove_manual_participant = prev
+			}
+		}
+	}
+}
+
+# A Matron elected to the Seat of the High Matriarch takes up the office.
+# Holders who are already High Matriarch (the appointment fallback in appoint_new_aeluran_matriarch_effect) are skipped.
+aeluran_conclave_on_title_gain = {
+	trigger = {
+		scope:title = title:d_high_matriarch
+		NOT = { has_trait = aeluran_high_matriarch }
+		exists = scope:previous_holder
+		scope:previous_holder != root
+	}
+	effect = {
+		scope:previous_holder = { save_scope_as = dead_aeluran }
+		aeluran_matriarch_succession_effect = yes
+	}
+}

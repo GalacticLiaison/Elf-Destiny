@@ -1,0 +1,93 @@
+﻿on_game_start = {
+	on_actions = {
+		aeluran_matronate_game_start
+	}
+}
+
+aeluran_matronate_game_start = {
+	effect = {
+		aeluran_matronate_game_start_effect = yes
+	}
+}
+
+# After the lobby, once the elven kingdoms exist (elf_destiny_on_game_start creates them)
+on_game_start_after_lobby = {
+	on_actions = {
+		aeluran_matronate_game_start_after_lobby
+	}
+}
+
+aeluran_matronate_game_start_after_lobby = {
+	effect = {
+		aeluran_matronate_place_landless_holders_effect = yes
+	}
+}
+
+# An AI High Matriarch founds Matronates and replaces Matrons who hate her
+yearly_global_pulse = {
+	on_actions = {
+		aeluran_matronate_ai_yearly
+	}
+}
+
+aeluran_matronate_ai_yearly = {
+	effect = {
+		title:d_high_matriarch.holder ?= {
+			if = {
+				limit = { is_ai = yes }
+				aeluran_matronate_ai_yearly_effect = yes
+			}
+		}
+	}
+}
+
+# root = the character about to die, who still holds her titles: a Matronate she holds passes to a raised Sister
+# before her family inherits the rest.
+on_death = {
+	on_actions = {
+		aeluran_matronate_on_death
+	}
+}
+
+aeluran_matronate_on_death = {
+	trigger = {
+		any_held_title = { aeluran_is_matronate_title_trigger = yes }
+	}
+	effect = {
+		aeluran_matronate_vacate_held_effect = yes
+	}
+}
+
+# Fired by code when a clerical region's holder and its capital county stop sharing a faith, or the faith stops supporting regions.
+# root = region holder, scope:title = region title, scope:county = its capital county, scope:reason = flag
+# Vanilla's handlers (pam_clergy_events.0051/.0052) destroy the title and strip the holder's lands; the mod's fork skips Matronates.
+# A Matron who leaves the faith gives up her Matronate to a raised Sister. Other mismatches are only recorded for now.
+on_clerical_region_faith_mismatch = {
+	on_actions = {
+		aeluran_matronate_faith_mismatch
+	}
+}
+
+aeluran_matronate_faith_mismatch = {
+	trigger = {
+		scope:title = { aeluran_is_matronate_title_trigger = yes }
+	}
+	effect = {
+		if = {
+			limit = { scope:reason = flag:county_converted }
+			debug_log = "MATRONATE mismatch: county_converted"
+		}
+		else_if = {
+			limit = { scope:reason = flag:character_converted }
+			debug_log = "MATRONATE mismatch: character_converted"
+			save_scope_as = outgoing_matron
+			scope:title = { aeluran_matronate_succession_effect = yes }
+		}
+		else_if = {
+			limit = { scope:reason = flag:changed_tenets_or_doctrines }
+			debug_log = "MATRONATE mismatch: changed_tenets_or_doctrines"
+		}
+		else = { debug_log = "MATRONATE mismatch: unknown reason" }
+		debug_log_scopes = yes
+	}
+}

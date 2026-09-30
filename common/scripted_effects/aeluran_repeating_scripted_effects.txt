@@ -81,20 +81,55 @@ determine_new_aeluran_advisor_effect = {
 
 
 create_aeluran_advisor_effect = {
-    create_character = {
-        template = aeluran_sister_advisor
-        dynasty = none
-        location = title:b_cykma.title_province
-        # faith = global_var:high_matriarch.faith # swapped out so advisor matches players aeluran faith variant and protects against matriarch grabbing human faith
-        faith = root.faith
-        # culture = root.culture
-        random_culture_in_group = root.culture
-        save_scope_as = aeluran_sister_advisor
-
-        after_creation = {
-            add_character_modifier = {
-                modifier = on_official_aeluran_business
+    # Dark Elf rulers (or anyone whose rite is one of the Dark Sisters chapters) are sent a Dark Sister of their own culture
+    if = {
+        limit = {
+            OR = {
+                is_dark_elf = yes
+                rite ?= { rite_has_tenet = tenet_dark_sisters }
             }
+        }
+        create_character = {
+            template = dark_aeluran_sister_advisor
+            dynasty = none
+            location = title:b_cykma.title_province
+            faith = root.faith
+            culture = root.culture
+            save_scope_as = aeluran_sister_advisor
+
+            after_creation = {
+                add_character_modifier = {
+                    modifier = on_official_aeluran_business
+                }
+            }
+        }
+    }
+    else = {
+        create_character = {
+            template = aeluran_sister_advisor
+            dynasty = none
+            location = title:b_cykma.title_province
+            # faith = global_var:high_matriarch.faith # swapped out so advisor matches players aeluran faith variant and protects against matriarch grabbing human faith
+            faith = root.faith
+            # culture = root.culture
+            random_culture_in_group = root.culture
+            save_scope_as = aeluran_sister_advisor
+
+            after_creation = {
+                add_character_modifier = {
+                    modifier = on_official_aeluran_business
+                }
+            }
+        }
+    }
+    # She follows the ruler's rite, not just the faith
+    if = {
+        limit = {
+            exists = scope:aeluran_sister_advisor
+            exists = rite
+        }
+        scope:aeluran_sister_advisor = {
+            set_character_rite = root.rite
         }
     }
 }
@@ -125,7 +160,7 @@ aeluran_advisor_sent_from_deep_wood_effect = {
         if = {
             limit = {
                 faith = {
-                    has_doctrine = tenet_aeluran_sisters
+                    has_tenet = tenet_aeluran_sisters
                 }
             }
 
@@ -277,6 +312,7 @@ appoint_new_aeluran_matriarch_effect = {
         save_scope_as = new_matriarch
 
         scope:new_matriarch = {
+            aeluran_remove_matron_seat_effect = yes
             remove_trait = aeluran_matron
             add_trait = aeluran_high_matriarch
             set_aeluran_clothing_colors = yes
@@ -300,12 +336,13 @@ appoint_new_aeluran_matriarch_effect = {
         debug_log = "handled matriarch effect"
         debug_log_scopes = yes
 
-        appoint_new_aeluran_matron_effect = yes # To replace matron that became matriarch
+        # A Matronate she held passes to a Sister of its region, raised to Matron
+        scope:new_matriarch = { aeluran_matronate_vacate_held_effect = yes }
 
         every_player = {
             limit = {
                 faith = {
-                    has_doctrine = tenet_aeluran_sisters
+                    has_tenet = tenet_aeluran_sisters
                 }
             }
             trigger_event = aeluran_repeating.003 # Notify Players about the New Matriarch
@@ -317,93 +354,41 @@ appoint_new_aeluran_matriarch_effect = {
 
 }
 
+# Fallback appointment only. By now the late Matriarch's own lands have passed to her family
+# (aeluran_pass_matriarch_lands_to_family_effect), so what she still holds is the office: the Seat and Spirits' Landing.
 give_title_aeluran_matriarch = {
-    get_title = title:c_martyuba
-    get_title = title:c_cykma
-    get_title = title:d_high_matriarch
-    get_title = title:d_martyuba
+    save_scope_as = aeluran_title_recipient
+    scope:dead_aeluran ?= {
+        every_held_title = {
+            limit = { NOT = { has_variable = aeluran_matron_seat } }
+            add_to_temporary_list = aeluran_office_titles
+        }
+    }
+    every_in_list = {
+        list = aeluran_office_titles
+        save_temporary_scope_as = aeluran_office_title
+        scope:aeluran_title_recipient = { get_title = scope:aeluran_office_title }
+    }
 }
 
-appoint_new_aeluran_matron_effect = {
-    random_living_character = {
-        limit = {
-            has_trait = aeluran_sister
-        }
-        weight = {
-            base = 10
-            modifier = {
-                add = 20
-                highest_held_title_tier = tier_empire
-            }
-            modifier = {
-                add = 10
-                highest_held_title_tier = tier_kingdom
-            }
-            modifier = {
-                add = 5
-                highest_held_title_tier = tier_duchy
-            }
-            modifier = {
-                add = 3
-                highest_held_title_tier = tier_county
-            }
-            modifier = {
-                add = 15
-                has_trait = born_in_the_red
-            }
-            modifier = {
-                add = 10
-                has_trait = magic_talent_3
-            }
-            modifier = {
-                add = 5
-                has_trait = magic_talent_2
-            }
-            modifier = {
-                add = 75
-                is_ainur_elf_tier = yes
-            }
-            modifier = {
-                add = 50
-                is_celestial_elf_tier = yes
-            }
-            modifier = {
-                add = 25
-                is_fae_elf_tier = yes
-            }
-            modifier = {
-                add = 10
-                is_high_elf = yes
-            }
-            modifier = {
-                add = 15
-                is_of_any_royal_elf_bloodline = yes
-            }
-        }
-
-        save_scope_as = new_matron
-
-        scope:new_matron = {
-            remove_trait = aeluran_sister
-            add_trait = aeluran_matron
-            set_aeluran_clothing_colors = yes
-        }
-
-        add_to_global_variable_list = {
-            name = aeluran_matrons
-            target = scope:new_matron
-        }
-
-        if = {
-            limit = {
-                scope:new_matron = {
-                    is_ai = no
-                }
-            }
-            scope:new_matron = {
-                trigger_event = aeluran_repeating.004 # Notify Player They Have Been Promoted
-            }
-        }
+# Root = an Aeluran Sister. Raises her to Matron: trait, clothing, Matron's Seat (which makes a courtier a landless
+# ruler of the Order), and the Council's list. Matrons are raised only through Matronate succession
+# (aeluran_matronate_succession_effect), which notifies a player; the old random replacement on a Matron's death is gone.
+aeluran_raise_to_matron_effect = {
+    save_scope_as = new_matron
+    if = {
+        limit = { has_trait = aeluran_sister }
+        remove_trait = aeluran_sister
+    }
+    if = {
+        limit = { NOT = { has_trait = aeluran_matron } }
+        add_trait = aeluran_matron
+    }
+    set_aeluran_clothing_colors = yes
+    aeluran_grant_matron_seat_effect = yes
+    add_to_global_variable_list = {
+        name = aeluran_matrons
+        target = scope:new_matron
     }
 }
 

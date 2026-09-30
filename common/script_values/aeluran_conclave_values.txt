@@ -1,0 +1,82 @@
+﻿# Candidate archetype scores for the Council of Matrons (aeluran_matron_conclave).
+# Root = the candidate Matron. The highest-scoring Matron of each archetype stands for election.
+
+aeluran_conclave_spark_touched_priority_value = {
+	value = 0
+	if = {
+		limit = { is_ainur_elf_tier = yes }
+		add = 75
+	}
+	else_if = {
+		limit = { is_celestial_elf_tier = yes }
+		add = 50
+	}
+	else_if = {
+		limit = { is_fae_elf_tier = yes }
+		add = 25
+	}
+	else_if = {
+		limit = { is_high_elf = yes }
+		add = 10
+	}
+	if = {
+		limit = { has_trait = magic_talent_3 }
+		add = 30
+	}
+	else_if = {
+		limit = { has_trait = magic_talent_2 }
+		add = 15
+	}
+	else_if = {
+		limit = { has_trait = magic_talent_1 }
+		add = 5
+	}
+	add = learning
+}
+
+aeluran_conclave_red_born_priority_value = {
+	value = 0
+	if = {
+		limit = { has_trait = born_in_the_red }
+		add = 50
+	}
+	if = {
+		limit = { is_of_any_royal_elf_bloodline = yes }
+		add = 25
+	}
+	add = {
+		value = piety_level
+		multiply = 5
+	}
+}
+
+aeluran_conclave_worldly_priority_value = {
+	value = 0
+	if = {
+		limit = { exists = primary_title }
+		if = {
+			limit = { primary_title.tier = tier_empire }
+			add = 60
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_kingdom }
+			add = 40
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_duchy }
+			add = 20
+		}
+		else_if = {
+			limit = { primary_title.tier = tier_county }
+			add = 10
+		}
+	}
+	add = {
+		value = prestige_level
+		multiply = 5
+	}
+	add = {
+		value = diplomacy
+		divide = 2
+	}
+}

@@ -1,0 +1,61 @@
+﻿# Blood Rite: choose which prisoners go to the altar. The rite itself is a decision (perform_blood_rite_decision).
+
+mark_for_blood_rite_interaction = {
+	interface_priority = 25
+	category = interaction_category_prison
+	desc = mark_for_blood_rite_interaction_desc
+	icon = prison
+
+	is_shown = {
+		scope:actor = {
+			is_deity_devotee_trigger = { DEITY = typhos }
+		}
+		scope:recipient = {
+			can_be_marked_for_blood_rite_trigger = yes
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_tooltip = {
+				text = blood_rite_too_many_marked_tt
+				any_prisoner = {
+					count < 3
+					has_character_flag = marked_for_blood_rite
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			add_character_flag = marked_for_blood_rite
+			add_character_modifier = marked_for_blood_rite_modifier
+		}
+	}
+
+	auto_accept = yes
+}
+
+unmark_for_blood_rite_interaction = {
+	interface_priority = 24
+	category = interaction_category_prison
+	desc = unmark_for_blood_rite_interaction_desc
+	icon = prison
+
+	is_shown = {
+		scope:recipient = {
+			is_imprisoned_by = scope:actor
+			has_character_flag = marked_for_blood_rite
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			remove_character_flag = marked_for_blood_rite
+			remove_character_modifier = marked_for_blood_rite_modifier
+		}
+	}
+
+	auto_accept = yes
+}

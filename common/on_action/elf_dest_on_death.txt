@@ -29,28 +29,43 @@ aeluran_hierarchy_management = {
             limit = {
                 global_var:high_matriarch = root
             }
-            debug_log = "Replacing Matriarch"
+            # Her own lands pass to her family now; only the Seat and Spirits' Landing go with the office
+            aeluran_find_family_heir_effect = yes
+            aeluran_pass_matriarch_lands_to_family_effect = yes
 
-            appoint_new_aeluran_matriarch_effect = yes
-            
-			title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
-                trigger_event = {
-                    id = aeluran_repeating.006
-                    days = 1
+            # The Council of Matrons elects her successor through her succession law (aeluran_conclave_on_title_gain).
+            # Appointment is only the fallback when no Matron can stand.
+            if = {
+                limit = {
+                    NOT = { aeluran_conclave_can_elect_trigger = yes }
+                }
+                debug_log = "Replacing Matriarch"
+
+                appoint_new_aeluran_matriarch_effect = yes
+
+                title:d_high_matriarch.holder = { # Delay needed for effect to work for whatever reason
+                    trigger_event = {
+                        id = aeluran_repeating.006
+                        days = 1
+                    }
+                }
+                # A player with no kin to continue as takes up the Seat
+                if = {
+                    limit = {
+                        is_ai = no
+                        NOT = { exists = scope:matriarch_family_heir }
+                        global_var:high_matriarch != root
+                        global_var:high_matriarch = { is_ai = yes }
+                    }
+                    set_player_character = global_var:high_matriarch
                 }
             }
+
+            # A player's death is not a game over: continue as her family heir or the Matron being elected
+            aeluran_matriarch_player_continuity_effect = yes
         }
-        else_if = {
-            limit = {
-                is_target_in_global_variable_list = {
-                    name = aeluran_matrons
-                    target = root
-                }
-            }
-            debug_log = "Replacing Matron"
-
-			appoint_new_aeluran_matron_effect = yes
-		}
+        # A dying Matron is no longer replaced at random: a Matronate she held passes to a Sister of its region
+        # (aeluran_matronate_on_death, common/on_action/aeluran_matronate_on_actions.txt)
 	}
 }
 

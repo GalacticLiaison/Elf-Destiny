@@ -1,0 +1,181 @@
+﻿# Communion with the Dark Elf patron deities and the Blood Rite.
+# A commune decision is unlocked by the rite's deity tenet (or by holding that tenet personally) and costs piety.
+# It is taken ONCE: the god hears you, visits you in a dream that night, and from then on sends tasks to the map.
+# The decision then disappears until a story reason to commune again is designed.
+# See the modkit design note: reports/proposals/2026-09-26-commune-with-deity-v1-design.md
+
+commune_with_melkor_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
+	decision_group_type = elf
+
+	desc = commune_with_melkor_decision_desc
+	selection_tooltip = commune_with_melkor_decision_tooltip
+	confirm_text = commune_with_melkor_decision_confirm
+
+	sort_order = 400
+	ai_check_interval = 0
+
+	cost = {
+		piety = deity_commune_piety_cost
+	}
+
+	is_shown = {
+		is_deity_devotee_trigger = { DEITY = melkor }
+		NOT = { has_variable = melkor_favor }
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = commune_with_melkor_decision_effect
+			commune_with_melkor_effect = yes
+		}
+	}
+
+	# Player only for now
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+commune_with_lloth_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
+	decision_group_type = elf
+
+	desc = commune_with_lloth_decision_desc
+	selection_tooltip = commune_with_lloth_decision_tooltip
+	confirm_text = commune_with_lloth_decision_confirm
+
+	sort_order = 400
+	ai_check_interval = 0
+
+	cost = {
+		piety = deity_commune_piety_cost
+	}
+
+	is_shown = {
+		is_deity_devotee_trigger = { DEITY = lloth }
+		NOT = { has_variable = lloth_favor }
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = commune_with_lloth_decision_effect
+			commune_with_lloth_effect = yes
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+commune_with_typhos_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
+	decision_group_type = elf
+
+	desc = commune_with_typhos_decision_desc
+	selection_tooltip = commune_with_typhos_decision_tooltip
+	confirm_text = commune_with_typhos_decision_confirm
+
+	sort_order = 400
+	ai_check_interval = 0
+
+	cost = {
+		piety = deity_commune_piety_cost
+	}
+
+	is_shown = {
+		is_deity_devotee_trigger = { DEITY = typhos }
+		NOT = { has_variable = typhos_favor }
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = commune_with_typhos_decision_effect
+			commune_with_typhos_effect = yes
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+# Typhos's Blood Rite. Mark prisoners with the prison interaction first; blood quality decides the odds.
+perform_blood_rite_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
+	decision_group_type = elf
+
+	desc = perform_blood_rite_decision_desc
+	selection_tooltip = perform_blood_rite_decision_tooltip
+	confirm_text = perform_blood_rite_decision_confirm
+
+	sort_order = 390
+	ai_check_interval = 0
+	cooldown = { years = 5 }
+
+	is_shown = {
+		is_deity_devotee_trigger = { DEITY = typhos }
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		custom_tooltip = {
+			text = blood_rite_needs_marked_tt
+			any_prisoner = {
+				has_character_flag = marked_for_blood_rite
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = perform_blood_rite_decision_effect
+			perform_blood_rite_effect = yes
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}

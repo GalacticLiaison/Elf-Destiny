@@ -1,0 +1,495 @@
+﻿namespace = dark_elf_deity
+
+# Dark Elf patron deities (design: modkit reports/proposals/2026-09-26-commune-with-deity-v1-design.md, rev 3)
+# 1001-1003  Heard      (the commune prayer)          X = 1 Melkor, 2 Lloth, 3 Typhos
+# 1101-1103  The dream that night: the god unlocks its tasks on the map
+# 1011-1013  Anointed
+# 1021-1023  Chosen
+# 3001/3002  Task completed / failed (scope:deity_contract = the contract)
+# 4001       Blood Rite outcome
+# 5001       A divine task pin was clicked (scope:pin_province): accept an offer
+
+###################
+# Heard
+###################
+
+dark_elf_deity.1001 = {
+	type = character_event
+	title = dark_elf_deity.1001.t
+	desc = dark_elf_deity.1001.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = prayer
+	}
+
+	option = {
+		name = dark_elf_deity.1001.a
+	}
+}
+
+dark_elf_deity.1002 = {
+	type = character_event
+	title = dark_elf_deity.1002.t
+	desc = dark_elf_deity.1002.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = prayer
+	}
+
+	option = {
+		name = dark_elf_deity.1002.a
+	}
+}
+
+dark_elf_deity.1003 = {
+	type = character_event
+	title = dark_elf_deity.1003.t
+	desc = dark_elf_deity.1003.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = prayer
+	}
+
+	option = {
+		name = dark_elf_deity.1003.a
+	}
+}
+
+###################
+# The dream
+###################
+
+dark_elf_deity.1101 = {
+	type = character_event
+	title = dark_elf_deity.1101.t
+	desc = dark_elf_deity.1101.desc
+	theme = witchcraft
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = dismissal
+	}
+
+	option = {
+		name = dark_elf_deity.1101.a
+		custom_tooltip = dark_elf_deity.dream.unlock_tt
+		unlock_deity_signs_effect = { DEITY = melkor }
+	}
+}
+
+dark_elf_deity.1102 = {
+	type = character_event
+	title = dark_elf_deity.1102.t
+	desc = dark_elf_deity.1102.desc
+	theme = witchcraft
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = scheme
+	}
+
+	option = {
+		name = dark_elf_deity.1102.a
+		custom_tooltip = dark_elf_deity.dream.unlock_tt
+		unlock_deity_signs_effect = { DEITY = lloth }
+	}
+}
+
+dark_elf_deity.1103 = {
+	type = character_event
+	title = dark_elf_deity.1103.t
+	desc = dark_elf_deity.1103.desc
+	theme = witchcraft
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = pain
+	}
+
+	option = {
+		name = dark_elf_deity.1103.a
+		custom_tooltip = dark_elf_deity.dream.unlock_tt
+		unlock_deity_signs_effect = { DEITY = typhos }
+	}
+}
+
+###################
+# Anointed
+###################
+
+# Melkor shows what fear can buy
+dark_elf_deity.1011 = {
+	type = character_event
+	title = dark_elf_deity.1011.t
+	desc = dark_elf_deity.1011.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = scheme
+	}
+
+	option = {
+		name = dark_elf_deity.1011.a
+		add_dread = major_dread_gain
+		add_stress = medium_stress_gain
+	}
+
+	option = {
+		name = dark_elf_deity.1011.b
+	}
+}
+
+# Lloth demands a secret of your own
+dark_elf_deity.1012 = {
+	type = character_event
+	title = dark_elf_deity.1012.t
+	desc = dark_elf_deity.1012.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = scheme
+	}
+
+	option = {
+		name = dark_elf_deity.1012.a
+		add_character_flag = lloth_holds_a_secret
+		change_lloth_favor_effect = { AMOUNT = 10 }
+	}
+
+	option = {
+		name = dark_elf_deity.1012.b
+	}
+}
+
+# Typhos: the first true shedding
+dark_elf_deity.1013 = {
+	type = character_event
+	title = dark_elf_deity.1013.t
+	desc = dark_elf_deity.1013.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = pain
+	}
+
+	option = {
+		name = dark_elf_deity.1013.a
+		blood_rite_grant_good_trait_effect = yes
+		blood_rite_grant_bad_trait_effect = yes
+	}
+
+	option = {
+		name = dark_elf_deity.1013.b
+	}
+}
+
+###################
+# Chosen
+###################
+
+dark_elf_deity.1021 = {
+	type = character_event
+	title = dark_elf_deity.1021.t
+	desc = dark_elf_deity.1021.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = {
+		name = dark_elf_deity.1021.a
+	}
+}
+
+dark_elf_deity.1022 = {
+	type = character_event
+	title = dark_elf_deity.1022.t
+	desc = dark_elf_deity.1022.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = {
+		name = dark_elf_deity.1022.a
+	}
+}
+
+dark_elf_deity.1023 = {
+	type = character_event
+	title = dark_elf_deity.1023.t
+	desc = dark_elf_deity.1023.desc
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = {
+		name = dark_elf_deity.1023.a
+	}
+}
+
+###################
+# Task completed / failed. scope:deity_contract = the contract; the reward or penalty is already applied
+###################
+
+dark_elf_deity.3001 = {
+	type = character_event
+	title = dark_elf_deity.3001.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_melkor_break_them
+						has_task_contract_type = deity_task_melkor_be_feared
+					}
+				}
+			}
+			desc = dark_elf_deity.3001.melkor
+		}
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_lloth_thread_cut
+						has_task_contract_type = deity_task_lloth_thread_tied
+					}
+				}
+			}
+			desc = dark_elf_deity.3001.lloth
+		}
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_typhos_strong_blood
+						has_task_contract_type = deity_task_typhos_shed_skin
+					}
+				}
+			}
+			desc = dark_elf_deity.3001.typhos
+		}
+	}
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = {
+		name = dark_elf_deity.3001.a
+	}
+}
+
+dark_elf_deity.3002 = {
+	type = character_event
+	title = dark_elf_deity.3002.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_melkor_break_them
+						has_task_contract_type = deity_task_melkor_be_feared
+					}
+				}
+			}
+			desc = dark_elf_deity.3002.melkor
+		}
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_lloth_thread_cut
+						has_task_contract_type = deity_task_lloth_thread_tied
+					}
+				}
+			}
+			desc = dark_elf_deity.3002.lloth
+		}
+		triggered_desc = {
+			trigger = {
+				scope:deity_contract = {
+					OR = {
+						has_task_contract_type = deity_task_typhos_strong_blood
+						has_task_contract_type = deity_task_typhos_shed_skin
+					}
+				}
+			}
+			desc = dark_elf_deity.3002.typhos
+		}
+	}
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = shame
+	}
+
+	option = {
+		name = dark_elf_deity.3002.a
+	}
+}
+
+###################
+# Blood Rite outcome
+###################
+
+dark_elf_deity.4001 = {
+	type = character_event
+	title = dark_elf_deity.4001.t
+	desc = {
+		triggered_desc = {
+			trigger = { var:blood_rite_result = flag:good }
+			desc = dark_elf_deity.4001.good
+		}
+		triggered_desc = {
+			trigger = { var:blood_rite_result = flag:none }
+			desc = dark_elf_deity.4001.none
+		}
+		triggered_desc = {
+			trigger = { var:blood_rite_result = flag:bad }
+			desc = dark_elf_deity.4001.bad
+		}
+	}
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = pain
+	}
+
+	option = {
+		name = dark_elf_deity.4001.a
+		remove_variable = blood_rite_result
+	}
+}
+
+###################
+# A divine task pin was clicked. Root = the player, scope:pin_province = the province under the pin
+###################
+
+dark_elf_deity.5001 = {
+	type = character_event
+	title = dark_elf_deity.5001.t
+	desc = {
+		desc = dark_elf_deity.5001.desc
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_melkor_break_them } }
+			desc = dark_elf_deity.5001.offer_melkor_break_them
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_melkor_be_feared } }
+			desc = dark_elf_deity.5001.offer_melkor_be_feared
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_lloth_thread_cut } }
+			desc = dark_elf_deity.5001.offer_lloth_thread_cut
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_lloth_thread_tied } }
+			desc = dark_elf_deity.5001.offer_lloth_thread_tied
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_typhos_strong_blood } }
+			desc = dark_elf_deity.5001.offer_typhos_strong_blood
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_offer_typhos_shed_skin } }
+			desc = dark_elf_deity.5001.offer_typhos_shed_skin
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { has_variable = deity_pin_active } }
+			desc = dark_elf_deity.5001.active
+		}
+		triggered_desc = {
+			trigger = { scope:pin_province = { NOT = { has_variable = deity_pin_offers } } }
+			desc = dark_elf_deity.5001.no_offers
+		}
+	}
+	theme = faith
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	option = {
+		name = dark_elf_deity.5001.melkor_break_them
+		trigger = { scope:pin_province = { has_variable = deity_offer_melkor_break_them } }
+		custom_tooltip = dark_elf_deity.task.melkor_break_them_tt
+		accept_deity_offer_effect = { TASK = melkor_break_them YEARS = deity_task_years_break_them }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.melkor_be_feared
+		trigger = { scope:pin_province = { has_variable = deity_offer_melkor_be_feared } }
+		custom_tooltip = dark_elf_deity.task.melkor_be_feared_tt
+		accept_deity_offer_effect = { TASK = melkor_be_feared YEARS = deity_task_years_be_feared }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.lloth_thread_cut
+		trigger = { scope:pin_province = { has_variable = deity_offer_lloth_thread_cut } }
+		custom_tooltip = dark_elf_deity.task.lloth_thread_cut_tt
+		accept_deity_offer_effect = { TASK = lloth_thread_cut YEARS = deity_task_years_thread_cut }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.lloth_thread_tied
+		trigger = { scope:pin_province = { has_variable = deity_offer_lloth_thread_tied } }
+		custom_tooltip = dark_elf_deity.task.lloth_thread_tied_tt
+		accept_deity_offer_effect = { TASK = lloth_thread_tied YEARS = deity_task_years_thread_tied }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.typhos_strong_blood
+		trigger = { scope:pin_province = { has_variable = deity_offer_typhos_strong_blood } }
+		custom_tooltip = dark_elf_deity.task.typhos_strong_blood_tt
+		accept_deity_offer_effect = { TASK = typhos_strong_blood YEARS = deity_task_years_strong_blood }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.typhos_shed_skin
+		trigger = { scope:pin_province = { has_variable = deity_offer_typhos_shed_skin } }
+		custom_tooltip = dark_elf_deity.task.typhos_shed_skin_tt
+		accept_deity_offer_effect = { TASK = typhos_shed_skin YEARS = deity_task_years_shed_skin }
+	}
+
+	option = {
+		name = dark_elf_deity.5001.leave
+	}
+}

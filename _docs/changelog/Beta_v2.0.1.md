@@ -20,11 +20,5 @@ NEW! Barbershop Updates
    - Nudity selector right above the color pickers. For inspecting tattoos. Obviously.
    - The clothing and tattoo color pickers fold away when you're not using them
 
-NEW! Bloodline Ink
-   - Serpent tattoos (Winding Scales, Scaled Collar, Coiling Scales) are only chosen by drow in the court of a Syldranis bloodline ruler
-   - Spidersilk Net is only chosen in the court of a Myrvessa bloodline ruler
-   - Widow's Hose spider-web leggings are only chosen by dark elf women in the court of a Myrvessa bloodline ruler
-
 # Bugs/Balance
 - Fixed two chest tattoos whose textures failed to load
-- Random tattoo rates outside those courts are unchanged

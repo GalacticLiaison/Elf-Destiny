@@ -172,11 +172,28 @@ aeluran_repeating.003 = { # New Matriarch Elected
 
 }
 
-aeluran_repeating.004 = { # Player Elected To Matron
+aeluran_repeating.004 = { # Player Elected To Matron (scope:new_matron; scope:matronate when raised to take a Matronate)
 	type = character_event
 
 	title = aeluran_repeating.004.title
-	desc = aeluran_repeating.004.desc
+	desc = {
+		first_valid = {
+			# Appointed by the High Matriarch herself (her found and entrust powers)
+			triggered_desc = {
+				trigger = {
+					exists = scope:matronate
+					exists = scope:actor
+					scope:actor = { has_title = title:d_high_matriarch }
+				}
+				desc = aeluran_repeating.004.desc_matronate_appointed
+			}
+			triggered_desc = {
+				trigger = { exists = scope:matronate }
+				desc = aeluran_repeating.004.desc_matronate
+			}
+			desc = aeluran_repeating.004.desc
+		}
+	}
 
 	theme = faith
 	override_background = {
@@ -363,5 +380,61 @@ aeluran_repeating.006 = {
 		faith:aeluran_weavers = {
 			set_religious_head_title = title:d_high_matriarch
 		}
+		aeluran_claim_seat_lands_effect = yes
+	}
+}
+
+aeluran_repeating.007 = { # The new High Matriarch gives up her Matron's Seat, and any Matronate she held passes on
+	hidden = yes
+
+	immediate = {
+		aeluran_remove_matron_seat_effect = yes
+		# The Matronate's succession raises a Sister of its region to Matron, who takes a Seat of her own
+		aeluran_matronate_vacate_held_effect = yes
+		aeluran_conclave_electors_vote_effect = yes
+	}
+}
+
+aeluran_repeating.008 = { # The Seat passes: the player who played the late Matriarch continues as her heir, or as the new High Matriarch
+	type = character_event
+
+	title = aeluran_repeating.008.title
+	desc = {
+		desc = aeluran_repeating.008.desc
+		triggered_desc = {
+			trigger = { has_character_flag = aeluran_matriarch_lands_received }
+			desc = aeluran_repeating.008.desc_lands
+		}
+		desc = aeluran_repeating.008.desc_choice
+	}
+
+	theme = faith
+	override_icon = {
+		reference = "gfx/interface/icons/traits/aeluran_high_matriarch.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:new_matriarch
+		animation = personality_zealous
+	}
+
+	option = {
+		name = aeluran_repeating.008.a
+	}
+
+	option = {
+		name = aeluran_repeating.008.b
+		trigger = {
+			scope:new_matriarch = {
+				is_alive = yes
+				is_ai = yes
+			}
+		}
+		set_player_character = scope:new_matriarch
 	}
 }
