@@ -15,6 +15,7 @@ NEW! Dark Elf Rites
    - The Aeluran Weavers now have three dark rites under the High Matriarch: the Dökkálfar, Myrvessa and Syldranis rites
    - Each rite follows its own patron: Melkor, Lloth or Typhos, each with a tenet of their own
    - New Dark Sisters tenet for the dark chapters of the Order
+   - Coming soon: commune with your patron god directly. The decisions are already there to tease you.
 
 # Bugs/Balance
 - Updated for CK3 1.20: religions, tenets, laws, holy sites, and the faith, council, ruler designer, lobby and main menu screens have been brought in line with the new game version
