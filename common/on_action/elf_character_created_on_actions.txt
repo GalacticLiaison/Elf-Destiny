@@ -6,6 +6,31 @@
 on_character_created = {
 	on_actions = {
 		elf_character_created_race
+		elf_character_created_traits
+	}
+}
+
+# Earned traits (heroic, passionate, their Valar forms, tier-4 genetics) on a character who hasn't earned them get
+# swapped for the base trait straight away, instead of waiting for the five-year pulse (fix_potential_trait_characters).
+# random_creation_weight = 0 keeps the personality ones out of random generation; this catches anything else.
+elf_character_created_traits = {
+	trigger = {
+		# The ruler designer family keeps what the player picked
+		NOT = { scope:creation_reason = flag:ruler_designer }
+	}
+	on_actions = {
+		# Wait a day, like the race pass: templates add traits, race and Valar status in the same tick
+		delay = { days = 1 }
+		elf_character_created_traits_apply
+	}
+}
+
+elf_character_created_traits_apply = {
+	trigger = {
+		is_alive = yes
+	}
+	on_actions = {
+		fix_potential_trait_characters
 	}
 }
 

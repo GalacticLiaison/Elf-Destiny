@@ -25,6 +25,7 @@ NEW! Dark Elf Rites
 - The Swing Aeluran Control button has its icon back
 - Updated the portrait shaders for 1.20
 - Characters who had the Scholar trait (removed in 1.20) now have Erudite
+- Random courtiers, guests and wanderers no longer show up already Heroic or Passionate. Those traits are earned again, through your blessing traditions and your deeds.
 - The High Matriarch now properly fills the Head of Faith slot from game start
 - Faiths with more than three core tenets show them in a single scrolling row instead of wrapping
 - War Magi and Magi Artillery are limited to one regiment each
