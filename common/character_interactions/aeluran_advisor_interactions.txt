@@ -1,0 +1,175 @@
+﻿# Placing Sisters: a Matron (or the High Matriarch) appoints and recalls the Advisors of her flock.
+# Effects in common/scripted_effects/aeluran_advisor_appointment_effects.txt. Used on the ruler who needs the Advisor.
+# The AI uses the effects directly: an AI appointer fills a post at once.
+
+# Appoint a Sister of the Matronate to an open Advisor post
+aeluran_appoint_advisor_interaction = {
+	category = interaction_category_religion
+	icon = icon_aeluran_sister
+	interface_priority = 70
+	common_interaction = yes
+	use_diplomatic_range = no
+	desc = aeluran_appoint_advisor_interaction_desc
+
+	# The best candidate is offered first
+	redirect = {
+		scope:recipient = { save_scope_as = advisor_post }
+		scope:actor = {
+			ordered_living_character = {
+				limit = {
+					has_trait = aeluran_sister
+					aeluran_advisor_candidate_trigger = { POST = scope:recipient APPOINTER = scope:actor }
+				}
+				order_by = aeluran_advisor_candidate_score
+				save_scope_as = secondary_recipient
+			}
+		}
+	}
+
+	populate_recipient_list = {
+		scope:recipient = { save_scope_as = advisor_post }
+		scope:actor = {
+			every_living_character = {
+				limit = {
+					has_trait = aeluran_sister
+					aeluran_advisor_candidate_trigger = { POST = scope:recipient APPOINTER = scope:actor }
+				}
+				add_to_list = characters
+			}
+		}
+	}
+
+	is_shown = {
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			var:aeluran_advisor_vacancy ?= scope:actor
+			NOT = { exists = cp:councillor_aeluran_advisor }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = aeluran_appoint_advisor_no_candidate_tt
+			exists = scope:secondary_recipient
+		}
+		scope:secondary_recipient ?= {
+			aeluran_advisor_candidate_trigger = { POST = scope:recipient APPOINTER = scope:actor }
+		}
+	}
+
+	on_accept = {
+		scope:secondary_recipient = {
+			custom_tooltip = aeluran_appoint_advisor_tt
+		}
+		hidden_effect = {
+			scope:actor = { save_scope_as = advisor_appointer }
+			scope:secondary_recipient = { save_scope_as = aeluran_sister_advisor }
+			scope:recipient = { aeluran_appoint_chosen_advisor_effect = yes }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+# Send for a newly trained Sister from Deepwood instead
+aeluran_send_novice_advisor_interaction = {
+	category = interaction_category_religion
+	icon = icon_aeluran_sister
+	interface_priority = 69
+	common_interaction = yes
+	use_diplomatic_range = no
+	desc = aeluran_send_novice_advisor_interaction_desc
+
+	is_shown = {
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			var:aeluran_advisor_vacancy ?= scope:actor
+			NOT = { exists = cp:councillor_aeluran_advisor }
+		}
+	}
+
+	on_accept = {
+		custom_tooltip = aeluran_send_novice_advisor_tt
+		hidden_effect = {
+			scope:actor = { save_scope_as = advisor_appointer }
+			scope:recipient = { aeluran_appoint_novice_advisor_effect = yes }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+# Recall a ruler's Advisor; the post opens again
+aeluran_recall_advisor_interaction = {
+	category = interaction_category_religion
+	icon = icon_aeluran_sister
+	interface_priority = 40
+	common_interaction = no
+	use_diplomatic_range = no
+	desc = aeluran_recall_advisor_interaction_desc
+
+	is_shown = {
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			exists = cp:councillor_aeluran_advisor
+		}
+		scope:actor = { aeluran_has_advisor_authority_over_trigger = yes }
+	}
+
+	cooldown_against_recipient = { years = 5 }
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+		}
+	}
+
+	cost = {
+		piety = 100
+	}
+
+	on_accept = {
+		scope:recipient.cp:councillor_aeluran_advisor = { save_scope_as = recalled_advisor }
+		scope:recalled_advisor = {
+			custom_tooltip = aeluran_recall_advisor_tt
+			add_opinion = {
+				target = scope:actor
+				modifier = aeluran_recalled_advisor_opinion
+			}
+		}
+		scope:recipient = {
+			add_opinion = {
+				target = scope:actor
+				modifier = aeluran_recalled_advisor_opinion
+			}
+			custom_tooltip = aeluran_recall_advisor_post_opens_tt
+		}
+		hidden_effect = {
+			scope:recipient = {
+				fire_councillor = scope:recalled_advisor
+			}
+			scope:recalled_advisor = {
+				if = {
+					limit = { has_variable = appointed_to_advise }
+					remove_variable = appointed_to_advise
+				}
+			}
+			scope:recipient = { aeluran_open_advisor_post_effect = yes }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}

@@ -1,0 +1,33 @@
+﻿# Characters the game creates directly (pool wanderers, guests, court populators, mercenary captains, generated heirs and
+# landholders, create_character in events) get their culture's ethnicity, so elf-culture ones look like elves, but
+# nothing gives them the race. This makes them elves of their culture's kind, as the game-start pass does for the
+# characters that exist at game start (dark_elf_convert_ethnicity_elves). Born children use the birth on_actions.
+# Registered through on_actions so vanilla's own on_character_created effect block is left alone.
+on_character_created = {
+	on_actions = {
+		elf_character_created_race
+	}
+}
+
+elf_character_created_race = {
+	trigger = {
+		# The ruler designer character and family get their race from the designer (after-lobby race logic)
+		NOT = { scope:creation_reason = flag:ruler_designer }
+	}
+	on_actions = {
+		# Wait a day: character templates (e.g. the Aeluran matchmaking ones) set their own race flag and race-init in the
+		# same tick. The delayed entry's trigger is checked again after the delay, so those characters are skipped.
+		delay = { days = 1 }
+		elf_character_created_race_apply
+	}
+}
+
+elf_character_created_race_apply = {
+	trigger = {
+		is_alive = yes
+		elf_needs_culture_race_trigger = yes
+	}
+	effect = {
+		elf_apply_culture_race_effect = yes
+	}
+}

@@ -1,0 +1,265 @@
+﻿# Override of vanilla 1.20 head_of_faith_set_up_change_core_tenet_effect, copied from
+# common/scripted_effects/11_dlc_pam_scripted_effects.txt. Each change is marked "Elf Destiny".
+# The engine calls this when an AI Head of Faith elected by a College (the Council of Matrons for the Aeluran Weavers)
+# recasts one core tenet of her rite: it only sets scope:tenet_to_add and scope:tenet_to_remove.
+# Vanilla would drop the rite's least popular tenet, which could be the Aeluran or Dark Sisters, and add the most popular
+# one it may pick, which could be a dark patron deity. Re-diff against vanilla after every game patch.
+
+head_of_faith_set_up_change_core_tenet_effect = {
+	save_scope_as = actor
+	# Elf Destiny - an AI High Matriarch never swaps a Sisterhood, a dark patron deity or Divine Marriage in or out
+	if = {
+		limit = {
+			is_ai = yes
+			faith.religion = religion:spark_religion
+		}
+		elf_aeluran_set_up_change_core_tenet_effect = yes
+	}
+	# End Elf Destiny
+	else_if = { # Players don't swap tenets like this
+		limit = {
+			is_ai = no
+		}
+	}
+	else_if = { # Pious candidates take what feels the best
+		limit = {
+			has_realm_law = theocratic_elective_succession_law
+			pam_is_college_election_candidate_trigger = { SOURCE = theocratic_elective_pious }
+		}
+		ordered_personal_tenet = {
+			limit = {
+				save_temporary_scope_as = tenet_check
+				scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+				NOR = {
+					scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+					scope:actor.faith.main_rite = {
+						has_tenet_status = {
+							tenet = scope:tenet_check
+							status = prohibited
+						}
+					}
+				}
+			}
+			order_by = pam_tenet_popularity_impact_value
+			position = 0
+			save_scope_as = tenet_to_add
+		}
+		# Nothing they personally hold is still available, so settle for whatever else suits them
+		every_desired_tenet = {
+			selection_count = 97
+			only_positive = no
+			limit = {
+				NOT = { exists = scope:tenet_to_add }
+				save_temporary_scope_as = tenet_check
+				scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+				NOR = {
+					scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+					scope:actor.faith.main_rite = {
+						has_tenet_status = {
+							tenet = scope:tenet_check
+							status = prohibited
+						}
+					}
+				}
+			}
+			save_scope_as = tenet_to_add
+		}
+	}
+	else_if = { # Powerful candidates impose their puppeteer's creed, or their own when nobody pulls the strings
+		limit = {
+			pam_is_college_election_candidate_trigger = { SOURCE = theocratic_elective_powerful }
+		}
+		if = {
+			limit = {
+				exists = puppeteer
+			}
+			puppeteer = {
+				save_temporary_scope_as = tenet_patron
+			}
+		}
+		else = {
+			save_temporary_scope_as = tenet_patron
+		}
+		scope:tenet_patron = {
+			# What the patron actually professes comes first
+			ordered_personal_tenet = {
+				limit = {
+					save_temporary_scope_as = tenet_check
+					scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+					NOR = {
+						scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+						scope:actor.faith.main_rite = {
+							has_tenet_status = {
+								tenet = scope:tenet_check
+								status = prohibited
+							}
+						}
+					}
+				}
+				order_by = pam_tenet_popularity_impact_value
+				position = 0
+				save_scope_as = tenet_to_add
+			}
+			# Nothing they personally hold is still available, so settle for whatever else suits them
+			every_desired_tenet = {
+				selection_count = 97
+				only_positive = no
+				limit = {
+					NOT = { exists = scope:tenet_to_add }
+					save_temporary_scope_as = tenet_check
+					scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+					NOR = {
+						scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+						scope:actor.faith.main_rite = {
+							has_tenet_status = {
+								tenet = scope:tenet_check
+								status = prohibited
+							}
+						}
+					}
+				}
+				save_scope_as = tenet_to_add
+			}
+		}
+		# A puppeteer with nothing left to ask for leaves the candidate to his own conscience
+		every_desired_tenet = {
+			selection_count = 97
+			only_positive = no
+			limit = {
+				NOT = { exists = scope:tenet_to_add }
+				save_temporary_scope_as = tenet_check
+				scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+				NOR = {
+					scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+					scope:actor.faith.main_rite = {
+						has_tenet_status = {
+							tenet = scope:tenet_check
+							status = prohibited
+						}
+					}
+				}
+			}
+			save_scope_as = tenet_to_add
+		}
+	}
+	else = { # Populists take a popular tenet
+		ordered_tenet = {
+			limit = {
+				save_temporary_scope_as = tenet_check
+				scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+				NOR = {
+					scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+					scope:actor.faith.main_rite = {
+						has_tenet_status = {
+							tenet = scope:tenet_check
+							status = prohibited
+						}
+					}
+				}
+			}
+			order_by = pam_tenet_popularity_impact_value
+			position = 0
+			save_scope_as = tenet_to_add
+		}
+	}
+	
+	# A Powerful candidate campaigns on his puppeteer's grievance, the same way he takes his puppeteer's preference above
+	if = {
+		limit = {
+			pam_is_college_election_candidate_trigger = { SOURCE = theocratic_elective_powerful }
+			exists = puppeteer
+		}
+		puppeteer = {
+			ordered_undesired_tenet = {
+				limit = {
+					save_temporary_scope_as = tenet_check
+					scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+					this != tenet:tenet_armed_pilgrimages
+				}
+				save_scope_as = tenet_to_remove
+			}
+		}
+	}
+	# Pious candidates, and Powerful ones with nobody pulling the strings, drop what they resent most themselves
+	else_if = {
+		limit = {
+			OR = {
+				pam_is_college_election_candidate_trigger = { SOURCE = theocratic_elective_pious }
+				pam_is_college_election_candidate_trigger = { SOURCE = theocratic_elective_powerful }
+			}
+		}
+		ordered_undesired_tenet = {
+			limit = {
+				this != tenet:tenet_armed_pilgrimages
+			}
+			save_scope_as = tenet_to_remove
+		}
+	}
+
+	# Elf Destiny - Aeluran rites choose their own tenet_to_remove above (or keep every tenet)
+	if = {
+		limit = {
+			NOT = { exists = scope:tenet_to_remove }
+			NOT = { faith.religion = religion:spark_religion }
+		}
+		rite = {
+			ordered_rite_tenet = {
+				limit = {
+					this != tenet:tenet_armed_pilgrimages
+				}
+				order_by = pam_tenet_unpopularity_impact_value
+				position = 0
+				save_scope_as = tenet_to_remove
+			}
+		}
+	}
+}
+
+
+# Elf Destiny - the Aeluran recast. Like vanilla's Pious candidates it follows the new Matriarch's own convictions, so
+# each candidate would recast differently (the populist logic ranks by faith-wide popularity, which gave every
+# candidate the same swap). Protected tenets (aeluran_protected_tenet_trigger) are never added or removed.
+# If every core tenet is protected nothing is removed, and the engine then leaves the rite as it is.
+elf_aeluran_set_up_change_core_tenet_effect = {
+	# What she personally professes (her personal tenets), the most popular of them first
+	ordered_personal_tenet = {
+		limit = {
+			elf_aeluran_ai_can_add_tenet_trigger = yes
+		}
+		order_by = pam_tenet_popularity_impact_value
+		position = 0
+		save_scope_as = tenet_to_add
+	}
+	# Otherwise whatever suits her best (desired tenets are ranked by her own spiritual fulfillment)
+	every_desired_tenet = {
+		selection_count = 97
+		only_positive = no
+		limit = {
+			NOT = { exists = scope:tenet_to_add }
+			elf_aeluran_ai_can_add_tenet_trigger = yes
+		}
+		save_scope_as = tenet_to_add
+	}
+
+	# She drops the core tenet she resents most (undesired tenets run worst first)
+	ordered_undesired_tenet = {
+		limit = {
+			aeluran_protected_tenet_trigger = no
+		}
+		save_scope_as = tenet_to_remove
+	}
+	# Content with every unprotected tenet: the least popular one gives way
+	if = {
+		limit = { NOT = { exists = scope:tenet_to_remove } }
+		scope:actor.rite = {
+			ordered_rite_tenet = {
+				limit = {
+					aeluran_protected_tenet_trigger = no
+				}
+				order_by = pam_tenet_unpopularity_impact_value
+				position = 0
+				save_scope_as = tenet_to_remove
+			}
+		}
+	}
+}

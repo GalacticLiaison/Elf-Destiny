@@ -1,0 +1,83 @@
+﻿# Used in the can_pick of tenet_aeluran_sisters and tenet_dark_sisters (root: the faith/rite being created).
+# The Sisterhood's systems assume these doctrines: the High Matriarch as Head of Faith (conclave, Matron seats),
+# priestesses only (Matrons), temporal theocracy (the Aeluran temple lease) and fixed clerical appointment
+# (the Aeluran Advisor). A rite that keeps a Sisters tenet cannot drop them when reforming.
+aeluran_sisterhood_doctrines_selected_trigger = {
+	custom_description = {
+		text = aeluran_sisterhood_requires_spiritual_head_trigger
+		doctrine:doctrine_spiritual_head = { is_in_list = selected_doctrines }
+	}
+	custom_description = {
+		text = aeluran_sisterhood_requires_female_clergy_trigger
+		doctrine:doctrine_clerical_gender_female_only = { is_in_list = selected_doctrines }
+	}
+	custom_description = {
+		text = aeluran_sisterhood_requires_temporal_theocracy_trigger
+		doctrine:doctrine_theocracy_temporal = { is_in_list = selected_doctrines }
+	}
+	custom_description = {
+		text = aeluran_sisterhood_requires_fixed_appointment_trigger
+		doctrine:doctrine_clerical_succession_temporal_fixed_appointment = { is_in_list = selected_doctrines }
+	}
+}
+
+# Character scope. Spark Syncretism is only worth it for the AI where elves actually matter to the realm
+# (mirrors vanilla pam_ai_meaningful_christian_presence_trigger)
+elf_meaningful_spark_presence_trigger = {
+	OR = {
+		any_vassal = {
+			faith ?= { religion = religion:spark_religion }
+		}
+		any_sub_realm_county = {
+			faith ?= { religion = religion:spark_religion }
+		}
+		any_neighboring_and_across_water_realm_owner = {
+			faith ?= { religion = religion:spark_religion }
+		}
+	}
+}
+
+# Are characters $A$ and $B$ of the same Sisterhood (both rites hold tenet_aeluran_sisters, or both tenet_dark_sisters)?
+aeluran_same_sisterhood_trigger = {
+	OR = {
+		AND = {
+			$A$.rite ?= { rite_has_tenet = tenet_aeluran_sisters }
+			$B$.rite ?= { rite_has_tenet = tenet_aeluran_sisters }
+		}
+		AND = {
+			$A$.rite ?= { rite_has_tenet = tenet_dark_sisters }
+			$B$.rite ?= { rite_has_tenet = tenet_dark_sisters }
+		}
+	}
+}
+
+# Tenet scope. Core tenets the AI never swaps in or out of an Aeluran rite (see zzz_OVERRIDE_pam_head_of_faith_tenet_effects.txt):
+# the two Sisterhoods, which only ever give way to each other by choice, the dark rites' patron deities, and
+# Divine Marriage, which every Aeluran rite holds. Only the AI is bound by this: a player can still change them.
+aeluran_protected_tenet_trigger = {
+	OR = {
+		this = tenet:tenet_aeluran_sisters
+		this = tenet:tenet_dark_sisters
+		this = tenet:tenet_divine_marriage
+		this = tenet:tenet_melkor_void
+		this = tenet:tenet_lloth_web
+		this = tenet:tenet_typhos_ascent
+	}
+}
+
+# Tenet scope, scope:actor = an AI High Matriarch recasting a core tenet of her rite (zzz_OVERRIDE_pam_head_of_faith_tenet_effects.txt).
+# A tenet she may bring in: never a protected one, one her rite can pick, not already held, not prohibited by the faith.
+elf_aeluran_ai_can_add_tenet_trigger = {
+	aeluran_protected_tenet_trigger = no
+	save_temporary_scope_as = tenet_check
+	scope:actor.rite = { rite_can_choose_tenet = scope:tenet_check }
+	NOR = {
+		scope:actor.rite = { rite_has_tenet = scope:tenet_check }
+		scope:actor.faith.main_rite = {
+			has_tenet_status = {
+				tenet = scope:tenet_check
+				status = prohibited
+			}
+		}
+	}
+}

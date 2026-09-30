@@ -9,6 +9,11 @@
 			name = expedition_holy_site
 			value = flag:$SITE_NAME$
 		}
+		# The holy site this barony becomes once an expedition discovers it
+		set_variable = {
+			name = expedition_holy_site_scope
+			value = holy_site:$HOLY_SITE$
+		}
 	}
 }
 
@@ -62,160 +67,84 @@ set_portal_location = {
 	}
 }
 
+
+# Discovered expedition sites become holy sites of the Aeluran Weavers (never the discoverer's own faith).
+# Expects scope:activity; root is the expedition host.
 activate_discovered_holy_site_effect = {
-
-	if = {
-
-		limit = {
-			scope:activity.activity_location.barony.var:expedition_holy_site = flag:fortress_tomb_of_the_dead_emperor
-		}
-
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_bellinzona }
-			
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor
-			}
-		}
-
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_intarta }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_1
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_simbiling }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_2
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_dayan }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_3
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_atakpame }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_4
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_kasriskari }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_5
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_northri_gudbrandsdali }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_6
-			}
-		}
-		if = { 
-			limit = { scope:activity.activity_location.barony  = title:b_wanqiu }
-
-			root.faith = {
-				add_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_7
-			}
-		}
+	scope:activity.activity_location.barony ?= {
+		expedition_activate_barony_holy_site_effect = yes
 	}
-
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_1}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_2}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_3}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_4}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_5}
-	# activate_holy_site_if_valid = { SITE_NAME = fortress_tomb_of_the_dead_emperor_alt_6}
-
-	activate_holy_site_if_valid = { SITE_NAME = ruins_of_valfuria}
-	activate_holy_site_if_valid = { SITE_NAME = spire_citadel}
-	activate_holy_site_if_valid = { SITE_NAME = proving_fields}
-	activate_holy_site_if_valid = { SITE_NAME = volcanic_forge}
-	activate_holy_site_if_valid = { SITE_NAME = noble_wood}
-	activate_holy_site_if_valid = { SITE_NAME = high_harbor}
-	activate_holy_site_if_valid = { SITE_NAME = citadel_of_bear_king_thul}
-	activate_holy_site_if_valid = { SITE_NAME = archipelago_of_duck_duke_vega}
-	activate_holy_site_if_valid = { SITE_NAME = tomb_of_ale_the_dragon_slayer}
-	activate_holy_site_if_valid = { SITE_NAME = ruins_of_the_runic_city_of_anundshog}
-	activate_holy_site_if_valid = { SITE_NAME = tomb_of_the_lights_champions}
-	activate_holy_site_if_valid = { SITE_NAME = black_palace_of_dark_queen_hekla}
-	activate_holy_site_if_valid = { SITE_NAME = newgrange_temple}
-	activate_holy_site_if_valid = { SITE_NAME = burrens_bastion}
-	activate_holy_site_if_valid = { SITE_NAME = skip_gates_of_camelot}
-	activate_holy_site_if_valid = { SITE_NAME = great_obelisk_of_the_pictish}
-	activate_holy_site_if_valid = { SITE_NAME = labyrinth_gateway_of_the_altamirans}
-	activate_holy_site_if_valid = { SITE_NAME = grazing_villages_of_the_great_herds}
-	activate_holy_site_if_valid = { SITE_NAME = hunting_grounds_of_the_greater_drakes}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_glanum}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_mega_city_of_myropillya}
-	activate_holy_site_if_valid = { SITE_NAME = temple_of_the_mages_court}
-	activate_holy_site_if_valid = { SITE_NAME = seat_of_the_storm_king}
-	activate_holy_site_if_valid = { SITE_NAME = cradle_of_the_first_elves}
-	activate_holy_site_if_valid = { SITE_NAME = apadana_palace}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_bosra}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_babylon}
-	activate_holy_site_if_valid = { SITE_NAME = library_of_alexandria}
-	activate_holy_site_if_valid = { SITE_NAME = harkonnens_foley}
-	activate_holy_site_if_valid = { SITE_NAME = shattered_spire_of_veldric}
-	activate_holy_site_if_valid = { SITE_NAME = the_grand_blood_alter}
-	activate_holy_site_if_valid = { SITE_NAME = labyrinth_gateway_of_the_ajantas}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_holy_city_of_madurai}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_fortress_of_mahasthangarh}
-	activate_holy_site_if_valid = { SITE_NAME = mythical_spiritual_kingdom_of_shambhala}
-	activate_holy_site_if_valid = { SITE_NAME = domain_of_the_forest_spirit_eleke_sazy}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_faerie_groves}
-	activate_holy_site_if_valid = { SITE_NAME = overwatch_fortress}
-	activate_holy_site_if_valid = { SITE_NAME = wraith_wood}
-	activate_holy_site_if_valid = { SITE_NAME = matrons_hollow}
-	activate_holy_site_if_valid = { SITE_NAME = sealed_magic_armoury}
-	activate_holy_site_if_valid = { SITE_NAME = whisper_wood}
-	activate_holy_site_if_valid = { SITE_NAME = light_reach_citadel}
-	activate_holy_site_if_valid = { SITE_NAME = east_flaria}
-	activate_holy_site_if_valid = { SITE_NAME = west_flaria}
-	activate_holy_site_if_valid = { SITE_NAME = wratislaw_magi_academy}
-	activate_holy_site_if_valid = { SITE_NAME = vela_spila_caverns}
-
-	activate_holy_site_if_valid = { SITE_NAME = the_immortal_army_of_qin}
-	activate_holy_site_if_valid = { SITE_NAME = heavens_gate}
-	activate_holy_site_if_valid = { SITE_NAME = engkanto_ruins}
-	activate_holy_site_if_valid = { SITE_NAME = white_snakes_prison}
-	activate_holy_site_if_valid = { SITE_NAME = enchanted_forest_of_daji}
-	activate_holy_site_if_valid = { SITE_NAME = meng_jiangs_wrath}
-	activate_holy_site_if_valid = { SITE_NAME = mount_huaguo}
-	activate_holy_site_if_valid = { SITE_NAME = yamata_no_orochis_rest}
-	activate_holy_site_if_valid = { SITE_NAME = ruins_of_lanka}
-	activate_holy_site_if_valid = { SITE_NAME = aji_sakas_fortress}
-	activate_holy_site_if_valid = { SITE_NAME = sentinels_watch}
-	activate_holy_site_if_valid = { SITE_NAME = memory_vaults}
-	activate_holy_site_if_valid = { SITE_NAME = frost_engine}
-	activate_holy_site_if_valid = { SITE_NAME = ancient_city_of_mohenjo_daro}
-	activate_holy_site_if_valid = { SITE_NAME = mount_paektu}
-	activate_holy_site_if_valid = { SITE_NAME = darkened_emerald_veil}
-	activate_holy_site_if_valid = { SITE_NAME = sword_lake}
-	activate_holy_site_if_valid = { SITE_NAME = tomb_upon_the_mountain}
-	activate_holy_site_if_valid = { SITE_NAME = domain_of_the_mrenh_kongveal}
-	activate_holy_site_if_valid = { SITE_NAME = gate_of_kamuy_kotan}
-	activate_holy_site_if_valid = { SITE_NAME = ruins_of_vaeldrakhor}
-
 }
 
-activate_holy_site_if_valid = {
+# Scope: the expedition site barony. Root is the discovering character.
+expedition_activate_barony_holy_site_effect = {
 	if = {
-		limit = {
-			scope:activity.activity_location.barony.var:expedition_holy_site = flag:$SITE_NAME$
+		limit = { exists = var:expedition_holy_site_scope }
+		var:expedition_holy_site_scope = { save_scope_as = discovered_holy_site }
+	}
+
+	if = {
+		limit = { exists = scope:discovered_holy_site }
+
+		# add_holy_site errors if the faith already has the site (repeat expeditions, the Grand Portal)
+		if = {
+			limit = {
+				NOT = {
+					faith:aeluran_weavers = {
+						any_holy_site = { this = scope:discovered_holy_site }
+					}
+				}
+			}
+			faith:aeluran_weavers = {
+				add_holy_site = {
+					target = scope:discovered_holy_site
+					actor = root
+				}
+			}
 		}
-		root.faith = {
-			add_holy_site = holy_site:$SITE_NAME$
+
+		if = {
+			limit = {
+				scope:discovered_holy_site = { holy_site_has_artifact = no }
+			}
+			expedition_enshrine_placeholder_relic_effect = yes
 		}
 	}
+}
+
+# PLACEHOLDER until site-specific relics exist: a common Aeluran relic enshrined in the discovered site.
+# Uses vanilla's generic holy relic setup: branch_general_template counts an artifact as a holy relic
+# for var:relic_religion, and finalize_starting_relic_effect enshrines it (skips if the site is full).
+expedition_enshrine_placeholder_relic_effect = {
+	scope:discovered_holy_site = { save_scope_as = relic_site }
+	faith:aeluran_weavers = { save_scope_as = relic_faith }
+	root = { save_scope_as = relic_owner }
+
+	set_artifact_rarity_common = yes
+	scope:relic_owner = {
+		create_artifact = {
+			name = artifact_expedition_placeholder_relic_name
+			description = artifact_expedition_placeholder_relic_desc
+			type = pedestal
+			template = branch_general_template
+			visuals = reliquary
+			wealth = scope:wealth
+			quality = scope:quality
+			history = {
+				type = discovered
+				actor = scope:relic_owner
+				recipient = scope:relic_owner
+				location = scope:relic_site.holy_site_barony.title_province
+			}
+			modifier = artifact_placeholder_modifier
+			save_scope_as = newly_created_artifact
+		}
+	}
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = relic_religion
+			value = scope:relic_faith.religion
+		}
+	}
+	finalize_starting_relic_effect = yes
 }

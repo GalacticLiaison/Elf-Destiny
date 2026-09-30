@@ -198,3 +198,22 @@ aeluran_flock_piety_value = {
 	}
 	min = 0
 }
+
+# Scope: a candidate Sister; scope:advisor_post = the ruler she would advise. How well she fits the post.
+aeluran_advisor_candidate_score = {
+	value = learning
+	multiply = 2
+	add = diplomacy
+	if = {
+		limit = { culture = scope:advisor_post.culture }
+		add = 10
+	}
+	if = {
+		limit = { rite = scope:advisor_post.rite }
+		add = 10
+	}
+	add = {
+		value = "opinion(scope:advisor_post)"
+		divide = 5
+	}
+}

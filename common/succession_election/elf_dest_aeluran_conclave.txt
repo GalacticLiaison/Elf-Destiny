@@ -16,10 +16,15 @@ aeluran_matron_conclave = {
 			aeluran_conclave_electors = {
 				type = same_faith_clerical_electors
 
-				# The sitting High Matriarch does not vote for her successor
+				# The sitting High Matriarch votes through the set below (she holds no Matron Seat of her own)
 				limit = {
 					this != scope:holder
 				}
+			}
+			# The High Matriarch steers her succession with her own vote. It becomes scope:holder_candidate, which
+			# loyal Matrons follow (aeluran_conclave_elector_voting_modifier), and a player Matriarch casts it in the election window.
+			aeluran_conclave_matriarch = {
+				type = holder
 			}
 		}
 	}
@@ -52,19 +57,19 @@ aeluran_matron_conclave = {
 				}
 			}
 
-			# The Matron of the Matriarchs' own line
-			aeluran_conclave_red_born = {
+			# The Matron of the finest blood
+			aeluran_conclave_highborn = {
 				type = same_faith_clerical_electors
 				priority_value = {
-					value = aeluran_conclave_red_born_priority_value
+					value = aeluran_conclave_highborn_priority_value
 				}
 			}
 
 			# The Matron with the most temporal power
-			aeluran_conclave_worldly = {
+			aeluran_conclave_regnant = {
 				type = same_faith_clerical_electors
 				priority_value = {
-					value = aeluran_conclave_worldly_priority_value
+					value = aeluran_conclave_regnant_priority_value
 				}
 			}
 		}

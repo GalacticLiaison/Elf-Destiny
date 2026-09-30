@@ -12,97 +12,6 @@ elf_destiny_on_game_start = {
             target = flag:the_grand_portal
         }
 
-        #Create global list with holy sites before deactivating
-        religion:spark_religion = {
-            every_faith = {
-                every_holy_site = {
-                    save_scope_as = spark_holy_site_scope
-                    add_to_global_variable_list = {
-                        name = spark_holy_sites
-                        target = scope:spark_holy_site_scope
-                    }
-                }
-
-                remove_holy_site = holy_site:ruins_of_valfuria
-                remove_holy_site = holy_site:spire_citadel
-                remove_holy_site = holy_site:proving_fields
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_1
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_2
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_3
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_4
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_5
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_6
-                remove_holy_site = holy_site:fortress_tomb_of_the_dead_emperor_alt_7
-                remove_holy_site = holy_site:volcanic_forge
-                remove_holy_site = holy_site:noble_wood
-                remove_holy_site = holy_site:high_harbor
-                remove_holy_site = holy_site:citadel_of_bear_king_thul
-                remove_holy_site = holy_site:archipelago_of_duck_duke_vega
-                remove_holy_site = holy_site:tomb_of_ale_the_dragon_slayer
-                remove_holy_site = holy_site:ruins_of_the_runic_city_of_anundshog
-                remove_holy_site = holy_site:tomb_of_the_lights_champions
-                remove_holy_site = holy_site:black_palace_of_dark_queen_hekla
-                remove_holy_site = holy_site:newgrange_temple
-                remove_holy_site = holy_site:burrens_bastion
-                remove_holy_site = holy_site:skip_gates_of_camelot
-                remove_holy_site = holy_site:great_obelisk_of_the_pictish
-                remove_holy_site = holy_site:labyrinth_gateway_of_the_altamirans
-                remove_holy_site = holy_site:grazing_villages_of_the_great_herds
-                remove_holy_site = holy_site:hunting_grounds_of_the_greater_drakes
-                remove_holy_site = holy_site:ancient_city_of_glanum
-                remove_holy_site = holy_site:ancient_mega_city_of_myropillya
-                remove_holy_site = holy_site:temple_of_the_mages_court
-                remove_holy_site = holy_site:seat_of_the_storm_king
-                remove_holy_site = holy_site:cradle_of_the_first_elves
-                remove_holy_site = holy_site:apadana_palace
-                remove_holy_site = holy_site:ancient_city_of_bosra
-                remove_holy_site = holy_site:ancient_city_of_babylon
-                remove_holy_site = holy_site:library_of_alexandria
-                remove_holy_site = holy_site:harkonnens_foley
-                remove_holy_site = holy_site:shattered_spire_of_veldric
-                remove_holy_site = holy_site:the_grand_blood_alter
-                remove_holy_site = holy_site:labyrinth_gateway_of_the_ajantas
-                remove_holy_site = holy_site:ancient_holy_city_of_madurai
-                remove_holy_site = holy_site:ancient_fortress_of_mahasthangarh
-                remove_holy_site = holy_site:mythical_spiritual_kingdom_of_shambhala
-                remove_holy_site = holy_site:domain_of_the_forest_spirit_eleke_sazy
-                remove_holy_site = holy_site:ancient_faerie_groves
-                remove_holy_site = holy_site:overwatch_fortress
-                remove_holy_site = holy_site:wraith_wood
-                remove_holy_site = holy_site:matrons_hollow
-                remove_holy_site = holy_site:sealed_magic_armoury
-                remove_holy_site = holy_site:whisper_wood
-                remove_holy_site = holy_site:light_reach_citadel
-                remove_holy_site = holy_site:east_flaria
-                remove_holy_site = holy_site:west_flaria
-                remove_holy_site = holy_site:wratislaw_magi_academy
-                remove_holy_site = holy_site:vela_spila_caverns
-
-                remove_holy_site = holy_site:the_immortal_army_of_qin
-                remove_holy_site = holy_site:heavens_gate
-                remove_holy_site = holy_site:engkanto_ruins
-                remove_holy_site = holy_site:white_snakes_prison
-                remove_holy_site = holy_site:enchanted_forest_of_daji
-                remove_holy_site = holy_site:meng_jiangs_wrath
-                remove_holy_site = holy_site:mount_huaguo
-                remove_holy_site = holy_site:yamata_no_orochis_rest
-                remove_holy_site = holy_site:ruins_of_lanka
-                remove_holy_site = holy_site:aji_sakas_fortress
-                remove_holy_site = holy_site:sentinels_watch
-                remove_holy_site = holy_site:memory_vaults
-                remove_holy_site = holy_site:frost_engine
-                remove_holy_site = holy_site:ancient_city_of_mohenjo_daro
-                remove_holy_site = holy_site:mount_paektu
-                remove_holy_site = holy_site:darkened_emerald_veil
-                remove_holy_site = holy_site:sword_lake
-                remove_holy_site = holy_site:tomb_upon_the_mountain
-                remove_holy_site = holy_site:domain_of_the_mrenh_kongveal
-                remove_holy_site = holy_site:gate_of_kamuy_kotan
-                remove_holy_site = holy_site:ruins_of_vaeldrakhor
-            }
-        }
-
         if = {
             limit = {
                 exists = character:belanor_vaeldrik
@@ -628,18 +537,18 @@ register_aeluran_hierarchy = {
 
 on_game_start_setup_expeditions = {
     effect = {
-        register_expedition_site = { BARONY_NAME = b_vokhma SITE_NAME = the_grand_portal }
+        register_expedition_site = { BARONY_NAME = b_vokhma SITE_NAME = the_grand_portal HOLY_SITE = grand_portal }
         set_portal_location = { BARONY_NAME = b_vokhma }
 
-        # register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_intarta SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_simbiling SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_dayan SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_atakpame SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_kasriskari SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali SITE_NAME = fortress_tomb_of_the_dead_emperor }
-        register_expedition_site = { BARONY_NAME = b_wanqiu SITE_NAME = fortress_tomb_of_the_dead_emperor }
+        # register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_bellinzona SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor }
+        register_expedition_site = { BARONY_NAME = b_intarta SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_1 }
+        register_expedition_site = { BARONY_NAME = b_simbiling SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_2 }
+        register_expedition_site = { BARONY_NAME = b_dayan SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_3 }
+        register_expedition_site = { BARONY_NAME = b_atakpame SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_4 }
+        register_expedition_site = { BARONY_NAME = b_kasriskari SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_5 }
+        register_expedition_site = { BARONY_NAME = b_northri_gudbrandsdali SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_6 }
+        register_expedition_site = { BARONY_NAME = b_wanqiu SITE_NAME = fortress_tomb_of_the_dead_emperor HOLY_SITE = fortress_tomb_of_the_dead_emperor_alt_7 }
 
         set_possible_first_expedition_location = { BARONY_NAME = b_bellinzona }
         set_possible_first_expedition_location = { BARONY_NAME = b_intarta }
@@ -650,75 +559,75 @@ on_game_start_setup_expeditions = {
         set_possible_first_expedition_location = { BARONY_NAME = b_northri_gudbrandsdali }
         set_possible_first_expedition_location = { BARONY_NAME = b_wanqiu }
 
-        register_expedition_site = { BARONY_NAME = b_gnezdovo SITE_NAME = ruins_of_valfuria }
-        register_expedition_site = { BARONY_NAME = b_rohan SITE_NAME = spire_citadel }
-        register_expedition_site = { BARONY_NAME = b_zweibrucken SITE_NAME = proving_fields }
-        register_expedition_site = { BARONY_NAME = b_napoli SITE_NAME = volcanic_forge }
-        register_expedition_site = { BARONY_NAME = b_vilkaviskis SITE_NAME = noble_wood }
-        register_expedition_site = { BARONY_NAME = b_ranariki SITE_NAME = high_harbor }
-        register_expedition_site = { BARONY_NAME = b_rounala SITE_NAME = citadel_of_bear_king_thul }
-        register_expedition_site = { BARONY_NAME = b_torgar SITE_NAME = archipelago_of_duck_duke_vega }
-        register_expedition_site = { BARONY_NAME = b_tommerup SITE_NAME = tomb_of_ale_the_dragon_slayer }
-        register_expedition_site = { BARONY_NAME = b_vaestraaros SITE_NAME = ruins_of_the_runic_city_of_anundshog }
-        register_expedition_site = { BARONY_NAME = b_liinmaa SITE_NAME = tomb_of_the_lights_champions }
-        register_expedition_site = { BARONY_NAME = b_stokkseyri SITE_NAME = black_palace_of_dark_queen_hekla }
-        register_expedition_site = { BARONY_NAME = b_drogheda SITE_NAME = newgrange_temple }
-        register_expedition_site = { BARONY_NAME = b_ennis SITE_NAME = burrens_bastion }
-        register_expedition_site = { BARONY_NAME = b_salisbury SITE_NAME = skip_gates_of_camelot }
-        register_expedition_site = { BARONY_NAME = b_kirriemuir SITE_NAME = great_obelisk_of_the_pictish }
-        register_expedition_site = { BARONY_NAME = b_santander SITE_NAME = labyrinth_gateway_of_the_altamirans }
-        register_expedition_site = { BARONY_NAME = b_lamego SITE_NAME = grazing_villages_of_the_great_herds }
-        register_expedition_site = { BARONY_NAME = b_almansa SITE_NAME = hunting_grounds_of_the_greater_drakes }
-        register_expedition_site = { BARONY_NAME = b_arles SITE_NAME = ancient_city_of_glanum }
-        register_expedition_site = { BARONY_NAME = b_oskol SITE_NAME = ancient_mega_city_of_myropillya }
-        register_expedition_site = { BARONY_NAME = b_malta SITE_NAME = temple_of_the_mages_court }
-        register_expedition_site = { BARONY_NAME = b_athens SITE_NAME = seat_of_the_storm_king }
-        register_expedition_site = { BARONY_NAME = b_jarabulus SITE_NAME = cradle_of_the_first_elves }
-        register_expedition_site = { BARONY_NAME = b_at-tib SITE_NAME = apadana_palace }
-        register_expedition_site = { BARONY_NAME = b_sirhan SITE_NAME = ancient_city_of_bosra }
-        register_expedition_site = { BARONY_NAME = b_sarsar SITE_NAME = ancient_city_of_babylon }
-        register_expedition_site = { BARONY_NAME = b_alexandria SITE_NAME = library_of_alexandria }
-        register_expedition_site = { BARONY_NAME = b_hamadat_tinghert SITE_NAME = harkonnens_foley }
-        register_expedition_site = { BARONY_NAME = b_mara SITE_NAME = shattered_spire_of_veldric }
-        register_expedition_site = { BARONY_NAME = b_tabu SITE_NAME = the_grand_blood_alter }
-        register_expedition_site = { BARONY_NAME = b_erandol SITE_NAME = labyrinth_gateway_of_the_ajantas }
-        register_expedition_site = { BARONY_NAME = b_madurai SITE_NAME = ancient_holy_city_of_madurai }
-        register_expedition_site = { BARONY_NAME = b_bokainagar SITE_NAME = ancient_fortress_of_mahasthangarh }
-        register_expedition_site = { BARONY_NAME = b_chaka SITE_NAME = mythical_spiritual_kingdom_of_shambhala }
-        register_expedition_site = { BARONY_NAME = b_arkat SITE_NAME = domain_of_the_forest_spirit_eleke_sazy }
-        register_expedition_site = { BARONY_NAME = b_suq-socotra SITE_NAME = ancient_faerie_groves }
-        register_expedition_site = { BARONY_NAME = b_south_jaz_murian SITE_NAME = overwatch_fortress }
-        register_expedition_site = { BARONY_NAME = b_asmaak SITE_NAME = wraith_wood }
-        register_expedition_site = { BARONY_NAME = b_chuya SITE_NAME = matrons_hollow }
-        register_expedition_site = { BARONY_NAME = b_arkhangelsk SITE_NAME = sealed_magic_armoury }
-        register_expedition_site = { BARONY_NAME = b_biia SITE_NAME = whisper_wood }
-        register_expedition_site = { BARONY_NAME = b_fort_aleksandrovkiy SITE_NAME = light_reach_citadel }
-        register_expedition_site = { BARONY_NAME = b_laposbanya SITE_NAME = east_flaria }
-        register_expedition_site = { BARONY_NAME = b_melnik SITE_NAME = west_flaria }
-        register_expedition_site = { BARONY_NAME = b_kerkinitis SITE_NAME = wratislaw_magi_academy }
-        register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns }
+        register_expedition_site = { BARONY_NAME = b_gnezdovo SITE_NAME = ruins_of_valfuria HOLY_SITE = ruins_of_valfuria }
+        register_expedition_site = { BARONY_NAME = b_rohan SITE_NAME = spire_citadel HOLY_SITE = spire_citadel }
+        register_expedition_site = { BARONY_NAME = b_zweibrucken SITE_NAME = proving_fields HOLY_SITE = proving_fields }
+        register_expedition_site = { BARONY_NAME = b_napoli SITE_NAME = volcanic_forge HOLY_SITE = volcanic_forge }
+        register_expedition_site = { BARONY_NAME = b_vilkaviskis SITE_NAME = noble_wood HOLY_SITE = noble_wood }
+        register_expedition_site = { BARONY_NAME = b_ranariki SITE_NAME = high_harbor HOLY_SITE = high_harbor }
+        register_expedition_site = { BARONY_NAME = b_rounala SITE_NAME = citadel_of_bear_king_thul HOLY_SITE = citadel_of_bear_king_thul }
+        register_expedition_site = { BARONY_NAME = b_torgar SITE_NAME = archipelago_of_duck_duke_vega HOLY_SITE = archipelago_of_duck_duke_vega }
+        register_expedition_site = { BARONY_NAME = b_tommerup SITE_NAME = tomb_of_ale_the_dragon_slayer HOLY_SITE = tomb_of_ale_the_dragon_slayer }
+        register_expedition_site = { BARONY_NAME = b_vaestraaros SITE_NAME = ruins_of_the_runic_city_of_anundshog HOLY_SITE = ruins_of_the_runic_city_of_anundshog }
+        register_expedition_site = { BARONY_NAME = b_liinmaa SITE_NAME = tomb_of_the_lights_champions HOLY_SITE = tomb_of_the_lights_champions }
+        register_expedition_site = { BARONY_NAME = b_stokkseyri SITE_NAME = black_palace_of_dark_queen_hekla HOLY_SITE = black_palace_of_dark_queen_hekla }
+        register_expedition_site = { BARONY_NAME = b_drogheda SITE_NAME = newgrange_temple HOLY_SITE = newgrange_temple }
+        register_expedition_site = { BARONY_NAME = b_ennis SITE_NAME = burrens_bastion HOLY_SITE = burrens_bastion }
+        register_expedition_site = { BARONY_NAME = b_salisbury SITE_NAME = skip_gates_of_camelot HOLY_SITE = skip_gates_of_camelot }
+        register_expedition_site = { BARONY_NAME = b_kirriemuir SITE_NAME = great_obelisk_of_the_pictish HOLY_SITE = great_obelisk_of_the_pictish }
+        register_expedition_site = { BARONY_NAME = b_santander SITE_NAME = labyrinth_gateway_of_the_altamirans HOLY_SITE = labyrinth_gateway_of_the_altamirans }
+        register_expedition_site = { BARONY_NAME = b_lamego SITE_NAME = grazing_villages_of_the_great_herds HOLY_SITE = grazing_villages_of_the_great_herds }
+        register_expedition_site = { BARONY_NAME = b_almansa SITE_NAME = hunting_grounds_of_the_greater_drakes HOLY_SITE = hunting_grounds_of_the_greater_drakes }
+        register_expedition_site = { BARONY_NAME = b_arles SITE_NAME = ancient_city_of_glanum HOLY_SITE = ancient_city_of_glanum }
+        register_expedition_site = { BARONY_NAME = b_oskol SITE_NAME = ancient_mega_city_of_myropillya HOLY_SITE = ancient_mega_city_of_myropillya }
+        register_expedition_site = { BARONY_NAME = b_malta SITE_NAME = temple_of_the_mages_court HOLY_SITE = temple_of_the_mages_court }
+        register_expedition_site = { BARONY_NAME = b_athens SITE_NAME = seat_of_the_storm_king HOLY_SITE = seat_of_the_storm_king }
+        register_expedition_site = { BARONY_NAME = b_jarabulus SITE_NAME = cradle_of_the_first_elves HOLY_SITE = cradle_of_the_first_elves }
+        register_expedition_site = { BARONY_NAME = b_at-tib SITE_NAME = apadana_palace HOLY_SITE = apadana_palace }
+        register_expedition_site = { BARONY_NAME = b_sirhan SITE_NAME = ancient_city_of_bosra HOLY_SITE = ancient_city_of_bosra }
+        register_expedition_site = { BARONY_NAME = b_sarsar SITE_NAME = ancient_city_of_babylon HOLY_SITE = ancient_city_of_babylon }
+        register_expedition_site = { BARONY_NAME = b_alexandria SITE_NAME = library_of_alexandria HOLY_SITE = library_of_alexandria }
+        register_expedition_site = { BARONY_NAME = b_hamadat_tinghert SITE_NAME = harkonnens_foley HOLY_SITE = harkonnens_foley }
+        register_expedition_site = { BARONY_NAME = b_mara SITE_NAME = shattered_spire_of_veldric HOLY_SITE = shattered_spire_of_veldric }
+        register_expedition_site = { BARONY_NAME = b_tabu SITE_NAME = the_grand_blood_alter HOLY_SITE = the_grand_blood_alter }
+        register_expedition_site = { BARONY_NAME = b_erandol SITE_NAME = labyrinth_gateway_of_the_ajantas HOLY_SITE = labyrinth_gateway_of_the_ajantas }
+        register_expedition_site = { BARONY_NAME = b_madurai SITE_NAME = ancient_holy_city_of_madurai HOLY_SITE = ancient_holy_city_of_madurai }
+        register_expedition_site = { BARONY_NAME = b_bokainagar SITE_NAME = ancient_fortress_of_mahasthangarh HOLY_SITE = ancient_fortress_of_mahasthangarh }
+        register_expedition_site = { BARONY_NAME = b_chaka SITE_NAME = mythical_spiritual_kingdom_of_shambhala HOLY_SITE = mythical_spiritual_kingdom_of_shambhala }
+        register_expedition_site = { BARONY_NAME = b_arkat SITE_NAME = domain_of_the_forest_spirit_eleke_sazy HOLY_SITE = domain_of_the_forest_spirit_eleke_sazy }
+        register_expedition_site = { BARONY_NAME = b_suq-socotra SITE_NAME = ancient_faerie_groves HOLY_SITE = ancient_faerie_groves }
+        register_expedition_site = { BARONY_NAME = b_south_jaz_murian SITE_NAME = overwatch_fortress HOLY_SITE = overwatch_fortress }
+        register_expedition_site = { BARONY_NAME = b_asmaak SITE_NAME = wraith_wood HOLY_SITE = wraith_wood }
+        register_expedition_site = { BARONY_NAME = b_chuya SITE_NAME = matrons_hollow HOLY_SITE = matrons_hollow }
+        register_expedition_site = { BARONY_NAME = b_arkhangelsk SITE_NAME = sealed_magic_armoury HOLY_SITE = sealed_magic_armoury }
+        register_expedition_site = { BARONY_NAME = b_biia SITE_NAME = whisper_wood HOLY_SITE = whisper_wood }
+        register_expedition_site = { BARONY_NAME = b_fort_aleksandrovkiy SITE_NAME = light_reach_citadel HOLY_SITE = light_reach_citadel }
+        register_expedition_site = { BARONY_NAME = b_laposbanya SITE_NAME = east_flaria HOLY_SITE = east_flaria }
+        register_expedition_site = { BARONY_NAME = b_melnik SITE_NAME = west_flaria HOLY_SITE = west_flaria }
+        register_expedition_site = { BARONY_NAME = b_kerkinitis SITE_NAME = wratislaw_magi_academy HOLY_SITE = wratislaw_magi_academy }
+        register_expedition_site = { BARONY_NAME = b_hvar SITE_NAME = vela_spila_caverns HOLY_SITE = vela_spila_caverns }
 
-        register_expedition_site = { BARONY_NAME = b_jingyang SITE_NAME = the_immortal_army_of_qin }
-        register_expedition_site = { BARONY_NAME = b_tingri SITE_NAME = heavens_gate }
-        register_expedition_site = { BARONY_NAME = b_PHI_Masiu SITE_NAME = engkanto_ruins }
-        register_expedition_site = { BARONY_NAME = b_yuhang SITE_NAME = white_snakes_prison }
-        register_expedition_site = { BARONY_NAME = b_leiyang SITE_NAME = enchanted_forest_of_daji }
-        register_expedition_site = { BARONY_NAME = b_jiaoxi SITE_NAME = meng_jiangs_wrath }
-        register_expedition_site = { BARONY_NAME = b_muyang SITE_NAME = mount_huaguo }
-        register_expedition_site = { BARONY_NAME = b_kizuki_taisha SITE_NAME = yamata_no_orochis_rest }
-        register_expedition_site = { BARONY_NAME = b_matale SITE_NAME = ruins_of_lanka }
-        register_expedition_site = { BARONY_NAME = b_JAV_Mataram SITE_NAME = aji_sakas_fortress }
-        register_expedition_site = { BARONY_NAME = b_marakele SITE_NAME = sentinels_watch }
-        register_expedition_site = { BARONY_NAME = b_SUL_Makassar SITE_NAME = memory_vaults }
-        register_expedition_site = { BARONY_NAME = b_fic_eman_amgun SITE_NAME = frost_engine }
-        register_expedition_site = { BARONY_NAME = b_rojhan SITE_NAME = ancient_city_of_mohenjo_daro }
-        register_expedition_site = { BARONY_NAME = b_FIC_Liao_Helong SITE_NAME = mount_paektu }
-        register_expedition_site = { BARONY_NAME = b_asmat SITE_NAME = darkened_emerald_veil }
-        register_expedition_site = { BARONY_NAME = b_thang_long SITE_NAME = sword_lake }
-        register_expedition_site = { BARONY_NAME = b_BOR_Ranau SITE_NAME = tomb_upon_the_mountain }
-        register_expedition_site = { BARONY_NAME = b_mondulkiri SITE_NAME = domain_of_the_mrenh_kongveal }
-        register_expedition_site = { BARONY_NAME = b_cup_pet SITE_NAME = gate_of_kamuy_kotan }
-        register_expedition_site = { BARONY_NAME = b_gobi_gurvan_saikhan SITE_NAME = ruins_of_vaeldrakhor }
+        register_expedition_site = { BARONY_NAME = b_jingyang SITE_NAME = the_immortal_army_of_qin HOLY_SITE = the_immortal_army_of_qin }
+        register_expedition_site = { BARONY_NAME = b_tingri SITE_NAME = heavens_gate HOLY_SITE = heavens_gate }
+        register_expedition_site = { BARONY_NAME = b_PHI_Masiu SITE_NAME = engkanto_ruins HOLY_SITE = engkanto_ruins }
+        register_expedition_site = { BARONY_NAME = b_yuhang SITE_NAME = white_snakes_prison HOLY_SITE = white_snakes_prison }
+        register_expedition_site = { BARONY_NAME = b_leiyang SITE_NAME = enchanted_forest_of_daji HOLY_SITE = enchanted_forest_of_daji }
+        register_expedition_site = { BARONY_NAME = b_jiaoxi SITE_NAME = meng_jiangs_wrath HOLY_SITE = meng_jiangs_wrath }
+        register_expedition_site = { BARONY_NAME = b_muyang SITE_NAME = mount_huaguo HOLY_SITE = mount_huaguo }
+        register_expedition_site = { BARONY_NAME = b_kizuki_taisha SITE_NAME = yamata_no_orochis_rest HOLY_SITE = yamata_no_orochis_rest }
+        register_expedition_site = { BARONY_NAME = b_matale SITE_NAME = ruins_of_lanka HOLY_SITE = ruins_of_lanka }
+        register_expedition_site = { BARONY_NAME = b_JAV_Mataram SITE_NAME = aji_sakas_fortress HOLY_SITE = aji_sakas_fortress }
+        register_expedition_site = { BARONY_NAME = b_marakele SITE_NAME = sentinels_watch HOLY_SITE = sentinels_watch }
+        register_expedition_site = { BARONY_NAME = b_SUL_Makassar SITE_NAME = memory_vaults HOLY_SITE = memory_vaults }
+        register_expedition_site = { BARONY_NAME = b_fic_eman_amgun SITE_NAME = frost_engine HOLY_SITE = frost_engine }
+        register_expedition_site = { BARONY_NAME = b_rojhan SITE_NAME = ancient_city_of_mohenjo_daro HOLY_SITE = ancient_city_of_mohenjo_daro }
+        register_expedition_site = { BARONY_NAME = b_FIC_Liao_Helong SITE_NAME = mount_paektu HOLY_SITE = mount_paektu }
+        register_expedition_site = { BARONY_NAME = b_asmat SITE_NAME = darkened_emerald_veil HOLY_SITE = darkened_emerald_veil }
+        register_expedition_site = { BARONY_NAME = b_thang_long SITE_NAME = sword_lake HOLY_SITE = sword_lake }
+        register_expedition_site = { BARONY_NAME = b_BOR_Ranau SITE_NAME = tomb_upon_the_mountain HOLY_SITE = tomb_upon_the_mountain }
+        register_expedition_site = { BARONY_NAME = b_mondulkiri SITE_NAME = domain_of_the_mrenh_kongveal HOLY_SITE = domain_of_the_mrenh_kongveal }
+        register_expedition_site = { BARONY_NAME = b_cup_pet SITE_NAME = gate_of_kamuy_kotan HOLY_SITE = gate_of_kamuy_kotan }
+        register_expedition_site = { BARONY_NAME = b_gobi_gurvan_saikhan SITE_NAME = ruins_of_vaeldrakhor HOLY_SITE = ruins_of_vaeldrakhor }
     }
 }
 

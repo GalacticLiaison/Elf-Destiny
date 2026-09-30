@@ -10,6 +10,11 @@
 	}
 	can_pick = {
 		religion = religion:spark_religion
+		custom_description = {
+			text = incompatible_tenet_aeluran_dark_sisters_trigger
+			NOT = { tenet:tenet_dark_sisters = { is_in_list = selected_doctrines } }
+		}
+		aeluran_sisterhood_doctrines_selected_trigger = yes
 	}
 
 	parameters = {
@@ -26,29 +31,9 @@
 	}
 }
 
-tenet_elf_hostility = {
-	icon = tenet_elf_syncretism
-
-	piety_cost = {
-		value = 0
-	}
-
-	is_shown = {
-		NOT = { religion = religion:spark_religion }
-	}
-
-	parameters = {
-		#For loc:
-		is_elf_faith_one_way_loc_override
-	}
-
-	special_parameters = {
-		hostility_level_override = {
-			special_doctrine_is_elf_faith = evil
-		}
-	}
-}
-
+# For non-elf faiths: the vanilla syncretism pattern (see tenet_christian_syncretism). Together with Elven Adaptability
+# (special_doctrine_is_elf_faith) both sides see each other as Astray instead of Evil, with a mutual opinion bonus.
+# No "Spark Rejection" counterpart: abrahamic and pagan faiths already hold unrelated religions (elves) to be Evil.
 tenet_elf_syncretism = {
 	icon = tenet_elf_syncretism
 
@@ -64,6 +49,34 @@ tenet_elf_syncretism = {
 
 	is_shown = {
 		NOT = { religion = religion:spark_religion }
+	}
+	can_pick = {
+		NOT = { religion = religion:spark_religion }
+		# One syncretism per faith. Checking the vanilla ones from our side is enough: whichever is picked second fails.
+		unique_syncretism_trigger = yes
+		trigger_if = {
+			limit = { scope:actor ?= { is_ai = yes } }
+			scope:actor = { elf_meaningful_spark_presence_trigger = yes }
+		}
+	}
+
+	# A human living among elves can hold it personally without the whole faith reforming
+	can_pick_as_personal_tenet = {
+		NOT = {
+			faith = { religion = religion:spark_religion }
+		}
+		trigger_if = {
+			limit = { is_ai = yes }
+			elf_meaningful_spark_presence_trigger = yes
+		}
+	}
+
+	personal_tenet_parameters = {
+		tenet_spark_syncretism_county_bonus
+	}
+
+	personal_tenet_modifier = {
+		spark_religion_opinion = 15
 	}
 
 	parameters = {
@@ -97,6 +110,11 @@ tenet_dark_sisters = {
 	}
 	can_pick = {
 		religion = religion:spark_religion
+		custom_description = {
+			text = incompatible_tenet_aeluran_dark_sisters_trigger
+			NOT = { tenet:tenet_aeluran_sisters = { is_in_list = selected_doctrines } }
+		}
+		aeluran_sisterhood_doctrines_selected_trigger = yes
 	}
 
 	parameters = {
@@ -136,6 +154,20 @@ tenet_melkor_void = {
 	}
 	can_pick = {
 		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
+		# Vanilla bars Human Sacrifice alongside the pacifist tenets
+		custom_description = {
+			text = incompatible_tenet_pacifism_trigger
+			NOT = { tenet:tenet_pacifism = { is_in_list = selected_doctrines } }
+		}
+		custom_description = {
+			text = incompatible_tenet_dharmic_pacifism_trigger
+			NOT = { tenet:tenet_dharmic_pacifism = { is_in_list = selected_doctrines } }
+		}
 	}
 	can_pick_as_personal_tenet = {
 		faith = { religion = religion:spark_religion }
@@ -143,6 +175,12 @@ tenet_melkor_void = {
 
 	parameters = {
 		commune_with_melkor_unlocked
+		# The faith-level parameters of Human Sacrifice: vanilla's Raid for Captives (flowery_war_cb) is invalid,
+		# and takes no captives, unless the attacker's faith has human_sacrifice_active
+		human_sacrifice_active
+		human_sacrifice_sharing_power_prestige
+		flower_war_cb_active
+		sanctify_artifacts_sacrificial
 	}
 	# Taking the tenet personally unlocks the decision too
 	personal_tenet_parameters = {
@@ -187,6 +225,11 @@ tenet_lloth_web = {
 	}
 	can_pick = {
 		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
 	}
 	can_pick_as_personal_tenet = {
 		faith = { religion = religion:spark_religion }
@@ -194,6 +237,7 @@ tenet_lloth_web = {
 
 	parameters = {
 		commune_with_lloth_unlocked
+		master_assassin_court_position_unlocked # as Sacred Murder (tenet_fp3_fedayeen)
 	}
 	# Taking the tenet personally unlocks the decision too
 	personal_tenet_parameters = {
@@ -238,6 +282,11 @@ tenet_typhos_ascent = {
 	}
 	can_pick = {
 		religion = religion:spark_religion
+		# A patron deity of the Dark Sisters: not for rites of the Aeluran Sisters
+		custom_description = {
+			text = dark_god_tenet_requires_dark_sisters_trigger
+			tenet:tenet_dark_sisters = { is_in_list = selected_doctrines }
+		}
 	}
 	can_pick_as_personal_tenet = {
 		faith = { religion = religion:spark_religion }
@@ -245,6 +294,7 @@ tenet_typhos_ascent = {
 
 	parameters = {
 		commune_with_typhos_unlocked
+		safer_childbirths_active # as Sacred Childbirth: mothers are less likely to die in pregnancy and childbirth
 	}
 	# Taking the tenet personally unlocks the decision too
 	personal_tenet_parameters = {

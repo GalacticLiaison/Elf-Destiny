@@ -1,0 +1,20 @@
+﻿# The Order window's button, above the faith button (bottom left). Shown to a Matron holding a Matronate and to the
+# High Matriarch. Opens gui/aeluran_order_window.gui.
+widget = {
+	name = "aeluran_order_button"
+	parentanchor = bottom|left
+	widgetanchor = bottom|left
+	position = { 12 -300 }
+	size = { 56 56 }
+	layer = bottom
+	visible = "[GetScriptedGui( 'aeluran_order_is_shepherd' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+	button = {
+		name = "aeluran_order_open"
+		size = { 56 56 }
+		texture = "gfx/interface/icons/traits/aeluran_matron.dds"
+		tooltip = "AELURAN_ORDER_BUTTON_TT"
+		onclick = "[GetScriptedGui( 'aeluran_order_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		onclick = "[GetVariableSystem.Toggle( 'aeluran_order_window' )]"
+	}
+}

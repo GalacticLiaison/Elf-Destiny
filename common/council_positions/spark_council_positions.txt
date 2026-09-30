@@ -221,6 +221,8 @@ councillor_aeluran_advisor = {
 	}
 
 	on_lose_position = {
+		# She no longer advises anyone: free her for another post
+		if = { limit = { has_variable = appointed_to_advise } remove_variable = appointed_to_advise }
 		root.liege = {
 			remove_variable = religious_advisor
 			if = {
@@ -233,6 +235,7 @@ councillor_aeluran_advisor = {
 	}
 
 	on_fired_from_position = {
+		if = { limit = { has_variable = appointed_to_advise } remove_variable = appointed_to_advise }
 		root.liege = {
 			remove_variable = religious_advisor
 			if = {
@@ -673,7 +676,7 @@ councillor_court_chaplain = {
 
 			root.liege = {
 				debug_log_scopes = yes
-				trigger_event = aeluran_diarchy.100
+				aeluran_open_advisor_post_effect = yes
 			}
 		}
 	}

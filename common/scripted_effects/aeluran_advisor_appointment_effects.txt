@@ -1,0 +1,143 @@
+﻿# Placing Sisters: who appoints an Aeluran ruler's Advisor (Red Sister), and how a post is opened and filled.
+# (Matron gameplay Phase B, reports/proposals/2026-09-30-matron-gameplay-proposal.md in the modkit.)
+#
+# The appointer:
+#   - a count or duke whose capital lies in a Matronate: its Matron
+#   - a king or emperor in a Matronate: the High Matriarch, who leaves the choice to the local Matron when she is AI
+#     and thinks well of her
+#   - everyone else, or a Matron's own post: the High Matriarch
+# An AI appointer fills the post at once (the Order's usual pick). A player appointer gets an open post: an alert that
+# opens the Appoint an Advisor window. Left alone for about three months, the Order fills it itself.
+
+# Root = an Aeluran ruler. Saves scope:advisor_appointer (when anyone can appoint) and scope:advisor_matronate (the
+# Matronate holding her capital, if any).
+aeluran_find_advisor_appointer_effect = {
+	clear_saved_scope = advisor_appointer
+	clear_saved_scope = advisor_matronate
+	save_scope_as = advisor_post
+	capital_county.clerical_region_title ?= {
+		if = {
+			limit = { aeluran_is_matronate_title_trigger = yes }
+			save_scope_as = advisor_matronate
+		}
+	}
+	title:d_high_matriarch.holder ?= { save_scope_as = advisor_matriarch }
+	# The local Matron: counts and dukes always; kings and emperors when an AI High Matriarch trusts her
+	if = {
+		limit = {
+			exists = scope:advisor_matronate.holder
+			NOT = { scope:advisor_matronate.holder = scope:advisor_post }
+			OR = {
+				highest_held_title_tier <= tier_duchy
+				NOT = { exists = scope:advisor_matriarch }
+				scope:advisor_matriarch = {
+					is_ai = yes
+					opinion = {
+						target = scope:advisor_matronate.holder
+						value >= 0
+					}
+				}
+			}
+		}
+		scope:advisor_matronate.holder = { save_scope_as = advisor_appointer }
+	}
+	else_if = {
+		limit = {
+			exists = scope:advisor_matriarch
+			NOT = { scope:advisor_matriarch = scope:advisor_post }
+		}
+		scope:advisor_matriarch = { save_scope_as = advisor_appointer }
+	}
+	# The High Matriarch's own post: she chooses her own Advisor
+	else = {
+		save_scope_as = advisor_appointer
+	}
+	clear_saved_scope = advisor_matriarch
+}
+
+# Root = an Aeluran ruler without an Advisor. Opens the post: a player appointer is asked to choose, anyone else fills it.
+aeluran_open_advisor_post_effect = {
+	aeluran_find_advisor_appointer_effect = yes
+	if = {
+		limit = {
+			exists = scope:advisor_appointer
+			scope:advisor_appointer = { is_ai = no }
+		}
+		set_variable = { name = aeluran_advisor_vacancy value = scope:advisor_appointer }
+		set_variable = { name = aeluran_advisor_vacancy_timer value = yes days = 90 }
+		scope:advisor_appointer = {
+			add_to_variable_list = { name = aeluran_open_advisor_posts target = scope:advisor_post }
+			send_interface_toast = {
+				type = event_toast_effect_neutral
+				title = aeluran_advisor_post_open_toast
+				left_icon = scope:advisor_post
+				custom_tooltip = aeluran_advisor_post_open_toast_desc
+			}
+		}
+	}
+	else = {
+		aeluran_fill_advisor_post_effect = yes
+	}
+}
+
+# Root = an Aeluran ruler. Fills the post: with scope:aeluran_sister_advisor if one was chosen, else the Order's usual
+# pick (a Sister vassal, then a Sister courtier, else a novice from Deepwood). Sends the appointment letter.
+aeluran_fill_advisor_post_effect = {
+	if = {
+		limit = { has_variable = aeluran_advisor_vacancy }
+		save_scope_as = filled_advisor_post
+		var:aeluran_advisor_vacancy = {
+			if = {
+				limit = { is_target_in_variable_list = { name = aeluran_open_advisor_posts target = scope:filled_advisor_post } }
+				remove_list_variable = { name = aeluran_open_advisor_posts target = scope:filled_advisor_post }
+			}
+		}
+		remove_variable = aeluran_advisor_vacancy
+	}
+	if = {
+		limit = { has_variable = aeluran_advisor_vacancy_timer }
+		remove_variable = aeluran_advisor_vacancy_timer
+	}
+	if = {
+		limit = { NOT = { exists = scope:advisor_appointer } }
+		aeluran_find_advisor_appointer_effect = yes
+	}
+	# No Sister chosen: the appointer picks the best one within her reach, if there is one
+	if = {
+		limit = { NOT = { exists = scope:aeluran_sister_advisor } }
+		save_scope_as = advisor_post
+		ordered_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+				aeluran_advisor_candidate_trigger = { POST = scope:advisor_post APPOINTER = scope:advisor_appointer }
+			}
+			order_by = aeluran_advisor_candidate_score
+			save_scope_as = aeluran_sister_advisor
+		}
+		scope:aeluran_sister_advisor ?= {
+			set_variable = { name = appointed_to_advise value = scope:advisor_post }
+			save_scope_value_as = { name = advisor_type value = flag:chosen }
+		}
+	}
+	trigger_event = aeluran_diarchy.100
+}
+
+# Root = the ruler whose post is being filled; scope:aeluran_sister_advisor = the Sister chosen by the appointer.
+aeluran_appoint_chosen_advisor_effect = {
+	save_scope_value_as = { name = advisor_type value = flag:chosen }
+	scope:aeluran_sister_advisor = {
+		set_variable = { name = appointed_to_advise value = root }
+	}
+	aeluran_fill_advisor_post_effect = yes
+}
+
+# Root = the ruler whose post is being filled; the appointer sends for a newly trained Sister from Deepwood.
+aeluran_appoint_novice_advisor_effect = {
+	save_scope_value_as = { name = advisor_type value = flag:sent_from_deepwood }
+	save_scope_value_as = { name = aeluran_advisor_coming_from_sanctum value = yes }
+	create_aeluran_advisor_effect = yes
+	scope:aeluran_sister_advisor ?= {
+		set_variable = { name = appointed_to_advise value = root }
+	}
+	aeluran_fill_advisor_post_effect = yes
+}

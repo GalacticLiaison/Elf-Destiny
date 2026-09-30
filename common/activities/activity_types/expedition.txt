@@ -225,14 +225,10 @@ activity_expedition = {
 			custom_tooltip = {
 				text = not_an_expedition_site
 
-				AND = {
-					exists = barony	
-					is_target_in_global_variable_list = {
-                        name = spark_holy_sites
-                        target = barony
-                    }
-					# global_var:last_emperor_tomb_province.barony = barony
-				}
+				# Expedition sites are registered on their barony at game start (register_expedition_site),
+				# independent of whether the site is currently a holy site of any faith
+				exists = barony
+				barony = { has_variable = valid_expedition_location }
 
 				NOT = {
 					is_target_in_global_variable_list = {

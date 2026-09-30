@@ -1,0 +1,64 @@
+﻿# The Order window (gui/aeluran_order_window.gui): a Matron's flock, or the High Matriarch's.
+
+# Is the player a shepherd of the Order (a Matron holding a Matronate, or the High Matriarch)?
+aeluran_order_is_shepherd = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			has_title = title:d_high_matriarch
+			any_held_title = { aeluran_is_matronate_title_trigger = yes }
+		}
+	}
+}
+
+# Rebuild the flock list (var list aeluran_order_flock on the player) when the window opens
+aeluran_order_refresh = {
+	scope = character
+
+	effect = {
+		clear_variable_list = aeluran_order_flock
+		save_scope_as = flock_shepherd
+		every_ruler = {
+			limit = {
+				aeluran_flock_member_trigger = yes
+				this != scope:flock_shepherd
+				OR = {
+					capital_county.clerical_region_title.holder ?= scope:flock_shepherd
+					AND = {
+						scope:flock_shepherd = { has_title = title:d_high_matriarch }
+						NOT = { capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+					}
+				}
+			}
+			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_flock target = prev } }
+		}
+	}
+}
+
+# Does this ruler (scope:target) have an Advisor post open for the player to fill?
+aeluran_order_post_is_open = {
+	scope = character
+	saved_scopes = { target }
+
+	is_shown = {
+		scope:target = {
+			var:aeluran_advisor_vacancy ?= root
+			NOT = { exists = cp:councillor_aeluran_advisor }
+		}
+	}
+}
+
+# Open Appoint an Advisor for this ruler (scope:target)
+aeluran_order_open_appoint = {
+	scope = character
+	saved_scopes = { target }
+
+	effect = {
+		open_interaction_window = {
+			interaction = aeluran_appoint_advisor_interaction
+			actor = root
+			recipient = scope:target
+		}
+	}
+}

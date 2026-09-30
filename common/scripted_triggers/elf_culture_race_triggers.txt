@@ -1,0 +1,10 @@
+﻿# Character scope. An elf-culture character who is not an elf and has no race of their own coming: they look like an elf
+# (the culture's ethnicity) but would stay mechanically human. Used by the game-start pass (dark_elf_on_actions.txt)
+# and by on_character_created (elf_character_created_on_actions.txt).
+# A pending race flag (history "add_character_flag = race_high_elf", a character template) must decide the tier instead:
+# adding race_elf on top of it made those characters plain Elves, because the genotype lookup checks race_elf first.
+elf_needs_culture_race_trigger = {
+	is_any_elf_type = no
+	culture ?= { has_cultural_pillar = heritage_elf }
+	has_any_elf_flag_trigger = no
+}
