@@ -91,6 +91,9 @@ aeluran_lives_in_target_matronate_trigger = {
 # Human (non-Aeluran) rulers are not; by default the Order wants them gone (PM 2026-09-30).
 aeluran_flock_member_trigger = {
 	is_ruler = yes
+	# Landed rulers only: adventurer bands and mercenary companies have no realm for the Order to tend
+	is_landed = yes
+	NOT = { primary_title ?= { is_mercenary_company = yes } }
 	faith = faith:aeluran_weavers
 	highest_held_title_tier >= tier_county
 }

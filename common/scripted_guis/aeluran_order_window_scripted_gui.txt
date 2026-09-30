@@ -12,13 +12,16 @@ aeluran_order_is_shepherd = {
 	}
 }
 
-# Rebuild the flock list (var list aeluran_order_flock on the player) when the window opens
+# Rebuild the flock list (var list aeluran_order_flock on the player) when the window opens. Also works out the flock's
+# monthly piety now (the quarterly pulse pays it), and opens the post of any ruler in her care still without an Advisor,
+# so she can fill it at once instead of waiting for the Order's next quarterly round.
 aeluran_order_refresh = {
 	scope = character
 
 	effect = {
 		clear_variable_list = aeluran_order_flock
 		save_scope_as = flock_shepherd
+		set_variable = { name = aeluran_flock_piety value = 0 }
 		every_ruler = {
 			limit = {
 				aeluran_flock_member_trigger = yes
@@ -32,6 +35,17 @@ aeluran_order_refresh = {
 				}
 			}
 			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_flock target = prev } }
+			save_temporary_scope_value_as = { name = flock_piety value = aeluran_flock_piety_value }
+			scope:flock_shepherd = { change_variable = { name = aeluran_flock_piety add = scope:flock_piety } }
+			if = {
+				limit = {
+					NOT = { exists = cp:councillor_aeluran_advisor }
+					NOT = { has_character_flag = aeluran_advisor_is_on_the_way }
+					NOT = { has_variable = aeluran_advisor_vacancy }
+					faith = { has_tenet = tenet_aeluran_sisters }
+				}
+				aeluran_open_advisor_post_effect = yes
+			}
 		}
 	}
 }
