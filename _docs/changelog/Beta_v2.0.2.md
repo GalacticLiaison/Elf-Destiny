@@ -17,14 +17,12 @@ NEW! Dark Elf Rites
    - New Dark Sisters tenet for the dark chapters of the Order
    - Coming soon: commune with your patron god directly. The decisions are already there to tease you.
 
-NEW! Dark Elven Culture
-   - Chose the dark path on your first expedition? Taking up elven culture now gives you the new Dark Elven culture, with the dark Old Ways and dark elf looks, instead of the light Elven culture
-
 # Bugs/Balance
 - Updated for CK3 1.20: religions, tenets, laws, holy sites, and the faith, council, ruler designer, lobby and main menu screens have been brought in line with the new game version
 - The character window is fully up to date with 1.20, including the new portrait buttons, while keeping the Elf Destiny modifier grid
 - Birth events updated for 1.20. Bastard births work again, and fathers see what they got once more.
 - Updated the portrait shaders for 1.20
+- Added a new default Dark Elf culture so players dont get a light elf culture when taking the default on the first expedition.
 - Random courtiers, guests and wanderers no longer show up already Heroic or Passionate. Those traits are earned again, through your blessing traditions and your deeds.
 - Fixed some starter characters not being High Elves
 - The High Matriarch now properly fills the Head of Faith slot from game start
