@@ -58,31 +58,26 @@ aeluran_find_advisor_appointer_effect = {
 # Root = an Aeluran ruler without an Advisor. Opens the post: a player appointer is asked to choose, anyone else fills it.
 aeluran_open_advisor_post_effect = {
 	aeluran_find_advisor_appointer_effect = yes
-	# HIDDEN for release: advisor placement (Appoint an Advisor, Send for a Novice, Recall Advisor, the
-	# Advisor Post Open alert) is not ready. With no Sister chosen, aeluran_diarchy.100 falls back to the old
-	# pick (a Sister vassal, then a Sister courtier, else a novice from Deepwood). To re-enable, delete the
-	# trigger_event line and uncomment the block below.
-	trigger_event = aeluran_diarchy.100
-	# if = {
-	# 	limit = {
-	# 		exists = scope:advisor_appointer
-	# 		scope:advisor_appointer = { is_ai = no }
-	# 	}
-	# 	set_variable = { name = aeluran_advisor_vacancy value = scope:advisor_appointer }
-	# 	set_variable = { name = aeluran_advisor_vacancy_timer value = yes days = 90 }
-	# 	scope:advisor_appointer = {
-	# 		add_to_variable_list = { name = aeluran_open_advisor_posts target = scope:advisor_post }
-	# 		send_interface_toast = {
-	# 			type = event_toast_effect_neutral
-	# 			title = aeluran_advisor_post_open_toast
-	# 			left_icon = scope:advisor_post
-	# 			custom_tooltip = aeluran_advisor_post_open_toast_desc
-	# 		}
-	# 	}
-	# }
-	# else = {
-	# 	aeluran_fill_advisor_post_effect = yes
-	# }
+	if = {
+		limit = {
+			exists = scope:advisor_appointer
+			scope:advisor_appointer = { is_ai = no }
+		}
+		set_variable = { name = aeluran_advisor_vacancy value = scope:advisor_appointer }
+		set_variable = { name = aeluran_advisor_vacancy_timer value = yes days = 90 }
+		scope:advisor_appointer = {
+			add_to_variable_list = { name = aeluran_open_advisor_posts target = scope:advisor_post }
+			send_interface_toast = {
+				type = event_toast_effect_neutral
+				title = aeluran_advisor_post_open_toast
+				left_icon = scope:advisor_post
+				custom_tooltip = aeluran_advisor_post_open_toast_desc
+			}
+		}
+	}
+	else = {
+		aeluran_fill_advisor_post_effect = yes
+	}
 }
 
 # Root = an Aeluran ruler. Fills the post: with scope:aeluran_sister_advisor if one was chosen, else the Order's usual

@@ -124,7 +124,7 @@ aeluran_conclave_regnant_priority_value = {
 			add = 5
 		}
 	}
-	# add = aeluran_conclave_regnant_flock_value	# HIDDEN for release: flock count is broken (holder scope errors), re-enable once fixed
+	add = aeluran_conclave_regnant_flock_value
 	add = {
 		value = prestige_level
 		multiply = 5
@@ -143,30 +143,31 @@ aeluran_conclave_regnant_flock_value = {
 	save_temporary_scope_as = regnant_matron
 	every_held_title = {
 		limit = { aeluran_is_matronate_title_trigger = yes }
+		# Each Aeluran ruler whose capital is a county of the Matronate. Points are added in county scope; the holder is
+		# only read inside triggers (adding inside a holder = { } block logged holder scope errors).
 		every_county_in_clerical_region = {
 			limit = {
-				holder ?= {
+				exists = holder
+				holder = {
 					this != scope:regnant_matron
 					aeluran_flock_member_trigger = yes
-					capital_county ?= prev
 				}
+				this = holder.capital_county
 			}
-			holder = {
-				if = {
-					limit = { highest_held_title_tier >= tier_empire }
-					add = 20
-				}
-				else_if = {
-					limit = { highest_held_title_tier = tier_kingdom }
-					add = 12
-				}
-				else_if = {
-					limit = { highest_held_title_tier = tier_duchy }
-					add = 4
-				}
-				else = {
-					add = 1
-				}
+			if = {
+				limit = { holder = { highest_held_title_tier >= tier_empire } }
+				add = 20
+			}
+			else_if = {
+				limit = { holder = { highest_held_title_tier = tier_kingdom } }
+				add = 12
+			}
+			else_if = {
+				limit = { holder = { highest_held_title_tier = tier_duchy } }
+				add = 4
+			}
+			else = {
+				add = 1
 			}
 		}
 	}
