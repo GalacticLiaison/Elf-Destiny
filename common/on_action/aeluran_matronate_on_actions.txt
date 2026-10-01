@@ -98,6 +98,22 @@ aeluran_matronate_on_death = {
 	}
 	effect = {
 		aeluran_matronate_vacate_held_effect = yes
+
+		# A player's Matron dying is not a game over. The Matronate is granted away above and her Seat dies with her,
+		# so a landless Matron leaves nothing to inherit: with no heir of her dynasty to continue as, the player
+		# continues as the Sister who takes up her Matronate (as aeluran_matriarch_player_continuity_effect does)
+		if = {
+			limit = {
+				is_ai = no
+				NOT = { exists = player_heir }
+				exists = scope:matronate_successor
+				scope:matronate_successor = {
+					is_ai = yes
+					this != root
+				}
+			}
+			set_player_character = scope:matronate_successor
+		}
 	}
 }
 
