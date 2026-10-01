@@ -347,3 +347,30 @@ aeluran_posting_willingness = {
 		add = -100
 	}
 }
+
+##############################
+# Press the Order's Claim    #
+##############################
+
+# Scope: a flock ruler. Piety a shepherd spends pressing them to raise Aeluran Realm Authority a step.
+aeluran_press_authority_piety_cost = {
+	value = 100
+	if = {
+		limit = { has_realm_law = aeluran_realm_authority_2 }
+		add = 100
+	}
+}
+
+# Scope: a Red Sister; scope:actor = her shepherd. How much more she favours her ruler than her shepherd
+# (over 20: she has gone native and argues the ruler's side).
+aeluran_advisor_native_gap = {
+	value = "opinion(liege)"
+	subtract = "opinion(scope:actor)"
+}
+
+# Scope: a Red Sister. What her voice at court is worth to her shepherd's case.
+aeluran_advisor_advocacy_value = {
+	value = diplomacy
+	multiply = 2
+	max = 40
+}

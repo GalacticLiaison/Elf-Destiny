@@ -113,3 +113,129 @@ aeluran_compel.001 = {
 		ai_chance = { base = 0 }
 	}
 }
+
+# A ruler of the flock refuses to raise Aeluran Realm Authority (aeluran_press_authority_interaction).
+# Root = the shepherd. Scopes: compel_ruler, actor, recipient.
+# Force it in a battle of wills: fought by the shepherd herself, or by the ruler's Red Sister if she is still loyal.
+aeluran_compel.010 = {
+	type = character_event
+	title = aeluran_compel.010.title
+	desc = aeluran_compel.010.desc
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:compel_ruler
+		animation = dismissal
+	}
+	lower_right_portrait = {
+		character = scope:press_sister
+		trigger = { exists = scope:press_sister }
+	}
+
+	immediate = {
+		scope:compel_ruler.cp:councillor_aeluran_advisor ?= { save_scope_as = press_sister }
+	}
+
+	# Let it stand
+	option = {
+		name = aeluran_compel.010.a
+		ai_chance = { base = 60 }
+	}
+
+	# Face the ruler yourself: Learning
+	option = {
+		name = aeluran_compel.010.b
+		flavor = battle_of_wills_modifiers_desc
+		save_scope_as = press_champion
+		save_scope_as = challenger
+		scope:compel_ruler = { save_scope_as = defender }
+		save_scope_value_as = { name = battle_of_wills_type value = flag:learning }
+		battle_of_wills_effect = {
+			TYPE = scope:battle_of_wills_type
+			CHALLENGER = root
+			DEFENDER = scope:compel_ruler
+			CHALLENGER_WINS_EFFECT_TOOLTIP = aeluran_press_win_tt
+			CHALLENGER_LOSES_EFFECT_TOOLTIP = aeluran_press_lose_self_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:challenger_wins scope:challenger_wins = yes }
+				aeluran_press_compel_win_effect = yes
+			}
+			else = {
+				aeluran_press_compel_lose_self_effect = yes
+			}
+		}
+		ai_chance = { base = 20 }
+	}
+
+	# Face the ruler yourself: Intrigue and Diplomacy
+	option = {
+		name = aeluran_compel.010.c
+		flavor = battle_of_wills_modifiers_desc
+		trigger = {
+			culture = { has_cultural_parameter = entrance_scheme_unlocked }
+		}
+		save_scope_as = press_champion
+		save_scope_as = challenger
+		scope:compel_ruler = { save_scope_as = defender }
+		save_scope_value_as = { name = battle_of_wills_type value = flag:intrigue_diplomacy }
+		battle_of_wills_effect = {
+			TYPE = scope:battle_of_wills_type
+			CHALLENGER = root
+			DEFENDER = scope:compel_ruler
+			CHALLENGER_WINS_EFFECT_TOOLTIP = aeluran_press_win_tt
+			CHALLENGER_LOSES_EFFECT_TOOLTIP = aeluran_press_lose_self_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:challenger_wins scope:challenger_wins = yes }
+				aeluran_press_compel_win_effect = yes
+			}
+			else = {
+				aeluran_press_compel_lose_self_effect = yes
+			}
+		}
+		ai_chance = { base = 10 }
+	}
+
+	# Send the Red Sister: Learning (she will not, if she has gone native)
+	option = {
+		name = aeluran_compel.010.d
+		flavor = battle_of_wills_modifiers_desc
+		trigger = {
+			exists = scope:press_sister
+			scope:press_sister = { aeluran_advisor_native_gap <= 20 }
+		}
+		scope:press_sister = {
+			save_scope_as = press_champion
+			save_scope_as = challenger
+		}
+		scope:compel_ruler = { save_scope_as = defender }
+		save_scope_value_as = { name = battle_of_wills_type value = flag:learning }
+		scope:press_sister = {
+			battle_of_wills_effect = {
+				TYPE = scope:battle_of_wills_type
+				CHALLENGER = scope:press_sister
+				DEFENDER = scope:compel_ruler
+				CHALLENGER_WINS_EFFECT_TOOLTIP = aeluran_press_win_tt
+				CHALLENGER_LOSES_EFFECT_TOOLTIP = aeluran_press_lose_sister_tt
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:challenger_wins scope:challenger_wins = yes }
+				aeluran_press_compel_win_effect = yes
+			}
+			else = {
+				aeluran_press_compel_lose_sister_effect = yes
+			}
+		}
+		ai_chance = { base = 20 }
+	}
+}

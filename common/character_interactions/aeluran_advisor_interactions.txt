@@ -412,3 +412,177 @@ aeluran_gather_whispers_interaction = {
 		base = 0
 	}
 }
+
+# Press the Order's Claim: a shepherd, backed by the ruler's Red Sister, urges a ruler of her flock to raise Aeluran
+# Realm Authority one step. A refusal can be overridden in a battle of wills (aeluran_compel.010), fought by the
+# shepherd or by the Red Sister. AI shepherds send it from aeluran_matronate_ai_yearly.
+aeluran_press_authority_interaction = {
+	category = interaction_category_religion
+	icon = icon_aeluran_matron
+	interface_priority = 55
+	common_interaction = no
+	use_diplomatic_range = no
+	desc = aeluran_press_authority_interaction_desc
+
+	is_shown = {
+		scope:actor = {
+			OR = {
+				has_title = title:d_high_matriarch
+				any_held_title = { aeluran_is_matronate_title_trigger = yes }
+			}
+		}
+		scope:recipient = {
+			aeluran_press_authority_target_trigger = { SHEPHERD = scope:actor }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+		}
+	}
+
+	cooldown_against_recipient = { years = 5 }
+
+	cost = {
+		piety = {
+			value = scope:recipient.aeluran_press_authority_piety_cost
+		}
+	}
+
+	send_option = {
+		is_valid = {
+			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		flag = hook
+		localization = GENERIC_SPEND_A_HOOK
+	}
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	on_accept = {
+		scope:recipient = { custom_tooltip = aeluran_press_authority_accept_tt }
+		if = {
+			limit = {
+				scope:hook = yes
+				scope:actor = { has_usable_hook = scope:recipient }
+			}
+			scope:actor = { use_hook = scope:recipient }
+		}
+		hidden_effect = { aeluran_press_authority_success_effect = yes }
+	}
+
+	# Refused: let it stand, or force it in a battle of wills (aeluran_compel.010)
+	on_decline = {
+		custom_tooltip = aeluran_press_authority_on_decline_tt
+		hidden_effect = {
+			scope:recipient = { save_scope_as = compel_ruler }
+			scope:actor = { trigger_event = aeluran_compel.010 }
+		}
+	}
+
+	# A strong hook cannot be refused
+	auto_accept = {
+		custom_description = {
+			text = aeluran_press_strong_hook_auto_accept
+			subject = scope:actor
+			object = scope:recipient
+			scope:hook = yes
+			scope:actor = { has_strong_hook = scope:recipient }
+		}
+	}
+
+	ai_accept = {
+		base = -25
+		modifier = {
+			add = -25
+			scope:recipient = { has_realm_law = aeluran_realm_authority_2 }
+			desc = aeluran_press_judiciary_reason
+		}
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.5
+			desc = AI_OPINION_REASON
+		}
+		# Devotion to the Order (spiritual fulfillment -100..100)
+		modifier = {
+			add = {
+				value = scope:recipient.spiritual_fulfillment
+				multiply = 0.3
+			}
+			desc = aeluran_press_devotion_reason
+		}
+		# The Red Sister at court: argues the shepherd's case, or (gone native) the ruler's
+		modifier = {
+			add = scope:recipient.cp:councillor_aeluran_advisor.aeluran_advisor_advocacy_value
+			scope:recipient.cp:councillor_aeluran_advisor ?= {
+				aeluran_advisor_native_gap <= 20
+			}
+			desc = aeluran_press_red_sister_for_reason
+		}
+		opinion_modifier = {
+			trigger = {
+				scope:recipient.cp:councillor_aeluran_advisor ?= {
+					aeluran_advisor_native_gap <= 20
+				}
+			}
+			who = scope:recipient
+			opinion_target = scope:recipient.cp:councillor_aeluran_advisor
+			multiplier = 0.25
+			desc = aeluran_press_red_sister_trust_reason
+		}
+		modifier = {
+			add = {
+				value = scope:recipient.cp:councillor_aeluran_advisor.aeluran_advisor_advocacy_value
+				multiply = -1
+			}
+			scope:recipient.cp:councillor_aeluran_advisor ?= {
+				aeluran_advisor_native_gap > 20
+			}
+			desc = aeluran_press_red_sister_against_reason
+		}
+		modifier = {
+			add = -20
+			NOT = { exists = scope:recipient.cp:councillor_aeluran_advisor }
+			desc = aeluran_press_no_red_sister_reason
+		}
+		modifier = {
+			add = 50
+			scope:hook = yes
+			desc = SCHEME_WEAK_HOOK_USED
+		}
+		modifier = {
+			add = 20
+			scope:recipient = { is_at_war = yes }
+			desc = aeluran_press_at_war_reason
+		}
+		modifier = {
+			add = 15
+			scope:recipient = { has_trait = zealous }
+			desc = aeluran_press_zealous_reason
+		}
+		modifier = {
+			add = -15
+			scope:recipient = { has_trait = cynical }
+			desc = aeluran_press_cynical_reason
+		}
+		modifier = {
+			add = -10
+			scope:recipient = { has_trait = ambitious }
+			desc = aeluran_press_ambitious_reason
+		}
+		modifier = {
+			add = -10
+			scope:recipient = { has_trait = arrogant }
+			desc = aeluran_press_arrogant_reason
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

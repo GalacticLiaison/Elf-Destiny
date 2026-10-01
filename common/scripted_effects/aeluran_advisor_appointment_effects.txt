@@ -141,3 +141,37 @@ aeluran_appoint_novice_advisor_effect = {
 	}
 	aeluran_fill_advisor_post_effect = yes
 }
+
+# Root = a ruler. Raises Aeluran Realm Authority one step (the law's own cost and on_pass apply).
+aeluran_raise_realm_authority_effect = {
+	if = {
+		limit = { has_realm_law = aeluran_realm_authority_2 }
+		add_realm_law = aeluran_realm_authority_3
+	}
+	else_if = {
+		limit = { has_realm_law = aeluran_realm_authority_1 }
+		add_realm_law = aeluran_realm_authority_2
+	}
+	else_if = {
+		limit = { has_realm_law = no_aeluran_law }
+		add_realm_law = aeluran_realm_authority_1
+	}
+}
+
+# scope:actor = the shepherd, scope:recipient = the ruler who agreed (or was forced). The law rises; the Order and
+# the Red Sister who argued for it are pleased.
+aeluran_press_authority_success_effect = {
+	scope:recipient = { aeluran_raise_realm_authority_effect = yes }
+	scope:actor = {
+		add_piety = {
+			value = scope:recipient.aeluran_press_authority_piety_cost
+			multiply = 0.5
+		}
+	}
+	scope:recipient.cp:councillor_aeluran_advisor ?= {
+		add_opinion = {
+			target = scope:actor
+			modifier = aeluran_advanced_the_order_opinion
+		}
+	}
+}

@@ -67,28 +67,7 @@ aeluran_compel_lose_effect = {
 # Root = the shepherd who lost a battle of wills to scope:compel_sister (scope:challenger / scope:defender /
 # scope:battle_type still saved from battle_of_wills_effect)
 aeluran_compel_backlash_effect = {
-	# Measured before the Sister is marked unbroken (which shifts the battle of wills value)
-	if = {
-		limit = { aeluran_compel_margin_value >= 15 }
-		# Crushing: she was the stronger will by far
-		add_stress = massive_stress_impact_gain
-		add_character_modifier = {
-			modifier = aeluran_will_shattered_modifier
-			years = 5
-		}
-		add_piety = -100
-		random = {
-			chance = 50
-			increase_wounds_no_death_effect = { REASON = wounds }
-		}
-	}
-	else = {
-		add_stress = major_stress_impact_gain
-		add_character_modifier = {
-			modifier = aeluran_will_recoiling_modifier
-			years = 5
-		}
-	}
+	aeluran_compel_backlash_self_effect = yes
 	# The Sister is emboldened
 	scope:compel_sister = {
 		add_prestige = 100
@@ -111,3 +90,99 @@ aeluran_compel_backlash_effect = {
 		}
 	}
 }
+
+# Root = whoever lost a battle of wills (scope:challenger / scope:defender / scope:battle_type saved). The backlash on
+# the loser herself: stress and a weakened will, worse (with piety loss and a wound chance) for a crushing defeat.
+# Call before marking the winner unbroken, which shifts the battle of wills value the margin is measured with.
+aeluran_compel_backlash_self_effect = {
+	if = {
+		limit = { aeluran_compel_margin_value >= 15 }
+		# Crushing: she was the stronger will by far
+		add_stress = massive_stress_impact_gain
+		add_character_modifier = {
+			modifier = aeluran_will_shattered_modifier
+			years = 5
+		}
+		add_piety = -100
+		random = {
+			chance = 50
+			increase_wounds_no_death_effect = { REASON = wounds }
+		}
+	}
+	else = {
+		add_stress = major_stress_impact_gain
+		add_character_modifier = {
+			modifier = aeluran_will_recoiling_modifier
+			years = 5
+		}
+	}
+}
+
+#################################################
+# Pressing a ruler (aeluran_press_authority)   #
+#################################################
+# Root = the shepherd. scope:compel_ruler = the ruler who refused; scope:actor / scope:recipient from the interaction.
+# The battle is fought by the shepherd or by the ruler's Red Sister (scope:press_champion).
+
+# Won: the law rises and the ruler resents being forced
+aeluran_press_compel_win_effect = {
+	aeluran_press_authority_success_effect = yes
+	scope:compel_ruler = {
+		add_opinion = {
+			target = root
+			modifier = aeluran_coerced_by_the_order_opinion
+		}
+		if = {
+			limit = { NOT = { scope:press_champion = root } }
+			add_opinion = {
+				target = scope:press_champion
+				modifier = aeluran_coerced_by_the_order_opinion
+			}
+		}
+		send_interface_toast = {
+			type = event_toast_effect_bad
+			title = aeluran_press_forced_ruler_toast
+			left_icon = scope:press_champion
+			right_icon = root
+			custom_tooltip = aeluran_press_forced_ruler_toast_desc
+		}
+	}
+}
+
+# Lost, by the shepherd herself: her backlash, and the ruler is emboldened against her
+aeluran_press_compel_lose_self_effect = {
+	aeluran_compel_backlash_self_effect = yes
+	scope:compel_ruler = {
+		add_prestige = 100
+		add_to_variable_list = { name = aeluran_unbroken_against target = root }
+	}
+}
+
+# Lost, by the Red Sister: she bears the backlash and blames the shepherd; an AI ruler may dismiss her
+aeluran_press_compel_lose_sister_effect = {
+	scope:press_champion = {
+		add_stress = major_stress_impact_gain
+		add_opinion = {
+			target = root
+			modifier = aeluran_sent_me_to_fail_opinion
+		}
+	}
+	scope:compel_ruler = {
+		add_prestige = 50
+		if = {
+			limit = { is_ai = yes }
+			random = {
+				chance = 50
+				fire_councillor = scope:press_champion
+				scope:press_champion = {
+					if = {
+						limit = { has_variable = appointed_to_advise }
+						remove_variable = appointed_to_advise
+					}
+				}
+				aeluran_open_advisor_post_effect = yes
+			}
+		}
+	}
+}
+

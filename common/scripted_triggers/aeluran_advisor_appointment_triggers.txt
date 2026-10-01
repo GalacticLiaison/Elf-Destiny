@@ -137,3 +137,23 @@ aeluran_refuses_posting_trigger = {
 	NOT = { aeluran_whispers_loyal_sister_trigger = { SHEPHERD = scope:actor } }
 	aeluran_posting_willingness < 0
 }
+
+##############################
+# Press the Order's Claim    #
+##############################
+
+# Scope: a ruler, SHEPHERD = a Matron or the High Matriarch. A ruler of the shepherd's flock whose realm could take
+# Aeluran Realm Authority a step further.
+aeluran_press_authority_target_trigger = {
+	aeluran_flock_member_trigger = yes
+	NOT = { this = $SHEPHERD$ }
+	faith = { has_tenet = tenet_aeluran_sisters }
+	NOT = { has_realm_law = aeluran_realm_authority_3 }
+	OR = {
+		capital_county.clerical_region_title.holder ?= $SHEPHERD$
+		AND = {
+			$SHEPHERD$ = { has_title = title:d_high_matriarch }
+			NOT = { capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+	}
+}

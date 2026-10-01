@@ -95,6 +95,34 @@ aeluran_matronate_ai_yearly = {
 				chance = 50
 				aeluran_bloodlines_ai_yearly_effect = yes
 			}
+			# ... and press a ruler of the flock to raise Aeluran Realm Authority, about one in three years
+			random = {
+				chance = 30
+				save_scope_as = press_shepherd
+				random_ruler = {
+					limit = {
+						aeluran_press_authority_target_trigger = { SHEPHERD = scope:press_shepherd }
+						scope:press_shepherd.piety >= aeluran_press_authority_piety_cost
+					}
+					weight = {
+						base = 1
+						# The friendlier the ruler, the likelier she tries
+						modifier = {
+							add = 1
+							opinion = {
+								target = scope:press_shepherd
+								value >= 25
+							}
+						}
+					}
+					run_interaction = {
+						interaction = aeluran_press_authority_interaction
+						actor = scope:press_shepherd
+						recipient = this
+						send_threshold = decline
+					}
+				}
+			}
 		}
 	}
 }
