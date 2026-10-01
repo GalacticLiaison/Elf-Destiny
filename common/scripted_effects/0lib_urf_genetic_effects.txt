@@ -120,8 +120,43 @@ urf_inherit_genotype_assignment = {
                     add = 0
                 }
 
-                #End Elf Destiny
                 divide = 2
+
+                # Controlled variance (PM 2026-10-01): up to 4 either way (half an elf tier is 4.17), then kept
+                # between the two parents, so a child is never below its lower parent (two elves never have a
+                # half-elf) and an elf x high elf child (on the tier boundary) can come out either way
+                add = { fixed_range = { min = -4 max = 4 } }
+                # Not below the lower parent (a missing parent counts as 0, as above)
+                min = {
+                    value = 0
+                    if = {
+                        limit = { $MOTHER$ = { has_variable = urf_genotype_$RACE$ } }
+                        add = $MOTHER$.var:urf_genotype_$RACE$
+                    }
+                    max = {
+                        value = 0
+                        if = {
+                            limit = { $FATHER$ = { has_variable = urf_genotype_$RACE$ } }
+                            add = $FATHER$.var:urf_genotype_$RACE$
+                        }
+                    }
+                }
+                # Not above the higher parent
+                max = {
+                    value = 0
+                    if = {
+                        limit = { $MOTHER$ = { has_variable = urf_genotype_$RACE$ } }
+                        add = $MOTHER$.var:urf_genotype_$RACE$
+                    }
+                    min = {
+                        value = 0
+                        if = {
+                            limit = { $FATHER$ = { has_variable = urf_genotype_$RACE$ } }
+                            add = $FATHER$.var:urf_genotype_$RACE$
+                        }
+                    }
+                }
+                #End Elf Destiny
             }
         }
     }
