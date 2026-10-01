@@ -13,30 +13,6 @@ should_use_clerical_appointment_law_trigger = {
 	should_use_theocratic_elective_succession_law_trigger = no
 }
 
-# From common/scripted_triggers/clerical_chastity_triggers.txt
-# Being a Sister does not let you demand vows of chastity (Aelurans allow clerical marriage)
-clerical_chastity_actor_can_demand_chastity_trigger = {
-	OR = {
-		rite = {
-			rite_has_parameter = gnosticism_cleric_interactions
-			NOT = {
-				trait_is_virtue_rite = lustful
-			}
-		}
-		AND = {
-			is_clergy = yes
-			NOT = { has_government = aeluran_weavers_government } # Elf Destiny
-			rite = {
-				NOR = {
-					trait_is_sin_rite = chaste
-					trait_is_virtue_rite = lustful
-				}
-			}
-		}
-	}
-	is_physically_able_adult = yes
-}
-
 # From common/scripted_triggers/pam_scripted_triggers.txt
 # A landed Sister may still puppet her realm priest, as she could before the Order counted as clergy
 can_have_realm_priest_puppet_trigger = {
