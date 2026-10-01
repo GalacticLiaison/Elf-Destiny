@@ -330,13 +330,36 @@ window = {
 								# Where she serves
 								text_single = {
 									position = { 100 58 }
-									visible = "[GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+									visible = "[And( GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ), Not( Character.MakeScope.Var( 'aeluran_whispers_for' ).IsSet ) )]"
 									text = "AELURAN_ORDER_SISTER_ADVISES"
+								}
+								# On a Gather Whispers mission
+								text_single = {
+									position = { 100 58 }
+									visible = "[Character.MakeScope.Var( 'aeluran_whispers_for' ).IsSet]"
+									text = "AELURAN_ORDER_SISTER_WHISPERING"
 								}
 								text_single = {
 									position = { 100 58 }
 									visible = "[And( Not( GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ), Not( Character.IsLandedRuler ) )]"
 									text = "AELURAN_ORDER_SISTER_LOCATION"
+								}
+
+								# Gather Whispers: set her to spy on her ruler's court (aeluran_gather_whispers_interaction)
+								button_round = {
+									parentanchor = right|vcenter
+									position = { -136 0 }
+									visible = "[GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+									enabled = "[Not( Character.MakeScope.Var( 'aeluran_whispers_for' ).IsSet )]"
+									tooltip = "AELURAN_ORDER_WHISPERS_TT"
+									onclick = "[GetScriptedGui( 'aeluran_order_open_whispers' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+
+									icon = {
+										alwaystransparent = yes
+										parentanchor = center
+										size = { 34 34 }
+										texture = "gfx/interface/icons/council_task_types/task_find_secrets.dds"
+									}
 								}
 
 								# Religious interactions with the Sister (vanilla type, gui/window_faith.gui)

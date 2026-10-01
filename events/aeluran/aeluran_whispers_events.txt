@@ -1,0 +1,125 @@
+﻿namespace = aeluran_whispers
+
+# Gather Whispers (common/scripted_effects/aeluran_whispers_effects.txt): a Red Sister's monthly round of spying on her
+# ruler's court for her shepherd. Root = the Sister.
+aeluran_whispers.001 = {
+	hidden = yes
+
+	trigger = {
+		has_variable = aeluran_whispers_for
+	}
+
+	immediate = {
+		save_scope_as = whisper_sister
+		var:aeluran_whispers_for = { save_scope_as = whisper_shepherd }
+		var:aeluran_whispers_ruler = { save_scope_as = whisper_ruler }
+		change_variable = { name = aeluran_whispers_months add = -1 }
+
+		# The mission lapses if her shepherd is gone or she no longer sits on that ruler's council
+		if = {
+			limit = {
+				OR = {
+					scope:whisper_shepherd = { is_alive = no }
+					scope:whisper_ruler = { is_alive = no }
+					NOT = { has_council_position = councillor_aeluran_advisor }
+					NOT = { liege ?= scope:whisper_ruler }
+				}
+			}
+			aeluran_whispers_end_effect = yes
+		}
+		else = {
+			# Caught?
+			random = {
+				chance = aeluran_whispers_caught_chance
+				save_scope_value_as = { name = whisper_caught value = yes }
+				aeluran_whispers_caught_effect = yes
+			}
+			if = {
+				limit = { NOT = { exists = scope:whisper_caught } }
+				# The secrets of the ruler and the court the shepherd does not know yet
+				scope:whisper_ruler = {
+					every_secret = {
+						limit = {
+							NOT = { is_known_by = scope:whisper_shepherd }
+							NOT = { secret_owner = scope:whisper_shepherd }
+						}
+						add_to_temporary_list = whisper_secrets
+					}
+					every_courtier = {
+						limit = { NOT = { this = scope:whisper_sister } }
+						every_secret = {
+							limit = {
+								NOT = { is_known_by = scope:whisper_shepherd }
+								NOT = { secret_owner = scope:whisper_shepherd }
+							}
+							add_to_temporary_list = whisper_secrets
+						}
+					}
+				}
+				if = {
+					limit = { any_in_list = { list = whisper_secrets } }
+					random = {
+						chance = aeluran_whispers_find_chance
+						save_scope_value_as = { name = whisper_found value = yes }
+						random_in_list = {
+							list = whisper_secrets
+							save_scope_as = whisper_secret
+							secret_owner = { save_scope_as = whisper_holder }
+						}
+					}
+				}
+				if = {
+					limit = { exists = scope:whisper_found }
+					scope:whisper_secret = { reveal_to = scope:whisper_shepherd }
+					aeluran_whispers_end_effect = yes
+					scope:whisper_shepherd = { trigger_event = aeluran_whispers.010 }
+				}
+				else_if = {
+					limit = { var:aeluran_whispers_months <= 0 }
+					aeluran_whispers_end_effect = yes
+					scope:whisper_shepherd = {
+						send_interface_toast = {
+							type = event_toast_effect_neutral
+							title = aeluran_whispers_nothing_toast
+							left_icon = scope:whisper_sister
+							right_icon = scope:whisper_ruler
+							custom_tooltip = aeluran_whispers_nothing_toast_desc
+						}
+					}
+				}
+				else = {
+					trigger_event = {
+						id = aeluran_whispers.001
+						months = 1
+					}
+				}
+			}
+		}
+	}
+}
+
+# The Sister's letter: what she found. Root = the shepherd.
+# Scopes: whisper_sister, whisper_ruler, whisper_secret, whisper_holder.
+aeluran_whispers.010 = {
+	type = letter_event
+	opening = aeluran_whispers.010.opening
+	desc = aeluran_whispers.010.desc
+	sender = scope:whisper_sister
+
+	trigger = {
+		exists = scope:whisper_secret
+	}
+
+	# Keep it: knowing is power (blackmail, a hook)
+	option = {
+		name = aeluran_whispers.010.a
+		ai_chance = { base = 80 }
+	}
+
+	# Make it known
+	option = {
+		name = aeluran_whispers.010.b
+		scope:whisper_secret = { expose_secret = root }
+		ai_chance = { base = 20 }
+	}
+}

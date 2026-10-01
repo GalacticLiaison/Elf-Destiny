@@ -262,3 +262,61 @@ aeluran_bloodlines_accept_chance = {
 	min = 5
 	max = 95
 }
+
+####################
+# Gather Whispers  #
+####################
+
+# Scope: a Red Sister. Piety her shepherd pays to set her spying on her ruler's court: higher the greater the ruler.
+aeluran_whispers_piety_cost = {
+	value = 50
+	if = {
+		limit = { liege.highest_held_title_tier >= tier_empire }
+		add = 100
+	}
+	else_if = {
+		limit = { liege.highest_held_title_tier >= tier_kingdom }
+		add = 50
+	}
+	else_if = {
+		limit = { liege.highest_held_title_tier >= tier_duchy }
+		add = 25
+	}
+}
+
+# Scope: a Red Sister on a mission. Monthly percent chance she uncovers a secret in her ruler's court.
+aeluran_whispers_find_chance = {
+	value = 8
+	add = {
+		value = intrigue
+		multiply = 1.5
+	}
+	if = {
+		limit = { has_variable = aeluran_whispers_loyal }
+		add = 15
+	}
+	min = 5
+	max = 60
+}
+
+# Scope: a Red Sister on a mission. Monthly percent chance her ruler's court catches her at it.
+aeluran_whispers_caught_chance = {
+	value = 4
+	if = {
+		limit = { exists = var:aeluran_whispers_ruler.cp:councillor_spymaster }
+		add = {
+			value = var:aeluran_whispers_ruler.cp:councillor_spymaster.intrigue
+			divide = 2
+		}
+	}
+	subtract = {
+		value = intrigue
+		divide = 3
+	}
+	if = {
+		limit = { has_variable = aeluran_whispers_loyal }
+		multiply = 0.5
+	}
+	min = 1
+	max = 15
+}

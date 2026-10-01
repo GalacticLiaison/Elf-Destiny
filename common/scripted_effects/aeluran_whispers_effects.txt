@@ -1,0 +1,116 @@
+﻿# Gather Whispers: a Matron or the High Matriarch sets a Red Sister to spy on the court of the ruler she advises
+# (aeluran_gather_whispers_interaction, the Sisters tab of the Order window).
+#
+# The mission lives in variables on the Sister:
+#   aeluran_whispers_for     the shepherd she spies for
+#   aeluran_whispers_ruler   the ruler whose court she spies on (she must still sit on that ruler's council)
+#   aeluran_whispers_months  months left (12 at the start)
+#   aeluran_whispers_loyal   set if she is bound to the shepherd (friend, lover, hook): searches harder, hides better
+# Each month aeluran_whispers.001 rolls to be caught (aeluran_whispers_caught_chance), then to find a secret held by the
+# ruler or a courtier that the shepherd does not know (aeluran_whispers_find_chance). A find, a catch, the months
+# running out, or her leaving the council ends the mission.
+
+# scope:actor = the shepherd, scope:recipient = the Red Sister
+aeluran_whispers_start_effect = {
+	scope:recipient = {
+		set_variable = { name = aeluran_whispers_for value = scope:actor }
+		set_variable = { name = aeluran_whispers_ruler value = liege }
+		set_variable = { name = aeluran_whispers_months value = 12 }
+		if = {
+			limit = { aeluran_whispers_loyal_sister_trigger = { SHEPHERD = scope:actor } }
+			set_variable = { name = aeluran_whispers_loyal value = yes }
+		}
+		trigger_event = {
+			id = aeluran_whispers.001
+			months = 1
+		}
+	}
+}
+
+# Scope: the Sister. Ends the mission.
+aeluran_whispers_end_effect = {
+	remove_variable = aeluran_whispers_for
+	remove_variable = aeluran_whispers_ruler
+	remove_variable = aeluran_whispers_months
+	if = {
+		limit = { has_variable = aeluran_whispers_loyal }
+		remove_variable = aeluran_whispers_loyal
+	}
+}
+
+# scope:actor = the shepherd, scope:recipient = a Sister who refused and goes to her ruler with it
+aeluran_whispers_betray_effect = {
+	scope:recipient = {
+		save_scope_as = whisper_sister
+		liege = { save_scope_as = whisper_ruler }
+		add_opinion = {
+			target = scope:actor
+			modifier = aeluran_spied_on_my_court_opinion
+		}
+	}
+	scope:whisper_ruler = {
+		add_opinion = {
+			target = scope:actor
+			modifier = aeluran_spied_on_my_court_opinion
+		}
+		send_interface_toast = {
+			type = event_toast_effect_bad
+			title = aeluran_whispers_betrayed_ruler_toast
+			left_icon = scope:whisper_sister
+			right_icon = scope:actor
+			custom_tooltip = aeluran_whispers_betrayed_ruler_toast_desc
+		}
+	}
+	scope:actor = {
+		send_interface_toast = {
+			type = event_toast_effect_bad
+			title = aeluran_whispers_betrayed_toast
+			left_icon = scope:whisper_sister
+			right_icon = scope:whisper_ruler
+			custom_tooltip = aeluran_whispers_betrayed_toast_desc
+		}
+	}
+}
+
+# Scope: the Sister, caught at it. scope:whisper_shepherd, scope:whisper_ruler saved.
+# The ruler resents the shepherd; an AI ruler may dismiss her (the post opens again).
+aeluran_whispers_caught_effect = {
+	save_scope_as = whisper_sister
+	scope:whisper_ruler = {
+		add_opinion = {
+			target = scope:whisper_shepherd
+			modifier = aeluran_spied_on_my_court_opinion
+		}
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = aeluran_whispers_caught_ruler_toast
+			left_icon = scope:whisper_sister
+			right_icon = scope:whisper_shepherd
+			custom_tooltip = aeluran_whispers_caught_ruler_toast_desc
+		}
+	}
+	scope:whisper_shepherd = {
+		send_interface_toast = {
+			type = event_toast_effect_bad
+			title = aeluran_whispers_caught_toast
+			left_icon = scope:whisper_sister
+			right_icon = scope:whisper_ruler
+			custom_tooltip = aeluran_whispers_caught_toast_desc
+		}
+	}
+	aeluran_whispers_end_effect = yes
+	if = {
+		limit = { scope:whisper_ruler = { is_ai = yes } }
+		random = {
+			chance = 50
+			scope:whisper_ruler = { fire_councillor = scope:whisper_sister }
+			scope:whisper_sister = {
+				if = {
+					limit = { has_variable = appointed_to_advise }
+					remove_variable = appointed_to_advise
+				}
+			}
+			scope:whisper_ruler = { aeluran_open_advisor_post_effect = yes }
+		}
+	}
+}

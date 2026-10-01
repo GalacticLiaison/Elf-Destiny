@@ -75,3 +75,58 @@ aeluran_summonable_sister_trigger = {
 		}
 	}
 }
+
+####################
+# Gather Whispers  #
+####################
+
+# Scope: a character, SHEPHERD = a Matron or the High Matriarch. Is she a Red Sister (Aeluran Advisor) on the
+# council of a ruler in the shepherd's care, someone other than the shepherd herself?
+aeluran_red_sister_in_care_trigger = {
+	has_council_position = councillor_aeluran_advisor
+	exists = liege
+	NOT = { liege = $SHEPHERD$ }
+	OR = {
+		superior ?= $SHEPHERD$
+		liege.capital_county.clerical_region_title.holder ?= $SHEPHERD$
+		AND = {
+			$SHEPHERD$ = { has_title = title:d_high_matriarch }
+			NOT = { liege.capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+	}
+}
+
+# Scope: a Sister, SHEPHERD = the shepherd asking. A Sister bound to her (friend, lover, or under her hook) always
+# agrees, and searches harder.
+aeluran_whispers_loyal_sister_trigger = {
+	OR = {
+		has_relation_friend = $SHEPHERD$
+		has_relation_best_friend = $SHEPHERD$
+		has_relation_lover = $SHEPHERD$
+		has_relation_soulmate = $SHEPHERD$
+		$SHEPHERD$ = { has_hook = prev }
+	}
+}
+
+# Scope: a Sister who refused, SHEPHERD = the shepherd who asked. Does she go to her ruler with it?
+# Her rival, a Sister who thinks badly of her, or one who has come to love her ruler more than the Order.
+aeluran_whispers_betrayal_trigger = {
+	OR = {
+		has_relation_rival = $SHEPHERD$
+		has_relation_nemesis = $SHEPHERD$
+		opinion = {
+			target = $SHEPHERD$
+			value <= -25
+		}
+		AND = {
+			opinion = {
+				target = liege
+				value >= 40
+			}
+			opinion = {
+				target = $SHEPHERD$
+				value <= 0
+			}
+		}
+	}
+}
