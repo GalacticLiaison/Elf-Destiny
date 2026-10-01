@@ -149,3 +149,102 @@ pam_send_legatine_mission_decision = {
 		}
 	}
 }
+
+# Override of vanilla pam_renounce_papal_candidacy_decision (same file). Only change: hidden for the Aeluran Order
+# government (its text speaks of cardinals and a see). PM 2026-10-01
+pam_renounce_papal_candidacy_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/pam_decision_papal_petition.dds"
+	}
+	decision_group_type = religious
+
+	ai_check_interval = 0
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_desc_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_desc_renounce
+		}
+	}
+
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_tooltip_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_tooltip_renounce
+		}
+	}
+
+	confirm_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_confirm_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_confirm_renounce
+		}
+	}
+
+	sort_order = 110
+
+	is_shown = {
+		is_ai = no
+		NOT = { has_government = aeluran_weavers_government } # Elf Destiny
+		has_pam_dlc_trigger = yes
+		is_clergy = yes
+		pam_is_archbishop_or_higher_trigger = yes
+		faith ?= {
+			has_doctrine_parameter = has_clerical_electors
+			exists = religious_head
+			NOT = { religious_head = root }
+		}
+	}
+
+	is_valid = {
+		# The last willing cardinal may not step aside, or an election would have no candidates left
+		trigger_if = {
+			limit = {
+				exists = clerical_elector_title
+				NOT = { has_variable = pam_refuses_papacy }
+			}
+			custom_tooltip = {
+				text = pam_renounce_papal_candidacy_decision_last_candidate_tt
+				faith ?= {
+					any_clerical_elector_title = {
+						holder ?= {
+							this != root
+							NOT = { has_variable = pam_refuses_papacy }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { has_variable = pam_refuses_papacy }
+			remove_variable = pam_refuses_papacy
+			custom_tooltip = pam_renounce_papal_candidacy_decision_embrace_tt
+		}
+		else = {
+			set_variable = { name = pam_refuses_papacy value = yes }
+			custom_tooltip = pam_renounce_papal_candidacy_decision_renounce_tt
+		}
+	}
+}

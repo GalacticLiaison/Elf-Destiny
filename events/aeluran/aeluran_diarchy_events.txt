@@ -127,6 +127,12 @@ aeluran_diarchy.101 = {
 	override_background = { reference = council_chamber }
 	content_source = elf_destiny
 
+	# Fired with a 1 month delay: the travelling Sister can die on the way (add_courtier / assign_councillor_type errors).
+	# The on_the_way flag is already cleared, so the regular pulse sends a replacement.
+	trigger = {
+		scope:aeluran_sister_advisor ?= { is_alive = yes }
+	}
+
 	# cooldown = { years = 1 }
 
 	immediate = {

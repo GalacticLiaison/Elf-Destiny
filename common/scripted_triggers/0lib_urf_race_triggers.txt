@@ -5,7 +5,15 @@
 ### URF Racial Triggers ###
 ###########################
 urf_race_initialized = {
-    has_variable = urf_phenotype
+    # Dead characters can't hold variables: treat them as initialized (nothing to init)
+    # so callers testing "= no" never try to init or read a dead parent
+    trigger_if = {
+        limit = { is_alive = no }
+        always = yes
+    }
+    trigger_else = {
+        has_variable = urf_phenotype
+    }
 }
 
 urf_for_all_phenotypes_trigger = {

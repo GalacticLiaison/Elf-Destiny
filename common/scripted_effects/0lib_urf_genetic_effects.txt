@@ -96,7 +96,8 @@ urf_inherit_genotype_assignment = {
                 # Elf Destiny
                 if = {
                     limit = {
-                        $MOTHER$ = {
+                        $MOTHER$ ?= {
+                            is_alive = yes
                             has_variable = urf_genotype_$RACE$
                         }
                     }
@@ -109,7 +110,8 @@ urf_inherit_genotype_assignment = {
 
                 if = {
                     limit = {
-                        $FATHER$ = {
+                        $FATHER$ ?= {
+                            is_alive = yes
                             has_variable = urf_genotype_$RACE$
                         }
                     }
@@ -130,13 +132,13 @@ urf_inherit_genotype_assignment = {
                 min = {
                     value = 0
                     if = {
-                        limit = { $MOTHER$ = { has_variable = urf_genotype_$RACE$ } }
+                        limit = { $MOTHER$ ?= { is_alive = yes has_variable = urf_genotype_$RACE$ } }
                         add = $MOTHER$.var:urf_genotype_$RACE$
                     }
                     max = {
                         value = 0
                         if = {
-                            limit = { $FATHER$ = { has_variable = urf_genotype_$RACE$ } }
+                            limit = { $FATHER$ ?= { is_alive = yes has_variable = urf_genotype_$RACE$ } }
                             add = $FATHER$.var:urf_genotype_$RACE$
                         }
                     }
@@ -145,13 +147,13 @@ urf_inherit_genotype_assignment = {
                 max = {
                     value = 0
                     if = {
-                        limit = { $MOTHER$ = { has_variable = urf_genotype_$RACE$ } }
+                        limit = { $MOTHER$ ?= { is_alive = yes has_variable = urf_genotype_$RACE$ } }
                         add = $MOTHER$.var:urf_genotype_$RACE$
                     }
                     min = {
                         value = 0
                         if = {
-                            limit = { $FATHER$ = { has_variable = urf_genotype_$RACE$ } }
+                            limit = { $FATHER$ ?= { is_alive = yes has_variable = urf_genotype_$RACE$ } }
                             add = $FATHER$.var:urf_genotype_$RACE$
                         }
                     }

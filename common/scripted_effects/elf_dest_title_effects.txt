@@ -2,6 +2,8 @@
 	save_scope_as = founder
 	primary_title = {
 		save_scope_as = old_title
+		# Remember the de jure empire before the duchies are moved out of their old kingdom
+		empire ?= { save_scope_as = old_empire }
 	}
 
 	debug_log = "create_elf_kingdom_effect"
@@ -36,6 +38,13 @@
 		set_coa = scope:old_title
 		set_color_from_title = scope:old_title
 		set_capital_county = scope:old_title.title_capital_county
+		# Keep the new kingdom inside an empire: a kingdom with no de jure empire leaves its
+		# counties with a null `empire`, which vanilla scripts (found_empire_decision,
+		# tournaments) dereference unguarded
+		if = {
+			limit = { exists = scope:old_empire }
+			set_de_jure_liege_title = scope:old_empire
+		}
 	}
 	set_primary_title_to = scope:new_title
 }
