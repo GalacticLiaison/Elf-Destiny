@@ -461,3 +461,25 @@ aeluran_matronate_ai_yearly_effect = {
 		}
 	}
 }
+
+# Scope: a Matron or the High Matriarch. Records in var:aeluran_order_focus the province the Order window's button
+# pans the map to: her Matronate's capital, or (for a High Matriarch without one) her own capital.
+# Set ahead of time (window refresh, quarterly flock pulse) because the button's map pan reads it in the same click.
+aeluran_order_set_focus_effect = {
+	if = {
+		limit = { any_held_title = { aeluran_is_matronate_title_trigger = yes } }
+		random_held_title = {
+			limit = { aeluran_is_matronate_title_trigger = yes }
+			title_capital_county = { save_scope_as = order_focus_county }
+		}
+		set_variable = { name = aeluran_order_focus value = scope:order_focus_county.title_province }
+	}
+	else_if = {
+		limit = { exists = capital_province }
+		set_variable = { name = aeluran_order_focus value = capital_province }
+	}
+	else_if = {
+		limit = { exists = title:d_high_matriarch.title_capital_county }
+		set_variable = { name = aeluran_order_focus value = title:d_high_matriarch.title_capital_county.title_province }
+	}
+}

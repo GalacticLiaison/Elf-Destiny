@@ -9,14 +9,29 @@ widget = {
 	layer = bottom
 	visible = "[GetScriptedGui( 'aeluran_order_is_shepherd' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 
+	# Opening: refresh the lists, show the Matronates map mode and pan to her Matronate (var:aeluran_order_focus,
+	# see aeluran_order_set_focus_effect). Pans rather than zooms: a zoom goes close enough that map modes fade out.
 	button = {
 		name = "aeluran_order_open"
 		size = { 56 56 }
 		texture = "gfx/interface/icons/traits/aeluran_matron.dds"
 		tooltip = "AELURAN_ORDER_BUTTON_TT"
+		visible = "[Not( GetVariableSystem.Exists( 'aeluran_order_window' ) )]"
 		onclick = "[GetScriptedGui( 'aeluran_order_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 		onclick = "[GetScriptedGui( 'aeluran_bl_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 		onclick = "[GetScriptedGui( 'aeluran_order_sisters_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-		onclick = "[GetVariableSystem.Toggle( 'aeluran_order_window' )]"
+		onclick = "[SetMapMode( 'clerical_regions' )]"
+		onclick = "[GetPlayer.MakeScope.Var( 'aeluran_order_focus' ).GetProvince.PanCameraTo]"
+		onclick = "[GetVariableSystem.Set( 'aeluran_order_window', 'open' )]"
+	}
+
+	# Closing
+	button = {
+		name = "aeluran_order_close"
+		size = { 56 56 }
+		texture = "gfx/interface/icons/traits/aeluran_matron.dds"
+		tooltip = "AELURAN_ORDER_BUTTON_TT"
+		visible = "[GetVariableSystem.Exists( 'aeluran_order_window' )]"
+		onclick = "[GetVariableSystem.Clear( 'aeluran_order_window' )]"
 	}
 }
