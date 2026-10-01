@@ -112,3 +112,29 @@ aeluran_is_matronate_title_trigger = {
 		this = title:d_matronate_western_shores
 	}
 }
+
+# Scope: a character, scope:flock_shepherd = a Matron or the High Matriarch, scope:matronate (optional) = her Matronate.
+# Is she in the shepherd's care: her religious superior is the shepherd (an Advisor holding the shepherd's leases), or
+# she lives in the shepherd's Matronate (for a High Matriarch without one: outside every Matronate)?
+aeluran_order_sister_in_care_trigger = {
+	faith = faith:aeluran_weavers
+	NOT = { this = scope:flock_shepherd }
+	OR = {
+		superior ?= scope:flock_shepherd
+		AND = {
+			exists = scope:matronate
+			aeluran_in_matronate_region_trigger = yes
+		}
+		AND = {
+			NOT = { exists = scope:matronate }
+			scope:flock_shepherd = { has_title = title:d_high_matriarch }
+			trigger_if = {
+				limit = { any_held_title = { is_landless_type_title = no } }
+				NOT = { capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+			}
+			trigger_else = {
+				NOT = { location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+			}
+		}
+	}
+}

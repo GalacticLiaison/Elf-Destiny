@@ -50,6 +50,62 @@ aeluran_order_refresh = {
 	}
 }
 
+##########
+# Sisters #
+##########
+# The Sisters under a shepherd: those whose religious superior she is (the Advisors holding her temple leases), and
+# every Sister living in her Matronate (the High Matriarch's: outside every Matronate). Advisors are listed first.
+# var:aeluran_order_tithe_share is the shepherd's share of a lessee's temple taxes (aeluran_lease): 15% for a Matron,
+# 20% for the High Matriarch where no Matronate stands between them (lease liege and top liege both).
+
+# Rebuild the list (var list aeluran_order_sisters on the player)
+aeluran_order_sisters_refresh = {
+	scope = character
+
+	effect = {
+		clear_variable_list = aeluran_order_sisters
+		save_scope_as = flock_shepherd
+		if = {
+			limit = { any_held_title = { aeluran_is_matronate_title_trigger = yes } }
+			random_held_title = {
+				limit = { aeluran_is_matronate_title_trigger = yes }
+				save_scope_as = matronate
+			}
+			set_variable = { name = aeluran_order_tithe_share value = 0.15 }
+		}
+		else = {
+			set_variable = { name = aeluran_order_tithe_share value = 0.2 }
+		}
+		# Advisors first, then the rest
+		every_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+				has_council_position = councillor_aeluran_advisor
+				aeluran_order_sister_in_care_trigger = yes
+			}
+			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_sisters target = prev } }
+		}
+		every_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+				NOT = { has_council_position = councillor_aeluran_advisor }
+				aeluran_order_sister_in_care_trigger = yes
+			}
+			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_sisters target = prev } }
+		}
+	}
+}
+
+# Is this Sister (scope:target) one of the Order's Advisors, a Red Sister on a ruler's council?
+aeluran_order_sister_is_advisor = {
+	scope = character
+	saved_scopes = { target }
+
+	is_shown = {
+		scope:target = { has_council_position = councillor_aeluran_advisor }
+	}
+}
+
 # Does this ruler (scope:target) have an Advisor post open for the player to fill?
 aeluran_order_post_is_open = {
 	scope = character

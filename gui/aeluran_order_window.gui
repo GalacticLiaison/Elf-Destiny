@@ -2,8 +2,11 @@
 #   Flock: the Aeluran rulers in her care, each with the Red Sister who advises them; an open post she may fill shows
 #          an Assign button (Appoint an Advisor).
 #   Bloodlines: the unwed noble elves in her care, the worthiest first; choose two and propose the match.
-# The lists are built by scripted guis (aeluran_order_refresh, aeluran_bl_refresh) when the window or a tab opens.
-# The selected tab is the GUI variable aeluran_order_tab ('bloodlines', or unset for the Flock).
+#   Sisters: the Order's Sisters in her care, with the tithe each sends her from the temples she holds in lease and a
+#            mark on those who sit a ruler's council as its Red Sister.
+# The lists are built by scripted guis (aeluran_order_refresh, aeluran_bl_refresh,
+# aeluran_order_sisters_refresh) when the window or a tab opens.
+# The selected tab is the GUI variable aeluran_order_tab ('bloodlines', 'sisters', or unset for the Flock).
 window = {
 	name = "aeluran_order_window"
 	parentanchor = center
@@ -47,16 +50,22 @@ window = {
 			spacing = 8
 
 			button_standard = {
-				size = { 200 36 }
+				size = { 180 36 }
 				text = "AELURAN_ORDER_TAB_FLOCK"
 				onclick = "[GetScriptedGui( 'aeluran_order_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 				onclick = "[GetVariableSystem.Clear( 'aeluran_order_tab' )]"
 			}
 			button_standard = {
-				size = { 200 36 }
+				size = { 180 36 }
 				text = "AELURAN_ORDER_TAB_BLOODLINES"
 				onclick = "[GetScriptedGui( 'aeluran_bl_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 				onclick = "[GetVariableSystem.Set( 'aeluran_order_tab', 'bloodlines' )]"
+			}
+			button_standard = {
+				size = { 180 36 }
+				text = "AELURAN_ORDER_TAB_SISTERS"
+				onclick = "[GetScriptedGui( 'aeluran_order_sisters_refresh' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				onclick = "[GetVariableSystem.Set( 'aeluran_order_tab', 'sisters' )]"
 			}
 			expand = {}
 		}
@@ -67,7 +76,7 @@ window = {
 		vbox = {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
-			visible = "[Not( GetVariableSystem.HasValue( 'aeluran_order_tab', 'bloodlines' ) )]"
+			visible = "[Not( GetVariableSystem.Exists( 'aeluran_order_tab' ) )]"
 
 			text_single = {
 				layoutpolicy_horizontal = expanding
@@ -232,6 +241,93 @@ window = {
 									size = { 110 36 }
 									text = "AELURAN_BL_SELECT"
 									onclick = "[GetScriptedGui( 'aeluran_bl_select' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		###########
+		# Sisters #
+		###########
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			visible = "[GetVariableSystem.HasValue( 'aeluran_order_tab', 'sisters' )]"
+
+			text_single = {
+				layoutpolicy_horizontal = expanding
+				margin = { 15 6 }
+				text = "AELURAN_ORDER_SISTERS_HEADER"
+			}
+
+			scrollbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				blockoverride "scrollbox_content" {
+					vbox = {
+						name = "aeluran_order_sisters_list"
+						layoutpolicy_horizontal = expanding
+						datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_order_sisters' )]"
+
+						item = {
+							widget = {
+								size = { 560 84 }
+								datacontext = "[Scope.GetCharacter]"
+
+								background = {
+									using = Background_Area
+								}
+
+								portrait_head_small = {
+									position = { 4 0 }
+								}
+								text_single = {
+									position = { 100 8 }
+									text = "[Character.GetShortUIName]"
+									using = Font_Size_Medium
+								}
+
+								# What she sends her shepherd: her share of the temples she holds in lease
+								text_single = {
+									position = { 100 36 }
+									visible = "[GreaterThan_int32( Character.GetNumTitlesFromTheocraticLease, '(int32)0' )]"
+									text = "AELURAN_ORDER_SISTER_TITHE"
+									tooltip = "CV_THEOCRACY_LESSEE_TOOLTIP"
+								}
+								text_single = {
+									position = { 100 36 }
+									visible = "[And( Not( GreaterThan_int32( Character.GetNumTitlesFromTheocraticLease, '(int32)0' ) ), Character.IsLandedRuler )]"
+									text = "AELURAN_ORDER_SISTER_RULES"
+								}
+								text_single = {
+									position = { 100 36 }
+									visible = "[And( Not( GreaterThan_int32( Character.GetNumTitlesFromTheocraticLease, '(int32)0' ) ), Not( Character.IsLandedRuler ) )]"
+									text = "AELURAN_ORDER_SISTER_NO_HOLDINGS"
+								}
+
+								# Where she serves
+								text_single = {
+									position = { 100 58 }
+									visible = "[GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+									text = "AELURAN_ORDER_SISTER_ADVISES"
+								}
+								text_single = {
+									position = { 100 58 }
+									visible = "[And( Not( GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ), Not( Character.IsLandedRuler ) )]"
+									text = "AELURAN_ORDER_SISTER_LOCATION"
+								}
+
+								# Red Sister mark
+								icon = {
+									parentanchor = right|vcenter
+									position = { -16 0 }
+									size = { 52 52 }
+									texture = "gfx/interface/icons/character_interactions/icon_aeluran_sister.dds"
+									visible = "[GetScriptedGui( 'aeluran_order_sister_is_advisor' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+									tooltip = "AELURAN_ORDER_SISTER_ADVISOR_TT"
 								}
 							}
 						}
