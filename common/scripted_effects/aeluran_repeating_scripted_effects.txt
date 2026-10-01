@@ -387,6 +387,14 @@ aeluran_raise_to_matron_effect = {
         add_trait = aeluran_matron
     }
     set_aeluran_clothing_colors = yes
+    # A Matron who already rules land moves to the Order government (no title gain fires for her)
+    if = {
+        limit = {
+            is_landed = yes
+            NOT = { has_government = aeluran_weavers_government }
+        }
+        change_government = aeluran_weavers_government
+    }
     aeluran_grant_matron_seat_effect = yes
     add_to_global_variable_list = {
         name = aeluran_matrons

@@ -6,8 +6,8 @@
 }
 
 set_aeluran_government_type = {
+	# Every Sister, Matron or Matriarch who rules is on the Order government, players included (PM 2026-10-01)
 	trigger = {
-		is_ai = yes
 		NOT = {
 			has_government = aeluran_weavers_government
 		}
@@ -20,6 +20,28 @@ set_aeluran_government_type = {
 		debug_log = "set_aeluran_government_type"
 		debug_log_scopes = yes
 		change_government = aeluran_weavers_government
+	}
+}
+
+# Once, after the lobby: Sisters who start the game ruling land (history fires no on_title_gain) take the Order government
+on_game_start_after_lobby = {
+	on_actions = {
+		set_aeluran_government_type_game_start
+	}
+}
+
+set_aeluran_government_type_game_start = {
+	effect = {
+		every_ruler = {
+			limit = {
+				is_landed = yes
+				is_aeluran_sister_or_higher = yes
+				NOT = { has_government = aeluran_weavers_government }
+			}
+			debug_log = "set_aeluran_government_type_game_start"
+			debug_log_scopes = yes
+			change_government = aeluran_weavers_government
+		}
 	}
 }
 
