@@ -78,3 +78,42 @@ get_julia_melwood_effect = {
 		}
 	}
 }
+# Scope: the barony the Grand Portal is moved to; root = the ruler moving it.
+# 1.20 holy sites can be re-created elsewhere: the eminent Grand Portal holy site follows the portal, its relics
+# re-enshrined there (a site without one is inactive). The religion's main holy site link stays on Spirits' Landing.
+move_the_grand_portal_holy_site_effect = {
+	save_scope_as = new_portal_barony
+	holy_site:grand_portal ?= {
+		every_holy_site_enshrined_artifact = { add_to_temporary_list = grand_portal_relics }
+	}
+	faith:aeluran_weavers = {
+		if = {
+			limit = { any_holy_site = { this = holy_site:grand_portal } }
+			remove_holy_site = holy_site:grand_portal
+		}
+		create_holy_site = {
+			type = grand_portal
+			eminent = yes
+			barony = scope:new_portal_barony
+			county = scope:new_portal_barony.county
+			actor = root
+		}
+	}
+	# Re-enshrined as vanilla does for starting relics (finalize_starting_relic_effect): owner set and equipped,
+	# skipping the enshrine rules (the mover need not own the relic or hold the county)
+	every_in_list = {
+		list = grand_portal_relics
+		set_holy_site_owner = {
+			target = holy_site:grand_portal
+			generate_history = no
+		}
+		equip_artifact_to_owner = yes
+	}
+	# The expedition portal exclusion and the restore decision look for the portal here
+	global_var:portal_location_barony ?= { remove_variable = portal_location }
+	set_variable = portal_location
+	set_global_variable = {
+		name = portal_location_barony
+		value = this
+	}
+}
