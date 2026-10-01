@@ -96,3 +96,57 @@
 	# 	}
 	# }
 }
+# A Matron extends her Matronate over the uncovered Aeluran counties of her flock's realms that border it (PM 2026-10-01).
+# Counties conquered or converted next to a Matronate also join it on their own (aeluran_matronate_on_actions.txt).
+aeluran_extend_matronate_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_aeluran_default.dds"
+	}
+	decision_group_type = elf
+
+	desc = aeluran_extend_matronate_decision_desc
+	selection_tooltip = aeluran_extend_matronate_decision_tooltip
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		any_held_title = { aeluran_is_matronate_title_trigger = yes }
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = aeluran_extend_matronate_none_tt
+			any_held_title = {
+				aeluran_is_matronate_title_trigger = yes
+				save_temporary_scope_as = matronate
+				any_ruler_in_clerical_region = {
+					any_realm_county = { aeluran_matronate_can_absorb_county_trigger = yes }
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+	}
+
+	cost = {
+		piety = aeluran_matronate_extend_piety_cost
+	}
+
+	effect = {
+		custom_tooltip = aeluran_extend_matronate_effect_tt
+		hidden_effect = {
+			random_held_title = {
+				limit = { aeluran_is_matronate_title_trigger = yes }
+				aeluran_matronate_extend_effect = yes
+			}
+		}
+	}
+
+	ai_check_interval = 60
+	ai_will_do = {
+		base = 100
+	}
+}

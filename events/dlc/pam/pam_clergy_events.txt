@@ -762,8 +762,10 @@ pam_clergy_events.0052 = {
 	desc = pam_clergy_events.0052.desc
 
 	trigger = {
-		# Elf Destiny: Aeluran Matronates handle a faith mismatch themselves (common/on_action/aeluran_matronate_on_actions.txt)
+		# Elf Destiny: Aeluran Matronates handle a faith mismatch themselves (common/on_action/aeluran_matronate_on_actions.txt),
+		# and so does a region whose capital turned Aeluran under an elven ruler (it becomes a Matronate)
 		NOT = { scope:title = { aeluran_is_matronate_title_trigger = yes } }
+		NOT = { aeluran_region_becomes_matronate_trigger = yes }
 		OR = {
 			is_ai = yes
 			scope:reason != flag:county_converted
