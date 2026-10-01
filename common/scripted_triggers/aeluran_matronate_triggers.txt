@@ -24,7 +24,6 @@ aeluran_matronate_successor_candidate_trigger = {
 	}
 	# One clerical region per ruler
 	NOT = { any_held_title = { has_clerical_region = yes } }
-	aeluran_matronate_keeps_realm_government_trigger = yes
 	# A Sister who rules land must rule it inside the Matronate: a Matronate far from her own realm is not hers to keep
 	trigger_if = {
 		limit = { any_held_title = { is_landless_type_title = no } }
@@ -46,17 +45,6 @@ aeluran_may_receive_matronate_trigger = {
 	NOT = { has_title = title:d_high_matriarch }
 	# One clerical region per ruler
 	NOT = { any_held_title = { has_clerical_region = yes } }
-	aeluran_matronate_keeps_realm_government_trigger = yes
-}
-
-# Scope: a character. Taking a Matronate puts its holder on the Order government (aeluran_matronate_prepare_holder_effect),
-# so a Sister who rules land under another government (a queen or countess who is also a Sister) is never chosen:
-# her whole realm would become an Order realm.
-aeluran_matronate_keeps_realm_government_trigger = {
-	trigger_if = {
-		limit = { is_landed = yes }
-		has_government = aeluran_weavers_government
-	}
 }
 
 # Scope: a character. She rules land under a duke or a count: a Matronate (duchy rank, like her Matron's Seat) would
