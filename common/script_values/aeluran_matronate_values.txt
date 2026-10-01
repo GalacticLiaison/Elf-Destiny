@@ -320,3 +320,30 @@ aeluran_whispers_caught_chance = {
 	min = 1
 	max = 15
 }
+
+####################
+# Compelling       #
+####################
+
+# Scope: the Sister chosen for an Advisor post; scope:actor = the shepherd appointing her, scope:recipient = the ruler
+# she would serve. Below 0 she refuses the posting (and the shepherd may compel her).
+aeluran_posting_willingness = {
+	value = 25
+	add = {
+		value = "opinion(scope:actor)"
+		multiply = 0.5
+	}
+	add = {
+		value = "opinion(scope:recipient)"
+		multiply = 0.5
+	}
+	if = {
+		limit = {
+			OR = {
+				has_relation_rival = scope:recipient
+				has_relation_nemesis = scope:recipient
+			}
+		}
+		add = -100
+	}
+}

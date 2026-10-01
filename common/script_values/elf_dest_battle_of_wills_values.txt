@@ -4,8 +4,10 @@
 	add = difference_in_elf_level_value
 	add = difference_in_magic_talent_value
 	add = difference_in_magic_training_value
-	add = difference_in_aeluran_order
+	add = difference_in_aeluran_order_value
 	add = difference_in_powerful_traits_value
+	add = battle_of_wills_order_authority_value
+	add = battle_of_wills_unbroken_value
 }
 
 difference_in_elf_level_value = {
@@ -71,4 +73,59 @@ battle_of_wills_difference_in_aeluran_order_level = {
 	value = 0
 	add = scope:challenger.aeluran_order_level
 	subtract = scope:defender.aeluran_order_level
+}
+# A shepherd of the Order commanding one of her own: +15 when the challenger is the defender's religious superior, the
+# Matron of the Matronate she lives in, or the High Matriarch facing a Sister.
+battle_of_wills_order_authority_value = {
+	value = 0
+	if = {
+		limit = {
+			scope:defender = {
+				OR = {
+					superior ?= scope:challenger
+					AND = {
+						has_trait = aeluran_sister
+						OR = {
+							location.county.clerical_region_title.holder ?= scope:challenger
+							scope:challenger = { has_title = title:d_high_matriarch }
+						}
+					}
+				}
+			}
+		}
+		add = 15
+	}
+}
+
+# A Sister who once beat the challenger in a battle of wills (var list aeluran_unbroken_against) does not fear her
+battle_of_wills_unbroken_value = {
+	value = 0
+	if = {
+		limit = {
+			scope:defender = {
+				is_target_in_variable_list = { name = aeluran_unbroken_against target = scope:challenger }
+			}
+		}
+		add = -20
+	}
+}
+
+# After a battle of wills: how far the defender was favoured (the duel's skill gap at x3.5, less the challenger's
+# modifiers). A loss at 15 or more was a crushing defeat; below that, a narrow one.
+aeluran_compel_margin_value = {
+	value = 0
+	if = {
+		limit = { exists = scope:battle_type scope:battle_type = flag:learning }
+		add = scope:defender.learning
+		subtract = scope:challenger.learning
+	}
+	else = {
+		add = scope:defender.intrigue
+		add = scope:defender.diplomacy
+		subtract = scope:challenger.intrigue
+		subtract = scope:challenger.diplomacy
+		divide = 2
+	}
+	multiply = 3.5
+	subtract = battle_of_wills_modifier_value
 }

@@ -130,3 +130,10 @@ aeluran_whispers_betrayal_trigger = {
 		}
 	}
 }
+
+# Scope: the Sister chosen for an Advisor post (scope:actor = the appointer, scope:recipient = the ruler).
+# Will she refuse it? Never if bound to the appointer.
+aeluran_refuses_posting_trigger = {
+	NOT = { aeluran_whispers_loyal_sister_trigger = { SHEPHERD = scope:actor } }
+	aeluran_posting_willingness < 0
+}

@@ -1,0 +1,115 @@
+﻿namespace = aeluran_compel
+
+# A Sister defies her shepherd (common/scripted_effects/aeluran_compel_effects.txt). Root = the shepherd.
+# Scopes: compel_sister, compel_task (flag:whispers / flag:summon / flag:advisor), and the refused interaction's
+# actor / recipient.
+aeluran_compel.001 = {
+	type = character_event
+	title = aeluran_compel.001.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:compel_task = flag:whispers }
+				desc = aeluran_compel.001.desc_whispers
+			}
+			triggered_desc = {
+				trigger = { scope:compel_task = flag:summon }
+				desc = aeluran_compel.001.desc_summon
+			}
+			desc = aeluran_compel.001.desc_advisor
+		}
+		desc = aeluran_compel.001.desc_end
+	}
+	theme = aeluran_advisor
+	content_source = elf_destiny
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:compel_sister
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = challenger
+		scope:compel_sister = { save_scope_as = defender }
+	}
+
+	# Let it stand
+	option = {
+		name = aeluran_compel.001.a
+		aeluran_compel_let_go_effect = yes
+		ai_chance = { base = 100 }
+	}
+
+	# Battle of wills: Learning
+	option = {
+		name = aeluran_compel.001.b
+		flavor = battle_of_wills_modifiers_desc
+		trigger = {
+			NOT = { scope:compel_sister.var:aeluran_last_compelled_by ?= root }
+		}
+		scope:compel_sister = {
+			set_variable = {
+				name = aeluran_last_compelled_by
+				value = root
+				years = 3
+			}
+		}
+		save_scope_value_as = { name = battle_of_wills_type value = flag:learning }
+		battle_of_wills_effect = {
+			TYPE = scope:battle_of_wills_type
+			CHALLENGER = root
+			DEFENDER = scope:compel_sister
+			CHALLENGER_WINS_EFFECT_TOOLTIP = aeluran_compel_win_tt
+			CHALLENGER_LOSES_EFFECT_TOOLTIP = aeluran_compel_lose_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:challenger_wins scope:challenger_wins = yes }
+				aeluran_compel_win_effect = yes
+			}
+			else = {
+				aeluran_compel_lose_effect = yes
+			}
+		}
+		ai_chance = { base = 0 }
+	}
+
+	# Battle of wills: Intrigue and Diplomacy (unlocked by the same culture parameter as Swing Scales of Power)
+	option = {
+		name = aeluran_compel.001.c
+		flavor = battle_of_wills_modifiers_desc
+		trigger = {
+			NOT = { scope:compel_sister.var:aeluran_last_compelled_by ?= root }
+			culture = { has_cultural_parameter = entrance_scheme_unlocked }
+		}
+		scope:compel_sister = {
+			set_variable = {
+				name = aeluran_last_compelled_by
+				value = root
+				years = 3
+			}
+		}
+		save_scope_value_as = { name = battle_of_wills_type value = flag:intrigue_diplomacy }
+		battle_of_wills_effect = {
+			TYPE = scope:battle_of_wills_type
+			CHALLENGER = root
+			DEFENDER = scope:compel_sister
+			CHALLENGER_WINS_EFFECT_TOOLTIP = aeluran_compel_win_tt
+			CHALLENGER_LOSES_EFFECT_TOOLTIP = aeluran_compel_lose_tt
+		}
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:challenger_wins scope:challenger_wins = yes }
+				aeluran_compel_win_effect = yes
+			}
+			else = {
+				aeluran_compel_lose_effect = yes
+			}
+		}
+		ai_chance = { base = 0 }
+	}
+}

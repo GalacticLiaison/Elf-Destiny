@@ -58,13 +58,27 @@ aeluran_appoint_advisor_interaction = {
 	}
 
 	on_accept = {
-		scope:secondary_recipient = {
-			custom_tooltip = aeluran_appoint_advisor_tt
+		# A Sister who dislikes the posting refuses it: let it stand (the post stays open) or compel her
+		if = {
+			limit = {
+				scope:secondary_recipient = { aeluran_refuses_posting_trigger = yes }
+			}
+			scope:secondary_recipient = {
+				custom_tooltip = aeluran_appoint_advisor_refuses_tt
+			}
+			hidden_effect = {
+				aeluran_compel_begin_effect = { SISTER = scope:secondary_recipient TASK = advisor }
+			}
 		}
-		hidden_effect = {
-			scope:actor = { save_scope_as = advisor_appointer }
-			scope:secondary_recipient = { save_scope_as = aeluran_sister_advisor }
-			scope:recipient = { aeluran_appoint_chosen_advisor_effect = yes }
+		else = {
+			scope:secondary_recipient = {
+				custom_tooltip = aeluran_appoint_advisor_tt
+			}
+			hidden_effect = {
+				scope:actor = { save_scope_as = advisor_appointer }
+				scope:secondary_recipient = { save_scope_as = aeluran_sister_advisor }
+				scope:recipient = { aeluran_appoint_chosen_advisor_effect = yes }
+			}
 		}
 	}
 
@@ -208,6 +222,8 @@ aeluran_summon_sister_interaction = {
 		}
 	}
 
+	ai_instant_response = yes
+
 	on_accept = {
 		scope:recipient = {
 			custom_tooltip = aeluran_summon_sister_tt
@@ -217,7 +233,59 @@ aeluran_summon_sister_interaction = {
 		}
 	}
 
-	auto_accept = yes
+	# She defies you: let it stand or compel her (aeluran_compel.001)
+	on_decline = {
+		custom_tooltip = aeluran_compel_on_decline_tt
+		hidden_effect = {
+			aeluran_compel_begin_effect = { SISTER = scope:recipient TASK = summon }
+		}
+	}
+
+	# A Sister bound to the shepherd always comes
+	auto_accept = {
+		custom_description = {
+			text = aeluran_whispers_loyal_sister_auto_accept
+			subject = scope:recipient
+			object = scope:actor
+			scope:recipient = { aeluran_whispers_loyal_sister_trigger = { SHEPHERD = scope:actor } }
+		}
+	}
+
+	ai_accept = {
+		base = 25
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.5
+			desc = AI_OPINION_REASON
+		}
+		# Attachment to the ruler whose court she would leave
+		opinion_modifier = {
+			trigger = { exists = scope:recipient.employer }
+			who = scope:recipient
+			opinion_target = scope:recipient.employer
+			multiplier = -0.25
+			desc = aeluran_summon_attached_reason
+		}
+		modifier = {
+			add = -25
+			scope:recipient = {
+				is_married = yes
+				any_spouse = { NOT = { is_courtier_of = scope:actor } }
+			}
+			desc = aeluran_summon_spouse_reason
+		}
+		modifier = {
+			add = -100
+			scope:recipient = {
+				OR = {
+					has_relation_rival = scope:actor
+					has_relation_nemesis = scope:actor
+				}
+			}
+			desc = aeluran_whispers_rival_reason
+		}
+	}
 
 	ai_will_do = {
 		base = 0
@@ -285,16 +353,17 @@ aeluran_gather_whispers_interaction = {
 		hidden_effect = { aeluran_whispers_start_effect = yes }
 	}
 
+	# She defies you: let it stand (piety back; she may tell her ruler) or compel her (aeluran_compel.001)
 	on_decline = {
-		scope:actor = {
-			add_piety = scope:recipient.aeluran_whispers_piety_cost
-		}
+		custom_tooltip = aeluran_compel_on_decline_tt
 		if = {
 			limit = {
 				scope:recipient = { aeluran_whispers_betrayal_trigger = { SHEPHERD = scope:actor } }
 			}
 			scope:recipient = { custom_tooltip = aeluran_whispers_betrayal_tt }
-			aeluran_whispers_betray_effect = yes
+		}
+		hidden_effect = {
+			aeluran_compel_begin_effect = { SISTER = scope:recipient TASK = whispers }
 		}
 	}
 

@@ -1,0 +1,113 @@
+﻿# Compelling a defiant Sister: when a Sister refuses a shepherd of the Order (a Matron or the High Matriarch), the
+# shepherd may let it go or force her with a battle of wills (aeluran_compel.001).
+#
+# Refusals that lead here (scope:compel_task):
+#   flag:whispers  a Red Sister refuses Gather Whispers   (scope:actor = shepherd, scope:recipient = Sister)
+#   flag:summon    a Sister refuses Summon to Court        (scope:actor = shepherd, scope:recipient = Sister)
+#   flag:advisor   a Sister refuses an Advisor posting     (scope:actor = shepherd, scope:recipient = the ruler)
+#
+# Winning: she obeys, and resents it. Losing: backlash on the shepherd, scaled by how far the Sister was favoured
+# (aeluran_compel_margin_value), and the Sister is emboldened.
+
+# Called where the refusal happens. SISTER = the Sister, TASK = whispers / summon / advisor.
+aeluran_compel_begin_effect = {
+	$SISTER$ = { save_scope_as = compel_sister }
+	save_scope_value_as = { name = compel_task value = flag:$TASK$ }
+	scope:actor = { trigger_event = aeluran_compel.001 }
+}
+
+# Root = the shepherd. She lets the refusal stand.
+aeluran_compel_let_go_effect = {
+	if = {
+		limit = { scope:compel_task = flag:whispers }
+		add_piety = scope:compel_sister.aeluran_whispers_piety_cost
+		if = {
+			limit = {
+				scope:compel_sister = { aeluran_whispers_betrayal_trigger = { SHEPHERD = root } }
+			}
+			aeluran_whispers_betray_effect = yes
+		}
+	}
+}
+
+# Root = the shepherd, who won. The Sister does as she was told.
+aeluran_compel_win_effect = {
+	scope:compel_sister = {
+		add_opinion = {
+			target = root
+			modifier = aeluran_bent_to_her_will_opinion
+		}
+	}
+	if = {
+		limit = { scope:compel_task = flag:whispers }
+		aeluran_whispers_start_effect = yes
+	}
+	else_if = {
+		limit = { scope:compel_task = flag:summon }
+		add_courtier = scope:compel_sister
+	}
+	else_if = {
+		limit = { scope:compel_task = flag:advisor }
+		save_scope_as = advisor_appointer
+		scope:compel_sister = { save_scope_as = aeluran_sister_advisor }
+		scope:recipient = { aeluran_appoint_chosen_advisor_effect = yes }
+	}
+}
+
+# Root = the shepherd, who lost. The refusal stands, with backlash.
+aeluran_compel_lose_effect = {
+	aeluran_compel_backlash_effect = yes
+	# A Red Sister who broke her shepherd's will tells her ruler what she was asked
+	if = {
+		limit = { scope:compel_task = flag:whispers }
+		aeluran_whispers_betray_effect = yes
+	}
+}
+
+# Root = the shepherd who lost a battle of wills to scope:compel_sister (scope:challenger / scope:defender /
+# scope:battle_type still saved from battle_of_wills_effect)
+aeluran_compel_backlash_effect = {
+	# Measured before the Sister is marked unbroken (which shifts the battle of wills value)
+	if = {
+		limit = { aeluran_compel_margin_value >= 15 }
+		# Crushing: she was the stronger will by far
+		add_stress = massive_stress_impact_gain
+		add_character_modifier = {
+			modifier = aeluran_will_shattered_modifier
+			years = 5
+		}
+		add_piety = -100
+		random = {
+			chance = 50
+			increase_wounds_no_death_effect = { REASON = wounds }
+		}
+	}
+	else = {
+		add_stress = major_stress_impact_gain
+		add_character_modifier = {
+			modifier = aeluran_will_recoiling_modifier
+			years = 5
+		}
+	}
+	# The Sister is emboldened
+	scope:compel_sister = {
+		add_prestige = 100
+		add_to_variable_list = { name = aeluran_unbroken_against target = root }
+	}
+	# Word spreads among the Sisters in her care
+	save_scope_as = humbled_shepherd
+	every_living_character = {
+		limit = {
+			has_trait = aeluran_sister
+			NOT = { this = scope:compel_sister }
+			OR = {
+				superior ?= scope:humbled_shepherd
+				location.county.clerical_region_title.holder ?= scope:humbled_shepherd
+			}
+		}
+		add_opinion = {
+			target = scope:humbled_shepherd
+			modifier = aeluran_humbled_by_a_sister_opinion
+		}
+	}
+}
