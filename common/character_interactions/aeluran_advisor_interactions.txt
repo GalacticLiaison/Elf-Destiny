@@ -173,3 +173,53 @@ aeluran_recall_advisor_interaction = {
 		base = 0
 	}
 }
+
+# Summon a landless Sister of the shepherd's Matronate who serves nowhere to the shepherd's own court
+aeluran_summon_sister_interaction = {
+	category = interaction_category_religion
+	icon = icon_aeluran_sister
+	interface_priority = 60
+	common_interaction = yes
+	use_diplomatic_range = no
+	desc = aeluran_summon_sister_interaction_desc
+
+	is_shown = {
+		scope:actor = {
+			OR = {
+				has_title = title:d_high_matriarch
+				any_held_title = { aeluran_is_matronate_title_trigger = yes }
+			}
+		}
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			has_trait = aeluran_sister
+			aeluran_summonable_sister_trigger = { SHEPHERD = scope:actor }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+		}
+		scope:recipient = {
+			is_imprisoned = no
+			is_hostage = no
+		}
+	}
+
+	on_accept = {
+		scope:recipient = {
+			custom_tooltip = aeluran_summon_sister_tt
+		}
+		hidden_effect = {
+			scope:actor = { add_courtier = scope:recipient }
+		}
+	}
+
+	auto_accept = yes
+
+	ai_will_do = {
+		base = 0
+	}
+}

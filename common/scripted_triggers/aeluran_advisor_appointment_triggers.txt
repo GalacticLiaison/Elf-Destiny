@@ -53,3 +53,25 @@ aeluran_has_advisor_authority_over_trigger = {
 		}
 	}
 }
+
+# Scope: a character, SHEPHERD = a Matron or the High Matriarch. Is she a Sister of the shepherd's care who holds no
+# land and serves nowhere (no council seat, no Advisor post given or on the way), and not already at the shepherd's court?
+aeluran_summonable_sister_trigger = {
+	has_trait = aeluran_sister
+	faith = faith:aeluran_weavers
+	is_ruler = no
+	is_councillor = no
+	NOT = { has_variable = appointed_to_advise }
+	NOT = { has_character_flag = aeluran_advisor_is_on_the_way }
+	NOT = { employer ?= $SHEPHERD$ }
+	OR = {
+		superior ?= $SHEPHERD$
+		# Lives in the shepherd's Matronate
+		location.county.clerical_region_title.holder ?= $SHEPHERD$
+		# The High Matriarch's: outside every Matronate
+		AND = {
+			$SHEPHERD$ = { has_title = title:d_high_matriarch }
+			NOT = { location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+		}
+	}
+}
