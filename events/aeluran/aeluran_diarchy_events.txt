@@ -505,6 +505,7 @@ aeluran_diarchy.103 = {
 			random_realm_province = {
 				limit = {
 					has_holding = no
+					has_ongoing_construction = no # not one the Order is already building
 					county_controller = root
 				}
 
@@ -532,6 +533,8 @@ aeluran_diarchy.103 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -575,6 +578,8 @@ aeluran_diarchy.103 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -618,6 +623,8 @@ aeluran_diarchy.103 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -683,14 +690,14 @@ aeluran_diarchy.1031 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county PROVINCE = scope:undeveloped_holding }
 				}
 				desc = aeluran_diarchy.1031.desc
 			}
 			triggered_desc = {
 				trigger = {
 					NOT = {
-						new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+						new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county PROVINCE = scope:undeveloped_holding }
 					}
 				}
 				desc = aeluran_diarchy.1031.desc.no_longer_owned
@@ -702,6 +709,20 @@ aeluran_diarchy.1031 = {
 		scope:aeluran_sister_advisor = {
 			is_alive = yes
 		}
+		# The temple is still being built: wait for it (on_trigger_fail)
+		NOT = { scope:undeveloped_holding ?= { has_ongoing_construction = yes } }
+	}
+	on_trigger_fail = {
+		if = {
+			limit = {
+				scope:aeluran_sister_advisor ?= { is_alive = yes }
+				scope:undeveloped_holding ?= { has_ongoing_construction = yes }
+			}
+			trigger_event = {
+				id = aeluran_diarchy.1031
+				days = 365
+			}
+		}
 	}
 
 	theme = aeluran_matriarch
@@ -712,7 +733,7 @@ aeluran_diarchy.1031 = {
 		triggered_animation = {
 			trigger = {
 				NOT = {
-					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+					new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county PROVINCE = scope:undeveloped_holding }
 				}
 			}
 			animation = disapproval
@@ -727,7 +748,7 @@ aeluran_diarchy.1031 = {
 		name = aeluran_diarchy.1031.ok
 
 		trigger = {
-			new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+			new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county PROVINCE = scope:undeveloped_holding }
 		}
 
 		create_title_and_vassal_change = {
@@ -739,6 +760,8 @@ aeluran_diarchy.1031 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -771,7 +794,7 @@ aeluran_diarchy.1031 = {
 		name = aeluran_diarchy.1031.no_longer_owned
 		trigger = {
 			NOT = {
-				new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county }
+				new_temple_available_for_diarch = { COUNTY = scope:undeveloped_holding.county PROVINCE = scope:undeveloped_holding }
 			}
 		}
 		trigger_event = aeluran_diarchy.1033
@@ -896,6 +919,7 @@ aeluran_diarchy.1033 = {
 			random_realm_province = {
 				limit = {
 					has_holding = no
+					has_ongoing_construction = no # not one the Order is already building
 					county_controller = root
 				}
 
@@ -923,6 +947,8 @@ aeluran_diarchy.1033 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -966,6 +992,8 @@ aeluran_diarchy.1033 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -1009,6 +1037,8 @@ aeluran_diarchy.1033 = {
 			change_title_holder = {
 				holder = scope:aeluran_sister_advisor
 				change = scope:title_change
+				# On the Order government as she takes it, so the temple lease does not revoke it (barony_valid)
+				government_base = title:d_high_matriarch.holder
 			}
 		}
 		resolve_title_and_vassal_change = scope:title_change
@@ -1041,6 +1071,7 @@ aeluran_diarchy.1033 = {
 		name = aeluran_diarchy.1033.undeveloped_holding
 		trigger = {
 			exists = scope:undeveloped_holding
+			scope:undeveloped_holding = { has_holding = no has_ongoing_construction = no }
 		}
 
 		scope:undeveloped_holding = {
@@ -1067,7 +1098,7 @@ aeluran_diarchy.1033 = {
 			add_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
 		}
 
-		change_diarchy_swing = 10
+		if = { limit = { has_active_diarchy = yes } change_diarchy_swing = 10 }
 
 		trigger_event = aeluran_diarchy.1032
 	}
