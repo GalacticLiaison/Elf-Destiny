@@ -232,6 +232,16 @@ councillor_aeluran_advisor = {
 				end_diarchy = yes
 			}
 		}
+		# A Red Sister puppeted as realm priest (make_clerical_puppet_interaction override) stops being one when she
+		# leaves the post, mirroring vanilla councillor_court_chaplain.on_lose_position
+		if = {
+			limit = {
+				is_alive = yes
+				puppeteer ?= scope:councillor_liege
+				is_puppet_of_type = theological_agent_puppet
+			}
+			clear_puppet_status = yes
+		}
 	}
 
 	on_fired_from_position = {

@@ -1,0 +1,242 @@
+﻿# Override of vanilla make_clerical_puppet_interaction (game/common/character_interactions/00_puppet_interactions.txt, CK3 1.20.0).
+# Only change: is_shown also accepts the Red Sister (councillor_aeluran_advisor), which replaces the court chaplain
+# for Aeluran rulers. Without it, Aeluran rulers (temporal theocracy) can never get the realm priest puppet they need
+# to reform the faith or create/edit a rite. Players only, so the AI does not spawn rites of the Aeluran faith.
+# zzz_ prefix: must load after the vanilla 00_ file to win. Re-diff against vanilla after every CK3 patch.
+
+make_clerical_puppet_interaction = {
+	category = interaction_category_diplomacy
+	icon = {
+		trigger = {
+			scope:actor.rite = {
+				rite_has_doctrine = special_doctrine_is_western_christian_faith
+			}
+		}
+		reference = theological_agent_puppet_catholic
+	}
+	icon = {
+		trigger = {
+			scope:actor.rite = {
+				NOT = { rite_has_doctrine = special_doctrine_is_western_christian_faith }
+			}
+		}
+		reference = theological_agent_puppet
+	}
+
+	common_interaction = yes
+	interface_priority = 50
+	ai_instant_response = yes
+
+	desc = make_clerical_puppet_interaction_desc
+
+	is_available = {
+		can_have_realm_priest_puppet_trigger = yes
+        is_incapable = no
+        trigger_if = {
+            limit = {
+                is_ai = yes
+            }
+            NOT = {
+                exists = puppet:theological_agent_puppet
+            }
+		}
+	}
+
+	cooldown_against_recipient = { years = 10 } # Spam prevention
+
+	is_shown = {
+		OR = {
+			scope:actor.cp:councillor_court_chaplain ?= scope:recipient
+			# Elf Destiny: the Red Sister serves as realm priest for Aeluran rulers
+			AND = {
+				scope:actor = { is_ai = no }
+				scope:actor.cp:councillor_aeluran_advisor ?= scope:recipient
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_tooltip = {
+				text = pam_already_have_clerical_puppet_tt
+				NOT = {
+					exists = puppet:theological_agent_puppet
+				}
+			}
+		}
+		scope:recipient = {
+			is_ai = yes
+			NOR = {
+				is_adult = no
+				has_trait = incapable
+			}
+            custom_tooltip = {
+                text = pam_recipient_already_puppet_tt
+                NOT = { exists = puppeteer }
+            }
+		}
+	}
+
+	can_send = {
+		scope:actor = {
+			custom_tooltip = {
+				text = piety_level_dread_or_hook_tt
+				OR = {
+					piety_level >= 2
+					has_hook = scope:recipient
+					scope:recipient = {
+						has_dread_level_towards = {
+							target = scope:actor
+							level >= 2
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ai_targets = {
+        ai_recipients = councillors
+    }
+    ai_frequency_by_tier = {
+        barony = 0
+        county = 72
+        duchy = 36
+        kingdom = 12
+        empire = 12
+        hegemony = 12
+    }
+    ai_will_do = {
+        base = 100
+    }
+
+	cost = {
+		piety = {
+			value = {
+				value = medium_piety_value
+				if = {
+					limit = {
+						scope:recipient = {
+							is_ruler = yes
+						}
+					}
+					multiply = {
+						value = scope:recipient.highest_held_title_tier
+						subtract = 1
+					}
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		scope:actor = {
+			hidden_effect = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = make_clerical_puppet_interaction_notification
+					left_icon = scope:actor
+					right_icon = scope:recipient
+					set_puppet = {
+						target = scope:recipient
+						type = theological_agent_puppet
+					}
+					pam_generic_set_puppet_interaction_side_effects = yes
+				}
+			}
+			show_as_tooltip = {
+				pam_generic_set_puppet_interaction_side_effects = yes
+			}
+		}
+		scope:recipient = {
+			custom_tooltip = set_clerical_puppet_tt
+		}
+	}
+
+	send_option = {
+		is_valid = {
+			scope:actor = { has_usable_hook = scope:recipient }
+		}
+		flag = hook
+		localization = SCHEME_HOOK
+	}
+	#My skills could be useful to you...?
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				skill_support_trigger = yes
+			}
+		}
+		flag = skill_support
+		localization = SKILL_SUPPORT_INTERACTION_OPTION
+	}
+	#I will lead you into the light by my piety
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				piety_support_trigger = yes
+				custom_tooltip = {
+					text = pious_puppet_sf_req_tt
+					has_fulfillment_parameter = pious_puppet_option
+				}
+			}
+		}
+		flag = piety_support
+		localization = PIETY_SUPPORT_INTERACTION_OPTION
+	}
+	#Become an instrument of my dreadful will, not a target of my will
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				dread_support_trigger = yes
+				custom_tooltip = {
+					text = dread_puppet_sf_req_tt
+					has_fulfillment_parameter = dread_puppet_option
+				}
+			}
+		}
+		flag = dread_support
+		localization = DREAD_SUPPORT_INTERACTION_OPTION
+	}
+	#You can trust in me, relation
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				friendly_support_trigger = yes
+				custom_tooltip = {
+					text = friendly_puppet_sf_req_tt
+					has_fulfillment_parameter = positive_relation_puppet_option
+				}
+			}
+		}
+		flag = friendly_support
+		localization = FRIENDLY_SUPPORT_INTERACTION_OPTION
+	}
+	#Your mind, your will, is no more
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				lunacy_support_trigger = yes
+			}
+		}
+		flag = lunacy_support
+		localization = LUNACY_SUPPORT_INTERACTION_OPTION
+	}
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+	send_options_exclusive = no
+
+	ai_accept = {
+		base = -25
+
+		celestial_hierarchy_acceptance_modifier = {
+			ACTOR = scope:actor
+			RECIPIENT = scope:recipient
+		}
+
+		theocratic_related_puppet_acceptance_factors_modifier = yes
+	}
+}
+
