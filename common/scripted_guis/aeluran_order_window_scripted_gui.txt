@@ -46,6 +46,12 @@ aeluran_order_refresh = {
 				}
 			}
 			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_flock target = prev } }
+			# Their spouses, for the row's spouse portraits (the GUI has no spouse list outside the character window)
+			save_temporary_scope_as = order_ruler
+			clear_variable_list = aeluran_order_spouses
+			every_spouse = {
+				scope:order_ruler = { add_to_variable_list = { name = aeluran_order_spouses target = prev } }
+			}
 			# The Red Sister seated on their council, for the row's portrait (the GUI cannot read a council seat itself)
 			if = {
 				limit = { exists = cp:councillor_aeluran_advisor }

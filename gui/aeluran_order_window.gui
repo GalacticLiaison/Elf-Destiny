@@ -96,7 +96,7 @@ window = {
 
 						item = {
 							widget = {
-								size = { 840 96 }
+								size = { 840 150 }
 								datacontext = "[Scope.GetCharacter]"
 
 								background = {
@@ -131,6 +131,43 @@ window = {
 									position = { 172 72 }
 									text = "AELURAN_ORDER_ROW_AUTHORITY"
 									tooltip = "[Character.GetActiveLawInGroupWithFlag( 'aeluran_realm_authority' ).GetEffectDescription]"
+								}
+
+								# Spouses: a half-size portrait per spouse (var list aeluran_order_spouses, from aeluran_order_refresh),
+								# then an empty one per unused spouse slot
+								hbox = {
+									position = { 146 96 }
+									spacing = 2
+
+									hbox = {
+										datamodel = "[Character.MakeScope.GetList( 'aeluran_order_spouses' )]"
+										spacing = 2
+
+										item = {
+											widget = {
+												size = { 47 50 }
+												portrait_head_small = {
+													datacontext = "[Scope.GetCharacter]"
+													scale = 0.55
+												}
+											}
+										}
+									}
+
+									hbox = {
+										datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+										spacing = 2
+
+										item = {
+											widget = {
+												size = { 47 50 }
+												tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+												portrait_head_small = {
+													scale = 0.55
+												}
+											}
+										}
+									}
 								}
 
 								# Religious interactions with the ruler (vanilla type, gui/window_faith.gui)
