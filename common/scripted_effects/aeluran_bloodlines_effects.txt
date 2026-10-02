@@ -315,6 +315,7 @@ aeluran_bloodlines_default_marriage_type_effect = {
 # Root = the shepherd. var:aeluran_bl_house_parent = whose house the children of the picked pair would be born into: the
 # woman's when matrilineal (var:aeluran_bl_matrilineal), else the man's. For the panel's marriage-type line.
 aeluran_bloodlines_update_house_parent_effect = {
+	aeluran_bloodlines_score_effect = yes
 	if = { limit = { has_variable = aeluran_bl_house_parent } remove_variable = aeluran_bl_house_parent }
 	if = {
 		limit = { exists = var:aeluran_bl_first exists = var:aeluran_bl_second }
@@ -357,6 +358,7 @@ aeluran_bloodlines_update_parties_effect = {
 	}
 	scope:bl_party ?= { root = { set_variable = { name = aeluran_bl_guardian_b value = prev } } }
 	clear_saved_scope = bl_party
+	aeluran_bloodlines_score_effect = yes
 }
 
 # Root = the shepherd, after a player's proposal (scopes bl_a, bl_b, bl_guardian_b, bl_match_matron). The answer from the
@@ -386,5 +388,39 @@ aeluran_bloodlines_answer_letter_effect = {
 			save_scope_value_as = { name = bl_letter_role value = flag:self }
 		}
 		trigger_event = aeluran_bloodlines.010
+	}
+}
+
+# Root = the shepherd. Works out both guardians' acceptance (aeluran_mm_accept_value) for the picked pair and keeps it in
+# var:aeluran_bl_score_a / _b for the Matchmaking panel's score lines. Run whenever the pair, the hooks or the marriage
+# type change.
+aeluran_bloodlines_score_effect = {
+	if = { limit = { has_variable = aeluran_bl_score_a } remove_variable = aeluran_bl_score_a }
+	if = { limit = { has_variable = aeluran_bl_score_b } remove_variable = aeluran_bl_score_b }
+	if = {
+		limit = {
+			exists = var:aeluran_bl_first
+			exists = var:aeluran_bl_second
+			exists = var:aeluran_bl_guardian_a
+			exists = var:aeluran_bl_guardian_b
+		}
+		save_scope_as = mm_shepherd
+		# Our side: the noble's guardian answers
+		var:aeluran_bl_guardian_a = { save_scope_as = recipient }
+		var:aeluran_bl_first = { save_scope_as = secondary_recipient }
+		var:aeluran_bl_guardian_b = { save_scope_as = actor save_scope_as = puppet_or_actor }
+		var:aeluran_bl_second = { save_scope_as = secondary_actor }
+		save_scope_as = mm_matron
+		scope:recipient = { save_temporary_scope_value_as = { name = mm_score value = aeluran_mm_accept_value } }
+		set_variable = { name = aeluran_bl_score_a value = scope:mm_score }
+		# Their side: the match's guardian answers, under the eye of her Matron
+		var:aeluran_bl_guardian_b = { save_scope_as = recipient }
+		var:aeluran_bl_second = { save_scope_as = secondary_recipient }
+		var:aeluran_bl_guardian_a = { save_scope_as = actor save_scope_as = puppet_or_actor }
+		var:aeluran_bl_first = { save_scope_as = secondary_actor }
+		clear_saved_scope = mm_matron
+		var:aeluran_bl_match_matron ?= { save_scope_as = mm_matron }
+		scope:recipient = { save_temporary_scope_value_as = { name = mm_score_b value = aeluran_mm_accept_value } }
+		set_variable = { name = aeluran_bl_score_b value = scope:mm_score_b }
 	}
 }
