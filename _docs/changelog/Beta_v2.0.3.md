@@ -15,6 +15,7 @@ NEW! The Sisters are clergy
    - Aeluran Sisters who rule now count as clergy. A Sister ruler can create and edit rites herself, and Sisters get the clergy events and interactions of By God Alone in their own faith's terms.
    - Sisters can demand vows of chastity.
    - Sisters keep their own succession, can still marry, and keep their realm priest.
+   - The council of an Aeluran Order ruler counts as clergy, so it follows the faith's clerical gender: Matrons and Sisters who rule are served by women (Magi included). Men already on such a council step down.
    - Every Sister, Matron and Matriarch who rules is on the Aeluran Order government.
    - Matrons start with a few Sisters of their rite at court. Dark Matrons get Dark Sisters.
 
