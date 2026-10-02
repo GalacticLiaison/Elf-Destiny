@@ -141,7 +141,7 @@ window = {
 
 								# Her Red Sister, or an open post
 								widget = {
-									position = { 445 0 }
+									position = { 400 0 }
 									size = { 110 96 }
 
 									# visible sits on the wrapper, in the ruler's context; the portrait reads the list item (Scope, the ruler), not
@@ -169,6 +169,22 @@ window = {
 										parentanchor = center
 										text = "AELURAN_ORDER_NO_ADVISOR"
 										visible = "[And( Not( Character.MakeScope.Var( 'aeluran_order_red_sister' ).IsSet ), Not( GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ) )]"
+									}
+								}
+
+								# Gather Whispers with the ruler's Red Sister, right of her portrait (as on the Sisters tab)
+								button_round = {
+									position = { 510 26 }
+									visible = "[Character.MakeScope.Var( 'aeluran_order_red_sister' ).IsSet]"
+									enabled = "[Not( Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter.MakeScope.Var( 'aeluran_whispers_for' ).IsSet )]"
+									tooltip = "AELURAN_ORDER_FLOCK_WHISPERS_TT"
+									onclick = "[GetScriptedGui( 'aeluran_order_open_whispers' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope.Var( 'aeluran_order_red_sister' ) ).End )]"
+
+									icon = {
+										alwaystransparent = yes
+										parentanchor = center
+										size = { 34 34 }
+										texture = "gfx/interface/icons/council_task_types/task_find_secrets.dds"
 									}
 								}
 							}
