@@ -46,6 +46,15 @@ aeluran_order_refresh = {
 				}
 			}
 			scope:flock_shepherd = { add_to_variable_list = { name = aeluran_order_flock target = prev } }
+			# The Red Sister seated on their council, for the row's portrait (the GUI cannot read a council seat itself)
+			if = {
+				limit = { exists = cp:councillor_aeluran_advisor }
+				set_variable = { name = aeluran_order_red_sister value = cp:councillor_aeluran_advisor }
+			}
+			else_if = {
+				limit = { has_variable = aeluran_order_red_sister }
+				remove_variable = aeluran_order_red_sister
+			}
 			save_temporary_scope_value_as = { name = flock_piety value = aeluran_flock_piety_value }
 			scope:flock_shepherd = { change_variable = { name = aeluran_flock_piety add = scope:flock_piety } }
 			if = {

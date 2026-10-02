@@ -46,6 +46,8 @@ aeluran_advisor_candidate_trigger = {
 # May she recall the ruler's Advisor? The High Matriarch may recall anyone's; a Matron those of the counts and dukes of
 # her Matronate.
 aeluran_has_advisor_authority_over_trigger = {
+	# Used inside interactions, where root is unset: compare against this scope, saved here
+	save_temporary_scope_as = authority_shepherd
 	OR = {
 		has_title = title:d_high_matriarch
 		AND = {
@@ -53,7 +55,7 @@ aeluran_has_advisor_authority_over_trigger = {
 			scope:recipient.highest_held_title_tier <= tier_duchy
 			scope:recipient.capital_county.clerical_region_title ?= {
 				aeluran_is_matronate_title_trigger = yes
-				holder ?= root
+				holder ?= scope:authority_shepherd
 			}
 		}
 	}
