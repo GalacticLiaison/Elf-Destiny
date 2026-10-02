@@ -1,14 +1,12 @@
 ﻿# The Bloodlines board (Order window): the unwed noble elves in a shepherd's care, and the matches she may propose.
 # Effects in common/scripted_effects/aeluran_bloodlines_effects.txt.
 
-# Scope: a character; SHEPHERD = the shepherd matching them. Is this a noble elf of the Aeluran faith with room for
-# another spouse (the unwed, and rulers whose faith allows more than one), not betrothed, anywhere in the Order?
-# Matches are made across all Matronates (PM 2026-10-02): this is what a partner must meet.
-aeluran_bloodlines_eligible_trigger = {
+# Scope: a character; SHEPHERD = the shepherd matching them. Could the Order wed this elf: Aeluran faith, room for another
+# spouse (the unwed, and rulers whose faith allows more than one), not betrothed? Noble or not.
+aeluran_bloodlines_marriable_trigger = {
 	is_alive = yes
 	is_any_elf_type = yes
 	faith = faith:aeluran_weavers
-	exists = dynasty
 	age >= 12
 	# Room for another spouse: the unwed, and rulers whose faith allows more than one
 	allowed_more_spouses = yes
@@ -23,11 +21,24 @@ aeluran_bloodlines_eligible_trigger = {
 	NOT = { has_variable = aeluran_bloodlines_refused }
 }
 
+# Scope: a character; SHEPHERD = the shepherd. A marriable noble: who may be matched anywhere in the Order (matches are
+# made across all Matronates, PM 2026-10-02).
+aeluran_bloodlines_eligible_trigger = {
+	aeluran_bloodlines_marriable_trigger = { SHEPHERD = $SHEPHERD$ }
+	exists = dynasty
+}
+
 # Scope: a character; SHEPHERD = a Matron holding a Matronate, or the High Matriarch. An eligible noble (above) within
 # her care: rulers count by their capital, everyone else by where they live. The High Matriarch's care is everywhere
 # outside the Matronates. These are the nobles she seeks spouses for.
 aeluran_bloodlines_candidate_trigger = {
 	aeluran_bloodlines_eligible_trigger = { SHEPHERD = $SHEPHERD$ }
+	aeluran_bloodlines_in_care_trigger = { SHEPHERD = $SHEPHERD$ }
+}
+
+# Scope: a character; SHEPHERD = a Matron holding a Matronate, or the High Matriarch. Within her care: rulers by their
+# capital, everyone else by where they live; the High Matriarch's care is everywhere outside the Matronates.
+aeluran_bloodlines_in_care_trigger = {
 	trigger_if = {
 		limit = { is_landed = yes }
 		trigger_if = {
@@ -45,6 +56,19 @@ aeluran_bloodlines_candidate_trigger = {
 		}
 		trigger_else = {
 			location.county.clerical_region_title.holder ?= $SHEPHERD$
+		}
+	}
+}
+
+# Scope: a character; SHEPHERD = the shepherd. A possible match: an eligible noble from anywhere in the Order, or a Sister
+# of the shepherd's own care, noble or not (PM 2026-10-02).
+aeluran_bloodlines_match_trigger = {
+	OR = {
+		aeluran_bloodlines_eligible_trigger = { SHEPHERD = $SHEPHERD$ }
+		AND = {
+			has_trait = aeluran_sister
+			aeluran_bloodlines_marriable_trigger = { SHEPHERD = $SHEPHERD$ }
+			aeluran_bloodlines_in_care_trigger = { SHEPHERD = $SHEPHERD$ }
 		}
 	}
 }

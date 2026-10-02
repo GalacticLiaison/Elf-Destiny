@@ -236,7 +236,8 @@ aeluran_bloodlines_ai_yearly_effect = {
 }
 
 # Root = the shepherd; var:aeluran_bl_first = the noble she chose. Rebuilds the matches for them (var list
-# aeluran_bl_matches): eligible nobles from anywhere in the Order (every Matronate, and the High Matriarch's care) they
+# aeluran_bl_matches): eligible nobles from anywhere in the Order (every Matronate, and the High Matriarch's care), and
+# Sisters of her own care noble or not, they
 # could wed, the worthiest 40 first. Also records each match's spouses for the row's spouse portraits.
 aeluran_bloodlines_build_matches_effect = {
 	clear_variable_list = aeluran_bl_matches
@@ -247,7 +248,7 @@ aeluran_bloodlines_build_matches_effect = {
 		ordered_living_character = {
 			limit = {
 				NOT = { this = scope:bl_chosen }
-				aeluran_bloodlines_eligible_trigger = { SHEPHERD = scope:bl_shepherd }
+				aeluran_bloodlines_match_trigger = { SHEPHERD = scope:bl_shepherd }
 				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_chosen }
 			}
 			order_by = genetic_worthiness
