@@ -376,9 +376,32 @@ window = {
 											position = { 93 6 }
 											size = { 42 42 }
 											visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
-											texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-											tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
-											using = tooltip_ws
+											# Glowing as in the character window (ed_race_icon): purple for dark elves, gold for the rest, none for humans
+											highlight_icon = {
+												visible = "[GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+												size = { 42 42 }
+												parentanchor = center
+												glow = {
+													glow_radius = 4
+													using = Dark_Elf_Purple
+													using = Glow_Standard
+												}
+												using = Animation_Glow_Pulse
+											}
+											highlight_icon = {
+												visible = "[Not( GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End ) )]"
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+												size = { 42 42 }
+												parentanchor = center
+												glow = {
+													visible = "[Not(EqualTo_string(Character.MakeScope.Var('urf_phenotype').GetFlagName, 'human') )]"
+													glow_radius = 4
+													using = Color_Bright_Yellow
+													using = Glow_Standard
+												}
+												using = Animation_Glow_Pulse
+											}
 										}
 										text_single = {
 											position = { 140 6 }
@@ -526,9 +549,32 @@ window = {
 											position = { 93 6 }
 											size = { 42 42 }
 											visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
-											texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
-											tooltipwidget = { multiplayer_lobby_race_tooltip = {} }
-											using = tooltip_ws
+											# Glowing as in the character window (ed_race_icon): purple for dark elves, gold for the rest, none for humans
+											highlight_icon = {
+												visible = "[GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End )]"
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+												size = { 42 42 }
+												parentanchor = center
+												glow = {
+													glow_radius = 4
+													using = Dark_Elf_Purple
+													using = Glow_Standard
+												}
+												using = Animation_Glow_Pulse
+											}
+											highlight_icon = {
+												visible = "[Not( GetScriptedGui('dark_elf_race_glow').IsShown( GuiScope.SetRoot( Character.MakeScope ).End ) )]"
+												texture = "[GetCultureInnovationType(Concatenate('urf_phenotype_', Character.MakeScope.Var('urf_phenotype').GetFlagName)).GetIcon]"
+												size = { 42 42 }
+												parentanchor = center
+												glow = {
+													visible = "[Not(EqualTo_string(Character.MakeScope.Var('urf_phenotype').GetFlagName, 'human') )]"
+													glow_radius = 4
+													using = Color_Bright_Yellow
+													using = Glow_Standard
+												}
+												using = Animation_Glow_Pulse
+											}
 										}
 										text_single = {
 											position = { 140 6 }
