@@ -134,12 +134,13 @@ window = {
 								}
 
 								# Spouses: a half-size portrait per spouse (var list aeluran_order_spouses, from aeluran_order_refresh),
-								# then an empty one per unused spouse slot
-								hbox = {
+								# then an empty one per unused spouse slot. flowcontainers pack from the top left: an hbox here stretched to the
+								# whole row, centring the portraits and pushing the empty slots far right
+								flowcontainer = {
 									position = { 146 96 }
 									spacing = 2
 
-									hbox = {
+									flowcontainer = {
 										datamodel = "[Character.MakeScope.GetList( 'aeluran_order_spouses' )]"
 										spacing = 2
 
@@ -166,7 +167,7 @@ window = {
 										}
 									}
 
-									hbox = {
+									flowcontainer = {
 										datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
 										spacing = 2
 
