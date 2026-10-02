@@ -60,9 +60,21 @@ aeluran_bloodlines_in_care_trigger = {
 	}
 }
 
+# Scope: a character. Do they live in a Matronate (rulers by their capital, everyone else by where they are)?
+aeluran_bloodlines_in_a_matronate_trigger = {
+	trigger_if = {
+		limit = { is_landed = yes }
+		capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes }
+	}
+	trigger_else = {
+		location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes }
+	}
+}
+
 # Scope: a character; SHEPHERD = the shepherd. A possible match: an eligible noble from anywhere in the Order, or a Sister
-# of the shepherd's own care, noble or not (PM 2026-10-02).
+# of the shepherd's own care, noble or not (PM 2026-10-02). Only those living in a Matronate, for now (PM 2026-10-02).
 aeluran_bloodlines_match_trigger = {
+	aeluran_bloodlines_in_a_matronate_trigger = yes
 	OR = {
 		aeluran_bloodlines_eligible_trigger = { SHEPHERD = $SHEPHERD$ }
 		AND = {
@@ -78,3 +90,4 @@ aeluran_bloodlines_pair_trigger = {
 	NOT = { this = $OTHER$ }
 	could_marry_character_trigger = { CHARACTER = $OTHER$ }
 }
+
