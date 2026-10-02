@@ -13,7 +13,12 @@ dark_elf_base_tone_pin_preview = {
             # the designer preview portrait, which does not reliably carry the
             # character's variables (same reason ED's ear preview uses globals).
             OR = {
-                has_variable = dark_elf_base_tone
+                # Empty designer-preview scope and dead characters can't hold variables
+                AND = {
+                    exists = this
+                    is_alive = yes
+                    has_variable = dark_elf_base_tone
+                }
                 AND = {
                     exists = global_var:ruler_designer_dark_skin_picked
                     global_var:ruler_designer_dark_skin_picked = 1

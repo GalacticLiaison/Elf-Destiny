@@ -1,0 +1,250 @@
+﻿# Override of vanilla pam_send_legatine_mission_decision (common/decisions/dlc_decisions/pam/pam_decisions.txt, CK3 1.20.0).
+# Only change: hidden for the Aeluran Order government, whose rulers count as clergy but have no Christian Church to send legates for.
+# zzz_ prefix, in the same subfolder as the vanilla file: files in subfolders load after the decisions root, so it must sit here to win. Re-diff after every CK3 patch.
+
+pam_send_legatine_mission_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = religious
+
+	desc = pam_send_legatine_mission_decision_desc
+	selection_tooltip = pam_send_legatine_mission_decision_tooltip
+
+	sort_order = 109
+
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 24
+		empire = 12
+		hegemony = 12
+	}
+
+	is_shown = {
+		is_clergy = yes
+		NOT = { has_government = aeluran_weavers_government } # Elf Destiny
+		any_sub_realm_county = {
+			always = yes
+		}
+		has_pam_dlc_trigger = yes
+		is_ruler = yes
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = pam_send_legatine_mission_decision_parameter_tt
+			top_participant_group:the_christian_church ?= {
+				has_participant_group_parameter = the_christian_church_legatine_mission
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_physically_able = yes
+		is_in_activity = no
+		scope:selected_item ?= {
+			tier = tier_county
+			holder = {
+				OR = {
+					this = root
+					target_is_liege_or_above = root
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 10 }
+
+	cost = {
+		treasury = {
+			value = major_gold_value
+			multiply = spiritual_fulfillment_tithe_legate_cost_mult
+		}
+	}
+
+	widget = {
+		gui = "decision_view_widget_select_realm_county"
+		controller = select_scope_object
+
+		setup_items = {
+			scope:actor = {
+				every_sub_realm_county = {
+					add_to_list = item_list
+				}
+			}
+		}
+
+		default_item = {
+			scope:actor = {
+				capital_county = {
+					save_scope_as = selected_item
+				}
+			}
+		}
+
+		is_item_valid = {
+			tier = tier_county
+		}
+
+		ai_item_will_do = {
+			value = 10
+			if = {
+				limit = {
+					this = scope:actor.capital_county
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					development_level <= bad_development_level
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					county_control <= 50
+				}
+				add = 50
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = pam_send_legatine_mission_decision_effect_tt
+		hidden_effect = {
+			scope:actor = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = pam_send_legatine_mission_decision_toast
+					right_icon = scope:selected_item
+					scope:selected_item = {
+						add_county_modifier = {
+							modifier = pam_under_legatine_scrutiny_county_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		treasury >= major_gold_value
+		any_sub_realm_county = {
+			always = yes
+		}
+	}
+
+	ai_will_do = {
+		base = 25
+		modifier = {
+			add = 20
+			has_trait = diligent
+		}
+		modifier = {
+			add = 40
+			ai_has_builder_or_pious_builder_personality = yes
+		}
+	}
+}
+
+# Override of vanilla pam_renounce_papal_candidacy_decision (same file). Only change: hidden for the Aeluran Order
+# government (its text speaks of cardinals and a see). PM 2026-10-01
+pam_renounce_papal_candidacy_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/pam_decision_papal_petition.dds"
+	}
+	decision_group_type = religious
+
+	ai_check_interval = 0
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_desc_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_desc_renounce
+		}
+	}
+
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_tooltip_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_tooltip_renounce
+		}
+	}
+
+	confirm_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_variable = pam_refuses_papacy }
+				desc = pam_renounce_papal_candidacy_decision_confirm_embrace
+			}
+			desc = pam_renounce_papal_candidacy_decision_confirm_renounce
+		}
+	}
+
+	sort_order = 110
+
+	is_shown = {
+		is_ai = no
+		NOT = { has_government = aeluran_weavers_government } # Elf Destiny
+		has_pam_dlc_trigger = yes
+		is_clergy = yes
+		pam_is_archbishop_or_higher_trigger = yes
+		faith ?= {
+			has_doctrine_parameter = has_clerical_electors
+			exists = religious_head
+			NOT = { religious_head = root }
+		}
+	}
+
+	is_valid = {
+		# The last willing cardinal may not step aside, or an election would have no candidates left
+		trigger_if = {
+			limit = {
+				exists = clerical_elector_title
+				NOT = { has_variable = pam_refuses_papacy }
+			}
+			custom_tooltip = {
+				text = pam_renounce_papal_candidacy_decision_last_candidate_tt
+				faith ?= {
+					any_clerical_elector_title = {
+						holder ?= {
+							this != root
+							NOT = { has_variable = pam_refuses_papacy }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { has_variable = pam_refuses_papacy }
+			remove_variable = pam_refuses_papacy
+			custom_tooltip = pam_renounce_papal_candidacy_decision_embrace_tt
+		}
+		else = {
+			set_variable = { name = pam_refuses_papacy value = yes }
+			custom_tooltip = pam_renounce_papal_candidacy_decision_renounce_tt
+		}
+	}
+}

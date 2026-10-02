@@ -11,6 +11,9 @@ aeluran_matronate_game_start_effect = {
 	aeluran_matronate_init_title_effect = { TITLE = d_matronate_menzoberranzan }
 	aeluran_matronate_init_title_effect = { TITLE = d_matronate_middle_sea }
 	aeluran_matronate_init_title_effect = { TITLE = d_matronate_western_shores }
+	aeluran_matronate_init_title_effect = { TITLE = d_matronate_svartalfaheim }
+	# Suondavara has no arms of its own (it shows a blank shield): take the Svartalfaheim kingdom's
+	title:d_matronate_svartalfaheim ?= { set_coa = title:k_sapmi }
 }
 
 aeluran_matronate_init_title_effect = {
@@ -41,6 +44,7 @@ aeluran_matronate_place_landless_holders_effect = {
 	title:d_matronate_menzoberranzan ?= { add_to_temporary_list = aeluran_matronate_start_titles }
 	title:d_matronate_middle_sea ?= { add_to_temporary_list = aeluran_matronate_start_titles }
 	title:d_matronate_western_shores ?= { add_to_temporary_list = aeluran_matronate_start_titles }
+	title:d_matronate_svartalfaheim ?= { add_to_temporary_list = aeluran_matronate_start_titles }
 	every_in_list = {
 		list = aeluran_matronate_start_titles
 		aeluran_matronate_place_landless_holder_effect = yes
@@ -286,7 +290,12 @@ aeluran_matronate_found_effect = {
 	clear_saved_scope = outgoing_matron
 	clear_saved_scope = new_title
 	save_scope_as = matronate_successor
+	# A petition names the capital (the petitioner's capital county) in scope:matronate_found_at
 	if = {
+		limit = { exists = scope:matronate_found_at }
+		scope:matronate_found_at = { save_scope_as = matronate_found_county }
+	}
+	else_if = {
 		limit = { any_held_title = { is_landless_type_title = no } }
 		capital_county = { save_scope_as = matronate_found_county }
 	}
@@ -394,6 +403,8 @@ aeluran_matronate_ai_yearly_effect = {
 					is_imprisoned = no
 					aeluran_matronate_would_break_realm_trigger = no
 					aeluran_matronate_home_county_foundable_trigger = yes
+					# Only where an elven realm lacks one: her home realm holds enough uncovered Aeluran counties (PM 2026-10-01)
+					aeluran_matronate_home_realm_wants_trigger = yes
 				}
 				order_by = aeluran_matronate_ai_found_score
 				save_scope_as = matronate_ai_recipient
@@ -481,5 +492,182 @@ aeluran_order_set_focus_effect = {
 	else_if = {
 		limit = { exists = title:d_high_matriarch.title_capital_county }
 		set_variable = { name = aeluran_order_focus value = title:d_high_matriarch.title_capital_county.title_province }
+	}
+}
+
+####################################
+# Growth (PM 2026-10-01)           #
+####################################
+
+# Root = the ruler petitioning; scope:matriarch = the High Matriarch. A Matronate is founded around the petitioner's
+# capital county (aeluran_petition_matronate_interaction). Its Matron is the petitioner herself if she is a Sister, else
+# the best Sister at her court, else one the Order sends (of the capital's culture and rite).
+aeluran_matronate_petition_effect = {
+	save_scope_as = matronate_petitioner
+	clear_saved_scope = matronate_petition_sister
+	clear_saved_scope = matronate_successor
+	capital_county = {
+		save_scope_as = matronate_found_at
+		save_scope_as = matronate_capital
+	}
+	if = {
+		limit = {
+			aeluran_may_receive_matronate_trigger = yes
+			aeluran_matronate_would_break_realm_trigger = no
+		}
+		save_scope_as = matronate_petition_sister
+	}
+	else = {
+		ordered_courtier = {
+			limit = {
+				aeluran_may_receive_matronate_trigger = yes
+				is_adult = yes
+				is_imprisoned = no
+				is_ruler = no
+			}
+			order_by = aeluran_matronate_ai_found_score
+			save_scope_as = matronate_petition_sister
+		}
+	}
+	if = {
+		limit = { NOT = { exists = scope:matronate_petition_sister } }
+		aeluran_matronate_create_sister_effect = yes
+		# She comes to the petitioner's court first: a Sister of no court could not be made Matron (tested 2026-10-01)
+		scope:matronate_successor ?= {
+			set_employer = scope:matronate_petitioner
+			save_scope_as = matronate_petition_sister
+		}
+	}
+	debug_log = "Matronate petition"
+	debug_log_scopes = yes
+	scope:matronate_petition_sister ?= { aeluran_matronate_found_effect = yes }
+	clear_saved_scope = matronate_found_at
+}
+
+# Scope = a county that just changed hands or turned Aeluran. If it borders the Matronate its realm's capital lies in,
+# that Matronate takes it in (Matronates grow with the realms of their flock).
+aeluran_matronate_absorb_county_effect = {
+	save_scope_as = absorb_county
+	clear_saved_scope = matronate
+	holder ?= {
+		top_liege.capital_county.clerical_region_title ?= {
+			if = {
+				limit = { aeluran_is_matronate_title_trigger = yes }
+				save_scope_as = matronate
+			}
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:matronate
+			scope:absorb_county = { aeluran_matronate_can_absorb_county_trigger = yes }
+		}
+		scope:matronate = { expand_clerical_region = scope:absorb_county }
+	}
+}
+
+# Scope = a Matronate. Takes in every uncovered Aeluran county of its flock's realms that borders it, a few rings deep.
+aeluran_matronate_extend_effect = {
+	save_scope_as = matronate
+	while = {
+		count = 5
+		scope:matronate = {
+			every_ruler_in_clerical_region = {
+				every_realm_county = {
+					limit = { aeluran_matronate_can_absorb_county_trigger = yes }
+					scope:matronate = { expand_clerical_region = prev }
+				}
+			}
+		}
+	}
+}
+
+# Mismatch (root = the region's prelate, scope:title, scope:county): a foreign clerical region (an archdiocese) whose
+# capital turned Aeluran under an elven ruler is destroyed (PM 2026-10-01). The elven ruler celebrates; the prelate and
+# the rulers of his faith whose capital lies in it mourn it (events/aeluran/aeluran_see_events.txt). The title itself
+# goes a few days later, so those events can still name it.
+aeluran_see_falls_effect = {
+	save_scope_as = fallen_see_holder
+	faith = { save_scope_as = fallen_see_faith }
+	scope:title = { save_scope_as = fallen_see }
+	scope:county = {
+		save_scope_as = fallen_see_capital
+		holder = { save_scope_as = see_conqueror }
+	}
+	scope:see_conqueror = {
+		trigger_event = aeluran_see.0001
+		trigger_event = {
+			id = aeluran_see.0009
+			days = 3
+		}
+	}
+	if = {
+		limit = { NOT = { this = scope:see_conqueror } }
+		trigger_event = aeluran_see.0002
+	}
+	scope:fallen_see = {
+		every_ruler_in_clerical_region = {
+			limit = {
+				faith = scope:fallen_see_faith
+				NOR = {
+					this = scope:fallen_see_holder
+					this = scope:see_conqueror
+				}
+			}
+			trigger_event = aeluran_see.0002
+		}
+	}
+}
+
+# Mismatch county_converted on a Matronate (scope:title): its capital left the faith. The Matronate and its Matron stay.
+# A clerical region's capital cannot be moved by script (set_capital_county leaves it, tested 2026-10-01), so this only
+# records it for now: PM decision pending on how a Matronate should react (see the 2026-10-01 Matronate proposal).
+aeluran_matronate_capital_lost_effect = {
+	debug_log = "Matronate capital converted away from the Aeluran faith"
+	debug_log_scopes = yes
+}
+
+# Root = a Matron at game start. Five Sisters of her rite and culture join her court (Dark Sisters for a Matron of a
+# Dark Sisters' rite). PM 2026-10-01
+aeluran_matronate_seed_court_effect = {
+	save_scope_as = seeding_matron
+	while = {
+		count = 5 # enough Sisters to fill her council, which only women may sit on (2026-10-01)
+		clear_saved_scope = seeded_sister
+		if = {
+			limit = { rite ?= { rite_has_tenet = tenet_dark_sisters } }
+			create_character = {
+				template = dark_aeluran_sister_advisor
+				dynasty = none
+				employer = scope:seeding_matron
+				faith = faith:aeluran_weavers
+				culture = scope:seeding_matron.culture
+				save_scope_as = seeded_sister
+			}
+		}
+		else = {
+			create_character = {
+				template = aeluran_sister_advisor
+				dynasty = none
+				employer = scope:seeding_matron
+				faith = faith:aeluran_weavers
+				culture = scope:seeding_matron.culture
+				save_scope_as = seeded_sister
+			}
+		}
+		# The templates dress them (black for Dark Sisters); employer places them at her court
+		scope:seeded_sister ?= {
+			set_character_rite = scope:seeding_matron.rite
+			set_variable = aeluran_seeded_sister
+		}
+	}
+}
+
+aeluran_matronate_seed_courts_effect = {
+	every_ruler = {
+		limit = {
+			any_held_title = { aeluran_is_matronate_title_trigger = yes }
+		}
+		aeluran_matronate_seed_court_effect = yes
 	}
 }

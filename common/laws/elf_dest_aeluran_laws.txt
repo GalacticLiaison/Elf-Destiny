@@ -112,6 +112,12 @@ aeluran_realm_authority_1 = { # Secular Government
 		if = {
 			limit = {
 				has_variable = religious_advisor
+				# The var is set by her on_get_position, so she usually already holds the seat;
+				# re-assigning an occupied seat errors ("doesn't have an open council position")
+				var:religious_advisor = {
+					is_alive = yes
+					NOT = { has_council_position = councillor_aeluran_advisor }
+				}
 			}
 			assign_councillor_type = {
 				type = councillor_aeluran_advisor
@@ -333,7 +339,11 @@ aeluran_realm_authority_3 = { # Aeluran Judiciary
 		debug_log = "PASSED aeluran_realm_authority_2"
 
 		add_piety = 1000
-		add_legitimacy = 100
+		# Theocracies (e.g. the Matronates) have no legitimacy type
+		if = {
+			limit = { is_valid_for_legitimacy_change = yes }
+			add_legitimacy = 100
+		}
 
 		# ## Set cooldown
 		# set_variable = {

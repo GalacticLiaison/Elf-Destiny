@@ -184,7 +184,7 @@
 						}
 
 						# The regency can end within the month (e.g. the ruler is raised into the Order)
-						if = { limit = { has_active_diarchy = yes } set_diarchy_mandate = realm_domination }
+						if = { limit = { has_active_diarchy = yes } diarch ?= { if = { limit = { liege ?= prev } set_diarchy_mandate = realm_domination } } } # mandate is set on the diarch, not the liege
 
 						if = {
 							limit = { has_character_modifier = realm_is_subjugated_modifier }
@@ -231,7 +231,7 @@
 						}
 
 						# The regency can end within the month (e.g. the ruler is raised into the Order)
-						if = { limit = { has_active_diarchy = yes } set_diarchy_mandate = realm_subjugation }
+						if = { limit = { has_active_diarchy = yes } diarch ?= { if = { limit = { liege ?= prev } set_diarchy_mandate = realm_subjugation } } } # mandate is set on the diarch, not the liege
 					}
 					else_if = {
 						limit = {
@@ -245,7 +245,7 @@
 						}
 						
 						# The regency can end within the month (e.g. the ruler is raised into the Order)
-						if = { limit = { has_active_diarchy = yes } set_diarchy_mandate = realm_supervision }
+						if = { limit = { has_active_diarchy = yes } diarch ?= { if = { limit = { liege ?= prev } set_diarchy_mandate = realm_supervision } } } # mandate is set on the diarch, not the liege
 
 						if = {
 							limit = { has_character_modifier = realm_is_subjugated_modifier }
