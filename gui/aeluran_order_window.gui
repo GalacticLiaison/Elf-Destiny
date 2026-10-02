@@ -457,7 +457,7 @@ window = {
 				}
 				# The chosen noble
 				widget = {
-					size = { 110 120 }
+					size = { 150 250 }
 					tooltip = "AELURAN_BL_PANEL_FIRST_TT"
 			
 					background = {
@@ -466,15 +466,15 @@ window = {
 						alpha = 0.5
 					}
 					widget = {
-						size = { 110 120 }
+						size = { 150 250 }
 						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 108 126 }
+							size = { 150 250 }
 							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter]"
 							using = portrait_base
-							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							portrait_texture = "[Character.GetAnimatedPortrait( 'environment_body', 'camera_body', Select_CString( Character.IsFemale, 'wedding_bride_left', 'reception_groom_left' ), PdxGetWidgetScreenSize(PdxGuiWidget.Self) )]"
+							mask = "gfx/portraits/portrait_mask_council.dds"
 							effectname = "NoHighlight"
 						}
 					}
@@ -578,7 +578,7 @@ window = {
 					button_standard = {
 						size = { 150 40 }
 						text = "AELURAN_BL_PROPOSE"
-						enabled = "[And( GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), And( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) ) )]"
+						enabled = "[And( GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), And( GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ) )]"
 						tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 						onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 					}
@@ -613,20 +613,20 @@ window = {
 								text = "AELURAN_BL_ANSWER_PLAYER_A"
 							}
 							text_single = {
-								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "AELURAN_BL_ANSWER_YES_A"
 							}
 							text_single = {
-								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "[GetPlayer.MakeScope.Var( 'aeluran_bl_score_a' ).GetValue|+=0]"
 								default_format = "#P"
 							}
 							text_single = {
-								visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+								visible = "[Not( GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "AELURAN_BL_ANSWER_NO_A"
 							}
 							text_single = {
-								visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+								visible = "[Not( GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "[GetPlayer.MakeScope.Var( 'aeluran_bl_score_a' ).GetValue|+=0]"
 								default_format = "#N"
 							}
@@ -651,20 +651,20 @@ window = {
 								text = "AELURAN_BL_ANSWER_PLAYER_B"
 							}
 							text_single = {
-								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "AELURAN_BL_ANSWER_YES_B"
 							}
 							text_single = {
-								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+								visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "[GetPlayer.MakeScope.Var( 'aeluran_bl_score_b' ).GetValue|+=0]"
 								default_format = "#P"
 							}
 							text_single = {
-								visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+								visible = "[Not( GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "AELURAN_BL_ANSWER_NO_B"
 							}
 							text_single = {
-								visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+								visible = "[Not( GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
 								text = "[GetPlayer.MakeScope.Var( 'aeluran_bl_score_b' ).GetValue|+=0]"
 								default_format = "#N"
 							}
@@ -736,7 +736,7 @@ window = {
 				}
 				# The selected match
 				widget = {
-					size = { 110 120 }
+					size = { 150 250 }
 					tooltip = "AELURAN_BL_PANEL_SECOND_TT"
 			
 					background = {
@@ -745,15 +745,15 @@ window = {
 						alpha = 0.5
 					}
 					widget = {
-						size = { 110 120 }
+						size = { 150 250 }
 						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet]"
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 108 126 }
+							size = { 150 250 }
 							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter]"
 							using = portrait_base
-							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							portrait_texture = "[Character.GetAnimatedPortrait( 'environment_body', 'camera_body', Select_CString( Character.IsFemale, 'reception_bride_right', 'wedding_groom_right' ), PdxGetWidgetScreenSize(PdxGuiWidget.Self) )]"
+							mask = "gfx/portraits/portrait_mask_council.dds"
 							effectname = "NoHighlight"
 						}
 					}
@@ -845,7 +845,7 @@ window = {
 					}
 
 					scrollbox = {
-						size = { 575 480 }
+						size = { 575 350 }
 						scrollbaralign_vertical = left
 						layoutpolicy_vertical = expanding
 
@@ -1154,7 +1154,7 @@ window = {
 					}
 
 					scrollbox = {
-						size = { 575 480 }
+						size = { 575 350 }
 						layoutpolicy_vertical = expanding
 
 						blockoverride "scrollbox_content" {

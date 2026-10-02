@@ -513,3 +513,38 @@ aeluran_bl_toggle_hook = {
 		aeluran_bloodlines_score_effect = yes
 	}
 }
+
+# Does side A / B accept the picked match? Read from the scores kept on the shepherd (aeluran_bloodlines_score_effect),
+# so the panel never hands script an unpicked (empty) character. A player guardian, or the shepherd herself, decides
+# for themselves and does not gate the proposal.
+aeluran_bl_a_ok = {
+	scope = character
+
+	is_shown = {
+		exists = var:aeluran_bl_guardian_a
+		trigger_if = {
+			limit = {
+				var:aeluran_bl_guardian_a = { is_ai = yes }
+				NOT = { var:aeluran_bl_guardian_a = root }
+			}
+			has_variable = aeluran_bl_score_a
+			var:aeluran_bl_score_a > 0
+		}
+	}
+}
+
+aeluran_bl_b_ok = {
+	scope = character
+
+	is_shown = {
+		exists = var:aeluran_bl_guardian_b
+		trigger_if = {
+			limit = {
+				var:aeluran_bl_guardian_b = { is_ai = yes }
+				NOT = { var:aeluran_bl_guardian_b = root }
+			}
+			has_variable = aeluran_bl_score_b
+			var:aeluran_bl_score_b > 0
+		}
+	}
+}
