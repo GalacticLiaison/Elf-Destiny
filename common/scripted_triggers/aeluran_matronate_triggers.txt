@@ -107,5 +107,65 @@ aeluran_is_matronate_title_trigger = {
 		this = title:d_matronate_menzoberranzan
 		this = title:d_matronate_middle_sea
 		this = title:d_matronate_western_shores
+		this = title:d_matronate_svartalfaheim
+	}
+}
+
+##########################################
+# Growth: petitions, conquest, conversion #
+##########################################
+
+# Scope: a county. An Aeluran county no Matronate (or other clerical region) covers yet.
+aeluran_matronate_uncovered_county_trigger = {
+	faith = faith:aeluran_weavers
+	NOT = { exists = clerical_region_title }
+	# Spirits' Landing is the High Matriarch's own see
+	NOT = { this = title:d_high_matriarch.title_capital_county }
+}
+
+# Scope: a ruler. Does her or his realm hold enough uncovered Aeluran counties to warrant a Matronate of its own?
+aeluran_realm_wants_matronate_trigger = {
+	any_sub_realm_county = {
+		count >= 3 # aeluran_matronate_petition_min_counties (count takes a number)
+		aeluran_matronate_uncovered_county_trigger = yes
+	}
+}
+
+# Scope: a ruler. May she or he petition the High Matriarch for a Matronate around the realm capital?
+aeluran_can_petition_matronate_trigger = {
+	is_ruler = yes
+	faith = faith:aeluran_weavers
+	highest_held_title_tier >= tier_county
+	NOT = { has_title = title:d_high_matriarch }
+	exists = title:d_high_matriarch.holder
+}
+
+# Scope: a county, scope:matronate = a Matronate. Should the Matronate take this county in?
+# Uncovered, Aeluran, bordering the Matronate, and ruled from a realm whose capital lies in it.
+aeluran_matronate_can_absorb_county_trigger = {
+	aeluran_matronate_uncovered_county_trigger = yes
+	holder.top_liege.capital_county.clerical_region_title ?= scope:matronate
+	scope:matronate = { is_adjacent_to_clerical_region = prev }
+}
+
+# On a clerical region faith mismatch (root = region holder, scope:title, scope:county = its capital):
+# a foreign region (an archdiocese) whose capital turned Aeluran under an elven ruler is destroyed (PM 2026-10-01).
+aeluran_see_falls_to_elves_trigger = {
+	scope:reason = flag:county_converted
+	NOT = { scope:title = { aeluran_is_matronate_title_trigger = yes } }
+	scope:county = {
+		faith = faith:aeluran_weavers
+		holder ?= { is_any_elf_type = yes }
+	}
+}
+
+# Scope: a character. Does the realm she calls home (by her capital, or her court's county) want a Matronate?
+aeluran_matronate_home_realm_wants_trigger = {
+	trigger_if = {
+		limit = { any_held_title = { is_landless_type_title = no } }
+		capital_county.holder.top_liege ?= { aeluran_realm_wants_matronate_trigger = yes }
+	}
+	trigger_else = {
+		location.county.holder.top_liege ?= { aeluran_realm_wants_matronate_trigger = yes }
 	}
 }

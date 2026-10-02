@@ -223,7 +223,45 @@ task_aeluran_conversion = {
 	}
 
 	effect_desc = {
-		desc = task_aeluran_conversion_effect_desc
+		# No county chosen yet (the task list): the faith and rite it brings
+		triggered_desc = {
+			trigger = { NOT = { exists = scope:county } }
+			desc = task_aeluran_conversion_effect_desc
+		}
+		# Rite-only change (the county already shares the faith), to the liege's rite or the Red Sister's
+		triggered_desc = {
+			trigger = {
+				exists = scope:county
+				scope:county.faith = scope:councillor.faith
+				scope:councillor.faith = scope:councillor_liege.faith
+			}
+			desc = task_conversion_liege_rite_only_effect_desc
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:county
+				scope:county.faith = scope:councillor.faith
+				NOT = { scope:councillor.faith = scope:councillor_liege.faith }
+			}
+			desc = task_conversion_rite_only_effect_desc
+		}
+		# Faith change, to the liege's rite or the Red Sister's
+		triggered_desc = {
+			trigger = {
+				exists = scope:county
+				NOT = { scope:county.faith = scope:councillor.faith }
+				scope:councillor.faith = scope:councillor_liege.faith
+			}
+			desc = task_aeluran_conversion_effect_desc
+		}
+		triggered_desc = {
+			trigger = {
+				exists = scope:county
+				NOT = { scope:county.faith = scope:councillor.faith }
+				NOT = { scope:councillor.faith = scope:councillor_liege.faith }
+			}
+			desc = task_conversion_effect_desc
+		}
 		triggered_desc = {
 			trigger = {
 				scope:councillor_liege = {
@@ -415,9 +453,23 @@ task_aeluran_conversion = {
 		}
 	}
 
-	potential_county = { 
+	potential_county = {
 		scope:county = {
-			NOT = { faith = scope:councillor.faith }
+			# Rites (1.20), as vanilla task_conversion_valid_county_trigger: a county converts to the liege's rite when the
+			# Red Sister shares the liege's faith, else to her own; it is a target until it follows that rite
+			trigger_if = {
+				limit = { scope:councillor.faith = scope:councillor_liege.faith }
+				custom_tooltip = {
+					text = task_conversion.tt.county_rite_already_matches_liege
+					NOT = { rite = scope:councillor_liege.rite }
+				}
+			}
+			trigger_else = {
+				custom_tooltip = {
+					text = task_conversion.tt.county_rite_already_matches_chaplain
+					NOT = { rite = scope:councillor.rite }
+				}
+			}
 			trigger_if = {
 				limit = {
 					scope:councillor_liege = {
@@ -655,7 +707,20 @@ task_aeluran_conversion = {
 			}
 		}
 		scope:county = {
-			set_county_faith = scope:councillor.faith
+			if = {
+				limit = { NOT = { faith = scope:councillor.faith } }
+				set_county_faith = scope:councillor.faith
+			}
+			# The liege's rite when the Red Sister shares the liege's faith, else her own (as vanilla task_conversion)
+			if = {
+				limit = { scope:councillor.faith = scope:councillor_liege.faith }
+				set_county_rite = scope:councillor_liege.rite
+			}
+			else = {
+				set_county_rite = scope:councillor.rite
+			}
+			# A converted county bordering its realm's Matronate joins it
+			aeluran_matronate_absorb_county_effect = yes
 		}
 		if = {
 			limit = {

@@ -24,6 +24,12 @@ aeluran_lease = {
 					holder = { has_government = aeluran_weavers_government }
 				}
 			}
+			# ...and so does a Sister who holds the temple barony herself, such as the Red Sister given a temple by
+			# A Matter of Land. Without this the engine revoked it into the lease at once (RevokeTitlesForTheocraticLease),
+			# leaving her landless, out of court and off the council: the post reopened and the next Sister lost hers too.
+			NOT = {
+				holder ?= { has_government = aeluran_weavers_government }
+			}
 		}
 	}
 

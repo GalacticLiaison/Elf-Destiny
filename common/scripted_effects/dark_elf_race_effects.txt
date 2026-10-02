@@ -26,8 +26,8 @@ dark_elf_inherit_strain_effect = {
     if = {
         limit = {
             OR = {
-                $MOTHER$ = { has_variable = dark_elf_strain }
-                $FATHER$ = { has_variable = dark_elf_strain }
+                $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_strain }
+                $FATHER$ ?= { is_alive = yes has_variable = dark_elf_strain }
             }
         }
         $CHILD$ = {
@@ -37,7 +37,7 @@ dark_elf_inherit_strain_effect = {
                     value = 0
                     if = {
                         limit = {
-                            $MOTHER$ = { has_variable = dark_elf_strain }
+                            $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_strain }
                         }
                         add = $MOTHER$.var:dark_elf_strain
                     }
@@ -46,7 +46,7 @@ dark_elf_inherit_strain_effect = {
                     }
                     if = {
                         limit = {
-                            $FATHER$ = { has_variable = dark_elf_strain }
+                            $FATHER$ ?= { is_alive = yes has_variable = dark_elf_strain }
                         }
                         add = $FATHER$.var:dark_elf_strain
                     }
@@ -132,8 +132,8 @@ dark_elf_init_hair_color_effect = {
 dark_elf_inherit_skin_color_effect = {
     if = {
         limit = {
-            $MOTHER$ = { has_variable = dark_elf_skin_color }
-            $FATHER$ = { has_variable = dark_elf_skin_color }
+            $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_skin_color }
+            $FATHER$ ?= { is_alive = yes has_variable = dark_elf_skin_color }
         }
         $CHILD$ = {
             random_list = {
@@ -143,13 +143,13 @@ dark_elf_inherit_skin_color_effect = {
         }
     }
     else_if = {
-        limit = { $MOTHER$ = { has_variable = dark_elf_skin_color } }
+        limit = { $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_skin_color } }
         $CHILD$ = {
             set_variable = { name = dark_elf_skin_color value = $MOTHER$.var:dark_elf_skin_color }
         }
     }
     else_if = {
-        limit = { $FATHER$ = { has_variable = dark_elf_skin_color } }
+        limit = { $FATHER$ ?= { is_alive = yes has_variable = dark_elf_skin_color } }
         $CHILD$ = {
             set_variable = { name = dark_elf_skin_color value = $FATHER$.var:dark_elf_skin_color }
         }
@@ -160,8 +160,8 @@ dark_elf_inherit_skin_color_effect = {
 dark_elf_inherit_hair_color_effect = {
     if = {
         limit = {
-            $MOTHER$ = { has_variable = dark_elf_hair_color }
-            $FATHER$ = { has_variable = dark_elf_hair_color }
+            $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_hair_color }
+            $FATHER$ ?= { is_alive = yes has_variable = dark_elf_hair_color }
         }
         $CHILD$ = {
             random_list = {
@@ -171,13 +171,13 @@ dark_elf_inherit_hair_color_effect = {
         }
     }
     else_if = {
-        limit = { $MOTHER$ = { has_variable = dark_elf_hair_color } }
+        limit = { $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_hair_color } }
         $CHILD$ = {
             set_variable = { name = dark_elf_hair_color value = $MOTHER$.var:dark_elf_hair_color }
         }
     }
     else_if = {
-        limit = { $FATHER$ = { has_variable = dark_elf_hair_color } }
+        limit = { $FATHER$ ?= { is_alive = yes has_variable = dark_elf_hair_color } }
         $CHILD$ = {
             set_variable = { name = dark_elf_hair_color value = $FATHER$.var:dark_elf_hair_color }
         }
@@ -196,8 +196,8 @@ dark_elf_inherit_base_tone_effect = {
     if = {
         limit = {
             OR = {
-                $MOTHER$ = { has_variable = dark_elf_base_tone }
-                $FATHER$ = { has_variable = dark_elf_base_tone }
+                $MOTHER$ ?= { is_alive = yes has_variable = dark_elf_base_tone }
+                $FATHER$ ?= { is_alive = yes has_variable = dark_elf_base_tone }
             }
         }
         $CHILD$ = {

@@ -6,8 +6,8 @@
 }
 
 set_aeluran_government_type = {
+	# Every Sister, Matron or Matriarch who rules is on the Order government, players included (PM 2026-10-01)
 	trigger = {
-		is_ai = yes
 		NOT = {
 			has_government = aeluran_weavers_government
 		}
@@ -20,6 +20,34 @@ set_aeluran_government_type = {
 		debug_log = "set_aeluran_government_type"
 		debug_log_scopes = yes
 		change_government = aeluran_weavers_government
+		aeluran_order_council_gender_purge_effect = yes
+	}
+}
+
+# Once, after the lobby: Sisters who start the game ruling land (history fires no on_title_gain) take the Order government
+on_game_start_after_lobby = {
+	on_actions = {
+		set_aeluran_government_type_game_start
+	}
+}
+
+set_aeluran_government_type_game_start = {
+	effect = {
+		every_ruler = {
+			limit = {
+				is_landed = yes
+				is_aeluran_sister_or_higher = yes
+				NOT = { has_government = aeluran_weavers_government }
+			}
+			debug_log = "set_aeluran_government_type_game_start"
+			debug_log_scopes = yes
+			change_government = aeluran_weavers_government
+		}
+		# Councils seated from history: only the faith's clerical gender may sit on an Order ruler's council
+		every_ruler = {
+			limit = { has_government = aeluran_weavers_government }
+			aeluran_order_council_gender_purge_effect = yes
+		}
 	}
 }
 
@@ -41,6 +69,43 @@ start_peddler_story = {
 
 		create_story = { # lets start the peddler chain
 			type = peddler_management_story
+		}
+	}
+}
+# Yearly safety net (and existing saves): an Order ruler's council keeps to the faith's clerical gender
+yearly_playable_pulse = {
+	on_actions = {
+		aeluran_order_council_gender_yearly
+	}
+}
+
+aeluran_order_council_gender_yearly = {
+	trigger = { has_government = aeluran_weavers_government }
+	effect = { aeluran_order_council_gender_purge_effect = yes }
+}
+
+# Yearly: the Aeluran clergy holds only those its rite's clerical gender allows (stale memberships from councils
+# seated before the rule above, e.g. in older saves). The engine re-adds anyone it still counts as clergy.
+yearly_global_pulse = {
+	on_actions = {
+		aeluran_clergy_gender_sweep
+	}
+}
+
+aeluran_clergy_gender_sweep = {
+	effect = {
+		faith:aeluran_weavers.organization ?= {
+			every_organization_member = {
+				limit = {
+					is_ruler = no
+					rite ?= { NOT = { rite_has_allowed_gender_for_clergy = prev } }
+				}
+				add_to_temporary_list = aeluran_clergy_wrong_gender
+			}
+		}
+		every_in_list = {
+			list = aeluran_clergy_wrong_gender
+			hidden_effect = { leave_organization = yes }
 		}
 	}
 }

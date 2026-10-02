@@ -1,0 +1,116 @@
+﻿# Overrides of vanilla 1.20 clergy triggers. Each change is marked "Elf Destiny".
+# The Aeluran Order government has mechanic_type = theocracy, so its rulers count as clergy (is_clergy = yes).
+# These keep the parts of vanilla clergy behaviour that do not fit the Sisters switched off for them.
+# zzz_ prefix: must load after the vanilla files to win. Re-diff against vanilla after every CK3 patch.
+
+# From common/scripted_triggers/00_law_triggers.txt
+# Sisters keep the Order's own succession: the Matronate and the Matriarch pass by the mod's on_death/conclave logic,
+# and landed Sisters keep their partition laws instead of drifting to Clerical Appointment.
+should_use_clerical_appointment_law_trigger = {
+	government_has_mechanic = theocracy
+	NOT = { has_government = aeluran_weavers_government } # Elf Destiny
+	highest_held_title_tier >= tier_county
+	should_use_theocratic_elective_succession_law_trigger = no
+}
+
+# From common/scripted_triggers/pam_scripted_triggers.txt
+# A landed Sister may still puppet her realm priest, as she could before the Order counted as clergy
+can_have_realm_priest_puppet_trigger = {
+	can_have_puppets_trigger = yes
+	government_allows = council
+	rite = { rite_has_doctrine = doctrine_theocracy_temporal }
+	OR = {
+		is_clergy = no
+		has_government = aeluran_weavers_government # Elf Destiny
+	}
+	tgp_has_access_to_ministry_trigger = no
+	NOT = { government_has_flag = government_is_nomadic }
+}
+
+# From common/scripted_triggers/00_marriage_triggers.txt (checked only for clergy)
+# Sisters marry as they did before the Order counted as clergy, devoted ones included
+marriage_clergy_can_marry_trigger = {
+	trigger_if = { # Elf Destiny
+		limit = { has_government = aeluran_weavers_government }
+		always = yes
+	}
+	trigger_else = {
+		#Monks can never marry
+		NOR = {
+			has_trait = devoted
+			has_trait = order_member
+		}
+		OR = {
+			rite = { rite_has_parameter = clergy_can_marry }
+			AND = {
+				is_ruler = yes
+				top_participant_group:the_christian_church ?= { has_participant_group_parameter = clergy_can_marry }
+				trigger_if = {
+					limit = { is_ai = yes }
+					saeculum_obscurum_clergy_would_marry_trigger = yes
+				}
+			}
+		}
+	}
+}
+
+# From common/scripted_triggers/00_councillor_triggers.txt
+# Every councillor of a clergy ruler counts as clergy (engine rule), and Order rulers are clergy: on an Order ruler's
+# council the faith's clerical gender applies to everyone, vassal rulers included. Without this, the male stewards and
+# marshals of every Matron joined the Aeluran clergy. Other courts are unchanged.
+can_be_councillor_gender_trigger = {
+	trigger_if = { # Elf Destiny
+		limit = { $COURT_OWNER$ ?= { has_government = aeluran_weavers_government } }
+		trigger_if = {
+			limit = { $COURT_OWNER$.rite = { rite_has_doctrine = doctrine_clerical_gender_female_only } }
+			is_female = yes
+		}
+		trigger_else_if = {
+			limit = { $COURT_OWNER$.rite = { rite_has_doctrine = doctrine_clerical_gender_male_only } }
+			is_male = yes
+		}
+		trigger_else = { always = yes } # clergy of either gender
+	}
+	trigger_else = {
+		OR = {
+			is_ruler = yes
+			has_variable = can_be_councillor_override
+			AND = {
+				is_female = yes
+				$COURT_OWNER$.rite = { NOT = { rite_has_parameter = male_dominated_council } }
+			}
+			AND = {
+				is_female = yes
+				$COURT_OWNER$ = {
+					has_personal_tenet_flag = tenet_hyperdulia_women_can_be_councillors
+				}
+			}
+			AND = {
+				is_male = yes
+				$COURT_OWNER$.rite = { NOT = { rite_has_parameter = female_dominated_council } }
+			}
+		}
+	}
+}
+
+# From common/scripted_triggers/00_councillor_triggers.txt
+# Vanilla's spymaster has no gender check; an Order ruler's spymaster is clergy too, so the clerical gender applies
+can_be_spymaster_trigger = {
+	can_be_councillor_basics_trigger = yes
+	NAND = {
+		has_council_position = councillor_court_chaplain
+		rite = { rite_has_parameter = clerical_appointment_fixed }
+	}
+	NOR = {
+		has_council_position = councillor_spouse
+		AND = {
+			this = liege.diarch
+			liege = { has_diarchy_active_parameter = diarchy_is_vizierate }
+		}
+	}
+	exists = $COURT_OWNER$ #so we can have the argument but get no errors
+	trigger_if = { # Elf Destiny
+		limit = { $COURT_OWNER$ ?= { has_government = aeluran_weavers_government } }
+		can_be_councillor_gender_trigger = { COURT_OWNER = $COURT_OWNER$ }
+	}
+}

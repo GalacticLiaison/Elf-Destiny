@@ -1,0 +1,83 @@
+﻿namespace = aeluran_see
+
+# An archdiocese (a foreign clerical region) whose capital turned Aeluran under an elven ruler is destroyed
+# (aeluran_see_falls_effect, common/scripted_effects/aeluran_matronate_scripted_effects.txt). PM 2026-10-01.
+# Scopes: scope:fallen_see (the region title), scope:fallen_see_capital (its capital county),
+# scope:see_conqueror (the elven ruler), scope:fallen_see_holder (its prelate), scope:fallen_see_faith.
+
+# The elven ruler: the foreign church's hold over the land is broken
+aeluran_see.0001 = {
+	type = character_event
+	title = aeluran_see.0001.t
+	desc = aeluran_see.0001.desc
+	theme = faith
+	left_portrait = {
+		character = scope:see_conqueror
+		animation = personality_zealous
+	}
+	right_portrait = {
+		character = scope:fallen_see_holder
+		animation = shock
+	}
+
+	option = {
+		name = aeluran_see.0001.a
+		add_piety = medium_piety_gain
+		add_prestige = minor_prestige_gain
+	}
+}
+
+# The prelate and the rulers of his faith within the see: it is lost
+aeluran_see.0002 = {
+	type = character_event
+	title = aeluran_see.0002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { this = scope:fallen_see_holder }
+				desc = aeluran_see.0002.desc.prelate
+			}
+			desc = aeluran_see.0002.desc.flock
+		}
+	}
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = grief
+	}
+	right_portrait = {
+		character = scope:see_conqueror
+		animation = personality_callous
+	}
+
+	option = {
+		name = aeluran_see.0002.a
+		add_opinion = {
+			target = scope:see_conqueror
+			modifier = angry_opinion
+			opinion = -25
+		}
+		if = {
+			limit = { this = scope:fallen_see_holder }
+			add_stress = medium_stress_gain
+		}
+	}
+}
+
+# Hidden, a few days later so the news above can still name the see: the title is destroyed
+aeluran_see.0009 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:fallen_see ?= {
+			if = {
+				limit = { has_clerical_region = yes }
+				debug_log = "Archdiocese fallen to the elves destroyed"
+				debug_log_scopes = yes
+				save_scope_as = see_to_destroy
+				holder ?= { destroy_title = scope:see_to_destroy }
+			}
+		}
+	}
+}

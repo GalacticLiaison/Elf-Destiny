@@ -387,6 +387,14 @@ aeluran_raise_to_matron_effect = {
         add_trait = aeluran_matron
     }
     set_aeluran_clothing_colors = yes
+    # A Matron who already rules land moves to the Order government (no title gain fires for her)
+    if = {
+        limit = {
+            is_landed = yes
+            NOT = { has_government = aeluran_weavers_government }
+        }
+        change_government = aeluran_weavers_government
+    }
     aeluran_grant_matron_seat_effect = yes
     add_to_global_variable_list = {
         name = aeluran_matrons
@@ -888,5 +896,39 @@ create_special_inheritable_landless_adventurer_title_effect = {
 			}
 			domicile = { change_provisions = starting_provisions_value }
 		}
+	}
+}
+
+# Root = an Order ruler. Her councillors are clergy (engine rule), so councillors of the wrong clerical gender are let go
+# (chancellor, steward, marshal, spymaster; the spouse seat is left alone). New appointments are already barred by
+# can_be_councillor_gender_trigger / can_be_spymaster_trigger (zzz_elf_dest_aeluran_clergy_triggers.txt); this clears
+# councils seated before the ruler took the Order government.
+aeluran_order_council_gender_purge_effect = {
+	save_scope_as = order_council_owner
+	every_councillor = {
+		limit = {
+			NOT = { has_council_position = councillor_spouse }
+			NOT = { has_council_position = councillor_aeluran_advisor }
+			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
+		}
+		add_to_temporary_list = order_council_purge
+	}
+	every_in_list = {
+		list = order_council_purge
+		scope:order_council_owner = { fire_councillor_skip_effects = prev }
+	}
+	# Clergy membership outlives the seat: anyone of the wrong clerical gender leaves the faith's clergy, including a
+	# spouse on the spouse seat (he keeps the seat)
+	every_in_list = {
+		list = order_council_purge
+		hidden_effect = { leave_organization = yes }
+	}
+	every_councillor = {
+		limit = {
+			has_council_position = councillor_spouse
+			is_clergy = yes
+			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
+		}
+		hidden_effect = { leave_organization = yes }
 	}
 }

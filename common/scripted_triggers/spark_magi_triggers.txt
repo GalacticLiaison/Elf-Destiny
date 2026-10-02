@@ -99,24 +99,35 @@ court_position_martial_trigger = {
 }
 
 can_be_marshal_trigger = {
+	# Vanilla 1.20 can_be_marshal_trigger (00_councillor_triggers.txt) plus Magi, who may always be marshals
 	can_be_councillor_basics_trigger = yes
+	$COURT_OWNER$ ?= {
+		NOT = { government_has_flag = government_is_nomadic }
+	}
 	is_hostage = no
-	NOT = { has_council_position = councillor_spouse }
+	NAND = {
+		has_council_position = councillor_court_chaplain
+		rite = { rite_has_parameter = clerical_appointment_fixed }
+	}
+	NOR = {
+		has_council_position = councillor_spouse
+		AND = {
+			this = liege.diarch
+			liege = { has_diarchy_active_parameter = diarchy_is_vizierate }
+		}
+	}
 	OR = {
-		is_ruler = yes
-		AND = {
-			is_female = yes
-			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
-		}
-		AND = {
-			is_male = yes
-			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
-		}
+		can_be_councillor_gender_trigger = { COURT_OWNER = $COURT_OWNER$ }
 		AND = {
 			has_trait = shieldmaiden
 			$COURT_OWNER$.culture = { has_cultural_parameter = has_access_to_shieldmaidens }
 		}
 		has_trait = magi
+	}
+	# An Order ruler's councillors are clergy: the faith's clerical gender applies to everyone, Magi included
+	trigger_if = {
+		limit = { $COURT_OWNER$ ?= { has_government = aeluran_weavers_government } }
+		can_be_councillor_gender_trigger = { COURT_OWNER = $COURT_OWNER$ }
 	}
 }
 

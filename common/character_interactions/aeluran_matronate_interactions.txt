@@ -150,3 +150,93 @@ aeluran_entrust_matronate_interaction = {
 		base = 0
 	}
 }
+
+# An Aeluran ruler asks the High Matriarch for a Matronate around the realm's capital (PM 2026-10-01). The realm must
+# hold three or more Aeluran counties no Matronate covers. Effects in aeluran_matronate_petition_effect.
+aeluran_petition_matronate_interaction = {
+	category = interaction_category_religion
+	icon = icon_clergy_claim_unformed_kingdom
+	interface_priority = 40
+	common_interaction = no
+	use_diplomatic_range = no
+	desc = aeluran_petition_matronate_interaction_desc
+
+	is_shown = {
+		scope:recipient = { has_title = title:d_high_matriarch }
+		scope:actor = {
+			this != scope:recipient
+			aeluran_can_petition_matronate_trigger = yes
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_imprisoned = no
+			is_incapable = no
+			custom_tooltip = {
+				text = aeluran_matronate_petition_counties_tt
+				aeluran_realm_wants_matronate_trigger = yes
+			}
+			custom_tooltip = {
+				text = aeluran_matronate_petition_capital_tt
+				capital_county ?= { aeluran_matronate_foundable_county_trigger = yes }
+			}
+		}
+		scope:recipient = {
+			is_imprisoned = no
+		}
+	}
+
+	cost = {
+		piety = aeluran_matronate_petition_piety_cost
+	}
+
+	on_accept = {
+		scope:actor = {
+			custom_tooltip = aeluran_matronate_petition_tt
+			hidden_effect = {
+				scope:recipient = { save_scope_as = matriarch }
+				aeluran_matronate_petition_effect = yes
+			}
+		}
+		scope:recipient = {
+			add_piety = { value = aeluran_matronate_petition_piety_cost multiply = 0.5 }
+		}
+	}
+
+	ai_accept = {
+		base = 10
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 1
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			add = 25
+			desc = aeluran_matronate_petition_ai_elves_tt
+			scope:actor = { is_any_elf_type = yes }
+		}
+		modifier = {
+			add = 15
+			desc = aeluran_matronate_petition_ai_pious_tt
+			scope:actor = { piety_level >= 2 }
+		}
+	}
+
+	ai_potential = {
+		is_independent_ruler = yes
+		aeluran_can_petition_matronate_trigger = yes
+		aeluran_realm_wants_matronate_trigger = yes
+		capital_county ?= { aeluran_matronate_foundable_county_trigger = yes }
+	}
+	ai_targets = {
+		ai_recipients = head_of_faith
+	}
+	ai_frequency = 12
+	ai_will_do = {
+		base = 100
+	}
+}
