@@ -698,7 +698,7 @@ window = {
 												using = Animation_Glow_Pulse
 											}
 										}
-										# Name, then the house and dynasty shields as tall as the name and age lines (none for the lowborn)
+										# Name
 										flowcontainer = {
 											position = { 140 4 }
 											spacing = 4
@@ -708,15 +708,6 @@ window = {
 												max_width = 150
 												text = "[Character.GetShortUIName]"
 												using = Font_Size_Medium
-											}
-											# Vanilla's own shields: the right frame for the culture, and a click opens the house or dynasty view
-											coa_house_tiny = {
-												visible = "[Character.GetHouse.IsValid]"
-												datacontext = "[Character.GetHouse]"
-											}
-											coa_dynasty_tiny = {
-												visible = "[Character.GetHouse.IsValid]"
-												datacontext = "[Character.GetHouse.GetDynasty]"
 											}
 										}
 										text_single = {
@@ -752,6 +743,47 @@ window = {
 											onclick = "[GetScriptedGui( 'aeluran_bl_choose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
 										}
 
+										# Dynasty and house, as the Elf Finder shows them: the dynasty shield, its name in the flavour font, and the house
+										# shield and name beneath (none for the lowborn)
+										flowcontainer = {
+											position = { 210 98 }
+											spacing = 8
+											visible = "[Character.GetHouse.IsValid]"
+										
+											widget = {
+												size = { 48 48 }
+												coa_dynasty_small = {
+													datacontext = "[Character.GetDynasty]"
+													scale = 0.75
+												}
+											}
+											flowcontainer = {
+												direction = vertical
+												text_single = {
+													text = "elf_finder_label_dynasty"
+													max_width = 150
+													using = Font_Type_Flavor
+													using = Font_Size_Medium
+													default_format = "#high"
+												}
+												flowcontainer = {
+													spacing = 2
+													widget = {
+														size = { 26 26 }
+														coa_house_tiny = {
+															datacontext = "[Character.GetHouse]"
+															scale = 0.55
+														}
+													}
+													text_single = {
+														parentanchor = vcenter
+														text = "elf_finder_label_house"
+														max_width = 130
+														using = Font_Type_Flavor
+													}
+												}
+											}
+										}
 										flowcontainer = {
 											position = { 4 98 }
 											spacing = 2
@@ -894,7 +926,7 @@ window = {
 												using = Animation_Glow_Pulse
 											}
 										}
-										# Name, then the house and dynasty shields as tall as the name and age lines (none for the lowborn)
+										# Name
 										flowcontainer = {
 											position = { 178 4 }
 											spacing = 4
@@ -904,15 +936,6 @@ window = {
 												max_width = 150
 												text = "[Character.GetShortUIName]"
 												using = Font_Size_Medium
-											}
-											# Vanilla's own shields: the right frame for the culture, and a click opens the house or dynasty view
-											coa_house_tiny = {
-												visible = "[Character.GetHouse.IsValid]"
-												datacontext = "[Character.GetHouse]"
-											}
-											coa_dynasty_tiny = {
-												visible = "[Character.GetHouse.IsValid]"
-												datacontext = "[Character.GetHouse.GetDynasty]"
 											}
 										}
 										text_single = {
@@ -953,6 +976,49 @@ window = {
 											onclick = "[GetScriptedGui( 'aeluran_bl_select_match' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
 										}
 
+										# Dynasty and house, as the Elf Finder shows them: the dynasty shield, its name in the flavour font, and the house
+										# shield and name beneath (none for the lowborn)
+										flowcontainer = {
+											parentanchor = top|right
+											widgetanchor = top|right
+											position = { -10 98 }
+											spacing = 8
+											visible = "[Character.GetHouse.IsValid]"
+										
+											widget = {
+												size = { 48 48 }
+												coa_dynasty_small = {
+													datacontext = "[Character.GetDynasty]"
+													scale = 0.75
+												}
+											}
+											flowcontainer = {
+												direction = vertical
+												text_single = {
+													text = "elf_finder_label_dynasty"
+													max_width = 150
+													using = Font_Type_Flavor
+													using = Font_Size_Medium
+													default_format = "#high"
+												}
+												flowcontainer = {
+													spacing = 2
+													widget = {
+														size = { 26 26 }
+														coa_house_tiny = {
+															datacontext = "[Character.GetHouse]"
+															scale = 0.55
+														}
+													}
+													text_single = {
+														parentanchor = vcenter
+														text = "elf_finder_label_house"
+														max_width = 130
+														using = Font_Type_Flavor
+													}
+												}
+											}
+										}
 										flowcontainer = {
 											position = { 42 106 }
 											spacing = 2
