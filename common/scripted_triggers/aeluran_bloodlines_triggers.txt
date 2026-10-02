@@ -1,10 +1,10 @@
 ﻿# The Bloodlines board (Order window): the unwed noble elves in a shepherd's care, and the matches she may propose.
 # Effects in common/scripted_effects/aeluran_bloodlines_effects.txt.
 
-# Scope: a character; SHEPHERD = a Matron holding a Matronate, or the High Matriarch.
-# Is this a noble elf with room for another spouse, not betrothed, of the Aeluran faith within her care? Rulers count by their capital, everyone
-# else by where they live. The High Matriarch's care is everywhere outside the Matronates.
-aeluran_bloodlines_candidate_trigger = {
+# Scope: a character; SHEPHERD = the shepherd matching them. Is this a noble elf of the Aeluran faith with room for
+# another spouse (the unwed, and rulers whose faith allows more than one), not betrothed, anywhere in the Order?
+# Matches are made across all Matronates (PM 2026-10-02): this is what a partner must meet.
+aeluran_bloodlines_eligible_trigger = {
 	is_alive = yes
 	is_any_elf_type = yes
 	faith = faith:aeluran_weavers
@@ -21,6 +21,13 @@ aeluran_bloodlines_candidate_trigger = {
 		has_trait = aeluran_high_matriarch
 	}
 	NOT = { has_variable = aeluran_bloodlines_refused }
+}
+
+# Scope: a character; SHEPHERD = a Matron holding a Matronate, or the High Matriarch. An eligible noble (above) within
+# her care: rulers count by their capital, everyone else by where they live. The High Matriarch's care is everywhere
+# outside the Matronates. These are the nobles she seeks spouses for.
+aeluran_bloodlines_candidate_trigger = {
+	aeluran_bloodlines_eligible_trigger = { SHEPHERD = $SHEPHERD$ }
 	trigger_if = {
 		limit = { is_landed = yes }
 		trigger_if = {

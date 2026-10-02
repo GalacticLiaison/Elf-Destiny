@@ -213,7 +213,8 @@ aeluran_bloodlines_ai_yearly_effect = {
 			limit = {
 				allowed_more_spouses = yes
 				is_betrothed = no
-				aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
+				# A partner from anywhere in the Order
+				aeluran_bloodlines_eligible_trigger = { SHEPHERD = scope:bl_shepherd }
 				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_a }
 			}
 			order_by = genetic_worthiness
@@ -227,23 +228,39 @@ aeluran_bloodlines_ai_yearly_effect = {
 }
 
 # Root = the shepherd; var:aeluran_bl_first = the noble she chose. Rebuilds the matches for them (var list
-# aeluran_bl_matches): the other nobles on her board they could wed, the worthiest first.
+# aeluran_bl_matches): eligible nobles from anywhere in the Order (every Matronate, and the High Matriarch's care) they
+# could wed, the worthiest 40 first. Also records each match's spouses for the row's spouse portraits.
 aeluran_bloodlines_build_matches_effect = {
 	clear_variable_list = aeluran_bl_matches
 	if = {
 		limit = { exists = var:aeluran_bl_first }
+		save_scope_as = bl_shepherd
 		var:aeluran_bl_first = { save_scope_as = bl_chosen }
-		ordered_in_list = {
-			variable = aeluran_bloodlines
+		ordered_living_character = {
 			limit = {
 				NOT = { this = scope:bl_chosen }
+				aeluran_bloodlines_eligible_trigger = { SHEPHERD = scope:bl_shepherd }
 				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_chosen }
 			}
 			order_by = genetic_worthiness
 			min = 0
-			max = 99
+			max = 40
 			check_range_bounds = no
-			root = { add_to_variable_list = { name = aeluran_bl_matches target = prev } }
+			save_temporary_scope_as = bl_noble
+			clear_variable_list = aeluran_bl_spouses
+			every_spouse = { scope:bl_noble = { add_to_variable_list = { name = aeluran_bl_spouses target = prev } } }
+			# Their Matronate (by capital if they rule land, else by where they live), for the row: unset = the High
+			# Matriarch's care
+			if = { limit = { has_variable = aeluran_bl_home } remove_variable = aeluran_bl_home }
+			if = {
+				limit = { is_landed = yes capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+				set_variable = { name = aeluran_bl_home value = capital_county.clerical_region_title }
+			}
+			else_if = {
+				limit = { is_landed = no location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+				set_variable = { name = aeluran_bl_home value = location.county.clerical_region_title }
+			}
+			scope:bl_shepherd = { add_to_variable_list = { name = aeluran_bl_matches target = prev } }
 		}
 	}
 }
