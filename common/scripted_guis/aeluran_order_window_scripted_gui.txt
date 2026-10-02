@@ -233,8 +233,14 @@ aeluran_bl_propose = {
 	scope = character
 
 	is_valid = {
-		exists = var:aeluran_bl_first
-		exists = var:aeluran_bl_second
+		custom_tooltip = {
+			text = aeluran_bl_pick_noble_tt
+			exists = var:aeluran_bl_first
+		}
+		custom_tooltip = {
+			text = aeluran_bl_pick_match_tt
+			exists = var:aeluran_bl_second
+		}
 		custom_tooltip = {
 			text = aeluran_bl_cannot_wed_tt
 			var:aeluran_bl_first = { aeluran_bloodlines_pair_trigger = { OTHER = root.var:aeluran_bl_second } }
@@ -255,6 +261,7 @@ aeluran_bl_propose = {
 		remove_variable = aeluran_bl_second
 		aeluran_bloodlines_propose_effect = yes
 		aeluran_bloodlines_build_list_effect = yes
+		aeluran_bloodlines_build_matches_effect = yes
 	}
 }
 
@@ -294,6 +301,7 @@ aeluran_bl_choose = {
 	saved_scopes = { target }
 
 	effect = {
+		if = { limit = { has_variable = aeluran_bl_second } remove_variable = aeluran_bl_second }
 		if = {
 			limit = { var:aeluran_bl_first ?= scope:target }
 			remove_variable = aeluran_bl_first
@@ -342,5 +350,31 @@ aeluran_bl_propose_match = {
 		aeluran_bloodlines_propose_effect = yes
 		aeluran_bloodlines_build_list_effect = yes
 		aeluran_bloodlines_build_matches_effect = yes
+	}
+}
+
+# Select or deselect this match (scope:target) for the chosen noble; Propose Match (aeluran_bl_propose) sends it
+aeluran_bl_select_match = {
+	scope = character
+	saved_scopes = { target }
+
+	effect = {
+		if = {
+			limit = { var:aeluran_bl_second ?= scope:target }
+			remove_variable = aeluran_bl_second
+		}
+		else = {
+			set_variable = { name = aeluran_bl_second value = scope:target }
+		}
+	}
+}
+
+# Is this match (scope:target) the one selected?
+aeluran_bl_is_match_selected = {
+	scope = character
+	saved_scopes = { target }
+
+	is_shown = {
+		var:aeluran_bl_second ?= scope:target
 	}
 }

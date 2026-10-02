@@ -433,11 +433,11 @@ window = {
 												}
 											}
 										}
-										button_standard = {
+										# Select this noble (a radio: the chosen one is checked)
+										button_radio = {
 											parentanchor = right|vcenter
 											position = { -18 0 }
-											size = { 100 26 }
-											text = "AELURAN_BL_CHOOSE_BTN"
+											frame = "[BoolTo1And2( GetScriptedGui( 'aeluran_bl_is_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) )]"
 											tooltip = "AELURAN_BL_CHOOSE_BTN_TT"
 											onclick = "[GetScriptedGui( 'aeluran_bl_choose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
 										}
@@ -509,12 +509,23 @@ window = {
 				vbox = {
 					layoutpolicy_vertical = expanding
 
-					text_single = {
+					hbox = {
 						layoutpolicy_horizontal = expanding
-						margin = { 10 6 }
 						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
-						text = "AELURAN_BL_RIGHT_TITLE"
-						using = Font_Size_Medium
+
+						text_single = {
+							margin = { 10 6 }
+							text = "AELURAN_BL_RIGHT_TITLE"
+							using = Font_Size_Medium
+						}
+						expand = {}
+						button_standard = {
+							size = { 130 30 }
+							text = "AELURAN_BL_PROPOSE"
+							enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						}
 					}
 					text_single = {
 						layoutpolicy_horizontal = expanding
@@ -542,11 +553,11 @@ window = {
 										}
 
 										portrait_head_small = {
-											position = { 108 5 }
+											position = { 42 5 }
 										}
 										# Race (the URF phenotype icon, as in the character window: ed_race_icon_small), as tall as the name and age lines
 										button = {
-											position = { 197 6 }
+											position = { 131 6 }
 											size = { 42 42 }
 											visible = "[Character.MakeScope.Var('urf_phenotype').IsSet]"
 											# Glowing as in the character window (ed_race_icon): purple for dark elves, gold for the rest, none for humans
@@ -577,25 +588,25 @@ window = {
 											}
 										}
 										text_single = {
-											position = { 244 6 }
+											position = { 178 6 }
 											max_width = 165
 											text = "[Character.GetShortUIName]"
 											using = Font_Size_Medium
 										}
 										text_single = {
-											position = { 244 30 }
+											position = { 178 30 }
 											max_width = 165
 											text = "AELURAN_BL_ROW_INFO"
 										}
 										text_single = {
-											position = { 199 50 }
+											position = { 133 50 }
 											max_width = 220
 											text = "AELURAN_BL_MATCH_HOME"
 										}
 										# The character's genetic and inheritable (elven bloodline) traits, packed in one row (a grid would keep the hidden non-genetic traits' slots as gaps;
 										# the GUI cannot filter a list before laying it out)
 										flowcontainer = {
-											position = { 199 70 }
+											position = { 133 70 }
 											datamodel = "[Character.GetTraitsForCharacter]"
 											ignoreinvisible = yes
 											spacing = 2
@@ -611,18 +622,17 @@ window = {
 												}
 											}
 										}
-										button_standard = {
+										# Select this match (a radio); Propose Match by the column title sends it
+										button_radio = {
 											parentanchor = left|vcenter
 											position = { 4 0 }
-											size = { 100 26 }
-											text = "AELURAN_BL_PROPOSE"
-											enabled = "[GetScriptedGui( 'aeluran_bl_propose_match' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
-											tooltip = "[GetScriptedGui( 'aeluran_bl_propose_match' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
-											onclick = "[GetScriptedGui( 'aeluran_bl_propose_match' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+											frame = "[BoolTo1And2( GetScriptedGui( 'aeluran_bl_is_match_selected' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) )]"
+											tooltip = "AELURAN_BL_SELECT_MATCH_TT"
+											onclick = "[GetScriptedGui( 'aeluran_bl_select_match' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
 										}
 
 										flowcontainer = {
-											position = { 108 98 }
+											position = { 42 98 }
 											spacing = 2
 
 											flowcontainer = {
