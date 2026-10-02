@@ -141,7 +141,7 @@ window = {
 
 								# Her Red Sister, or an open post
 								widget = {
-									position = { 680 0 }
+									position = { 520 0 }
 									size = { 110 96 }
 
 									# visible sits on the wrapper, in the ruler's context; the portrait reads the list item (Scope, the ruler), not
@@ -169,6 +169,72 @@ window = {
 										parentanchor = center
 										text = "AELURAN_ORDER_NO_ADVISOR"
 										visible = "[And( Not( Character.MakeScope.Var( 'aeluran_order_red_sister' ).IsSet ), Not( GetScriptedGui( 'aeluran_order_post_is_open' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End ) ) )]"
+									}
+								}
+
+								# The ruler and the Red Sister: the ruler's opinion of her, and their relationships
+								widget = {
+									position = { 630 0 }
+									size = { 150 96 }
+									visible = "[Character.MakeScope.Var( 'aeluran_order_red_sister' ).IsSet]"
+
+									text_single = {
+										position = { 0 20 }
+										text = "AELURAN_ORDER_RS_OPINION"
+										tooltip = "[Character.GetOpinionBreakdownText( Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+									}
+
+									hbox = {
+										position = { 0 50 }
+										spacing = 2
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/marriage.dds"
+												visible = "[GetScriptedGui( 'aeluran_order_is_spouse' ).IsShown( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'target', Character.MakeScope.Var( 'aeluran_order_red_sister' ) ).End )]"
+												tooltip = "AELURAN_ORDER_RS_SPOUSE"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/soulmate.dds"
+												visible = "[GetScriptedRelation( 'soulmate' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'soulmate' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/lover.dds"
+												visible = "[GetScriptedRelation( 'lover' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'lover' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/best_friend.dds"
+												visible = "[GetScriptedRelation( 'best_friend' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'best_friend' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/friend.dds"
+												visible = "[GetScriptedRelation( 'friend' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'friend' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/nemesis.dds"
+												visible = "[GetScriptedRelation( 'nemesis' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'nemesis' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/rival.dds"
+												visible = "[GetScriptedRelation( 'rival' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'rival' ).GetName]"
+											}
+											icon = {
+												size = { 28 28 }
+												texture = "gfx/interface/icons/memory_types/grudge.dds"
+												visible = "[GetScriptedRelation( 'grudge' ).HasRelationBetween( Character.Self, Character.MakeScope.Var( 'aeluran_order_red_sister' ).GetCharacter )]"
+												tooltip = "[GetScriptedRelation( 'grudge' ).GetName]"
+											}
 									}
 								}
 
