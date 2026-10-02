@@ -382,10 +382,24 @@ window = {
 											max_width = 210
 											text = "AELURAN_BL_ROW_INFO"
 										}
-										text_single = {
+										# The character's genetic traits, packed in one row (a grid would keep the hidden non-genetic traits' slots as gaps;
+										# the GUI cannot filter a list before laying it out)
+										flowcontainer = {
 											position = { 95 50 }
-											max_width = 210
-											text = "AELURAN_BL_ROW_WORTH"
+											datamodel = "[Character.GetTraitsForCharacter]"
+											ignoreinvisible = yes
+											spacing = 2
+										
+											item = {
+												icon_trait = {
+													visible = "[And( Trait.IsValid, Trait.IsGenetic )]"
+										
+													blockoverride "icon_size"
+													{
+														size = { 22 22 }
+													}
+												}
+											}
 										}
 										button_standard = {
 											parentanchor = right|vcenter
@@ -512,12 +526,26 @@ window = {
 										text_single = {
 											position = { 95 50 }
 											max_width = 210
-											text = "AELURAN_BL_ROW_WORTH"
-										}
-										text_single = {
-											position = { 95 70 }
-											max_width = 210
 											text = "AELURAN_BL_MATCH_HOME"
+										}
+										# The character's genetic traits, packed in one row (a grid would keep the hidden non-genetic traits' slots as gaps;
+										# the GUI cannot filter a list before laying it out)
+										flowcontainer = {
+											position = { 95 70 }
+											datamodel = "[Character.GetTraitsForCharacter]"
+											ignoreinvisible = yes
+											spacing = 2
+										
+											item = {
+												icon_trait = {
+													visible = "[And( Trait.IsValid, Trait.IsGenetic )]"
+										
+													blockoverride "icon_size"
+													{
+														size = { 22 22 }
+													}
+												}
+											}
 										}
 										button_standard = {
 											parentanchor = right|vcenter
