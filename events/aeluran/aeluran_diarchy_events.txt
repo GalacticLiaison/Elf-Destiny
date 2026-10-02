@@ -131,14 +131,11 @@ aeluran_diarchy.101 = {
 	# The on_the_way flag is already cleared, so the regular pulse sends a replacement.
 	trigger = {
 		scope:aeluran_sister_advisor ?= { is_alive = yes }
+		# A Sister already seated (filled another way while she travelled): this one stays in Deepwood
+		NOT = { exists = cp:councillor_aeluran_advisor }
 	}
 
 	# cooldown = { years = 1 }
-
-	# A Sister already seated (filled another way while she travelled): this one stays in Deepwood
-	trigger = {
-		NOT = { exists = cp:councillor_aeluran_advisor }
-	}
 
 	immediate = {
 		debug_log = "Advisor Arrives"
@@ -456,7 +453,10 @@ aeluran_diarchy.103 = {
 					# holder = root
 					has_holding_type = church_holding
 				}
-				county_controller = root
+				# In a county the ruler holds herself: a temple under a vassal would make the Sister that vassal's
+				# vassal, and the Red Sister seat (appointed_to_advise = liege) would drop her
+				county.holder = root
+				is_capital_barony = no
 
 			}
 
@@ -475,7 +475,10 @@ aeluran_diarchy.103 = {
 						# holder = root
 						has_holding_type = church_holding
 					}
-					county_controller = root
+					# In a county the ruler holds herself: a temple under a vassal would make the Sister that vassal's
+					# vassal, and the Red Sister seat (appointed_to_advise = liege) would drop her
+					county.holder = root
+					is_capital_barony = no
 					NOT = {
 						this = scope:church_barony_1
 					}
@@ -497,7 +500,10 @@ aeluran_diarchy.103 = {
 						# holder = root
 						has_holding_type = church_holding
 					}
-					county_controller = root
+					# In a county the ruler holds herself: a temple under a vassal would make the Sister that vassal's
+					# vassal, and the Red Sister seat (appointed_to_advise = liege) would drop her
+					county.holder = root
+					is_capital_barony = no
 					NOR = {
 						this = scope:church_barony_1
 						this = scope:church_barony_2
@@ -519,7 +525,7 @@ aeluran_diarchy.103 = {
 				limit = {
 					has_holding = no
 					has_ongoing_construction = no # not one the Order is already building
-					county_controller = root
+					county = { holder = root }
 				}
 
 				save_scope_as = undeveloped_holding
@@ -870,7 +876,9 @@ aeluran_diarchy.1033 = {
 					# holder = root
 					has_holding_type = church_holding
 				}
-				county_controller = root
+				# In a county the ruler holds herself (see aeluran_diarchy.103)
+				county.holder = root
+				is_capital_barony = no
 
 			}
 
@@ -889,7 +897,9 @@ aeluran_diarchy.1033 = {
 						# holder = root
 						has_holding_type = church_holding
 					}
-					county_controller = root
+					# In a county the ruler holds herself (see aeluran_diarchy.103)
+					county.holder = root
+					is_capital_barony = no
 					NOT = {
 						this = scope:church_barony_1
 					}
@@ -911,7 +921,9 @@ aeluran_diarchy.1033 = {
 						# holder = root
 						has_holding_type = church_holding
 					}
-					county_controller = root
+					# In a county the ruler holds herself (see aeluran_diarchy.103)
+					county.holder = root
+					is_capital_barony = no
 					NOR = {
 						this = scope:church_barony_1
 						this = scope:church_barony_2
@@ -933,7 +945,7 @@ aeluran_diarchy.1033 = {
 				limit = {
 					has_holding = no
 					has_ongoing_construction = no # not one the Order is already building
-					county_controller = root
+					county = { holder = root }
 				}
 
 				save_scope_as = undeveloped_holding

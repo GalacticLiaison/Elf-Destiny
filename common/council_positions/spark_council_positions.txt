@@ -225,8 +225,18 @@ councillor_aeluran_advisor = {
 	}
 
 	on_lose_position = {
-		# She no longer advises anyone: free her for another post
-		if = { limit = { has_variable = appointed_to_advise } remove_variable = appointed_to_advise }
+		# Free her for another post, but only if her appointment was to this seat: a Sister moved to a new ruler can
+		# leave her old seat after the new appointment is made, and must keep it
+		if = {
+			limit = {
+				has_variable = appointed_to_advise
+				OR = {
+					NOT = { exists = var:appointed_to_advise }
+					var:appointed_to_advise = scope:councillor_liege
+				}
+			}
+			remove_variable = appointed_to_advise
+		}
 		root.liege = {
 			remove_variable = religious_advisor
 			if = {
@@ -249,7 +259,18 @@ councillor_aeluran_advisor = {
 	}
 
 	on_fired_from_position = {
-		if = { limit = { has_variable = appointed_to_advise } remove_variable = appointed_to_advise }
+		# Free her for another post, but only if her appointment was to this seat: a Sister moved to a new ruler can
+		# leave her old seat after the new appointment is made, and must keep it
+		if = {
+			limit = {
+				has_variable = appointed_to_advise
+				OR = {
+					NOT = { exists = var:appointed_to_advise }
+					var:appointed_to_advise = scope:councillor_liege
+				}
+			}
+			remove_variable = appointed_to_advise
+		}
 		root.liege = {
 			remove_variable = religious_advisor
 			if = {

@@ -16,10 +16,11 @@ aeluran_advisor_candidate_trigger = {
 		limit = { exists = var:appointed_to_advise }
 		var:appointed_to_advise = { is_alive = no }
 	}
-	# A council seat needs a courtier or a vassal of the ruler
+	# A council seat needs a courtier or a DIRECT vassal of the ruler: the Red Sister seat checks
+	# appointed_to_advise = liege, so a vassal's vassal would be seated and then dropped
 	trigger_if = {
 		limit = { is_ruler = yes }
-		is_vassal_of = $POST$
+		liege ?= $POST$
 	}
 	# Her reach
 	trigger_if = {
