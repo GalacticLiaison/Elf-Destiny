@@ -10,7 +10,7 @@
 window = {
 	name = "aeluran_order_window"
 	parentanchor = center
-	size = { 990 760 }
+	size = { 990 900 }
 	layer = middle
 	allow_outside = yes
 	movable = yes
@@ -331,6 +331,157 @@ window = {
 			layoutpolicy_vertical = expanding
 			visible = "[GetVariableSystem.HasValue( 'aeluran_order_tab', 'bloodlines' )]"
 
+			# Propose Match: your portrait, the chosen noble, the button, the selected match, and the match's Matron
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				margin = { 0 8 }
+				spacing = 14
+			
+				expand = {}
+			
+				# You, their shepherd
+				widget = {
+					size = { 55 60 }
+					tooltip = "AELURAN_BL_PANEL_YOU_TT"
+			
+					background = {
+						texture = "gfx/portraits/portrait_frame.dds"
+						using = Color_Grey
+						alpha = 0.5
+					}
+					widget = {
+						size = { 55 60 }
+						visible = "[GetPlayer.IsValid]"
+						portrait_button = {
+							parentanchor = bottom|hcenter
+							size = { 53 66 }
+							datacontext = "[GetPlayer]"
+							using = portrait_base
+							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							effectname = "NoHighlight"
+						}
+					}
+					icon = {
+						parentanchor = bottom|hcenter
+						size = { 47 60 }
+						visible = "[Not( GetPlayer.IsValid )]"
+						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+						framesize = { 384 480 }
+						frame = 1
+						alpha = 0.5
+					}
+				}
+				# The chosen noble
+				widget = {
+					size = { 110 120 }
+					tooltip = "AELURAN_BL_PANEL_FIRST_TT"
+			
+					background = {
+						texture = "gfx/portraits/portrait_frame.dds"
+						using = Color_Grey
+						alpha = 0.5
+					}
+					widget = {
+						size = { 110 120 }
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
+						portrait_button = {
+							parentanchor = bottom|hcenter
+							size = { 108 126 }
+							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter]"
+							using = portrait_base
+							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							effectname = "NoHighlight"
+						}
+					}
+					icon = {
+						parentanchor = bottom|hcenter
+						size = { 102 120 }
+						visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet )]"
+						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+						framesize = { 384 480 }
+						frame = 1
+						alpha = 0.5
+					}
+				}
+				button_standard = {
+					size = { 150 40 }
+					text = "AELURAN_BL_PROPOSE"
+					enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				}
+				# The selected match
+				widget = {
+					size = { 110 120 }
+					tooltip = "AELURAN_BL_PANEL_SECOND_TT"
+			
+					background = {
+						texture = "gfx/portraits/portrait_frame.dds"
+						using = Color_Grey
+						alpha = 0.5
+					}
+					widget = {
+						size = { 110 120 }
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet]"
+						portrait_button = {
+							parentanchor = bottom|hcenter
+							size = { 108 126 }
+							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter]"
+							using = portrait_base
+							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							effectname = "NoHighlight"
+						}
+					}
+					icon = {
+						parentanchor = bottom|hcenter
+						size = { 102 120 }
+						visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+						framesize = { 384 480 }
+						frame = 1
+						alpha = 0.5
+					}
+				}
+				# The match's Matron (aeluran_bl_select_match)
+				widget = {
+					size = { 55 60 }
+					tooltip = "AELURAN_BL_PANEL_MATRON_TT"
+			
+					background = {
+						texture = "gfx/portraits/portrait_frame.dds"
+						using = Color_Grey
+						alpha = 0.5
+					}
+					widget = {
+						size = { 55 60 }
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet]"
+						portrait_button = {
+							parentanchor = bottom|hcenter
+							size = { 53 66 }
+							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter]"
+							using = portrait_base
+							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+							mask = "gfx/portraits/portrait_mask_head_small.dds"
+							effectname = "NoHighlight"
+						}
+					}
+					icon = {
+						parentanchor = bottom|hcenter
+						size = { 47 60 }
+						visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet )]"
+						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+						framesize = { 384 480 }
+						frame = 1
+						alpha = 0.5
+					}
+				}
+			
+				expand = {}
+			}
+			
 			hbox = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
@@ -519,13 +670,6 @@ window = {
 							using = Font_Size_Medium
 						}
 						expand = {}
-						button_standard = {
-							size = { 130 30 }
-							text = "AELURAN_BL_PROPOSE"
-							enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-							tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-							onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-						}
 					}
 					text_single = {
 						layoutpolicy_horizontal = expanding

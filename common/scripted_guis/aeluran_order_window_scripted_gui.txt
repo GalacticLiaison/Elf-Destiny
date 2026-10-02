@@ -257,6 +257,7 @@ aeluran_bl_propose = {
 	effect = {
 		var:aeluran_bl_first = { save_scope_as = bl_a }
 		var:aeluran_bl_second = { save_scope_as = bl_b }
+		if = { limit = { has_variable = aeluran_bl_match_matron } remove_variable = aeluran_bl_match_matron }
 		remove_variable = aeluran_bl_first
 		remove_variable = aeluran_bl_second
 		aeluran_bloodlines_propose_effect = yes
@@ -301,6 +302,7 @@ aeluran_bl_choose = {
 	saved_scopes = { target }
 
 	effect = {
+		if = { limit = { has_variable = aeluran_bl_match_matron } remove_variable = aeluran_bl_match_matron }
 		if = { limit = { has_variable = aeluran_bl_second } remove_variable = aeluran_bl_second }
 		if = {
 			limit = { var:aeluran_bl_first ?= scope:target }
@@ -359,12 +361,24 @@ aeluran_bl_select_match = {
 	saved_scopes = { target }
 
 	effect = {
+		if = { limit = { has_variable = aeluran_bl_match_matron } remove_variable = aeluran_bl_match_matron }
 		if = {
 			limit = { var:aeluran_bl_second ?= scope:target }
 			remove_variable = aeluran_bl_second
 		}
 		else = {
 			set_variable = { name = aeluran_bl_second value = scope:target }
+			# Her Matron, for the Propose Match panel: her Matronate's holder, beyond the Matronates the High Matriarch
+			scope:target = {
+				if = {
+					limit = { exists = var:aeluran_bl_home.holder }
+					var:aeluran_bl_home.holder = { save_scope_as = bl_match_matron }
+				}
+				else = {
+					title:d_high_matriarch.holder ?= { save_scope_as = bl_match_matron }
+				}
+			}
+			scope:bl_match_matron ?= { root = { set_variable = { name = aeluran_bl_match_matron value = prev } } }
 		}
 	}
 }
