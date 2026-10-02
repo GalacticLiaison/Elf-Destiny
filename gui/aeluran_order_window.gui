@@ -373,11 +373,12 @@ window = {
 							alpha = 0.5
 						}
 					}
-					# Their liege, smaller
+					# Their liege, as large as the Matron above; none when they are their own ruler (an independent ruler's liege is
+					# themselves)
 					widget = {
-						size = { 40 44 }
+						size = { 55 60 }
 						tooltip = "AELURAN_BL_PANEL_FIRST_LIEGE_TT"
-						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege.IsValid]"
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege.IsValid, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege, GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter ) ) )]"
 					
 						background = {
 							texture = "gfx/portraits/portrait_frame.dds"
@@ -386,7 +387,7 @@ window = {
 						}
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 38 48 }
+							size = { 53 66 }
 							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege]"
 							using = portrait_base
 							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
@@ -596,11 +597,12 @@ window = {
 							alpha = 0.5
 						}
 					}
-					# Their liege, smaller
+					# Their liege, as large as the Matron above; none when they are their own ruler (an independent ruler's liege is
+					# themselves)
 					widget = {
-						size = { 40 44 }
+						size = { 55 60 }
 						tooltip = "AELURAN_BL_PANEL_SECOND_LIEGE_TT"
-						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege.IsValid]"
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege.IsValid, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter ) ) )]"
 					
 						background = {
 							texture = "gfx/portraits/portrait_frame.dds"
@@ -609,7 +611,7 @@ window = {
 						}
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 38 48 }
+							size = { 53 66 }
 							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege]"
 							using = portrait_base
 							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
