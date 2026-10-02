@@ -560,48 +560,40 @@ aeluran_matronate_extend_effect = {
 	}
 }
 
-# Mismatch (root = old holder, scope:title, scope:county): a vanilla region whose capital turned Aeluran under an elven
-# ruler becomes a Matronate. Its old prelate loses it; a Sister of the region, or one the Order sends, is raised to hold it.
-aeluran_matronate_from_region_effect = {
-	save_scope_as = outgoing_matron
-	clear_saved_scope = matronate_successor
+# Mismatch (root = the region's prelate, scope:title, scope:county): a foreign clerical region (an archdiocese) whose
+# capital turned Aeluran under an elven ruler is destroyed (PM 2026-10-01). The elven ruler celebrates; the prelate and
+# the rulers of his faith whose capital lies in it mourn it (events/aeluran/aeluran_see_events.txt). The title itself
+# goes a few days later, so those events can still name it.
+aeluran_see_falls_effect = {
+	save_scope_as = fallen_see_holder
+	faith = { save_scope_as = fallen_see_faith }
+	scope:title = { save_scope_as = fallen_see }
 	scope:county = {
-		save_scope_as = matronate_found_county
-		save_scope_as = matronate_capital
+		save_scope_as = fallen_see_capital
+		holder = { save_scope_as = see_conqueror }
 	}
-	scope:title = {
-		set_variable = aeluran_matronate
-		set_title_name_dynamic = aeluran_matronate_founded_name
-		set_coa = scope:county
-		set_color_from_title = scope:county
-		save_scope_as = matronate
-	}
-	# Its Matron is a Sister of the region, else of the elven ruler's court there, else one the Order sends; never a
-	# Sister from the far side of the world (the general succession's last resort)
-	ordered_living_character = {
-		limit = {
-			aeluran_matronate_successor_candidate_trigger = yes
-			aeluran_in_matronate_region_trigger = yes
+	scope:see_conqueror = {
+		trigger_event = aeluran_see.0001
+		trigger_event = {
+			id = aeluran_see.0009
+			days = 3
 		}
-		order_by = aeluran_matronate_successor_score
-		save_scope_as = matronate_successor
 	}
 	if = {
-		limit = { NOT = { exists = scope:matronate_successor } }
-		scope:county.holder ?= {
-			ordered_courtier = {
-				limit = { aeluran_matronate_successor_candidate_trigger = yes }
-				order_by = aeluran_matronate_successor_score
-				save_scope_as = matronate_successor
+		limit = { NOT = { this = scope:see_conqueror } }
+		trigger_event = aeluran_see.0002
+	}
+	scope:fallen_see = {
+		every_ruler_in_clerical_region = {
+			limit = {
+				faith = scope:fallen_see_faith
+				NOR = {
+					this = scope:fallen_see_holder
+					this = scope:see_conqueror
+				}
 			}
+			trigger_event = aeluran_see.0002
 		}
-	}
-	if = {
-		limit = { NOT = { exists = scope:matronate_successor } }
-		scope:matronate = { aeluran_matronate_create_sister_effect = yes }
-	}
-	scope:matronate_successor ?= {
-		scope:matronate = { aeluran_matronate_grant_effect = yes }
 	}
 }
 

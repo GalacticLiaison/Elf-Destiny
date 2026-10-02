@@ -5,7 +5,7 @@ NEW! Growing Matronates
    - Matronates grow with their flock. Counties conquered, granted or converted next to a Matronate join it.
    - New decision for Matrons, Extend the Matronate, gathers in the Aeluran counties bordering it.
    - The AI High Matriarch now founds Matronates where elven realms are without one.
-   - When the capital of an archdiocese turns Aeluran under an elven ruler, it becomes a Matronate.
+   - When the capital of an archdiocese turns Aeluran under an elven ruler, the archdiocese is destroyed. The elven ruler celebrates the end of the foreign church's hold on the land, while its prelate and the faithful rulers within it mourn the loss.
    - Any landed Sister can be raised to Matron and given a Matronate, and moves to the Aeluran Order government.
 
 NEW! The Matronate of Svartalfaheim
