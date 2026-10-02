@@ -71,6 +71,8 @@ aeluran_bloodlines_ask_guardian_effect = {
 		limit = {
 			NOT = { scope:bl_guardian = scope:bl_matron }
 			scope:bl_guardian = { is_ai = yes }
+			# A player's proposal (scope:bl_gated) was only sendable with this guardian's acceptance above 0
+			NOT = { exists = scope:bl_gated }
 		}
 		random = {
 			chance = {
@@ -328,5 +330,61 @@ aeluran_bloodlines_update_house_parent_effect = {
 		else = {
 			set_variable = { name = aeluran_bl_house_parent value = var:aeluran_bl_second }
 		}
+	}
+}
+
+# Root = the shepherd. Records the parties of the picked pair for the Matchmaking panel: each partner's guardian
+# (var:aeluran_bl_guardian_a / _b: their matchmaker, or themselves), and forgets hooks chosen for an earlier pair.
+aeluran_bloodlines_update_parties_effect = {
+	clear_variable_list = aeluran_bl_hooks
+	if = { limit = { has_variable = aeluran_bl_guardian_a } remove_variable = aeluran_bl_guardian_a }
+	if = { limit = { has_variable = aeluran_bl_guardian_b } remove_variable = aeluran_bl_guardian_b }
+	var:aeluran_bl_first ?= {
+		if = {
+			limit = { exists = matchmaker }
+			matchmaker = { save_scope_as = bl_party }
+		}
+		else = { save_scope_as = bl_party }
+	}
+	scope:bl_party ?= { root = { set_variable = { name = aeluran_bl_guardian_a value = prev } } }
+	clear_saved_scope = bl_party
+	var:aeluran_bl_second ?= {
+		if = {
+			limit = { exists = matchmaker }
+			matchmaker = { save_scope_as = bl_party }
+		}
+		else = { save_scope_as = bl_party }
+	}
+	scope:bl_party ?= { root = { set_variable = { name = aeluran_bl_guardian_b value = prev } } }
+	clear_saved_scope = bl_party
+}
+
+# Root = the shepherd, after a player's proposal (scopes bl_a, bl_b, bl_guardian_b, bl_match_matron). The answer from the
+# match's side, as a letter: from her Matron when that is not the shepherd herself, else from her guardian, else from her.
+# Only for an AI guardian (a player guardian answers through aeluran_bloodlines.001).
+aeluran_bloodlines_answer_letter_effect = {
+	if = {
+		limit = {
+			scope:bl_guardian_b ?= { is_ai = yes }
+			NOT = { scope:bl_guardian_b = root }
+		}
+		if = {
+			limit = {
+				exists = scope:bl_match_matron
+				NOT = { scope:bl_match_matron = root }
+			}
+			scope:bl_match_matron = { save_scope_as = bl_letter_sender }
+			save_scope_value_as = { name = bl_letter_role value = flag:matron }
+		}
+		else_if = {
+			limit = { NOT = { scope:bl_guardian_b = scope:bl_b } }
+			scope:bl_guardian_b = { save_scope_as = bl_letter_sender }
+			save_scope_value_as = { name = bl_letter_role value = flag:guardian }
+		}
+		else = {
+			scope:bl_b = { save_scope_as = bl_letter_sender }
+			save_scope_value_as = { name = bl_letter_role value = flag:self }
+		}
+		trigger_event = aeluran_bloodlines.010
 	}
 }

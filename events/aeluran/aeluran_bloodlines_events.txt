@@ -46,3 +46,35 @@ aeluran_bloodlines.001 = {
 		ai_chance = { base = 0 }
 	}
 }
+
+# The answer to a player's proposed match, from the match's side (aeluran_bloodlines_answer_letter_effect): her Matron,
+# her guardian, or the match herself. Root = the proposing shepherd.
+# Scopes: bl_letter_sender, bl_letter_role (flag:matron / flag:guardian / flag:self), bl_a, bl_b.
+aeluran_bloodlines.010 = {
+	type = letter_event
+	opening = {
+		desc = aeluran_bloodlines.010.opening
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:bl_letter_role = flag:matron }
+				desc = aeluran_bloodlines.010.desc_matron
+			}
+			triggered_desc = {
+				trigger = { scope:bl_letter_role = flag:guardian }
+				desc = aeluran_bloodlines.010.desc_guardian
+			}
+			desc = aeluran_bloodlines.010.desc_self
+		}
+	}
+	sender = scope:bl_letter_sender
+
+	trigger = {
+		exists = scope:bl_letter_sender
+	}
+
+	option = {
+		name = aeluran_bloodlines.010.a
+	}
+}

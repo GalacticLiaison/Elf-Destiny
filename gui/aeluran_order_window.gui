@@ -513,7 +513,7 @@ window = {
 					button_standard = {
 						size = { 150 40 }
 						text = "AELURAN_BL_PROPOSE"
-						enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						enabled = "[And( GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), And( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) ) )]"
 						tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 						onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
 					}
@@ -527,6 +527,118 @@ window = {
 						}
 						blockoverride "text" {
 							text = "AELURAN_BL_MATRILINEAL"
+						}
+					}
+					# A: will their guardian accept? (aeluran_mm_accept_value; the breakdown on hover, as vanilla's acceptance)
+					widget = {
+						size = { 280 22 }
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).GetScriptValueBreakdown( 'aeluran_mm_accept_value' )]"
+							}
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) )]"
+							text = "AELURAN_BL_ANSWER_PLAYER_A"
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+							text = "AELURAN_BL_ANSWER_YES_A"
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope ).End ) )]"
+							text = "AELURAN_BL_ANSWER_NO_A"
+						}
+					}
+					# B: will their guardian accept? (aeluran_mm_accept_value; the breakdown on hover, as vanilla's acceptance)
+					widget = {
+						size = { 280 22 }
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						tooltipwidget = {
+							widget_value_breakdown_tooltip = {
+								datacontext = "[GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).GetScriptValueBreakdown( 'aeluran_mm_accept_value' )]"
+							}
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) )]"
+							text = "AELURAN_BL_ANSWER_PLAYER_B"
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[And( Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.IsPlayer, Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter, GetPlayer ) ) ) ), GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+							text = "AELURAN_BL_ANSWER_YES_B"
+						}
+						text_single = {
+							parentanchor = center
+							visible = "[Not( GetScriptedGui( 'aeluran_bl_side_accepts' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).AddScope( 'secondary_recipient', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).AddScope( 'actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'puppet_or_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).AddScope( 'secondary_actor', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).AddScope( 'mm_shepherd', GetPlayer.MakeScope ).AddScope( 'mm_matron', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ) )]"
+							text = "AELURAN_BL_ANSWER_NO_B"
+						}
+					}
+					# Hooks the shepherd may use on the parties (aeluran_bl_hooks): each guardian, a partner who is not their own guardian,
+					# and the match's Matron
+					flowcontainer = {
+						direction = vertical
+						ignoreinvisible = yes
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						button_checkbox_label = {
+							visible = "[GetScriptedGui( 'aeluran_bl_can_hook' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).End )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_toggle_hook' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).End )]"
+							tooltip = "AELURAN_BL_HOOK_TT"
+							blockoverride "checkbox" {
+								checked = "[GetScriptedGui( 'aeluran_bl_hook_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter.MakeScope ).End )]"
+							}
+							blockoverride "text" {
+								text = "AELURAN_BL_HOOK_GA"
+							}
+						}
+						button_checkbox_label = {
+							visible = "[And( GetScriptedGui( 'aeluran_bl_can_hook' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).End ), Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter, GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_a' ).GetCharacter ) ) )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_toggle_hook' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).End )]"
+							tooltip = "AELURAN_BL_HOOK_TT"
+							blockoverride "checkbox" {
+								checked = "[GetScriptedGui( 'aeluran_bl_hook_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.MakeScope ).End )]"
+							}
+							blockoverride "text" {
+								text = "AELURAN_BL_HOOK_A"
+							}
+						}
+						button_checkbox_label = {
+							visible = "[GetScriptedGui( 'aeluran_bl_can_hook' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).End )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_toggle_hook' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).End )]"
+							tooltip = "AELURAN_BL_HOOK_TT"
+							blockoverride "checkbox" {
+								checked = "[GetScriptedGui( 'aeluran_bl_hook_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter.MakeScope ).End )]"
+							}
+							blockoverride "text" {
+								text = "AELURAN_BL_HOOK_GB"
+							}
+						}
+						button_checkbox_label = {
+							visible = "[And( GetScriptedGui( 'aeluran_bl_can_hook' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).End ), Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter, GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter ) ) )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_toggle_hook' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).End )]"
+							tooltip = "AELURAN_BL_HOOK_TT"
+							blockoverride "checkbox" {
+								checked = "[GetScriptedGui( 'aeluran_bl_hook_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.MakeScope ).End )]"
+							}
+							blockoverride "text" {
+								text = "AELURAN_BL_HOOK_B"
+							}
+						}
+						button_checkbox_label = {
+							visible = "[And( GetScriptedGui( 'aeluran_bl_can_hook' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End ), Not( ObjectsEqual( GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter, GetPlayer.MakeScope.Var( 'aeluran_bl_guardian_b' ).GetCharacter ) ) )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_toggle_hook' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End )]"
+							tooltip = "AELURAN_BL_HOOK_TT"
+							blockoverride "checkbox" {
+								checked = "[GetScriptedGui( 'aeluran_bl_hook_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter.MakeScope ).End )]"
+							}
+							blockoverride "text" {
+								text = "AELURAN_BL_HOOK_M"
+							}
 						}
 					}
 					expand = {}
