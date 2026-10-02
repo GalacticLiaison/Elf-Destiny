@@ -261,6 +261,7 @@ aeluran_bloodlines_build_matches_effect = {
 			# Their Matronate (by capital if they rule land, else by where they live), for the row: unset = the High
 			# Matriarch's care
 			if = { limit = { has_variable = aeluran_bl_home } remove_variable = aeluran_bl_home }
+			if = { limit = { has_variable = aeluran_bl_matron } remove_variable = aeluran_bl_matron }
 			if = {
 				limit = { is_landed = yes capital_county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
 				set_variable = { name = aeluran_bl_home value = capital_county.clerical_region_title }
@@ -268,6 +269,12 @@ aeluran_bloodlines_build_matches_effect = {
 			else_if = {
 				limit = { is_landed = no location.county.clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
 				set_variable = { name = aeluran_bl_home value = location.county.clerical_region_title }
+			}
+			# Her Matron, for the row's portrait
+			var:aeluran_bl_home.holder ?= { save_temporary_scope_as = bl_home_matron }
+			if = {
+				limit = { exists = scope:bl_home_matron }
+				set_variable = { name = aeluran_bl_matron value = scope:bl_home_matron }
 			}
 			scope:bl_shepherd = { add_to_variable_list = { name = aeluran_bl_matches target = prev } }
 		}

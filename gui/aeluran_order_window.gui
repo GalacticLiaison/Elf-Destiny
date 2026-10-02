@@ -901,7 +901,7 @@ window = {
 
 								item = {
 									widget = {
-										size = { 560 160 }
+										size = { 560 152 }
 										datacontext = "[Scope.GetCharacter]"
 
 										background = {
@@ -964,15 +964,10 @@ window = {
 											max_width = 165
 											text = "AELURAN_BL_ROW_INFO"
 										}
-										text_single = {
-											position = { 133 50 }
-											max_width = 220
-											text = "AELURAN_BL_MATCH_HOME"
-										}
 										# The character's genetic and inheritable (elven bloodline) traits, packed in one row (a grid would keep the hidden non-genetic traits' slots as gaps;
 										# the GUI cannot filter a list before laying it out)
 										flowcontainer = {
-											position = { 133 78 }
+											position = { 133 58 }
 											datamodel = "[Character.GetTraitsForCharacter]"
 											ignoreinvisible = yes
 											spacing = 2
@@ -1059,8 +1054,31 @@ window = {
 												default_format = "#high"
 											}
 										}
+										# Her Matronate's Matron, at the right end of the spouse line (beyond the Matronates: none)
+										widget = {
+											parentanchor = top|right
+											position = { -12 98 }
+											size = { 46 50 }
+											visible = "[Character.MakeScope.Var( 'aeluran_bl_matron' ).IsSet]"
+											tooltip = "AELURAN_BL_MATCH_MATRON_TT"
+										
+											background = {
+												texture = "gfx/portraits/portrait_frame.dds"
+												using = Color_Grey
+												alpha = 0.4
+											}
+											portrait_button = {
+												parentanchor = bottom|hcenter
+												size = { 44 55 }
+												datacontext = "[Scope.Var( 'aeluran_bl_matron' ).GetCharacter]"
+												using = portrait_base
+												portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+												mask = "gfx/portraits/portrait_mask_head_small.dds"
+												effectname = "NoHighlight"
+											}
+										}
 										flowcontainer = {
-											position = { 42 106 }
+											position = { 42 98 }
 											spacing = 2
 
 											flowcontainer = {
