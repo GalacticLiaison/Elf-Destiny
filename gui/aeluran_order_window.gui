@@ -167,8 +167,62 @@ window = {
 										}
 									}
 
+									# Their betrothed, if any: a spouse to be, marked with the betrothal badge
+									widget = {
+										size = { 46 50 }
+										visible = "[Character.IsBetrothed]"
+									
+										background = {
+											texture = "gfx/portraits/portrait_frame.dds"
+											using = Color_Grey
+											alpha = 0.4
+										}
+										portrait_button = {
+											parentanchor = bottom|hcenter
+											size = { 44 55 }
+											datacontext = "[Scope.GetCharacter.GetBetrothed]"
+											using = portrait_base
+											portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+											mask = "gfx/portraits/portrait_mask_head_small.dds"
+											effectname = "NoHighlight"
+										}
+										icon = {
+											parentanchor = top|right
+											position = { 4 -4 }
+											size = { 20 20 }
+											texture = "gfx/interface/icons/alerts/action_betrothed_can_marry.dds"
+											tooltip = "AELURAN_BL_BETROTHED_TT"
+										}
+									}
 									flowcontainer = {
+										visible = "[Not( Character.IsBetrothed )]"
 										datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+										spacing = 2
+
+										item = {
+											widget = {
+												size = { 46 50 }
+												tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+
+												background = {
+													texture = "gfx/portraits/portrait_frame.dds"
+													using = Color_Grey
+													alpha = 0.4
+												}
+												icon = {
+													parentanchor = bottom|hcenter
+													size = { 40 50 }
+													texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+													framesize = { 384 480 }
+													frame = 1
+													alpha = 0.6
+												}
+											}
+										}
+									}
+									flowcontainer = {
+										visible = "[Character.IsBetrothed]"
+										datamodel = "[GetNullCharacterDataModel( Max_int32( Subtract_int32( Character.CalcUnusedSpouseSlots, '(int32)1' ), '(int32)0' ) )]"
 										spacing = 2
 
 										item = {
@@ -508,6 +562,12 @@ window = {
 						text_single = {
 							text = "AELURAN_BL_CHILDREN_HOUSE"
 						}
+					}
+					# A child is betrothed now and wed when of age
+					text_single = {
+						visible = "[And( And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.IsValid, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.IsValid ), Not( And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.IsAdult, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.IsAdult ) ) )]"
+						text = "AELURAN_BL_BETROTHAL_NOTE"
+						default_format = "#weak"
 					}
 				
 					button_standard = {
@@ -973,8 +1033,62 @@ window = {
 												}
 											}
 
+											# Their betrothed, if any: a spouse to be, marked with the betrothal badge
+											widget = {
+												size = { 46 50 }
+												visible = "[Character.IsBetrothed]"
+											
+												background = {
+													texture = "gfx/portraits/portrait_frame.dds"
+													using = Color_Grey
+													alpha = 0.4
+												}
+												portrait_button = {
+													parentanchor = bottom|hcenter
+													size = { 44 55 }
+													datacontext = "[Scope.GetCharacter.GetBetrothed]"
+													using = portrait_base
+													portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+													mask = "gfx/portraits/portrait_mask_head_small.dds"
+													effectname = "NoHighlight"
+												}
+												icon = {
+													parentanchor = top|right
+													position = { 4 -4 }
+													size = { 20 20 }
+													texture = "gfx/interface/icons/alerts/action_betrothed_can_marry.dds"
+													tooltip = "AELURAN_BL_BETROTHED_TT"
+												}
+											}
 											flowcontainer = {
+												visible = "[Not( Character.IsBetrothed )]"
 												datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														icon = {
+															parentanchor = bottom|hcenter
+															size = { 40 50 }
+															texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+															framesize = { 384 480 }
+															frame = 1
+															alpha = 0.6
+														}
+													}
+												}
+											}
+											flowcontainer = {
+												visible = "[Character.IsBetrothed]"
+												datamodel = "[GetNullCharacterDataModel( Max_int32( Subtract_int32( Character.CalcUnusedSpouseSlots, '(int32)1' ), '(int32)0' ) )]"
 												spacing = 2
 
 												item = {
@@ -1261,8 +1375,62 @@ window = {
 												}
 											}
 
+											# Their betrothed, if any: a spouse to be, marked with the betrothal badge
+											widget = {
+												size = { 46 50 }
+												visible = "[Character.IsBetrothed]"
+											
+												background = {
+													texture = "gfx/portraits/portrait_frame.dds"
+													using = Color_Grey
+													alpha = 0.4
+												}
+												portrait_button = {
+													parentanchor = bottom|hcenter
+													size = { 44 55 }
+													datacontext = "[Scope.GetCharacter.GetBetrothed]"
+													using = portrait_base
+													portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+													mask = "gfx/portraits/portrait_mask_head_small.dds"
+													effectname = "NoHighlight"
+												}
+												icon = {
+													parentanchor = top|right
+													position = { 4 -4 }
+													size = { 20 20 }
+													texture = "gfx/interface/icons/alerts/action_betrothed_can_marry.dds"
+													tooltip = "AELURAN_BL_BETROTHED_TT"
+												}
+											}
 											flowcontainer = {
+												visible = "[Not( Character.IsBetrothed )]"
 												datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														icon = {
+															parentanchor = bottom|hcenter
+															size = { 40 50 }
+															texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+															framesize = { 384 480 }
+															frame = 1
+															alpha = 0.6
+														}
+													}
+												}
+											}
+											flowcontainer = {
+												visible = "[Character.IsBetrothed]"
+												datamodel = "[GetNullCharacterDataModel( Max_int32( Subtract_int32( Character.CalcUnusedSpouseSlots, '(int32)1' ), '(int32)0' ) )]"
 												spacing = 2
 
 												item = {
