@@ -12,7 +12,7 @@ aeluran_bloodlines_build_list_effect = {
 	save_scope_as = bl_shepherd
 	ordered_living_character = {
 		limit = {
-			is_married = no
+			allowed_more_spouses = yes
 			is_betrothed = no
 			aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
 		}
@@ -20,6 +20,10 @@ aeluran_bloodlines_build_list_effect = {
 		min = 0
 		max = 99
 		check_range_bounds = no
+		# Their spouses, for the row's spouse portraits
+		save_temporary_scope_as = bl_noble
+		clear_variable_list = aeluran_bl_spouses
+		every_spouse = { scope:bl_noble = { add_to_variable_list = { name = aeluran_bl_spouses target = prev } } }
 		scope:bl_shepherd = { add_to_variable_list = { name = aeluran_bloodlines target = prev } }
 	}
 }
@@ -93,8 +97,8 @@ aeluran_bloodlines_player_accepted_effect = {
 			limit = {
 				var:aeluran_bl_pending <= 0
 				scope:bl_a = { aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_b } }
-				scope:bl_a = { is_married = no is_betrothed = no }
-				scope:bl_b = { is_married = no is_betrothed = no }
+				scope:bl_a = { allowed_more_spouses = yes is_betrothed = no }
+				scope:bl_b = { allowed_more_spouses = yes is_betrothed = no }
 			}
 			aeluran_bloodlines_finalize_effect = yes
 		}
@@ -197,7 +201,7 @@ aeluran_bloodlines_ai_yearly_effect = {
 	clear_saved_scope = bl_b
 	ordered_living_character = {
 		limit = {
-			is_married = no
+			allowed_more_spouses = yes
 			is_betrothed = no
 			aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
 		}
@@ -207,7 +211,7 @@ aeluran_bloodlines_ai_yearly_effect = {
 	scope:bl_a ?= {
 		ordered_living_character = {
 			limit = {
-				is_married = no
+				allowed_more_spouses = yes
 				is_betrothed = no
 				aeluran_bloodlines_candidate_trigger = { SHEPHERD = scope:bl_shepherd }
 				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_a }
@@ -219,5 +223,27 @@ aeluran_bloodlines_ai_yearly_effect = {
 	if = {
 		limit = { exists = scope:bl_b }
 		aeluran_bloodlines_propose_effect = yes
+	}
+}
+
+# Root = the shepherd; var:aeluran_bl_first = the noble she chose. Rebuilds the matches for them (var list
+# aeluran_bl_matches): the other nobles on her board they could wed, the worthiest first.
+aeluran_bloodlines_build_matches_effect = {
+	clear_variable_list = aeluran_bl_matches
+	if = {
+		limit = { exists = var:aeluran_bl_first }
+		var:aeluran_bl_first = { save_scope_as = bl_chosen }
+		ordered_in_list = {
+			variable = aeluran_bloodlines
+			limit = {
+				NOT = { this = scope:bl_chosen }
+				aeluran_bloodlines_pair_trigger = { OTHER = scope:bl_chosen }
+			}
+			order_by = genetic_worthiness
+			min = 0
+			max = 99
+			check_range_bounds = no
+			root = { add_to_variable_list = { name = aeluran_bl_matches target = prev } }
+		}
 	}
 }

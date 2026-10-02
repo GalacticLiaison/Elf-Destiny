@@ -180,6 +180,14 @@ aeluran_bl_refresh = {
 
 	effect = {
 		aeluran_bloodlines_build_list_effect = yes
+		if = {
+			limit = {
+				exists = var:aeluran_bl_first
+				NOT = { is_target_in_variable_list = { name = aeluran_bloodlines target = var:aeluran_bl_first } }
+			}
+			remove_variable = aeluran_bl_first
+		}
+		aeluran_bloodlines_build_matches_effect = yes
 	}
 }
 
@@ -271,5 +279,68 @@ aeluran_order_is_spouse = {
 
 	is_shown = {
 		is_spouse_of = scope:target
+	}
+}
+
+##############################
+# Matchmaking (two columns)  #
+##############################
+# Left: the nobles in her care with room for a spouse (aeluran_bloodlines). Choose one (var:aeluran_bl_first) and the
+# right column lists their possible matches (aeluran_bl_matches), each with a Propose button.
+
+# Choose this noble (scope:target), or choose again to clear
+aeluran_bl_choose = {
+	scope = character
+	saved_scopes = { target }
+
+	effect = {
+		if = {
+			limit = { var:aeluran_bl_first ?= scope:target }
+			remove_variable = aeluran_bl_first
+		}
+		else = {
+			set_variable = { name = aeluran_bl_first value = scope:target }
+		}
+		aeluran_bloodlines_build_matches_effect = yes
+	}
+}
+
+# Is this noble (scope:target) the one chosen?
+aeluran_bl_is_chosen = {
+	scope = character
+	saved_scopes = { target }
+
+	is_shown = {
+		var:aeluran_bl_first ?= scope:target
+	}
+}
+
+# Propose the chosen noble and this match (scope:target)
+aeluran_bl_propose_match = {
+	scope = character
+	saved_scopes = { target }
+
+	is_valid = {
+		exists = var:aeluran_bl_first
+		custom_tooltip = {
+			text = aeluran_bl_cannot_wed_tt
+			var:aeluran_bl_first = { aeluran_bloodlines_pair_trigger = { OTHER = scope:target } }
+		}
+		custom_tooltip = {
+			text = aeluran_bl_awaiting_answer_tt
+			trigger_if = {
+				limit = { has_variable = aeluran_bl_pending }
+				var:aeluran_bl_pending <= 0
+			}
+		}
+	}
+
+	effect = {
+		var:aeluran_bl_first = { save_scope_as = bl_a }
+		scope:target = { save_scope_as = bl_b }
+		remove_variable = aeluran_bl_first
+		aeluran_bloodlines_propose_effect = yes
+		aeluran_bloodlines_build_list_effect = yes
+		aeluran_bloodlines_build_matches_effect = yes
 	}
 }

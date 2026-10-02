@@ -321,93 +321,264 @@ window = {
 			}
 		}
 
-		##############
-		# Bloodlines #
-		##############
+		###############
+		# Matchmaking #
+		###############
+		# Left: the nobles in her care with room for a spouse (aeluran_bloodlines). Choose one, and the right side lists
+		# the matches for them (aeluran_bl_matches), each with Propose. Lists from aeluran_bl_refresh / aeluran_bl_choose.
 		vbox = {
 			layoutpolicy_horizontal = expanding
 			layoutpolicy_vertical = expanding
 			visible = "[GetVariableSystem.HasValue( 'aeluran_order_tab', 'bloodlines' )]"
 
-			# The chosen pair and the proposal
-			widget = {
-				layoutpolicy_horizontal = expanding
-				size = { 840 70 }
-
-				background = {
-					using = Background_Area_Dark
-				}
-				text_single = {
-					position = { 12 8 }
-					text = "AELURAN_BL_CHOOSE"
-				}
-				text_single = {
-					position = { 12 30 }
-					visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
-					text = "AELURAN_BL_FIRST"
-				}
-				text_single = {
-					position = { 12 50 }
-					visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet]"
-					text = "AELURAN_BL_SECOND"
-				}
-				button_standard = {
-					parentanchor = right|vcenter
-					position = { -12 0 }
-					size = { 150 44 }
-					text = "AELURAN_BL_PROPOSE"
-					enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-				}
-			}
-
-			scrollbox = {
+			hbox = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
+				spacing = 10
 
-				blockoverride "scrollbox_content" {
-					vbox = {
-						name = "aeluran_bloodlines_list"
+				# Seeking a spouse
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					text_single = {
 						layoutpolicy_horizontal = expanding
-						datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_bloodlines' )]"
+						margin = { 10 6 }
+						text = "AELURAN_BL_LEFT_TITLE"
+						using = Font_Size_Medium
+					}
 
-						item = {
-							widget = {
-								size = { 840 84 }
-								datacontext = "[Scope.GetCharacter]"
+					scrollbox = {
+						size = { 445 560 }
+						layoutpolicy_vertical = expanding
 
-								background = {
-									using = Background_Area
-								}
-								background = {
-									using = Background_Area_Light
-									visible = "[GetScriptedGui( 'aeluran_bl_is_selected' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
-								}
+						blockoverride "scrollbox_content" {
+							vbox = {
+								datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_bloodlines' )]"
 
-								portrait_head_small = {
-									position = { 4 0 }
-								}
-								text_single = {
-									position = { 100 8 }
-									text = "[Character.GetShortUIName]"
-									using = Font_Size_Medium
-								}
-								text_single = {
-									position = { 100 36 }
-									text = "AELURAN_BL_ROW_INFO"
-								}
-								text_single = {
-									position = { 100 58 }
-									text = "AELURAN_BL_ROW_WORTH"
-								}
+								item = {
+									widget = {
+										size = { 430 100 }
+										datacontext = "[Scope.GetCharacter]"
 
-								button_standard = {
-									parentanchor = right|vcenter
-									position = { -12 0 }
-									size = { 110 36 }
-									text = "AELURAN_BL_SELECT"
-									onclick = "[GetScriptedGui( 'aeluran_bl_select' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+										background = {
+											using = Background_Area
+										}
+										background = {
+											using = Background_Area_Light
+											visible = "[GetScriptedGui( 'aeluran_bl_is_chosen' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+										}
+
+										portrait_head_small = {
+											position = { 4 5 }
+										}
+										text_single = {
+											position = { 95 6 }
+											max_width = 150
+											text = "[Character.GetShortUIName]"
+											using = Font_Size_Medium
+										}
+										text_single = {
+											position = { 95 30 }
+											max_width = 150
+											text = "AELURAN_BL_ROW_INFO"
+										}
+										text_single = {
+											position = { 95 50 }
+											max_width = 150
+											text = "AELURAN_BL_ROW_WORTH"
+										}
+										button_standard = {
+											position = { 95 70 }
+											size = { 100 26 }
+											text = "AELURAN_BL_CHOOSE_BTN"
+											tooltip = "AELURAN_BL_CHOOSE_BTN_TT"
+											onclick = "[GetScriptedGui( 'aeluran_bl_choose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+										}
+
+										flowcontainer = {
+											position = { 238 24 }
+											spacing = 2
+
+											flowcontainer = {
+												datamodel = "[Character.MakeScope.GetList( 'aeluran_bl_spouses' )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														datacontext = "[Scope.GetCharacter]"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														portrait_button = {
+															parentanchor = bottom|hcenter
+															size = { 44 55 }
+															using = portrait_base
+															portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+															mask = "gfx/portraits/portrait_mask_head_small.dds"
+															effectname = "NoHighlight"
+														}
+													}
+												}
+											}
+
+											flowcontainer = {
+												datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														icon = {
+															parentanchor = bottom|hcenter
+															size = { 40 50 }
+															texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+															framesize = { 384 480 }
+															frame = 1
+															alpha = 0.6
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				# Matches for the chosen noble
+				vbox = {
+					layoutpolicy_vertical = expanding
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						margin = { 10 6 }
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
+						text = "AELURAN_BL_RIGHT_TITLE"
+						using = Font_Size_Medium
+					}
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						margin = { 10 6 }
+						visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet )]"
+						text = "AELURAN_BL_RIGHT_TITLE_NONE"
+						using = Font_Size_Medium
+					}
+
+					scrollbox = {
+						size = { 445 560 }
+						layoutpolicy_vertical = expanding
+
+						blockoverride "scrollbox_content" {
+							vbox = {
+								datamodel = "[GetPlayer.MakeScope.GetList( 'aeluran_bl_matches' )]"
+
+								item = {
+									widget = {
+										size = { 430 100 }
+										datacontext = "[Scope.GetCharacter]"
+
+										background = {
+											using = Background_Area
+										}
+
+										portrait_head_small = {
+											position = { 4 5 }
+										}
+										text_single = {
+											position = { 95 6 }
+											max_width = 150
+											text = "[Character.GetShortUIName]"
+											using = Font_Size_Medium
+										}
+										text_single = {
+											position = { 95 30 }
+											max_width = 150
+											text = "AELURAN_BL_ROW_INFO"
+										}
+										text_single = {
+											position = { 95 50 }
+											max_width = 150
+											text = "AELURAN_BL_ROW_WORTH"
+										}
+										button_standard = {
+											position = { 95 70 }
+											size = { 100 26 }
+											text = "AELURAN_BL_PROPOSE"
+											enabled = "[GetScriptedGui( 'aeluran_bl_propose_match' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+											tooltip = "[GetScriptedGui( 'aeluran_bl_propose_match' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+											onclick = "[GetScriptedGui( 'aeluran_bl_propose_match' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope( 'target', Character.MakeScope ).End )]"
+										}
+
+										flowcontainer = {
+											position = { 238 24 }
+											spacing = 2
+
+											flowcontainer = {
+												datamodel = "[Character.MakeScope.GetList( 'aeluran_bl_spouses' )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														datacontext = "[Scope.GetCharacter]"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														portrait_button = {
+															parentanchor = bottom|hcenter
+															size = { 44 55 }
+															using = portrait_base
+															portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+															mask = "gfx/portraits/portrait_mask_head_small.dds"
+															effectname = "NoHighlight"
+														}
+													}
+												}
+											}
+
+											flowcontainer = {
+												datamodel = "[GetNullCharacterDataModel( Character.CalcUnusedSpouseSlots )]"
+												spacing = 2
+
+												item = {
+													widget = {
+														size = { 46 50 }
+														tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
+
+														background = {
+															texture = "gfx/portraits/portrait_frame.dds"
+															using = Color_Grey
+															alpha = 0.4
+														}
+														icon = {
+															parentanchor = bottom|hcenter
+															size = { 40 50 }
+															texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+															framesize = { 384 480 }
+															frame = 1
+															alpha = 0.6
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -415,6 +586,7 @@ window = {
 				}
 			}
 		}
+
 		###########
 		# Sisters #
 		###########
