@@ -1067,14 +1067,30 @@ window = {
 												using = Color_Grey
 												alpha = 0.4
 											}
-											portrait_button = {
-												parentanchor = bottom|hcenter
-												size = { 44 55 }
+											# Everything inside reads the Matron
+											widget = {
+												size = { 46 50 }
 												datacontext = "[Scope.Var( 'aeluran_bl_matron' ).GetCharacter]"
-												using = portrait_base
-												portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
-												mask = "gfx/portraits/portrait_mask_head_small.dds"
-												effectname = "NoHighlight"
+
+												portrait_button = {
+													parentanchor = bottom|hcenter
+													size = { 44 55 }
+													using = portrait_base
+													portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+													mask = "gfx/portraits/portrait_mask_head_small.dds"
+													effectname = "NoHighlight"
+												}
+												# Her title's shield and her opinion of you, as on vanilla portraits
+												coa_realm_tiny = {
+													visible = "[Character.HasLandedTitles]"
+													parentanchor = bottom|left
+													position = { -8 6 }
+													scale = 0.6
+												}
+												portrait_opinion_small = {
+													parentanchor = bottom|right
+													position = { 6 6 }
+												}
 											}
 										}
 										flowcontainer = {
