@@ -434,8 +434,17 @@ window = {
 										visible = "[And( Trait.IsValid, Or( Trait.IsGenetic, Trait.IsInheritable ) )]"
 										icon_trait = {
 											blockoverride "icon_size" { size = { 34 34 } }
+											# Both parents have it: an upgrade arrow when the child could get the next tier (a tiered genetic trait below
+											# its group's top tier, as the Arrange Marriage window shows), otherwise the reinforced check
 											highlight_icon = {
-												visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.HasTrait( Trait.Self )]"
+												visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.HasTrait( Trait.Self ), And( Trait.HasTraitGroup, Not( Or( Or( Or( Or( Or( Or( Or( Or( EqualTo_string( Trait.GetKey, 'beauty_good_4' ), EqualTo_string( Trait.GetKey, 'intellect_good_4' ) ), EqualTo_string( Trait.GetKey, 'physique_good_4' ) ), EqualTo_string( Trait.GetKey, 'beauty_bad_3' ) ), EqualTo_string( Trait.GetKey, 'intellect_bad_3' ) ), EqualTo_string( Trait.GetKey, 'physique_bad_3' ) ), EqualTo_string( Trait.GetKey, 'exotic_beauty_good_3' ) ), EqualTo_string( Trait.GetKey, 'unconventional_beauty_good_3' ) ), EqualTo_string( Trait.GetKey, 'magic_talent_3' ) ) ) ) )]"
+												position = { 14 12 }
+												size = { 24 24 }
+												texture = "gfx/interface/icons/symbols/icon_arrow_green_down.dds"
+												mirror = vertical
+											}
+											highlight_icon = {
+												visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.HasTrait( Trait.Self ), Not( And( Trait.HasTraitGroup, Not( Or( Or( Or( Or( Or( Or( Or( Or( EqualTo_string( Trait.GetKey, 'beauty_good_4' ), EqualTo_string( Trait.GetKey, 'intellect_good_4' ) ), EqualTo_string( Trait.GetKey, 'physique_good_4' ) ), EqualTo_string( Trait.GetKey, 'beauty_bad_3' ) ), EqualTo_string( Trait.GetKey, 'intellect_bad_3' ) ), EqualTo_string( Trait.GetKey, 'physique_bad_3' ) ), EqualTo_string( Trait.GetKey, 'exotic_beauty_good_3' ) ), EqualTo_string( Trait.GetKey, 'unconventional_beauty_good_3' ) ), EqualTo_string( Trait.GetKey, 'magic_talent_3' ) ) ) ) ) )]"
 												position = { 14 14 }
 												size = { 24 24 }
 												texture = "gfx/interface/icons/symbols/icon_check.dds"
