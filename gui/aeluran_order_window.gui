@@ -339,37 +339,60 @@ window = {
 			
 				expand = {}
 			
-				# You, their shepherd
-				widget = {
-					size = { 55 60 }
-					tooltip = "AELURAN_BL_PANEL_YOU_TT"
-			
-					background = {
-						texture = "gfx/portraits/portrait_frame.dds"
-						using = Color_Grey
-						alpha = 0.5
-					}
+								vbox = {
+					spacing = 4
 					widget = {
 						size = { 55 60 }
-						visible = "[GetPlayer.IsValid]"
+						tooltip = "AELURAN_BL_PANEL_YOU_TT"
+				
+						background = {
+							texture = "gfx/portraits/portrait_frame.dds"
+							using = Color_Grey
+							alpha = 0.5
+						}
+						widget = {
+							size = { 55 60 }
+							visible = "[GetPlayer.IsValid]"
+							portrait_button = {
+								parentanchor = bottom|hcenter
+								size = { 53 66 }
+								datacontext = "[GetPlayer]"
+								using = portrait_base
+								portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+								mask = "gfx/portraits/portrait_mask_head_small.dds"
+								effectname = "NoHighlight"
+							}
+						}
+						icon = {
+							parentanchor = bottom|hcenter
+							size = { 47 60 }
+							visible = "[Not( GetPlayer.IsValid )]"
+							texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+							framesize = { 384 480 }
+							frame = 1
+							alpha = 0.5
+						}
+					}
+					# Their liege, smaller
+					widget = {
+						size = { 40 44 }
+						tooltip = "AELURAN_BL_PANEL_FIRST_LIEGE_TT"
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege.IsValid]"
+					
+						background = {
+							texture = "gfx/portraits/portrait_frame.dds"
+							using = Color_Grey
+							alpha = 0.5
+						}
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 53 66 }
-							datacontext = "[GetPlayer]"
+							size = { 38 48 }
+							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetLiege]"
 							using = portrait_base
 							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 							mask = "gfx/portraits/portrait_mask_head_small.dds"
 							effectname = "NoHighlight"
 						}
-					}
-					icon = {
-						parentanchor = bottom|hcenter
-						size = { 47 60 }
-						visible = "[Not( GetPlayer.IsValid )]"
-						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
-						framesize = { 384 480 }
-						frame = 1
-						alpha = 0.5
 					}
 				}
 				# The chosen noble
@@ -539,37 +562,60 @@ window = {
 						alpha = 0.5
 					}
 				}
-				# The match's Matron (aeluran_bl_select_match)
-				widget = {
-					size = { 55 60 }
-					tooltip = "AELURAN_BL_PANEL_MATRON_TT"
-			
-					background = {
-						texture = "gfx/portraits/portrait_frame.dds"
-						using = Color_Grey
-						alpha = 0.5
-					}
+								vbox = {
+					spacing = 4
 					widget = {
 						size = { 55 60 }
-						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet]"
+						tooltip = "AELURAN_BL_PANEL_MATRON_TT"
+				
+						background = {
+							texture = "gfx/portraits/portrait_frame.dds"
+							using = Color_Grey
+							alpha = 0.5
+						}
+						widget = {
+							size = { 55 60 }
+							visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet]"
+							portrait_button = {
+								parentanchor = bottom|hcenter
+								size = { 53 66 }
+								datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter]"
+								using = portrait_base
+								portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+								mask = "gfx/portraits/portrait_mask_head_small.dds"
+								effectname = "NoHighlight"
+							}
+						}
+						icon = {
+							parentanchor = bottom|hcenter
+							size = { 47 60 }
+							visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet )]"
+							texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+							framesize = { 384 480 }
+							frame = 1
+							alpha = 0.5
+						}
+					}
+					# Their liege, smaller
+					widget = {
+						size = { 40 44 }
+						tooltip = "AELURAN_BL_PANEL_SECOND_LIEGE_TT"
+						visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege.IsValid]"
+					
+						background = {
+							texture = "gfx/portraits/portrait_frame.dds"
+							using = Color_Grey
+							alpha = 0.5
+						}
 						portrait_button = {
 							parentanchor = bottom|hcenter
-							size = { 53 66 }
-							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter]"
+							size = { 38 48 }
+							datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetLiege]"
 							using = portrait_base
 							portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 							mask = "gfx/portraits/portrait_mask_head_small.dds"
 							effectname = "NoHighlight"
 						}
-					}
-					icon = {
-						parentanchor = bottom|hcenter
-						size = { 47 60 }
-						visible = "[Not( GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet )]"
-						texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
-						framesize = { 384 480 }
-						frame = 1
-						alpha = 0.5
 					}
 				}
 			
