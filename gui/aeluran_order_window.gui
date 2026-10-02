@@ -143,12 +143,24 @@ window = {
 										datamodel = "[Character.MakeScope.GetList( 'aeluran_order_spouses' )]"
 										spacing = 2
 
+										# A small portrait built at its own size (scale would also shrink its position)
 										item = {
 											widget = {
-												size = { 47 50 }
-												portrait_head_small = {
-													datacontext = "[Scope.GetCharacter]"
-													scale = 0.55
+												size = { 46 50 }
+												datacontext = "[Scope.GetCharacter]"
+
+												background = {
+													texture = "gfx/portraits/portrait_frame.dds"
+													using = Color_Grey
+													alpha = 0.4
+												}
+												portrait_button = {
+													parentanchor = bottom|hcenter
+													size = { 44 55 }
+													using = portrait_base
+													portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+													mask = "gfx/portraits/portrait_mask_head_small.dds"
+													effectname = "NoHighlight"
 												}
 											}
 										}
@@ -160,10 +172,21 @@ window = {
 
 										item = {
 											widget = {
-												size = { 47 50 }
+												size = { 46 50 }
 												tooltip = "AELURAN_ORDER_EMPTY_SPOUSE_SLOT"
-												portrait_head_small = {
-													scale = 0.55
+
+												background = {
+													texture = "gfx/portraits/portrait_frame.dds"
+													using = Color_Grey
+													alpha = 0.4
+												}
+												icon = {
+													parentanchor = bottom|hcenter
+													size = { 40 50 }
+													texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+													framesize = { 384 480 }
+													frame = 1
+													alpha = 0.6
 												}
 											}
 										}
