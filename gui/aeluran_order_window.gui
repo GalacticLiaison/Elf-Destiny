@@ -10,7 +10,7 @@
 window = {
 	name = "aeluran_order_window"
 	parentanchor = center
-	size = { 990 900 }
+	size = { 990 940 }
 	layer = middle
 	allow_outside = yes
 	movable = yes
@@ -405,12 +405,97 @@ window = {
 						alpha = 0.5
 					}
 				}
-				button_standard = {
-					size = { 150 40 }
-					text = "AELURAN_BL_PROPOSE"
-					enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-					onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+				# Centre: what the match would bring (congenital traits, marriage type), the button, and the matrilineal toggle
+				vbox = {
+					spacing = 4
+					minimumsize = { 280 185 }
+
+					expand = {}
+				
+					# Congenital traits the children could inherit (as the Arrange Marriage window shows them): the noble's, then the
+					# match's that the noble lacks. A check marks a trait both have (reinforced). Vanilla's MatchOffer, which also knows
+					# upgrades, exists only inside its marriage window, so this is built from the two characters' traits.
+					vbox = {
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						text_single = {
+							text = "INHERITABLE_TRAITS"
+							default_format = "#low"
+						}
+						flowcontainer = {
+							spacing = 2
+							ignoreinvisible = yes
+							flowcontainer = {
+								datamodel = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetTraitsForCharacter]"
+								ignoreinvisible = yes
+								spacing = 2
+								item = {
+									container = {
+										datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter]"
+										visible = "[And( Trait.IsValid, Or( Trait.IsGenetic, Trait.IsInheritable ) )]"
+										icon_trait = {
+											blockoverride "icon_size" { size = { 34 34 } }
+											highlight_icon = {
+												visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.HasTrait( Trait.Self )]"
+												position = { 14 14 }
+												size = { 24 24 }
+												texture = "gfx/interface/icons/symbols/icon_check.dds"
+											}
+										}
+									}
+								}
+							}
+							flowcontainer = {
+								datamodel = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetTraitsForCharacter]"
+								ignoreinvisible = yes
+								spacing = 2
+								item = {
+									container = {
+										datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter]"
+										visible = "[And( And( Trait.IsValid, Or( Trait.IsGenetic, Trait.IsInheritable ) ), Not( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.HasTrait( Trait.Self ) ) )]"
+										icon_trait = {
+											blockoverride "icon_size" { size = { 34 34 } }
+										}
+									}
+								}
+							}
+						}
+					}
+				
+					# Marriage type: whose house the children are born into
+					hbox = {
+						visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet, GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet )]"
+						spacing = 6
+						icon = {
+							size = { 36 36 }
+							texture = "gfx/interface/icons/marriage_types.dds"
+							framesize = { 60 60 }
+							frame = "[BoolTo1And2( GetScriptedGui( 'aeluran_bl_is_matrilineal' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+						}
+						text_single = {
+							text = "AELURAN_BL_CHILDREN_HOUSE"
+						}
+					}
+				
+					button_standard = {
+						size = { 150 40 }
+						text = "AELURAN_BL_PROPOSE"
+						enabled = "[GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+				
+					button_checkbox_label = {
+						enabled = "[GetScriptedGui( 'aeluran_bl_toggle_matrilineal' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						onclick = "[GetScriptedGui( 'aeluran_bl_toggle_matrilineal' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						tooltip = "AELURAN_BL_MATRILINEAL_TT"
+						blockoverride "checkbox" {
+							checked = "[GetScriptedGui( 'aeluran_bl_is_matrilineal' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						}
+						blockoverride "text" {
+							text = "AELURAN_BL_MATRILINEAL"
+						}
+					}
+					expand = {}
 				}
 				# The selected match
 				widget = {
@@ -499,7 +584,7 @@ window = {
 					}
 
 					scrollbox = {
-						size = { 445 560 }
+						size = { 445 480 }
 						layoutpolicy_vertical = expanding
 
 						blockoverride "scrollbox_content" {
@@ -680,7 +765,7 @@ window = {
 					}
 
 					scrollbox = {
-						size = { 445 560 }
+						size = { 445 480 }
 						layoutpolicy_vertical = expanding
 
 						blockoverride "scrollbox_content" {

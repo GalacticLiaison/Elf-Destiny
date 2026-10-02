@@ -257,6 +257,15 @@ aeluran_bl_propose = {
 	effect = {
 		var:aeluran_bl_first = { save_scope_as = bl_a }
 		var:aeluran_bl_second = { save_scope_as = bl_b }
+		if = {
+			limit = { has_variable = aeluran_bl_matrilineal }
+			save_scope_value_as = { name = bl_matrilineal_choice value = flag:matrilineal }
+		}
+		else = {
+			save_scope_value_as = { name = bl_matrilineal_choice value = flag:patrilineal }
+		}
+		if = { limit = { has_variable = aeluran_bl_matrilineal } remove_variable = aeluran_bl_matrilineal }
+		if = { limit = { has_variable = aeluran_bl_house_parent } remove_variable = aeluran_bl_house_parent }
 		if = { limit = { has_variable = aeluran_bl_match_matron } remove_variable = aeluran_bl_match_matron }
 		remove_variable = aeluran_bl_first
 		remove_variable = aeluran_bl_second
@@ -302,6 +311,8 @@ aeluran_bl_choose = {
 	saved_scopes = { target }
 
 	effect = {
+		if = { limit = { has_variable = aeluran_bl_matrilineal } remove_variable = aeluran_bl_matrilineal }
+		if = { limit = { has_variable = aeluran_bl_house_parent } remove_variable = aeluran_bl_house_parent }
 		if = { limit = { has_variable = aeluran_bl_match_matron } remove_variable = aeluran_bl_match_matron }
 		if = { limit = { has_variable = aeluran_bl_second } remove_variable = aeluran_bl_second }
 		if = {
@@ -380,6 +391,7 @@ aeluran_bl_select_match = {
 			}
 			scope:bl_match_matron ?= { root = { set_variable = { name = aeluran_bl_match_matron value = prev } } }
 		}
+		aeluran_bloodlines_default_marriage_type_effect = yes
 	}
 }
 
@@ -390,5 +402,34 @@ aeluran_bl_is_match_selected = {
 
 	is_shown = {
 		var:aeluran_bl_second ?= scope:target
+	}
+}
+
+# The Matchmaking panel's Matrilineal Marriage checkbox (needs both picked)
+aeluran_bl_toggle_matrilineal = {
+	scope = character
+
+	is_valid = {
+		exists = var:aeluran_bl_first
+		exists = var:aeluran_bl_second
+	}
+
+	effect = {
+		if = {
+			limit = { has_variable = aeluran_bl_matrilineal }
+			remove_variable = aeluran_bl_matrilineal
+		}
+		else = {
+			set_variable = { name = aeluran_bl_matrilineal value = yes }
+		}
+		aeluran_bloodlines_update_house_parent_effect = yes
+	}
+}
+
+aeluran_bl_is_matrilineal = {
+	scope = character
+
+	is_shown = {
+		has_variable = aeluran_bl_matrilineal
 	}
 }

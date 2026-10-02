@@ -121,7 +121,8 @@ aeluran_bloodlines_refused_effect = {
 	}
 }
 
-# The match is made. Two adults wed, otherwise they are betrothed. Matrilineal when the woman rules and outranks the man.
+# The match is made. Two adults wed, otherwise they are betrothed. Matrilineal as the proposer chose on the Matchmaking
+# panel (scope:bl_matrilineal_choice); without a choice (AI), when the woman rules and outranks the man.
 aeluran_bloodlines_finalize_effect = {
 	if = {
 		limit = { scope:bl_a = { is_female = yes } }
@@ -133,6 +134,13 @@ aeluran_bloodlines_finalize_effect = {
 		scope:bl_a = { save_scope_as = bl_man }
 	}
 	if = {
+		limit = { exists = scope:bl_matrilineal_choice }
+		if = {
+			limit = { scope:bl_matrilineal_choice = flag:matrilineal }
+			save_scope_value_as = { name = bl_matrilineal value = yes }
+		}
+	}
+	else_if = {
 		limit = {
 			scope:bl_woman = { is_ruler = yes }
 			OR = {
@@ -261,6 +269,56 @@ aeluran_bloodlines_build_matches_effect = {
 				set_variable = { name = aeluran_bl_home value = location.county.clerical_region_title }
 			}
 			scope:bl_shepherd = { add_to_variable_list = { name = aeluran_bl_matches target = prev } }
+		}
+	}
+}
+
+# Root = the shepherd, with var:aeluran_bl_first and var:aeluran_bl_second picked on the Matchmaking panel. Defaults the
+# marriage type the way an AI match would be made (matrilineal when the woman rules and outranks the man).
+aeluran_bloodlines_default_marriage_type_effect = {
+	if = { limit = { has_variable = aeluran_bl_matrilineal } remove_variable = aeluran_bl_matrilineal }
+	if = {
+		limit = { exists = var:aeluran_bl_first exists = var:aeluran_bl_second }
+		if = {
+			limit = { var:aeluran_bl_first = { is_female = yes } }
+			var:aeluran_bl_first = { save_scope_as = bl_woman }
+			var:aeluran_bl_second = { save_scope_as = bl_man }
+		}
+		else = {
+			var:aeluran_bl_second = { save_scope_as = bl_woman }
+			var:aeluran_bl_first = { save_scope_as = bl_man }
+		}
+		if = {
+			limit = {
+				scope:bl_woman = { is_ruler = yes }
+				OR = {
+					scope:bl_man = { is_ruler = no }
+					scope:bl_woman.highest_held_title_tier > scope:bl_man.highest_held_title_tier
+				}
+			}
+			set_variable = { name = aeluran_bl_matrilineal value = yes }
+		}
+	}
+	aeluran_bloodlines_update_house_parent_effect = yes
+}
+
+# Root = the shepherd. var:aeluran_bl_house_parent = whose house the children of the picked pair would be born into: the
+# woman's when matrilineal (var:aeluran_bl_matrilineal), else the man's. For the panel's marriage-type line.
+aeluran_bloodlines_update_house_parent_effect = {
+	if = { limit = { has_variable = aeluran_bl_house_parent } remove_variable = aeluran_bl_house_parent }
+	if = {
+		limit = { exists = var:aeluran_bl_first exists = var:aeluran_bl_second }
+		if = {
+			limit = {
+				OR = {
+					AND = { has_variable = aeluran_bl_matrilineal var:aeluran_bl_first = { is_female = yes } }
+					AND = { NOT = { has_variable = aeluran_bl_matrilineal } var:aeluran_bl_first = { is_female = no } }
+				}
+			}
+			set_variable = { name = aeluran_bl_house_parent value = var:aeluran_bl_first }
+		}
+		else = {
+			set_variable = { name = aeluran_bl_house_parent value = var:aeluran_bl_second }
 		}
 	}
 }
