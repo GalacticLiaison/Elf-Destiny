@@ -122,22 +122,26 @@ aeluran_fill_advisor_post_effect = {
 	trigger_event = aeluran_diarchy.100
 }
 
-# Root = the ruler whose post is being filled; scope:aeluran_sister_advisor = the Sister chosen by the appointer.
+# Scope = the ruler whose post is being filled; scope:aeluran_sister_advisor = the Sister chosen by the appointer.
+# Called from interactions, where root is unset: the ruler is saved from the current scope, never read from root.
 aeluran_appoint_chosen_advisor_effect = {
+	save_scope_as = advisor_post
 	save_scope_value_as = { name = advisor_type value = flag:chosen }
 	scope:aeluran_sister_advisor = {
-		set_variable = { name = appointed_to_advise value = root }
+		set_variable = { name = appointed_to_advise value = scope:advisor_post }
 	}
 	aeluran_fill_advisor_post_effect = yes
 }
 
-# Root = the ruler whose post is being filled; the appointer sends for a newly trained Sister from Deepwood.
+# Scope = the ruler whose post is being filled; the appointer sends for a newly trained Sister from Deepwood.
+# Called from interactions, where root is unset (see above).
 aeluran_appoint_novice_advisor_effect = {
+	save_scope_as = advisor_post
 	save_scope_value_as = { name = advisor_type value = flag:sent_from_deepwood }
 	save_scope_value_as = { name = aeluran_advisor_coming_from_sanctum value = yes }
 	create_aeluran_advisor_effect = yes
 	scope:aeluran_sister_advisor ?= {
-		set_variable = { name = appointed_to_advise value = root }
+		set_variable = { name = appointed_to_advise value = scope:advisor_post }
 	}
 	aeluran_fill_advisor_post_effect = yes
 }

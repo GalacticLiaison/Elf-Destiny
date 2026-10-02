@@ -22,6 +22,16 @@ aeluran_order_refresh = {
 		clear_variable_list = aeluran_order_flock
 		save_scope_as = flock_shepherd
 		aeluran_order_set_focus_effect = yes
+		# Sisters still promised to a ruler purged from the save hold an empty appointed_to_advise: clear it so they can
+		# be appointed again
+		every_living_character = {
+			limit = {
+				has_trait = aeluran_sister
+				has_variable = appointed_to_advise
+				NOT = { exists = var:appointed_to_advise }
+			}
+			remove_variable = appointed_to_advise
+		}
 		set_variable = { name = aeluran_flock_piety value = 0 }
 		every_ruler = {
 			limit = {

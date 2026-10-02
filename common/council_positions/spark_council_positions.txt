@@ -190,8 +190,12 @@ councillor_aeluran_advisor = {
 
 		is_aeluran_sister_or_higher = yes
 
-		has_variable = appointed_to_advise
-		var:appointed_to_advise = liege
+		# Appointed to this ruler (exists = var: also fails, without an error, when the variable names a purged character)
+		exists = var:appointed_to_advise
+		trigger_if = {
+			limit = { exists = var:appointed_to_advise }
+			var:appointed_to_advise = liege
+		}
 
 		# trigger_if = {
 		# 	limit = {

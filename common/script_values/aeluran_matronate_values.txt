@@ -204,17 +204,21 @@ aeluran_advisor_candidate_score = {
 	value = learning
 	multiply = 2
 	add = diplomacy
+	# scope:advisor_post can be missing when the game builds tooltips for the candidate list
 	if = {
-		limit = { culture = scope:advisor_post.culture }
-		add = 10
-	}
-	if = {
-		limit = { rite = scope:advisor_post.rite }
-		add = 10
-	}
-	add = {
-		value = "opinion(scope:advisor_post)"
-		divide = 5
+		limit = { exists = scope:advisor_post }
+		if = {
+			limit = { culture = scope:advisor_post.culture }
+			add = 10
+		}
+		if = {
+			limit = { rite = scope:advisor_post.rite }
+			add = 10
+		}
+		add = {
+			value = "opinion(scope:advisor_post)"
+			divide = 5
+		}
 	}
 }
 

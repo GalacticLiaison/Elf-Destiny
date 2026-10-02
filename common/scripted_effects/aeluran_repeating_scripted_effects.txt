@@ -80,7 +80,9 @@ determine_new_aeluran_advisor_effect = {
 }
 
 
+# Scope = the ruler the new Sister is for. Never reads root: it is also called from interactions, where root is unset.
 create_aeluran_advisor_effect = {
+    save_scope_as = new_advisor_for
     # Dark Elf rulers (or anyone whose rite is one of the Dark Sisters chapters) are sent a Dark Sister of their own culture
     if = {
         limit = {
@@ -93,8 +95,8 @@ create_aeluran_advisor_effect = {
             template = dark_aeluran_sister_advisor
             dynasty = none
             location = title:b_cykma.title_province
-            faith = root.faith
-            culture = root.culture
+            faith = scope:new_advisor_for.faith
+            culture = scope:new_advisor_for.culture
             save_scope_as = aeluran_sister_advisor
 
             after_creation = {
@@ -110,9 +112,9 @@ create_aeluran_advisor_effect = {
             dynasty = none
             location = title:b_cykma.title_province
             # faith = global_var:high_matriarch.faith # swapped out so advisor matches players aeluran faith variant and protects against matriarch grabbing human faith
-            faith = root.faith
-            # culture = root.culture
-            random_culture_in_group = root.culture
+            faith = scope:new_advisor_for.faith
+            # culture = scope:new_advisor_for.culture
+            random_culture_in_group = scope:new_advisor_for.culture
             save_scope_as = aeluran_sister_advisor
 
             after_creation = {
@@ -129,7 +131,7 @@ create_aeluran_advisor_effect = {
             exists = rite
         }
         scope:aeluran_sister_advisor = {
-            set_character_rite = root.rite
+            set_character_rite = scope:new_advisor_for.rite
         }
     }
 }

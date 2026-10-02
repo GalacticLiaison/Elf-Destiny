@@ -10,7 +10,12 @@ aeluran_advisor_candidate_trigger = {
 	is_imprisoned = no
 	NOT = { this = $POST$ }
 	NOT = { has_council_position = councillor_aeluran_advisor }
-	NOT = { var:appointed_to_advise ?= { is_alive = yes } }
+	# Not already promised to a living ruler. exists = var: is the only error-free test: the variable can be set but
+	# empty when the ruler it named was purged from the save, and has_variable is true then.
+	trigger_if = {
+		limit = { exists = var:appointed_to_advise }
+		var:appointed_to_advise = { is_alive = no }
+	}
 	# A council seat needs a courtier or a vassal of the ruler
 	trigger_if = {
 		limit = { is_ruler = yes }
