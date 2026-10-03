@@ -1,0 +1,46 @@
+﻿tradition_elven_professionalism = {
+	category = elven
+
+	layers = {
+		0 = forest_bottom_layer.dds
+		1 = pattern_elf_1.dds
+		4 = conversation.dds
+	}
+
+	is_shown = {
+		any_player = {
+			is_any_elf_type = yes
+		}
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = elf_tradition_not_discovered
+			is_target_in_global_variable_list = {
+				name = discovered_traditions
+				target = flag:tradition_elven_professionalism
+			}
+		}
+	}
+
+	parameters = {
+		# Below are MAA that are unlocked by this tradition
+		unlock_maa_elven_spearguard = yes
+		unlock_maa_elven_swordguard = yes
+		unlock_maa_highguard = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 0	
+	}
+}
