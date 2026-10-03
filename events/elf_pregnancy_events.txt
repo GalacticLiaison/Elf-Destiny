@@ -50,14 +50,45 @@ elf_pregnancy_events.0001 = {
 	}
 }
 
-# Multi-birth adjustment
+# Multi-birth adjustment (trampoline).
+# Fires from on_pregnancy_mother. Defers the actual roll to .0003 with a
+# one-day delay so set_num_pregnancy_children is written *after* every
+# vanilla pregnancy event in the same on_action has finished its
+# immediate block.
+#
+# Why the delay is necessary: vanilla pregnancy.2001, pregnancy.2002 and
+# pregnancy.2050 each call `set_num_pregnancy_children = 1` in their own
+# hidden_effect. They are queued from the same on_pregnancy_mother
+# on_action as this event, so the resolution order between this event's
+# immediate and theirs is not guaranteed. When a vanilla one resolves
+# afterward, the count is stomped back to 1 while the having_X flag we
+# set on the mother stays - producing a "Six-pack Surprise" title
+# (or similar) on a single-child birth. A one-day delayed trigger_event
+# guarantees the body in .0003 runs strictly after all vanilla
+# on_pregnancy_mother events.
 elf_pregnancy_events.0002 = {
     hidden = yes
-	
+
     trigger = {
 		culture = {
 			has_cultural_parameter = multi_birthing
 		}
+	}
+
+	immediate = {
+		trigger_event = {
+			id = elf_pregnancy_events.0003
+			days = 1
+		}
+	}
+}
+
+# Multi-birth adjustment (deferred body, see .0002 for rationale).
+elf_pregnancy_events.0003 = {
+    hidden = yes
+
+	trigger = {
+		scope:mother = { is_pregnant = yes }
 	}
 
 	immediate = {
@@ -114,40 +145,32 @@ elf_pregnancy_events.0002 = {
 		}
 
 		## Assign number of children
-		random_list  = {
-			21 = {
-				set_num_pregnancy_children = 1
-			}
-			40 = {
-				set_num_pregnancy_children = 2
-			}
-			20 = {
-				set_num_pregnancy_children = 3
-				scope:mother = {
+		scope:mother = {
+			random_list  = {
+				21 = {
+					set_num_pregnancy_children = 1
+				}
+				40 = {
+					set_num_pregnancy_children = 2
+				}
+				20 = {
+					set_num_pregnancy_children = 3
 					add_character_flag = having_triplets
 				}
-			}
-			10 = {
-				set_num_pregnancy_children = 4
-				scope:mother = {
+				10 = {
+					set_num_pregnancy_children = 4
 					add_character_flag = having_quadruplets
 				}
-			}
-			5 = {
-				set_num_pregnancy_children = 5
-				scope:mother = {
+				5 = {
+					set_num_pregnancy_children = 5
 					add_character_flag = having_quintuplets
 				}
-			}
-			3 = {
-				set_num_pregnancy_children = 6
-				scope:mother = {
+				3 = {
+					set_num_pregnancy_children = 6
 					add_character_flag = having_sextuplets
 				}
-			}
-			1 = {
-				set_num_pregnancy_children = 7
-				scope:mother = {
+				1 = {
+					set_num_pregnancy_children = 7
 					add_character_flag = having_septuplets
 				}
 			}
