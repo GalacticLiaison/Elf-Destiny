@@ -1,0 +1,56 @@
+﻿# Matronate temples at game start, and the Red Sister temple markers (common/scripted_effects/aeluran_matronate_map_effects.txt).
+
+# Before the lobby, so the new temples are on the map players pick from. The Red Sisters who arrive later ask for
+# a temple (aeluran_diarchy.103) and find these.
+on_game_start = {
+	on_actions = {
+		aeluran_matronate_seed_temples
+	}
+}
+
+aeluran_matronate_seed_temples = {
+	effect = {
+		aeluran_matronate_seed_temples_effect = yes
+	}
+}
+
+# Red Sister temple markers (common/situation/situations/elf_dest_rs_temple_marker_situation.txt): a marker opens the
+# day a Red Sister takes a temple, and a full pass runs after the lobby and yearly as a backstop. Each marker checks
+# itself monthly and closes when its Sister is gone (the marker type's on_monthly).
+on_game_start_after_lobby = {
+	on_actions = {
+		aeluran_rs_temple_markers_sync
+	}
+}
+
+yearly_global_pulse = {
+	on_actions = {
+		aeluran_rs_temple_markers_sync
+	}
+}
+
+aeluran_rs_temple_markers_sync = {
+	effect = {
+		aeluran_matronate_map_sync_temple_markers_effect = yes
+	}
+}
+
+# Root = the new holder, scope:title = the title gained
+on_title_gain = {
+	on_actions = {
+		aeluran_rs_temple_marker_on_gain
+	}
+}
+
+aeluran_rs_temple_marker_on_gain = {
+	trigger = {
+		has_council_position = councillor_aeluran_advisor
+		scope:title = {
+			tier = tier_barony
+			title_province = { has_holding_type = church_holding }
+		}
+	}
+	effect = {
+		aeluran_matronate_map_sync_temple_markers_effect = yes
+	}
+}
