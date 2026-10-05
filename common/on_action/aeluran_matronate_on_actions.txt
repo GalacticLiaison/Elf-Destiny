@@ -73,6 +73,7 @@ aeluran_flock_piety_pulse = {
 yearly_global_pulse = {
 	on_actions = {
 		aeluran_matronate_ai_yearly
+		aeluran_see_yearly_sweep
 	}
 }
 
@@ -201,8 +202,10 @@ aeluran_matronate_on_death = {
 
 # Fired by code when a clerical region's holder and its capital county stop sharing a faith, or the faith stops supporting regions.
 # root = region holder, scope:title = region title, scope:county = its capital county, scope:reason = flag
-# Vanilla's handlers (pam_clergy_events.0051/.0052) destroy the title and strip the holder's lands; the mod's fork skips Matronates.
-# A Matron who leaves the faith gives up her Matronate to a raised Sister. Other mismatches are only recorded for now.
+# Vanilla's handlers (pam_clergy_events.0051/.0052) destroy the title and strip the holder's lands; the mod's fork skips
+# Matronates and sees whose seat turned Aeluran. A Matron who leaves the faith gives up her Matronate to a raised Sister.
+# A foreign see whose seat turned Aeluran is claimed for the Order once an elven ruler holds the seat and half its
+# counties are Aeluran (PM 2026-10-04); until then it stands and is re-checked as counties convert or change hands.
 on_clerical_region_faith_mismatch = {
 	on_actions = {
 		aeluran_matronate_faith_mismatch
@@ -213,15 +216,22 @@ aeluran_matronate_faith_mismatch = {
 	trigger = {
 		OR = {
 			scope:title = { aeluran_is_matronate_title_trigger = yes }
-			aeluran_see_falls_to_elves_trigger = yes
+			aeluran_see_seat_turned_aeluran_trigger = yes
 		}
 	}
 	effect = {
-		# A foreign region (an archdiocese) whose capital turned Aeluran under an elven ruler is destroyed
+		# A foreign region (an archdiocese) whose seat turned Aeluran
 		if = {
-			limit = { aeluran_see_falls_to_elves_trigger = yes }
-			debug_log = "Archdiocese capital turned Aeluran under an elven ruler: the see falls"
-			aeluran_see_falls_effect = yes
+			limit = { aeluran_see_seat_turned_aeluran_trigger = yes }
+			if = {
+				limit = { scope:title = { aeluran_see_claimable_trigger = yes } }
+				debug_log = "Archdiocese seat turned Aeluran under an elven ruler, half its counties Aeluran: the Order claims the see"
+				scope:title = { aeluran_see_claim_effect = yes }
+			}
+			else = {
+				debug_log = "Archdiocese seat turned Aeluran: the see stands until an elven ruler holds the seat and half its counties are Aeluran"
+				debug_log_scopes = yes
+			}
 		}
 		# A Matronate whose capital left the faith moves its capital to another Aeluran county of it
 		else_if = {
@@ -244,11 +254,43 @@ aeluran_matronate_faith_mismatch = {
 	}
 }
 
+# A foreign see whose seat is Aeluran is re-checked when a county inside it turns Aeluran or changes hands, and once a
+# year, and claimed once it qualifies (aeluran_see_claimable_trigger)
+# Root = the county that turned Aeluran
+aeluran_see_check_converted_county = {
+	trigger = {
+		clerical_region_title ?= { aeluran_see_claimable_trigger = yes }
+	}
+	effect = {
+		debug_log = "County turned Aeluran inside a foreign see that now qualifies: the Order claims the see"
+		clerical_region_title = { aeluran_see_claim_effect = yes }
+	}
+}
+
+# Root = the new holder, scope:title = the county gained
+aeluran_see_check_gained_county = {
+	trigger = {
+		scope:title = {
+			tier = tier_county
+			clerical_region_title ?= { aeluran_see_claimable_trigger = yes }
+		}
+	}
+	effect = {
+		debug_log = "County changed hands inside a foreign see that now qualifies: the Order claims the see"
+		scope:title.clerical_region_title = { aeluran_see_claim_effect = yes }
+	}
+}
+
+aeluran_see_yearly_sweep = {
+	effect = { aeluran_see_sweep_effect = yes }
+}
+
 # Matronates grow with their flock's realms: a county that changes hands, or turns Aeluran, joins the Matronate its
 # realm's capital lies in when it borders it (PM 2026-10-01)
 on_title_gain = {
 	on_actions = {
 		aeluran_matronate_absorb_gained_county
+		aeluran_see_check_gained_county
 	}
 }
 
@@ -267,6 +309,7 @@ aeluran_matronate_absorb_gained_county = {
 on_county_faith_change = {
 	on_actions = {
 		aeluran_matronate_absorb_converted_county
+		aeluran_see_check_converted_county
 	}
 }
 

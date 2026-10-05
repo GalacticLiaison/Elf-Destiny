@@ -151,14 +151,28 @@ aeluran_matronate_can_absorb_county_trigger = {
 	scope:matronate = { is_adjacent_to_clerical_region = prev }
 }
 
-# On a clerical region faith mismatch (root = region holder, scope:title, scope:county = its capital):
-# a foreign region (an archdiocese) whose capital turned Aeluran under an elven ruler is destroyed (PM 2026-10-01).
-aeluran_see_falls_to_elves_trigger = {
+# On a clerical region faith mismatch (root = region holder, scope:title, scope:county = its capital): a foreign
+# region (an archdiocese) whose seat just turned Aeluran. Vanilla's handlers leave it alone (events/dlc/pam fork) and
+# the Order claims it once aeluran_see_claimable_trigger holds: seat held by an elf and half the counties Aeluran
+# (PM 2026-10-04). A see whose seat turns early stands with an Aeluran seat until then.
+aeluran_see_seat_turned_aeluran_trigger = {
 	scope:reason = flag:county_converted
 	NOT = { scope:title = { aeluran_is_matronate_title_trigger = yes } }
-	scope:county = {
+	scope:county = { faith = faith:aeluran_weavers }
+}
+
+# Scope: a clerical region title. A foreign see the Order may claim as a Matronate: its seat is Aeluran under an
+# elven ruler, and at least half of its counties are Aeluran (PM 2026-10-04).
+aeluran_see_claimable_trigger = {
+	has_clerical_region = yes
+	NOT = { aeluran_is_matronate_title_trigger = yes }
+	title_capital_county ?= {
 		faith = faith:aeluran_weavers
 		holder ?= { is_any_elf_type = yes }
+	}
+	any_county_in_clerical_region = {
+		percent >= 0.5
+		faith = faith:aeluran_weavers
 	}
 }
 
