@@ -1,0 +1,16 @@
+﻿# Every Sister, Matron or Matriarch who rules land is on the Aeluran Order government (PM 2026-10-01). The title-gain
+# hook in common/on_action/elf_dest_title_on_actions.txt catches new rulers; this sweep runs yearly and heals saves
+# where a Sister was landed without the switch taking (PM 2026-10-04, after the 2026-10-02 "daughter stayed Tribal" report).
+aeluran_order_government_sweep_effect = {
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			is_aeluran_sister_or_higher = yes
+			NOT = { has_government = aeluran_weavers_government }
+		}
+		debug_log = "aeluran_order_government_sweep_effect: a ruling Sister moves to the Order government"
+		debug_log_scopes = yes
+		change_government = aeluran_weavers_government
+		aeluran_order_council_gender_purge_effect = yes
+	}
+}

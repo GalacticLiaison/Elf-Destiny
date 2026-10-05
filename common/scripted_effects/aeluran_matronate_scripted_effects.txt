@@ -560,30 +560,43 @@ aeluran_matronate_extend_effect = {
 	}
 }
 
-# Mismatch (root = the region's prelate, scope:title, scope:county): a foreign clerical region (an archdiocese) whose
-# capital turned Aeluran under an elven ruler is destroyed (PM 2026-10-01). The elven ruler celebrates; the prelate and
-# the rulers of his faith whose capital lies in it mourn it (events/aeluran/aeluran_see_events.txt). The title itself
-# goes a few days later, so those events can still name it.
-aeluran_see_falls_effect = {
-	save_scope_as = fallen_see_holder
-	faith = { save_scope_as = fallen_see_faith }
-	scope:title = { save_scope_as = fallen_see }
-	scope:county = {
+# Scope = a foreign clerical region title (an archdiocese) that aeluran_see_claimable_trigger allows: its seat is
+# Aeluran under an elven ruler and half its counties are Aeluran (PM 2026-10-04). The Order claims it as a Matronate.
+# It is never destroyed: a destroyed region keeps its counties in a dead region that blocks petitions and growth for
+# good (tested 2026-10-04). The elven ruler of the seat celebrates; the prelate and the rulers of his faith whose
+# capital lies in it mourn (events/aeluran/aeluran_see_events.txt). The Matron is the seat's ruler if she is a Sister
+# or an idle Matron, else the best Sister of her court, else one the Order sends.
+aeluran_see_claim_effect = {
+	clear_saved_scope = fallen_see
+	clear_saved_scope = fallen_see_holder
+	clear_saved_scope = fallen_see_faith
+	clear_saved_scope = fallen_see_capital
+	clear_saved_scope = see_conqueror
+	clear_saved_scope = outgoing_matron
+	clear_saved_scope = matronate_successor
+	save_scope_as = fallen_see
+	save_scope_as = matronate
+	holder ?= {
+		save_scope_as = fallen_see_holder
+		faith = { save_scope_as = fallen_see_faith }
+	}
+	title_capital_county = {
 		save_scope_as = fallen_see_capital
+		save_scope_as = matronate_capital
 		holder = { save_scope_as = see_conqueror }
 	}
-	scope:see_conqueror = {
-		trigger_event = aeluran_see.0001
-		trigger_event = {
-			id = aeluran_see.0009
-			days = 3
+	debug_log = "Archdiocese claimed for the Order"
+	debug_log_scopes = yes
+	# The news
+	scope:see_conqueror = { trigger_event = aeluran_see.0001 }
+	scope:fallen_see_holder ?= {
+		if = {
+			limit = { NOT = { this = scope:see_conqueror } }
+			trigger_event = aeluran_see.0002
 		}
 	}
 	if = {
-		limit = { NOT = { this = scope:see_conqueror } }
-		trigger_event = aeluran_see.0002
-	}
-	scope:fallen_see = {
+		limit = { exists = scope:fallen_see_faith }
 		every_ruler_in_clerical_region = {
 			limit = {
 				faith = scope:fallen_see_faith
@@ -594,6 +607,95 @@ aeluran_see_falls_effect = {
 			}
 			trigger_event = aeluran_see.0002
 		}
+	}
+	# Who takes it
+	scope:see_conqueror = { aeluran_see_pick_matron_effect = yes }
+	if = {
+		limit = { exists = scope:matronate_successor }
+		# Vanilla's on_title_lost (title_on_actions.txt, PAM block) means to take a Christian see that passes to another
+		# religion out of the Christian Church situation, but names a scope nothing sets (scope:landed_title) and logs
+		# three script errors instead. The bookkeeping is done here; vanilla's errors remain and are harmless.
+		if = {
+			limit = {
+				exists = situation:the_christian_church
+				scope:fallen_see_holder ?= { religion = religion:christianity_religion }
+			}
+			situation:the_christian_church.situation_sub_region:core ?= {
+				remove_clerical_realm_from_sub_region = scope:fallen_see
+			}
+		}
+		# A Matronate from here on: the flavorization names it "Matronate of ..." under its Aeluran holder
+		set_variable = aeluran_matronate
+		set_coa = title_capital_county
+		set_color_from_title = title_capital_county
+		set_no_automatic_claims = yes
+		set_can_be_named_after_dynasty = no
+		# Raised to Matron, put on the Order government, granted the title, sworn to the realm around it
+		aeluran_matronate_grant_effect = yes
+	}
+	else = {
+		debug_log = "Archdiocese claim found no Sister to take it"
+		debug_log_scopes = yes
+	}
+}
+
+# Once a year (aeluran_matronate_on_actions.txt): every foreign see that qualifies is claimed. Walks the counties of
+# elven Aeluran rulers, since a claimable see's seat is held by one; this also finds sees whose title was destroyed
+# (the 2.0.3 "see falls" path left dead regions behind), which the claim brings back to life as Matronates.
+aeluran_see_sweep_effect = {
+	every_ruler = {
+		limit = {
+			is_any_elf_type = yes
+			faith = faith:aeluran_weavers
+		}
+		every_held_title = {
+			limit = {
+				tier = tier_county
+				clerical_region_title ?= { aeluran_see_claimable_trigger = yes }
+			}
+			clerical_region_title = { add_to_temporary_list = aeluran_sees_to_claim }
+		}
+	}
+	# A see is listed once per county of it an elf holds; the first claim tags it and the rest skip
+	every_in_list = {
+		list = aeluran_sees_to_claim
+		limit = { NOT = { has_variable = aeluran_matronate } }
+		debug_log = "Yearly sweep: a foreign see qualifies, the Order claims it"
+		aeluran_see_claim_effect = yes
+	}
+}
+
+# Root = the elven ruler of a claimed see's seat. Picks who becomes its Matron into scope:matronate_successor
+# (scope:matronate_capital set): root herself if she may receive a Matronate, else the best Sister of her court,
+# else a Sister the Order sends to her court.
+aeluran_see_pick_matron_effect = {
+	if = {
+		limit = {
+			aeluran_may_receive_matronate_trigger = yes
+			aeluran_matronate_would_break_realm_trigger = no
+			# Only if she rules from inside it: a see far from her own realm is not hers to keep (as Matronate succession
+			# requires of a landed Sister)
+			aeluran_in_matronate_region_trigger = yes
+		}
+		save_scope_as = matronate_successor
+	}
+	else = {
+		ordered_courtier = {
+			limit = {
+				aeluran_may_receive_matronate_trigger = yes
+				is_adult = yes
+				is_imprisoned = no
+				is_ruler = no
+			}
+			order_by = aeluran_matronate_ai_found_score
+			save_scope_as = matronate_successor
+		}
+	}
+	if = {
+		limit = { NOT = { exists = scope:matronate_successor } }
+		aeluran_matronate_create_sister_effect = yes
+		# She comes to the ruler's court first: a Sister of no court could not be made Matron (tested 2026-10-01)
+		scope:matronate_successor ?= { set_employer = root }
 	}
 }
 
