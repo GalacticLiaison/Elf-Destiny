@@ -12,7 +12,7 @@ elf_destiny_misc_stories.txt
 elf_destiny_debug_menu.txt
 
 It was found by CK3 Log Analyzer in workshops
-![image.png](https://cdn.discordapp.com/attachments/1463089765514739785/1463089765837705351/image.png?ex=6a841987&is=6a82c807&hm=61cf0eb935481365a1ba43ab3a7680d6c83f77b0cc258eab26e996bbf4f63dcd&)
+![image.png](https://cdn.discordapp.com/attachments/1463089765514739785/1463089765837705351/image.png?ex=6ac40a47&is=6ac2b8c7&hm=23b2800ea98662ab2c8921e90eaf107bf8ea4e9dd4fda019345963e2f6bb4566&)
 ---
 
 ## Discussion (1 comment)

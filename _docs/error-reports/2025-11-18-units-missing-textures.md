@@ -5,9 +5,9 @@
 ## Report
 **jyhnddi** · *2025-11-18*
 It seems that the units on the map have no textures on their faces, hands, and horses. When testing this, I only loaded Elf Destiny.
-![Unit_Missing_Texture_Bug_3.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312459293491210/Unit_Missing_Texture_Bug_3.png?ex=6a844b02&is=6a82f982&hm=d1b0c8bf13162264b6026a2522775d1dd5c7380529f73b6dc0c8e4d52197593e&)
-![Unit_Missing_Texture_Bug_1.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312460233146430/Unit_Missing_Texture_Bug_1.png?ex=6a844b02&is=6a82f982&hm=0a967b2be57dd56c93566d7cc9f69178cd177da699c0b854e9d9967141b259bd&)
-![Unit_Missing_Texture_Bug_2.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312460908298292/Unit_Missing_Texture_Bug_2.png?ex=6a844b02&is=6a82f982&hm=2afbc60065b986daea5fa7e56edc9a8ca0c51e0e7837bddc3f96de5aadc5993e&)
+![Unit_Missing_Texture_Bug_3.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312459293491210/Unit_Missing_Texture_Bug_3.png?ex=6ac43bc2&is=6ac2ea42&hm=c60c272358a68a8dc2999c611cdc8ebfb231b360c9f07ec9f9ea9090de7968da&)
+![Unit_Missing_Texture_Bug_1.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312460233146430/Unit_Missing_Texture_Bug_1.png?ex=6ac43bc2&is=6ac2ea42&hm=5b8ad48e2ba5cca9882e6e6e29ab18bda99e75f429d2e0d52903108a93e242a8&)
+![Unit_Missing_Texture_Bug_2.png](https://cdn.discordapp.com/attachments/1440312457502392480/1440312460908298292/Unit_Missing_Texture_Bug_2.png?ex=6ac43bc2&is=6ac2ea42&hm=9b450fe73166e9664b997ab2222f3d6fb0c2018d12154ffb819b19ba13cd1a82&)
 ---
 
 ## Discussion (3 comments)

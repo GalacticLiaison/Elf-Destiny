@@ -1,0 +1,51 @@
+﻿# Red Sister temple marker: one tiny situation per temple a Red Sister holds, whose only job is its map pin. The engine
+# draws situation_map_pin_widget (gui/map_icon_layer.gui, the mod's fork) at a situation's centre province, and that is
+# the one way script can put a pin on any barony. The pin shows the Sister's portrait; the situation carries her in
+# var:aeluran_rs_temple_sister. Opened by aeluran_matronate_map_sync_temple_markers_effect
+# (common/scripted_effects/aeluran_matronate_map_effects.txt), run from common/on_action/aeluran_matronate_map_on_actions.txt
+# when a Red Sister gains a temple, after the lobby and yearly. Each marker checks itself monthly and closes when its
+# Sister is dead, off the seat or no longer holds the temple. Drawn only for Order members (gui/map_icon_layer.gui).
+
+aeluran_rs_temple_marker = {
+	window = situation
+	gui_window_name = "window_situation"
+	gui_participation_window_name = "window_situation_participation"
+	illustration = "gfx/interface/illustrations/terrain_types/forest.dds"
+	# natural_disasters is the one group the engine draws situation_map_pin_widget for (bisected 2026-10-03: a custom
+	# group, with or without a sub-region icon or a phase end date, draws nothing)
+	situation_group_type = natural_disasters
+
+	is_unique = no
+
+	# No land of its own: the pin comes from the centre province
+	sub_regions = {
+		aeluran_rs_marker_area = {
+			icon = "gfx/interface/icons/situation_types/aeluran_rs_temple_marker.dds"
+			map_color = { 200 160 60 }
+		}
+	}
+
+	# Nobody takes part (the pin draws without participants, tested 2026-10-03), so no HUD shortcut buttons appear
+	participant_groups = {
+		aeluran_rs_marker_nobody = {
+			auto_add_rulers = no
+			auto_add_landless_rulers = no
+			require_realm_in_sub_region = no
+			is_character_valid = { always = no }
+			map_color = { 200 160 60 }
+		}
+	}
+
+	# Root = the situation
+	on_monthly = {
+		aeluran_rs_temple_marker_self_check_effect = yes
+	}
+
+	start_phase = aeluran_rs_marker_standing
+
+	phases = {
+		aeluran_rs_marker_standing = {
+			icon = "gfx/interface/icons/situations/situation_modifier_faith.dds"
+		}
+	}
+}

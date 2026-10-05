@@ -1,0 +1,76 @@
+﻿# DORMANT (PM decision 2026-10-04): this situation is defined but never started. The hooks that started it are commented
+# out in common/on_action/aeluran_matronate_map_on_actions.txt, and the Order button opens the vanilla clerical-regions
+# map instead (gui/aeluran_order_button.gui). Why it exists: CK3 lets a mod add map modes only from the engine's fixed
+# colourings, and the situation colouring is the one that paints only a chosen set of counties. This situation painted
+# each Matronate in its own colour (sub-region slots synced from the clerical regions, see
+# common/scripted_effects/aeluran_matronate_map_effects.txt) and its own window (gui/window_aeluran_matronates.gui, a
+# fork of window_situation.gui) switched the map to it. Shelved because the vanilla clerical-regions map already colours
+# the Matronates and the Red Sister temple markers live on the political map. Kept for a fuller Aeluran Order situation
+# later. Full account: modkit reports/proposals/2026-10-02-matronate-map-mode.md.
+#
+# The Aeluran Order map ("The Aeluran Order" in game; key kept as aeluran_matronate_map): a situation whose only job is the map. Each Matronate fills one sub-region
+# (a "slot"), and the situation's sub-region map mode colours those and nothing else. Nobody participates and the
+# single phase does nothing. Slots 1-8 belong to the bookmark Matronates; founded ones take 9-20 in order.
+# Kept in step with the clerical regions by aeluran_matronate_map_sync_effect (common/scripted_effects/aeluran_matronate_map_effects.txt).
+
+aeluran_matronate_map = {
+	window = situation
+	gui_window_name = "window_aeluran_matronates"
+	gui_participation_window_name = "window_situation_participation"
+	illustration = "gfx/interface/illustrations/terrain_types/forest.dds"
+	situation_group_type = minor
+	map_mode = sub_regions
+
+	is_unique = yes
+
+	sub_regions = {
+		aeluran_mm_slot_1 = { map_color = { 46 139 87 } }	# Feyswood
+		aeluran_mm_slot_2 = { map_color = { 120 200 230 } }	# the Crystal Glades
+		aeluran_mm_slot_3 = { map_color = { 190 150 60 } }	# the High Hills
+		aeluran_mm_slot_4 = { map_color = { 200 70 120 } }	# Valusia
+		aeluran_mm_slot_5 = { map_color = { 110 50 150 } }	# Menzoberranzan
+		aeluran_mm_slot_6 = { map_color = { 40 90 200 } }	# the Middle Sea
+		aeluran_mm_slot_7 = { map_color = { 230 140 40 } }	# the Western Shores
+		aeluran_mm_slot_8 = { map_color = { 150 30 30 } }	# Svartalfaheim
+		aeluran_mm_slot_9 = { map_color = { 120 210 90 } }
+		aeluran_mm_slot_10 = { map_color = { 230 210 80 } }
+		aeluran_mm_slot_11 = { map_color = { 70 170 170 } }
+		aeluran_mm_slot_12 = { map_color = { 220 120 200 } }
+		aeluran_mm_slot_13 = { map_color = { 160 110 70 } }
+		aeluran_mm_slot_14 = { map_color = { 90 110 230 } }
+		aeluran_mm_slot_15 = { map_color = { 240 100 80 } }
+		aeluran_mm_slot_16 = { map_color = { 80 140 60 } }
+		aeluran_mm_slot_17 = { map_color = { 180 180 220 } }
+		aeluran_mm_slot_18 = { map_color = { 140 70 100 } }
+		aeluran_mm_slot_19 = { map_color = { 200 230 150 } }
+		aeluran_mm_slot_20 = { map_color = { 60 60 120 } }
+		aeluran_mm_see = { map_color = { 240 230 200 } }	# the High Matriarch's see (aeluran_matronate_map_sync_see_effect)
+	}
+
+	# One empty group: nobody joins
+	participant_groups = {
+		aeluran_mm_nobody = {
+			auto_add_rulers = no
+			auto_add_landless_rulers = no
+			require_realm_in_sub_region = no
+			is_character_valid = { always = no }
+			map_color = { 128 128 128 }
+		}
+	}
+
+	on_start = {
+		aeluran_matronate_map_sync_effect = yes
+	}
+
+	on_monthly = {
+		aeluran_matronate_map_sync_effect = yes
+	}
+
+	start_phase = aeluran_mm_standing
+
+	phases = {
+		aeluran_mm_standing = {
+			icon = "gfx/interface/icons/situations/situation_modifier_faith.dds"
+		}
+	}
+}

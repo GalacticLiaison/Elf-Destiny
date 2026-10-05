@@ -395,11 +395,14 @@ window = {
 				layoutpolicy_horizontal = expanding
 				margin = { 0 8 }
 				spacing = 14
-				# The banner art behind the four figures
+				# Vanilla's matchmaker backdrop: the player's faith's temple interior, rough-edged (interaction_concubine.gui)
 				background = {
-					texture = "gfx/interface/aeluran/matchmaking_banner.dds"
+					texture = "[GetIllustration( 'character_religion_interior' ).GetTexture( GetPlayer.MakeScope )]"
+					alpha = 0.7
+					fittype = centercrop
+					using = Mask_Rough_Edges
 				}
-			
+
 				expand = {}
 			
 								vbox = {
@@ -415,7 +418,7 @@ window = {
 								size = { 150 250 }
 								datacontext = "[GetPlayer]"
 								using = portrait_base
-								portrait_texture = "[Character.GetAnimatedPortrait( 'environment_body', 'aeluran_camera_body_turn_right', 'happy_teacher', PdxGetWidgetScreenSize(PdxGuiWidget.Self) )]"
+								portrait_texture = "[Character.GetAnimatedPortrait( 'environment_body', 'aeluran_camera_body_turn_right', Select_CString( ObjectsEqual( GetPlayer, GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter ), 'flirtation_left', 'happy_teacher' ), PdxGetWidgetScreenSize(PdxGuiWidget.Self) )]"
 								mask = "gfx/portraits/portrait_mask_council.dds"
 								effectname = "NoHighlight"
 							}
@@ -483,6 +486,26 @@ window = {
 				vbox = {
 					spacing = 4
 					minimumsize = { 280 185 }
+					# A dark wash behind the centre text (vanilla's tooltip-style backing, faded at the edges)
+					# Two stacked layers: a wide soft fade plus a denser core right behind the text
+					background = {
+						using = Background_Area_Dark
+						alpha = 1
+						margin = { 40 10 }
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+							blend_mode = alphamultiply
+						}
+					}
+					background = {
+						using = Background_Area_Dark
+						alpha = 1
+						margin = { 10 6 }
+						modify_texture = {
+							texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
+							blend_mode = alphamultiply
+						}
+					}
 
 					expand = {}
 				
@@ -566,12 +589,94 @@ window = {
 						default_format = "#weak"
 					}
 				
-					button_standard = {
-						size = { 150 40 }
-						text = "AELURAN_BL_PROPOSE"
-						enabled = "[And( GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), And( GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ) )]"
-						tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
-						onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					# The two houses flank the button (left: your noble's, right: the match's). The slots keep their size when
+					# empty so the button stays centred.
+					hbox = {
+						spacing = 12
+						# Vanilla's coa_house_small, scaled to 72 (no vanilla size between 64 and 88)
+						widget = {
+							size = { 72 72 }
+							widget = {
+								size = { 72 72 }
+								visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).IsSet]"
+								datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_first' ).GetCharacter.GetHouse]"
+								hbox = {
+									margin = { 4 4 }
+									datacontext = "[DynastyHouse.GetCulture.GetTemplateData]"
+									coa_house_lowborn_widget = {
+										size = { 64 64 }
+										blockoverride "icon_size" { size = { 50 50 } }
+									}
+									coa_house_widget = {
+										size = { 64 64 }
+										using = CoA_House_Defaults
+										coat_of_arms_icon = {
+											parentanchor = center
+											size = { 50 50 }
+											coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)88','(int32)88')]"
+											coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)88','(int32)88')]"
+											coat_of_arms_mask = "[CultureTemplateData.GetCultureHouseCoAMask]"
+											coat_of_arms_offset = "[CultureTemplateData.GetCultureHouseCoAOffset]"
+											coat_of_arms_scale = "[CultureTemplateData.GetCultureHouseCoAScale]"
+											modify_texture = {
+												texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+												blend_mode = overlay
+												alpha = 0.4
+											}
+										}
+										coa_house_frame = {
+											size = { 64 64 }
+											texture = "[CultureTemplateData.GetCultureHouseCoAFrame]"
+										}
+									}
+								}
+							}
+						}
+						button_standard = {
+							size = { 150 40 }
+							text = "AELURAN_BL_PROPOSE"
+							enabled = "[And( GetScriptedGui( 'aeluran_bl_propose' ).IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), And( GetScriptedGui( 'aeluran_bl_a_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ), GetScriptedGui( 'aeluran_bl_b_ok' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) ) )]"
+							tooltip = "[GetScriptedGui( 'aeluran_bl_propose' ).BuildTooltip( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							onclick = "[GetScriptedGui( 'aeluran_bl_propose' ).Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+						}
+						widget = {
+							size = { 72 72 }
+							widget = {
+								size = { 72 72 }
+								visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).IsSet]"
+								datacontext = "[GetPlayer.MakeScope.Var( 'aeluran_bl_second' ).GetCharacter.GetHouse]"
+								hbox = {
+									margin = { 4 4 }
+									datacontext = "[DynastyHouse.GetCulture.GetTemplateData]"
+									coa_house_lowborn_widget = {
+										size = { 64 64 }
+										blockoverride "icon_size" { size = { 50 50 } }
+									}
+									coa_house_widget = {
+										size = { 64 64 }
+										using = CoA_House_Defaults
+										coat_of_arms_icon = {
+											parentanchor = center
+											size = { 50 50 }
+											coat_of_arms = "[DynastyHouse.GetHouseCoA.GetTexture('(int32)88','(int32)88')]"
+											coat_of_arms_slot = "[DynastyHouse.GetHouseCoA.GetSlot('(int32)88','(int32)88')]"
+											coat_of_arms_mask = "[CultureTemplateData.GetCultureHouseCoAMask]"
+											coat_of_arms_offset = "[CultureTemplateData.GetCultureHouseCoAOffset]"
+											coat_of_arms_scale = "[CultureTemplateData.GetCultureHouseCoAScale]"
+											modify_texture = {
+												texture = "gfx/interface/coat_of_arms/coa_overlay.dds"
+												blend_mode = overlay
+												alpha = 0.4
+											}
+										}
+										coa_house_frame = {
+											size = { 64 64 }
+											texture = "[CultureTemplateData.GetCultureHouseCoAFrame]"
+										}
+									}
+								}
+							}
+						}
 					}
 				
 					button_checkbox_label = {
@@ -752,14 +857,17 @@ window = {
 						alpha = 0.5
 					}
 				}
-								vbox = {
+				# The match's Matron: left empty when she is you (a match within your own Matronate). The slot keeps its size
+				# so the rest of the panel doesn't shift.
+				vbox = {
 					spacing = 4
 					widget = {
 						size = { 150 250 }
 						tooltip = "AELURAN_BL_PANEL_MATRON_TT"
+						tooltip_visible = "[Not( ObjectsEqual( GetPlayer, GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter ) )]"
 						widget = {
 							size = { 150 250 }
-							visible = "[GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet]"
+							visible = "[And( GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).IsSet, Not( ObjectsEqual( GetPlayer, GetPlayer.MakeScope.Var( 'aeluran_bl_match_matron' ).GetCharacter ) ) )]"
 							portrait_button = {
 								parentanchor = bottom|hcenter
 								size = { 150 250 }

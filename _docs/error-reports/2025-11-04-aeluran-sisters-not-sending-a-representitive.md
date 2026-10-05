@@ -5,7 +5,7 @@
 ## Report
 **akitoscorpio** · *2025-11-04*
 In my current play through and a few other trouble shooting play throughs, it seems the sisters refuse to spawn  in, causing runs where I convert to the Elvish religion to be impossible to spread the religion or to fabricate Claims.
-![dfgjdrt.png](https://cdn.discordapp.com/attachments/1435355986876432455/1435355987216306238/dfgjdrt.png?ex=6a840f2e&is=6a82bdae&hm=826c679a272c52b61bdaa596ac761e0891ed1a751953fc095f404695485e75eb&)
+![dfgjdrt.png](https://cdn.discordapp.com/attachments/1435355986876432455/1435355987216306238/dfgjdrt.png?ex=6ac00b6e&is=6abeb9ee&hm=d3522e3e082d3e309488ba33bffb18a00e3e8eb8ee5ec1079f90d29e165d0682&)
 ---
 
 ## Discussion (8 comments)
@@ -15,7 +15,7 @@ As an updated I tried resetting the relm the Matrach was suposed to spawn in by 
 
 **akitoscorpio** · *2025-11-04*
 Okay so I figured it out, the issue was that the More game rules mod for randomly generated rulers causes the line of replacements for the head of faith to break and the relm in question to start spawning in male human rulers... so... now we know...
-![image.png](https://cdn.discordapp.com/attachments/1435355986876432455/1435379162998243348/image.png?ex=6a8424c4&is=6a82d344&hm=953ebc737623405745543650d6db11949a685dcbee938e1c001b18b542121db8&)
+![image.png](https://cdn.discordapp.com/attachments/1435355986876432455/1435379162998243348/image.png?ex=6ac02104&is=6abecf84&hm=2992f37cbf34d8a5157f640eaa6a9e228e4f6a4d2e5d564cd67dc57cc20ebb7c&)
 
 **generalissimo_aar** · *2025-11-04*
 Great job, please, include this tidbit on the Compatibility thread

@@ -9,9 +9,9 @@ You can replicate this by making an Arator the leader of china with Eleven cultu
 Not sure what specifically is causing the crash.
 
 Logs attached.
-[error.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634250993789/error.log?ex=6a844915&is=6a82f795&hm=c4e0012cb4f71ca92ee8115ffcd9610159fc666b8d9b01b6532ac73945898dea&)
-[debug.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634745655337/debug.log?ex=6a844915&is=6a82f795&hm=91c565e664f14190ea9d60872d9f48d121bc5760cdbe93e0f7fbb1f066947a30&)
-[game.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634997448744/game.log?ex=6a844915&is=6a82f795&hm=f3d6d9068056b22f4b319bead16d0df05cfea8d19fc8e34abf67a8777eba4a24&)
+[error.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634250993789/error.log?ex=6ac439d5&is=6ac2e855&hm=a9488863a00583e476f923346e093814fe8e9a1ecf88fae9433d9590b02ed377&)
+[debug.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634745655337/debug.log?ex=6ac439d5&is=6ac2e855&hm=f3251a1159812e0cf14bd19a7493772cdbca5ae54440d5b914eeea204760b82e&)
+[game.log](https://cdn.discordapp.com/attachments/1462959632006910014/1462959634997448744/game.log?ex=6ac439d5&is=6ac2e855&hm=9d9dc0e67baa90d4aa9a204e1c21fcc25f3172c77100f2095257f226b455872d&)
 ---
 
 ## Discussion (3 comments)

@@ -45,7 +45,13 @@ aeluran_bloodlines_propose_effect = {
 		aeluran_bloodlines_refused_effect = yes
 	}
 	else_if = {
-		limit = { var:aeluran_bl_pending <= 0 }
+		# The tooltip never runs the set_variable above, so guard the read
+		limit = {
+			OR = {
+				NOT = { has_variable = aeluran_bl_pending }
+				var:aeluran_bl_pending <= 0
+			}
+		}
 		aeluran_bloodlines_finalize_effect = yes
 	}
 	else = {

@@ -29,3 +29,9 @@ Neither mesh actually contains a shape named "bs_elf_ears", so the attribute loo
 This cascades into every elf gene failing to register, which crashes new game creation entirely (character portrait building fails for the whole game world, not just elf characters).
 
 Looks like the mesh files were exported without renaming the blend shape target to match the gene script. Should be a quick fix on your end either rename the blend shape in the source file and re export or update elf_genes.txt to reference whatever the actual exported shape names are (though male's generic 'MeshShape' name suggests that one may need re-exporting regardless). Happy to test a fix if you push one.
+---
+
+## Discussion (1 comment)
+
+**chonair** · *2026-08-25*
+I've been getting a CTD when I open the debug portrait editor and I'm wondering if this is the cause as well. I don't use New Bookmarks+ and thankfully I haven't had any issues starting the game.

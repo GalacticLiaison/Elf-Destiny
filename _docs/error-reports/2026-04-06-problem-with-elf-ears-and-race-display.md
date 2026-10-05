@@ -5,8 +5,8 @@
 ## Report
 **_ares_003** · *2026-04-06*
 When I use Phaze Body Mod Ears don't change even though I have the patch for it and I dont know if this is still a thing but the Race is only shown through a Modifier and not with an Icon. I dont have a Problem to turn off the Body Mod or use a different one but the thing with the Race is something I coudn't pin to a Mod yet. The Screenshot shows that with deactivating the Body Mod Ears are now correctly displayed and even the Modifier is there.
-![20260406165559_1.jpg](https://cdn.discordapp.com/attachments/1490730268213117219/1490730268682621071/20260406165559_1.jpg?ex=6a83cd00&is=6a827b80&hm=6973c7bb3959f173e6347d237152993c327634e04670a97a6579b580d5154641&)
-![20260406162433_1.jpg](https://cdn.discordapp.com/attachments/1490730268213117219/1490730269723070657/20260406162433_1.jpg?ex=6a83cd00&is=6a827b80&hm=901f5e75b78896ab514df5c3946f55f7c7df894f6ee830675341342b31031e58&)
+![20260406165559_1.jpg](https://cdn.discordapp.com/attachments/1490730268213117219/1490730268682621071/20260406165559_1.jpg?ex=6ac3bdc0&is=6ac26c40&hm=c4f97eb1b5b6a2b1e01227b6314482195d623515371a9050ac76d1812a0a8336&)
+![20260406162433_1.jpg](https://cdn.discordapp.com/attachments/1490730268213117219/1490730269723070657/20260406162433_1.jpg?ex=6ac3bdc0&is=6ac26c40&hm=98dd8dc9ae19cdc72e1aa483aa54c1de731a48b35ab49922c085cfe2b9f39500&)
 ---
 
 ## Discussion (12 comments)
@@ -43,7 +43,7 @@ the other should work
 
 **generalissimo_aar** · *2026-04-12*
 This should fix your issue
-[ED_Phaze_Patch.7z](https://cdn.discordapp.com/attachments/1490730268213117219/1492993535241224364/ED_Phaze_Patch.7z?ex=6a841fd5&is=6a82ce55&hm=0ad0b14923c223577744e6126942db9441b691fda793f135f644c781068f86c6&)
+[ED_Phaze_Patch.7z](https://cdn.discordapp.com/attachments/1490730268213117219/1492993535241224364/ED_Phaze_Patch.7z?ex=6ac41095&is=6ac2bf15&hm=73f0bdfb5a2972118a9c2bdb1dffc66b94a7de9aa45820f958e1a01229190bac&)
 
 **_ares_003** · *2026-04-17*
 I now use CBO again but the compatch there is outdated so most slavs only wear a cloak. Maybe I switch back to Phaze.

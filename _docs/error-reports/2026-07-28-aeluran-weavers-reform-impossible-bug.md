@@ -5,18 +5,18 @@
 ## Report
 **apersonmaybe** · *2026-07-28*
 Making a post here about this issue of the aeluran weavers faith being entirely un-reformable for me
-![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531451899734134875/image.png?ex=6a8449f9&is=6a82f879&hm=1401f9ce4222fbb356bb0d68dfe7057830e9c1072e688b71fe31fae152387867&)
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531451899734134875/image.png?ex=6ac43ab9&is=6ac2e939&hm=734335c8c8e80fb7e7f78e690b8df55b569d566aaf6cdb53a490383f07a563c5&)
 ---
 
-## Discussion (24 comments)
+## Discussion (28 comments)
 
 **apersonmaybe** · *2026-07-28*
 upon  clicking reform faith this is how it appears, but as in the screenshot above, even after removing the issues, it still is unreformable without any other changes, and i've in the past tried to change every single thing, every single doctrine, tenet, etc. nothing fixes it.
-![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531452188063174666/image.png?ex=6a844a3e&is=6a82f8be&hm=b0d81a4984ca78a5c8178f0ef7e50b2726f23221c50758e09a6b6f62f3ae199a&)
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531452188063174666/image.png?ex=6ac43afe&is=6ac2e97e&hm=f925731c31cd0084b86df39cc26f329f41f159d417d18c39d6ac678d4b727073&)
 
 **apersonmaybe** · *2026-07-28*
 some additional info, i've added the extra tenets and the compatibility mod with elf destiny to see if that would help, i added the mod that allows the aeluran sisters to be used by any religion, since i figured the issue may be that it would be considered a new religion and that could be stopping it, i'm the head of faith, i have 4 holy sites, shown in the screenshot below, i've attempted this in both feudal and tribal, i've done the "reform aeluran faith" decision that makes it free, i'm kinda at a loss as to how to fix this
-![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531453080741216466/image.png?ex=6a844b13&is=6a82f993&hm=7aeb4393d646cdadd34e255be294cb373a46d63a5c01f64edbebe240db48257a&)
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531453080741216466/image.png?ex=6ac43bd3&is=6ac2ea53&hm=9090fe3b2e90e7a8bf791c6ad85459e7c5712e7a6acb5d295987c0278c5a173b&)
 
 **eastpointed** · *2026-07-28*
 I see you have quite a few tenet slots, are you using some other mods along side Elf Destiny?
@@ -33,7 +33,7 @@ well, i turned it off, but it would appear another mod is doing the same thing, 
 
 **apersonmaybe** · *2026-07-28*
 alright, i managed to get rid of it, it's still showing as this
-![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531465044389269534/image.png?ex=6a845637&is=6a8304b7&hm=e194fbf0f64d8f9f774e006d76bc1130006ab95e5701039039219d3e6df4f1dd&)
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531465044389269534/image.png?ex=6ac446f7&is=6ac2f577&hm=f9aac6daf7803cb5dd1f1caa754a5e95b40f9a45b79d1273238046f2bf81a580&)
 
 **apersonmaybe** · *2026-07-28*
 while looking through my mods, i see Patrum Scuta is deprecated, i still use the mod since it makes flags much better, do you know if that could possibly be causing an issue?
@@ -46,7 +46,7 @@ i have Traditional Tenets mod, so i'm wondering if that could be an issue, i als
 
 **apersonmaybe** · *2026-07-28*
 removed the traditional tenets mod so it wasn't that, so at this point i'm at a loss, it just seems to be elf destiny/the aeluran faith itself thats broken
-![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531469649034739762/image.png?ex=6a845a81&is=6a830901&hm=7ed04ff943d8b9428ff6f68a3be7dde642ee62040cacb98bea36673ec274d18a&)
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1531469649034739762/image.png?ex=6ac44b41&is=6ac2f9c1&hm=3d0f454d8d6cbcc80e00905ebcc0ce94f44f2e0937d274e7e53e35473441fe6d&)
 
 **apersonmaybe** · *2026-07-28*
 Culture is also broken, showing only "all of these" so it must be related i assume, even though i created my own culture before, i've accepted all of the elven culture things from expeditions, and that's the only thing i could think of
@@ -87,3 +87,17 @@ BGA should alleviate some of these issues at the end of September. But that’s 
 
 **xaviersc2** · *2026-07-30*
 I hate the DLC, but at the same time, I have to admit that despite it all, it looks like it’ll make the unreformed HoF disconnect a problem of the past.
+
+**gelidacaedes** · *2026-09-03*
+I figured I'd throw my report in here as well since I'm running into the same error. In my case I don't have any DLC installed other than Elf Destiny and Skonester's Cheat Menu (for non-invasive debugging).
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1544885504816713809/image.png?ex=6ac4523e&is=6ac300be&hm=68eec3f9a1509c310df0977a3cd4fa853a4eb9d3a85b4d58904cffc6aa6a6e30&)
+
+**eastpointed** · *2026-09-03*
+With the new religion DLC coming soon I may just run out the clock on this bug lol
+
+**gelidacaedes** · *2026-09-03*
+The Ascended Tribal tradition at least provides a workaround for getting some of the feudal mechanics
+
+**gelidacaedes** · *2026-09-14*
+So I figured out the issue in why the faith can't be reformed. The player needs to ***hold*** at least 3 of the counties that contain a holy site
+![image.png](https://cdn.discordapp.com/attachments/1531451899126222898/1549048878916182046/image.png?ex=6ac44e70&is=6ac2fcf0&hm=cf9b5d62eb40bac520c6db28a7916cbfb6a2dcea5f64dce0cd4d8e294cd18f2f&)

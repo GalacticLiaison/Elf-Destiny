@@ -212,3 +212,20 @@ aeluran_order_sister_in_care_trigger = {
 		}
 	}
 }
+
+# Temple seeding at game start (aeluran_matronate_seed_temples_effect). Scope = a county of a Matronate: held by an
+# Aeluran ruler herself, no temple yet, and a free slot that can take one.
+aeluran_matronate_seed_temple_county_trigger = {
+	holder ?= {
+		faith = { has_tenet = tenet_aeluran_sisters }
+	}
+	NOT = { any_county_province = { has_holding_type = church_holding } }
+	any_county_province = { aeluran_matronate_seed_temple_province_trigger = yes }
+}
+
+# Scope = a province: an empty, buildable, non-capital barony
+aeluran_matronate_seed_temple_province_trigger = {
+	has_holding = no
+	barony_cannot_construct_holding = no
+	barony = { is_capital_barony = no }
+}

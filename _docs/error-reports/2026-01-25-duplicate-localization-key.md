@@ -8,8 +8,8 @@ A duplicate error is occurring by sharing the same code.
 
 ritual_decisions_l_english.yml
 entrancement_decisions_l_english.yml
-![1.png](https://cdn.discordapp.com/attachments/1464890268875493473/1464890269055979634/1.png?ex=6a840ee0&is=6a82bd60&hm=b865454dac918c9a3552cf2f1e82334d027799495724099273d3cbea7bc12923&)
-![2.png](https://cdn.discordapp.com/attachments/1464890268875493473/1464890269416816712/2.png?ex=6a840ee0&is=6a82bd60&hm=dc4b794f2b1f41b46b67783a643035755f5c875c4b02e5fcb02a5eafa51694ca&)
+![1.png](https://cdn.discordapp.com/attachments/1464890268875493473/1464890269055979634/1.png?ex=6ac3ffa0&is=6ac2ae20&hm=f83334115f0157df404facf817ced183289705789cd060e40a3b3c283dce8e24&)
+![2.png](https://cdn.discordapp.com/attachments/1464890268875493473/1464890269416816712/2.png?ex=6ac3ffa0&is=6ac2ae20&hm=04964cfd5a2d7cf004f3e89f935752d1eefeb168521b5747ed9631ff0c7da426&)
 ---
 
 ## Discussion (2 comments)

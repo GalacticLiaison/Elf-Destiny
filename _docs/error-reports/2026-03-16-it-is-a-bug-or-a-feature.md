@@ -5,7 +5,7 @@
 ## Report
 **amadyah** · *2026-03-16*
 i got this as a strenght report for a battle
-![image.png](https://cdn.discordapp.com/attachments/1482912962627899593/1482912962925826273/image.png?ex=6a83b4d1&is=6a826351&hm=4864cbfcea29c9d5899f090d83af921c58793aaf53f918a4b767cd56443bbb5c&)
+![image.png](https://cdn.discordapp.com/attachments/1482912962627899593/1482912962925826273/image.png?ex=6ac44e51&is=6ac2fcd1&hm=d943047bf028af0a9ea435c732512a6208a62c6c15f69da6a22cb20825c8630f&)
 ---
 
 ## Discussion (4 comments)

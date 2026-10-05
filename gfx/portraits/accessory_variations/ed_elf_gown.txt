@@ -1,0 +1,54 @@
+﻿# Elf Destiny: pattern sets, layouts and variations for elven clothing.
+# See jomini/gfx/FX/jomini/portrait_accessory_variation.fxh for how these combine.
+
+pattern_textures = {
+	name = "ed_elf_leafvine_01"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_leafvine_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_leafvine_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_leafvine_01_properties.dds"
+}
+pattern_textures = {
+	name = "ed_elf_filigree_01"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_filigree_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_filigree_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_filigree_01_properties.dds"
+}
+pattern_textures = {
+	name = "ed_elf_satin_01"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_satin_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_satin_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/elf_destiny/ed_elf_satin_01_properties.dds"
+}
+
+pattern_layout = {
+	name = "ed_gown_brocade_layout"
+	scale 		= { min = 0.3	max = 0.3 }
+	rotation 	= { min = 0	max = 0 }
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } }
+}
+pattern_layout = {
+	name = "ed_gown_filigree_layout"
+	scale 		= { min = 0.12	max = 0.12 }
+	rotation 	= { min = 0	max = 0 }
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } }
+}
+pattern_layout = {
+	name = "ed_gown_satin_layout"
+	scale 		= { min = 0.25	max = 0.25 }
+	rotation 	= { min = 0	max = 0 }
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } }
+}
+
+variation = {
+	name = "ed_elf_gown_01"
+	# mask channels (entity pattern_mask): r = skirt + sleeves, g = yoke + collar, b = bodice
+	pattern = {
+		weight = 1
+		r = { textures = "ed_elf_leafvine_01"	layout = "ed_gown_brocade_layout" }
+		g = { textures = "ed_elf_filigree_01"	layout = "ed_gown_filigree_layout" }
+		b = { textures = "ed_elf_satin_01"		layout = "ed_gown_satin_layout" }
+		a = { textures = "ed_elf_satin_01"		layout = "ed_gown_satin_layout" }
+	}
+	# 16 columns: slot r uses 0-3, g 4-7, b 8-11, a 12-15; one row = one colourway
+	color_palette = { weight = 1		texture = "gfx/portraits/accessory_variations/textures/color_palette_ed_elf_gown_01.dds" }
+}

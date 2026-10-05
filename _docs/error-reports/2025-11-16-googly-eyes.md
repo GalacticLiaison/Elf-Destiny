@@ -45,7 +45,7 @@ https://tenor.com/view/boromir-cave-troll-lotr-lord-of-the-rings-gif-16342589
 LotR references popping off today
 
 **caravaggio1111** · *2025-11-22*
-![froooooooooooodo.gif](https://cdn.discordapp.com/attachments/1439659308949176390/1441842592126992526/froooooooooooodo.gif?ex=6a83ed4e&is=6a829bce&hm=30628c2e04fb3b91d0991b92ccb77bf45cf6f1d13de48803ca450ab0183d5311&)
+![froooooooooooodo.gif](https://cdn.discordapp.com/attachments/1439659308949176390/1441842592126992526/froooooooooooodo.gif?ex=6ac3de0e&is=6ac28c8e&hm=a66d4ef37213a715280639ee24c7c6432a6682f020e5818e4adba59c143be516&)
 
 **atomael** · *2025-11-25*
 I've same bug

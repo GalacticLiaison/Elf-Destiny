@@ -9,4 +9,4 @@ The target's representative title is displayed twice.
 Even if I disable all mods and enable only this mod, the issue persists.
 
 Is there a solution?
-![2026-01-19_215415.png](https://cdn.discordapp.com/attachments/1462792905558196409/1462792907668062409/2026-01-19_215415.png?ex=6a84568e&is=6a83050e&hm=4a3de0a15dd09e7a32f7e9cdfa0df138e63d23c3f43c408a90c0f5d3f8c66822&)
+![2026-01-19_215415.png](https://cdn.discordapp.com/attachments/1462792905558196409/1462792907668062409/2026-01-19_215415.png?ex=6ac4474e&is=6ac2f5ce&hm=0521e891d82f7df61c0161e64f1ce5ee6886eb0baf56e68dd807a97d9fa74337&)

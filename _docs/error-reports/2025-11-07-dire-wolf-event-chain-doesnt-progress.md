@@ -22,15 +22,15 @@ All Under heaven
 (and the 2 free fashion packs witch i think are unrelated)
 
 my uneducated guess (since i only know the very basics of coding) is that there might be a hickup with the new DLC "concealing" these events from the game engine but again i dont have a clue beside that im at the end of what i think is possible to try on my end
-![20251106045911_1.jpg](https://cdn.discordapp.com/attachments/1436179304764674098/1436179305813245952/20251106045911_1.jpg?ex=6a83c235&is=6a8270b5&hm=7308f274ec0c219259c5e6d71624b751800516725a44ba72d4414a8737daf6c5&)
-![20251106045952_1.jpg](https://cdn.discordapp.com/attachments/1436179304764674098/1436179306538598400/20251106045952_1.jpg?ex=6a83c235&is=6a8270b5&hm=1542715dca55ea5ede6f64127f507b2a9cbdf3dcf893dbb81de1b594df02d9ae&)
+![20251106045911_1.jpg](https://cdn.discordapp.com/attachments/1436179304764674098/1436179305813245952/20251106045911_1.jpg?ex=6ac3b2f5&is=6ac26175&hm=ea75133dd5743cfded06c3dbe85a30502769543111b28868b3a9c4797711d364&)
+![20251106045952_1.jpg](https://cdn.discordapp.com/attachments/1436179304764674098/1436179306538598400/20251106045952_1.jpg?ex=6ac3b2f5&is=6ac26175&hm=53149b09f5ec13f443d7e02c0dec488be3371ccbb9ef625688e553b93016c2fd&)
 ---
 
 ## Discussion (2 comments)
 
 **666gnampf** · *2025-11-08*
 as addition: this is what happens if i copy the content from github into the .txt file
-![20133D1.JPG](https://cdn.discordapp.com/attachments/1436179304764674098/1436550176989909172/20133D1.JPG?ex=6a83ca1c&is=6a82789c&hm=c3231df7c6996d1e6571d9b178ab7d9dd076fbd8e96888294390fd25250b7ae4&)
+![20133D1.JPG](https://cdn.discordapp.com/attachments/1436179304764674098/1436550176989909172/20133D1.JPG?ex=6ac3badc&is=6ac2695c&hm=cc4a9a39f4ab4e7ecc7bd80fe3a8927ecb09834cea593113615e51d69830cd19&)
 
 **666gnampf** · *2025-11-08*
 so even though the checksum is the same, for some reason it leads to a different outcome (witch is still broken)

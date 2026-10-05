@@ -1,0 +1,28 @@
+﻿# DEBUG helper for events/ed_elf_gown_debug_events.txt.
+# $FLAG$: flag to set; $SCOPE$: scope name. Picks a woman of the court not already used by
+# the gown test, or creates one.
+ed_elf_gown_debug_pick_woman = {
+	random_courtier_or_guest = {
+		limit = {
+			is_female = yes
+			is_adult = yes
+			NOT = { has_character_flag = ed_debug_elf_gown }
+			NOT = { has_character_flag = ed_debug_elf_gown_vmask }
+			NOT = { has_character_flag = ed_debug_elf_gown_vvar }
+			NOT = { has_character_flag = ed_debug_elf_gown_none }
+		}
+		save_scope_as = $SCOPE$
+	}
+	if = {
+		limit = { NOT = { exists = scope:$SCOPE$ } }
+		create_character = {
+			gender = female
+			age = 25
+			location = root.location
+			culture = root.culture
+			faith = root.faith
+			save_scope_as = $SCOPE$
+		}
+	}
+	scope:$SCOPE$ = { add_character_flag = $FLAG$ }
+}

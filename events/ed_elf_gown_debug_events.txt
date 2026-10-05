@@ -1,0 +1,77 @@
+﻿namespace = ed_elf_gown_debug
+
+# Debug preview of the elven court gown. Fire with the console:
+#   event ed_elf_gown_debug.1   left: the gown (our mask + our variation) on the player if
+#                               female, else a woman of the court; right: a second woman with
+#                               NO clothes gene at all (control for no_clothes + bare head)
+#   event ed_elf_gown_debug.2   left: vanilla steppe mask + our variation; right: our mask +
+#                               vanilla steppe variation (isolates which half fails)
+# Flags stay on until option b of the respective event.
+# Helper: common/scripted_effects/ed_elf_gown_debug_effects.txt
+
+ed_elf_gown_debug.1 = {
+	type = character_event
+	title = ed_elf_gown_debug.1.t
+	desc = ed_elf_gown_debug.1.desc
+	theme = diplomacy
+
+	immediate = {
+		if = {
+			limit = { is_female = yes }
+			save_scope_as = gown_wearer
+			add_character_flag = ed_debug_elf_gown
+		}
+		else = {
+			ed_elf_gown_debug_pick_woman = { FLAG = ed_debug_elf_gown SCOPE = gown_wearer }
+		}
+		ed_elf_gown_debug_pick_woman = { FLAG = ed_debug_elf_gown_none SCOPE = control_wearer }
+	}
+
+	left_portrait = {
+		character = scope:gown_wearer
+		animation = personality_content
+	}
+	right_portrait = {
+		character = scope:control_wearer
+		animation = idle
+	}
+
+	option = {
+		name = ed_elf_gown_debug.1.a
+	}
+	option = {
+		name = ed_elf_gown_debug.1.b
+		scope:gown_wearer = { remove_character_flag = ed_debug_elf_gown }
+		scope:control_wearer = { remove_character_flag = ed_debug_elf_gown_none }
+	}
+}
+
+ed_elf_gown_debug.2 = {
+	type = character_event
+	title = ed_elf_gown_debug.2.t
+	desc = ed_elf_gown_debug.2.desc
+	theme = diplomacy
+
+	immediate = {
+		ed_elf_gown_debug_pick_woman = { FLAG = ed_debug_elf_gown_vmask SCOPE = vmask_wearer }
+		ed_elf_gown_debug_pick_woman = { FLAG = ed_debug_elf_gown_vvar SCOPE = vvar_wearer }
+	}
+
+	left_portrait = {
+		character = scope:vmask_wearer
+		animation = personality_content
+	}
+	right_portrait = {
+		character = scope:vvar_wearer
+		animation = idle
+	}
+
+	option = {
+		name = ed_elf_gown_debug.1.a
+	}
+	option = {
+		name = ed_elf_gown_debug.1.b
+		scope:vmask_wearer = { remove_character_flag = ed_debug_elf_gown_vmask }
+		scope:vvar_wearer = { remove_character_flag = ed_debug_elf_gown_vvar }
+	}
+}

@@ -1,0 +1,84 @@
+﻿# Aeluran Order map (DORMANT since 2026-10-04) and Red Sister temple markers.
+#
+# The "Aeluran Order" situation (common/situation/situations/elf_dest_matronate_map_situation.txt) coloured each
+# Matronate on the map and opened from the Order button. The PM shelved it: the vanilla clerical-regions map mode
+# already colours the Matronates, and the Red Sister temple markers below live on the political map. The situation type
+# and its effects are kept for when the Order situation is developed further; it is simply never started, so it does not
+# exist in play, is not listed under Situations, and its window never opens. To bring it back, restore the two hooks
+# below and the Order button's OpenGameViewData call (see gui/aeluran_order_button.gui).
+#
+# on_game_start_after_lobby = {
+# 	on_actions = {
+# 		aeluran_matronate_map_start
+# 	}
+# }
+#
+# yearly_global_pulse = {
+# 	on_actions = {
+# 		aeluran_matronate_map_start
+# 	}
+# }
+#
+# aeluran_matronate_map_start = {
+# 	effect = {
+# 		aeluran_matronate_map_ensure_started_effect = yes
+# 	}
+# }
+
+# Before the lobby, so the new temples are on the map players pick from. The Red Sisters who arrive later ask for
+# a temple (aeluran_diarchy.103) and find these.
+on_game_start = {
+	on_actions = {
+		aeluran_matronate_seed_temples
+	}
+}
+
+aeluran_matronate_seed_temples = {
+	effect = {
+		aeluran_matronate_seed_temples_effect = yes
+	}
+}
+
+# Red Sister temple markers (common/situation/situations/elf_dest_rs_temple_marker_situation.txt): a marker opens the
+# day a Red Sister takes a temple, and a full pass runs after the lobby and yearly as a backstop. Each marker checks
+# itself monthly and closes when its Sister is gone (the marker type's on_monthly). While the Order situation ran, its
+# monthly tick did all of this.
+on_game_start_after_lobby = {
+	on_actions = {
+		aeluran_rs_temple_markers_sync
+	}
+}
+
+yearly_global_pulse = {
+	on_actions = {
+		aeluran_rs_temple_markers_sync
+	}
+}
+
+aeluran_rs_temple_markers_sync = {
+	effect = {
+		# A save from before 2026-10-04 may still carry the Order situation: end it
+		aeluran_matronate_map_retire_effect = yes
+		aeluran_matronate_map_sync_temple_markers_effect = yes
+	}
+}
+
+# Root = the new holder, scope:title = the title gained
+on_title_gain = {
+	on_actions = {
+		aeluran_rs_temple_marker_on_gain
+	}
+}
+
+aeluran_rs_temple_marker_on_gain = {
+	trigger = {
+		has_council_position = councillor_aeluran_advisor
+		scope:title = {
+			tier = tier_barony
+			title_province = { has_holding_type = church_holding }
+		}
+	}
+	effect = {
+		aeluran_matronate_map_sync_temple_markers_effect = yes
+	}
+}

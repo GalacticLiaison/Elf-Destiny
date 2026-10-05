@@ -1,0 +1,325 @@
+﻿# The Matronates map (common/situation/situations/elf_dest_matronate_map_situation.txt): each Matronate owns one
+# sub-region slot of the aeluran_matronate_map situation, recorded in var:aeluran_matronate_map_slot on its title
+# (0 = no slot left). The sync rebuilds every slot from the live clerical regions, so foundings, absorbed counties
+# and lost Matronates show up within a month without hooks in the effects that change them.
+#
+# DORMANT (2026-10-04): the Order situation is never started (see the on_action file), so aeluran_matronate_map_sync_effect
+# and the slot/see effects below do not run. They are kept, with the situation type, for later. The Red Sister temple
+# marker effects further down ARE live: common/on_action/aeluran_matronate_map_on_actions.txt runs them.
+
+# Root = the situation
+aeluran_matronate_map_sync_effect = {
+	faith:aeluran_weavers = {
+		every_clerical_region_title = {
+			limit = {
+				aeluran_is_matronate_title_trigger = yes
+				NOT = { has_variable = aeluran_matronate_map_slot }
+			}
+			aeluran_matronate_map_claim_slot_effect = yes
+		}
+	}
+	# Drop stale counties from every slot first, so a county moving between two Matronates never sits in both
+	aeluran_matronate_map_prune_slot_effect = { N = 1 }
+	aeluran_matronate_map_prune_slot_effect = { N = 2 }
+	aeluran_matronate_map_prune_slot_effect = { N = 3 }
+	aeluran_matronate_map_prune_slot_effect = { N = 4 }
+	aeluran_matronate_map_prune_slot_effect = { N = 5 }
+	aeluran_matronate_map_prune_slot_effect = { N = 6 }
+	aeluran_matronate_map_prune_slot_effect = { N = 7 }
+	aeluran_matronate_map_prune_slot_effect = { N = 8 }
+	aeluran_matronate_map_prune_slot_effect = { N = 9 }
+	aeluran_matronate_map_prune_slot_effect = { N = 10 }
+	aeluran_matronate_map_prune_slot_effect = { N = 11 }
+	aeluran_matronate_map_prune_slot_effect = { N = 12 }
+	aeluran_matronate_map_prune_slot_effect = { N = 13 }
+	aeluran_matronate_map_prune_slot_effect = { N = 14 }
+	aeluran_matronate_map_prune_slot_effect = { N = 15 }
+	aeluran_matronate_map_prune_slot_effect = { N = 16 }
+	aeluran_matronate_map_prune_slot_effect = { N = 17 }
+	aeluran_matronate_map_prune_slot_effect = { N = 18 }
+	aeluran_matronate_map_prune_slot_effect = { N = 19 }
+	aeluran_matronate_map_prune_slot_effect = { N = 20 }
+
+	aeluran_matronate_map_fill_slot_effect = { N = 1 }
+	aeluran_matronate_map_fill_slot_effect = { N = 2 }
+	aeluran_matronate_map_fill_slot_effect = { N = 3 }
+	aeluran_matronate_map_fill_slot_effect = { N = 4 }
+	aeluran_matronate_map_fill_slot_effect = { N = 5 }
+	aeluran_matronate_map_fill_slot_effect = { N = 6 }
+	aeluran_matronate_map_fill_slot_effect = { N = 7 }
+	aeluran_matronate_map_fill_slot_effect = { N = 8 }
+	aeluran_matronate_map_fill_slot_effect = { N = 9 }
+	aeluran_matronate_map_fill_slot_effect = { N = 10 }
+	aeluran_matronate_map_fill_slot_effect = { N = 11 }
+	aeluran_matronate_map_fill_slot_effect = { N = 12 }
+	aeluran_matronate_map_fill_slot_effect = { N = 13 }
+	aeluran_matronate_map_fill_slot_effect = { N = 14 }
+	aeluran_matronate_map_fill_slot_effect = { N = 15 }
+	aeluran_matronate_map_fill_slot_effect = { N = 16 }
+	aeluran_matronate_map_fill_slot_effect = { N = 17 }
+	aeluran_matronate_map_fill_slot_effect = { N = 18 }
+	aeluran_matronate_map_fill_slot_effect = { N = 19 }
+	aeluran_matronate_map_fill_slot_effect = { N = 20 }
+
+	aeluran_matronate_map_sync_see_effect = yes
+	aeluran_matronate_map_sync_temple_markers_effect = yes
+}
+
+# Root = the situation. The High Matriarch's own see (her title's capital county, Spirits' Landing at start), outside
+# every Matronate, gets its own colour.
+aeluran_matronate_map_sync_see_effect = {
+	situation_sub_region:aeluran_mm_see = {
+		save_scope_as = mm_see
+		every_situation_sub_region_county = {
+			limit = {
+				NOT = { this = title:d_high_matriarch.title_capital_county }
+			}
+			add_to_temporary_list = mm_stale_see
+		}
+		every_in_list = {
+			list = mm_stale_see
+			scope:mm_see = { remove_dejure_title_from_sub_region = prev }
+		}
+		title:d_high_matriarch.title_capital_county ?= {
+			# Not if the see has been drawn into a Matronate: sub-regions may overlap and the map shows only one
+			if = {
+				limit = {
+					NOT = { clerical_region_title ?= { aeluran_is_matronate_title_trigger = yes } }
+				}
+				scope:mm_see = { add_dejure_title_to_sub_region = prev }
+			}
+		}
+	}
+}
+
+# Red Sister temple markers: a marker situation (aeluran_rs_temple_marker) per temple a Red Sister holds, centred on
+# the temple so the engine draws its pin there (the only way to pin an arbitrary barony). Markers live in the global
+# list aeluran_rs_temple_markers; each temple province points at its marker in var:aeluran_rs_temple_marker, and each
+# marker carries its Sister in var:aeluran_rs_temple_sister. Any scope. Run when a Red Sister gains a temple, after the
+# lobby and yearly (common/on_action/aeluran_matronate_map_on_actions.txt); between runs each marker closes itself
+# (aeluran_rs_temple_marker_self_check_effect, monthly).
+aeluran_matronate_map_sync_temple_markers_effect = {
+	# Close markers whose Sister died, lost the seat or lost the temple (collected first: the list is edited below)
+	every_in_global_list = {
+		variable = aeluran_rs_temple_markers
+		save_temporary_scope_as = rs_marker
+		if = {
+			limit = {
+				NOT = {
+					var:aeluran_rs_temple_sister ?= {
+						is_alive = yes
+						has_council_position = councillor_aeluran_advisor
+						any_held_title = { this = scope:rs_marker.situation_center_province.barony }
+					}
+				}
+			}
+			add_to_temporary_list = rs_stale_markers
+		}
+	}
+	every_in_list = {
+		list = rs_stale_markers
+		situation_center_province ?= { remove_variable = aeluran_rs_temple_marker }
+		remove_list_global_variable = { name = aeluran_rs_temple_markers target = this }
+		end_situation = yes
+	}
+	# Open one for every Red Sister temple that has none
+	every_ruler = {
+		limit = { exists = cp:councillor_aeluran_advisor }
+		cp:councillor_aeluran_advisor = {
+			save_temporary_scope_as = rs_sister
+			every_held_title = {
+				limit = {
+					tier = tier_barony
+					title_province = {
+						has_holding_type = church_holding
+						NOT = { exists = var:aeluran_rs_temple_marker }
+					}
+				}
+				title_province = { aeluran_rs_temple_marker_start_effect = yes }
+			}
+		}
+	}
+}
+
+# Root = a marker situation (its on_monthly). Closes it when its Sister is dead, off the Red Sister seat or no longer
+# holds the temple.
+aeluran_rs_temple_marker_self_check_effect = {
+	if = {
+		limit = {
+			NOT = {
+				var:aeluran_rs_temple_sister ?= {
+					is_alive = yes
+					has_council_position = councillor_aeluran_advisor
+					any_held_title = { this = root.situation_center_province.barony }
+				}
+			}
+		}
+		situation_center_province ?= { remove_variable = aeluran_rs_temple_marker }
+		remove_list_global_variable = { name = aeluran_rs_temple_markers target = this }
+		end_situation = yes
+	}
+}
+
+# Scope = a temple province; scope:rs_sister = the Red Sister who holds it
+aeluran_rs_temple_marker_start_effect = {
+	save_scope_as = rs_temple
+	start_situation = {
+		type = aeluran_rs_temple_marker
+		save_scope_as = rs_marker_new
+	}
+	scope:rs_marker_new ?= {
+		set_situation_center_province = scope:rs_temple
+		# The engine seems to draw no pin for a situation with no land: give it the temple's county
+		situation_sub_region:aeluran_rs_marker_area = { add_dejure_title_to_sub_region = scope:rs_temple.county }
+		set_variable = { name = aeluran_rs_temple_sister value = scope:rs_sister }
+		add_to_global_variable_list = { name = aeluran_rs_temple_markers target = this }
+		scope:rs_temple = { set_variable = { name = aeluran_rs_temple_marker value = scope:rs_marker_new } }
+	}
+	if = {
+		limit = { NOT = { exists = scope:rs_marker_new } }
+		debug_log = "RS MARKER: start_situation made no situation"
+		debug_log_scopes = yes
+	}
+}
+
+# Game start: up to two new temples in each Matronate, on empty non-capital baronies, one per county, in counties an
+# Aeluran ruler holds herself (where aeluran_diarchy.103 looks when her Red Sister asks for a temple), skipping counties
+# that already have one. Any scope.
+aeluran_matronate_seed_temples_effect = {
+	faith:aeluran_weavers = {
+		every_clerical_region_title = {
+			limit = { aeluran_is_matronate_title_trigger = yes }
+			save_temporary_scope_as = seed_matronate
+			while = {
+				count = 2
+				random_county_in_clerical_region = {
+					limit = { aeluran_matronate_seed_temple_county_trigger = yes }
+					random_county_province = {
+						limit = { aeluran_matronate_seed_temple_province_trigger = yes }
+						set_holding_type = church_holding
+					}
+				}
+			}
+		}
+	}
+}
+
+# Scope = a Matronate title without a slot
+aeluran_matronate_map_claim_slot_effect = {
+	if = {
+		limit = { this = title:d_matronate_feyswood }
+		set_variable = { name = aeluran_matronate_map_slot value = 1 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_crystal_glades }
+		set_variable = { name = aeluran_matronate_map_slot value = 2 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_high_hills }
+		set_variable = { name = aeluran_matronate_map_slot value = 3 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_valusia }
+		set_variable = { name = aeluran_matronate_map_slot value = 4 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_menzoberranzan }
+		set_variable = { name = aeluran_matronate_map_slot value = 5 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_middle_sea }
+		set_variable = { name = aeluran_matronate_map_slot value = 6 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_western_shores }
+		set_variable = { name = aeluran_matronate_map_slot value = 7 }
+	}
+	else_if = {
+		limit = { this = title:d_matronate_svartalfaheim }
+		set_variable = { name = aeluran_matronate_map_slot value = 8 }
+	}
+	# Founded Matronates take the next free slot. Slots are not reused after a Matronate is gone.
+	else = {
+		if = {
+			limit = { NOT = { has_global_variable = aeluran_matronate_map_next_slot } }
+			set_global_variable = { name = aeluran_matronate_map_next_slot value = 9 }
+		}
+		if = {
+			limit = { global_var:aeluran_matronate_map_next_slot <= 20 }
+			set_variable = { name = aeluran_matronate_map_slot value = global_var:aeluran_matronate_map_next_slot }
+			change_global_variable = { name = aeluran_matronate_map_next_slot add = 1 }
+		}
+		else = {
+			set_variable = { name = aeluran_matronate_map_slot value = 0 }
+			debug_log = "MATRONATE MAP: out of slots, this Matronate is not drawn"
+			debug_log_scopes = yes
+		}
+	}
+}
+
+# Saves the Matronate that owns slot $N$ as scope:mm_title, if it still has a region
+aeluran_matronate_map_find_slot_title_effect = {
+	clear_saved_scope = mm_title
+	faith:aeluran_weavers = {
+		random_clerical_region_title = {
+			limit = { var:aeluran_matronate_map_slot ?= $N$ }
+			save_scope_as = mm_title
+		}
+	}
+}
+
+# Root = the situation. Removes the counties of slot $N$ that are no longer in its Matronate (all of them if it is gone).
+aeluran_matronate_map_prune_slot_effect = {
+	aeluran_matronate_map_find_slot_title_effect = { N = $N$ }
+	situation_sub_region:aeluran_mm_slot_$N$ = {
+		save_scope_as = mm_sub
+		if = {
+			limit = { exists = scope:mm_title }
+			every_situation_sub_region_county = {
+				limit = {
+					NOT = { clerical_region_title ?= scope:mm_title }
+				}
+				add_to_temporary_list = mm_stale_$N$
+			}
+		}
+		else = {
+			every_situation_sub_region_county = { add_to_temporary_list = mm_stale_$N$ }
+		}
+		every_in_list = {
+			list = mm_stale_$N$
+			scope:mm_sub = { remove_dejure_title_from_sub_region = prev }
+		}
+	}
+}
+
+# Root = the situation. Adds every county of slot $N$'s Matronate.
+aeluran_matronate_map_fill_slot_effect = {
+	aeluran_matronate_map_find_slot_title_effect = { N = $N$ }
+	if = {
+		limit = { exists = scope:mm_title }
+		situation_sub_region:aeluran_mm_slot_$N$ = {
+			add_clerical_realm_to_sub_region = scope:mm_title
+		}
+	}
+}
+
+# Starts the map situation once (game start, or an older save picking it up). Any scope.
+# DORMANT (2026-10-04): inert, so neither the on_actions nor a dev scenario can start the Order situation. The body is
+# kept below for when it comes back.
+aeluran_matronate_map_ensure_started_effect = {
+	debug_log = "Aeluran Order situation is dormant (PM 2026-10-04): not started"
+	# if = {
+	# 	limit = {
+	# 		NOT = { exists = situation:aeluran_matronate_map }
+	# 	}
+	# 	start_situation = { type = aeluran_matronate_map }
+	# }
+}
+
+# Ends an Order situation still running in a save from before it went dormant. Any scope.
+aeluran_matronate_map_retire_effect = {
+	situation:aeluran_matronate_map ?= {
+		debug_log = "Aeluran Order situation retired (dormant since 2026-10-04)"
+		end_situation = yes
+	}
+}

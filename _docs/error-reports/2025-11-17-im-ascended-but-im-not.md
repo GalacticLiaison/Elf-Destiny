@@ -4,10 +4,10 @@
 ---
 ## Report
 **cosmic_waffles** · *2025-11-17*
-![elv.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027360828199153/elv.png?ex=6a83ea3d&is=6a8298bd&hm=7f34c072d8356568547958a6095e0f9a94c8777a26a6226a3f5a918a30493188&)
-![elv1.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361318928455/elv1.png?ex=6a83ea3d&is=6a8298bd&hm=779c6113c370842d7f9e5271003a0aa12738d10753619d5155f742bed07e3378&)
-![elv2.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361637826600/elv2.png?ex=6a83ea3d&is=6a8298bd&hm=1b707a1562563a5e6ef01e2ce25591f557019a079ec2c419a62885eafd1bdc4a&)
-![elv3.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361969049620/elv3.png?ex=6a83ea3d&is=6a8298bd&hm=ff3c9f673d6406c35defcc1e061e1229d73998440f44eef253ea4283877efe89&)
+![elv.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027360828199153/elv.png?ex=6ac3dafd&is=6ac2897d&hm=1a6d2412680785d66ae985f432f27abeacd3bcfac12d8e1074278f2f18fd5bce&)
+![elv1.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361318928455/elv1.png?ex=6ac3dafd&is=6ac2897d&hm=ab7589848cac73e9c467250bf253fea8594c4dd7099863ae99e85e0e8f9b7d14&)
+![elv2.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361637826600/elv2.png?ex=6ac3dafd&is=6ac2897d&hm=747ff0b2d9838f2bae141ab9caa66f651b7d5438f72f474dcc251254f63fe381&)
+![elv3.png](https://cdn.discordapp.com/attachments/1440027359825756190/1440027361969049620/elv3.png?ex=6ac3dafd&is=6ac2897d&hm=74a10643aa1eb36a9c44fc435f6fc661da976a53991155e2a1ad2b4f6fe4d876&)
 ---
 
 ## Discussion (23 comments)
@@ -71,7 +71,7 @@ the solution?
 
 **edgor12** · *2025-11-22*
 vanilla ck3 uses this for tribal holdings
-![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441919978524774440/image.png?ex=6a843560&is=6a82e3e0&hm=6054db21f462e580e65b52f62f35a1d48b7bfc479d597ba1ac97350432181f69&)
+![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441919978524774440/image.png?ex=6ac42620&is=6ac2d4a0&hm=4a72e3bace56b1f543be13629ba8d1ad474523b567d59b70ddbe37dcda7ebca3&)
 
 **edgor12** · *2025-11-22*
 scope:holder ?= { }
@@ -92,14 +92,14 @@ but i wanna play with it soo baaad 😭
 OMG I FIXED IT
 
 **edgor12** · *2025-11-22*
-![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441924524529549476/image.png?ex=6a84399c&is=6a82e81c&hm=8069cb96c604c0b56cee2447d219a618232058c79f0da201cfceb1b38a57296e&)
+![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441924524529549476/image.png?ex=6ac42a5c&is=6ac2d8dc&hm=99b00263963f1112201e4f452bd8ad45c4ef0abf1e22ee88f5d3ce8a00ec9601&)
 
 **edgor12** · *2025-11-22*
 YOU PUT ALL THE FLAGS TOGETHER LIKE THIS
 
 **edgor12** · *2025-11-22*
 ITS WORKING NOW
-![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441924745020051596/image.png?ex=6a8439d0&is=6a82e850&hm=6b7bbc959d279b2e44f7c13b204b7795921b924c443ebc628f8f64ea810a2f2a&)
+![image.png](https://cdn.discordapp.com/attachments/1440027359825756190/1441924745020051596/image.png?ex=6ac42a90&is=6ac2d910&hm=fafcb421026c26f341279c276ddf44104b0dc52086df541dc62e08affadc4d44&)
 
 **edgor12** · *2025-11-22*
 LETS GOOO
