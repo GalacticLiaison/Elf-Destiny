@@ -1,7 +1,7 @@
 ﻿# Matronate temples at game start, and the Red Sister temple markers (common/scripted_effects/aeluran_matronate_map_effects.txt).
 
-# Before the lobby, so the new temples are on the map players pick from. The Red Sisters who arrive later ask for
-# a temple (aeluran_diarchy.103) and find these.
+# Before the lobby, so the new temples are on the map players pick from. The Red Sisters who arrive later take them
+# through the lease.
 on_game_start = {
 	on_actions = {
 		aeluran_matronate_seed_temples
@@ -14,9 +14,10 @@ aeluran_matronate_seed_temples = {
 	}
 }
 
-# Red Sister temple markers (common/situation/situations/elf_dest_rs_temple_marker_situation.txt): a marker opens the
-# day a Red Sister takes a temple, and a full pass runs after the lobby and yearly as a backstop. Each marker checks
-# itself monthly and closes when its Sister is gone (the marker type's on_monthly).
+# Red Sister temple markers (common/situation/situations/elf_dest_rs_temple_marker_situation.txt). Leases fire no
+# on_action, so: a full pass after the lobby and yearly, a check on each ruler's quarterly pulse, and one when A Matter
+# of Land settles (aeluran_matter_of_land_settled_effect). Each marker checks itself monthly and closes when its Sister
+# is gone (the marker type's on_monthly).
 on_game_start_after_lobby = {
 	on_actions = {
 		aeluran_rs_temple_markers_sync
@@ -35,22 +36,18 @@ aeluran_rs_temple_markers_sync = {
 	}
 }
 
-# Root = the new holder, scope:title = the title gained
-on_title_gain = {
+# Root = a landed ruler
+quarterly_playable_pulse = {
 	on_actions = {
-		aeluran_rs_temple_marker_on_gain
+		aeluran_rs_temple_markers_quarterly
 	}
 }
 
-aeluran_rs_temple_marker_on_gain = {
+aeluran_rs_temple_markers_quarterly = {
 	trigger = {
-		has_council_position = councillor_aeluran_advisor
-		scope:title = {
-			tier = tier_barony
-			title_province = { has_holding_type = church_holding }
-		}
+		exists = cp:councillor_aeluran_advisor
 	}
 	effect = {
-		aeluran_matronate_map_sync_temple_markers_effect = yes
+		aeluran_rs_temple_markers_for_ruler_effect = yes
 	}
 }
