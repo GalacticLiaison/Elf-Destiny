@@ -1,0 +1,112 @@
+﻿# Red Sister temple markers: a marker situation (aeluran_rs_temple_marker, common/situation/situations/) per temple a
+# Red Sister holds, centred on the temple so the engine draws its pin there (the only way to pin an arbitrary barony).
+# Markers live in the global list aeluran_rs_temple_markers; each temple province points at its marker in
+# var:aeluran_rs_temple_marker, and each marker carries its Sister in var:aeluran_rs_temple_sister. The pin itself is in
+# gui/map_icon_layer.gui and draws only for Order members (aeluran_order_sees_temple_cards).
+# Run when a Red Sister gains a temple, after the lobby and yearly (common/on_action/aeluran_matronate_map_on_actions.txt);
+# between runs each marker closes itself (aeluran_rs_temple_marker_self_check_effect, monthly). Any scope.
+aeluran_matronate_map_sync_temple_markers_effect = {
+	# Close markers whose Sister died, lost the seat or lost the temple (collected first: the list is edited below)
+	every_in_global_list = {
+		variable = aeluran_rs_temple_markers
+		save_temporary_scope_as = rs_marker
+		if = {
+			limit = {
+				NOT = {
+					var:aeluran_rs_temple_sister ?= {
+						is_alive = yes
+						has_council_position = councillor_aeluran_advisor
+						any_held_title = { this = scope:rs_marker.situation_center_province.barony }
+					}
+				}
+			}
+			add_to_temporary_list = rs_stale_markers
+		}
+	}
+	every_in_list = {
+		list = rs_stale_markers
+		situation_center_province ?= { remove_variable = aeluran_rs_temple_marker }
+		remove_list_global_variable = { name = aeluran_rs_temple_markers target = this }
+		end_situation = yes
+	}
+	# Open one for every Red Sister temple that has none
+	every_ruler = {
+		limit = { exists = cp:councillor_aeluran_advisor }
+		cp:councillor_aeluran_advisor = {
+			save_temporary_scope_as = rs_sister
+			every_held_title = {
+				limit = {
+					tier = tier_barony
+					title_province = {
+						has_holding_type = church_holding
+						NOT = { exists = var:aeluran_rs_temple_marker }
+					}
+				}
+				title_province = { aeluran_rs_temple_marker_start_effect = yes }
+			}
+		}
+	}
+}
+
+# Root = a marker situation (its on_monthly). Closes it when its Sister is dead, off the Red Sister seat or no longer
+# holds the temple.
+aeluran_rs_temple_marker_self_check_effect = {
+	if = {
+		limit = {
+			NOT = {
+				var:aeluran_rs_temple_sister ?= {
+					is_alive = yes
+					has_council_position = councillor_aeluran_advisor
+					any_held_title = { this = root.situation_center_province.barony }
+				}
+			}
+		}
+		situation_center_province ?= { remove_variable = aeluran_rs_temple_marker }
+		remove_list_global_variable = { name = aeluran_rs_temple_markers target = this }
+		end_situation = yes
+	}
+}
+
+# Scope = a temple province; scope:rs_sister = the Red Sister who holds it
+aeluran_rs_temple_marker_start_effect = {
+	save_scope_as = rs_temple
+	start_situation = {
+		type = aeluran_rs_temple_marker
+		save_scope_as = rs_marker_new
+	}
+	scope:rs_marker_new ?= {
+		set_situation_center_province = scope:rs_temple
+		# The engine draws no pin for a situation with no land: give it the temple's county
+		situation_sub_region:aeluran_rs_marker_area = { add_dejure_title_to_sub_region = scope:rs_temple.county }
+		set_variable = { name = aeluran_rs_temple_sister value = scope:rs_sister }
+		add_to_global_variable_list = { name = aeluran_rs_temple_markers target = this }
+		scope:rs_temple = { set_variable = { name = aeluran_rs_temple_marker value = scope:rs_marker_new } }
+	}
+	if = {
+		limit = { NOT = { exists = scope:rs_marker_new } }
+		debug_log = "RS MARKER: start_situation made no situation"
+		debug_log_scopes = yes
+	}
+}
+
+# Game start: up to two new temples in each Matronate, on empty non-capital baronies, one per county, in counties an
+# Aeluran ruler holds herself (where aeluran_diarchy.103 looks when her Red Sister asks for a temple), skipping counties
+# that already have one. Any scope.
+aeluran_matronate_seed_temples_effect = {
+	faith:aeluran_weavers = {
+		every_clerical_region_title = {
+			limit = { aeluran_is_matronate_title_trigger = yes }
+			save_temporary_scope_as = seed_matronate
+			while = {
+				count = 2
+				random_county_in_clerical_region = {
+					limit = { aeluran_matronate_seed_temple_county_trigger = yes }
+					random_county_province = {
+						limit = { aeluran_matronate_seed_temple_province_trigger = yes }
+						set_holding_type = church_holding
+					}
+				}
+			}
+		}
+	}
+}

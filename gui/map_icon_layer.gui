@@ -6159,7 +6159,9 @@ widget = {
 		ignoreinvisible = yes
 
 		sub_region_icon = {
-			visible = yes
+			### Elf Destiny: not for a Red Sister temple marker (it draws the card below instead). Matched by type name:
+			### the GUI reads no variables off a situation here (Situation.MakeScope.Var(...) came back unset).
+			visible = "[Not( EqualTo_string( Situation.GetType.GetNameNoTooltip, Localize( 'situation_type_aeluran_rs_temple_marker' ) ) )]"
 			blockoverride "on_click_section"
 			{
 				onclick = "[ToggleGameViewData( Situation.GetWindowName, Situation.GetID )]"
@@ -6184,6 +6186,41 @@ widget = {
 
 					tooltip = "SITUATION_PIN_TT"
 				}
+			}
+		}
+
+		### Elf Destiny: Red Sister temple marker (common/situation/situations/elf_dest_rs_temple_marker_situation.txt).
+		### The marker situation is centred on the temple; the pin is the temple holder's portrait (the Red Sister,
+		### the sync closes the marker once she no longer holds it) with a temple badge, and clicking it opens her.
+		### Not read from var:aeluran_rs_temple_sister: a datacontext is fixed when the pin is created, which happens
+		### on start_situation, before the variable is set.
+		widget_character_icon = {
+			name = "aeluran_rs_temple_card"
+			datacontext = "[Situation.GetCenterProvince.GetTitle.GetHolder]"
+			### Order members only (common/scripted_guis/aeluran_order_window_scripted_gui.txt): other players see nothing here
+			visible = "[And( EqualTo_string( Situation.GetType.GetNameNoTooltip, Localize( 'situation_type_aeluran_rs_temple_marker' ) ), GetScriptedGui( 'aeluran_order_sees_temple_cards' ).IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ) )]"
+			size = { 60 68 }
+
+			state = {
+				name = "map_zoom_close"
+				size = { 60 68 }
+				duration = 0.25
+				trigger_when = "[LessThan_int32( GetZoomLevel, '(int32)14' )]"
+			}
+			state = {
+				name = "map_zoom_far"
+				size = { 44 50 }
+				duration = 0.25
+				trigger_when = "[GreaterThan_int32( GetZoomLevel, '(int32)13' )]"
+			}
+
+			# Temple badge over the portrait
+			icon = {
+				texture = "gfx/interface/icons/icon_holding_church.dds"
+				size = { 24 24 }
+				parentanchor = bottom|right
+				position = { 6 6 }
+				alwaystransparent = yes
 			}
 		}
 	}

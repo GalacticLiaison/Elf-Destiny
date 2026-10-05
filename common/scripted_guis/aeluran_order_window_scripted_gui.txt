@@ -62,3 +62,20 @@ aeluran_order_open_appoint = {
 		}
 	}
 }
+
+# Who sees the Red Sister temple cards on the map (gui/map_icon_layer.gui, the situation_map_pin_widget fork): members of
+# the Order only. Checked against the viewing player, so the pins exist for everyone but draw for nobody else.
+aeluran_order_sees_temple_cards = {
+	scope = character
+
+	is_shown = {
+		OR = {
+			has_trait = aeluran_sister
+			has_trait = aeluran_matron
+			has_trait = aeluran_high_matriarch
+			has_government = aeluran_weavers_government
+			has_title = title:d_high_matriarch
+			any_held_title = { aeluran_is_matronate_title_trigger = yes }
+		}
+	}
+}
