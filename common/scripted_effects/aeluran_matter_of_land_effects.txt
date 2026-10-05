@@ -1,0 +1,42 @@
+﻿# A Matter of Land (events/aeluran/aeluran_diarchy_events.txt: 103, 1031, 1033). A Red Sister keeps the temples her
+# ruler's lease hands her (common/lease_contracts/elf_dest_aeluran_lease.txt); the Order builds one where the realm has
+# none. The Sister is never given a temple outright (dropped in Beta_v2.0.4, PM 2026-10-05: a granted temple left the
+# lease and paid the Order nothing). Root = the ruler; scope:aeluran_sister_advisor = her Red Sister.
+
+# Finds a temple in the Sister's care (scope:temple_in_care): one leased to her, or one the ruler holds, which the lease
+# takes. Failing that, an empty barony the Order could build on (scope:undeveloped_holding).
+aeluran_matter_of_land_survey_effect = {
+	clear_saved_scope = temple_in_care
+	clear_saved_scope = undeveloped_holding
+	random_sub_realm_barony = {
+		limit = {
+			title_province = { has_holding_type = church_holding }
+			OR = {
+				lessee ?= scope:aeluran_sister_advisor
+				holder = root
+			}
+		}
+		save_scope_as = temple_in_care
+	}
+	if = {
+		limit = { NOT = { exists = scope:temple_in_care } }
+		random_realm_province = {
+			limit = {
+				has_holding = no
+				has_ongoing_construction = no	# not one the Order is already building
+				barony_cannot_construct_holding = no
+				county.holder = root
+			}
+			save_scope_as = undeveloped_holding
+		}
+	}
+}
+
+# The matter is settled: the Order's grievance ends and the Sister's temples get their map markers
+aeluran_matter_of_land_settled_effect = {
+	if = {
+		limit = { has_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor }
+		remove_character_flag = aeluran_penalty_has_unlanded_aeluran_advisor
+	}
+	aeluran_rs_temple_markers_for_ruler_effect = yes
+}
