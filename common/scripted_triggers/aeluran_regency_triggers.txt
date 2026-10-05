@@ -90,3 +90,12 @@ new_temple_available_for_diarch = {
 	$COUNTY$.holder = root
 	$PROVINCE$ = { has_holding = yes }
 }
+# Scope = a barony title. A temple that $SISTER$ (a Red Sister) keeps: leased to her by her ruler's lease, or, in saves
+# from before Beta_v2.0.4, held by her outright. Used by A Matter of Land and the temple map markers.
+aeluran_temple_kept_by_sister_trigger = {
+	title_province = { has_holding_type = church_holding }
+	OR = {
+		lessee ?= $SISTER$
+		holder = $SISTER$
+	}
+}
