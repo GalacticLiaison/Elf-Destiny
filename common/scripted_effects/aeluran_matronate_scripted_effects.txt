@@ -242,7 +242,7 @@ aeluran_matronate_grant_effect = {
 # of its culture, and of its rite (a Dark Sister for a Matronate of one of the Dark Sisters' rites).
 aeluran_matronate_create_sister_effect = {
 	if = {
-		limit = { scope:matronate_capital.rite ?= { rite_has_tenet = tenet_dark_sisters } }
+		limit = { scope:matronate_capital = { aeluran_follows_dark_sisters_trigger = yes } }
 		create_character = {
 			template = dark_aeluran_sister_advisor
 			dynasty = none
@@ -665,8 +665,8 @@ aeluran_see_sweep_effect = {
 	}
 }
 
-# Root = the elven ruler of a claimed see's seat. Picks who becomes its Matron into scope:matronate_successor
-# (scope:matronate_capital set): root herself if she may receive a Matronate, else the best Sister of her court,
+# Scope = the elven ruler of a claimed see's seat (scope:see_conqueror; there is no root in the yearly sweep). Picks who
+# becomes its Matron into scope:matronate_successor (scope:matronate_capital set): the ruler herself if she may receive a Matronate, else the best Sister of her court,
 # else a Sister the Order sends to her court.
 aeluran_see_pick_matron_effect = {
 	if = {
@@ -695,7 +695,7 @@ aeluran_see_pick_matron_effect = {
 		limit = { NOT = { exists = scope:matronate_successor } }
 		aeluran_matronate_create_sister_effect = yes
 		# She comes to the ruler's court first: a Sister of no court could not be made Matron (tested 2026-10-01)
-		scope:matronate_successor ?= { set_employer = root }
+		scope:matronate_successor ?= { set_employer = scope:see_conqueror }
 	}
 }
 
@@ -715,7 +715,7 @@ aeluran_matronate_seed_court_effect = {
 		count = 5 # enough Sisters to fill her council, which only women may sit on (2026-10-01)
 		clear_saved_scope = seeded_sister
 		if = {
-			limit = { rite ?= { rite_has_tenet = tenet_dark_sisters } }
+			limit = { aeluran_follows_dark_sisters_trigger = yes }
 			create_character = {
 				template = dark_aeluran_sister_advisor
 				dynasty = none
