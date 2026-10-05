@@ -12,5 +12,3 @@ Religion
 # Bugs/Balance
 - Fixed the ruler designer crashing on the Eyes tab. Vanilla gene files are no longer overridden wholesale.
 - Fixed dangling gene template names in dark elf and great house DNA.
-- The Order's flock window is hidden until it is ready.
-- The Cobra Staff and Spider Choker poses no longer appear in the barbershop.
