@@ -1,4 +1,4 @@
-set_aeluran_clothing_colors = {
+﻿set_aeluran_clothing_colors = {
 	if = {
 		limit = {
 			NOT = {
@@ -86,3 +86,24 @@ clear_aeluran_clothing_colors = {
     remove_variable = POD_portrait_clothing_2_g
     remove_variable = POD_portrait_clothing_2_b
 }
+# Robes by chapter: black for a Sister who follows the Dark Sisters, red otherwise (PM 2026-10-05: the tenet decides,
+# race plays no part). Use this wherever a Sister is created, raised or seated, so a promotion never repaints her.
+aeluran_set_sister_clothing_effect = {
+	if = {
+		limit = { NOT = { has_character_flag = ignore_aeluran_clothes } }
+		if = {
+			limit = { aeluran_follows_dark_sisters_trigger = yes }
+			debug_log = "ROBES black (Dark Sisters)"
+			set_black_aeluran_clothing_colors = yes
+		}
+		else = {
+			debug_log = "ROBES red (Aeluran Sisters)"
+			manual_set_clothes_colors = { channel = 1 RED = 0.5 GREEN = 0 BLUE = 0 }
+			manual_set_clothes_colors = { channel = 2 RED = 0.5 GREEN = 0 BLUE = 0 }
+		}
+		debug_log_scopes = yes
+	}
+}
+
+# NOTE: set_aeluran_clothing_colors above is overridden by common/scripted_effects/dark_elf_scripted_effects.txt (same key,
+# later file), which also handles the black robes. Prefer aeluran_set_sister_clothing_effect below.

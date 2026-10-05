@@ -242,7 +242,7 @@ aeluran_matronate_grant_effect = {
 # of its culture, and of its rite (a Dark Sister for a Matronate of one of the Dark Sisters' rites).
 aeluran_matronate_create_sister_effect = {
 	if = {
-		limit = { scope:matronate_capital.rite ?= { rite_has_tenet = tenet_dark_sisters } }
+		limit = { scope:matronate_capital = { aeluran_follows_dark_sisters_trigger = yes } }
 		create_character = {
 			template = dark_aeluran_sister_advisor
 			dynasty = none
@@ -715,7 +715,7 @@ aeluran_matronate_seed_court_effect = {
 		count = 5 # enough Sisters to fill her council, which only women may sit on (2026-10-01)
 		clear_saved_scope = seeded_sister
 		if = {
-			limit = { rite ?= { rite_has_tenet = tenet_dark_sisters } }
+			limit = { aeluran_follows_dark_sisters_trigger = yes }
 			create_character = {
 				template = dark_aeluran_sister_advisor
 				dynasty = none

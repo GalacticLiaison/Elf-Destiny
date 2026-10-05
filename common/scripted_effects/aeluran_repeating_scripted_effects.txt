@@ -76,18 +76,26 @@ determine_new_aeluran_advisor_effect = {
             name = appointed_to_advise
             value = root
         }
+        # A Sister found at court takes the court's chapter: her robes follow the ruler's tenet (PM 2026-10-05). A landed
+        # Sister keeps her own rite and wears her own chapter's colour.
+        if = {
+            limit = {
+                is_ruler = no
+                exists = root.rite
+            }
+            set_character_rite = root.rite
+        }
+        aeluran_set_sister_clothing_effect = yes
     }
 }
 
 
 create_aeluran_advisor_effect = {
-    # Dark Elf rulers (or anyone whose rite is one of the Dark Sisters chapters) are sent a Dark Sister of their own culture
+    # The body follows the ruler's race: a Dark Elf ruler is sent a dark-elf Sister of their own culture. Her robes follow
+    # the ruler's tenet, set below once she has the rite (aeluran_set_sister_clothing_effect, PM 2026-10-05).
     if = {
         limit = {
-            OR = {
-                is_dark_elf = yes
-                rite ?= { rite_has_tenet = tenet_dark_sisters }
-            }
+            is_dark_elf = yes
         }
         create_character = {
             template = dark_aeluran_sister_advisor
@@ -132,6 +140,8 @@ create_aeluran_advisor_effect = {
             set_character_rite = root.rite
         }
     }
+    # Robes by the ruler's tenet, whatever her race
+    scope:aeluran_sister_advisor ?= { aeluran_set_sister_clothing_effect = yes }
 }
 
 # Temporarily disabling this until we create a fool proof fallback workflow to handle aelurans that never arrive
@@ -317,7 +327,7 @@ appoint_new_aeluran_matriarch_effect = {
             aeluran_remove_matron_seat_effect = yes
             remove_trait = aeluran_matron
             add_trait = aeluran_high_matriarch
-            set_aeluran_clothing_colors = yes
+            aeluran_set_sister_clothing_effect = yes
             give_title_aeluran_matriarch = yes
 			give_title_aeluran_matriarch = yes
 			give_title_aeluran_matriarch = yes
@@ -386,7 +396,7 @@ aeluran_raise_to_matron_effect = {
         limit = { NOT = { has_trait = aeluran_matron } }
         add_trait = aeluran_matron
     }
-    set_aeluran_clothing_colors = yes
+    aeluran_set_sister_clothing_effect = yes
     # A Matron who already rules land moves to the Order government (no title gain fires for her)
     if = {
         limit = {
