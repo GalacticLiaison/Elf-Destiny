@@ -2,8 +2,7 @@
 
 NEW! The Aeluran Order's magi: pledged at peace, mustered at war
    - The Order's magi reinforcements work again after the 1.20 update: the Magistration event fired but no soldiers arrived, under every government.
-   - The Order now pledges magi while a ruler is at peace. The pledged host assembles at the capital the first time she goes to war, and from then on the Order refills it every season as before.
-   - Pledged magi are listed in the Military window under "Pledged by the Aeluran Order", with the counts and where they come from, until the host assembles. The Magistration task always states the host's status: what stands, what is pledged, what each delivery brings and from where, and when the next one is due.
+   - Pledged magi are listed in the Military window under "Pledged by the Aeluran Order", with the counts and where they come from, until the host first assembles.
    - Any ruler with an Aeluran Advisor receives the deliveries. She no longer needs to hold a temple, the deliveries no longer stop while she works on another council task, and the two-year wait after she takes her seat is gone: the first pledge comes with the next season.
    - Temples leased to the Aeluran Advisor feed the Order's magi: each adds 10 magi to every delivery and one more sub-regiment to the host's cap, on top of what titled Aeluran Order vassals owe by their contract.
    - The Magistration task is the Advisor's own contribution: deliveries grow by 1% per point of her Learning, and the ruler's Spark Wielder regiments gain 0.5% damage and toughness per point while she magistrates.
@@ -22,5 +21,4 @@ NEW! Dark Elf houses in the bloodline events
 - The Drow and Dökkálfar cultures now have their name forms: a nomad realm of theirs read "The elf_culture_dokkalfar_collective_noun".
 - The Drow and Dökkálfar cultures now choose a culture head; they lacked the head-determination pillar 1.20 requires.
 - The Familial Familiarity tradition exempts its culture from consanguinity rules again: since 1.20 the marriage, betrothal, concubinage and incest-secret checks hooked a trigger the game no longer calls, so the tradition did nothing for them.
-- The Seduce and Courting schemes' taboo penalties (incest, sodomy, adultery) apply again; their checks named triggers 1.20 renamed, so they never fired.
 - Demand Conversion, the armor and helmet portrait rules and the other overridden game triggers are brought up to the 1.20 versions (puppet actors, adventurer camps, military orders, military governors). Magi still never wear armor.
