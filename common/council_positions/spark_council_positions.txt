@@ -212,11 +212,8 @@ councillor_aeluran_advisor = {
 				name = religious_advisor
 				value = root
 			}
-
-			add_character_flag = { # So ruler doesnt instantly get reinforcements
-				flag = received_aeluran_magi_recently
-				years = 2
-			}
+			# The two-year wait before the first magi delivery was dropped (PM 2026-10-07): the first pledge comes with
+			# the next quarterly pulse (aeluran_reinforcement_on_actions.txt).
 		}
 	}
 
@@ -274,11 +271,7 @@ councillor_court_chaplain = {
 	skill = learning
 
 	auto_fill = {
-		NOT = {
-			root.faith = {
-				has_tenet = tenet_aeluran_sisters
-			}
-		}
+		root = { aeluran_order_faith_trigger = no }
 		trigger_if = {
 			limit = {
 				is_ai = yes
@@ -540,11 +533,7 @@ councillor_court_chaplain = {
 			government_has_flag = government_is_landless_adventurer
 			government_has_flag = government_is_nomadic
 		}
-		root.faith = {
-			NOT = {
-				has_tenet = tenet_aeluran_sisters
-			}
-		}
+		root = { aeluran_order_faith_trigger = no }
 	}
 
 	on_get_position = {
@@ -673,9 +662,7 @@ councillor_court_chaplain = {
 		if = { #Converted Faith
 			limit = {
 				scope:liege = {
-					faith = {
-						has_tenet = tenet_aeluran_sisters
-					}
+					aeluran_order_faith_trigger = yes
 					# NOT = {
 					# 	exists = cp:councillor_aeluran_advisor
 					# }

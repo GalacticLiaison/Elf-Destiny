@@ -52,9 +52,7 @@ elf_elective = {
 		modifier = { #Aeluran Order Vassals
 			desc = tooltip_elven_vote_strength_aeluran_order_vassal
 			add = aeluran_order_vassal_votes_bonus
-			scope:holder.faith = {
-				has_tenet = tenet_aeluran_sisters 
-			}
+			scope:holder = { aeluran_order_faith_trigger = yes }
 			has_government = aeluran_weavers_government
 		}
 	}
@@ -64,47 +62,47 @@ elf_elective = {
 	# TODO: Aeluran Order vassals based on aeluran control
 	# TODO: maybe Realm Lord gets a few votes if kingdom or above!
 
+	# CK3 1.20: elector and candidate sets are named character_sets (vanilla 00_feudal_elective.txt)
 	electors = {
-		add = holder
-		add = {
-			type = title_dejure_vassals
-			limit = {
-				is_any_elf_type = yes
-				OR = { #1 or 2 tiers of difference for Electors.
-					scope:title = { tier = tier_county }
-					AND = {
-						scope:title = { tier = tier_duchy }
-						highest_held_title_tier >= 1
+		character_sets = {
+			elf_electors_holder = {
+				type = holder
+			}
+			elf_electors_dejure_vassals = {
+				type = title_dejure_vassals
+				limit = {
+					is_any_elf_type = yes
+					OR = { #1 or 2 tiers of difference for Electors.
+						scope:title = { tier = tier_county }
+						AND = {
+							scope:title = { tier = tier_duchy }
+							highest_held_title_tier >= 1
+						}
+						AND = {
+							scope:title = { tier = tier_kingdom }
+							highest_held_title_tier >= 2
+						}
+						AND = {
+							scope:title = { tier = tier_empire }
+							highest_held_title_tier >= 3
+						}
+						AND = {
+							scope:title = { tier = tier_hegemony }
+							highest_held_title_tier >= 4
+						}
 					}
-					AND = {
-						scope:title = { tier = tier_kingdom }
-						highest_held_title_tier >= 2
+					OR = { #Either de facto direct vassal, or independent ruler who is de jure vassal. (no sub-vassals)
+						is_vassal_of = scope:holder
+						top_liege = this
 					}
-					AND = {
-						scope:title = { tier = tier_empire }
-						highest_held_title_tier >= 3
+					any_held_title = { #Elector title must be a de jure vassal of the title being voted on; only the highest-tier title counts.
+						tier = root.highest_held_title_tier
+						exists = de_jure_liege
+						target_is_de_jure_liege_or_above = scope:title
 					}
-				}
-				OR = { #Either de facto direct vassal, or independent ruler who is de jure vassal. (no sub-vassals)
-					is_vassal_of = scope:holder
-					is_independent_ruler = yes
-				}
-				any_held_title = { #Elector title must be a de jure vassal of the title being voted on; multi-Dukes (or similar) might have two duchies in multiple electoral domains, which they should be able to vote on. This is only valid for the highest-tier title (so a Duke-Elector who also owns a County which is an electoral title for another title does not get a vote from that county).
-					tier = root.highest_held_title_tier
-					exists = de_jure_liege
-					target_is_de_jure_liege_or_above = scope:title
 				}
 			}
 		}
-		#add = {
-		#	type = holder_direct_vassals
-		#	limit = {
-		#		is_any_elf_type = yes
-		#		# is_aeluran_sister_or_higher = yes
-		#		# has_government = aeluran_weavers_government
-		#	}
-		#	# limit = {}
-		#}
 	}
 
 	candidate_score = {
@@ -131,26 +129,27 @@ elf_elective = {
 		# since dynasty can literally be ten thousand people... maybe filter for landowners in realm?
 	# TODO: all direct dejure vassals
 	candidates = {
-		add = {
-			type = holder_close_family
-			limit = {
-				is_any_elf_type = yes
-				this.highest_held_title_tier <= scope:title.tier
+		character_sets = {
+			elf_elective_close_family = {
+				type = holder_close_family
+				limit = {
+					is_any_elf_type = yes
+					this.highest_held_title_tier <= scope:title.tier
+				}
 			}
-		}
-		add = {
-			type = holder_direct_vassals
-			limit = {
-				is_any_elf_type = yes
-				elf_elective_potential_landed_candidate_trigger = yes
+			elf_elective_direct_vassals = {
+				type = holder_direct_vassals
+				limit = {
+					is_any_elf_type = yes
+					elf_elective_potential_landed_candidate_trigger = yes
+				}
 			}
-		}
-		add = {
-			type = holder_close_or_extended_family
-			limit = {
-				# is_close_family_of = scope:holder
-				is_any_elf_type = yes
-				elf_elective_potential_landless_dynastic_candidate_trigger = yes
+			elf_elective_extended_family = {
+				type = holder_close_or_extended_family
+				limit = {
+					is_any_elf_type = yes
+					elf_elective_potential_landless_dynastic_candidate_trigger = yes
+				}
 			}
 		}
 	}

@@ -13,3 +13,16 @@ aeluran_follows_dark_sisters_trigger = {
 		faith ?= { has_tenet = tenet_dark_sisters }
 	}
 }
+
+# Follows the Order, of either Sisterhood: either tenet, on the rite or on the faith (PM 2026-10-08: every "has the
+# Aeluran Sisters tenet" gate in the mod uses this). has_tenet reads the faith's mainline core tenets, so a Dark Sisters
+# branch rite of the Aeluran faith passes through the faith; a standalone faith built on the Dark Sisters tenet passes
+# through the tenet itself. Works on characters and on county titles.
+aeluran_order_faith_trigger = {
+	OR = {
+		faith ?= { has_tenet = tenet_aeluran_sisters }
+		faith ?= { has_tenet = tenet_dark_sisters }
+		rite ?= { rite_has_tenet = tenet_aeluran_sisters }
+		rite ?= { rite_has_tenet = tenet_dark_sisters }
+	}
+}

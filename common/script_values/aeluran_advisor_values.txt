@@ -32,6 +32,12 @@ years_between_magi_reinforcements = {
 	value = 3
 }
 
+# Shown in the Magistration task description: the year the next delivery is due (set at each delivery)
+aeluran_next_delivery_year_value = {
+	value = current_year
+	add = years_between_magi_reinforcements
+}
+
 base_aeluran_contribution_value = {
 	value = 9
 }
@@ -76,23 +82,8 @@ aeluran_vassal_contribution = {
 		multiply = 2
 	}
 
-	# Handle Aeluran Realm law Bonus
-	if = {
-		limit = {
-			liege_or_court_owner = {
-				has_realm_law = aeluran_realm_authority_1
-			}
-		}
-		multiply = 1.25
-	}
-	else_if = {
-		limit = {
-			liege_or_court_owner = {
-				has_realm_law = aeluran_realm_authority_2
-			}
-		}
-		multiply = 1.5
-	}
+	# The Realm Authority bonus is applied once to the whole delivery (total_aeluran_magi_reinforcements), not per vassal,
+	# so the breakdown can show it as its own line (PM 2026-10-08)
 
 	if = {
 		limit = {
@@ -104,7 +95,8 @@ aeluran_vassal_contribution = {
 	}
 }
 
-total_aeluran_magi_reinforcements = {
+# What the ruler's titled Aeluran Order vassals owe this delivery (contract level, counties, Realm Authority)
+aeluran_vassal_magi_total = {
 	value = 0
 
 	every_vassal = {
@@ -114,7 +106,121 @@ total_aeluran_magi_reinforcements = {
 
 		add = aeluran_vassal_contribution
 	}
+}
 
+### Leased temples (PM 2026-10-07): every temple the ruler's Red Sister holds under lease in the ruler's own counties
+### yields magi too, whether or not she holds anything else. Titled Order vassals keep their temples (the lease skips
+### them), so they contribute through the vassal contract instead.
+
+# Magi one leased temple adds to a delivery. Temple buildings will add to this later.
+aeluran_temple_magi_yield = {
+	value = 10
+}
+
+# The Matronate's cut of the temple yield. 0 until the Matron's reserve exists; the split is decided later.
+aeluran_temple_magi_matronate_share = {
+	value = 0
+}
+
+# Church holdings in the ruler's own counties that the Order tends. Two forms, both seen in game 2026-10-07:
+#  - leased: the ruler stays the holder and the temple is leased to her Red Sister (Virion of Mytharil: is_leased_out = yes);
+#  - held outright by a Sister, Matron or Matriarch (a landed Red Sister, or an Order-government ruler's own temple;
+#    the lease skips those, so is_leased_out = no there).
+# Holy-order leases are not the Order's.
+aeluran_leased_temple_count = {
+	value = 0
+	if = {
+		limit = { exists = cp:councillor_aeluran_advisor }
+		every_held_title = {
+			limit = { tier = tier_county }
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_barony
+					title_province = { has_holding_type = church_holding }
+					OR = {
+						AND = {
+							is_leased_out = yes
+							NOT = { is_under_holy_order_lease = yes }
+						}
+						holder ?= { is_aeluran_sister_or_higher = yes }
+					}
+				}
+				add = 1
+			}
+		}
+	}
+}
+
+# The Realm Authority bonus on the whole delivery: +25% / +50% / +75%
+aeluran_realm_law_magi_mult = {
+	if = {
+		limit = { has_realm_law = aeluran_realm_authority_3 }
+		value = 1.75
+	}
+	else_if = {
+		limit = { has_realm_law = aeluran_realm_authority_2 }
+		value = 1.5
+	}
+	else_if = {
+		limit = { has_realm_law = aeluran_realm_authority_1 }
+		value = 1.25
+	}
+	else = {
+		value = 1
+	}
+}
+
+aeluran_realm_law_magi_percent = {
+	value = aeluran_realm_law_magi_mult
+	subtract = 1
+	multiply = 100
+}
+
+# temples x yield, less the Matronate's share (the Realm Authority bonus is applied to the whole delivery)
+aeluran_temple_magi_total = {
+	value = aeluran_leased_temple_count
+	multiply = aeluran_temple_magi_yield
+	multiply = {
+		value = 1
+		subtract = aeluran_temple_magi_matronate_share
+	}
+}
+
+### The Red Sister's Magistration work (PM 2026-10-07): deliveries grow by 1% per point of her Learning while she is
+### on the task, and the ruler's Spark Wielder regiments fight better (common/council_tasks/aeluran_advisor_tasks.txt)
+
+# Ruler scope: the delivery bonus in percent
+aeluran_magistration_delivery_percent = {
+	value = 0
+	if = {
+		limit = {
+			exists = cp:councillor_aeluran_advisor
+			cp:councillor_aeluran_advisor = { is_performing_council_task = task_aeluran_magistration }
+		}
+		add = cp:councillor_aeluran_advisor.learning
+	}
+}
+aeluran_magistration_delivery_mult = {
+	value = aeluran_magistration_delivery_percent
+	divide = 100
+	add = 1
+}
+
+# Councillor scope (the task's modifier scale and its description): 1% deliveries and 0.5% damage and toughness per point
+aeluran_magistration_delivery_scale = {
+	value = learning
+}
+aeluran_magistration_quality_scale = {
+	value = learning
+	multiply = 0.5
+}
+
+# Everything owed this delivery: (titled vassals + temples) x Realm Authority x Magistration
+total_aeluran_magi_reinforcements = {
+	value = aeluran_vassal_magi_total
+	add = aeluran_temple_magi_total
+	multiply = aeluran_realm_law_magi_mult
+	multiply = aeluran_magistration_delivery_mult
 }
 
 aeluran_war_magi_reinforcements = {
@@ -150,8 +256,6 @@ aeluran_war_magi_reinforcements = {
 			}
 		}
 	}
-
-	min = 1
 }
 
 aeluran_war_magi_reinforcements_modulo = {
@@ -211,8 +315,6 @@ aeluran_artillery_reinforcements = {
 			}
 		}
 	}
-
-	min = 1
 }
 
 aeluran_artillery_reinforcements_modulo = {
@@ -238,24 +340,129 @@ aeluran_reinforcements_magi_artillery_share =  {
 }
 
 
-spawn_aeluran_war_magi_reinforcement_count = {
-	# value = 10
-	value = root.aeluran_war_magi_reinforcements
+### The Aeluran host (aeluran_repeating_scripted_effects.txt)
+
+# Realm Authority level that sizes the host. The law's on_pass sets set_aeluran_army_level because has_realm_law
+# still reports the old law while on_pass runs; aeluran_apply_host_size_effect clears it again.
+aeluran_army_level_value = {
 	if = {
-		limit = {
-			exists = scope:aeluran_war_magi_army_regiment_count
-		}
-		add = scope:aeluran_war_magi_army_regiment_count
+		limit = { exists = var:set_aeluran_army_level }
+		value = var:set_aeluran_army_level
+	}
+	else_if = {
+		limit = { has_realm_law = aeluran_realm_authority_3 }
+		value = 3
+	}
+	else_if = {
+		limit = { has_realm_law = aeluran_realm_authority_2 }
+		value = 2
+	}
+	else = {
+		value = 1
 	}
 }
 
-spawn_aeluran_artillery_reinforcement_count = {
-	# value = 10
-	value = root.aeluran_artillery_reinforcements
+# Sub-regiments each regiment of the host may hold: 3 / 5 / 10 by Realm Authority, plus one per leased temple
+# (PM 2026-10-07, "law plus temples"; temple buildings will add more later)
+aeluran_host_regiment_size_target = {
 	if = {
-		limit = {
-			exists = scope:aeluran_artillery_army_regiment_count
-		}
-		add = scope:aeluran_artillery_army_regiment_count
+		limit = { aeluran_army_level_value = 3 }
+		value = 10
+	}
+	else_if = {
+		limit = { aeluran_army_level_value = 2 }
+		value = 5
+	}
+	else = {
+		value = 3
+	}
+	add = aeluran_leased_temple_count
+}
+
+# Men that is: sub-regiments x stack (aeluran_war_magi 50, aeluran_artillery 25; men_at_arms_types/spark_maa_types.txt)
+aeluran_host_war_magi_cap = {
+	value = aeluran_host_regiment_size_target
+	multiply = 50
+}
+aeluran_host_artillery_cap = {
+	value = aeluran_host_regiment_size_target
+	multiply = 25
+}
+
+# Sub-regiments to add so a regiment the host holds reaches the level's size (negative = already larger)
+aeluran_host_war_magi_size_delta = {
+	value = aeluran_host_regiment_size_target
+	subtract = var:aeluran_war_magi_army_regiment.maa_size
+}
+aeluran_host_artillery_size_delta = {
+	value = aeluran_host_regiment_size_target
+	subtract = var:aeluran_artillery_army_regiment.maa_size
+}
+
+# The pledge waiting for the ruler's next war, 0 when none
+aeluran_pledged_war_magi_value = {
+	value = 0
+	if = {
+		limit = { has_variable = aeluran_pledged_war_magi }
+		add = var:aeluran_pledged_war_magi
+	}
+}
+aeluran_pledged_artillery_value = {
+	value = 0
+	if = {
+		limit = { has_variable = aeluran_pledged_artillery }
+		add = var:aeluran_pledged_artillery
+	}
+}
+aeluran_pledged_total_value = {
+	value = aeluran_pledged_war_magi_value
+	add = aeluran_pledged_artillery_value
+}
+
+# What this delivery adds to the pledge: the delivery, but never past the cap
+aeluran_pledge_war_magi_add = {
+	value = aeluran_war_magi_reinforcements
+	max = {
+		value = aeluran_host_war_magi_cap
+		subtract = aeluran_pledged_war_magi_value
+		min = 0
+	}
+}
+aeluran_pledge_artillery_add = {
+	value = aeluran_artillery_reinforcements
+	max = {
+		value = aeluran_host_artillery_cap
+		subtract = aeluran_pledged_artillery_value
+		min = 0
+	}
+}
+
+# The host as it stands, for the Magistration task description
+aeluran_host_war_magi_current_value = {
+	value = 0
+	if = {
+		limit = { exists = var:aeluran_war_magi_army_regiment }
+		add = var:aeluran_war_magi_army_regiment.maa_current_troops_count
+	}
+}
+aeluran_host_war_magi_max_value = {
+	value = 0
+	if = {
+		limit = { exists = var:aeluran_war_magi_army_regiment }
+		add = var:aeluran_war_magi_army_regiment.maa_max_troops_count
+	}
+}
+aeluran_host_artillery_current_value = {
+	value = 0
+	if = {
+		limit = { exists = var:aeluran_artillery_army_regiment }
+		add = var:aeluran_artillery_army_regiment.maa_current_troops_count
+	}
+}
+aeluran_host_artillery_max_value = {
+	value = 0
+	if = {
+		limit = { exists = var:aeluran_artillery_army_regiment }
+		add = var:aeluran_artillery_army_regiment.maa_max_troops_count
 	}
 }

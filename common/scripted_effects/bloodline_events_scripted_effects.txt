@@ -5,77 +5,146 @@
 }
 
 determine_bloodline_orphan_type_effect = {
+	# The ruler's strain weights the houses on offer (PM 2026-10-09): their own strain is common, the other about one in eight
 	random_list = {
 		5 = { # Valerith Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:val_male
 			}
 		}
 		5 = { # Valerith Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:val_female
 			}
 		}
 		5 = { # Serelion Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:serel_male
 			}
 		}
 		5 = { # Serelion Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:serel_female
 			}
 		}
 		5 = { # Gwynthorn Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:gwyn_male
 			}
 		}
 		5 = { # Gwynthorn Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:gwyn_female
 			}
 		}
 		5 = { # Thundarael Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:thun_male
 			}
 		}
 		5 = { # Thundarael Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:thun_female
 			}
 		}
 		5 = { # Daelurin Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:dael_male
 			}
 		}
 		5 = { # Daelurin Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:dael_female
 			}
 		}
 		5 = { # Lormelis Male
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:lor_male
 			}
 		}
 		5 = { # Lormelis Female
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			save_scope_value_as = {
 				name = orphan_type
 				value = flag:lor_female
+			}
+		}
+		5 = { # Drenmyre Male
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:dren_male
+			}
+		}
+		5 = { # Drenmyre Female
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:dren_female
+			}
+		}
+		5 = { # Rynvela Male
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:ryn_male
+			}
+		}
+		5 = { # Rynvela Female
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:ryn_female
+			}
+		}
+		5 = { # Syldranis Male
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:syl_male
+			}
+		}
+		5 = { # Syldranis Female
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:syl_female
+			}
+		}
+		5 = { # Myrvessa Male
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:myr_male
+			}
+		}
+		5 = { # Myrvessa Female
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = orphan_type
+				value = flag:myr_female
 			}
 		}
 	}
@@ -238,6 +307,110 @@ create_bloodline_orphan_effect = {
 			save_scope_as = orphan
 		}
 	}
+	else_if = { # Drenmyre Male
+		limit = {
+			scope:orphan_type = flag:dren_male
+		}
+		create_character = {
+			template = orphan_drenmyre_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Drenmyre Female
+		limit = {
+			scope:orphan_type = flag:dren_female
+		}
+		create_character = {
+			template = orphan_drenmyre_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Rynvela Male
+		limit = {
+			scope:orphan_type = flag:ryn_male
+		}
+		create_character = {
+			template = orphan_rynvela_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Rynvela Female
+		limit = {
+			scope:orphan_type = flag:ryn_female
+		}
+		create_character = {
+			template = orphan_rynvela_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Syldranis Male
+		limit = {
+			scope:orphan_type = flag:syl_male
+		}
+		create_character = {
+			template = orphan_syldranis_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Syldranis Female
+		limit = {
+			scope:orphan_type = flag:syl_female
+		}
+		create_character = {
+			template = orphan_syldranis_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Myrvessa Male
+		limit = {
+			scope:orphan_type = flag:myr_male
+		}
+		create_character = {
+			template = orphan_myrvessa_male
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan
+		}
+	}
+	else_if = { # Myrvessa Female
+		limit = {
+			scope:orphan_type = flag:myr_female
+		}
+		create_character = {
+			template = orphan_myrvessa_female
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan
+		}
+	}
 }
 
 create_orphan_mother_effect = {
@@ -338,6 +511,70 @@ create_orphan_mother_effect = {
 		}
 	}
 
+	else_if = { # Drenmyre
+		limit = {
+			OR = {
+				scope:orphan_type = flag:dren_male
+				scope:orphan_type = flag:dren_female
+			}
+		}
+		create_character = {
+			template = orphan_drenmyre_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan_mother
+		}
+	}
+	else_if = { # Rynvela
+		limit = {
+			OR = {
+				scope:orphan_type = flag:ryn_male
+				scope:orphan_type = flag:ryn_female
+			}
+		}
+		create_character = {
+			template = orphan_rynvela_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_dokkalfar
+			save_scope_as = orphan_mother
+		}
+	}
+	else_if = { # Syldranis
+		limit = {
+			OR = {
+				scope:orphan_type = flag:syl_male
+				scope:orphan_type = flag:syl_female
+			}
+		}
+		create_character = {
+			template = orphan_syldranis_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan_mother
+		}
+	}
+	else_if = { # Myrvessa
+		limit = {
+			OR = {
+				scope:orphan_type = flag:myr_male
+				scope:orphan_type = flag:myr_female
+			}
+		}
+		create_character = {
+			template = orphan_myrvessa_mother
+			dynasty = none
+			location = root.location
+			faith = root.faith
+			culture = culture:elf_culture_drow
+			save_scope_as = orphan_mother
+		}
+	}
 	hidden_effect = {
 		scope:orphan = {
 			set_mother = scope:orphan_mother
@@ -352,6 +589,7 @@ create_orphan_mother_effect = {
 generate_champion_with_bloodline_effect = {
 	# determine_bloodline_champion_gender_effect = yes
 	determine_bloodline_champion_type_effect = yes
+	determine_bloodline_champion_bloodline_effect = yes
 	create_bloodline_champion_effect = yes
 }
 
@@ -408,13 +646,114 @@ determine_bloodline_champion_type_effect = {
 	}
 }
 
+# The champion's house: mostly the ruler's own strain, the other strain about one in eight (PM 2026-10-09).
+# Sets scope:bloodline_strain, scope:champion_bloodline (read by the bloodline_champion template) and scope:champion_culture.
+determine_bloodline_champion_bloodline_effect = {
+	random_list = {
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:daelurin
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:thundarael
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:gwynthorn
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:serelion
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:valerith
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:lormelis
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:drenmyre
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:rynvela
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:syldranis
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			save_scope_value_as = {
+				name = champion_bloodline
+				value = flag:myrvessa
+			}
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				scope:champion_bloodline = flag:drenmyre
+				scope:champion_bloodline = flag:rynvela
+			}
+		}
+		culture:elf_culture_dokkalfar = { save_scope_as = champion_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:dark }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:champion_bloodline = flag:syldranis
+				scope:champion_bloodline = flag:myrvessa
+			}
+		}
+		culture:elf_culture_drow = { save_scope_as = champion_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:dark }
+	}
+	else = {
+		culture:culture_elf = { save_scope_as = champion_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:light }
+	}
+}
+
 create_bloodline_champion_effect = {
 	create_character = {
 		template = bloodline_champion
 		dynasty = none
 		location = root.location
 		faith = root.faith
-		culture = culture:culture_elf
+		culture = scope:champion_culture
 		save_scope_as = champion
 	}
 }
@@ -606,43 +945,144 @@ assign_champion_lifestyle_traits_and_xp = {
 
 generate_pregnant_woman_bloodline_characters = {
 	# Determine Mother's Bloodline
+	# The ruler's strain weights the houses on offer (PM 2026-10-09): their own strain is common, the other about one in eight
 	random_list = {
 		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:daelurin
+			}
+			save_scope_value_as = {
 				name = pregnant_mother_bloodline
 				value = flag:daelurin
 			}
 		}
 		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			set_variable = {
 				name = pregnant_mother_bloodline
-				value = flag:valerith
+				value = flag:thundarael
 			}
-		}
-		10 = {
-			set_variable = {
-				name = pregnant_mother_bloodline
-				value = flag:serelion
-			}
-		}
-		10 = {
-			set_variable = {
-				name = pregnant_mother_bloodline
-				value = flag:gwynthorn
-			}
-		}
-		10 = {
-			set_variable = {
+			save_scope_value_as = {
 				name = pregnant_mother_bloodline
 				value = flag:thundarael
 			}
 		}
 		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:gwynthorn
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:gwynthorn
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:serelion
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:serelion
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:valerith
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:valerith
+			}
+		}
+		10 = {
+			modifier = { factor = 0.1 is_dark_elf_type = yes }
 			set_variable = {
 				name = pregnant_mother_bloodline
 				value = flag:lormelis
 			}
-        }
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:lormelis
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:drenmyre
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:drenmyre
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:rynvela
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:rynvela
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:syldranis
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:syldranis
+			}
+		}
+		10 = {
+			modifier = { factor = 0.2 is_dark_elf_type = no }
+			set_variable = {
+				name = pregnant_mother_bloodline
+				value = flag:myrvessa
+			}
+			save_scope_value_as = {
+				name = pregnant_mother_bloodline
+				value = flag:myrvessa
+			}
+		}
+	}
+
+	# The family's culture and strain follow the house
+	if = {
+		limit = {
+			OR = {
+				scope:pregnant_mother_bloodline = flag:drenmyre
+				scope:pregnant_mother_bloodline = flag:rynvela
+			}
+		}
+		culture:elf_culture_dokkalfar = { save_scope_as = pregnant_bloodline_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:dark }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:pregnant_mother_bloodline = flag:syldranis
+				scope:pregnant_mother_bloodline = flag:myrvessa
+			}
+		}
+		culture:elf_culture_drow = { save_scope_as = pregnant_bloodline_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:dark }
+	}
+	else = {
+		culture:culture_elf = { save_scope_as = pregnant_bloodline_culture }
+		save_scope_value_as = { name = bloodline_strain value = flag:light }
 	}
 
 	# Determine Offshoot Bloodline
@@ -706,7 +1146,7 @@ create_bloodline_pregnant_woman_father_effect = {
 		dynasty = generate
 		location = root.location
 		faith = root.faith
-		culture = culture:culture_elf
+		culture = scope:pregnant_bloodline_culture
 		save_scope_as = pregnant_elf_father
 	}
 }
@@ -718,7 +1158,7 @@ create_bloodline_pregnant_woman_effect = {
 		dynasty = inherit
 		location = root.location
 		faith = root.faith
-		culture = culture:culture_elf
+		culture = scope:pregnant_bloodline_culture
 		save_scope_as = pregnant_elf
 	}
 }
@@ -729,7 +1169,7 @@ create_bloodline_pregnant_woman_dead_husband_effect = {
 		dynasty = generate
 		location = root.location
 		faith = root.faith
-		culture = culture:culture_elf
+		culture = scope:pregnant_bloodline_culture
 		save_scope_as = pregnant_elf_dead_husband
 	}
 }

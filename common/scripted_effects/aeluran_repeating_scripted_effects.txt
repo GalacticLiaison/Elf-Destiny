@@ -169,9 +169,7 @@ aeluran_advisor_sent_from_deep_wood_effect = {
 
         if = {
             limit = {
-                faith = {
-                    has_tenet = tenet_aeluran_sisters
-                }
+                aeluran_order_faith_trigger = yes
             }
 
             trigger_event = {
@@ -353,9 +351,7 @@ appoint_new_aeluran_matriarch_effect = {
 
         every_player = {
             limit = {
-                faith = {
-                    has_tenet = tenet_aeluran_sisters
-                }
+                aeluran_order_faith_trigger = yes
             }
             trigger_event = aeluran_repeating.003 # Notify Players about the New Matriarch
         }
@@ -412,533 +408,349 @@ aeluran_raise_to_matron_effect = {
     }
 }
 
+#################################################################################################################
+# Aeluran magi reinforcements
+#
+# Every years_between_magi_reinforcements the Red Sister's Magistration task hands her ruler the magi that the
+# ruler's Aeluran Order vassals owe (aeluran_advisor_values.txt). The host is event troops: it never reinforces on
+# its own, only the Order refills it. Script can only reach an event regiment through the army it stands in, and
+# that army only exists while the ruler is at war, so:
+#   - at peace the magi are PLEDGED (var:aeluran_pledged_war_magi / var:aeluran_pledged_artillery, capped at what
+#     the Realm Authority law lets the host hold);
+#   - the first time the ruler is at war (on_war_started / on_join_war_as_secondary in
+#     aeluran_reinforcement_on_actions.txt) the pledge is spawned onto her at her capital and the regiment scopes
+#     are kept in var:aeluran_war_magi_army_regiment / var:aeluran_artillery_army_regiment;
+#   - from then on every delivery refills those regiments directly, raised or not.
+# The host is inheritable; aeluran_reinforcements_on_death_effect hands the scopes and any pledge to the heir.
+#################################################################################################################
+
+# Root = the ruler. Called by aeluran_advisor_task.01011 (the first pledge, visible) and .01012 (hidden).
 manage_aeluran_reinforcements_effect = {
-    every_vassal = {
-        limit = {
-            has_government = aeluran_weavers_government
-        }
+	# the per-vassal breakdown the event widget lists
+	clear_variable_list = aeluran_vassals
+	every_vassal = {
+		limit = { has_government = aeluran_weavers_government }
+		prev = { add_to_variable_list = { name = aeluran_vassals target = prev } }
+	}
+	cp:councillor_aeluran_advisor ?= { save_scope_as = aeluran_advisor }
+	# for the task description: when the Order comes again
+	set_variable = { name = aeluran_next_magi_delivery_year value = aeluran_next_delivery_year_value }
 
-        prev = {
-            add_to_variable_list = {
-                name = aeluran_vassals
-                target = prev
-            }
-        }
-    }
-
-    #error suppresion
-    if = {
-        limit = {
-            any_in_list = {
-                list = aeluran_vassals
-            }
-        }
-    }
-
-    root = {
-        cp:councillor_aeluran_advisor ?= {
-            save_scope_as = aeluran_advisor
-        }
-    }
-
-    if = { # Army is full
-        limit = {
-            exists = var:aeluran_war_magi_army_regiment
-            var:aeluran_war_magi_army_regiment = {
-                maa_current_troops_count = maa_max_troops_count
-            }
-            exists = var:aeluran_artillery_army_regiment
-            var:aeluran_artillery_army_regiment = {
-                maa_current_troops_count = maa_max_troops_count
-            }
-        }
-
-        send_interface_message = {
-            type = aeluran_army_reinforcements_arrived
-            title = aeluran_reinforcements_arrived_title_max_capacity
-            desc = aeluran_reinforcements_message_max_capacity
-            right_icon = scope:aeluran_advisor
-        }
-    }
-    else_if = { # the character is missing a regiment type, lets destroy the entire army and build a new one 
-        limit = {
-            OR = {
-                NOT = { exists = var:aeluran_war_magi_army_regiment}
-                NOT = { exists = var:aeluran_artillery_army_regiment}
-            }
-        }
-
-
-        send_interface_toast = {
-			title = new_aeluran_army_arrived_title
-            custom_tooltip = {
-                text = new_aeluran_army_arrived_desc
-            }
-            # left_icon = scope:aeluran_reinforcements.location.barony
-			# right_icon = scope:aeluran_advisor
+	if = { # nothing feeds the host: no leased temple, no titled Order vassal
+		limit = { total_aeluran_magi_reinforcements <= 0 }
+		send_interface_message = {
+			type = aeluran_army_reinforcements_arrived
+			title = aeluran_reinforcements_none_title
+			desc = aeluran_reinforcements_none_desc
+			right_icon = scope:aeluran_advisor
+		}
+	}
+	else = {
+		# regiments the host already holds: let the law size them, then refill them
+		aeluran_apply_host_size_effect = yes
+		aeluran_refill_host_effect = yes
+		# regiment types the host does not hold yet: pledge them, and deliver at once if already at war
+		aeluran_pledge_magi_effect = yes
+		if = {
+			limit = {
+				is_at_war = yes
+				aeluran_has_pledged_magi_trigger = yes
+			}
+			aeluran_deliver_pledged_magi_effect = yes
 		}
 
-        create_new_aeluran_army = yes
-    }
-    else = { # the character has all regiment types. we can just add to existing
-
-        add_reinforcements_to_aeluran_army = { REGIMENT_TYPE = aeluran_war_magi TROOP_COUNT = spawn_aeluran_war_magi_reinforcement_count }
-        add_reinforcements_to_aeluran_army = { REGIMENT_TYPE = aeluran_artillery TROOP_COUNT = spawn_aeluran_artillery_reinforcement_count }
-
-        send_interface_message = {
-            type = aeluran_army_reinforcements_arrived
-            title = aeluran_reinforcements_arrived_title
-            desc = {
-                desc = aeluran_reinforcements_message_total_magi_reinforcements
-                desc = aeluran_reinforcements_aeluran_war_magi_total
-                desc = aeluran_reinforcements_aeluran_artillery_total
-            }
-            # tooltip = "$DESCRIPTION$"
-            # custom_tooltip = new_aeluran_army_arrived_desc
-            right_icon = scope:aeluran_advisor
-        }
-    }
+		if = {
+			limit = { aeluran_host_exists_trigger = yes }
+			if = {
+				limit = { aeluran_host_is_full_trigger = yes }
+				send_interface_message = {
+					type = aeluran_army_reinforcements_arrived
+					title = aeluran_reinforcements_arrived_title_max_capacity
+					desc = aeluran_reinforcements_message_max_capacity
+					right_icon = scope:aeluran_advisor
+				}
+			}
+			else = {
+				send_interface_message = {
+					type = aeluran_army_reinforcements_arrived
+					title = aeluran_reinforcements_arrived_title
+					desc = {
+						desc = aeluran_reinforcements_message_total_magi_reinforcements
+						desc = aeluran_reinforcements_aeluran_war_magi_total
+						desc = aeluran_reinforcements_aeluran_artillery_total
+					}
+					right_icon = scope:aeluran_advisor
+				}
+			}
+		}
+		else = {
+			send_interface_message = {
+				type = aeluran_army_reinforcements_arrived
+				title = aeluran_reinforcements_pledged_title
+				desc = aeluran_reinforcements_pledged_desc
+				right_icon = scope:aeluran_advisor
+			}
+		}
+	}
 }
 
-create_new_aeluran_army = {
-    record_maa_regiment_troop_count = { REGIMENT_TYPE = aeluran_war_magi }
-    record_maa_regiment_troop_count = { REGIMENT_TYPE = aeluran_artillery }
-
-    # now we are safe to destroy the remaining regiments to prepare to spawn a fresh army
-    destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_war_magi }
-    destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_artillery }
-
-    generate_magi_reinforcement_army = yes
-
-    #  var:set_aeluran_army_level is set when passing realm laws, but is not set from the reoccurring adviser event
-    if = {
-        limit = {
-            OR = {
-                AND = {
-                    exists = var:set_aeluran_army_level
-                    var:set_aeluran_army_level = 3
-                }
-                AND = {
-                    has_realm_law = aeluran_realm_authority_3
-                    NOT = {
-                        var:set_aeluran_army_level = 2
-                    } 
-                }
-            }        
-        }
-        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 10 }
-    }
-    else_if = {
-        limit = {
-            OR = {
-                AND = {
-                    exists = var:set_aeluran_army_level
-                    var:set_aeluran_army_level = 2
-                }
-                AND = {
-                    has_realm_law = aeluran_realm_authority_2
-                    NOT = {
-                        var:set_aeluran_army_level = 1
-                    } 
-                }
-            }
-        }
-        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 5 }
-    }
-    else = { # has_realm_law = aeluran_realm_authority_1
-        adjust_reinforcement_max_regiment_size = { REGIMENT_SIZE = 3 }
-    }
-
+# Root = the ruler. Banks this delivery's magi for each regiment type the host does not hold yet, up to the law cap.
+aeluran_pledge_magi_effect = {
+	if = {
+		limit = {
+			NOT = { exists = var:aeluran_war_magi_army_regiment }
+			aeluran_pledge_war_magi_add > 0
+		}
+		if = {
+			limit = { has_variable = aeluran_pledged_war_magi }
+			change_variable = { name = aeluran_pledged_war_magi add = aeluran_pledge_war_magi_add }
+		}
+		else = {
+			set_variable = { name = aeluran_pledged_war_magi value = aeluran_pledge_war_magi_add }
+		}
+	}
+	if = {
+		limit = {
+			NOT = { exists = var:aeluran_artillery_army_regiment }
+			aeluran_pledge_artillery_add > 0
+		}
+		if = {
+			limit = { has_variable = aeluran_pledged_artillery }
+			change_variable = { name = aeluran_pledged_artillery add = aeluran_pledge_artillery_add }
+		}
+		else = {
+			set_variable = { name = aeluran_pledged_artillery value = aeluran_pledge_artillery_add }
+		}
+	}
 }
 
-generate_magi_reinforcement_army = {
-    # We create a temporary placeholder character to generate the army for
-    generate_placeholder_character = yes
-
-    # In order to register our spawned regiments later, we need to be at war so that spawn_army creates regiments as part of an active army.
-    # That is the only way their scopes are selectable.
-    start_war_for_placeholder_character = yes
-
-    # Spawn the new army on the placeholder character
-    scope:temporary_character ?= {
-        debug_log_scopes = yes
-        # Create our new Army
-        if = {
-            limit = {
-                root ?= {
-                    OR = {
-                        AND = {
-                            exists = var:set_aeluran_army_level
-                            var:set_aeluran_army_level = 3
-                        }
-                        AND = {
-                            has_realm_law = aeluran_realm_authority_3
-                            NOT = {
-                                var:set_aeluran_army_level = 2
-                            } 
-                        }
-                    }
-                }                
-            }
-            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_3}
-        }
-        else_if = {
-            limit = {
-                root ?= {
-                    OR = {
-                        AND = {
-                            exists = var:set_aeluran_army_level
-                            var:set_aeluran_army_level = 2
-                        }
-                        AND = {
-                            has_realm_law = aeluran_realm_authority_2
-                            NOT = {
-                                var:set_aeluran_army_level = 1
-                            } 
-                        }
-                    }
-                }  
-            }
-            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_2}
-        }
-        else = { # has_realm_law = aeluran_realm_authority_1
-            spawn_aeluran_reinforcement_army = {ARMY_NAME = stationed_aeluran_magi_1}
-        }
-
-        if = {
-            limit = {
-                exists = var:set_aeluran_army_level
-            }
-            remove_variable = set_aeluran_army_level
-        }
-    }
-
-    # Record the new regiment scopes as variables on the original character so they can be edited in the future without re-creating them.
-    record_maa_regiment_as_variable = { REGIMENT_TYPE = aeluran_war_magi }
-    record_maa_regiment_as_variable = { REGIMENT_TYPE = aeluran_artillery }
-
-    # kill the temporary character and inherit the troops
-    hidden_effect = {
-        transfer_aeluran_reinforcements_to_character = yes
-    }
-
-    # lets clean up the landless title we created
-    destroy_title = scope:new_title
-
-    if = {
-        limit = { is_ai = no}
-        scope:aeluran_reinforcements ?= {
-            pan_camera_to_province = location
-        }
-    }
+# Root = the ruler. Adds this delivery's magi to each regiment the host holds (the engine stops at the regiment's max).
+aeluran_refill_host_effect = {
+	save_scope_value_as = { name = aeluran_refill_war_magi value = aeluran_war_magi_reinforcements }
+	save_scope_value_as = { name = aeluran_refill_artillery value = aeluran_artillery_reinforcements }
+	var:aeluran_war_magi_army_regiment ?= { change_maa_troops_count = scope:aeluran_refill_war_magi }
+	var:aeluran_artillery_army_regiment ?= { change_maa_troops_count = scope:aeluran_refill_artillery }
 }
 
-adjust_reinforcement_max_regiment_size = {
-        change_magi_army_regiment_size_limit = {REGIMENT_TYPE = aeluran_war_magi REGIMENT_SIZE = $REGIMENT_SIZE$}
-        change_magi_army_regiment_size_limit = {REGIMENT_TYPE = aeluran_artillery REGIMENT_SIZE = $REGIMENT_SIZE$}
+# Root = a ruler at war (on_war_started, on_join_war_as_secondary, or a delivery that falls during a war).
+aeluran_try_deliver_pledged_magi_effect = {
+	if = {
+		limit = {
+			is_at_war = yes
+			aeluran_has_pledged_magi_trigger = yes
+		}
+		aeluran_deliver_pledged_magi_effect = yes
+	}
 }
 
-change_magi_army_regiment_size_limit = {
-    var:$REGIMENT_TYPE$_army_regiment ?= {
-        change_maa_regiment_size = {
-            size = $REGIMENT_SIZE$
-            reinforce = no
-        }
-    }
+# Scope = a ruler at war holding a pledge (not root: from the war on_actions root is the casus belli). Spawns the
+# pledged magi at her capital as her own event troops (no war = , so the host stays after the war), keeps the
+# regiment scopes, sizes them to the law and clears the pledge.
+aeluran_deliver_pledged_magi_effect = {
+	save_scope_as = aeluran_host_ruler
+	if = {
+		limit = { aeluran_army_level_value = 3 }
+		aeluran_spawn_pledged_host_effect = { ARMY_NAME = stationed_aeluran_magi_3 }
+	}
+	else_if = {
+		limit = { aeluran_army_level_value = 2 }
+		aeluran_spawn_pledged_host_effect = { ARMY_NAME = stationed_aeluran_magi_2 }
+	}
+	else = {
+		aeluran_spawn_pledged_host_effect = { ARMY_NAME = stationed_aeluran_magi_1 }
+	}
+
+	if = {
+		limit = { exists = scope:aeluran_reinforcements }
+		scope:aeluran_reinforcements = {
+			random_army_maa_regiment = {
+				limit = { is_maa_type = aeluran_war_magi }
+				scope:aeluran_host_ruler = { set_variable = { name = aeluran_war_magi_army_regiment value = prev } }
+			}
+			random_army_maa_regiment = {
+				limit = { is_maa_type = aeluran_artillery }
+				scope:aeluran_host_ruler = { set_variable = { name = aeluran_artillery_army_regiment value = prev } }
+			}
+		}
+		if = {
+			limit = {
+				exists = var:aeluran_war_magi_army_regiment
+				has_variable = aeluran_pledged_war_magi
+			}
+			remove_variable = aeluran_pledged_war_magi
+		}
+		if = {
+			limit = {
+				exists = var:aeluran_artillery_army_regiment
+				has_variable = aeluran_pledged_artillery
+			}
+			remove_variable = aeluran_pledged_artillery
+		}
+		aeluran_apply_host_size_effect = yes
+
+		if = {
+			limit = { is_ai = no }
+			send_interface_toast = {
+				type = new_aeluran_army_arrived
+				title = new_aeluran_army_arrived_title
+				left_icon = scope:aeluran_host_ruler
+				custom_tooltip = {
+					text = new_aeluran_army_arrived_desc
+				}
+			}
+			scope:aeluran_reinforcements = { pan_camera_to_province = location }
+		}
+	}
+	else = {
+		debug_log = "aeluran_deliver_pledged_magi_effect: spawn_army spawned no army (ruler not at war?); the pledge is kept"
+	}
 }
 
-add_reinforcements_to_aeluran_army = {
-    var:$REGIMENT_TYPE$_army_regiment = {
-        change_maa_troops_count = $TROOP_COUNT$
-    }
+# Root = the ruler. Spawns the pledged regiment types (men = the pledge) as one stack named $ARMY_NAME$ at the capital
+# and saves it as scope:aeluran_reinforcements. One block per combination: spawn_army cannot skip a listed type.
+aeluran_spawn_pledged_host_effect = {
+	if = {
+		limit = {
+			aeluran_pledged_war_magi_value > 0
+			aeluran_pledged_artillery_value > 0
+		}
+		spawn_army = {
+			men_at_arms = { type = aeluran_war_magi men = aeluran_pledged_war_magi_value }
+			men_at_arms = { type = aeluran_artillery men = aeluran_pledged_artillery_value }
+			location = capital_province
+			inheritable = yes
+			uses_supply = yes
+			name = $ARMY_NAME$
+			save_scope_as = aeluran_reinforcements
+		}
+	}
+	else_if = {
+		limit = { aeluran_pledged_war_magi_value > 0 }
+		spawn_army = {
+			men_at_arms = { type = aeluran_war_magi men = aeluran_pledged_war_magi_value }
+			location = capital_province
+			inheritable = yes
+			uses_supply = yes
+			name = $ARMY_NAME$
+			save_scope_as = aeluran_reinforcements
+		}
+	}
+	else_if = {
+		limit = { aeluran_pledged_artillery_value > 0 }
+		spawn_army = {
+			men_at_arms = { type = aeluran_artillery men = aeluran_pledged_artillery_value }
+			location = capital_province
+			inheritable = yes
+			uses_supply = yes
+			name = $ARMY_NAME$
+			save_scope_as = aeluran_reinforcements
+		}
+	}
 }
 
-generate_placeholder_character = {
-    create_character = {
-        # template = orphan_gwynthorn_male
-        age = 20
-        dynasty = none
-        location = root.location
-        faith = root.faith
-        culture = culture:culture_elf
-        save_scope_as = temporary_character
-        gender = male
-    }
-
-    set_variable = {
-        name = temporary_character
-        value = scope:temporary_character
-    }
-
-    debug_log = "GENERATED PLACEHOLDER CHARACTER"
-    debug_log_scopes = yes
-
-    scope:temporary_character = {
-        # We make placeholder character a landless ruler, from whom we can inherit troops.
-        create_special_inheritable_landless_adventurer_title_effect = {
-            REASON = flag:wanderer
-            FLAVOR_CHAR = root
-        }
-
-        # We designate heir so the receiving character inherits the maa
-        set_designated_heir_unsafe = root
-    }
-
+# Root = the ruler. Grows each regiment the host holds to the sub-regiment count the Realm Authority law allows
+# (never shrinks: fewer sub-regiments would delete soldiers). Also called from the laws' on_pass, where the law's
+# hand-over variable set_aeluran_army_level stands in for has_realm_law; the variable is cleared afterwards.
+aeluran_apply_host_size_effect = {
+	if = {
+		limit = { exists = var:aeluran_war_magi_army_regiment }
+		save_scope_value_as = { name = aeluran_host_size_delta value = aeluran_host_war_magi_size_delta }
+		if = {
+			limit = { scope:aeluran_host_size_delta > 0 }
+			var:aeluran_war_magi_army_regiment = {
+				change_maa_regiment_size = { size = scope:aeluran_host_size_delta reinforce = no }
+			}
+		}
+	}
+	if = {
+		limit = { exists = var:aeluran_artillery_army_regiment }
+		save_scope_value_as = { name = aeluran_host_size_delta value = aeluran_host_artillery_size_delta }
+		if = {
+			limit = { scope:aeluran_host_size_delta > 0 }
+			var:aeluran_artillery_army_regiment = {
+				change_maa_regiment_size = { size = scope:aeluran_host_size_delta reinforce = no }
+			}
+		}
+	}
+	if = {
+		limit = { has_variable = set_aeluran_army_level }
+		remove_variable = set_aeluran_army_level
+	}
 }
 
-start_war_for_placeholder_character = {
-    random_ruler = {
-        limit = { is_ai = yes }
-        save_scope_as = war_ruler
-    }
-
-    scope:temporary_character = {
-        add_character_flag = enable_debug_special_war
-        start_war = {
-            cb = debug_war_special
-            target = scope:war_ruler
-        }
-
-        random_army = {
-            save_scope_as = temporary_character_army   
-        }
-    }
+# Root = a ruler about to die (on_death). The host is inheritable, so the heir gets the regiments; hand her the
+# scopes and any pledge too, or her next delivery would pledge and raise a second host beside the first.
+aeluran_reinforcements_on_death_effect = {
+	if = {
+		limit = { exists = primary_heir }
+		primary_heir = {
+			if = {
+				limit = {
+					NOT = { has_variable = aeluran_war_magi_army_regiment }
+					prev = { has_variable = aeluran_war_magi_army_regiment }
+				}
+				set_variable = { name = aeluran_war_magi_army_regiment value = prev.var:aeluran_war_magi_army_regiment }
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = aeluran_artillery_army_regiment }
+					prev = { has_variable = aeluran_artillery_army_regiment }
+				}
+				set_variable = { name = aeluran_artillery_army_regiment value = prev.var:aeluran_artillery_army_regiment }
+			}
+			if = {
+				limit = { prev = { has_variable = aeluran_pledged_war_magi } }
+				if = {
+					limit = { has_variable = aeluran_pledged_war_magi }
+					change_variable = { name = aeluran_pledged_war_magi add = prev.var:aeluran_pledged_war_magi }
+				}
+				else = {
+					set_variable = { name = aeluran_pledged_war_magi value = prev.var:aeluran_pledged_war_magi }
+				}
+			}
+			if = {
+				limit = { prev = { has_variable = aeluran_pledged_artillery } }
+				if = {
+					limit = { has_variable = aeluran_pledged_artillery }
+					change_variable = { name = aeluran_pledged_artillery add = prev.var:aeluran_pledged_artillery }
+				}
+				else = {
+					set_variable = { name = aeluran_pledged_artillery value = prev.var:aeluran_pledged_artillery }
+				}
+			}
+		}
+	}
 }
 
-spawn_aeluran_reinforcement_army = {
-    spawn_army = {
-        men_at_arms = {
-            type = aeluran_war_magi
-            men = spawn_aeluran_war_magi_reinforcement_count
-        }
-        men_at_arms = {
-            type = aeluran_artillery
-            men = spawn_aeluran_artillery_reinforcement_count
-        }
-        inheritable = yes
-        uses_supply = yes
-        army = scope:temporary_character_army
-        location = root.capital_province
-        name = $ARMY_NAME$
-        save_temporary_scope_as = aeluran_reinforcements
-    }
-}
-
-transfer_aeluran_reinforcements_to_character = {
-
-    if = {
-        limit = { is_independent_ruler = no }
-
-        root.liege = {
-            save_scope_as = liege
-        }
-    }
-
-    if = {
-        limit = { is_ai = no }
-
-        # disabling toast notifications so player wont receive message telling them they inherited a title
-        set_global_variable = { name = disable_toast_notifications value = 1 }
-    }
-    
-    scope:temporary_character ?= {
-
-        # lets end the war so the receiving character doesn't inherit the war with the maa
-        every_character_war = {
-            end_war = white_peace
-        }    
-
-        death = { death_reason = death_vanished }
-    }
-
-    if = {
-        limit = { is_ai = no }
-
-        trigger_event = { # turn back on toast notifications
-            id = elf_destiny_utility.01
-            months = 6 # higher value in case they are playing on a high speed... not ideal...
-        }
-    }
-
-    if = {
-        limit = { exists = scope:liege  }
-        #change_liege
-        #set_de_jure_liege_title
-
-        create_title_and_vassal_change = {
-            type = granted
-            save_scope_as = change
-            add_claim_on_loss = no
-        }
-
-        root = {
-            change_liege = {
-                liege = scope:liege
-                change = scope:change
-            }
-        }
-        resolve_title_and_vassal_change = scope:change   
-    }
-}
-
-record_maa_regiment_as_variable = {
-    if = {
-        limit = { exists = scope:aeluran_reinforcements }
-        scope:aeluran_reinforcements = {
-            random_army_maa_regiment = {
-                limit = {
-                    is_maa_type = $REGIMENT_TYPE$
-                }
-                root = {
-                    set_variable = {
-                        name = $REGIMENT_TYPE$_army_regiment
-                        value = prev
-                    }
-                }
-            }
-        }
-    }
-}
-
-record_maa_regiment_troop_count = {
-    if = {
-        limit= {
-            exists = var:$REGIMENT_TYPE$_army_regiment
-        }
-        save_scope_value_as = {
-            name = $REGIMENT_TYPE$_army_regiment_count
-            value =  var:$REGIMENT_TYPE$_army_regiment.maa_current_troops_count
-        }
-    }
-}
-
+# Root = the ruler. Removes one regiment of the host and forgets it.
 destroy_existing_magi_maa_regiment = {
-    if = {
-        limit = {
-            exists = var:$REGIMENT_TYPE$_army_regiment
-        } 
-        var:$REGIMENT_TYPE$_army_regiment = {
-            destroy_maa_regiment = yes
-        }
-        remove_variable = $REGIMENT_TYPE$_army_regiment
-        root = {
-        }
-    }
-    else = {
-        debug_log = "destroy_existing_magi_maa_regiment no variable found"
-    }
-}
-
-create_special_inheritable_landless_adventurer_title_effect = {
-	save_scope_as = new_landless_adventurer
-
-	save_scope_value_as = {
-		name = adventurer_creation_reason
-		value = $REASON$
-	}
-
-	$FLAVOR_CHAR$ = { save_scope_as = adventurer_flavor_char }
-	hidden_effect = {
-        create_adventurer_title = {
-            name = "PLACEHOLDER CHARACTER"
-            holder = scope:new_landless_adventurer
-            article = DEFAULT_TITLE_NAME_ARTICLE
-            save_scope_as = new_title
-        }
-
-        root = {
-            set_variable = {
-                name = new_title
-                value = scope:new_title
-            }
-        }
-		
-		scope:new_title ?= {
-            holder ?= {
-                if = {
-                    limit = {
-                        NOT = { has_realm_law = special_inheritance_landless_adventurer_succession_law }
-                    }
-                    add_realm_law = special_inheritance_landless_adventurer_succession_law
-                }
-
-
-                if = {
-                    limit = {
-                        has_realm_law = landless_adventurer_succession_law
-                    }
-                    remove_realm_law = landless_adventurer_succession_law
-                }
-            }
-			set_variable = {
-				name = adventurer_creation_reason
-				value = scope:adventurer_creation_reason
-			}
-			set_variable = {
-				name = adventurer_flavor_char
-				value = scope:adventurer_flavor_char
-			}
-		}
-
-		scope:new_title = { save_scope_as = new_landless_adventurer_title }
-
-        debug_log_scopes = yes
-
-
-		scope:new_landless_adventurer ?= {
-			if = {
-				limit = {
-					NOT = { has_government = landless_adventurer_government }
-				}
-				change_government = landless_adventurer_government
-			}
-            if = {
-				limit = {
-					has_realm_law = landless_adventurer_succession_law
-				}
-				remove_realm_law = landless_adventurer_succession_law
-			}
-			if = {
-				limit = {
-					has_realm_law = crown_authority_0
-				}
-				remove_realm_law = crown_authority_0
-			}
-			domicile = { change_provisions = starting_provisions_value }
-		}
+	if = {
+		limit = { exists = var:$REGIMENT_TYPE$_army_regiment }
+		var:$REGIMENT_TYPE$_army_regiment = { destroy_maa_regiment = yes }
+		remove_variable = $REGIMENT_TYPE$_army_regiment
 	}
 }
 
-# Root = an Order ruler. Her councillors are clergy (engine rule), so councillors of the wrong clerical gender are let go
-# (chancellor, steward, marshal, spymaster; the spouse seat is left alone). New appointments are already barred by
-# can_be_councillor_gender_trigger / can_be_spymaster_trigger (zzz_elf_dest_aeluran_clergy_triggers.txt); this clears
-# councils seated before the ruler took the Order government.
-aeluran_order_council_gender_purge_effect = {
-	save_scope_as = order_council_owner
-	every_councillor = {
-		limit = {
-			NOT = { has_council_position = councillor_spouse }
-			NOT = { has_council_position = councillor_aeluran_advisor }
-			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
+# Root = a ruler who has left the faith (aeluran_reinforcement_on_actions.txt). The Order takes its host back and
+# forgets any pledge (PM 2026-10-07: only on leaving the faith).
+aeluran_recall_host_effect = {
+	destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_war_magi }
+	destroy_existing_magi_maa_regiment = { REGIMENT_TYPE = aeluran_artillery }
+	if = {
+		limit = { has_variable = aeluran_pledged_war_magi }
+		remove_variable = aeluran_pledged_war_magi
+	}
+	if = {
+		limit = { has_variable = aeluran_pledged_artillery }
+		remove_variable = aeluran_pledged_artillery
+	}
+	if = {
+		limit = { is_ai = no }
+		send_interface_message = {
+			type = aeluran_host_recalled
+			title = aeluran_host_recalled_title
+			desc = aeluran_host_recalled_desc
+			left_icon = root
 		}
-		add_to_temporary_list = order_council_purge
-	}
-	every_in_list = {
-		list = order_council_purge
-		scope:order_council_owner = { fire_councillor_skip_effects = prev }
-	}
-	# Clergy membership outlives the seat: anyone of the wrong clerical gender leaves the faith's clergy, including a
-	# spouse on the spouse seat (he keeps the seat)
-	every_in_list = {
-		list = order_council_purge
-		hidden_effect = { leave_organization = yes }
-	}
-	every_councillor = {
-		limit = {
-			has_council_position = councillor_spouse
-			is_clergy = yes
-			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
-		}
-		hidden_effect = { leave_organization = yes }
 	}
 }

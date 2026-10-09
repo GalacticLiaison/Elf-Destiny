@@ -1,0 +1,165 @@
+﻿# The magi the Aeluran Order has pledged to the player, drawn in the Military window's "Your Armies" tab in the
+# style of the Special Troops rows, until the host assembles at the first war (then the real event troops show).
+# Instantiated by the one-line insert in gui/window_military.gui (fork; vanilla base in the modkit under
+# _context/vanilla-bases). Shown by common/scripted_guis/aeluran_pledged_host_scripted_gui.txt.
+# Layout note: a plain widget inside a vbox is measured by its content (size/minimumsize are ignored), which is why
+# vanilla's rows get their 132 px from a grid cell. The row here is a vbox, whose minimumsize layouts do honour.
+types AeluranPledgedHostTypes
+{
+	type vbox_aeluran_pledged_host = vbox {
+		visible = "[GetScriptedGui('aeluran_pledged_host_is_shown').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		layoutpolicy_horizontal = expanding
+		margin = { 0 5 }
+		spacing = 5
+
+		text_single = {
+			layoutpolicy_horizontal = expanding
+			text = "AELURAN_PLEDGED_HOST_HEADER"
+		}
+
+		divider_light = {
+			layoutpolicy_horizontal = expanding
+		}
+
+		vbox_aeluran_pledged_host_item = {}
+	}
+
+	type vbox_aeluran_pledged_host_item = vbox {
+		minimumsize = { 505 130 }
+		maximumsize = { 505 130 }
+
+		background = {
+			using = Background_Area
+		}
+
+		hbox = {
+			name = "header"
+			layoutpolicy_horizontal = expanding
+
+			margin = { 0 5 }
+			margin_left = 7
+
+			background = {
+				using = Background_Area
+			}
+
+			icon = {
+				name = "event_troops"
+				texture = "gfx/interface/icons/icon_special_troops.dds"
+				size = { 36 36 }
+			}
+
+			spacer = {
+				size = { 5 0 }
+			}
+
+			text_single = {
+				text = "[GetPlayer.Custom('Aeluran_Reinforcement_Army_Name')]"
+				align = nobaseline
+				default_format = "#high"
+			}
+
+			expand = {}
+
+			# soldiers pledged, in the place of the soldiers-and-quality box
+			hbox = {
+				margin = { 3 0 }
+
+				background = {
+					using = Background_Area
+					margin = { 3 0 }
+				}
+
+				icon = {
+					texture = "gfx/interface/icons/icon_soldier.dds"
+					size = { 25 25 }
+				}
+
+				text_single = {
+					text = "AELURAN_PLEDGED_HOST_SOLDIERS"
+					align = nobaseline
+					default_format = "#high"
+					tooltip = "AELURAN_PLEDGED_HOST_TT"
+				}
+			}
+		}
+
+		expand = {}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			margin = { 15 0 }
+			margin_right = 10
+			margin_bottom = 13
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				expand = {}
+
+				hbox = {
+					name = "menatarms"
+					layoutpolicy_horizontal = expanding
+
+					text_single = {
+						text = MV_MEN_AT_ARMS_LABEL
+						align = nobaseline
+					}
+
+					spacer = {
+						size = { 5 0 }
+					}
+
+					icon = {
+						size = { 30 30 }
+						texture = "[GetMaA('aeluran_war_magi').GetIcon]"
+						tooltip = "AELURAN_PLEDGED_HOST_WAR_MAGI_TT"
+						using = tooltip_se
+					}
+
+					icon = {
+						size = { 30 30 }
+						texture = "[GetMaA('aeluran_artillery').GetIcon]"
+						tooltip = "AELURAN_PLEDGED_HOST_ARTILLERY_TT"
+						using = tooltip_se
+					}
+
+					expand = {}
+				}
+
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					text = "AELURAN_PLEDGED_HOST_LABEL"
+					max_width = 350
+					tooltip = "AELURAN_PLEDGED_HOST_TT"
+				}
+			}
+
+			vbox = {
+				layoutpolicy_vertical = expanding
+
+				margin_right = 5
+
+				expand = {}
+
+				# in the place of the Raise button: the status, with the breakdown on hover
+				widget = {
+					size = { 100 32 }
+
+					background = {
+						using = Background_Area_Border_Solid
+					}
+
+					text_single = {
+						parentanchor = center
+						align = center|nobaseline
+						text = "AELURAN_PLEDGED_HOST_STATUS"
+						default_format = "#weak"
+						tooltip = "AELURAN_PLEDGED_HOST_TT"
+					}
+				}
+			}
+		}
+	}
+}
