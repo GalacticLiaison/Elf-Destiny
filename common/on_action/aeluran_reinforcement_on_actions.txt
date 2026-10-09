@@ -1,0 +1,112 @@
+﻿# The Aeluran host is delivered the first time its ruler is at war (manage_aeluran_reinforcements_effect in
+# aeluran_repeating_scripted_effects.txt explains why). For some wars the engine fires on_war_started with an invalid
+# casus belli as root and logs an error for every effect block on it, vanilla's own included; harmless.
+
+on_war_started = {
+	on_actions = {
+		aeluran_deliver_pledged_magi_on_war_started
+	}
+}
+
+# scope:attacker, scope:defender, scope:war
+aeluran_deliver_pledged_magi_on_war_started = {
+	effect = {
+		scope:attacker ?= { aeluran_try_deliver_pledged_magi_effect = yes }
+		scope:defender ?= { aeluran_try_deliver_pledged_magi_effect = yes }
+	}
+}
+
+on_join_war_as_secondary = {
+	on_actions = {
+		aeluran_deliver_pledged_magi_on_join_war
+	}
+}
+
+# root = the ruler joining, scope:war
+aeluran_deliver_pledged_magi_on_join_war = {
+	effect = {
+		aeluran_try_deliver_pledged_magi_effect = yes
+	}
+}
+
+# Deliveries run from the ruler pulse, whatever task the Red Sister is on (PM 2026-10-07; they used to hang off the
+# Magistration task's monthly on_action). The two events' triggers are exclusive: 01011 is the first pledge, 01012 the rest.
+# Root = the ruler.
+quarterly_playable_pulse = {
+	on_actions = {
+		aeluran_reinforcement_pulse
+	}
+}
+
+aeluran_reinforcement_pulse = {
+	trigger = {
+		exists = cp:councillor_aeluran_advisor
+		NOT = { has_character_flag = received_aeluran_magi_recently }
+		aeluran_order_faith_trigger = yes
+	}
+	events = {
+		aeluran_advisor_task.01011
+		aeluran_advisor_task.01012
+	}
+}
+
+# The Order takes its host back when a ruler leaves the faith (PM 2026-10-07).
+# on_faith_conversion is the engine's hook (root = the convert, scope:old_faith), but it fires only for the convert
+# window and set_character_faith_with_conversion; script that uses plain set_character_faith bypasses it, so the
+# quarterly sweep below catches those within a season. (on_character_faith_change is not fired by the engine.)
+on_faith_conversion = {
+	on_actions = {
+		aeluran_reinforcements_faith_change
+	}
+}
+
+aeluran_reinforcements_faith_change = {
+	trigger = {
+		aeluran_order_faith_trigger = no
+		OR = {
+			aeluran_host_exists_trigger = yes
+			aeluran_has_pledged_magi_trigger = yes
+		}
+	}
+	effect = {
+		aeluran_recall_host_effect = yes
+	}
+}
+
+quarterly_playable_pulse = {
+	on_actions = {
+		aeluran_reinforcement_recall_sweep
+	}
+}
+
+aeluran_reinforcement_recall_sweep = {
+	trigger = {
+		aeluran_order_faith_trigger = no
+		OR = {
+			aeluran_host_exists_trigger = yes
+			aeluran_has_pledged_magi_trigger = yes
+		}
+	}
+	effect = {
+		aeluran_recall_host_effect = yes
+	}
+}
+
+on_death = {
+	on_actions = {
+		aeluran_reinforcements_on_death
+	}
+}
+
+# root = the character about to die
+aeluran_reinforcements_on_death = {
+	trigger = {
+		OR = {
+			aeluran_host_exists_trigger = yes
+			aeluran_has_pledged_magi_trigger = yes
+		}
+	}
+	effect = {
+		aeluran_reinforcements_on_death_effect = yes
+	}
+}

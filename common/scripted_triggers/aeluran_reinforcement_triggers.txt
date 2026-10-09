@@ -1,0 +1,30 @@
+﻿# The Aeluran host: the magi regiments a ruler's Aeluran Order vassals owe her (aeluran_repeating_scripted_effects.txt).
+# Scope: character.
+
+# Does the ruler hold any regiment of the host?
+aeluran_host_exists_trigger = {
+	OR = {
+		exists = var:aeluran_war_magi_army_regiment
+		exists = var:aeluran_artillery_army_regiment
+	}
+}
+
+# Is every regiment the host holds at its maximum?
+aeluran_host_is_full_trigger = {
+	trigger_if = {
+		limit = { exists = var:aeluran_war_magi_army_regiment }
+		var:aeluran_war_magi_army_regiment = { maa_current_troops_count >= maa_max_troops_count }
+	}
+	trigger_if = {
+		limit = { exists = var:aeluran_artillery_army_regiment }
+		var:aeluran_artillery_army_regiment = { maa_current_troops_count >= maa_max_troops_count }
+	}
+}
+
+# Are magi pledged to the ruler, waiting for her next war?
+aeluran_has_pledged_magi_trigger = {
+	OR = {
+		has_variable = aeluran_pledged_war_magi
+		has_variable = aeluran_pledged_artillery
+	}
+}
