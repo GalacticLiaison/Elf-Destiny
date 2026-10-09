@@ -1,16 +1,31 @@
-﻿#Needs CHARACTER and FAITH
-relation_with_character_is_incestuous_in_faith_trigger = {
+﻿# Elf Destiny overrides of vanilla scripted triggers. Each block is the CK3 1.20 vanilla text (file named in the
+# comment) plus the hunks marked "# Elf Destiny". Re-port against the new vanilla file after every patch.
+
+# 00_religious_triggers.txt. Needs CHARACTER and RITE.
+# Elf Destiny: a culture with the Familial Familiarity tradition (cultural parameter consanguinity_unrestricted_incest)
+# treats no relation as incestuous. Every vanilla consanguinity check (marriage, concubinage, betrothal, incest secrets)
+# goes through this trigger, so the exemption lives here. It replaces the pre-1.20 override of
+# relation_with_character_is_incestuous_in_faith_trigger, which vanilla no longer calls.
+relation_with_character_is_incestuous_in_rite_trigger = {
 	AND = {
-		NOT = { culture = { has_cultural_parameter = consanguinity_unrestricted_incest } }
+		# Elf Destiny
+		NOT = { culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest } }
+		# Elf Destiny
 		OR = {
-			#doctrine_consanguinity_restricted; absolutely no family business 
+			# doctrine_consanguinity_dynastic; not within the same descent group
 			AND = {
-				$FAITH$ = { has_doctrine = doctrine_consanguinity_restricted }
+				$RITE$ = { rite_has_parameter = consanguinity_restricted_dynastic_marriage }
+				is_lowborn = no
+				$CHARACTER$.dynasty ?= dynasty
+			}
+			#doctrine_consanguinity_restricted; absolutely no family business
+			AND = {
+				$RITE$ = { rite_has_doctrine = doctrine_consanguinity_restricted }
 				is_close_or_extended_family_of = $CHARACTER$ #[parents, children, siblings, grandparents, grandchildren, cousins, uncles, aunts, nephews, nieces]
 			}
 			#doctrine_consanguinity_cousins; the only acceptable incest is with your cousin
 			AND = {
-				$FAITH$ = { has_doctrine = doctrine_consanguinity_cousins }
+				$RITE$ = { rite_has_parameter = consanguinity_cousins_marriage }
 				OR = {
 					is_close_family_of = $CHARACTER$ #[parents, children, siblings, grandparents, grandchildren]
 					is_uncle_or_aunt_of = $CHARACTER$
@@ -19,44 +34,52 @@ relation_with_character_is_incestuous_in_faith_trigger = {
 			}
 			#doctrine_consanguinity_aunt_nephew_and_uncle_niece; extended family is ok
 			AND = {
-				$FAITH$ = { has_doctrine = doctrine_consanguinity_aunt_nephew_and_uncle_niece }	
+				$RITE$ = { rite_has_parameter = consanguinity_aunt_nephew_and_uncle_niece_marriage }
 				is_close_family_of = $CHARACTER$
 			}
 			#doctrine_consanguinity_unrestricted; all forms of incest is acceptable
-		}	
+		}
 	}
 }
 
-# SECRET INCEST
+# SECRET INCEST (00_secret_type_triggers.txt)
 secret_incest_is_valid_trigger = {
-    $OWNER$ = {
-        is_adult = yes
-        NOT = {
-            has_trait = incestuous
-            culture = { has_cultural_parameter = consanguinity_unrestricted_incest }
-        }
-    }
+	$OWNER$ = {
+		is_adult = yes
+		NOT = {
+			has_trait = incestuous
+			# Elf Destiny
+			culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest }
+			# Elf Destiny
+		}
+	}
 }
 
 secret_incest_is_shunned_trigger = {
-    $OWNER$ = {
-        OR = {
-            faith = { NOT = { has_doctrine_parameter = allows_unrestricted_marriage } }
-            any_liege_or_above = { faith = { NOT = { has_doctrine_parameter = allows_unrestricted_marriage } } }
-            culture = { NOT = { has_cultural_parameter = consanguinity_unrestricted_incest } }
-        }
-    }
-}
-
-secret_incest_is_criminal_trigger = {
-    $OWNER$ = { always = no }
+	$OWNER$ = {
+		OR = {
+			NOT = {
+				rite = { rite_has_parameter = allows_unrestricted_marriage }
+			}
+			any_liege_or_above = {
+				NOT = {
+					rite = { rite_has_parameter = allows_unrestricted_marriage }
+				}
+			}
+			# Elf Destiny
+			culture ?= { NOT = { has_cultural_parameter = consanguinity_unrestricted_incest } }
+			# Elf Destiny
+		}
+	}
 }
 # SECRET INCEST - END
 
+# Elf Destiny only (OVERRIDE_schemes.txt)
 has_tradition_incestuous = {
-    culture = { has_cultural_tradition = tradition_familial_familiarity }
+	culture ?= { has_cultural_tradition = tradition_familial_familiarity }
 }
 
+# 00_marriage_triggers.txt
 #two characters could potentially marry (does NOT check that they're unmarried)
 could_marry_character_trigger = {
 	save_temporary_scope_as = can_marry_check
@@ -79,176 +102,149 @@ could_marry_character_trigger = {
 	#Faith hostility & consanguinity
 	trigger_if = {
 		limit = { NOT = { is_courtier_of = $CHARACTER$ } } #If you're someone's courtier, your liege can marry you anyway
-		OR = {
-			rite = {
-				rite_allows_marriage_consanguinity_trigger = {
-					CHARACTER_1 = scope:can_marry_check
-					CHARACTER_2 = $CHARACTER$
-				}
-				#faith_hostility_level = {
-				#target = scope:can_marry_check.faith
-				#value < faith_hostility_prevents_marriage_level
-				#}
+		rite = {
+			rite_allows_marriage_consanguinity_trigger = {
+				CHARACTER_1 = scope:can_marry_check
+				CHARACTER_2 = $CHARACTER$
 			}
+			#faith_hostility_level = {
+			#	target = $CHARACTER$.faith
+			#	value < faith_hostility_prevents_marriage_level
+			#}
 		}
 	}
 	trigger_if = {
 		limit = { $CHARACTER$ = { NOT = { is_courtier_of = scope:can_marry_check } } } #If you're someone's courtier, your liege can marry you anyway
-		OR = {
-			rite = {
-				rite_allows_marriage_consanguinity_trigger = {
-					CHARACTER_1 = scope:can_marry_check
-					CHARACTER_2 = $CHARACTER$
-				}
-				#faith_hostility_level = {
-				#	target = scope:can_marry_check.faith
-				#	value < faith_hostility_prevents_marriage_level
-				#}
+		$CHARACTER$.rite = {
+			rite_allows_marriage_consanguinity_trigger = {
+				CHARACTER_1 = scope:can_marry_check
+				CHARACTER_2 = $CHARACTER$
 			}
+			#faith_hostility_level = {
+			#	target = scope:can_marry_check.faith
+			#	value < faith_hostility_prevents_marriage_level
+			#}
 		}
 	}
+	# Elf Destiny: marrying someone already wed to a close or extended relative needs unrestricted consanguinity on
+	# both sides (rite or Familial Familiarity culture), and none of their spouses from the family may object
 	trigger_if = {
 		limit = {
 			any_close_or_extended_family_member = {
 				any_spouse = { this = $CHARACTER$ }
 			}
 		}
-		faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+		OR = {
+			culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest }
+			rite = { rite_has_doctrine = doctrine_consanguinity_unrestricted }
+		}
 		$CHARACTER$ = {
-			faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+			OR = {
+				culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest }
+				rite = { rite_has_doctrine = doctrine_consanguinity_unrestricted }
+			}
 			NOT = {
 				any_spouse = {
 					is_close_or_extended_family_of = scope:can_marry_check
-					NOT = {
-						faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+					NOR = {
+						culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest }
+						rite = { rite_has_doctrine = doctrine_consanguinity_unrestricted }
 					}
 				}
 			}
 		}
 	}
+	# Elf Destiny
 	# Cannot marry self
 	NOT = {
 		scope:can_marry_check = { is_spouse_of = $CHARACTER$ }
 	}
 }
 
-# Same trigger as above with the exception of the recent divorce trigger
-can_take_as_concubine_character_trigger = {
-	save_temporary_scope_as = can_marry_check
-	can_marry_common_trigger = yes
-	$CHARACTER$ = { can_marry_common_trigger = yes }
-	#Opposite genders if you don't have accepted same-sex marriage game rule enabled and your faith supports it
-	trigger_if = {
-		limit = {
-			$CHARACTER$ = { allowed_to_marry_same_sex_trigger = no }
-		}
-		sex_opposite_of = $CHARACTER$
-	}
-	#Faith hostility & consanguinity
-	trigger_if = {
-		limit = { NOT = { is_courtier_of = $CHARACTER$ } } #If you're someone's courtier, your liege can marry you anyway
-		OR = {
-			rite = {
-				rite_allows_marriage_consanguinity_trigger = {
-					CHARACTER_1 = scope:can_marry_check
-					CHARACTER_2 = $CHARACTER$
-				}
-				#faith_hostility_level = {
-				#	target = $CHARACTER$.faith
-				#	value < faith_hostility_prevents_marriage_level
-				#}
-			}
-		}
-	}
-	trigger_if = {
-		limit = { $CHARACTER$ = { NOT = { is_courtier_of = scope:can_marry_check } } } #If you're someone's courtier, your liege can marry you anyway
-		OR = {
-			rite = {
-				rite_allows_marriage_consanguinity_trigger = {
-					CHARACTER_1 = scope:can_marry_check
-					CHARACTER_2 = $CHARACTER$
-				}
-				#faith_hostility_level = {
-				#	target = $CHARACTER$.faith
-				#	value < faith_hostility_prevents_marriage_level
-				#}
-			}
-		}
-	}
-	NOT = {
-		scope:can_marry_check = { is_spouse_of = $CHARACTER$ }
-	}
-}
-
+# 00_romance_and_seduction_triggers.txt
 accepts_incest_with_trigger = {
-    OR = {
-        NOT = { is_close_or_extended_family_of = $CHARACTER$ } #Actually no incest here!
-        is_incestuous_trigger = yes
-        has_relation_potential_lover = $CHARACTER$
-        has_relation_lover = $CHARACTER$
-        culture = { has_cultural_parameter = consanguinity_unrestricted_incest }
-    }
-    save_temporary_scope_as = incest_evaluation
-    NOT = { #under 20 trigger is a HARD limit
-        guaranteed_under_20_incest_rejection_trigger = {
-            TARGET = scope:incest_evaluation
-            SEDUCER = $CHARACTER$
-        }
-    }
+	OR = {
+		NOT = { is_close_or_extended_family_of = $CHARACTER$ } #Actually no incest here!
+		is_incestuous_trigger = yes
+		has_relation_potential_lover = $CHARACTER$
+		has_relation_lover = $CHARACTER$
+		$CHARACTER$ = {
+			is_ai = no
+			has_perk = subtle_desire_perk
+		}
+		# Elf Destiny
+		culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest }
+		# Elf Destiny
+	}
+	save_temporary_scope_as = incest_evaluation
+	NOT = { #under 20 trigger is a HARD limit
+		guaranteed_under_20_incest_rejection_trigger = {
+			TARGET = scope:incest_evaluation
+			SEDUCER = $CHARACTER$
+		}
+	}
 }
 
 guaranteed_under_20_incest_rejection_trigger = {
-    $TARGET$ = {
-        NOT = { is_consort_of = $SEDUCER$ }
-        is_close_or_extended_family_of = $SEDUCER$
-        age < 20
-        age < $SEDUCER$.age
-        NOT = { culture = { has_cultural_parameter = consanguinity_unrestricted_incest }}
-        is_ai = yes #Players are allowed to choose
-    }
+	$TARGET$ = {
+		NOT = { is_consort_of = $SEDUCER$ }
+		is_close_or_extended_family_of = $SEDUCER$
+		age < 20
+		age < $SEDUCER$.age
+		# Elf Destiny
+		NOT = { culture ?= { has_cultural_parameter = consanguinity_unrestricted_incest } }
+		# Elf Destiny
+		is_ai = yes #Players are allowed to choose
+	}
 }
 
+# 00_religious_triggers.txt
 valid_demand_conversion_conditions_trigger = {
 	scope:recipient = {
 		NOR = {
-			has_strong_hook = scope:actor
+			has_strong_hook = scope:puppet_or_actor
 			has_trait = devoted
 			has_trait = order_member
-			is_imprisoned_by = scope:actor
-			is_at_war_with = scope:actor
+			is_imprisoned_by = scope:puppet_or_actor
+			is_at_war_with = scope:puppet_or_actor
 		}
 	}
-	scope:actor = {
+	scope:puppet_or_actor = {
 		trigger_if = {
 			limit = {
 				government_has_flag = government_is_landless_adventurer
-				scope:recipient = { is_courtier_of = scope:actor }
+				scope:recipient = { is_courtier_of = scope:puppet_or_actor }
 			}
 			custom_tooltip = {
 				text = valid_demand_conversion_conditions_trigger.tt.domicile_requires_shrine
 				domicile = { has_domicile_parameter = camp_enable_conversion }
 			}
 		}
-		NAND = {
-			has_trait = nomadic_philosophy
-			has_trait = zealous
+		custom_tooltip = {
+			text = demand_conversion_nomadic_zealous_tt
+			NAND = {
+				has_trait = nomadic_philosophy
+				has_trait = zealous
+			}
 		}
 	}
-    
-    # Elf Destiny
-    custom_tooltip = {
-        text = "CANT_CONVERT_AELURAN_ORDER_MEMBER"
-        NAND = {
-            scope:actor.faith.religion = {
-                NOT = {
-                    is_in_family = rf_spark
-                }
-            }
-            scope:recipient = {
-                is_aeluran_sister_or_higher = yes
-            }
-        }
-    }
+
+	# Elf Destiny
+	custom_tooltip = {
+		text = "CANT_CONVERT_AELURAN_ORDER_MEMBER"
+		NAND = {
+			scope:puppet_or_actor.faith.religion = {
+				NOT = {
+					is_in_family = rf_spark
+				}
+			}
+			scope:recipient = {
+				is_aeluran_sister_or_higher = yes
+			}
+		}
+	}
+	# Elf Destiny
+
 	custom_description = {
 		text = "is_head_of_religion"
 		subject = scope:recipient
@@ -260,7 +256,7 @@ valid_demand_conversion_conditions_trigger = {
 		# Vassal Contract forbids meddling by liege
 		NAND = {
 			exists = scope:recipient.liege
-			scope:recipient.liege = scope:actor
+			scope:recipient.liege = scope:puppet_or_actor
 			scope:recipient = {
 				is_ruler = yes
 				vassal_contract_has_flag = religiously_protected
@@ -272,7 +268,7 @@ valid_demand_conversion_conditions_trigger = {
 			scope:recipient = {
 				AND = {
 					has_variable = cannot_be_converted_by_value
-					var:cannot_be_converted_by_value = scope:actor
+					var:cannot_be_converted_by_value = scope:puppet_or_actor
 				}
 			}
 		}
@@ -281,213 +277,327 @@ valid_demand_conversion_conditions_trigger = {
 			scope:recipient = {
 				NOR = {
 					has_variable = cannot_be_converted_by_value
-					var:cannot_be_converted_by_value = scope:actor
+					var:cannot_be_converted_by_value = scope:puppet_or_actor
 				}
 			}
 		}
 	}
 	custom_tooltip = {
 		text = cannot_take_overt_hostile_actions_against_diarch.tt
-		NOT = { scope:recipient ?= scope:actor.diarch }
+		NOT = { scope:recipient ?= scope:puppet_or_actor.diarch }
 	}
 }
 
+# 00_clothing_triggers.txt. Elf Destiny: Magi never wear armor or helmets.
 portrait_wear_armor_trigger = {
-    exists = this
-    trigger_if = {
-        limit = { exists = involved_activity }
-        involved_activity = {
-            NOR = {
-                has_activity_type = activity_hunt
-                has_activity_type = activity_pilgrimage
-            }
-        }
-    }
-
-    # Elf Destiny
-    NOT = {
-        has_trait = magi
-    }
-    # Elf Destiny
-
-    portrait_ep2_wedding_clothes_trigger = no
-    OR = {
-        # Mercenaries
-        AND = {
-            is_ruler = yes
-            government_has_flag = government_is_mercenary
-        }
-        # Holy Orders
-        AND = {
-            is_ruler = yes
-            government_has_flag = government_is_holy_order
-        }
-        has_trait = order_member
-        # Commanding an army
-        is_commanding_army = yes
-        # Knight in an army
-        exists = knight_army
-        AND = {
-            OR = {
-                is_knight = yes
-                has_court_position = bodyguard_court_position
-                has_court_position = champion_court_position
-                has_court_position = garuda_court_position
-            }
-            is_councillor = no
-            OR = {
-                is_landed = no
-                liege = { is_at_war = yes }
-            }
-        }
-        # Marshal lower than Duke
-        AND = {
-            has_council_position = councillor_marshal
-            OR = {
-                is_landed = no
-                primary_title.tier < tier_kingdom
-            }
-        }
-        has_character_flag = wear_armor
-        # Serving Varangian
-        has_character_flag = is_currently_varangian
-        # In a Duel
-        has_character_flag = single_combat_duel_armor
-        has_character_flag = forced_knight_armor
-        # In a Tournament
-        activity_tournament_armor_trigger = yes
-    }
+	exists = this
+	# Elf Destiny
+	NOT = { has_trait = magi }
+	# Elf Destiny
+	is_incapable = no
+	is_imprisoned = no
+	trigger_if = {
+		limit = { exists = involved_activity }
+		involved_activity = { has_activity_type = activity_tournament }
+	}
+	NOT = {
+		OR = {
+			has_court_position = court_astrologer_court_position
+			has_any_charioteer_trait = yes
+		}
+	}
+	portrait_ep2_wedding_clothes_trigger = no
+	trigger_if = {
+		limit = { portrait_sickness_trigger = yes }
+		is_in_army = yes
+	}
+	OR = {
+		# Mercenaries, Military Orders, Adventurers
+		AND = {
+			is_ruler = yes
+			OR = {
+				government_has_flag = government_is_mercenary
+				government_has_flag = government_is_military_holy_order
+				has_realm_law = camp_purpose_mercenaries
+				has_realm_law = camp_purpose_brigands
+			}
+		}
+		has_trait = order_member
+		# Commanding an army
+		is_commanding_army = yes
+		# Knight in an army
+		exists = knight_army
+		AND = {
+			OR = {
+				is_landed_or_landless_administrative_or_theocratic = no
+				liege = { is_at_war = yes }
+			}
+			is_councillor = no
+			OR = {
+				AND = {
+					is_knight = yes
+					NAND = {
+						is_ruler = no
+						government_has_flag = government_is_landless_adventurer
+						liege ?= {
+							NOR = {
+								has_realm_law = camp_purpose_mercenaries
+								has_realm_law = camp_purpose_brigands
+							}
+							is_at_war = no
+						}
+					}
+				}
+				has_court_position = bodyguard_court_position
+				has_court_position = champion_court_position
+				has_court_position = garuda_court_position
+				has_court_position = akolouthos_court_position
+				has_court_position = master_of_arms_camp_officer
+				has_court_position = light_cavalry_captain_camp_officer
+				has_court_position = camelry_captain_camp_officer
+				has_court_position = elephantry_captain_camp_officer
+				has_court_position = heavy_cavalry_captain_camp_officer
+				has_court_position = horse_archer_captain_camp_officer
+				has_court_position = archer_captain_camp_officer
+				has_court_position = heavy_infantry_captain_camp_officer
+				has_court_position = light_infantry_captain_camp_officer
+				has_court_position = pike_captain_camp_officer
+			}
+		}
+		# Marshal lower than Duke
+		AND = {
+			has_council_position = councillor_marshal
+			OR = {
+				is_landed_or_landless_administrative_or_theocratic = no
+				primary_title.tier < tier_kingdom
+			}
+		}
+		# Military style governor
+		trigger_if = {
+			limit = {
+				is_independent_ruler = no
+				government_allows = merit
+			}
+			OR = {
+				vassal_contract_has_flag = province_military
+				vassal_contract_has_flag = celestial_grand_marshal_obligation
+			}
+			is_adult = yes
+			trigger_if = {
+				limit = { has_trait = devoted }
+				rite = { rite_has_parameter = clergy_can_fight }
+			}
+			save_temporary_scope_as = fighter_temp
+			can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:fighter_temp }
+		}
+		has_character_flag = wear_armor
+		# Serving Varangian
+		has_character_flag = is_currently_varangian
+		# In a Duel
+		has_character_flag = single_combat_duel_armor
+		has_character_flag = forced_knight_armor
+		# In a Tournament
+		activity_tournament_armor_trigger = yes
+		AND = { # In case these characters become landed they should stop wearing armor
+			has_character_flag = military_outfit
+			is_ruler = no
+		}
+		# Died in battle
+		trigger_if = {
+			limit = { is_alive = no }
+			death_reason = death_battle
+		}
+	}
 }
 
-portrait_wear_helmet_trigger = { # Different from Armor, as Counts+ should show their crowns!
-    exists = this
-    trigger_if = {
-        limit = { exists = involved_activity }
-        involved_activity = {
-            NOR = {
-                has_activity_type = activity_hunt
-                has_activity_type = activity_pilgrimage
-            }
-        }
-    }
-
-    # Elf Destiny
-    NOT = {
-        has_trait = magi
-    }
-    # Elf Destiny
-
-    OR = {
-        # Mercenaries
-        AND = {
-            is_ruler = yes
-            government_has_flag = government_is_mercenary
-        }
-        # Holy Orders
-        AND = {
-            is_ruler = yes
-            government_has_flag = government_is_holy_order
-        }
-        has_trait = order_member
-        # Commanding and lower than a Duke
-        AND = {
-            is_commanding_army = yes
-            OR = {
-                is_landed = no
-                AND = {
-                    exists = primary_title
-                    primary_title.tier < tier_duchy
-                }
-            }
-        }
-        # Knight in an army
-        exists = knight_army
-        # Non-Council Knight lower than Duke and liege is at war
-        AND = {
-            is_knight = yes
-            is_councillor = no
-            OR = {
-                is_landed = no
-                AND = {
-                    exists = primary_title
-                    primary_title.tier < tier_duchy
-                    liege = { is_at_war = yes }
-                }
-            }
-        }
-        # Marshal lower than Duke
-        AND = {
-            has_council_position = councillor_marshal
-            OR = {
-                is_landed = no
-                primary_title.tier < tier_duchy
-            }
-        }
-        has_character_flag = wear_armor
-        # Serving Varangian
-        has_character_flag = is_currently_varangian
-        # In a Duel
-        has_character_flag = single_combat_duel_armor
-        # In a Tournament
-        activity_tournament_armor_trigger = yes
-    }
-    NOR = {
-        activity_tournament_shirtless_trigger = yes
-        has_character_flag = no_hat
-    }
-    # Not peasants leading revolts
-    NAND = {
-        has_trait = peasant_leader
-        OR = {
-            is_ruler = no
-            is_leading_faction_type = peasant_faction
-            AND = {
-                is_ruler = yes
-                is_landed = no
-                OR = {
-                    government_has_flag = government_is_feudal
-                    government_has_flag = government_is_clan
-                }
-            }
-        }
-    }
+portrait_wear_helmet_trigger = { # Different from Armor, as (crowned) Kings and Emperors should show their crowns!
+	exists = this
+	# Elf Destiny
+	NOT = { has_trait = magi }
+	# Elf Destiny
+	trigger_if = {
+		limit = { exists = involved_activity }
+		involved_activity = {
+			NOR = {
+				has_activity_type = activity_hunt
+				has_activity_type = activity_pilgrimage
+				has_activity_type = activity_roaming
+			}
+		}
+	}
+	is_incapable = no
+	is_imprisoned = no
+	NOT = { has_court_position = court_astrologer_court_position }
+	trigger_if = {
+		limit = { portrait_sickness_trigger = yes }
+		is_in_army = yes
+	}
+	OR = {
+		# Adventurers
+		AND = {
+			is_ruler = yes
+			government_has_flag = government_is_landless_adventurer
+			has_realm_law = camp_purpose_mercenaries
+		}
+		# Military Orders
+		# Rank-and-file military order members only wear helmets when actively fighting
+		# (commanding an army or riding out as a knight). Otherwise they're shown in their
+		# tonsured monastic form. Mirrors the commanding-army / knight_army logic used for
+		# regular knights & marshals below. NOTE: portrait_wear_armor_trigger still lets
+		# them wear their armor at all times, per the military-order aesthetic.
+		AND = {
+			has_trait = order_member
+			OR = {
+				is_commanding_army = yes
+				exists = knight_army
+			}
+		}
+		# Commanding and lower than a King or uncrowned
+		AND = {
+			is_commanding_army = yes
+			OR = {
+				is_landed_or_landless_administrative_or_theocratic = no
+				AND = {
+					exists = primary_title
+					OR = {
+						primary_title.tier < tier_kingdom
+						portrait_wear_no_crown_trigger = yes
+					}
+				}
+			}
+		}
+		# Knight in an army
+		exists = knight_army
+		# Non-Council Knight lower than King and liege is at war
+		AND = {
+			is_knight = yes
+			is_councillor = no
+			OR = {
+				is_landed_or_landless_administrative_or_theocratic = no
+				AND = {
+					exists = primary_title
+					primary_title.tier < tier_kingdom
+					liege = { is_at_war = yes }
+				}
+			}
+			NAND = {
+				is_ruler = no
+				government_has_flag = government_is_landless_adventurer
+				liege ?= {
+					is_at_war = no
+					NOT = { has_realm_law = camp_purpose_mercenaries }
+				}
+			}
+		}
+		# Marshal lower than Duke
+		AND = {
+			has_council_position = councillor_marshal
+			OR = {
+				is_landed_or_landless_administrative_or_theocratic = no
+				primary_title.tier < tier_duchy
+			}
+		}
+		has_character_flag = wear_armor
+		# Serving Varangian
+		has_character_flag = is_currently_varangian
+		# In a Duel
+		has_character_flag = single_combat_duel_armor
+		# In a Tournament
+		activity_tournament_armor_trigger = yes
+		AND = { # In case these characters become landed they should stop wearing armor
+			has_character_flag = military_outfit
+			is_ruler = no
+		}
+		# Military style governor
+		AND = {
+			is_independent_ruler = no
+			government_allows = merit
+			OR = {
+				vassal_contract_has_flag = province_military
+				vassal_contract_has_flag = celestial_grand_marshal_obligation
+				AND = {
+					has_council_position = councillor_marshal
+					liege = {
+						OR = {
+							AND = {
+								is_independent_ruler = yes
+								highest_held_title_tier >= tier_kingdom
+							}
+							tgp_is_ceremonial_liege_trigger = yes
+						}
+					}
+				}
+			}
+			is_adult = yes
+			trigger_if = {
+				limit = { has_trait = devoted }
+				rite = { rite_has_parameter = clergy_can_fight }
+			}
+			save_temporary_scope_as = fighter_temp
+			can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:fighter_temp }
+		}
+	}
+	NOR = {
+		activity_tournament_shirtless_trigger = yes
+		has_character_flag = no_hat
+	}
+	# Not peasants leading revolts
+	NAND = {
+		has_trait = peasant_leader
+		OR = {
+			is_ruler = no
+			is_leading_faction_type = peasant_faction
+			AND = {
+				is_ruler = yes
+				is_landed_or_landless_administrative_or_theocratic = no
+				OR = {
+					government_has_flag = government_is_feudal
+					government_has_flag = government_is_clan
+				}
+			}
+		}
+	}
 }
 
 portrait_wear_armor_currently_in_army_trigger = {
-    exists = this
-    # Elf Destiny
-    NOT = {
-        has_trait = magi
-    }
-    # Elf Destiny
-    OR = {
-        is_commanding_army = yes
-        exists = knight_army
-    }
+	exists = this
+	# Elf Destiny
+	NOT = { has_trait = magi }
+	# Elf Destiny
+	OR = {
+		is_commanding_army = yes
+		exists = knight_army
+	}
 }
 
+# mpo_scripted_triggers.txt. Elf Destiny: the elven northern tribes also build on permafrost.
 mpo_permafrost_building_trigger = {
 	trigger_if = {
 		limit = {
 			county = {
 				has_county_modifier = mpo_siberian_permafrost_modifier
-			}		
+			}
 		}
 		culture ?= scope:holder.culture
 		culture ?= {
-            OR = {
-                has_cultural_tradition = tradition_mpo_northern_tribes
-                has_cultural_tradition = tradition_elven_northern_tribes
-            }
+			OR = {
+				has_cultural_tradition = tradition_mpo_northern_tribes
+				# Elf Destiny
+				has_cultural_tradition = tradition_elven_northern_tribes
+				# Elf Destiny
+			}
 		}
 	}
 }
 
+# 00_building_requirement_triggers.txt. Elf Destiny: advanced tribal counts as tribal.
 building_requirement_tribal = {
 	scope:holder ?= {
 		OR = {
 			government_has_flag = government_is_tribal
+			# Elf Destiny
 			government_has_flag = government_is_advanced_tribal
+			# Elf Destiny
 			government_has_flag = government_is_nomadic
 			government_has_flag = government_is_wanua
 		}

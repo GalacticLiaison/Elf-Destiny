@@ -1,0 +1,51 @@
+﻿# Every culture of elven heritage knows Elven Adaptability (the 100 extra tradition slots). History grants it to the
+# named elf cultures at every start date and to the basic Dark Elf culture; this covers the rest without a recurring
+# sweep (PM 2026-10-08): a culture diverged or hybridised from an elven one at the moment it is made, every elven
+# culture once when a new game leaves the lobby, and existing saves once, the first new year after this update.
+
+# Root = the new culture, scope:founder = who made it
+on_culture_created = {
+	on_actions = {
+		elf_culture_innovation_on_created
+	}
+}
+
+elf_culture_innovation_on_created = {
+	trigger = {
+		has_cultural_pillar = heritage_elf
+		NOT = { has_innovation = innovation_elven_adaptability }
+	}
+	effect = {
+		add_innovation = innovation_elven_adaptability
+	}
+}
+
+on_game_start_after_lobby = {
+	on_actions = {
+		elf_culture_innovation_sweep
+	}
+}
+
+# Saves from before this update: one sweep, then never again (the global variable marks it done)
+yearly_global_pulse = {
+	on_actions = {
+		elf_culture_innovation_heal_once
+	}
+}
+
+elf_culture_innovation_heal_once = {
+	trigger = {
+		NOT = { has_global_variable = elf_culture_innovation_healed }
+	}
+	effect = {
+		elf_culture_innovation_sweep_effect = yes
+		set_global_variable = { name = elf_culture_innovation_healed value = yes }
+	}
+}
+
+elf_culture_innovation_sweep = {
+	effect = {
+		elf_culture_innovation_sweep_effect = yes
+		set_global_variable = { name = elf_culture_innovation_healed value = yes }
+	}
+}
