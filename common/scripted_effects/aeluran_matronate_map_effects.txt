@@ -6,7 +6,7 @@
 # var:aeluran_rs_temple_marker, and each marker carries its Sister in var:aeluran_rs_temple_sister. The pin itself is in
 # gui/map_icon_layer.gui and draws only for Order members (aeluran_order_sees_temple_cards).
 # Leases fire no on_action, so markers are placed when A Matter of Land settles, on each ruler's quarterly pulse, after
-# the lobby and yearly (common/on_action/aeluran_matronate_map_on_actions.txt); each marker closes itself monthly.
+# the lobby and yearly (common/on_action/aeluran_matronate_map_on_actions.txt); each marker flags itself monthly and a quarterly pulse closes it (never from inside its own tick: that crashes the engine).
 
 # Full pass, any scope: close stale markers, then open one for every kept temple without one
 aeluran_matronate_map_sync_temple_markers_effect = {
@@ -67,14 +67,36 @@ aeluran_rs_temple_markers_close_stale_effect = {
 		list = rs_stale_markers
 		situation_center_province ?= { remove_variable = aeluran_rs_temple_marker }
 		remove_list_global_variable = { name = aeluran_rs_temple_markers target = this }
+		debug_log = "RS MARKER: closing stale marker"
 		end_situation = yes
 	}
 }
 
-# Root = a marker situation (its on_monthly)
+# Root = a marker situation (its on_monthly). It must NOT end itself: end_situation inside a situation's own on_monthly
+# destroys it mid-tick and crashes the engine in situation.cpp UpdateMonthlyTick (player save, same date every run,
+# 2026-10-11). A stale marker is only flagged here; aeluran_rs_temple_markers_close_flagged_effect closes it from a
+# character-root pulse.
 aeluran_rs_temple_marker_self_check_effect = {
 	aeluran_rs_temple_marker_check_effect = yes
+	every_in_list = {
+		list = rs_stale_markers
+		limit = { NOT = { has_variable = aeluran_rs_marker_stale } }
+		debug_log = "RS MARKER: flagging stale marker for closing"
+		set_variable = { name = aeluran_rs_marker_stale value = yes }
+		add_to_global_variable_list = { name = aeluran_rs_stale_markers target = this }
+	}
+}
+
+# Any character scope (quarterly_playable_pulse). Closes the markers the monthly self-check flagged. Cheap: the list
+# is normally empty. The sync pass above still closes stale markers itself, so a flagged marker that the yearly sync
+# already ended is simply gone from aeluran_rs_temple_markers by the time this runs.
+aeluran_rs_temple_markers_close_flagged_effect = {
+	every_in_global_list = {
+		variable = aeluran_rs_stale_markers
+		add_to_temporary_list = rs_stale_markers
+	}
 	aeluran_rs_temple_markers_close_stale_effect = yes
+	clear_global_variable_list = aeluran_rs_stale_markers
 }
 
 # Scope = a temple province; scope:rs_sister = the Red Sister who keeps it
