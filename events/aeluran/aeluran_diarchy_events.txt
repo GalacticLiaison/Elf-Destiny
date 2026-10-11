@@ -428,7 +428,7 @@ aeluran_diarchy.103 = {
 				desc = aeluran_diarchy.103.desc.in_care
 			}
 			triggered_desc = {
-				trigger = { exists = scope:undeveloped_holding }
+				trigger = { scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes } }
 				desc = aeluran_diarchy.103.desc.build
 			}
 			desc = aeluran_diarchy.103.desc.none
@@ -468,7 +468,7 @@ aeluran_diarchy.103 = {
 		name = aeluran_diarchy.103.undeveloped_holding
 		trigger = {
 			NOT = { exists = scope:temple_in_care }
-			exists = scope:undeveloped_holding
+			scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes }
 		}
 		scope:undeveloped_holding = {
 			begin_create_holding = {
@@ -494,7 +494,7 @@ aeluran_diarchy.103 = {
 			base = 0
 			modifier = {
 				add = 100
-				NOT = { exists = scope:undeveloped_holding }
+				NOT = { scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes } }
 			}
 		}
 	}
@@ -528,13 +528,13 @@ aeluran_diarchy.1031 = {
 			is_alive = yes
 		}
 		# The temple is still being built: wait for it (on_trigger_fail)
-		NOT = { scope:undeveloped_holding ?= { has_ongoing_construction = yes } }
+		NOT = { scope:undeveloped_holding ?= { OR = { has_ongoing_construction = yes has_construction_with_flag = temple } } }
 	}
 	on_trigger_fail = {
 		if = {
 			limit = {
 				scope:aeluran_sister_advisor ?= { is_alive = yes }
-				scope:undeveloped_holding ?= { has_ongoing_construction = yes }
+				scope:undeveloped_holding ?= { OR = { has_ongoing_construction = yes has_construction_with_flag = temple } }
 			}
 			trigger_event = {
 				id = aeluran_diarchy.1031
@@ -621,7 +621,7 @@ aeluran_diarchy.1033 = {
 				desc = aeluran_diarchy.1033.desc.in_care
 			}
 			triggered_desc = {
-				trigger = { exists = scope:undeveloped_holding }
+				trigger = { scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes } }
 				desc = aeluran_diarchy.1033.desc.build
 			}
 			desc = aeluran_diarchy.1033.desc.none
@@ -659,7 +659,7 @@ aeluran_diarchy.1033 = {
 		name = aeluran_diarchy.1033.undeveloped_holding
 		trigger = {
 			NOT = { exists = scope:temple_in_care }
-			exists = scope:undeveloped_holding
+			scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes }
 		}
 		scope:undeveloped_holding = {
 			begin_create_holding = {
@@ -685,7 +685,7 @@ aeluran_diarchy.1033 = {
 			base = 0
 			modifier = {
 				add = 100
-				NOT = { exists = scope:undeveloped_holding }
+				NOT = { scope:undeveloped_holding ?= { aeluran_undeveloped_holding_trigger = yes } }
 			}
 		}
 	}

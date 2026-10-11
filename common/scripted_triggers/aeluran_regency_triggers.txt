@@ -90,6 +90,18 @@ new_temple_available_for_diarch = {
 	$COUNTY$.holder = root
 	$PROVINCE$ = { has_holding = yes }
 }
+# Scope = a province, root = the ruler. A Matter of Land may found a temple here: the ruler holds the county, the barony
+# is empty and nothing is being built on it. has_holding stays "no" while a temple holding is still being founded, so
+# the construction flag is checked as well. Used by the survey AND by the event options: an undeveloped_holding target
+# saved years earlier survives clear_saved_scope when it was inherited from the triggering event, and the Order then
+# tried to found a temple on a barony the ruler had lost that already had one (2026-10-11).
+aeluran_undeveloped_holding_trigger = {
+	has_holding = no
+	has_ongoing_construction = no
+	NOT = { has_construction_with_flag = temple }
+	barony_cannot_construct_holding = no
+	county.holder = root
+}
 # Scope = a barony title. A temple that $SISTER$ (a Red Sister) keeps: leased to her by her ruler's lease, or, in saves
 # from before Beta_v2.0.4, held by her outright. Used by A Matter of Land and the temple map markers.
 aeluran_temple_kept_by_sister_trigger = {

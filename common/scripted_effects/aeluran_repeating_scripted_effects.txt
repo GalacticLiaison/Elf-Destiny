@@ -199,9 +199,17 @@ sort_aeluran_candidates_to_list_effect = {
 }
 
 appoint_newly_arrived_aeluran_advisor = {
-    assign_councillor_type = {
-        type = councillor_aeluran_advisor
-        target = scope:aeluran_sister_advisor
+    # Rulers without a council (herder, holy order, landless) cannot seat her; the pulse no longer sends Sisters there,
+    # but one already on the road in an older save still arrives and simply stays at court (2026-10-11).
+    if = {
+        limit = { has_council = yes }
+        assign_councillor_type = {
+            type = councillor_aeluran_advisor
+            target = scope:aeluran_sister_advisor
+        }
+    }
+    else = {
+        debug_log = "Aeluran advisor arrived at a court without a council; not seated"
     }
 
     if = {
@@ -752,5 +760,36 @@ aeluran_recall_host_effect = {
 			desc = aeluran_host_recalled_desc
 			left_icon = root
 		}
+	}
+}
+
+# Restored 2026-10-11: dropped by the 2.0.6 magi rework (c20c9f6) while its four callers stayed (elf_dest_title_on_actions.txt, aeluran_order_government_effects.txt)
+aeluran_order_council_gender_purge_effect = {
+	save_scope_as = order_council_owner
+	every_councillor = {
+		limit = {
+			NOT = { has_council_position = councillor_spouse }
+			NOT = { has_council_position = councillor_aeluran_advisor }
+			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
+		}
+		add_to_temporary_list = order_council_purge
+	}
+	every_in_list = {
+		list = order_council_purge
+		scope:order_council_owner = { fire_councillor_skip_effects = prev }
+	}
+	# Clergy membership outlives the seat: anyone of the wrong clerical gender leaves the faith's clergy, including a
+	# spouse on the spouse seat (he keeps the seat)
+	every_in_list = {
+		list = order_council_purge
+		hidden_effect = { leave_organization = yes }
+	}
+	every_councillor = {
+		limit = {
+			has_council_position = councillor_spouse
+			is_clergy = yes
+			NOT = { can_be_councillor_gender_trigger = { COURT_OWNER = scope:order_council_owner } }
+		}
+		hidden_effect = { leave_organization = yes }
 	}
 }
