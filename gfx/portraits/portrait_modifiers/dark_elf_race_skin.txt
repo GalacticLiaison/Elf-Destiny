@@ -11,15 +11,21 @@
 # coordinates to 0,0 so the drow shift lands in its intended palette.
 # Everyone without the variable renders their DNA untouched.
 #
-# Bloodline sovereignty: this pack only sets gene_special_skin_color. The
-# base-color pins (skin_color, hair_color, eye_color) that used to live inside
-# each drow entry were extracted into their own packs - dark_elf_skin_color_pin,
-# dark_elf_hair_color_pin, dark_elf_eye_color_pin - so they can independently
-# opt out when a bloodline marks the same gene (Thundarael for skin_color,
-# Valerith for hair_color, Serelion/Lormelis for eye_color). Splitting
-# the pins into separate packs is the only way to conditionally skip them:
-# within a single pack entry the dna_modifiers apply all-or-nothing. Ported
-# from Elf_Destiny_Lite_V2 (see UPSTREAM_DIVERGENCES.md item #6).
+# Bloodline sovereignty: royal bloodline marks are the authoritative appearance
+# and the drow palette never overlays them. Two mechanisms:
+#   (1) The drow gene_special_skin_color entries below skip when Thundarael
+#       is present, so her pale-skin mark stands alone (no drow palette on
+#       top of her base).
+#   (2) The base-color pins (skin_color, hair_color, eye_color) that used to
+#       live inside each drow entry were extracted into their own packs -
+#       dark_elf_skin_color_pin, dark_elf_hair_color_pin, dark_elf_eye_color_pin
+#       - so they can independently opt out when a bloodline marks the same
+#       base gene (Thundarael for skin_color, Valerith for hair_color,
+#       Serelion/Lormelis for eye_color).
+# Splitting the pins into separate packs is the only way to conditionally
+# skip them: within a single pack entry the dna_modifiers apply all-or-nothing.
+# Ported from Elf_Destiny_Lite_V2 (see UPSTREAM_DIVERGENCES.md item #6) and
+# extended to make bloodlines fully dominant over the drow palette.
 
 dark_elf_race_skin = {
     usage = game
@@ -40,6 +46,7 @@ dark_elf_race_skin = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
                 var:dark_elf_skin_color = flag:purple
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
@@ -60,6 +67,7 @@ dark_elf_race_skin = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
                 var:dark_elf_skin_color = flag:grey
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
@@ -80,6 +88,7 @@ dark_elf_race_skin = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
                 var:dark_elf_skin_color = flag:blue
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
