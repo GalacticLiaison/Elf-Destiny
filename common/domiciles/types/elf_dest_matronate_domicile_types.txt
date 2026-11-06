@@ -1,7 +1,8 @@
 ﻿# Matron's Hall: the domicile of an Aeluran Matron, carried by the Order government (aeluran_weavers_government).
 # A clerical region takes its domicile type from its holder's government, and the engine cannot move a region between
 # holders without one (CLandedTitle::SetHolder crash), so every Matronate holder needs a Hall.
-# Empty for now: no buildings use this type yet. Art borrowed from the vanilla ecclesiastical domicile.
+# Empty for now: its one slot only lists the "under development" placeholder
+# (common/domiciles/buildings/elf_dest_matronate_domicile_buildings.txt). Art borrowed from the vanilla ecclesiastical domicile.
 aeluran_matron_hall = {
 	allowed_for_character = {
 		OR = {
@@ -17,11 +18,12 @@ aeluran_matron_hall = {
 	map_pin_lobby = no
 	can_move_manually = no
 
-	base_external_slots = 0
+	base_external_slots = 1
 
 	domicile_building_slots = {
-		main_slot = {
-			slot_type = main
+		# An external slot, not a main one: the engine builds a main building with no predecessor by itself when the
+		# Hall is created (can_construct is not asked), and the placeholder must stay unbuilt
+		hall_slot = {
 			position = { 28.2% 16% }
 			size = { 28% 34.5% }
 
