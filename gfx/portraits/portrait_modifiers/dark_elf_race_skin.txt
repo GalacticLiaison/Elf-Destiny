@@ -10,6 +10,22 @@
 # curve band (range 0.0-1.0, seeded per character) and pin base skin/hair/eye
 # coordinates to 0,0 so the drow shift lands in its intended palette.
 # Everyone without the variable renders their DNA untouched.
+#
+# Bloodline sovereignty: royal bloodline marks are the authoritative appearance
+# and the drow palette never overlays them. Two mechanisms:
+#   (1) The drow gene_special_skin_color entries below skip when Thundarael
+#       is present, so her pale-skin mark stands alone (no drow palette on
+#       top of her base).
+#   (2) The base-color pins (skin_color, hair_color, eye_color) that used to
+#       live inside each drow entry were extracted into their own packs -
+#       dark_elf_skin_color_pin, dark_elf_hair_color_pin, dark_elf_eye_color_pin
+#       - so they can independently opt out when a bloodline marks the same
+#       base gene (Thundarael for skin_color, Valerith for hair_color,
+#       Serelion/Lormelis for eye_color).
+# Splitting the pins into separate packs is the only way to conditionally
+# skip them: within a single pack entry the dna_modifiers apply all-or-nothing.
+# Ported from Elf_Destiny_Lite_V2 (see UPSTREAM_DIVERGENCES.md item #6) and
+# extended to make bloodlines fully dominant over the drow palette.
 
 dark_elf_race_skin = {
     usage = game
@@ -22,24 +38,6 @@ dark_elf_race_skin = {
                 template = drow_skin_purple
                 range = { 0.0 1.0 }
             }
-            color = {
-                gene = skin_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = hair_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = eye_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
         }
         weight = {
             base = 0
@@ -48,6 +46,7 @@ dark_elf_race_skin = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
                 var:dark_elf_skin_color = flag:purple
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
@@ -60,24 +59,6 @@ dark_elf_race_skin = {
                 template = drow_skin_grey
                 range = { 0.0 1.0 }
             }
-            color = {
-                gene = skin_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = hair_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = eye_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
         }
         weight = {
             base = 0
@@ -86,6 +67,7 @@ dark_elf_race_skin = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
                 var:dark_elf_skin_color = flag:grey
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
@@ -98,18 +80,147 @@ dark_elf_race_skin = {
                 template = drow_skin_blue
                 range = { 0.0 1.0 }
             }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                var:dark_elf_skin_color = flag:blue
+                NOT = { has_trait = royal_elf_thundarael }
+            }
+        }
+    }
+
+    # No-op winner for everyone else (mode = add, value = 0 changes nothing).
+    dark_elf_skin_unchanged = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_skin_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+# ============================================================================
+# Base skin_color pin (extracted from the drow entries above).
+# Pins skin_color to (0,0) so the drow special-skin template renders on the
+# intended base. Skips when Thundarael is present - her bloodline marks
+# skin_color at (0.001, 0.001) for pale-skin appearance and must win.
+#
+# No-op fallback uses morph on gene_special_skin_color (mode=add value=0)
+# instead of a color-gene no-op. `color = { mode = add }` is not a supported
+# no-op form - it silently corrupts rendering when a color gene sits at base
+# weight with mode=add. Morph-based no-op mirrors the pattern in the main pack.
+# ============================================================================
+dark_elf_skin_color_pin = {
+    usage = game
+
+    pin_active = {
+        dna_modifiers = {
             color = {
                 gene = skin_color
                 mode = replace
                 x = 0.0
                 y = 0.0
             }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                NOT = { has_trait = royal_elf_thundarael }
+            }
+        }
+    }
+
+    pin_inactive = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_skin_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+# ============================================================================
+# Base hair_color pin (extracted from the drow entries above).
+# Pins hair_color to (0,0) so the drow special-hair template renders on the
+# intended platinum base. Skips when Valerith is present - her bloodline marks
+# hair_color at (0.0, 0.012) for silver hair and must win. Myrvessa uses
+# gene_special_hair_color (not hair_color), so no guard needed for her here;
+# her protection lives in dark_elf_race_hair.txt.
+#
+# No-op fallback uses morph on gene_special_hair_color (see skin pin above
+# for the "why not color mode=add" explanation).
+# ============================================================================
+dark_elf_hair_color_pin = {
+    usage = game
+
+    pin_active = {
+        dna_modifiers = {
             color = {
                 gene = hair_color
                 mode = replace
                 x = 0.0
                 y = 0.0
             }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 999
+                is_dark_elf_type = yes
+                exists = var:dark_elf_skin_color
+                NOT = { has_trait = royal_elf_valerith }
+            }
+        }
+    }
+
+    pin_inactive = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_hair_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+# ============================================================================
+# Base eye_color pin (extracted from the drow entries above).
+# Pins eye_color to (0,0) so the drow shift lands in its intended palette.
+# Skips when a light bloodline that marks eye_color is present:
+#   Serelion - eye_color at (0.0, 0.76) for amber/purple eyes
+#   Lormelis - eye_color at (0.0, 1.23)
+# Syldranis (dark) also marks eye_color but at (0,0) - agrees with this pin,
+# no guard needed. Protection matters when a light-bloodline carrier becomes
+# a dark elf (e.g. via the Corrupt interaction).
+#
+# No-op fallback uses morph on gene_special_skin_color (see skin pin above).
+# ============================================================================
+dark_elf_eye_color_pin = {
+    usage = game
+
+    pin_active = {
+        dna_modifiers = {
             color = {
                 gene = eye_color
                 mode = replace
@@ -123,31 +234,44 @@ dark_elf_race_skin = {
                 add = 999
                 is_dark_elf_type = yes
                 exists = var:dark_elf_skin_color
-                var:dark_elf_skin_color = flag:blue
+                NOT = { has_trait = royal_elf_serelion }
+                NOT = { has_trait = royal_elf_lormelis }
             }
         }
     }
 
-    # Base-tone pin only: designed characters (and their descendants) who carry
-    # var:dark_elf_base_tone get the 0,0 base pinning while their own DNA skin
-    # gene renders. Loses to the forced color entries (999) when a convert
-    # carries both variables - those already include the same pins.
-    dark_elf_base_tone_pin = {
+    pin_inactive = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_skin_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+# ============================================================================
+# Base-tone pin for ruler-designer dark elves and their descendants.
+# var:dark_elf_base_tone marks characters whose base skin/hair/eye colors
+# should be pinned to 0,0 so their DNA base colors don't skew the drow HSV
+# shift too dark. Previously this was a single all-or-nothing pack entry on
+# all three color genes; split here into one pack per axis so bloodline guards
+# can skip the right axis independently. Loses to the forced color entries
+# (999) when a convert carries both variables - those already include the
+# same pins. Converts don't need this pin: their forced color entries carry
+# the same pins.
+# ============================================================================
+dark_elf_base_tone_skin_pin = {
+    usage = game
+
+    pin_active = {
         dna_modifiers = {
             color = {
                 gene = skin_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = hair_color
-                mode = replace
-                x = 0.0
-                y = 0.0
-            }
-            color = {
-                gene = eye_color
                 mode = replace
                 x = 0.0
                 y = 0.0
@@ -160,12 +284,89 @@ dark_elf_race_skin = {
                 exists = this
                 is_alive = yes # dead characters can't hold variables
                 has_variable = dark_elf_base_tone
+                NOT = { has_trait = royal_elf_thundarael }
             }
         }
     }
 
-    # No-op winner for everyone else (mode = add, value = 0 changes nothing).
-    dark_elf_skin_unchanged = {
+    pin_inactive = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_skin_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+dark_elf_base_tone_hair_pin = {
+    usage = game
+
+    pin_active = {
+        dna_modifiers = {
+            color = {
+                gene = hair_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 500
+                exists = this
+                is_alive = yes
+                has_variable = dark_elf_base_tone
+                NOT = { has_trait = royal_elf_valerith }
+            }
+        }
+    }
+
+    pin_inactive = {
+        dna_modifiers = {
+            morph = {
+                mode = add
+                gene = gene_special_hair_color
+                value = 0
+            }
+        }
+        weight = {
+            base = 1
+        }
+    }
+}
+
+dark_elf_base_tone_eye_pin = {
+    usage = game
+
+    pin_active = {
+        dna_modifiers = {
+            color = {
+                gene = eye_color
+                mode = replace
+                x = 0.0
+                y = 0.0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 500
+                exists = this
+                is_alive = yes
+                has_variable = dark_elf_base_tone
+                NOT = { has_trait = royal_elf_serelion }
+                NOT = { has_trait = royal_elf_lormelis }
+            }
+        }
+    }
+
+    pin_inactive = {
         dna_modifiers = {
             morph = {
                 mode = add
