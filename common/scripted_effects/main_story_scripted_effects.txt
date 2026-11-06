@@ -68,9 +68,19 @@ get_julia_melwood_effect = {
 		}
 	}
 	else = {
+		# Julia keeps the creed of her homeland as it stands today (Paris): Carolingian Christianity in 867, the Roman
+		# rite of the Catholic Church once the Great Schism has passed. Should Paris have left Christendom, the Roman rite.
+		if = {
+			limit = { title:c_ile_de_france.faith.religion = religion:christianity_religion }
+			title:c_ile_de_france.rite = { save_temporary_scope_as = julia_rite }
+		}
+		else = {
+			rite:roman_rite = { save_temporary_scope_as = julia_rite }
+		}
 		create_character = {
 			template = julia_melwood
-			faith = faith:catholic
+			faith = scope:julia_rite.faith
+			rite = scope:julia_rite
 			culture = culture:french
 			# dynasty_house = 696976
 			location = root.location
@@ -78,6 +88,33 @@ get_julia_melwood_effect = {
 		}
 	}
 }
+
+# Julia Melwood follows her patron into a new faith, wherever she is: she joins the spouses_and_family_to_convert list
+# (scope:actor's rite is the one being taken). Never creates her.
+add_julia_melwood_to_converts_effect = {
+	random_living_character = {
+		limit = {
+			has_character_flag = julia_melwood
+			NOT = { rite = scope:actor.rite }
+			NOT = { is_in_list = spouses_and_family_to_convert }
+		}
+		add_to_list = spouses_and_family_to_convert
+	}
+}
+
+# The household on the spouses_and_family_to_convert list (built by grab_spouses_and_family_to_convert_effect) takes
+# scope:actor's rite as welcomed converts. Since 1.20 vanilla's convert_family_to_faith_effect runs every convert
+# through convert_to_rite_with_consequences_effect: whoever has not studied the rite loses their piety and devotion,
+# gains massive stress and carries a five-year convert modifier, and courtiers can never study a rite.
+welcome_household_to_faith_effect = {
+	every_in_list = {
+		list = spouses_and_family_to_convert
+		clean_convert_modifier_effect = yes
+		set_character_rite = scope:actor.rite
+	}
+	scope:recipient = { bastard_to_wild_oat_conversion_interaction_effect = yes }
+}
+
 # Scope: the barony the Grand Portal is moved to; root = the ruler moving it.
 # 1.20 holy sites can be re-created elsewhere: the eminent Grand Portal holy site follows the portal, its relics
 # re-enshrined there (a site without one is inactive). The religion's main holy site link stays on Spirits' Landing.
