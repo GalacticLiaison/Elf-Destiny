@@ -321,7 +321,7 @@ All born 848.1.1, immortal, faith `aeluran_weavers`, flags race_elf + race_dark_
 
 ⚠ Known issues: two rulers literally named "Placeholder"; both Scandinavian rulers set to `elf_culture_drow` instead of dokkalfar; Scandinavia ruler missing DNA entry; no dynasties for the northern pair. **The two holy-site placements (Triel on the Blood Altar, the Rynvela queen on Hekla's palace) are strong intentional-looking hooks with zero written acknowledgment.** A light-elf Valerith enclave sits adjacent in Lapland.
 
-### The Vra'khaz reaver line [GAME + COMM] (`dark_elf_tinder_characters.txt` — from the Discord **dark-elf-tinder** channel; "placements, families and traits are EDUCATED GUESSES pending PM review")
+### The Vra'khaz reaver line [GAME + COMM] (community section of `bloodline_drenmyre_characters.txt` — from the Discord **dark-elf-tinder** channel; "placements, families and traits are EDUCATED GUESSES pending PM review")
 House Vra'khaz (dyn 696979, Dökkálfar), "House of the Drenmyre reavers":
 `Kor'venak (invented patriarch, d.850) → Gor'Gharok "The Southbane" → Vra'korval "The Dread Reaver" → Bal'reyen "The Aspirant" (bastard) + Yr'tenei "The Void Divinator"`
 - **Vra'korval, The Dread Reaver** (by rangology) — fur hat, white hair, red eyes; martial 14; wrathful sadistic torturer viking pillager.

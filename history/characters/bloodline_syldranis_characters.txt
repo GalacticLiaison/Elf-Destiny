@@ -9,8 +9,9 @@
 #
 # Children, oldest first: Alauniira (60, the groomed heir), Ilphrin (59),
 # Eydra (52, lives in bloodline_drenmyre_characters.txt as Hrafnvir's wife -
-# her purple skin is her mother's), Chessintra (46), Nathrae (40), Vidgrim
-# (35, grey-skinned for his lowborn Dokkalfar father Kolgrim), Quevven (29), Phaere (23),
+# her purple skin is her mother's), Chessintra (46), Nathrae (40), Gromph
+# (35, the community brute who replaced Vidgrim in 2026-10; by the lowborn Dokkalfar
+# Kolgrim), Quevven (29), Phaere (23),
 # Rizzen (17), Velkyn (11, blue-skinned bastard of Graendal). Daughters are
 # cast with their mother's DNA; sons roll their culture's faces, except Velkyn
 # who wears his father's. royal_elf_syldranis marks them all with the house's
@@ -80,6 +81,12 @@ zynvara_syldranis = {
 	848.1.1 = {
 		add_spouse = tsabrak_syldranis
 	}
+
+	# Elf-tinder import 2026-10: Ryvenaf (rasxon), her current husband (PM placement);
+	# lives in the community section at the end of this file
+	860.1.1 = {
+		add_spouse = ryvenaf_syldranis
+	}
 	1000.1.1 = {
 		death = yes
 	}
@@ -141,6 +148,11 @@ zynvara_syldranis_1066 = {
 	1047.1.1 = {
 		add_spouse = tsabrak_syldranis_1066
 	}
+
+	# Ryvenaf, her current husband (community section at the end of this file)
+	1059.1.1 = {
+		add_spouse = ryvenaf_syldranis_1066
+	}
 	1150.1.1 = {
 		death = yes
 	}
@@ -177,7 +189,8 @@ zynvara_syldranis_1178 = {
 
 	mother = quenthel_syldranis_1178
 
-	1083.1.1 = {
+	# was 1083.1.1: a parent now born after the 1066 start has to be 16 at this birth
+	1099.1.1 = {
 		birth = yes
 		effect = {
 			set_immortal_age = 28
@@ -201,6 +214,11 @@ zynvara_syldranis_1178 = {
 
 	1159.1.1 = {
 		add_spouse = tsabrak_syldranis_1178
+	}
+
+	# Ryvenaf, her current husband (community section at the end of this file)
+	1171.1.1 = {
+		add_spouse = ryvenaf_syldranis_1178
 	}
 	1300.1.1 = {
 		death = yes
@@ -309,7 +327,8 @@ yvonnel_syldranis_1178 = {
 
 	disallow_random_traits = yes
 
-	991.1.1 = {
+	# born after the 1066 start (was 991.1.1) so this copy is not also alive in a 1066 game
+	1067.1.1 = {
 		birth = yes
 		effect = {
 			set_immortal_age = 40
@@ -425,7 +444,8 @@ quenthel_syldranis_1178 = {
 
 	mother = yvonnel_syldranis_1178
 
-	1031.1.1 = {
+	# born after the 1066 start (was 1031.1.1) so this copy is not also alive in a 1066 game
+	1083.1.1 = {
 		birth = yes
 		effect = {
 			set_immortal_age = 33
@@ -552,7 +572,8 @@ sinafay_syldranis_1178 = {
 
 	mother = yvonnel_syldranis_1178
 
-	1036.1.1 = {
+	# born after the 1066 start (was 1036.1.1) so this copy is not also alive in a 1066 game
+	1088.1.1 = {
 		birth = yes
 		effect = {
 			set_immortal_age = 35
@@ -1592,11 +1613,14 @@ nathrae_syldranis_1178 = {
 }
 
 
-# Fifth-born (35): Kolgrim's son, raised to his father's people and grey as the
-# Dokkalfar (no authored DNA; his culture's ethnicity rolls him grey). The house
-# calls him its finest work - the giant blood bred true - and its slowest wit.
-vidgrim_syldranis = {
-	name = "Vidgrim"
+# Fifth-born (35): Kolgrim's son. Elf-tinder import 2026-10: "Gromph Syldranis"
+# (jackdread) completely replaces the old Vidgrim in this slot (PM decision) - same
+# parents and birth date, new name and community DNA (elf_tinder_dna.txt). A hulking
+# brute of a Syldranis Drow bred for raw physical strength, war and loyalty and not
+# much else; thread consensus: fighter, not commander (blademaster-type).
+gromph_syldranis = {
+	name = "Gromph"
+	dna = gromph_syldranis
 	female = no
 	dynasty = 696977
 	martial = 15
@@ -1605,16 +1629,19 @@ vidgrim_syldranis = {
 	stewardship = 6
 	learning = 5
 	rite = aeluran_syldranis_rite
-	culture = "elf_culture_dokkalfar"
-	trait = education_martial_3
+	culture = "elf_culture_drow"
+	trait = education_martial_4
 	trait = giant
 	trait = brave
-	trait = humble
-	trait = stubborn
-	trait = intellect_bad_1
-	trait = magic_talent_1
+	trait = trusting
+	trait = wrathful
+	trait = athletic
+	trait = dull
+	trait = strong
 	trait = royal_elf_syldranis
 	trait = elven_immortality
+	trait = aggressive_attacker
+	trait = reaver
 
 	disallow_random_traits = yes
 
@@ -1627,6 +1654,7 @@ vidgrim_syldranis = {
 			set_immortal_age = 30
 			add_character_flag = race_elf
 			add_character_flag = race_dark_elf
+			add_character_flag = outfit_gromph_syldranis
 		}
 	}
 	1000.1.1 = {
@@ -1634,8 +1662,9 @@ vidgrim_syldranis = {
 	}
 }
 
-vidgrim_syldranis_1066 = {
-	name = "Vidgrim"
+gromph_syldranis_1066 = {
+	name = "Gromph"
+	dna = gromph_syldranis
 	female = no
 	dynasty = 696977
 	martial = 15
@@ -1644,16 +1673,19 @@ vidgrim_syldranis_1066 = {
 	stewardship = 6
 	learning = 5
 	rite = aeluran_syldranis_rite
-	culture = "elf_culture_dokkalfar"
-	trait = education_martial_3
+	culture = "elf_culture_drow"
+	trait = education_martial_4
 	trait = giant
 	trait = brave
-	trait = humble
-	trait = stubborn
-	trait = intellect_bad_1
-	trait = magic_talent_1
+	trait = trusting
+	trait = wrathful
+	trait = athletic
+	trait = dull
+	trait = strong
 	trait = royal_elf_syldranis
 	trait = elven_immortality
+	trait = aggressive_attacker
+	trait = reaver
 
 	disallow_random_traits = yes
 
@@ -1666,6 +1698,7 @@ vidgrim_syldranis_1066 = {
 			set_immortal_age = 30
 			add_character_flag = race_elf
 			add_character_flag = race_dark_elf
+			add_character_flag = outfit_gromph_syldranis
 		}
 	}
 	1150.1.1 = {
@@ -1673,8 +1706,9 @@ vidgrim_syldranis_1066 = {
 	}
 }
 
-vidgrim_syldranis_1178 = {
-	name = "Vidgrim"
+gromph_syldranis_1178 = {
+	name = "Gromph"
+	dna = gromph_syldranis
 	female = no
 	dynasty = 696977
 	martial = 15
@@ -1683,16 +1717,19 @@ vidgrim_syldranis_1178 = {
 	stewardship = 6
 	learning = 5
 	rite = aeluran_syldranis_rite
-	culture = "elf_culture_dokkalfar"
-	trait = education_martial_3
+	culture = "elf_culture_drow"
+	trait = education_martial_4
 	trait = giant
 	trait = brave
-	trait = humble
-	trait = stubborn
-	trait = intellect_bad_1
-	trait = magic_talent_1
+	trait = trusting
+	trait = wrathful
+	trait = athletic
+	trait = dull
+	trait = strong
 	trait = royal_elf_syldranis
 	trait = elven_immortality
+	trait = aggressive_attacker
+	trait = reaver
 
 	disallow_random_traits = yes
 
@@ -1705,6 +1742,7 @@ vidgrim_syldranis_1178 = {
 			set_immortal_age = 30
 			add_character_flag = race_elf
 			add_character_flag = race_dark_elf
+			add_character_flag = outfit_gromph_syldranis
 		}
 	}
 	1300.1.1 = {
@@ -2123,3 +2161,870 @@ velkyn_syldranis_1178 = {
 	}
 }
 
+
+# ==============================================================================
+# Community characters (Discord elf-tinder / dark-elf-tinder submissions)
+# Syldranis blood and Zynvara's court: Yr-Yorhin, Alandra, the Fellfrond sisters, Minolin,
+# and Zynvara's fifth husband Ryvenaf.
+# DNA: common/dna_data/dark_elf_tinder_dna.txt and elf_tinder_dna.txt. Fixed outfits:
+# gfx/portraits/portrait_modifiers/dark_elf_tinder_outfits.txt (flag outfit_<id>,
+# shared by a character's three bookmark copies). New dynasties, houses and CoAs:
+# the elf_tinder_* files under common/. Moved here 2026-11 from the old
+# dark_elf_tinder_characters.txt / elf_tinder_characters.txt.
+# ==============================================================================
+
+# "Doekkalfar Syldranis - Yr-Yorhin, The Chirurgeon" (rangology)
+# Apothecary portrait: bald, glowing spectacles, red apron, surgery shelves.
+yryorhin_syldranis = {
+	name = dark_elf_name_yr_yorhin
+	dna = yryorhin_syldranis
+	female = no
+	dynasty = 696977
+	martial = 2
+	diplomacy = 4
+	intrigue = 10
+	stewardship = 6
+	learning = 16
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_dokkalfar"
+	trait = education_learning_3
+	trait = lifestyle_physician
+	trait = torturer
+	trait = lifestyle_herbalist
+	trait = diligent
+	trait = calm
+	trait = callous
+	trait = gallowsbait
+	trait = intellect_good_3
+	trait = shrewd
+	trait = royal_elf_syldranis
+	trait = elven_immortality
+
+	disallow_random_traits = yes
+
+	720.1.1 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 40
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_yryorhin_syldranis
+		}
+	}
+	# At Hrafnvir's Iceland court (old ruler_iceland id is unlanded and
+	# employer silently failed - error.log 2026-09-02)
+	867.1.1 = {
+		employer = hrafnvir_rynvela
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+yryorhin_syldranis_1066 = {
+	name = dark_elf_name_yr_yorhin
+	dna = yryorhin_syldranis
+	female = no
+	dynasty = 696977
+	martial = 2
+	diplomacy = 4
+	intrigue = 10
+	stewardship = 6
+	learning = 16
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_dokkalfar"
+	trait = education_learning_3
+	trait = lifestyle_physician
+	trait = torturer
+	trait = lifestyle_herbalist
+	trait = diligent
+	trait = calm
+	trait = callous
+	trait = gallowsbait
+	trait = intellect_good_3
+	trait = shrewd
+	trait = royal_elf_syldranis
+	trait = elven_immortality
+
+	disallow_random_traits = yes
+
+	919.1.1 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 40
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_yryorhin_syldranis
+		}
+	}
+	# At Hrafnvir's Iceland court (old ruler_iceland id is unlanded and
+	# employer silently failed - error.log 2026-09-02)
+	1066.1.1 = {
+		employer = hrafnvir_rynvela_1066
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+yryorhin_syldranis_1178 = {
+	name = dark_elf_name_yr_yorhin
+	dna = yryorhin_syldranis
+	female = no
+	dynasty = 696977
+	martial = 2
+	diplomacy = 4
+	intrigue = 10
+	stewardship = 6
+	learning = 16
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_dokkalfar"
+	trait = education_learning_3
+	trait = lifestyle_physician
+	trait = torturer
+	trait = lifestyle_herbalist
+	trait = diligent
+	trait = calm
+	trait = callous
+	trait = gallowsbait
+	trait = intellect_good_3
+	trait = shrewd
+	trait = royal_elf_syldranis
+	trait = elven_immortality
+
+	disallow_random_traits = yes
+
+	# born just after the 1066 start so this copy does not also exist in the 1066 game
+	1067.1.1 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 40
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_yryorhin_syldranis
+		}
+	}
+	# At Hrafnvir's Iceland court (old ruler_iceland id is unlanded and
+	# employer silently failed - error.log 2026-09-02)
+	# aged back up to 147 at this start: the copy is born late only so it does not exist in the earlier bookmark
+	1178.1.1 = {
+		employer = hrafnvir_rynvela_1178
+		effect = {
+			change_age = 36
+		}
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Hair: no hair
+# clothes: physician's clothing
+# eye items: spectacles
+# Forehead tattoos: forehead pattern 3
+# eye tattoos: eye pattern 2
+
+# "Alandra" (rasxon, thread 'More Daelf'). Queen Zynvara's second-youngest sibling (PM placement).
+alandra_syldranis = {
+	name = "Alandra"
+	dna = alandra_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_4
+	trait = temperate
+	trait = just
+	trait = calm
+	trait = aeluran_sister
+	trait = magi
+	trait = unconventional_beauty_good_3
+	trait = infertile
+	trait = magic_talent_1
+
+	disallow_random_traits = yes
+
+	mother = quenthel_syldranis
+
+	# 790: Quenthel's second-youngest daughter, between Zynvara (772) and Faeryl (800).
+	790.5.5 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_alandra_syldranis
+		}
+	}
+	# At her sister Queen Zynvara's court
+	867.1.1 = {
+		employer = zynvara_syldranis
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+alandra_syldranis_1066 = {
+	name = "Alandra"
+	dna = alandra_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_4
+	trait = temperate
+	trait = just
+	trait = calm
+	trait = aeluran_sister
+	trait = magi
+	trait = unconventional_beauty_good_3
+	trait = infertile
+	trait = magic_talent_1
+
+	disallow_random_traits = yes
+
+	mother = quenthel_syldranis_1066
+
+	# 790: Quenthel's second-youngest daughter, between Zynvara (772) and Faeryl (800).
+	989.5.5 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_alandra_syldranis
+		}
+	}
+	# At her sister Queen Zynvara's court
+	1066.1.1 = {
+		employer = zynvara_syldranis_1066
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+alandra_syldranis_1178 = {
+	name = "Alandra"
+	dna = alandra_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_4
+	trait = temperate
+	trait = just
+	trait = calm
+	trait = aeluran_sister
+	trait = magi
+	trait = unconventional_beauty_good_3
+	trait = infertile
+	trait = magic_talent_1
+
+	disallow_random_traits = yes
+
+	mother = quenthel_syldranis_1178
+
+	# 790: Quenthel's second-youngest daughter, between Zynvara (772) and Faeryl (800).
+	1101.5.5 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_alandra_syldranis
+		}
+	}
+	# At her sister Queen Zynvara's court
+	1178.1.1 = {
+		employer = zynvara_syldranis_1178
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Ruler-designer overrides in the submission:
+#   custom_eye_tattoos = eyes_17
+#   custom_lower_chest_tattoos = lower_chest_1
+#   custom_hair = f_hair_fp3_iranian_02
+#   custom_left_arm_tattoos = left_arm_2
+#   custom_forehead_tattoos = forehead_4
+#   custom_neck_tattoos = neck_2
+#   custom_right_arm_tattoos = right_arm_1
+
+# Invented dead mother anchoring the Fellfrond sisters (so Zaritha and Greyanna are siblings in
+# game). Never rendered; no DNA. Name and dates are placeholders for the PM to change.
+vhondryl_fellfrond = {
+	name = "Vhondryl"
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+
+	disallow_random_traits = yes
+
+	trait = royal_elf_syldranis
+
+	795.1.1 = {
+		birth = yes
+		effect = {
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_vhondryl_fellfrond
+
+		}
+	}
+	866.1.1 = {
+		death = yes
+	}
+}
+
+vhondryl_fellfrond_1066 = {
+	name = "Vhondryl"
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+
+	disallow_random_traits = yes
+
+	trait = royal_elf_syldranis
+
+	994.1.1 = {
+		birth = yes
+		effect = {
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_vhondryl_fellfrond
+
+		}
+	}
+	1065.1.1 = {
+		death = yes
+	}
+}
+
+vhondryl_fellfrond_1178 = {
+	name = "Vhondryl"
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+
+	disallow_random_traits = yes
+
+	trait = royal_elf_syldranis
+
+	1106.1.1 = {
+		birth = yes
+		effect = {
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_vhondryl_fellfrond
+
+		}
+	}
+	1177.1.1 = {
+		death = yes
+	}
+}
+
+# "Zaritha Fellfrond" (wrathfulgoose). Devoted disciple of Typhos and Syldranis-blooded, prone to
+# flights of fancy - lately travelling the world collecting interesting genes for her posterity;
+# resides deep in the jungles of Borneo spreading the cult of Typhos. Wandering noble: landless
+# adventurer d_laamp_zaritha starting at b_BOR_Sebangau (county c_BOR_sampit) (PM placement).
+# Dynasty 696984 with the submitted CoA.
+zaritha_fellfrond = {
+	name = "Zaritha"
+	dna = zaritha_fellfrond
+	female = yes
+	sexuality = homosexual
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_3
+	trait = zealous
+	trait = eccentric
+	trait = lustful
+	trait = lifestyle_traveler
+	trait = deviant
+	trait = unconventional_beauty_good_2
+	trait = intellect_good_1
+	trait = magic_talent_2
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond
+
+	839.10.10 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 28
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_zaritha_fellfrond
+		}
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+zaritha_fellfrond_1066 = {
+	name = "Zaritha"
+	dna = zaritha_fellfrond
+	female = yes
+	sexuality = homosexual
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_3
+	trait = zealous
+	trait = eccentric
+	trait = lustful
+	trait = lifestyle_traveler
+	trait = deviant
+	trait = unconventional_beauty_good_2
+	trait = intellect_good_1
+	trait = magic_talent_2
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond_1066
+
+	1038.10.10 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 28
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_zaritha_fellfrond
+		}
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+zaritha_fellfrond_1178 = {
+	name = "Zaritha"
+	dna = zaritha_fellfrond
+	female = yes
+	sexuality = homosexual
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_3
+	trait = zealous
+	trait = eccentric
+	trait = lustful
+	trait = lifestyle_traveler
+	trait = deviant
+	trait = unconventional_beauty_good_2
+	trait = intellect_good_1
+	trait = magic_talent_2
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond_1178
+
+	1150.10.10 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 28
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_zaritha_fellfrond
+		}
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Ruler-designer overrides in the submission:
+#   custom_forehead_tattoos = forehead_2
+#   custom_hair = f_hair_tgp_sea_01
+#   custom_eye_tattoos = eyes_3
+#   custom_neck_tattoos = neck_1
+
+# "Greyanna" (jackdread, thread 'some Syldranis elves'), 'the poison rose' - beautiful but deadly.
+# Zaritha's sister (PM placement), so a Fellfrond rather than a Syldranis dynast.
+greyanna_fellfrond = {
+	name = "Greyanna"
+	dna = greyanna_fellfrond
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_4
+	trait = deceitful
+	trait = callous
+	trait = lustful
+	trait = exotic_beauty_good_3
+	trait = lifestyle_poet
+	trait = seducer
+	trait = fecund
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond
+
+	842.2.14 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 25
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_greyanna_fellfrond
+		}
+	}
+	# At Queen Zynvara's court (PM placement)
+	867.1.1 = {
+		employer = zynvara_syldranis
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+greyanna_fellfrond_1066 = {
+	name = "Greyanna"
+	dna = greyanna_fellfrond
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_4
+	trait = deceitful
+	trait = callous
+	trait = lustful
+	trait = exotic_beauty_good_3
+	trait = lifestyle_poet
+	trait = seducer
+	trait = fecund
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond_1066
+
+	1041.2.14 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 25
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_greyanna_fellfrond
+		}
+	}
+	# At Queen Zynvara's court (PM placement)
+	1066.1.1 = {
+		employer = zynvara_syldranis_1066
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+greyanna_fellfrond_1178 = {
+	name = "Greyanna"
+	dna = greyanna_fellfrond
+	female = yes
+	dynasty = 696984
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_intrigue_4
+	trait = deceitful
+	trait = callous
+	trait = lustful
+	trait = exotic_beauty_good_3
+	trait = lifestyle_poet
+	trait = seducer
+	trait = fecund
+
+	disallow_random_traits = yes
+
+	mother = vhondryl_fellfrond_1178
+
+	1153.2.14 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 25
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_greyanna_fellfrond
+		}
+	}
+	# At Queen Zynvara's court (PM placement)
+	1178.1.1 = {
+		employer = zynvara_syldranis_1178
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Ruler-designer overrides in the submission:
+#   custom_forehead_tattoos = forehead_2
+#   custom_eye_tattoos = eyes_2
+#   custom_neck_tattoos = neck_1
+#   custom_hair = female_hair_steppe_02
+
+# "Minolin Syldranis" (jackdread): incredibly smart and competent, content to read, work and avoid
+# drama. Daughter of Countess Faeryl (PM placement).
+minolin_syldranis = {
+	name = "Minolin"
+	dna = minolin_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_5
+	trait = content
+	trait = diligent
+	trait = shy
+	trait = journaller
+	trait = intellect_good_3
+	trait = magic_talent_3
+	trait = aeluran_sister
+	trait = wheezing
+	trait = shrewd
+
+	disallow_random_traits = yes
+
+	mother = faeryl_syldranis
+
+	# 846: Faeryl's (b. 800) daughter; no father recorded, as for the Syldranis daughters.
+	846.4.4 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 21
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_minolin_syldranis
+		}
+	}
+	# At her mother Countess Faeryl's court
+	867.1.1 = {
+		employer = faeryl_syldranis
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+minolin_syldranis_1066 = {
+	name = "Minolin"
+	dna = minolin_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_5
+	trait = content
+	trait = diligent
+	trait = shy
+	trait = journaller
+	trait = intellect_good_3
+	trait = magic_talent_3
+	trait = aeluran_sister
+	trait = wheezing
+	trait = shrewd
+
+	disallow_random_traits = yes
+
+	mother = faeryl_syldranis_1066
+
+	# 846: Faeryl's (b. 800) daughter; no father recorded, as for the Syldranis daughters.
+	1045.4.4 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 21
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_minolin_syldranis
+		}
+	}
+	# At her mother Countess Faeryl's court
+	1066.1.1 = {
+		employer = faeryl_syldranis_1066
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+minolin_syldranis_1178 = {
+	name = "Minolin"
+	dna = minolin_syldranis
+	female = yes
+	dynasty = 696977
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_syldranis
+	trait = education_stewardship_5
+	trait = content
+	trait = diligent
+	trait = shy
+	trait = journaller
+	trait = intellect_good_3
+	trait = magic_talent_3
+	trait = aeluran_sister
+	trait = wheezing
+	trait = shrewd
+
+	disallow_random_traits = yes
+
+	mother = faeryl_syldranis_1178
+
+	# 846: Faeryl's (b. 800) daughter; no father recorded, as for the Syldranis daughters.
+	1157.4.4 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 21
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_minolin_syldranis
+		}
+	}
+	# At her mother Countess Faeryl's court
+	1178.1.1 = {
+		employer = faeryl_syldranis_1178
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Ruler-designer overrides in the submission:
+#   custom_forehead_tattoos = forehead_1
+#   custom_hair = female_hair_northern_02
+
+# "Ryvenaf" (rasxon, thread 'More Daelf'). Queen Zynvara's current (fifth) husband, married 860
+# (add_spouse lives on Zynvara's block, like her other husbands). Lowborn like Valas and Tsabrak.
+ryvenaf_syldranis = {
+	name = "Ryvenaf"
+	dna = ryvenaf_syldranis
+	female = no
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_rynvela
+	trait = education_learning_5
+	trait = diligent
+	trait = ambitious
+	trait = cynical
+	trait = magic_talent_1
+	trait = shrewd
+	trait = possessed_genetic
+
+	disallow_random_traits = yes
+
+	837.2.2 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_ryvenaf_syldranis
+		}
+	}
+	1000.1.1 = {
+		death = yes
+	}
+}
+
+ryvenaf_syldranis_1066 = {
+	name = "Ryvenaf"
+	dna = ryvenaf_syldranis
+	female = no
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_rynvela
+	trait = education_learning_5
+	trait = diligent
+	trait = ambitious
+	trait = cynical
+	trait = magic_talent_1
+	trait = shrewd
+	trait = possessed_genetic
+
+	disallow_random_traits = yes
+
+	1036.2.2 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_ryvenaf_syldranis
+		}
+	}
+	1150.1.1 = {
+		death = yes
+	}
+}
+
+ryvenaf_syldranis_1178 = {
+	name = "Ryvenaf"
+	dna = ryvenaf_syldranis
+	female = no
+	rite = aeluran_syldranis_rite
+	culture = "elf_culture_drow"
+	trait = elven_immortality
+	trait = royal_elf_rynvela
+	trait = education_learning_5
+	trait = diligent
+	trait = ambitious
+	trait = cynical
+	trait = magic_talent_1
+	trait = shrewd
+	trait = possessed_genetic
+
+	disallow_random_traits = yes
+
+	1148.2.2 = {
+		birth = yes
+		effect = {
+			set_immortal_age = 30
+			add_character_flag = race_elf
+			add_character_flag = race_dark_elf
+			add_character_flag = outfit_ryvenaf_syldranis
+		}
+	}
+	1300.1.1 = {
+		death = yes
+	}
+}
+
+# Ruler-designer overrides in the submission:
+#   custom_eye_tattoos = eyes_8
+#   custom_hair = male_hair_indian_02
+#   custom_forehead_tattoos = forehead_11
+#   custom_beards = male_beard_fp2_iberian_christian_03
