@@ -6,6 +6,15 @@
 # inherited 50/50 at birth. The base hair_color 0,0 pin comes from the matching
 # skin entry (converts always carry both variables), so the HSV tint lands on
 # the intended platinum base. Everyone without the variable renders their DNA.
+#
+# Bloodline sovereignty: the drow-palette entries below skip when a bloodline
+# that marks hair is present:
+#   Myrvessa  - gene_special_hair_color = spider_red (deep red)
+#   Valerith  - hair_color = (0.0, 0.012) (silver)
+# so each wins uncontested. Royal bloodline marks are the authoritative
+# appearance - the drow palette never overlays them. Ported from
+# Elf_Destiny_Lite_V2 (see UPSTREAM_DIVERGENCES.md item #6) and extended to
+# cover the light bloodlines when their carriers become dark elves.
 
 dark_elf_race_hair = {
     usage = game
@@ -26,6 +35,8 @@ dark_elf_race_hair = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_hair_color
                 var:dark_elf_hair_color = flag:white
+                NOT = { has_trait = royal_elf_myrvessa }
+                NOT = { has_trait = royal_elf_valerith }
             }
         }
     }
@@ -46,6 +57,8 @@ dark_elf_race_hair = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_hair_color
                 var:dark_elf_hair_color = flag:purple
+                NOT = { has_trait = royal_elf_myrvessa }
+                NOT = { has_trait = royal_elf_valerith }
             }
         }
     }
@@ -66,6 +79,8 @@ dark_elf_race_hair = {
                 is_dark_elf_type = yes
                 exists = var:dark_elf_hair_color
                 var:dark_elf_hair_color = flag:blue
+                NOT = { has_trait = royal_elf_myrvessa }
+                NOT = { has_trait = royal_elf_valerith }
             }
         }
     }
