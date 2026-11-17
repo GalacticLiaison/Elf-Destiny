@@ -88,7 +88,7 @@ types OVERRIDE
 
 	type vbox_maa_stats_numbers_base = vbox {
 		vbox = {
-			visible = "[IsMixedSiegeAndFighterMAA]"
+			visible = "[IsMixedSiegeAndFighterMAA]" # Elf Destiny: siege stats for mixed siege + fighter regiments
 			layoutpolicy_horizontal = expanding
 			margin = { 15 0 }
 			margin_bottom = 5
@@ -112,7 +112,7 @@ types OVERRIDE
 				icon = {
 					block "siege_icon_size"
 					{
-						size = { 55 55 }
+						size = { 48 48 }
 					}
 					texture = "gfx/interface/icons/regimenttypes/unit_stat_siege_progress.dds"
 				}
@@ -145,163 +145,58 @@ types OVERRIDE
 			name = "stats"
 			visible = "[MenAtArmsType.FightsInMainPhase]"
 			layoutpolicy_horizontal = expanding
-			margin = { 5 5 }
+			margin = { 5 5 } # Elf Destiny
 
 			background = {
 				using = Background_Area
 			}
-
-			block "stat_spacing"
+			
+			block "stat_spacing" 
 			{
 			}
-
-			hbox = {
-				block "damage_tt"
-				{
-					tooltip = "REGIMENT_DAMAGE_TT"
-				}
-				using = tooltip_se
-				spacing = 3
-
-				icon = {
-					name = "icon"
-					block "stat_icon_size"
-					{
-						size = { 40 40 }
-					}
-					texture = "gfx/interface/icons/regimenttypes/unit_stat_damage.dds"
-				}
-
-				text_single = {
-					name = "label"
-					block "damage_stat"
-					{
-						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'damage' )|0]"
-					}
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-					min_width = 25
-				}
-			}
-
-			hbox = {
-				block "toughness_tt"
-				{
-					tooltip = "REGIMENT_TOUGHNESS_TT"
-				}
-				using = tooltip_se
-				spacing = 3
-
-				icon = {
-					name = "icon"
-					block "stat_icon_size"
-					{
-						size = { 40 40 }
-					}
-					texture = "gfx/interface/icons/regimenttypes/unit_stat_toughness.dds"
-				}
-
-				text_single = {
-					name = "label"
-					block "toughness_stat"
-					{
-						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'toughness' )|0]"
-					}
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-					min_width = 25
-				}
-			}
-
-			hbox = {
-				block "pursuit_tt"
-				{
-					tooltip = "REGIMENT_PURSUIT_TT"
-					# fade out if 0
-					alpha = "[Select_float(GreaterThan_CFixedPoint(MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'pursuit' ),'(CFixedPoint)0'), '(float)1.0','(float)0.4')]"
-				}
-				using = tooltip_se
-				spacing = 3
-
-
-				icon = {
-					name = "icon"
-					block "stat_icon_size"
-					{
-						size = { 40 40 }
-					}
-					texture = "gfx/interface/icons/regimenttypes/unit_stat_pursuit.dds"
-				}
-
-				text_single = {
-					name = "label"
-					block "pursuit_stat"
-					{
-						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'pursuit' )|0]"
-					}
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-					min_width = 25
-				}
-			}
-
-			hbox = {
-				block "screen_tt"
-				{
-					tooltip = "REGIMENT_SCREEN_TT"
-					# fade out if 0
-					alpha = "[Select_float(GreaterThan_CFixedPoint(MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'screen' ),'(CFixedPoint)0'), '(float)1.0','(float)0.4')]"
-				}
-				using = tooltip_se
-				spacing = 3
-
-				icon = {
-					name = "icon"
-					block "stat_icon_size"
-					{
-						size = { 40 40 }
-					}
-					texture = "gfx/interface/icons/regimenttypes/unit_stat_screen.dds"
-				}
-
-				text_single = {
-					name = "label"
-					block "screen_stat"
-					{
-						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'screen' )|0]"
-					}
-					default_format = "#high"
-					using = Font_Size_Medium
-					align = nobaseline
-					min_width = 25
-				}
-			}
 			
+			block "stat_widget" {
+				using = MaaNumbersHorizontal
+			}
+		}
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			block "maintenance_visibility"
+			{
+				visible = no
+			}
+			margin_top = 5
+			background = {
+				using = Background_Area
+				margin = { 10 0 }
+				margin_bottom = 5
+				spacing = 4
+			}
+
+			expand = {}
+
 			hbox = {
-				visible = "[GreaterThan_CFixedPoint(MenAtArmsType.GetStat(GetPlayer, Province.Self, Title.Self, 'siege_value'), '(CFixedPoint)0')]"
-				block "siege_tt"
+				
+				block "maintenance_low_tt"
 				{
-					tooltip = "REGIMENT_SIEGE_TT"
+					tooltip = "REGIMENT_MAINTENANCE_LOW_TT"
 				}
 				using = tooltip_se
 				spacing = 3
 				margin_right = 5
 
 				icon = {
-					block "siege_icon_size"
+					block "stat_icon_size"
 					{
-						size = { 40 40 }
+						size = { 35 35 }
 					}
-					texture = "gfx/interface/icons/regimenttypes/unit_stat_siege_progress.dds"
+					texture = "gfx/interface/icons/regimenttypes/unit_stat_unraised_maintenance.dds"
 				}
 
 				text_single = {
-					block "siege_stat"
+					block "maintenance_low_stat"
 					{
-						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'siege_value' )|1]"
+						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'maintenance_low' )|1]"
 					}
 					default_format = "#high"
 					using = Font_Size_Medium
@@ -309,6 +204,41 @@ types OVERRIDE
 					min_width = 25
 				}
 			}
+
+			spacer = {
+				size = { 40 0 }
+			}
+
+			hbox = {
+				
+				block "maintenance_high_tt"
+				{
+					tooltip = "REGIMENT_MAINTENANCE_HIGH_TT"
+				}
+				using = tooltip_se
+				spacing = 3
+				margin_right = 5
+
+				icon = {
+					block "stat_icon_size"
+					{
+						size = { 35 35 }
+					}
+					texture = "gfx/interface/icons/regimenttypes/unit_stat_full_maintenance.dds"
+				}
+
+				text_single = {
+					block "maintenance_high_stat"
+					{
+						text = "[MenAtArmsType.GetStat( GetPlayer, Province.Self, Title.Self, 'maintenance_high' )|1]"
+					}
+					default_format = "#high"
+					using = Font_Size_Medium
+					align = nobaseline
+					min_width = 25
+				}
+			}
+			expand = {}
 		}
 	}
 

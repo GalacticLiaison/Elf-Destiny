@@ -456,7 +456,7 @@ expedition_unique_encounters.001 = {
 		}
 
 		scope:host.capital_county = {
-			change_development_progress = 25
+			change_prosperity_progress = 25
 		}
 	}
 
@@ -1122,5 +1122,71 @@ expedition_unique_encounters.00328 = { # Accept Tulkas Astaldo
 				}
 			}
 		}
+	}
+}
+
+expedition_unique_encounters.0041 = { # Elven innovation discovery: Lembas Baking
+	type = activity_event
+
+	title = expedition_unique_encounters.0041.title
+	desc = expedition_unique_encounters.0041.desc
+
+	theme = cultural_discovery
+	override_background = { reference = bp1_kitchen_western }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = admiration
+	}
+
+	# Either way the culture learns it; the two choices differ only in what the host makes of the find.
+	option = { # Study it yourself
+		name = expedition_unique_encounters.0041.a
+		scope:host.culture = { add_innovation = innovation_lembas_baking }
+		scope:host = { add_learning_lifestyle_xp = medium_lifestyle_xp }
+	}
+
+	option = { # Hand it to the craftsmen and let the realm know
+		name = expedition_unique_encounters.0041.b
+		scope:host.culture = { add_innovation = innovation_lembas_baking }
+		scope:host = { add_prestige = medium_prestige_gain }
+	}
+}
+
+expedition_unique_encounters.0042 = { # Elven innovation discovery: Mythril Working
+	type = activity_event
+
+	title = expedition_unique_encounters.0042.title
+	desc = expedition_unique_encounters.0042.desc
+
+	theme = cultural_discovery
+	override_background = { reference = gdp_smithy_workshop }
+
+	widget = {
+		gui = "event_window_widget_activity_intent"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = scope:host
+		animation = admiration
+	}
+
+	# Either way the culture learns it; the two choices differ only in what the host makes of the find.
+	option = { # Study it yourself
+		name = expedition_unique_encounters.0042.a
+		scope:host.culture = { add_innovation = innovation_mythril_working }
+		scope:host = { add_learning_lifestyle_xp = medium_lifestyle_xp }
+	}
+
+	option = { # Hand it to the craftsmen and let the realm know
+		name = expedition_unique_encounters.0042.b
+		scope:host.culture = { add_innovation = innovation_mythril_working }
+		scope:host = { add_prestige = medium_prestige_gain }
 	}
 }

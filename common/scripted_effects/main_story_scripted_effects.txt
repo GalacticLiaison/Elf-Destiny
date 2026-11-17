@@ -5,8 +5,8 @@
 			value = yes
 		}
 
-		add_special_building_slot = holy_site_spark_grand_portal_01
-		add_special_building = holy_site_spark_grand_portal_01
+		add_special_district_slot = holy_site_spark_grand_portal_01_district
+		add_special_district = holy_site_spark_grand_portal_01_district
 	}
 }
 
@@ -15,10 +15,8 @@ remove_the_grand_portal_effect = {
 		custom_tooltip = {
 			text = remove_the_grand_portal_effect
 
-			remove_building = holy_site_spark_grand_portal_01
-
-			add_special_building_slot = holy_site_spark_grand_temple_01
-			add_special_building = holy_site_spark_grand_temple_01
+			special_district ?= { remove_district = yes }
+			add_special_district = holy_site_spark_grand_temple_01_district
 		}
 	}
 }
@@ -33,17 +31,17 @@ restore_the_grand_portal_scripted_effect = {
 
 		if = { # IF for some reason the special slot isnt there yet, add it and level 2 portal
 			limit = {
-				has_special_building_slot = no 
+				has_special_district_slot = no 
 			}
-			add_special_building_slot = holy_site_spark_grand_portal_02
-			add_special_building = holy_site_spark_grand_portal_02
+			add_special_district_slot = holy_site_spark_grand_portal_02_district
+			add_special_district = holy_site_spark_grand_portal_02_district
 		}
 		else_if = { # IF slot exists, its almost guaranteed to be level 1 portal, upgrade it (Expected Path)
 			limit = {
-				has_special_building = yes
+				has_special_district = yes
 			}
-			remove_building = holy_site_spark_grand_portal_01
-			add_special_building = holy_site_spark_grand_portal_02
+			special_district ?= { remove_district = yes }
+			add_special_district = holy_site_spark_grand_portal_02_district
 		}
 		else = {
 			debug_log = "Unexpected result in restore_the_grand_portal_scripted_effect"

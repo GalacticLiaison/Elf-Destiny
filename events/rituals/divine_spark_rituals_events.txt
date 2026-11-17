@@ -374,6 +374,17 @@ divine_spark_rituals.002 = { # Blessings Ritual
 	}
 
 	immediate = {
+		# One time in four the mythril blessing takes the place of the second blessing. Once per dynasty, ever.
+		if = {
+			limit = {
+				elf_dest_can_reveal_mythril_vein_trigger = yes
+				elf_dest_received_mythril_blessing_trigger = no
+			}
+			random = {
+				chance = 25
+				save_scope_value_as = { name = mythril_blessing_offered value = yes }
+			}
+		}
 		play_music_cue = "mx_cue_positive_effect"
 
 		# Add two blessings to list
@@ -390,6 +401,7 @@ divine_spark_rituals.002 = { # Blessings Ritual
 				NOT = {
 					this = scope:blessing_one
 				}
+				NOT = { exists = scope:mythril_blessing_offered } # the mythril blessing is the second option this time
 			}
 			save_scope_as = blessing_two
 		}
@@ -504,7 +516,46 @@ divine_spark_rituals.002 = { # Blessings Ritual
 	}
 
 	option = {
+		name = divine_spark_rituals.002.mythril
+		trigger = { exists = scope:mythril_blessing_offered }
+		custom_tooltip = divine_spark_rituals.002.mythril.tt
+		hidden_effect = {
+			# saves scope:mythril_vein_barony / scope:mythril_vein_county and marks the blessing as received
+			elf_dest_reveal_mythril_vein_effect = yes
+			if = {
+				limit = { exists = scope:mythril_vein_barony }
+				trigger_event = divine_spark_rituals.0021
+			}
+		}
+	}
+
+	option = {
 		name = divine_spark_rituals.002.nevermind
 		add_piety = 2500
+	}
+}
+
+# The mythril blessing: a beam of Spark marks where the vein was revealed (after the EU5 mod's "A Blessing of Wealth").
+# scope:mythril_vein_barony and scope:mythril_vein_county come from elf_dest_reveal_mythril_vein_effect.
+divine_spark_rituals.0021 = {
+	type = character_event
+	title = divine_spark_rituals.0021.title
+	desc = divine_spark_rituals.0021.desc
+
+	theme = divine_spark
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		pan_camera_to_title = scope:mythril_vein_barony
+	}
+
+	option = {
+		name = divine_spark_rituals.0021.a
+		custom_tooltip = divine_spark_rituals.0021.a.tt
 	}
 }

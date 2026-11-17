@@ -1,5 +1,5 @@
 ﻿# Code on-action: character creates a faith
-# Root is the creator
+# Root is the new faith (since 1.20); scope:founder is the creator and can be absent
 # scope:old_faith is the faith they used to have
 on_faith_created = {
     on_actions = {
@@ -16,46 +16,47 @@ three_year_playable_pulse = {
 
 remove_free_reformation_modifier = {
 	effect = {
-		if = {
-			limit = {
-				root = {
+		# Root is the new faith since 1.20; the creator is scope:founder and can be absent
+		scope:founder ?= {
+			if = {
+				limit = {
 					has_character_modifier = deference_of_the_aelurans
 				}
-			}
-			remove_character_modifier = deference_of_the_aelurans
-		}
-
-		if = {
-			limit = {
-				scope:old_faith = faith:aeluran_weavers
-				is_ai = no
+				remove_character_modifier = deference_of_the_aelurans
 			}
 
-			every_living_character = {
+			if = {
 				limit = {
-					is_aeluran_sister_or_higher = yes
+					scope:old_faith = faith:aeluran_weavers
+					is_ai = no
 				}
 
-				if = {
+				every_living_character = {
 					limit = {
-						has_trait = aeluran_sister
+						is_aeluran_sister_or_higher = yes
 					}
-					random = {
-						chance = 90
-						set_character_faith = root.faith
+
+					if = {
+						limit = {
+							has_trait = aeluran_sister
+						}
+						random = {
+							chance = 90
+							set_character_faith = root
+						}
 					}
-				}
-				if = {
-					limit = {
-						has_trait = aeluran_matron
+					if = {
+						limit = {
+							has_trait = aeluran_matron
+						}
+						random = {
+							chance = 75
+							set_character_faith = root
+						}
 					}
-					random = {
-						chance = 75
-						set_character_faith = root.faith
+					else = { # Matriarch should always convert, her refusing would be a whole nother big thing
+						set_character_faith = root
 					}
-				}
-				else = { # Matriarch should always convert, her refusing would be a whole nother big thing
-					set_character_faith = root.faith
 				}
 			}
 		}
@@ -64,10 +65,15 @@ remove_free_reformation_modifier = {
 
 reset_high_matriarch = {
 	trigger = {
-		root = { aeluran_order_faith_trigger = yes }
+		root = {
+			OR = {
+				has_tenet = tenet_aeluran_sisters
+				has_tenet = tenet_dark_sisters
+			}
+		}
 	}
 	effect = {
-		root.faith = {
+		root = {
 			set_religious_head_title = title:d_high_matriarch
 		}
 	}

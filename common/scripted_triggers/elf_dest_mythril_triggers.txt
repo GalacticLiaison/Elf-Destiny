@@ -1,0 +1,43 @@
+﻿# Province scope: can a mythril vein be revealed here?
+elf_dest_can_hold_mythril_vein_trigger = {
+	has_special_district_slot = no # any terrain: the reveal effect only weights mountains and hills
+}
+
+# Character scope
+elf_dest_can_reveal_mythril_vein_trigger = {
+	any_sub_realm_barony = {
+		holder = root
+		title_province ?= { elf_dest_can_hold_mythril_vein_trigger = yes }
+	}
+}
+
+# Character scope: is there an elven innovation left for this host's culture to find on an expedition?
+elf_dest_expedition_innovation_available_trigger = {
+	culture = {
+		has_cultural_pillar = heritage_elf
+		OR = {
+			NOT = { has_innovation = innovation_lembas_baking }
+			NOT = { has_innovation = innovation_mythril_working }
+		}
+	}
+}
+
+# Culture scope: an expedition-only innovation starts to spread once another elven culture that this one accepts
+# (acceptance 20+) already knows it. Until then only an expedition finds it.
+elf_dest_elven_innovation_spreads_trigger = {
+	save_temporary_scope_as = spread_to_culture
+	any_culture_global = {
+		NOT = { this = scope:spread_to_culture }
+		has_cultural_pillar = heritage_elf
+		has_innovation = $INNOVATION$
+		cultural_acceptance = { target = scope:spread_to_culture value >= 20 }
+	}
+}
+
+# Character scope: the mythril blessing is granted once per dynasty (a lowborn ruler: once per character)
+elf_dest_received_mythril_blessing_trigger = {
+	OR = {
+		has_variable = elf_dest_received_mythril_blessing
+		dynasty ?= { has_variable = elf_dest_received_mythril_blessing }
+	}
+}

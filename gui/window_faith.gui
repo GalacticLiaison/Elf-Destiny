@@ -2163,7 +2163,7 @@ types FaithWindow
 
 				button_standard = {
 					size = { 205 33 }
-					onclick = "[ToggleGameViewData( 'holy_site', HolySite.Self )]"
+					onclick = "[HolySite.ToggleView( Faith.Self )]"
 					text = "OPEN_HOLY_SITE_WINDOW"
 				}
 			}
@@ -2480,6 +2480,8 @@ types FaithWindow
 
 		widget = {
 			parentanchor = top|right
+			position = { 2 15 }
+			allow_outside = yes
 
 			block "tenet_badges_layout"
 			{
@@ -2489,6 +2491,7 @@ types FaithWindow
 			vbox = {
 				container_tenet_divergence = {}
 				container_tenet_popularity = {}
+				
 				expand = {}
 			}
 		}
@@ -2629,9 +2632,11 @@ types FaithWindow
 
 		### Banner
 		highlight_icon = {
-			size = { 72 88 }
 			parentanchor = vcenter
+			size = { 72 88 }
 			texture = "[Faith.GetTenetBackgroundSmallIcon( Rite.Self, TenetType.Self )]"
+			
+			allow_outside = yes
 
 			### Sprite
 			proportional_icon = {
@@ -2643,12 +2648,15 @@ types FaithWindow
 			}
 
 			widget = {
-				size = { 25 50 }
 				parentanchor = top|right
-				position = { 6 -2 }
+				position = { 5 0 }
+				size = { 25 50 }
+				
+				allow_outside = yes
 
 				vbox = {
 					container_tenet_divergence = {}
+					
 					container_tenet_popularity = {
 						blockoverride "text_popularity" {
 							visible = no
@@ -2674,6 +2682,7 @@ types FaithWindow
 			datacontext = "[GetScriptedGui( 'using_tenet_popularity_gui' )]"
 			visible = "[And( TenetType.IsValid, IsUsingTenetPopularity( Faith ) )]"
 			ignoreinvisible = yes
+			
 			tooltip = "FAITH_TENET_ITEM_POPULARITY_TT"
 
 			background = {
@@ -2681,11 +2690,11 @@ types FaithWindow
 				spriteType = Corneredtiled
 				spriteborder = { 40 8 }
 				texture_density = 2
+				margin = { 5 0 }
 
 				block "margin_popularity_bg" {
 					margin = { 10 0 }
 				}
-				margin_bottom = 2
 
 				modify_texture = {
 					name = "mask"
@@ -2695,6 +2704,7 @@ types FaithWindow
 					blend_mode = alphamultiply
 				}
 			}
+
 			icon_tenet_popularity = {
 				name = "tenet_popularity_value_very_popular"
 				datacontext = "[GetScriptedGui( 'tenet_popularity_gui_very_popular' )]"
@@ -2733,7 +2743,7 @@ types FaithWindow
 	type icon_tenet_popularity = icon {
 		visible = "[ScriptedGui.IsValid( GuiScope.SetRoot( TenetType.MakeScope ).AddScope( 'faith', Faith.MakeScope ).End )]"
 		alwaystransparent = yes
-		size = { 25 25 }
+		size = { 30 30 }
 		texture = "gfx/interface/icons/icon_tenet_popularity.dds"
 		framesize = { 60 60 }
 	}
@@ -2899,7 +2909,7 @@ types FaithWindow
 						}
 						blockoverride "tenet_badges_layout" {
 							size = { 70 50 }
-							position = { 0 10 }
+							position = { 15 15 }
 						}
 					}
 				}
@@ -3880,7 +3890,7 @@ types FaithWindow
 								}
 							}
 
-							button_interactions_religion = {}
+							button_interactions_faith = {}
 						}
 					}
 				}
@@ -4002,7 +4012,7 @@ types FaithWindow
 						size = { 60 100% }
 						alwaystransparent = no
 
-						button_interactions_religion = {
+						button_interactions_faith = {
 							parentanchor = right
 							position = { -15 0 }
 
@@ -4080,7 +4090,7 @@ types FaithWindow
 								text_single = {
 									layoutpolicy_horizontal = expanding
 									autoresize = no
-									text = "[Title.GetNameNoTooltip]"
+									text = "TITLE_NAME_NO_TOOLTIP"
 									align = nobaseline
 								}
 							}
@@ -5505,7 +5515,7 @@ types FaithWindow
 
 					direction = vertical
 
-					button_interactions_religion = {
+					button_interactions_faith = {
 						glow = {
 							color = { 0 0 0 0.5 }
 							glow_radius = 8
@@ -5657,6 +5667,12 @@ types FaithWindow
 			}
 		}
 	}
+	
+	type button_interactions_faith = button_interactions_religion {
+		blockoverride "num_valid_interactions" {
+			text = "[FaithWindow.GetNumberOfValidInteractionsWithFilter( Character.Self, ConcatIfNeitherEmpty( 'interaction_category_', PdxGuiWidget.AccessParent.GetName ) )]"
+		}
+	}
 
 	type button_interactions_religion = button_interactions {
 		name = "religion"
@@ -5686,8 +5702,10 @@ types FaithWindow
 				margin_top = -5
 				using = Background_Area_Dark
 			}
-
-			text = "[GetNumberOfValidInteractionsWithFilter( Character.Self, ConcatIfNeitherEmpty( 'interaction_category_', PdxGuiWidget.AccessParent.GetName ) )]"
+			
+			block "num_valid_interactions" {
+				text = "[GetNumberOfValidInteractionsWithFilter( Character.Self, ConcatIfNeitherEmpty( 'interaction_category_', PdxGuiWidget.AccessParent.GetName ) )]"
+			}
 			default_format = "#glow_color:{0.1,0.1,0.1,1.0}"
 		}
 	}
@@ -6174,5 +6192,44 @@ template Divergence_Marker {
 	icon = {
 		size = { 25 25 }
 		texture = "gfx/interface/icons/icon_rite_divergence.dds"
+	}
+}
+
+template Tenet_Glows_Small {
+	icon = {
+		name = "core_tenet_glow"
+		block "core_tenet_glow" {
+			visible = "[Rite.HasTenet( TenetType.Self )]"
+		}
+		size = { 100% 100% }
+		texture = "gfx/interface/icons/faith_tenets/tenet_banner_glow_small.dds"
+		color = { 0.45 0.5 0.55 1 }
+		alpha = 0.5
+
+		using = Glow_Tenet_Animation
+	}
+
+	icon = {
+		name = "not_core_tenet_glow"
+		block "not_core_tenet_glow" {
+			visible = no
+		}
+		size = { 100% 100% }
+		texture = "gfx/interface/icons/faith_tenets/tenet_banner_heretical_glow_small.dds"
+		color = { 0.85 0.75 0.45 0.6 }
+		alpha = 0.2
+
+		using = Glow_Tenet_Animation
+	}
+
+	icon = {
+		name = "prohibited_tenet_glow"
+		visible = "[Faith.HasTenetStatus( TenetType.Self, 'prohibited' )]"
+		size = { 100% 100% }
+		texture = "gfx/interface/icons/faith_tenets/tenet_banner_heretical_glow_small.dds"
+		color = { 0.85 0.5 0.3 1 }
+		alpha = 0.5
+
+		using = Glow_Tenet_Animation
 	}
 }
