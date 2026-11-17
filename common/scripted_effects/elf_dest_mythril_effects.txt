@@ -1,0 +1,91 @@
+﻿# Mythril veins (special district slots). Sites follow the EU5 mod: Nizhnyaya Salda, Bagdarin, Abisko, Hoh Xil,
+# Raskam, Morgex, Tekman and Brskovo, each mapped to the nearest CK3 barony.
+
+elf_dest_seed_mythril_veins_effect = {
+	title:b_tagil.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_vitimkan.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_kangos.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_nagchu.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_karghalik.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_aosta.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_khinisi.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+	title:b_brskovo.title_province ?= {
+		if = {
+			limit = { has_special_district_slot = no }
+			add_special_district_slot = mythril_mine_district
+		}
+	}
+}
+
+# Character scope: the Divine Spark reveals a vein in one of the character's own holdings, weighted toward mountains and hills.
+elf_dest_reveal_mythril_vein_effect = {
+	random_sub_realm_barony = {
+		limit = {
+			holder = root
+			title_province ?= { elf_dest_can_hold_mythril_vein_trigger = yes }
+		}
+		weight = {
+			base = 1
+			modifier = { factor = 10 title_province = { OR = { terrain = mountains terrain = desert_mountains } } }
+			modifier = { factor = 5 title_province = { terrain = hills } }
+		}
+		title_province = { add_special_district_slot = mythril_mine_district }
+		save_scope_as = mythril_vein_barony
+		county = { save_scope_as = mythril_vein_county }
+	}
+	if = {
+		limit = { exists = scope:mythril_vein_barony }
+		set_variable = elf_dest_received_mythril_blessing
+		dynasty ?= { set_variable = elf_dest_received_mythril_blessing }
+	}
+}
+
+# Expedition discovery (PM 2026-11-15): one of the elven innovations the host culture still lacks. Called from the
+# discovery lists in expedition_reward_effects.txt; each innovation has its own event.
+elf_dest_expedition_innovation_discovery_effect = {
+	random_list = {
+		10 = {
+			trigger = { scope:host.culture = { NOT = { has_innovation = innovation_lembas_baking } } }
+			trigger_event = expedition_unique_encounters.0041
+		}
+		10 = {
+			trigger = { scope:host.culture = { NOT = { has_innovation = innovation_mythril_working } } }
+			trigger_event = expedition_unique_encounters.0042
+		}
+	}
+}

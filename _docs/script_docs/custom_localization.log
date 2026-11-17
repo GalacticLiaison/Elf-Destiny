@@ -888,6 +888,12 @@ animal_type_pheasant
 animal_type_bustard
 animal_type_grouse
 animal_type_quail
+animal_type_elephant
+animal_type_monkey
+animal_type_parrot
+animal_type_peacock
+animal_type_cockatoo
+animal_type_caracal
 
 --------------------
 
@@ -1019,6 +1025,17 @@ Entries:
 
 --------------------
 
+GetAnimalPossessive:
+
+Scope: all
+Random Valid: no
+Parent: GetAnimalType
+Suffix: _possessive
+
+Entries:
+
+--------------------
+
 GetAnimalArticle:
 
 Scope: all
@@ -1123,9 +1140,9 @@ Random Valid: yes
 
 Entries:
 hunt_animal_charge_bound
-hunt_animal_charge_charge
 hunt_animal_charge_lope
 hunt_animal_charge_hurtle
+hunt_animal_charge_charge
 
 --------------------
 
@@ -1151,6 +1168,43 @@ Entries:
 
 --------------------
 
+GetAnimalWalk:
+
+Scope: all
+Random Valid: yes
+
+Entries:
+hunt_animal_walk_trot
+hunt_animal_walk_hop
+hunt_animal_walk_pad
+hunt_animal_walk_strut
+hunt_animal_walk_waddle
+hunt_animal_walk_walk
+
+--------------------
+
+GetAnimalWalkPresent:
+
+Scope: all
+Random Valid: no
+Parent: GetAnimalWalk
+Suffix: _present
+
+Entries:
+
+--------------------
+
+GetAnimalWalkParticiple:
+
+Scope: all
+Random Valid: no
+Parent: GetAnimalWalk
+Suffix: _participle
+
+Entries:
+
+--------------------
+
 GetAnimalFeature:
 
 Scope: all
@@ -1167,6 +1221,7 @@ hunt_animal_feature_tail
 hunt_animal_feature_mane
 hunt_animal_feature_legs
 hunt_animal_feature_neck
+hunt_animal_feature_trunk
 hunt_animal_feature_bill
 hunt_animal_feature_plumage
 hunt_animal_feature_long_legs
@@ -1207,6 +1262,7 @@ hunt_animal_group_sounder
 hunt_animal_group_skulk
 hunt_animal_group_husk
 hunt_animal_group_pride
+hunt_animal_group_muster
 hunt_animal_group_mustering
 hunt_animal_group_sedge
 hunt_animal_group_siege
@@ -1234,6 +1290,7 @@ hunt_animal_group_sounder_plural
 hunt_animal_group_skulk_plural
 hunt_animal_group_husk_plural
 hunt_animal_group_pride_plural
+hunt_animal_group_muster_plural
 hunt_animal_group_mustering_plural
 hunt_animal_group_sedge_plural
 hunt_animal_group_siege_plural
@@ -1257,6 +1314,9 @@ Entries:
 hunt_animal_sound_bark
 hunt_animal_sound_snort
 hunt_animal_sound_growl
+hunt_animal_sound_trumpet
+hunt_animal_sound_squawk
+hunt_animal_sound_whoop
 hunt_animal_sound_bellow
 hunt_animal_sound_roar
 hunt_animal_sound_scream
@@ -1322,6 +1382,8 @@ hunt_animal_danger_horns
 hunt_animal_danger_fangs
 hunt_animal_danger_claws
 hunt_animal_danger_tusks
+hunt_animal_danger_beak
+hunt_animal_danger_talons
 hunt_animal_danger_teeth
 
 --------------------
@@ -1349,6 +1411,8 @@ Random Valid: no
 Entries:
 hunt_animal_track_hoof
 hunt_animal_track_trotter
+hunt_animal_track_foot
+hunt_animal_track_print
 hunt_animal_track_paw
 
 --------------------
@@ -1361,6 +1425,19 @@ Parent: GetAnimalTrack
 Suffix: _plural
 
 Entries:
+
+--------------------
+
+GetAnimalHide:
+
+Scope: all
+Random Valid: no
+
+Entries:
+hide_plumage
+hide_feathers
+hide_fur
+hide_hide
 
 --------------------
 
@@ -1441,10 +1518,24 @@ hunt_animal_child_calf
 hunt_animal_child_fawn
 hunt_animal_child_pup
 hunt_animal_child_kitten
+hunt_animal_child_kit
 hunt_animal_child_leveret
 hunt_animal_child_piglet
 hunt_animal_child_cub
+hunt_animal_child_infant
+hunt_animal_child_chick
 hunt_animal_child_fallback
+
+--------------------
+
+GetAnimalChildPlural:
+
+Scope: all
+Random Valid: no
+Parent: GetAnimalTrack
+Suffix: _plural
+
+Entries:
 
 --------------------
 
@@ -3287,6 +3378,475 @@ number_to_string
 
 --------------------
 
+GetTradeGood:
+
+Scope: all
+Random Valid: no
+
+Entries:
+trade_good_alum_name
+trade_good_amber_name
+trade_good_beer_name
+trade_good_books_paper_name
+trade_good_cattle_name
+trade_good_ceramics_name
+trade_good_cheese_name
+trade_good_copper_name
+trade_good_cotton_name
+trade_good_dyes_name
+trade_good_fish_name
+trade_good_flax_name
+trade_good_fruit_name
+trade_good_furs_name
+trade_good_gems_name
+trade_good_glass_name
+trade_good_gold_name
+trade_good_grain_name
+trade_good_hemp_name
+trade_good_honey_name
+trade_good_horses_name
+trade_good_incense_name
+trade_good_iron_name
+trade_good_ivory_name
+trade_good_jade_name
+trade_good_jewelry_name
+trade_good_lacquerware_name
+trade_good_leather_name
+trade_good_meat_name
+trade_good_medicaments_name
+trade_good_millet_name
+trade_good_oil_name
+trade_good_rice_name
+trade_good_salt_name
+trade_good_silk_name
+trade_good_silver_name
+trade_good_spices_name
+trade_good_stone_name
+trade_good_sugar_name
+trade_good_tea_name
+trade_good_textiles_name
+trade_good_wine_name
+trade_good_wood_name
+trade_good_wool_name
+
+--------------------
+
+GetTradeGoodCategory:
+
+Scope: all
+Random Valid: no
+
+Entries:
+trade_category_food_name
+trade_category_beasts_of_burden_name
+trade_category_minerals_name
+trade_category_luxury_name
+trade_category_alcohol_name
+trade_category_precious_metals_name
+trade_category_jewelry_materials_name
+trade_category_crops_name
+trade_category_base_metals_name
+trade_category_cereals_name
+trade_category_meat_name
+trade_category_comforts_name
+trade_category_clothes_name
+trade_category_luxury_consumption_name
+trade_category_luxury_items_name
+trade_category_mandala_arms_name
+trade_category_carpentry_supplies_name
+trade_category_rural_goods_name
+trade_category_agricultural_goods_name
+trade_category_fabrics_name
+trade_category_guild_goods_name
+trade_category_cheap_common_name
+trade_category_fine_goods_name
+trade_category_staple_goods_name
+trade_category_stone_name
+trade_category_salt_name
+trade_category_alum_name
+trade_category_dyes_name
+trade_category_books_name
+trade_category_incense_name
+trade_category_medicaments_name
+
+--------------------
+
+GetTradeGoodUnit:
+
+Scope: all
+Random Valid: no
+
+Entries:
+trade_good_unit_sack
+trade_good_unit_sack
+trade_good_unit_barrel
+trade_good_unit_bundle
+trade_good_unit_head
+trade_good_unit_crate
+trade_good_unit_wheel
+trade_good_unit_ingot
+trade_good_unit_bale
+trade_good_unit_sack
+trade_good_unit_barrel
+trade_good_unit_bale
+trade_good_unit_sack
+trade_good_unit_bundle
+trade_good_unit_bag
+trade_good_unit_crate
+trade_good_unit_ingot
+trade_good_unit_sack
+trade_good_unit_bale
+trade_good_unit_vessel
+trade_good_unit_head
+trade_good_unit_sack
+trade_good_unit_ingot
+trade_good_unit_sack
+trade_good_unit_block
+trade_good_unit_bag
+trade_good_unit_crate
+trade_good_unit_bundle
+trade_good_unit_bundle
+trade_good_unit_sack
+trade_good_unit_sack
+trade_good_unit_vessel
+trade_good_unit_sack
+trade_good_unit_sack
+trade_good_unit_bundle
+trade_good_unit_ingot
+trade_good_unit_sack
+trade_good_unit_block
+trade_good_unit_sack
+trade_good_unit_sack
+trade_good_unit_bundle
+trade_good_unit_barrel
+trade_good_unit_pile
+trade_good_unit_bale
+
+--------------------
+
+GetTradeGoodUnitPlural:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+GetTgfGoodLook:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_good_grain
+gdp_tgf_good_millet
+gdp_tgf_good_rice
+gdp_tgf_good_meat
+gdp_tgf_good_fish
+gdp_tgf_good_cheese
+gdp_tgf_good_fruit
+gdp_tgf_good_oil
+gdp_tgf_good_honey
+gdp_tgf_good_tea
+gdp_tgf_good_horses
+gdp_tgf_good_cattle
+gdp_tgf_good_silver
+gdp_tgf_good_gold
+gdp_tgf_good_iron
+gdp_tgf_good_copper
+gdp_tgf_good_beer
+gdp_tgf_good_wine
+gdp_tgf_good_gems
+gdp_tgf_good_amber
+gdp_tgf_good_ivory
+gdp_tgf_good_jade
+gdp_tgf_good_wood
+gdp_tgf_good_hemp
+gdp_tgf_good_wool
+gdp_tgf_good_cotton
+gdp_tgf_good_flax
+gdp_tgf_good_textiles
+gdp_tgf_good_furs
+gdp_tgf_good_leather
+gdp_tgf_good_sugar
+gdp_tgf_good_spices
+gdp_tgf_good_ceramics
+gdp_tgf_good_glass
+gdp_tgf_good_jewelry
+gdp_tgf_good_lacquerware
+gdp_tgf_good_silk
+gdp_tgf_good_incense
+gdp_tgf_good_medicaments
+gdp_tgf_good_stone
+gdp_tgf_good_salt
+gdp_tgf_good_alum
+gdp_tgf_good_dyes
+gdp_tgf_good_books_paper
+
+--------------------
+
+GetTgfGoodMade:
+
+Scope: all
+Random Valid: no
+Parent: GetTgfGoodLook
+Suffix: _made
+
+Entries:
+
+--------------------
+
+GetTgfGoodSold:
+
+Scope: all
+Random Valid: no
+Parent: GetTgfGoodLook
+Suffix: _sold
+
+Entries:
+
+--------------------
+
+GetTgfGoodSmallest:
+
+Scope: all
+Random Valid: no
+Parent: GetTgfGoodLook
+Suffix: _smallest
+
+Entries:
+
+--------------------
+
+GetTgfGoodFlaw:
+
+Scope: all
+Random Valid: no
+Parent: GetTgfGoodLook
+Suffix: _flaw
+
+Entries:
+
+--------------------
+
+GetTgfGoodIsAre:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_are
+gdp_tgf_good_grammar_is
+
+--------------------
+
+GetTgfGoodIsThat:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_are_those
+gdp_tgf_good_grammar_is_that
+
+--------------------
+
+GetTgfGoodItIs:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_they_are
+gdp_tgf_good_grammar_it_is
+
+--------------------
+
+GetTgfGoodItThem:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_them
+gdp_tgf_good_grammar_it
+
+--------------------
+
+GetTgfGoodUnitArticle:
+
+Scope: all
+Random Valid: no
+
+Entries:
+article_an
+article_a
+
+--------------------
+
+GetTgfGoodGatherers:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_gatherers_hunters
+gdp_tgf_gatherers_hunters
+gdp_tgf_gatherers_woodsmen
+gdp_tgf_gatherers_beekeepers
+gdp_tgf_gatherers_gatherers
+
+--------------------
+
+GetTgfGoodCrafter:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_crafter_potter
+gdp_tgf_crafter_glassblower
+gdp_tgf_crafter_goldsmith
+gdp_tgf_crafter_lacquer_master
+gdp_tgf_crafter_weaver
+gdp_tgf_crafter_gem_cutter
+gdp_tgf_crafter_carver
+gdp_tgf_crafter_carver
+gdp_tgf_crafter_carver
+gdp_tgf_crafter_silversmith
+gdp_tgf_crafter_goldsmith
+gdp_tgf_crafter_craftsman
+
+--------------------
+
+GetTgfHempUse:
+
+Scope: all
+Random Valid: no
+
+Entries:
+gdp_tgf_hemp_use_rope
+gdp_tgf_hemp_use_healing
+
+--------------------
+
+GetTgfGoodNickname:
+
+Scope: all
+Random Valid: no
+
+Entries:
+nick_tgf_grain
+nick_tgf_millet
+nick_tgf_rice
+nick_tgf_meat
+nick_tgf_fish
+nick_tgf_cheese
+nick_tgf_fruit
+nick_tgf_oil
+nick_tgf_honey
+nick_tgf_tea
+nick_tgf_horses
+nick_tgf_cattle
+nick_tgf_silver
+nick_tgf_gold
+nick_tgf_iron
+nick_tgf_copper
+nick_tgf_beer
+nick_tgf_wine
+nick_tgf_gems
+nick_tgf_amber
+nick_tgf_ivory
+nick_tgf_jade
+nick_tgf_wood
+nick_tgf_hemp
+nick_tgf_wool
+nick_tgf_cotton
+nick_tgf_flax
+nick_tgf_textiles
+nick_tgf_furs
+nick_tgf_leather
+nick_tgf_sugar
+nick_tgf_spices
+nick_tgf_ceramics
+nick_tgf_glass
+nick_tgf_jewelry
+nick_tgf_lacquerware
+nick_tgf_silk
+nick_tgf_incense
+nick_tgf_medicaments
+nick_tgf_stone
+nick_tgf_salt
+nick_tgf_alum
+nick_tgf_dyes
+nick_tgf_books_paper
+
+--------------------
+
+GetLoanStoryInstrumentType:
+
+Scope: all
+Random Valid: no
+
+Entries:
+loan_instrument_disguised
+loan_instrument_free
+loan_instrument_open
+
+--------------------
+
+GetLoanStoryInstrumentTypeDebtor:
+
+Scope: all
+Random Valid: no
+
+Entries:
+loan_instrument_disguised
+loan_instrument_free
+loan_instrument_free
+loan_instrument_open
+
+--------------------
+
 GetTurbanRebellionColor:
 
 Scope: all
@@ -3298,6 +3858,237 @@ green
 white
 black
 yellow
+
+--------------------
+
+GetTradeGood_RU_Nom:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Nom
+
+Entries:
+
+--------------------
+
+GetTradeGood_RU_Gen:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Gen
+
+Entries:
+
+--------------------
+
+GetTradeGood_RU_Dat:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Dat
+
+Entries:
+
+--------------------
+
+GetTradeGood_RU_Acc:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Acc
+
+Entries:
+
+--------------------
+
+GetTradeGood_RU_Inst:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Inst
+
+Entries:
+
+--------------------
+
+GetTradeGood_RU_Prep:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGood
+Suffix: _RU_Prep
+
+Entries:
+
+--------------------
+
+GetTradeGoodCategory_RU_Gen:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodCategory
+Suffix: _RU_Gen
+
+Entries:
+
+--------------------
+
+GetTradeGoodCategory_RU_Dat:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodCategory
+Suffix: _RU_Dat
+
+Entries:
+
+--------------------
+
+GetTradeGoodCategory_RU_Acc:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodCategory
+Suffix: _RU_Acc
+
+Entries:
+
+--------------------
+
+GetTradeGoodCategory_RU_Inst:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodCategory
+Suffix: _RU_Inst
+
+Entries:
+
+--------------------
+
+GetTradeGoodCategory_RU_Prep:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodCategory
+Suffix: _RU_Prep
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnit_RU_Gen:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _RU_Gen
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnit_RU_Dat:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _RU_Dat
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnit_RU_Acc:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _RU_Acc
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnit_RU_Inst:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _RU_Inst
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnit_RU_Prep:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _RU_Prep
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnitPlural_RU_Gen:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural_RU_Gen
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnitPlural_RU_Dat:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural_RU_Dat
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnitPlural_RU_Acc:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural_RU_Acc
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnitPlural_RU_Inst:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural_RU_Inst
+
+Entries:
+
+--------------------
+
+GetTradeGoodUnitPlural_RU_Prep:
+
+Scope: all
+Random Valid: no
+Parent: GetTradeGoodUnit
+Suffix: _plural_RU_Prep
+
+Entries:
 
 --------------------
 
@@ -4636,6 +5427,28 @@ stork
 
 --------------------
 
+GetRandomRegionalBirdPlural:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+ducks
+chickens
+roosters
+geese
+pigeons
+owls
+blackbirds
+ravens
+vultures
+robins
+sparrows
+cranes
+storks
+
+--------------------
+
 GetRandomRegionalWildDaytimeBird:
 
 Scope: character
@@ -4660,6 +5473,33 @@ myna
 azure_winged_magpie
 crested_ibis
 hornbill
+
+--------------------
+
+GetRandomRegionalWildDaytimeBirdPlural:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+ducks
+pigeons
+blackbirds
+ravens
+vultures
+robins
+sparrows
+cranes
+storks
+seagulls
+tarrocks
+cormorants
+partridges
+hazel_grouses
+mynas
+azure_winged_magpies
+crested_ibises
+hornbills
 
 --------------------
 
@@ -5643,6 +6483,17 @@ bow_bow_inspiration_description
 
 --------------------
 
+UniqueBowOrJustBow:
+
+Scope: character
+Random Valid: no
+
+Entries:
+murder_bow_name
+normal_bow_name
+
+--------------------
+
 RandomBadRoomate:
 
 Scope: character
@@ -6031,6 +6882,17 @@ footfeet_feet
 
 --------------------
 
+Eye_ArticleBlank:
+
+Scope: character
+Random Valid: no
+
+Entries:
+articleblank_article
+articleblank_blank
+
+--------------------
+
 EyeEyes:
 
 Scope: character
@@ -6410,8 +7272,8 @@ Scope: character
 Random Valid: no
 
 Entries:
-building_holy_site_cathedral_01
-building_holy_site_mosque_01
+holy_site_cathedral_01
+holy_site_mosque_01
 building_type_holy_site_other_grand_temple_01
 
 --------------------
@@ -7340,6 +8202,7 @@ crime_indef_request_incursion_desc
 crime_indef_exam_cheater_desc
 crime_indef_disputed_heritage_desc
 crime_indef_unmarried_illegitimate_child_desc
+crime_indef_disguised_usury_desc
 crime_indef_fallback_desc
 
 --------------------
@@ -7369,6 +8232,7 @@ crime_confession_request_incursion
 crime_confession_exam_cheater
 crime_confession_disputed_heritage
 crime_confession_unmarried_illegitimate_child
+crime_confession_disguised_usury
 crime_confession_fallback
 
 --------------------
@@ -7380,9 +8244,11 @@ Random Valid: no
 
 Entries:
 interaction_category_vassal_liege
+interaction_category_vassal_patron
 interaction_category_vassal_suzerain
 interaction_category_vassal_governor
 interaction_category_vassal_vassal
+interaction_category_vassal_client
 interaction_category_vassal_tributary
 interaction_category_vassal_fellow_governor
 interaction_category_vassal_fellow_vassal
@@ -11389,10 +12255,10 @@ councillor_court_chaplain_catholic_clerical_region_female
 councillor_court_chaplain_catholic_clerical_region
 councillor_court_chaplain_catholic_duchy_female
 councillor_court_chaplain_catholic_duchy
-councillor_court_chaplain_catholic_county
+councillor_court_chaplain_christian_county
 councillor_court_chaplain_catholic_duchy_female
 councillor_court_chaplain_catholic_duchy
-councillor_court_chaplain_catholic_county
+councillor_court_chaplain_christian_county
 councillor_court_chaplain_christian_duchy_female
 councillor_court_chaplain_christian_duchy
 councillor_court_chaplain_christian_duchy
@@ -11556,10 +12422,10 @@ councillor_court_chaplain_catholic_clerical_region_female_possessive
 councillor_court_chaplain_catholic_clerical_region_possessive
 councillor_court_chaplain_catholic_duchy_female_possessive
 councillor_court_chaplain_catholic_duchy_possessive
-councillor_court_chaplain_catholic_county_possessive
+councillor_court_chaplain_christian_county_possessive
 councillor_court_chaplain_catholic_duchy_female_possessive
 councillor_court_chaplain_catholic_duchy_possessive
-councillor_court_chaplain_catholic_county_possessive
+councillor_court_chaplain_christian_county_possessive
 councillor_court_chaplain_christian_duchy_female_possessive
 councillor_court_chaplain_christian_duchy_possessive
 councillor_court_chaplain_christian_duchy_possessive
@@ -12561,6 +13427,25 @@ childhood_trait_activity_rowdy
 
 --------------------
 
+RandomMediumObject:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+object_pair_of_shoes
+object_embroidered_cloak
+private_object_chamberpot
+private_object_hairbrush
+gown
+private_object_wooden_staff
+animal_skin
+rope
+silver_inkhorn
+prison_pet_spoon
+
+--------------------
+
 forced_into_faction_loc:
 
 Scope: character
@@ -12779,6 +13664,48 @@ root_vegetable_arrowroot_plural
 
 --------------------
 
+RegionalSpice:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+regional_spice_clove
+regional_spice_nutmeg
+regional_spice_mace
+regional_spice_pepper
+regional_spice_long_pepper
+regional_spice_cinnamon
+regional_spice_cardamom
+regional_spice_turmeric
+root_vegetable_ginger
+regional_spice_galangal
+regional_spice_cassia
+regional_spice_star_anise
+regional_spice_sichuan_pepper
+regional_spice_japanese_pepper
+regional_spice_saffron
+regional_spice_cumin
+regional_spice_coriander
+regional_spice_melegueta_pepper
+regional_spice_mustard
+regional_spice_fennel
+regional_spice_caraway
+regional_spice_pepper
+
+--------------------
+
+RegionalSpicePlural:
+
+Scope: character
+Random Valid: yes
+Parent: RegionalSpice
+Suffix: _plural
+
+Entries:
+
+--------------------
+
 RegionalEdibleAnimal:
 
 Scope: character
@@ -12934,11 +13861,15 @@ Scope: character
 Random Valid: no
 
 Entries:
+ful
 sambusa
 inihaw
+sphoungata
+tarichos
 honey_fritter
 pizza
 pakhala
+idli
 pilau
 pastilla
 empanada
@@ -12950,8 +13881,23 @@ sushi
 kimchi
 rice_cake
 bubur
-sphoungata
-tarichos
+salt_herring
+meat_pie
+oatcake
+smoked_fish
+oublie
+grilled_sausage
+pretzel
+blin
+obwarzanek
+pogaca
+injera
+akara
+fura
+tsampa
+aaruul
+dried_salmon
+roasted_plantain
 stew
 
 --------------------
@@ -12962,13 +13908,15 @@ Scope: character
 Random Valid: no
 
 Entries:
+ful_plural
 sambusa_plural
 inihaw_plural
-honey_fritter_plural
 sphoungata_plural
 tarichos
+honey_fritter_plural
 pizza_plural
 pakhala_plural
+idli_plural
 pilau_plural
 pastilla_plural
 empanada_plural
@@ -12980,6 +13928,23 @@ sushi_plural
 kimchi_plural
 rice_cake_plural
 bubur_plural
+salt_herring_plural
+meat_pie_plural
+oatcake_plural
+smoked_fish_plural
+oublie_plural
+grilled_sausage_plural
+pretzel_plural
+blin_plural
+obwarzanek_plural
+pogaca_plural
+injera_plural
+akara_plural
+fura_plural
+tsampa_plural
+aaruul_plural
+dried_salmon_plural
+roasted_plantain_plural
 stew_plural
 
 --------------------
@@ -13299,6 +14264,195 @@ friendship_metaphor_with_tending_learning_1
 
 --------------------
 
+GetGreatProjectDescription:
+
+Scope: character
+Random Valid: no
+
+Entries:
+custom_gp_expand_great_plaza
+custom_gp_loggia
+custom_gp_improved_loggia
+custom_gp_statute_hall
+custom_gp_improved_statute_hall
+custom_gp_council_chamber
+custom_gp_improved_council_chamber
+custom_gp_debt_office
+custom_gp_improved_debt_office
+custom_gp_civic_hospital
+custom_gp_improved_civic_hospital
+custom_gp_weigh_house
+custom_gp_improved_weigh_house
+custom_gp_clock_tower
+custom_gp_improved_clock_tower
+custom_gp_civic_ward
+custom_gp_improved_civic_ward
+custom_gp_league_chapter_house
+custom_gp_improved_league_chapter_house
+custom_gp_podesta_residence
+custom_gp_improved_podesta_residence
+custom_gp_fountain
+custom_gp_improved_fountain
+
+--------------------
+
+GetGreatProjectName:
+
+Scope: character
+Random Valid: no
+
+Entries:
+custom_gp_expand_great_plaza_name
+republic_loggia_01
+republic_statute_hall_01
+republic_council_chamber_01
+republic_debt_office_01
+republic_civic_hospital_01
+republic_weigh_house_01
+republic_clock_tower_01
+republic_civic_ward_01
+republic_league_chapter_house_01
+republic_podesta_residence_01
+republic_fountain_01
+
+--------------------
+
+GuelphGhibellinePeaceConflict:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelph_ghibelline_peace_conflict_peace
+guelph_ghibelline_peace_conflict_conflict
+
+--------------------
+
+GetGuelphGhibelline:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelph
+ghibelline
+
+--------------------
+
+GetGuelphGhibellineConcept:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelphs
+ghibellines
+
+--------------------
+
+GetGuelphsGhibellinesConcept:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept
+
+Entries:
+
+--------------------
+
+GuelphGhibellineGetOpposite:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelph
+ghibelline
+
+--------------------
+
+GuelphsGhibellinesGetOpposite:
+
+Scope: character
+Random Valid: no
+Parent: GuelphGhibellineGetOpposite
+Suffix: s
+
+Entries:
+
+--------------------
+
+GuelphGhibellineGetOppositeConcept:
+
+Scope: character
+Random Valid: no
+Parent: GuelphGhibellineGetOpposite
+Suffix: _concept
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineMemberGroup:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelph_member_participant_group
+ghibelline_member_participant_group
+
+--------------------
+
+GetGuelphGhibellineLeaderGroup:
+
+Scope: character
+Random Valid: no
+
+Entries:
+guelph_leader_participant_group
+ghibelline_leader_participant_group
+
+--------------------
+
+GetHighestSkillAdjective:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+highest_skill_charms
+highest_skill_wits
+highest_skill_strength
+
+--------------------
+
+DescribeTargetSkill:
+
+Scope: character
+Random Valid: no
+
+Entries:
+target_diplomacy
+target_martial
+target_stewardship
+target_intrigue
+target_learning
+
+--------------------
+
 DaughterSon:
 
 Scope: character
@@ -13385,6 +14539,30 @@ Entries:
 CHARACTER_GIRLS
 CHARACTER_BOYS
 CHARACTER_CHILDREN
+
+--------------------
+
+NoblewomanNobleman:
+
+Scope: character
+Random Valid: no
+
+Entries:
+CHARACTER_NOBLEWOMAN
+CHARACTER_NOBLEMAN
+CHARACTER_MAN
+CHARACTER_WOMAN
+
+--------------------
+
+NoblewomanNoblemanPossessive:
+
+Scope: character
+Random Valid: no
+Parent: NoblewomanNobleman
+Suffix: _POSSESSIVE
+
+Entries:
 
 --------------------
 
@@ -13591,6 +14769,17 @@ CHARACTER_MAN
 
 --------------------
 
+LadyLordWomanManPossessive:
+
+Scope: character
+Random Valid: no
+Parent: LadyLordWomanMan
+Suffix: _POSSESSIVE
+
+Entries:
+
+--------------------
+
 LadyLordNoble_GenderPreference:
 
 Scope: character
@@ -13625,6 +14814,28 @@ a_middle_aged_wo_man
 a_wo_man
 a_young_wo_man
 a_young_girl_boy
+
+--------------------
+
+HostessHost:
+
+Scope: character
+Random Valid: no
+
+Entries:
+generic_hostess
+generic_host
+
+--------------------
+
+HostessHostPossessive:
+
+Scope: character
+Random Valid: no
+Parent: HostessHost
+Suffix: _possessive
+
+Entries:
 
 --------------------
 
@@ -13837,6 +15048,7 @@ Random Valid: no
 
 Entries:
 tent
+hall
 room
 
 --------------------
@@ -13870,6 +15082,7 @@ Random Valid: no
 
 Entries:
 camp
+company
 court
 
 --------------------
@@ -13881,7 +15094,19 @@ Random Valid: no
 
 Entries:
 CAMP
+COMPANY
 COURT_CONCEPT
+
+--------------------
+
+GetCourtPositionOrAssociate:
+
+Scope: character
+Random Valid: no
+
+Entries:
+ASSOCIATE_DEPUTY
+COURTIER_COUNCILLOR
 
 --------------------
 
@@ -13893,6 +15118,8 @@ Random Valid: no
 Entries:
 follower_female
 follower_male
+associate_female
+associate_male
 relation_courtier_female
 relation_courtier_male
 
@@ -13905,6 +15132,7 @@ Random Valid: no
 
 Entries:
 follower
+associate
 courtier
 
 --------------------
@@ -13927,6 +15155,7 @@ Random Valid: no
 
 Entries:
 FOLLOWER
+ASSOCIATE
 COURTIER
 
 --------------------
@@ -13949,6 +15178,7 @@ Random Valid: no
 
 Entries:
 follower
+associate
 subject
 
 --------------------
@@ -13972,6 +15202,50 @@ Random Valid: no
 Entries:
 succession_heir_leader
 succession_heir_throne
+
+--------------------
+
+GetSuccessionRulerNoun:
+
+Scope: character
+Random Valid: no
+
+Entries:
+succession_ruler_title
+succession_ruler_noun
+
+--------------------
+
+GetSuccessionFewRulers:
+
+Scope: character
+Random Valid: no
+
+Entries:
+succession_few_others
+succession_few_rulers
+
+--------------------
+
+GetSuccessionShyCouncil:
+
+Scope: character
+Random Valid: no
+
+Entries:
+succession_shy_associates
+succession_shy_council
+
+--------------------
+
+GetSuccessionTrustingCouncil:
+
+Scope: character
+Random Valid: no
+
+Entries:
+succession_trusting_associates
+succession_trusting_council
 
 --------------------
 
@@ -14026,6 +15300,7 @@ Random Valid: no
 
 Entries:
 game_concept_camp
+game_concept_company
 game_concept_estate
 game_concept_governorship
 realm
@@ -14047,6 +15322,7 @@ CV_REALM_TYPE_HOF
 CV_REALM_TYPE_HOF_LANDED
 GOVERNORSHIP_TOOLTIP
 VASSAL_TOOLTIP
+MERCHANT
 REALM_TOOLTIP
 
 --------------------
@@ -14060,7 +15336,63 @@ Entries:
 CAMP
 ESTATE
 GOVERNORSHIP
+COMPANY
 activity_filter_realm
+
+--------------------
+
+GetCourtOrDomicileArtifactConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+DOMICILE_ARTIFACT
+COURT_ARTIFACT
+
+--------------------
+
+GetCourtOrDomicileArtifactConceptPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetCourtOrDomicileArtifactConcept
+Suffix: _PLURAL
+
+Entries:
+
+--------------------
+
+GetCourtOrDomicileArtifactNoConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+game_concept_domicile_artifact
+game_concept_court_artifact
+
+--------------------
+
+GetCourtOrDomicileArtifactNoConceptPlural:
+
+Scope: character
+Random Valid: no
+
+Entries:
+game_concept_domicile_artifacts
+game_concept_court_artifacts
+
+--------------------
+
+GetCourtOrDomicileArtifactNoRoyalCourtTabDesc:
+
+Scope: character
+Random Valid: no
+
+Entries:
+CHARACTER_WITHOUT_ROYAL_COURT_COURT_ARTIFACT_TAB_merchant
+CHARACTER_WITHOUT_ROYAL_COURT_COURT_ARTIFACT_TAB_court
 
 --------------------
 
@@ -14071,6 +15403,7 @@ Random Valid: no
 
 Entries:
 game_concept_officer
+game_concept_deputy
 game_concept_court_position
 
 --------------------
@@ -14082,7 +15415,20 @@ Random Valid: no
 
 Entries:
 game_concept_officers
+game_concept_deputies
 game_concept_court_positions
+
+--------------------
+
+GetCourtPositionConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+OFFICER
+DEPUTY
+COURT_POSITION
 
 --------------------
 
@@ -14093,6 +15439,7 @@ Random Valid: no
 
 Entries:
 OFFICER_PLURAL
+DEPUTY_PLURAL
 COURT_POSITION_PLURAL
 
 --------------------
@@ -14104,7 +15451,20 @@ Random Valid: no
 
 Entries:
 officer_positions
+deputy_positions
 COURT_POSITION_PLURAL
+
+--------------------
+
+GetGrantCourtPositionName:
+
+Scope: character
+Random Valid: no
+
+Entries:
+grant_court_position_officer
+grant_court_position_deputy
+grant_court_position_court
 
 --------------------
 
@@ -14115,6 +15475,7 @@ Random Valid: no
 
 Entries:
 ADVENTURER
+MERCHANT
 LIEGE
 
 --------------------
@@ -14137,6 +15498,7 @@ Random Valid: no
 
 Entries:
 KNIGHTS_SUBHEADER_LANDLESS_ADVENTURER
+KNIGHTS_SUBHEADER_MERCHANT
 KNIGHTS_SUBHEADER
 
 --------------------
@@ -14192,6 +15554,7 @@ Random Valid: no
 
 Entries:
 followers_adventurer
+associates_company
 servants_desc_regular
 
 --------------------
@@ -14203,6 +15566,7 @@ Random Valid: no
 
 Entries:
 follower
+associate
 vassal
 
 --------------------
@@ -14266,6 +15630,7 @@ ecclesiastical_icon_concept
 theocracy_icon_concept
 japan_feudal_icon_concept
 steppe_admin_icon_concept
+merchant_icon_concept
 feudal_icon_concept
 
 --------------------
@@ -14289,6 +15654,18 @@ Random Valid: no
 Entries:
 tribal_government
 feudal_government
+
+--------------------
+
+GetCourtButton:
+
+Scope: character
+Random Valid: no
+
+Entries:
+camp_followers
+company_associates
+courtier_plural
 
 --------------------
 
@@ -14659,6 +16036,7 @@ Random Valid: yes
 
 Entries:
 form_of_address_my_ladylord
+form_of_address_my_mistressmaster
 form_of_address_your_eminence
 form_of_address_blessed_mother_father
 form_of_address_holy_mother_father
@@ -16243,6 +17621,22 @@ criminal_crier_insult_cross_eyed
 
 --------------------
 
+InsultNounDumb:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+insult_noun_clumsy_buffoon
+insult_noun_clumsy_dimwit
+insult_noun_dumb_fool
+insult_noun_dumb_simpleton
+insult_noun_dumb_cretin
+insult_noun_dumb_nitwit
+insult_noun_dumb_imbecile
+
+--------------------
+
 rhyme_group_a_one:
 
 Scope: character
@@ -16401,6 +17795,7 @@ Random Valid: no
 
 Entries:
 general_rebellion_decline_summary_auto_accept
+general_rebellion_decline_summary_refusal_allowed
 general_rebellion_decline_summary_bloc
 general_rebellion_decline_summary_warning
 
@@ -16427,8 +17822,6 @@ Random Valid: no
 
 Entries:
 wanderer_lifestyle_highlight
-wanderer_lifestyle_adventurer_no_highlight
-wanderer_lifestyle_no_highlight
 
 --------------------
 
@@ -16463,6 +17856,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+knight_enforcer
 knight_champion
 knight_bushi
 knight_hetaeria
@@ -16472,6 +17866,18 @@ knight_aswaran
 knight_faris
 knight_champion
 knight_default
+
+--------------------
+
+KnightCultureConsonant:
+
+Scope: character
+Random Valid: no
+
+Entries:
+article_an
+article_an
+article_a
 
 --------------------
 
@@ -24290,6 +25696,8 @@ relation_soulmate_female
 relation_lover_female
 relation_soulmate_male
 relation_lover_male
+relation_best_friend_associate
+relation_friend_associate
 relation_best_friend_female
 relation_friend_female
 relation_best_friend_male
@@ -24336,8 +25744,11 @@ relation_nieceinlaw
 relation_nephewinlaw
 relation_ceremonial_liege_female
 relation_ceremonial_liege_male
+mistress
+master
 relation_liege_female
 relation_liege_male
+relation_patron
 relation_suzerain
 relation_councillor_female
 relation_councillor_male
@@ -24405,10 +25816,14 @@ relation_kinswoman
 relation_kinsman
 relation_inspired_character_female
 relation_inspired_character_male
+relation_associate_female
+relation_associate_male
 relation_follower_female
 relation_follower_male
 relation_courtier_female
 relation_courtier_male
+relation_associate_female
+relation_associate_male
 follower_female
 follower_male
 relation_peasant_affair_female
@@ -24432,6 +25847,8 @@ relation_fellow_contestant_female
 relation_fellow_contestant_male
 relation_fellow_attendee_female
 relation_fellow_attendee_male
+relation_creditor
+relation_debtor
 relation_superior_female
 relation_superior_male
 relation_subordinate_female
@@ -24517,6 +25934,8 @@ relation_lover_female_possessive
 relation_soulmate_female_possessive
 relation_lover_male_possessive
 relation_soulmate_male_possessive
+relation_best_friend_associate_possessive
+relation_friend_associate_possessive
 relation_friend_female_possessive
 relation_best_friend_female_possessive
 relation_friend_male_possessive
@@ -24570,6 +25989,7 @@ relation_ceremonial_liege_female_possessive
 relation_ceremonial_liege_male_possessive
 relation_liege_female_possessive
 relation_liege_male_possessive
+relation_patron_possessive
 relation_suzerain_possessive
 relation_vassal_female_possessive
 relation_vassal_male_possessive
@@ -24631,6 +26051,8 @@ relation_court_astrologer_male_possessive
 relation_court_astrologer_female_possessive
 relation_kinswoman_possessive
 relation_kinsman_possessive
+relation_associate_female_possessive
+relation_associate_male_possessive
 relation_follower_female_possessive
 relation_follower_male_possessive
 relation_courtier_female_possessive
@@ -24656,6 +26078,8 @@ relation_fellow_contestant_female_possessive
 relation_fellow_contestant_male_possessive
 relation_fellow_attendee_female_possessive
 relation_fellow_attendee_male_possessive
+relation_creditor_possessive
+relation_debtor_possessive
 relation_superior_female_possessive
 relation_superior_male_possessive
 relation_subordinate_female_possessive
@@ -24764,6 +26188,7 @@ relation_stepmother
 relation_stepfather
 relation_liege_female
 relation_liege_male
+relation_patron
 relation_suzerain
 duke_viceroyalty_female_byzantine_group
 duke_viceroyalty_male_byzantine_group
@@ -24817,6 +26242,8 @@ relation_knight
 relation_ally
 relation_kinswoman
 relation_kinsman
+relation_associate_female
+relation_associate_male
 relation_follower_female
 relation_follower_male
 relation_courtier_female
@@ -24830,6 +26257,7 @@ relation_leader_female
 relation_leader_male
 relation_liege_female
 relation_liege_male
+relation_patron
 relation_suzerain
 relation_prisoner_female
 relation_movement_leader
@@ -24850,6 +26278,8 @@ relation_fellow_attendee_female
 relation_fellow_attendee_male
 relation_servant_of_china_female
 relation_servant_of_china_male
+relation_creditor
+relation_debtor
 relation_superior_female
 relation_superior_male
 relation_subordinate_female
@@ -25868,6 +27298,17 @@ SUCCESSION_EVENT_WINDOW_DEAD_INTRO_NORSE_1
 SUCCESSION_EVENT_WINDOW_DEAD_INTRO_HELLENIC_1
 SUCCESSION_EVENT_WINDOW_DEAD_INTRO_EASTERN_1
 SUCCESSION_EVENT_WINDOW_DEAD_INTRO_TRIBAL_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_BUDDHIST_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_MANDALA_RULER_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_HINDUISM_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_TAOISM_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_SHINTO_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_SHINTO_2
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_SHINTO_3
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_CHINESE_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_CHINESE_2
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_CHINESE_EMPEROR_1
+SUCCESSION_EVENT_WINDOW_DEAD_INTRO_CHINESE_EMPEROR_2
 
 --------------------
 
@@ -25978,6 +27419,7 @@ Random Valid: yes
 
 Entries:
 SUCCESSION_EVENT_WINDOW_HEIR_UNDERAGE
+SUCCESSION_EVENT_WINDOW_HEIR_UNDERAGE_MERCHANT
 SUCCESSION_EVENT_WINDOW_HEIR_USELESS
 SUCCESSION_EVENT_WINDOW_HEIR_DREAD
 SUCCESSION_EVENT_WINDOW_HEIR_GENDER
@@ -27875,6 +29317,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+TRADE_CONTRACT_TIER
 GOVERNANCE_ISSUE_TIER
 SETTLEMENT_ISSUE_TIER
 MANDALA_RITUAL_TIER
@@ -28367,7 +29810,7 @@ Random Valid: no
 Entries:
 no_directive_icon
 directive_refusal_icon
-improve_development_icon
+improve_prosperity_icon
 train_commanders_icon
 build_maa_icon
 convert_faith_icon
@@ -28392,7 +29835,7 @@ Random Valid: no
 Entries:
 no_directive_text
 refusing_directive_text
-improve_development_text
+improve_prosperity_text
 train_commanders_text
 build_maa_text
 convert_faith_text
@@ -28417,7 +29860,7 @@ Random Valid: no
 Entries:
 no_directive
 refusing_directive
-improve_development
+improve_prosperity
 train_commanders
 build_maa
 convert_faith
@@ -30272,13 +31715,13 @@ petition_liege.9001.vassal_war
 petition_liege.9001.faction_war
 petition_liege.9001.county_control
 petition_liege.9001.county_convert
-petition_liege.9001.county_opinion
+petition_liege.9001.popular_opinion
 petition_liege.9001.fortify_border
 petition_liege.9001.title_liege
 petition_liege.9001.title_vassal
 petition_liege.9001.construct_city
 petition_liege.9001.construct_temple
-petition_liege.9001.development
+petition_liege.9001.prosperity
 petition_liege.9001.house_fief
 petition_liege.9021.regent
 petition_liege.9021.appointment
@@ -31081,6 +32524,17 @@ animal_type_buck
 
 --------------------
 
+GetRegionalDeerTypeArticle:
+
+Scope: character
+Random Valid: no
+
+Entries:
+article_an
+article_a
+
+--------------------
+
 GetRegionalEagleType:
 
 Scope: character
@@ -31230,7 +32684,7 @@ Scope: character
 Random Valid: yes
 
 Entries:
-building_city_02
+city_02
 
 --------------------
 
@@ -31267,9 +32721,9 @@ Random Valid: yes
 
 Entries:
 building_type_market_villages_01
-building_castle_02
+castle_02
 building_type_common_tradeport_01
-building_city_04
+city_04
 
 --------------------
 
@@ -31281,7 +32735,7 @@ Random Valid: yes
 Entries:
 building_type_temple_01
 building_type_generic_university
-building_type_monastic_schools_01
+temple_school
 building_type_buddhas_of_bamian_01
 building_type_petra_01
 building_type_notre_dame_01
@@ -31721,6 +33175,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+game_concept_company
 game_concept_camp
 game_concept_court
 
@@ -31732,6 +33187,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+game_concept_companies
 game_concept_camps
 game_concept_courts
 
@@ -31743,6 +33199,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+COMPANY
 CAMP
 COURT_CONCEPT
 
@@ -31754,6 +33211,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+game_concept_associate
 game_concept_follower
 game_concept_courtier
 
@@ -31765,6 +33223,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+game_concept_associates
 game_concept_followers
 game_concept_courtiers
 
@@ -31777,6 +33236,7 @@ Random Valid: no
 
 Entries:
 FOLLOWER
+ASSOCIATE
 COURTIER
 
 --------------------
@@ -31788,6 +33248,7 @@ Random Valid: no
 
 Entries:
 FOLLOWER_PLURAL
+ASSOCIATE_PLURAL
 COURTIER_PLURAL
 
 --------------------
@@ -31800,7 +33261,7 @@ Random Valid: yes
 Entries:
 building_type_hagia_sophia_01
 cathedral
-building_hagia_sophia_02
+hagia_sophia_02
 main_temple
 
 --------------------
@@ -31813,7 +33274,7 @@ Random Valid: no
 Entries:
 building_type_hagia_sophia_01
 cathedral_capital
-building_hagia_sophia_02
+hagia_sophia_02
 main_temple_capital
 
 --------------------
@@ -32324,6 +33785,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+REPUBLICAN_ARMY_CONCEPT
 THEMATIC_ARMY_CONCEPT
 PROVINCIAL_ARMY_CONCEPT
 
@@ -32346,6 +33808,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+REPUBLICAN_ARMIES_CONCEPT
 THEMATIC_ARMIES_CONCEPT
 PROVINCIAL_ARMIES_CONCEPT
 
@@ -32359,6 +33822,24 @@ Parent: GetProvincialArmiesConcept
 Suffix: _NO_TOOLTIP
 
 Entries:
+
+--------------------
+
+GetNobleFamilySuffix:
+
+Scope: character
+Random Valid: no
+
+Entries:
+c_nf_korea_suffix
+c_nf_japan_suffix
+c_nf_viet_suffix
+c_nf_xia_suffix
+c_nf_liao_suffix
+c_nf_jin_suffix
+c_nf_china_suffix
+c_republic_suffix
+c_nf_default_suffix
 
 --------------------
 
@@ -32385,6 +33866,7 @@ Random Valid: no
 
 Entries:
 COURT_WINDOW_HAS_FOLLOWERS
+COURT_WINDOW_HAS_ASSOCIATES
 COURT_WINDOW_HAS_COURTIERS
 
 --------------------
@@ -32557,6 +34039,7 @@ Scope: character
 Random Valid: no
 
 Entries:
+TRADE_CONTRACT_NO_CONCEPT
 TASK_CONTRACT_ISSUE
 TASK_CONTRACT_SETTLEMENT_ISSUE
 TASK_CONTRACT_MANDALA_RITUAL
@@ -32603,10 +34086,22 @@ Scope: character
 Random Valid: no
 
 Entries:
+TRADE_CONTRACT
 GOVERNANCE_ISSUE
 SETTLEMENT_ISSUE
 MANDALA_RITUAL
 TASK_CONTRACT
+
+--------------------
+
+GetContractOrIssueGameConceptPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetContractOrIssueGameConcept
+Suffix: _PLURAL
+
+Entries:
 
 --------------------
 
@@ -32815,16 +34310,16 @@ BrewPositiveAdjectiveElegant
 
 --------------------
 
-SurveyArrivalIntroDevelopmentLoc:
+SurveyArrivalIntroProsperityLoc:
 
 Scope: character
 Random Valid: no
 
 Entries:
-SurveyArrivalIntroDevelopmentLocMaxed
-SurveyArrivalIntroDevelopmentLocGood
-SurveyArrivalIntroDevelopmentLocBad
-SurveyArrivalIntroDevelopmentLocNeutral
+SurveyArrivalIntroProsperityLocMaxed
+SurveyArrivalIntroProsperityLocGood
+SurveyArrivalIntroProsperityLocBad
+SurveyArrivalIntroProsperityLocNeutral
 
 --------------------
 
@@ -34492,6 +35987,18 @@ BECOME_TRIBUTARY_INTERACTION_NAME_FALLBACK
 
 --------------------
 
+SubjectStandingNoConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+game_concept_imperial_grace
+game_concept_imperial_grace
+game_concept_subject_standing
+
+--------------------
+
 SubjectStanding:
 
 Scope: character
@@ -35974,6 +37481,28 @@ FR_GetCourtOwnerConcept_FR_Du:
 Scope: character
 Random Valid: no
 Parent: GetCourtOwnerConcept
+Suffix: _FR_Du
+
+Entries:
+
+--------------------
+
+FR_pam_anointment_authority_name_loc_FR_Le:
+
+Scope: character
+Random Valid: no
+Parent: pam_anointment_authority_name_loc
+Suffix: _FR_Le
+
+Entries:
+
+--------------------
+
+FR_pam_anointment_authority_name_loc_FR_Du:
+
+Scope: character
+Random Valid: no
+Parent: pam_anointment_authority_name_loc
 Suffix: _FR_Du
 
 Entries:
@@ -38377,325 +39906,223 @@ Entries:
 
 --------------------
 
-DescriptorMixedArticle_RULOC_Nom:
+GetGuelphsGhibellinesConcept_RU_Gen:
 
 Scope: character
-Random Valid: yes
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept_RU_Gen
 
 Entries:
-positive_desc_loyal_article_RULOC_male
-positive_desc_faithful_article_RULOC_male
-positive_desc_generous_article_RULOC_male
-positive_desc_honorable_article_RULOC_male
-positive_desc_principled_article_RULOC_male
-positive_desc_pragmatic_article_RULOC_male
-positive_desc_passionate_article_RULOC_male
-positive_desc_wholesome_article_RULOC_male
-positive_desc_epicurean_article_RULOC_male
-positive_desc_disciplined_article_RULOC_male
-positive_desc_frugal_article_RULOC_male
-positive_desc_relaxed_article_RULOC_male
-positive_desc_dedicated_article_RULOC_male
-positive_desc_forceful_article_RULOC_male
-positive_desc_even_tempered_article_RULOC_male
-positive_desc_poised_article_RULOC_male
-positive_desc_composed_article_RULOC_male
-positive_desc_vigorous_article_RULOC_male
-positive_desc_confident_article_RULOC_male
-positive_desc_respectful_article_RULOC_male
-positive_desc_cunning_article_RULOC_male
-positive_desc_sly_article_RULOC_male
-positive_desc_sincere_article_RULOC_male
-positive_desc_prudent_article_RULOC_male
-positive_desc_courageous_article_RULOC_male
-positive_desc_fearless_article_RULOC_male
-positive_desc_gallant_article_RULOC_male
-positive_desc_doughty_article_RULOC_male
-positive_desc_lionhearted_article_RULOC_male
-positive_desc_coy_article_RULOC_male
-positive_desc_friendly_article_RULOC_male
-positive_desc_sociable_article_RULOC_male
-positive_desc_agreeable_article_RULOC_male
-positive_desc_reserved_article_RULOC_male
-positive_desc_determined_article_RULOC_male
-positive_desc_driven_article_RULOC_male
-positive_desc_enthusiastic_article_RULOC_male
-positive_desc_untroubled_article_RULOC_male
-positive_desc_circumspect_article_RULOC_male
-positive_desc_devout_article_RULOC_male
-positive_desc_wary_article_RULOC_male
-positive_desc_loyal_article_RULOC_male
-positive_desc_committed_article_RULOC_male
-positive_desc_kind_article_RULOC_male
-positive_desc_thick_skinned_article_RULOC_male
-positive_desc_unsusceptible_article_RULOC_male
-positive_desc_ahem_article_RULOC_male
-positive_desc_efficient_article_RULOC_male
-positive_desc_fellow_connoisseur_article_RULOC_male
-positive_desc_fellow_gourmand_article_RULOC_male
-positive_desc_resolute_article_RULOC_male
-positive_desc_flexible_article_RULOC_male
-positive_desc_trenchant_article_RULOC_male
-positive_desc_magnanimous_article_RULOC_male
-positive_desc_merciful_article_RULOC_male
-positive_desc_irrepressible_article_RULOC_male
-positive_desc_unstoppable_article_RULOC_male
-positive_desc_exuberant_article_RULOC_male
-positive_desc_crafty_article_RULOC_male
-positive_desc_mischievous_article_RULOC_male
-positive_desc_artful_article_RULOC_male
-positive_desc_effusive_article_RULOC_male
-positive_desc_forthcoming_article_RULOC_male
-positive_desc_expressive_article_RULOC_male
-positive_desc_inquisitive_article_RULOC_male
-positive_desc_enquiring_article_RULOC_male
-positive_desc_observant_article_RULOC_male
-positive_desc_self_assured_article_RULOC_male
-positive_desc_adept_article_RULOC_male
-positive_desc_meticulous_article_RULOC_male
-positive_desc_subtle_article_RULOC_male
-positive_desc_imposing_article_RULOC_male
-positive_desc_charming_article_RULOC_male
-positive_desc_industrious_article_RULOC_male
-positive_desc_wise_article_RULOC_male
-positive_desc_venerable_article_RULOC_male
-positive_desc_youthful_article_RULOC_male
-negative_desc_traitorous_article_RULOC_male
-negative_desc_subversive_article_RULOC_male
-negative_desc_useless_article_RULOC_male
-negative_desc_oppressing_article_RULOC_male
-negative_desc_pathetic_article_RULOC_male
-negative_desc_decrepit_article_RULOC_male
-negative_desc_naive_article_RULOC_male
-negative_desc_arrogant_article_RULOC_male
-negative_desc_faithless_article_RULOC_male
-negative_desc_aloof_article_RULOC_male
-negative_desc_wasteful_article_RULOC_male
-negative_desc_lewd_article_RULOC_male
-negative_desc_insatiable_article_RULOC_male
-negative_desc_lethargic_article_RULOC_male
-negative_desc_gullible_article_RULOC_male
-negative_desc_rabid_article_RULOC_male
-negative_desc_fanatical_article_RULOC_male
-negative_desc_delirious_article_RULOC_male
-negative_desc_ruinous_article_RULOC_male
-negative_desc_dishonest_article_RULOC_male
-negative_desc_crooked_article_RULOC_male
-negative_desc_insidious_article_RULOC_male
-negative_desc_spineless_article_RULOC_male
-negative_desc_gutless_article_RULOC_male
-negative_desc_cowardly_article_RULOC_male
-negative_desc_recreant_article_RULOC_male
-negative_desc_miserly_article_RULOC_male
-negative_desc_lecherous_article_RULOC_male
-negative_desc_apprehensive_article_RULOC_male
-negative_desc_restrained_article_RULOC_male
-negative_desc_austere_article_RULOC_male
-negative_desc_rigid_article_RULOC_male
-negative_desc_spiteful_article_RULOC_male
-negative_desc_hostile_article_RULOC_male
-negative_desc_perverse_article_RULOC_male
-negative_desc_ruthless_article_RULOC_male
-negative_desc_unrestrained_article_RULOC_male
-negative_desc_brash_article_RULOC_male
-negative_desc_brazen_article_RULOC_male
-negative_desc_audacious_article_RULOC_male
-negative_desc_guileless_article_RULOC_male
-negative_desc_reckless_article_RULOC_male
-negative_desc_unrelenting_article_RULOC_male
-negative_desc_impatient_article_RULOC_male
-negative_desc_pessimistic_article_RULOC_male
-negative_desc_false_article_RULOC_male
-negative_desc_pretentious_article_RULOC_male
-negative_desc_disagreeable_article_RULOC_male
-negative_desc_grousing_article_RULOC_male
-negative_desc_querulous_article_RULOC_male
-negative_desc_fretful_article_RULOC_male
-negative_desc_pompous_article_RULOC_male
-negative_desc_overbearing_article_RULOC_male
-negative_desc_abstruse_article_RULOC_male
-negative_desc_graceless_article_RULOC_male
-negative_desc_unsubtle_article_RULOC_male
-negative_desc_ignorant_article_RULOC_male
-negative_desc_feeble_article_RULOC_male
-negative_desc_dull_article_RULOC_male
-negative_desc_tedious_article_RULOC_male
-negative_desc_inept_article_RULOC_male
-negative_desc_simple_article_RULOC_male
-negative_desc_witless_article_RULOC_male
-negative_desc_obtuse_article_RULOC_male
-negative_desc_rebellious_article_RULOC_male
-negative_desc_boisterous_article_RULOC_male
-negative_desc_unruly_article_RULOC_male
-negative_desc_devious_article_RULOC_male
-negative_desc_wily_article_RULOC_male
-negative_desc_shifty_article_RULOC_male
-negative_desc_rattling_article_RULOC_male
-negative_desc_annoying_article_RULOC_male
-negative_desc_raucous_article_RULOC_male
-negative_desc_meddling_article_RULOC_male
-negative_desc_prying_article_RULOC_male
-negative_desc_intrusive_article_RULOC_male
-negative_desc_overconfident_article_RULOC_male
-negative_desc_careless_article_RULOC_male
-negative_desc_hubristic_article_RULOC_male
-positive_desc_loyal_article_RULOC_female
-positive_desc_faithful_article_RULOC_female
-positive_desc_generous_article_RULOC_female
-positive_desc_honorable_article_RULOC_female
-positive_desc_principled_article_RULOC_female
-positive_desc_pragmatic_article_RULOC_female
-positive_desc_passionate_article_RULOC_female
-positive_desc_wholesome_article_RULOC_female
-positive_desc_epicurean_article_RULOC_female
-positive_desc_disciplined_article_RULOC_female
-positive_desc_frugal_article_RULOC_female
-positive_desc_relaxed_article_RULOC_female
-positive_desc_dedicated_article_RULOC_female
-positive_desc_forceful_article_RULOC_female
-positive_desc_even_tempered_article_RULOC_female
-positive_desc_poised_article_RULOC_female
-positive_desc_composed_article_RULOC_female
-positive_desc_vigorous_article_RULOC_female
-positive_desc_confident_article_RULOC_female
-positive_desc_respectful_article_RULOC_female
-positive_desc_cunning_article_RULOC_female
-positive_desc_sly_article_RULOC_female
-positive_desc_sincere_article_RULOC_female
-positive_desc_prudent_article_RULOC_female
-positive_desc_courageous_article_RULOC_female
-positive_desc_fearless_article_RULOC_female
-positive_desc_gallant_article_RULOC_female
-positive_desc_doughty_article_RULOC_female
-positive_desc_lionhearted_article_RULOC_female
-positive_desc_coy_article_RULOC_female
-positive_desc_friendly_article_RULOC_female
-positive_desc_sociable_article_RULOC_female
-positive_desc_agreeable_article_RULOC_female
-positive_desc_reserved_article_RULOC_female
-positive_desc_determined_article_RULOC_female
-positive_desc_driven_article_RULOC_female
-positive_desc_enthusiastic_article_RULOC_female
-positive_desc_untroubled_article_RULOC_female
-positive_desc_circumspect_article_RULOC_female
-positive_desc_devout_article_RULOC_female
-positive_desc_wary_article_RULOC_female
-positive_desc_loyal_article_RULOC_female
-positive_desc_committed_article_RULOC_female
-positive_desc_kind_article_RULOC_female
-positive_desc_thick_skinned_article_RULOC_female
-positive_desc_unsusceptible_article_RULOC_female
-positive_desc_ahem_article_RULOC_female
-positive_desc_efficient_article_RULOC_female
-positive_desc_fellow_connoisseur_article_RULOC_female
-positive_desc_fellow_gourmand_article_RULOC_female
-positive_desc_resolute_article_RULOC_female
-positive_desc_flexible_article_RULOC_female
-positive_desc_trenchant_article_RULOC_female
-positive_desc_magnanimous_article_RULOC_female
-positive_desc_merciful_article_RULOC_female
-positive_desc_irrepressible_article_RULOC_female
-positive_desc_unstoppable_article_RULOC_female
-positive_desc_exuberant_article_RULOC_female
-positive_desc_crafty_article_RULOC_female
-positive_desc_mischievous_article_RULOC_female
-positive_desc_artful_article_RULOC_female
-positive_desc_effusive_article_RULOC_female
-positive_desc_forthcoming_article_RULOC_female
-positive_desc_expressive_article_RULOC_female
-positive_desc_inquisitive_article_RULOC_female
-positive_desc_enquiring_article_RULOC_female
-positive_desc_observant_article_RULOC_female
-positive_desc_self_assured_article_RULOC_female
-positive_desc_adept_article_RULOC_female
-positive_desc_meticulous_article_RULOC_female
-positive_desc_subtle_article_RULOC_female
-positive_desc_imposing_article_RULOC_female
-positive_desc_charming_article_RULOC_female
-positive_desc_industrious_article_RULOC_female
-positive_desc_wise_article_RULOC_female
-positive_desc_venerable_article_RULOC_female
-positive_desc_youthful_article_RULOC_female
-negative_desc_traitorous_article_RULOC_female
-negative_desc_subversive_article_RULOC_female
-negative_desc_useless_article_RULOC_female
-negative_desc_oppressing_article_RULOC_female
-negative_desc_pathetic_article_RULOC_female
-negative_desc_decrepit_article_RULOC_female
-negative_desc_naive_article_RULOC_female
-negative_desc_arrogant_article_RULOC_female
-negative_desc_faithless_article_RULOC_female
-negative_desc_aloof_article_RULOC_female
-negative_desc_wasteful_article_RULOC_female
-negative_desc_lewd_article_RULOC_female
-negative_desc_insatiable_article_RULOC_female
-negative_desc_lethargic_article_RULOC_female
-negative_desc_gullible_article_RULOC_female
-negative_desc_rabid_article_RULOC_female
-negative_desc_fanatical_article_RULOC_female
-negative_desc_delirious_article_RULOC_female
-negative_desc_ruinous_article_RULOC_female
-negative_desc_dishonest_article_RULOC_female
-negative_desc_crooked_article_RULOC_female
-negative_desc_insidious_article_RULOC_female
-negative_desc_spineless_article_RULOC_female
-negative_desc_gutless_article_RULOC_female
-negative_desc_cowardly_article_RULOC_female
-negative_desc_recreant_article_RULOC_female
-negative_desc_miserly_article_RULOC_female
-negative_desc_lecherous_article_RULOC_female
-negative_desc_apprehensive_article_RULOC_female
-negative_desc_restrained_article_RULOC_female
-negative_desc_austere_article_RULOC_female
-negative_desc_rigid_article_RULOC_female
-negative_desc_spiteful_article_RULOC_female
-negative_desc_hostile_article_RULOC_female
-negative_desc_perverse_article_RULOC_female
-negative_desc_ruthless_article_RULOC_female
-negative_desc_unrestrained_article_RULOC_female
-negative_desc_brash_article_RULOC_female
-negative_desc_brazen_article_RULOC_female
-negative_desc_audacious_article_RULOC_female
-negative_desc_guileless_article_RULOC_female
-negative_desc_reckless_article_RULOC_female
-negative_desc_unrelenting_article_RULOC_female
-negative_desc_impatient_article_RULOC_female
-negative_desc_pessimistic_article_RULOC_female
-negative_desc_false_article_RULOC_female
-negative_desc_pretentious_article_RULOC_female
-negative_desc_disagreeable_article_RULOC_female
-negative_desc_grousing_article_RULOC_female
-negative_desc_querulous_article_RULOC_female
-negative_desc_fretful_article_RULOC_female
-negative_desc_pompous_article_RULOC_female
-negative_desc_overbearing_article_RULOC_female
-negative_desc_abstruse_article_RULOC_female
-negative_desc_graceless_article_RULOC_female
-negative_desc_unsubtle_article_RULOC_female
-negative_desc_ignorant_article_RULOC_female
-negative_desc_feeble_article_RULOC_female
-negative_desc_dull_article_RULOC_female
-negative_desc_tedious_article_RULOC_female
-negative_desc_inept_article_RULOC_female
-negative_desc_simple_article_RULOC_female
-negative_desc_witless_article_RULOC_female
-negative_desc_obtuse_article_RULOC_female
-negative_desc_rebellious_article_RULOC_female
-negative_desc_boisterous_article_RULOC_female
-negative_desc_unruly_article_RULOC_female
-negative_desc_devious_article_RULOC_female
-negative_desc_wily_article_RULOC_female
-negative_desc_shifty_article_RULOC_female
-negative_desc_rattling_article_RULOC_female
-negative_desc_annoying_article_RULOC_female
-negative_desc_raucous_article_RULOC_female
-negative_desc_meddling_article_RULOC_female
-negative_desc_prying_article_RULOC_female
-negative_desc_intrusive_article_RULOC_female
-negative_desc_overconfident_article_RULOC_female
-negative_desc_careless_article_RULOC_female
-negative_desc_hubristic_article_RULOC_female
-positive_desc_compliment_adjective_article
+
+--------------------
+
+GetGuelphsGhibellinesConcept_RU_Dat:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept_RU_Dat
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellinesConcept_RU_Acc:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept_RU_Acc
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellinesConcept_RU_Inst:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept_RU_Inst
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellinesConcept_RU_Prep:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _concept_RU_Prep
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines_RU_Gen:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _RU_Gen
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines_RU_Dat:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _RU_Dat
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines_RU_Acc:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _RU_Acc
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines_RU_Inst:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _RU_Inst
+
+Entries:
+
+--------------------
+
+GetGuelphsGhibellines_RU_Prep:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphsGhibellines
+Suffix: _RU_Prep
+
+Entries:
+
+--------------------
+
+GetGuelphGhibelline_RU_Gen:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _RU_Gen
+
+Entries:
+
+--------------------
+
+GetGuelphGhibelline_RU_Dat:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _RU_Dat
+
+Entries:
+
+--------------------
+
+GetGuelphGhibelline_RU_Acc:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _RU_Acc
+
+Entries:
+
+--------------------
+
+GetGuelphGhibelline_RU_Inst:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _RU_Inst
+
+Entries:
+
+--------------------
+
+GetGuelphGhibelline_RU_Prep:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _RU_Prep
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineConcept_RU_Gen:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept_RU_Gen
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineConcept_RU_Dat:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept_RU_Dat
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineConcept_RU_Acc:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept_RU_Acc
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineConcept_RU_Inst:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept_RU_Inst
+
+Entries:
+
+--------------------
+
+GetGuelphGhibellineConcept_RU_Prep:
+
+Scope: character
+Random Valid: no
+Parent: GetGuelphGhibelline
+Suffix: _concept_RU_Prep
+
+Entries:
 
 --------------------
 
@@ -38769,6 +40196,18 @@ Random Valid: no
 Entries:
 murder_or_kidnap_murder
 murder_or_kidnap_kidnap
+
+--------------------
+
+Aeluran_Reinforcement_Army_Name:
+
+Scope: character
+Random Valid: no
+
+Entries:
+stationed_aeluran_magi_3
+stationed_aeluran_magi_2
+stationed_aeluran_magi_1
 
 --------------------
 
@@ -40391,6 +41830,948 @@ Random Valid: no
 Entries:
 entrance_rival_penalty
 entrance_nemesis_penalty
+
+--------------------
+
+CraftsmanDescOption:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+carnival.1009.customloc01
+carnival.1009.customloc02
+carnival.1009.customloc03
+carnival.1009.customloc04
+carnival.1009.customloc05
+carnival.1009.customloc06
+carnival.1009.customloc07
+carnival.1009.customloc08
+carnival.1009.customloc09
+
+--------------------
+
+GetCurrencyDenomination:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+dinar
+denier
+dinero
+denaro
+dirham
+pfennig
+penny
+groschen
+denarius
+ducat
+florin
+bezant
+hyperpyron
+solidus
+jital
+tanka
+tongbao
+qian
+mon_coin
+denar
+coin
+
+--------------------
+
+GetCurrencyDenominationPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenomination
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+GetCurrencyDenominationGloss:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenomination
+Suffix: _gloss
+
+Entries:
+
+--------------------
+
+GetCurrencyDenominationGlossPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenomination
+Suffix: _gloss_plural
+
+Entries:
+
+--------------------
+
+GetCurrencyDenominationD:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+dinar
+denier
+dinero
+denaro
+dirham
+denarius
+ducat
+denar
+
+--------------------
+
+GetCurrencyDenominationDPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenominationD
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+GetCurrencyDenominationDGloss:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenominationD
+Suffix: _gloss
+
+Entries:
+
+--------------------
+
+GetCurrencyDenominationDGlossPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetCurrencyDenominationD
+Suffix: _gloss_plural
+
+Entries:
+
+--------------------
+
+GetRegionalUrbanEliteTerm:
+
+Scope: character
+Random Valid: no
+
+Entries:
+burgher
+patrician
+freeman
+
+--------------------
+
+GetRegionalUrbanEliteTermPlural:
+
+Scope: character
+Random Valid: no
+Parent: GetRegionalUrbanEliteTerm
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+GetVisitHolding1320CharacterDesc:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_decision_event.1320.charlatan.desc
+gdp_visit_holding_decision_event.1320.hired_muscle.desc
+gdp_visit_holding_decision_event.1320.numerate.desc
+gdp_visit_holding_decision_event.1320.traveler.desc
+gdp_visit_holding_decision_event.1320.urchin.desc
+gdp_visit_holding_decision_event.1320.herbalist.desc
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasHeader:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_AREAS_HEADER
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasGuilds:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_GUILDS
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasMarket:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_MARKET
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasDocks:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_DOCKS
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasPatron:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_PATRON
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAvailableAreasWorship:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_AVAILABLE_WORSHIP
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasHeader:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_AREAS_HEADER
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasGuilds:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_GUILDS
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasMarket:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_MARKET
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasDocks:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_DOCKS
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasPatron:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_PATRON
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionExhaustedAreasWorship:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_EXHAUSTED_WORSHIP
+blank_line
+
+--------------------
+
+GetVisitHoldingDecisionAllOptionsExhaustedTooltip:
+
+Scope: character
+Random Valid: no
+
+Entries:
+VISIT_HOLDING_DECISION_ALL_OPTIONS_EXHAUSTED
+blank_line
+
+--------------------
+
+TributaryType:
+
+Scope: character
+Random Valid: no
+
+Entries:
+merchant_tributary_client
+tributary_default
+
+--------------------
+
+TributaryTypePlural:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+TributaryTypeNoTooltip:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _no_tooltip
+
+Entries:
+
+--------------------
+
+TributaryTypePluralNoTooltip:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _no_tooltip_plural
+
+Entries:
+
+--------------------
+
+TributaryTypeNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _no_tooltip_lowercase
+
+Entries:
+
+--------------------
+
+TributaryTypePluralNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _no_tooltip_lowercase_plural
+
+Entries:
+
+--------------------
+
+TributaryTypePluralPossessiveNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: TributaryType
+Suffix: _no_tooltip_lowercase_plural_possessive
+
+Entries:
+
+--------------------
+
+SuzerainType:
+
+Scope: character
+Random Valid: no
+
+Entries:
+merchant_tributary_patron
+suzerain_default
+
+--------------------
+
+SuzerainTypePlural:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+SuzerainTypeNoTooltip:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _no_tooltip
+
+Entries:
+
+--------------------
+
+SuzerainTypePluralNoTooltip:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _no_tooltip_plural
+
+Entries:
+
+--------------------
+
+SuzerainTypeNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _no_tooltip_lowercase
+
+Entries:
+
+--------------------
+
+SuzerainTypePluralNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _no_tooltip_lowercase_plural
+
+Entries:
+
+--------------------
+
+SuzerainTypePluralPossessiveNoTooltipLowercase:
+
+Scope: character
+Random Valid: no
+Parent: SuzerainType
+Suffix: _no_tooltip_lowercase_plural_possessive
+
+Entries:
+
+--------------------
+
+SuzerainTypeCOA:
+
+Scope: character
+Random Valid: no
+
+Entries:
+COA_REALM_SUZERAIN_INFO_NOMADIC
+COA_REALM_SUZERAIN_INFO_MERCHANT
+COA_REALM_SUZERAIN_INFO_SETTLED
+
+--------------------
+
+IsAlreadyVisitingHolding:
+
+Scope: character
+Random Valid: no
+
+Entries:
+DECISION_ALREADY_VISITING_HOLDING_TIME
+DECISION_ALREADY_VISITING_HOLDING_TIME
+DECISION_ALREADY_VISITING_HOLDING_NO_TIME
+
+--------------------
+
+GetSubjectContractGroupGameConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+tributary_merchant_contract
+tributary_contract
+vassal_contract
+
+--------------------
+
+GetHorseCamel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+regional_farm_animal_camel
+regional_farm_animal_horse
+
+--------------------
+
+GetHorseCamelPossessive:
+
+Scope: character
+Random Valid: no
+Parent: GetHorseCamel
+Suffix: _possessive
+
+Entries:
+
+--------------------
+
+GetSteedCamel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+regional_farm_animal_camel
+racehorse_name_2_steed
+
+--------------------
+
+GetDonkeyDromedary:
+
+Scope: character
+Random Valid: no
+
+Entries:
+regional_farm_animal_dromedary
+regional_farm_animal_donkey
+
+--------------------
+
+GetTgfCompanyWord:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_tgf_company_word_family
+gdp_tgf_company_word_company
+
+--------------------
+
+GetTgfAilment:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_tgf_ailment_poison
+gdp_tgf_ailment_nightmares
+gdp_tgf_ailment_fever
+gdp_tgf_ailment_fever
+
+--------------------
+
+GetAntiquarianCourtPositionTitle:
+
+Scope: character
+Random Valid: no
+
+Entries:
+antiquarian_merchant
+antiquarian_celestial
+antiquarian_court_position
+
+--------------------
+
+GetTraderLocationDesc:
+
+Scope: character
+Random Valid: no
+
+Entries:
+trader_location_desc_scheme
+trader_location_desc_travel
+trader_location_desc
+
+--------------------
+
+GetHouseUnity:
+
+Scope: character
+Random Valid: no
+
+Entries:
+game_concept_company_sentiment
+game_concept_house_unity
+
+--------------------
+
+GetHouseUnityConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+company_direction_concept
+house_unity_concept
+
+--------------------
+
+GetHouseUnityLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+game_concept_company_sentiment_level
+game_concept_house_unity_level
+
+--------------------
+
+GetHouseUnityLevelConcept:
+
+Scope: character
+Random Valid: no
+
+Entries:
+company_direction_level_concept
+house_unity_level_concept
+
+--------------------
+
+GetTravelogueTopic:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+travelogue_topic_customs
+travelogue_topic_markets
+travelogue_topic_places
+
+--------------------
+
+GetTravelogueQuality:
+
+Scope: character
+Random Valid: yes
+
+Entries:
+travelogue_description_quality_weak
+travelogue_description_quality_mid
+travelogue_description_quality_great
+
+--------------------
+
+GetCompanySize:
+
+Scope: character
+Random Valid: no
+
+Entries:
+company_size_small_tt
+company_size_medium_tt
+company_size_large_tt
+company_size_huge_tt
+
+--------------------
+
+GetAssociateRequest:
+
+Scope: character
+Random Valid: no
+
+Entries:
+associate_request_type_artifact
+associate_request_type_activity
+associate_request_type_luxury_contract
+associate_request_type_silk_road_market
+
+--------------------
+
+GetAssociateRequestExplanation:
+
+Scope: character
+Random Valid: no
+
+Entries:
+associate_request_type_artifact_explanation
+associate_request_type_activity_explanation
+associate_request_type_luxury_contract_explanation
+associate_request_type_silk_road_market_explanation
+
+--------------------
+
+GetAssociateRequestFulfillment:
+
+Scope: character
+Random Valid: no
+
+Entries:
+associate_request_type_artifact_fulfill
+associate_request_type_activity_fulfill
+associate_request_type_luxury_contract_fulfill
+associate_request_type_silk_road_market_fulfill
+
+--------------------
+
+RepublicPopularOpinionLvl5:
+
+Scope: character
+Random Valid: no
+
+Entries:
+popular_opinion_level_5_republic_desc
+blank_line
+
+--------------------
+
+RepublicPopularOpinionLvl6:
+
+Scope: character
+Random Valid: no
+
+Entries:
+popular_opinion_level_6_republic_desc
+blank_line
+
+--------------------
+
+RepublicPopularOpinionLvl7:
+
+Scope: character
+Random Valid: no
+
+Entries:
+popular_opinion_level_7_republic_desc
+blank_line
+
+--------------------
+
+RepublicPopularOpinionLvl8:
+
+Scope: character
+Random Valid: no
+
+Entries:
+popular_opinion_level_8_republic_desc
+blank_line
+
+--------------------
+
+GetRepublicCapitalControlDesc:
+
+Scope: character
+Random Valid: no
+
+Entries:
+republic_popular_opinion_event.1002.desc_control_firm
+republic_popular_opinion_event.1002.desc_control_strained
+republic_popular_opinion_event.1002.desc_control_slipping
+republic_popular_opinion_event.1002.desc_control_broken
+
+--------------------
+
+GetFoundRepublicNewTitle:
+
+Scope: character
+Random Valid: no
+
+Entries:
+found_a_republic_new_title_you
+found_a_republic_new_title_character
+
+--------------------
+
+GetFoundRepublicMerchantTitle:
+
+Scope: character
+Random Valid: no
+
+Entries:
+found_a_republic_new_merchant_title_you
+found_a_republic_new_merchant_title_character
+
+--------------------
+
+GetFoundRepublicCadetBranch:
+
+Scope: character
+Random Valid: no
+
+Entries:
+found_a_republic_form_cadet_branch_you
+found_a_republic_form_cadet_branch_character
+
+--------------------
+
+GetBecomeMerchantCadetBranch:
+
+Scope: character
+Random Valid: no
+
+Entries:
+become_merchant_form_cadet_branch_you
+become_merchant_form_cadet_branch_character
+
+--------------------
+
+GetVisitHoldingColoredDiplomacySkillLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_skill_level.terrible
+gdp_visit_holding_skill_level.poor
+gdp_visit_holding_skill_level.average
+gdp_visit_holding_skill_level.good
+gdp_visit_holding_skill_level.excellent
+
+--------------------
+
+GetVisitHoldingColoredMartialSkillLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_skill_level.terrible
+gdp_visit_holding_skill_level.poor
+gdp_visit_holding_skill_level.average
+gdp_visit_holding_skill_level.good
+gdp_visit_holding_skill_level.excellent
+
+--------------------
+
+GetVisitHoldingColoredStewardshipSkillLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_skill_level.terrible
+gdp_visit_holding_skill_level.poor
+gdp_visit_holding_skill_level.average
+gdp_visit_holding_skill_level.good
+gdp_visit_holding_skill_level.excellent
+
+--------------------
+
+GetVisitHoldingColoredIntrigueSkillLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_skill_level.terrible
+gdp_visit_holding_skill_level.poor
+gdp_visit_holding_skill_level.average
+gdp_visit_holding_skill_level.good
+gdp_visit_holding_skill_level.excellent
+
+--------------------
+
+GetVisitHoldingColoredLearningSkillLevel:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_skill_level.terrible
+gdp_visit_holding_skill_level.poor
+gdp_visit_holding_skill_level.average
+gdp_visit_holding_skill_level.good
+gdp_visit_holding_skill_level.excellent
+
+--------------------
+
+GetVisitHoldingRareRecruitAptitudeLine:
+
+Scope: character
+Random Valid: no
+
+Entries:
+gdp_visit_holding_rare_recruit_court_position.partner
+gdp_visit_holding_rare_recruit_court_position.translator
+gdp_visit_holding_rare_recruit_court_position.fixer
+gdp_visit_holding_rare_recruit_skill.stewardship
+gdp_visit_holding_rare_recruit_skill.diplomacy
+gdp_visit_holding_rare_recruit_skill.intrigue
+gdp_visit_holding_rare_recruit_skill.learning
+gdp_visit_holding_rare_recruit_skill.martial
+gdp_visit_holding_rare_recruit_court_line.empty
+
+--------------------
+
+GetGovernmentLegitimacyAdjective:
+
+Scope: character
+Random Valid: no
+
+Entries:
+adjective_chiefly
+adjective_patrician
+adjective_sanctified
+adjective_noble
+
+--------------------
+
+MerchantOrPeddler:
+
+Scope: character
+Random Valid: no
+
+Entries:
+merchant_or_peddler_merchant
+merchant_or_peddler_peddler
+
+--------------------
+
+GetRepublicTermLength:
+
+Scope: character
+Random Valid: no
+
+Entries:
+republic_term_length_1_desc
+republic_term_length_2_desc
+republic_term_length_3_desc
+republic_term_length_4_desc
+republic_term_length_5_desc
+republic_term_length_indefinite_desc
 
 --------------------
 
@@ -42664,10 +45045,22 @@ Scope: landed_title
 Random Valid: no
 
 Entries:
+barony_town_type_church_town
 barony_town_type_city
 barony_town_type_castle_town
 barony_town_type_town
 barony_town_type_village
+
+--------------------
+
+BaronyTownTypePossessive:
+
+Scope: landed_title
+Random Valid: no
+Parent: BaronyTownType
+Suffix: _possessive
+
+Entries:
 
 --------------------
 
@@ -43089,6 +45482,53 @@ OrdinalChineseConquestND
 OrdinalChineseConquestRD
 OrdinalChineseConquest_zero
 OrdinalChineseConquestFallback
+
+--------------------
+
+BurgherPluralNoun:
+
+Scope: landed_title
+Random Valid: no
+
+Entries:
+gdp_burgher_noun_burghers
+gdp_burgher_noun_patricians
+gdp_burgher_noun_notables
+
+--------------------
+
+FactionCountyMemberNoun:
+
+Scope: landed_title
+Random Valid: no
+
+Entries:
+gdp_burgher_noun_burghers
+gdp_burgher_noun_patricians
+gdp_burgher_noun_notables
+gdp_faction_county_member_peasants
+
+--------------------
+
+BurgherDemandedPrivilege:
+
+Scope: landed_title
+Random Valid: no
+
+Entries:
+civic_privilege_market_rights_3_county_modifier
+civic_privilege_market_rights_2_county_modifier
+civic_privilege_market_rights_1_county_modifier
+civic_privilege_guild_rights_3_county_modifier
+civic_privilege_guild_rights_2_county_modifier
+civic_privilege_guild_rights_1_county_modifier
+civic_privilege_tax_exemption_3_county_modifier
+civic_privilege_tax_exemption_2_county_modifier
+civic_privilege_tax_exemption_1_county_modifier
+civic_privilege_militia_charter_3_county_modifier
+civic_privilege_militia_charter_2_county_modifier
+civic_privilege_militia_charter_1_county_modifier
+civic_privileges_county_modifier
 
 --------------------
 
@@ -43747,6 +46187,48 @@ palm
 
 --------------------
 
+GetRandomRegionalGem:
+
+Scope: province
+Random Valid: yes
+
+Entries:
+gem_sapphire
+gem_emerald
+gem_ruby
+gem_rock_crystal
+gem_jet
+gem_agate
+gem_onyx
+gem_garnet
+gem_jasper
+gem_zircon
+gem_flourite
+gem_adventurine
+gem_amethyst
+gem_amber
+gem_moonstone
+gem_turquoise
+gem_carnelian
+gem_peridot
+gem_lapis_lazuli
+gem_opal
+gem_spinel
+gem_jade
+
+--------------------
+
+GetRandomRegionalGemPlural:
+
+Scope: province
+Random Valid: yes
+Parent: GetRandomRegionalGem
+Suffix: _plural
+
+Entries:
+
+--------------------
+
 GetRandomAppropriateTree:
 
 Scope: province
@@ -43937,13 +46419,13 @@ Random Valid: yes
 
 Entries:
 building_guild_halls
-building_carvers_guild
 building_carpenters_guild
-building_hunters_guild
 building_masons_guild
-building_tailors_guild
 building_glassworkers_guild
 building_artisans_guild
+building_tailors_guild
+building_hunters_guild
+building_carvers_guild
 building_fishmonger_guild
 building_fallback_guild
 
@@ -43955,377 +46437,381 @@ Scope: province
 Random Valid: no
 
 Entries:
-building_holy_site_mahabodhi_temple_01
-building_holy_site_imam_ali_mosque_01
-building_holy_site_great_mosque_of_mecca_01
-building_holy_site_great_mosque_of_cordoba_01
-building_holy_site_great_mosque_of_djenne_01
-building_holy_site_great_mosque_of_samarra_01
-building_holy_site_cologne_cathedral_01
-building_holy_site_canterbury_cathedral_01
-building_holy_site_canterbury_cathedral_02
-building_holy_site_canterbury_cathedral_03
-building_holy_site_prophetic_mosque_01
-building_doges_palace_01
-building_walls_of_genoa_01
-building_visby_ringmur_01
-building_walls_of_benin_01
-building_theodosian_walls_01
-building_aurelian_walls_01
-building_the_colosseum_01
-building_iron_pillar_of_delhi_01
-building_iron_pillar_of_dhar_01
-building_the_pyramids_01
-building_stonehenge_01
-building_offas_dyke_01
-building_hadrians_wall_01
-building_petra_01
-building_buddhas_of_bamian_01
-building_alhambra_01
-building_alhambra_02
-building_citadel_of_aleppo_01
-building_citadel_of_aleppo_02
-building_house_of_wisdom_01
-building_the_tower_of_london_01
-building_type_london_bridge_01
-building_notre_dame_01
-building_brihadeeswarar_temple_01
-building_shwedagon_pagoda_01
-building_ananda_temple_01
-building_the_friday_mosque_01
-building_khajuraho_01
-building_palace_of_aachen_01
-building_hagia_sophia_01
-building_hagia_sophia_02
-building_dome_of_the_rock_01
-building_temple_in_jerusalem_01
-building_rammelsberg_mines_01
-building_rammelsberg_mines_02
-building_rammelsberg_mines_03
-building_rammelsberg_mines_04
-building_baofeng_mines_01
-building_baofeng_mines_02
-building_baofeng_mines_03
-building_baofeng_mines_04
-building_kutna_hora_mines_01
-building_kutna_hora_mines_02
-building_kutna_hora_mines_03
-building_kutna_hora_mines_04
-building_kremnica_mines_01
-building_kremnica_mines_02
-building_kremnica_mines_03
-building_kremnica_mines_04
-building_zijinshan_mines_01
-building_zijinshan_mines_02
-building_zijinshan_mines_03
-building_zijinshan_mines_04
-building_hanxing_mines_01
-building_hanxing_mines_02
-building_hanxing_mines_03
-building_hanxing_mines_04
-building_jiaodong_mines_01
-building_jiaodong_mines_02
-building_jiaodong_mines_03
-building_jiaodong_mines_04
-building_falun_mines_01
-building_falun_mines_02
-building_falun_mines_03
-building_falun_mines_04
-building_konasamudram_mines_01
-building_konasamudram_mines_02
-building_konasamudram_mines_03
-building_konasamudram_mines_04
-building_dean_mines_01
-building_dean_mines_02
-building_dean_mines_03
-building_dean_mines_04
-building_phnom_dek_mines_01
-building_phnom_dek_mines_02
-building_phnom_dek_mines_03
-building_phnom_dek_mines_04
-building_chihu_mines_01
-building_chihu_mines_02
-building_chihu_mines_03
-building_chihu_mines_04
-building_schwaz_mines_01
-building_schwaz_mines_02
-building_schwaz_mines_03
-building_schwaz_mines_04
-building_liangzhe_mines_01
-building_liangzhe_mines_02
-building_liangzhe_mines_04
-building_liangzhe_mines_04
-building_argentiera_mines_01
-building_argentiera_mines_02
-building_argentiera_mines_03
-building_argentiera_mines_04
-building_srebrenica_mines_01
-building_srebrenica_mines_02
-building_srebrenica_mines_03
-building_srebrenica_mines_04
-building_kollur_mines_01
-building_kollur_mines_02
-building_kollur_mines_03
-building_kollur_mines_04
-building_siderokausia_mines_01
-building_siderokausia_mines_02
-building_siderokausia_mines_03
-building_siderokausia_mines_04
-building_zawar_mines_01
-building_zawar_mines_02
-building_zawar_mines_03
-building_zawar_mines_04
-building_pansjhir_mines_01
-building_pansjhir_mines_02
-building_pansjhir_mines_03
-building_pansjhir_mines_04
-building_nishapur_mines_01
-building_nishapur_mines_02
-building_nishapur_mines_03
-building_nishapur_mines_04
-building_ratnapura_mines_01
-building_ratnapura_mines_02
-building_ratnapura_mines_03
-building_ratnapura_mines_04
-building_mogok_mines_01
-building_mogok_mines_02
-building_mogok_mines_03
-building_mogok_mines_04
-building_allaq_mines_01
-building_allaq_mines_02
-building_allaq_mines_03
-building_allaq_mines_04
-building_takkeda_mines_01
-building_takkeda_mines_02
-building_takkeda_mines_03
-building_takkeda_mines_04
-building_turda_mines_01
-building_turda_mines_02
-building_turda_mines_03
-building_turda_mines_04
-building_zigong_mines_01
-building_zigong_mines_02
-building_zigong_mines_03
-building_zigong_mines_04
-building_taghaza_mines_01
-building_taghaza_mines_02
-building_taghaza_mines_03
-building_taghaza_mines_04
-building_phocaea_mines_01
-building_phocaea_mines_02
-building_phocaea_mines_03
-building_phocaea_mines_04
-building_verespatak_mines_01
-building_verespatak_mines_02
-building_verespatak_mines_03
-building_verespatak_mines_04
-building_suvarnadvipa_mines_01
-building_suvarnadvipa_mines_02
-building_suvarnadvipa_mines_03
-building_suvarnadvipa_mines_04
-building_khetri_mines_01
-building_khetri_mines_02
-building_khetri_mines_03
-building_khetri_mines_04
-building_trepca_mines_01
-building_trepca_mines_02
-building_trepca_mines_03
-building_trepca_mines_04
-building_rudnik_mines_01
-building_rudnik_mines_02
-building_rudnik_mines_03
-building_rudnik_mines_04
-building_ijil_mines_01
-building_ijil_mines_02
-building_ijil_mines_03
-building_ijil_mines_04
-building_cevennes_mines_01
-building_cevennes_mines_02
-building_cevennes_mines_03
-building_cevennes_mines_04
-building_guiyang_mines_01
-building_guiyang_mines_02
-building_guiyang_mines_03
-building_guiyang_mines_04
-building_kaibao_mines_01
-building_kaibao_mines_02
-building_kaibao_mines_03
-building_kaibao_mines_04
-building_hetian_mines_01
-building_hetian_mines_02
-building_hetian_mines_03
-building_hetian_mines_04
-building_hetian_mines_01
-building_dushan_mines_02
-building_dushan_mines_03
-building_dushan_mines_04
-building_xiuyan_mines_01
-building_xiuyan_mines_02
-building_xiuyan_mines_03
-building_xiuyan_mines_04
-building_itoigawa_mines_01
-building_itoigawa_mines_02
-building_itoigawa_mines_03
-building_itoigawa_mines_04
-building_lantian_mines_01
-building_lantian_mines_02
-building_lantian_mines_03
-building_lantian_mines_04
-building_fengtian_mines_01
-building_fengtian_mines_02
-building_fengtian_mines_03
-building_hpakant_mines_01
-building_hpakant_mines_02
-building_hpakant_mines_03
-building_hpakant_mines_04
-building_mali_mines_01
-building_mali_mines_02
-building_mali_mines_03
-building_mali_mines_04
-building_hall_of_heroes_01
-building_hall_of_heroes_02
-building_hall_of_heroes_03
-building_hall_of_heroes_04
-building_hall_of_heroes_05
-building_drassanes_01
-building_york_walls_01
-building_damascus_mosque_01
-building_jokhang_01
-building_wartburg_01
-building_beta_giyorgis_01
-building_holy_wisdom_01
-building_duomo_florence_01
-building_duomo_florence_02
-building_duomo_florence_03
-building_konark_temple_01
-building_kairouan_basins_01
-building_ghana_palace_01
-building_visegrad_castle_01
-building_wawel_cathedral_01
-building_vatapi_caves_01
-building_jaisalmer_fort_01
-building_koganeyama_mines_01
-building_koganeyama_mines_02
-building_koganeyama_mines_03
-building_koganeyama_mines_04
-building_tsushima_mines_01
-building_tsushima_mines_02
-building_tsushima_mines_03
-building_tsushima_mines_04
-building_sado_mines_01
-building_sado_mines_02
-building_sado_mines_03
-building_sado_mines_04
-building_tada_mines_01
-building_tada_mines_02
-building_tada_mines_03
-building_tada_mines_04
-building_generic_university
-building_al_azhar_university
-building_sankore_university
-building_siena_university
-building_nalanda_university
-building_nalanda_university
-building_somapura_university_01
-building_cluny_abbey_01
-building_pam_abbey_of_st_gall_01
-building_pam_palais_de_papes_01
-building_pam_lateran_basilica_01
-building_pam_reims_cathedral_01
-building_al_qarawiyyin_university_01
-building_special_sicilian_parliament_01
-building_special_greenhouse_01
-building_hotin_fort_01
-building_hotin_fort_02
-building_heddal_stave_church_01
-building_temple_of_uppsala_01
-building_temple_of_uppsala_02
-building_lund_cathedral_01
-building_danevirke_01
-building_roman_wall_of_lugo_01
-building_rock_of_gibraltar_01
-building_aljaferia_palace_01
-building_tower_of_hercules_01
-building_city_wall_of_toledo_01
-building_alcazar_of_segovia_01
-building_holy_site_basilica_santiago_01
-building_cilician_gates
-building_fairy_chimneys
-building_sofia_ohrid
-building_hosios_loukas
-building_cattolica_stilo
-building_etchmiadzin_cathedral
-building_jvari_monastery
-building_saint_catherine
-building_apollinare_nuovo
-building_mount_athos_01
-building_meteora_01
-building_despot_palace
-building_maiden_tower
-building_patras_castle
-building_sumela_monastery_01
-building_saint_lazarus
-building_kassiopi_castle
-building_hagios_demetrios
-building_church_of_the_theotokos
-building_parthenon
-building_imam_reza_shrine_01
-building_soltaniyeh_01
-building_palace_of_ctesiphon_01
-building_palace_of_ctesiphon_02
-building_falak_ol_aflak_citadel_01
-building_minarets_and_remains_of_jam_01
-building_great_wall_of_gorgan_01
-building_maharloo_lake_01
-building_rainbow_mountains_01
-building_mount_damavand_01
-building_tomb_of_cyrus_01
-building_ark_of_bukhara_01
-building_shah_i_zinda_01
-building_shah_i_zinda_02
-building_alamut_castle_01
-building_alamut_castle_02
-building_assassin_castle_01
-building_event_tower_of_silence_01
-building_mount_fuji_01
-building_mount_baekdu_01
-building_angkor_wat_01
-building_temples_angkor_01
-building_temples_angkor_02
-building_holy_site_st_peters_basilica_01
-building_mont_st_michel_01
-building_mont_st_michel_02
-building_mont_st_michel_03
-building_mont_st_michel_04
-building_sanchi_stupa_01
-building_boudhanath_01
-building_yazd_mosque_01
-building_qutb_minar_01
-building_qutb_minar_02
-building_qutb_minar_03
-building_qutb_minar_04
-building_goguryeo_tomb_01
-building_buddha_kamakura_01
-building_pyramid_lingapura_01
-building_maijishan_grottoes_01
-building_three_pagodas_dali_01
-building_iron_lion_cangzhou_01
-building_dengfeng_observatory_01
-building_muara_takus_01
-building_stone_pagoda_01
-building_thuriang_kilns_01
-building_yuelu_academy_01
-building_chocolate_hills_01
-building_fanfang_guangzhou_01
-building_wilwatikta_palace_01
-building_ha_long_bay_01
-building_my_son_sanctuary_01
-building_gunung_api_01
-building_suwalesi_megaliths_01
-building_izumo_taisha_01
-building_confucius_temple_01
-building_citadel_linan_01
-building_trosky_castle_01
+holy_site_mahabodhi_temple_01
+holy_site_imam_ali_mosque_01
+holy_site_great_mosque_of_mecca_01
+holy_site_great_mosque_of_cordoba_01
+holy_site_great_mosque_of_djenne_01
+holy_site_great_mosque_of_samarra_01
+holy_site_cologne_cathedral_01
+holy_site_canterbury_cathedral_01
+holy_site_canterbury_cathedral_02
+holy_site_canterbury_cathedral_03
+holy_site_prophetic_mosque_01
+doges_palace_01
+walls_of_genoa_01
+visby_ringmur_01
+walls_of_benin_01
+theodosian_walls_01
+aurelian_walls_01
+the_colosseum_01
+iron_pillar_of_delhi_01
+iron_pillar_of_dhar_01
+the_pyramids_01
+stonehenge_01
+offas_dyke_01
+hadrians_wall_01
+petra_01
+buddhas_of_bamian_01
+alhambra_01
+alhambra_02
+citadel_of_aleppo_01
+citadel_of_aleppo_02
+house_of_wisdom_01
+the_tower_of_london_01
+london_bridge_01
+notre_dame_01
+brihadeeswarar_temple_01
+shwedagon_pagoda_01
+ananda_temple_01
+the_friday_mosque_01
+khajuraho_01
+palace_of_aachen_01
+hagia_sophia_01
+hagia_sophia_02
+dome_of_the_rock_01
+temple_in_jerusalem_01
+rammelsberg_mines_01
+rammelsberg_mines_02
+rammelsberg_mines_03
+rammelsberg_mines_04
+baofeng_mines_01
+baofeng_mines_02
+baofeng_mines_03
+baofeng_mines_04
+kutna_hora_mines_01
+kutna_hora_mines_02
+kutna_hora_mines_03
+kutna_hora_mines_04
+kremnica_mines_01
+kremnica_mines_02
+kremnica_mines_03
+kremnica_mines_04
+zijinshan_mines_01
+zijinshan_mines_02
+zijinshan_mines_03
+zijinshan_mines_04
+hanxing_mines_01
+hanxing_mines_02
+hanxing_mines_03
+hanxing_mines_04
+jiaodong_mines_01
+jiaodong_mines_02
+jiaodong_mines_03
+jiaodong_mines_04
+falun_mines_01
+falun_mines_02
+falun_mines_03
+falun_mines_04
+konasamudram_mines_01
+konasamudram_mines_02
+konasamudram_mines_03
+konasamudram_mines_04
+dean_mines_01
+dean_mines_02
+dean_mines_03
+dean_mines_04
+phnom_dek_mines_01
+phnom_dek_mines_02
+phnom_dek_mines_03
+phnom_dek_mines_04
+chihu_mines_01
+chihu_mines_02
+chihu_mines_03
+chihu_mines_04
+schwaz_mines_01
+schwaz_mines_02
+schwaz_mines_03
+schwaz_mines_04
+liangzhe_mines_01
+liangzhe_mines_02
+liangzhe_mines_04
+liangzhe_mines_04
+argentiera_mines_01
+argentiera_mines_02
+argentiera_mines_03
+argentiera_mines_04
+srebrenica_mines_01
+srebrenica_mines_02
+srebrenica_mines_03
+srebrenica_mines_04
+kollur_mines_01
+kollur_mines_02
+kollur_mines_03
+kollur_mines_04
+siderokausia_mines_01
+siderokausia_mines_02
+siderokausia_mines_03
+siderokausia_mines_04
+zawar_mines_01
+zawar_mines_02
+zawar_mines_03
+zawar_mines_04
+pansjhir_mines_01
+pansjhir_mines_02
+pansjhir_mines_03
+pansjhir_mines_04
+nishapur_mines_01
+nishapur_mines_02
+nishapur_mines_03
+nishapur_mines_04
+ratnapura_mines_01
+ratnapura_mines_02
+ratnapura_mines_03
+ratnapura_mines_04
+mogok_mines_01
+mogok_mines_02
+mogok_mines_03
+mogok_mines_04
+allaq_mines_01
+allaq_mines_02
+allaq_mines_03
+allaq_mines_04
+takkeda_mines_01
+takkeda_mines_02
+takkeda_mines_03
+takkeda_mines_04
+turda_mines_01
+turda_mines_02
+turda_mines_03
+turda_mines_04
+wieliczka_mines_01
+wieliczka_mines_02
+wieliczka_mines_03
+wieliczka_mines_04
+zigong_mines_01
+zigong_mines_02
+zigong_mines_03
+zigong_mines_04
+taghaza_mines_01
+taghaza_mines_02
+taghaza_mines_03
+taghaza_mines_04
+phocaea_mines_01
+phocaea_mines_02
+phocaea_mines_03
+phocaea_mines_04
+verespatak_mines_01
+verespatak_mines_02
+verespatak_mines_03
+verespatak_mines_04
+suvarnadvipa_mines_01
+suvarnadvipa_mines_02
+suvarnadvipa_mines_03
+suvarnadvipa_mines_04
+khetri_mines_01
+khetri_mines_02
+khetri_mines_03
+khetri_mines_04
+trepca_mines_01
+trepca_mines_02
+trepca_mines_03
+trepca_mines_04
+rudnik_mines_01
+rudnik_mines_02
+rudnik_mines_03
+rudnik_mines_04
+ijil_mines_01
+ijil_mines_02
+ijil_mines_03
+ijil_mines_04
+cevennes_mines_01
+cevennes_mines_02
+cevennes_mines_03
+cevennes_mines_04
+guiyang_mines_01
+guiyang_mines_02
+guiyang_mines_03
+guiyang_mines_04
+kaibao_mines_01
+kaibao_mines_02
+kaibao_mines_03
+kaibao_mines_04
+hetian_mines_01
+hetian_mines_02
+hetian_mines_03
+hetian_mines_04
+hetian_mines_01
+dushan_mines_02
+dushan_mines_03
+dushan_mines_04
+xiuyan_mines_01
+xiuyan_mines_02
+xiuyan_mines_03
+xiuyan_mines_04
+itoigawa_mines_01
+itoigawa_mines_02
+itoigawa_mines_03
+itoigawa_mines_04
+lantian_mines_01
+lantian_mines_02
+lantian_mines_03
+lantian_mines_04
+fengtian_mines_01
+fengtian_mines_02
+fengtian_mines_03
+hpakant_mines_01
+hpakant_mines_02
+hpakant_mines_03
+hpakant_mines_04
+mali_mines_01
+mali_mines_02
+mali_mines_03
+mali_mines_04
+hall_of_heroes_01
+hall_of_heroes_02
+hall_of_heroes_03
+hall_of_heroes_04
+hall_of_heroes_05
+drassanes_01
+york_walls_01
+damascus_mosque_01
+jokhang_01
+wartburg_01
+beta_giyorgis_01
+holy_wisdom_01
+duomo_florence_01
+duomo_florence_02
+duomo_florence_03
+konark_temple_01
+kairouan_basins_01
+ghana_palace_01
+visegrad_castle_01
+wawel_cathedral_01
+vatapi_caves_01
+jaisalmer_fort_01
+koganeyama_mines_01
+koganeyama_mines_02
+koganeyama_mines_03
+koganeyama_mines_04
+tsushima_mines_01
+tsushima_mines_02
+tsushima_mines_03
+tsushima_mines_04
+sado_mines_01
+sado_mines_02
+sado_mines_03
+sado_mines_04
+tada_mines_01
+tada_mines_02
+tada_mines_03
+tada_mines_04
+generic_university
+al_azhar_university
+sankore_university
+siena_university
+nalanda_university
+nalanda_university
+somapura_university_01
+cluny_abbey_01
+pam_abbey_of_st_gall_01
+pam_palais_de_papes_01
+pam_lateran_basilica_01
+pam_reims_cathedral_01
+al_qarawiyyin_university_01
+special_sicilian_parliament_01
+special_greenhouse_01
+hotin_fort_01
+hotin_fort_02
+heddal_stave_church_01
+temple_of_uppsala_01
+temple_of_uppsala_02
+lund_cathedral_01
+danevirke_01
+roman_wall_of_lugo_01
+rock_of_gibraltar_01
+aljaferia_palace_01
+tower_of_hercules_01
+city_wall_of_toledo_01
+alcazar_of_segovia_01
+holy_site_basilica_santiago_01
+cilician_gates
+fairy_chimneys
+sofia_ohrid
+hosios_loukas
+cattolica_stilo
+etchmiadzin_cathedral
+jvari_monastery
+saint_catherine
+apollinare_nuovo
+mount_athos_01
+meteora_01
+despot_palace
+maiden_tower
+patras_castle
+sumela_monastery_01
+saint_lazarus
+kassiopi_castle
+hagios_demetrios
+church_of_the_theotokos
+parthenon
+imam_reza_shrine_01
+soltaniyeh_01
+palace_of_ctesiphon_01
+palace_of_ctesiphon_02
+falak_ol_aflak_citadel_01
+minarets_and_remains_of_jam_01
+great_wall_of_gorgan_01
+maharloo_lake_01
+rainbow_mountains_01
+mount_damavand_01
+tomb_of_cyrus_01
+ark_of_bukhara_01
+shah_i_zinda_01
+shah_i_zinda_02
+alamut_castle_01
+alamut_castle_02
+assassin_castle_01
+event_tower_of_silence_01
+mount_fuji_01
+mount_baekdu_01
+angkor_wat_01
+temples_angkor_01
+temples_angkor_02
+holy_site_st_peters_basilica_01
+mont_st_michel_01
+mont_st_michel_02
+mont_st_michel_03
+mont_st_michel_04
+sanchi_stupa_01
+boudhanath_01
+yazd_mosque_01
+qutb_minar_01
+qutb_minar_02
+qutb_minar_03
+qutb_minar_04
+goguryeo_tomb_01
+buddha_kamakura_01
+pyramid_lingapura_01
+maijishan_grottoes_01
+three_pagodas_dali_01
+iron_lion_cangzhou_01
+dengfeng_observatory_01
+muara_takus_01
+stone_pagoda_01
+thuriang_kilns_01
+yuelu_academy_01
+chocolate_hills_01
+fanfang_guangzhou_01
+wilwatikta_palace_01
+ha_long_bay_01
+my_son_sanctuary_01
+gunung_api_01
+suwalesi_megaliths_01
+izumo_taisha_01
+confucius_temple_01
+citadel_linan_01
+trosky_castle_01
 
 --------------------
 
@@ -44473,6 +46959,17 @@ foliage_grass
 
 --------------------
 
+GetProvinceFoliageDescAdjective:
+
+Scope: province
+Random Valid: no
+Parent: GetProvinceFoliageDesc
+Suffix: _adj
+
+Entries:
+
+--------------------
+
 GetTerrainType:
 
 Scope: province
@@ -44575,12 +47072,48 @@ Entries:
 ground_leaves
 ground_roots
 ground_mud
+ground_puddle
 ground_gravel
 ground_sand
 ground_rocks
 ground_grass
 ground_scrub
 ground_dirt
+
+--------------------
+
+GetProvinceGroundDescAdjective:
+
+Scope: province
+Random Valid: no
+Parent: GetProvinceGroundDesc
+Suffix: _adj
+
+Entries:
+
+--------------------
+
+GetProvinceAdjective:
+
+Scope: province
+Random Valid: yes
+
+Entries:
+terrain_dusty
+terrain_muggy
+terrain_windy
+terrain_chilly
+terrain_frosty
+terrain_lush
+terrain_bright
+terrain_busy
+terrain_bleached
+terrain_verdant
+terrain_barren
+terrain_damp
+terrain_dry
+terrain_humid
+terrain_quiet
 
 --------------------
 
@@ -45239,6 +47772,7 @@ building_takkeda_mines_destination_desc
 building_takkeda_mines_destination_desc
 building_takkeda_mines_destination_desc
 building_turda_mines_destination_desc
+building_wieliczka_mines_destination_desc
 building_zigong_mines_destination_desc
 building_taghaza_mines_destination_desc
 building_phocaea_mines_destination_desc
@@ -45395,14 +47929,13 @@ building_heian_palace_01_destination_desc
 building_itsukushima_jinja_01_destination_desc
 building_mount_fuji_01_destination_desc
 building_sunday_bazaar_01_destination_desc
-building_dunhuang_market_01_destination_desc
 building_hamadan_bazaar_01_destination_desc
 building_lahur_bazaar_01_destination_desc
 building_changan_market_01_destination_desc
 building_dunhuang_market_01_destination_desc
-building_khiva_bazaar_01_destination_desc
+building_gurganj_bazaar_01_destination_desc
 building_lhasa_market_01_destination_desc
-building_dvin_shuka_01_destination_desc
+building_tabriz_bazaar_01_destination_desc
 building_herat_bazaar_01_destination_desc
 building_hoshi_ryokan_01_destination_desc
 building_borobudur_01_destination_desc
@@ -46128,68 +48661,6 @@ SurveyMidDomainInfrastructureOptionsManors
 
 --------------------
 
-InspectionFightingGuilds1Loc:
-
-Scope: province
-Random Valid: no
-
-Entries:
-InspectionFightingGuildsMillers
-InspectionFightingGuildsBakers
-InspectionFightingGuildsFishmongers
-InspectionFightingGuildsShoemakers
-InspectionFightingGuildsTanners
-InspectionFightingGuildsTailors
-InspectionFightingGuildsWeavers
-InspectionFightingGuildsSkinners
-InspectionFightingGuildsButchers
-InspectionFightingGuildsFurriers
-InspectionFightingGuildsVintners
-InspectionFightingGuildsCarpenters
-InspectionFightingGuildsMasons
-InspectionFightingGuildsMiners
-InspectionFightingGuildsBlacksmiths
-InspectionFightingGuildsSaddlers
-InspectionFightingGuildsMerchants
-InspectionFightingGuildsPhysicians
-InspectionFightingGuildsPharmacists
-InspectionFightingGuildsToolmakers
-InspectionFightingGuildsInnkeepers
-InspectionFightingGuildsArtists
-
---------------------
-
-InspectionFightingGuilds2Loc:
-
-Scope: province
-Random Valid: no
-
-Entries:
-InspectionFightingGuildsMillers
-InspectionFightingGuildsBakers
-InspectionFightingGuildsFishmongers
-InspectionFightingGuildsShoemakers
-InspectionFightingGuildsTanners
-InspectionFightingGuildsTailors
-InspectionFightingGuildsWeavers
-InspectionFightingGuildsSkinners
-InspectionFightingGuildsButchers
-InspectionFightingGuildsFurriers
-InspectionFightingGuildsVintners
-InspectionFightingGuildsCarpenters
-InspectionFightingGuildsMasons
-InspectionFightingGuildsMiners
-InspectionFightingGuildsBlacksmiths
-InspectionFightingGuildsSaddlers
-InspectionFightingGuildsMerchants
-InspectionFightingGuildsPhysicians
-InspectionFightingGuildsPharmacists
-InspectionFightingGuildsToolmakers
-InspectionFightingGuildsInnkeepers
-InspectionFightingGuildsArtists
-
---------------------
-
 TerrainTypeProvince_DE_1:
 
 Scope: province
@@ -46238,8 +48709,8 @@ Random Valid: no
 
 Entries:
 CoronationSitePalatineChapel
-building_hagia_sophia_01
-building_hagia_sophia_02
+hagia_sophia_01
+hagia_sophia_02
 CoronationSiteChurchOfTheHolySepulchre
 CoronationSiteWawelCathedral
 CoronationSiteWestminsterAbbey
@@ -46335,6 +48806,100 @@ Entries:
 
 --------------------
 
+GetRegionalMarketTerm:
+
+Scope: province
+Random Valid: yes
+
+Entries:
+bazaar
+suq
+khrom
+shuka
+market_custom
+
+--------------------
+
+GetRegionalMarketTermPlural:
+
+Scope: province
+Random Valid: yes
+Parent: GetRegionalMarketTerm
+Suffix: _plural
+
+Entries:
+
+--------------------
+
+GetRegionalMarketTermGloss:
+
+Scope: province
+Random Valid: yes
+Parent: GetRegionalMarketTerm
+Suffix: _gloss
+
+Entries:
+
+--------------------
+
+GetRegionalMarketTermGlossPlural:
+
+Scope: province
+Random Valid: yes
+Parent: GetRegionalMarketTerm
+Suffix: _gloss_plural
+
+Entries:
+
+--------------------
+
+GetTgfLocalDish:
+
+Scope: province
+Random Valid: no
+
+Entries:
+ful
+sambusa
+inihaw
+sphoungata
+tarichos
+honey_fritter
+pizza
+pakhala
+idli
+pilau
+pastilla
+empanada
+botuo
+bing
+mantou
+zosui
+sushi
+kimchi
+rice_cake
+bubur
+salt_herring
+meat_pie
+oatcake
+smoked_fish
+oublie
+grilled_sausage
+pretzel
+blin
+obwarzanek
+pogaca
+injera
+akara
+fura
+tsampa
+aaruul
+dried_salmon
+roasted_plantain
+stew
+
+--------------------
+
 GetClericalRegionMapModeTooltip:
 
 Scope: province
@@ -46355,6 +48920,21 @@ Random Valid: no
 
 Entries:
 FAITHS_MAP_MODE_TOOLTIP_TOP_LIEGE_RITE
+
+--------------------
+
+GetSilkRoadBuilding:
+
+Scope: province
+Random Valid: no
+
+Entries:
+lahur_bazaar_01_tooltip
+changan_market_01_tooltip
+dunhuang_market_01_tooltip
+gurganj_bazaar_01_tooltip
+lhasa_market_01_tooltip
+tabriz_bazaar_01_tooltip
 
 --------------------
 
@@ -46486,6 +49066,7 @@ Scope: scheme
 Random Valid: no
 
 Entries:
+scheme_type_opportunity
 scheme_type_contract
 scheme_type_scheme
 
@@ -46497,6 +49078,7 @@ Scope: scheme
 Random Valid: no
 
 Entries:
+scheme_type_opportunities
 scheme_type_contracts
 scheme_type_schemes
 
@@ -47870,6 +50452,49 @@ Entries:
 
 --------------------
 
+GetTgfFastName:
+
+Scope: faith
+Random Valid: no
+
+Entries:
+gdp_tgf_fast_lent
+gdp_tgf_fast_ramadan
+gdp_tgf_fast_generic
+
+--------------------
+
+GetTgfSevenYearsRef:
+
+Scope: faith
+Random Valid: no
+
+Entries:
+gdp_tgf_seven_years_joseph
+gdp_tgf_seven_years_yusuf
+gdp_tgf_seven_years_generic
+
+--------------------
+
+PamSaintOrAncestorTitleNounPlural:
+
+Scope: faith
+Random Valid: no
+
+Entries:
+pam_saint_title_noun_plural_christian
+pam_saint_title_noun_plural_islam
+pam_saint_title_noun_plural_hellenism
+pam_saint_title_noun_plural_jainism
+pam_saint_title_noun_plural_shintoism
+pam_saint_title_noun_plural_confucianism
+pam_saint_title_noun_plural_buddhism
+pam_saint_title_noun_plural_taoism
+pam_saint_title_noun_plural_judaism
+pam_saint_title_noun_plural_other
+
+--------------------
+
 WarDeclaredOpening:
 
 Scope: war
@@ -48579,6 +51204,29 @@ marco_polo_quote_artifact_end_2
 
 --------------------
 
+DestroyOrSellArtifactLabel:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+inventory_sell_creature_artifact
+inventory_destroy_artifact_label
+
+--------------------
+
+CreatureReforgeSuffix:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+creature_reforge_suffix_feathers
+creature_reforge_suffix_skull
+creature_reforge_suffix_pelt
+
+--------------------
+
 DamageArtifactAction:
 
 Scope: artifact
@@ -48854,6 +51502,88 @@ Entries:
 
 --------------------
 
+GetCarnival1025RealBeastName:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+carnival_1025_creature_lion_real_name
+carnival_1025_creature_caracal_real_name
+carnival_1025_creature_lynx_real_name
+carnival_1025_creature_tiger_real_name
+carnival_1025_creature_leopard_real_name
+carnival_1025_creature_bear_real_name
+carnival_1025_creature_elephant_real_name
+carnival_1025_creature_peacock_real_name
+carnival_1025_creature_parrot_real_name
+carnival_1025_creature_cockatoo_real_name
+carnival_1025_creature_crane_real_name
+carnival_1025_creature_monkey_real_name
+
+--------------------
+
+GetCarnival1025RealBeastArticle:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+article_an
+article_a
+
+--------------------
+
+GetCarnival1025PitchArticle:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+article_an
+article_a
+
+--------------------
+
+GetLuxuryArtifactSentiment:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+artifact_curious
+artifact_fascinating
+artifact_impressive
+artifact_magnificent
+
+--------------------
+
+GetDomicileArtifactCreatureType:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+artifact_parrot
+artifact_cockatoo
+artifact_monkey
+
+--------------------
+
+GetMerchantCharterAbuseStanceDesc:
+
+Scope: artifact
+Random Valid: no
+
+Entries:
+merchant_charter_abuse_stance_grateful
+merchant_charter_abuse_stance_pleased
+merchant_charter_abuse_stance_indifferent
+merchant_charter_abuse_stance_annoyed
+merchant_charter_abuse_stance_angry
+
+--------------------
+
 artifact_rarity_ledger:
 
 Scope: artifact
@@ -48906,6 +51636,7 @@ ecclesiastical_icon_concept
 theocracy_icon_concept
 japan_feudal_icon_concept
 steppe_admin_icon_concept
+merchant_icon_concept
 feudal_icon_concept
 
 --------------------

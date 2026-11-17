@@ -17,16 +17,17 @@ pam_send_legatine_mission_decision = {
 		barony = 0
 		county = 0
 		duchy = 0
-		kingdom = 24
-		empire = 12
+		kingdom = 60
+		empire = 24
 		hegemony = 12
 	}
 
 	is_shown = {
 		is_clergy = yes
 		NOT = { has_government = aeluran_weavers_government } # Elf Destiny
-		any_sub_realm_county = {
-			always = yes
+		is_landed = yes
+		top_participant_group:the_christian_church ?= {
+			has_participant_group_parameter = the_christian_church_legatine_mission
 		}
 		has_pam_dlc_trigger = yes
 		is_ruler = yes
@@ -98,13 +99,13 @@ pam_send_legatine_mission_decision = {
 			}
 			if = {
 				limit = {
-					development_level <= bad_development_level
+					prosperity_level <= bad_prosperity_level
 				}
 				add = 10
 			}
 			if = {
 				limit = {
-					county_control <= 50
+					county_control < county_control_baseline
 				}
 				add = 50
 			}

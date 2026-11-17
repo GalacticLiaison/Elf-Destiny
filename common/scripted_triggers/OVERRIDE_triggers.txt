@@ -217,7 +217,7 @@ valid_demand_conversion_conditions_trigger = {
 			}
 			custom_tooltip = {
 				text = valid_demand_conversion_conditions_trigger.tt.domicile_requires_shrine
-				domicile = { has_domicile_parameter = camp_enable_conversion }
+				domicile ?= { has_domicile_parameter = camp_enable_conversion }
 			}
 		}
 		custom_tooltip = {
@@ -417,13 +417,7 @@ portrait_wear_helmet_trigger = { # Different from Armor, as (crowned) Kings and 
 	# Elf Destiny
 	trigger_if = {
 		limit = { exists = involved_activity }
-		involved_activity = {
-			NOR = {
-				has_activity_type = activity_hunt
-				has_activity_type = activity_pilgrimage
-				has_activity_type = activity_roaming
-			}
-		}
+		involved_activity = { has_activity_type = activity_tournament }
 	}
 	is_incapable = no
 	is_imprisoned = no
@@ -597,9 +591,16 @@ building_requirement_tribal = {
 			government_has_flag = government_is_tribal
 			# Elf Destiny
 			government_has_flag = government_is_advanced_tribal
-			# Elf Destiny
-			government_has_flag = government_is_nomadic
-			government_has_flag = government_is_wanua
 		}
+	}
+}
+
+# Elf Destiny: is_enabled test of the buildings inside the tribal districts (the two vanilla building files are
+# regenerated with this in place of building_requirement_tribal). The Aeluran Order must NOT pass
+# building_requirement_tribal itself: that would block its castle, city and temple upgrades.
+elf_dest_building_requirement_tribal_district = {
+	OR = {
+		building_requirement_tribal = yes
+		scope:holder ?= { government_has_flag = government_is_aeluran_order }
 	}
 }

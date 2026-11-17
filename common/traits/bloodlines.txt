@@ -101,8 +101,8 @@ royal_elf_serelion = {
 	dread_gain_mult = 0.2
 	dread_baseline_add = 10
 	dread_decay_mult = -0.5
-	# monthly_county_control_change_factor = 0.2
-	monthly_county_control_growth_add = 0.3
+	# monthly_control_change_when_below_baseline_mult = 0.2
+	monthly_control_change_when_below_baseline_add = 0.3
 	knight_limit = 2
 	domain_limit = 1
 	hard_casualty_modifier = 0.25
@@ -156,8 +156,8 @@ royal_elf_gwynthorn = {
 
 	stewardship = 2
 	domain_limit = 2
-	development_growth = 0.1
-	development_growth_factor = 0.25
+	prosperity_growth = 0.1
+	prosperity_growth_factor = 0.25
 	stress_gain_mult = 0.35
 	stress_loss_mult = -0.2
 	life_expectancy = -10
@@ -304,9 +304,15 @@ royal_elf_lormelis = {
 	raid_speed = 0.2
 	naval_movement_speed_mult = 0.25
 
+	# Carriers can raid under any government (vanilla can_raid_trigger). Sea raiding and the Pillage legacy:
+	# common/scripted_triggers/zzz_elf_dest_lormelis_raid_overrides.txt, common/dynasty_legacies/zzz_elf_destiny_legacies.txt
+	flag = trait_enable_raiding_without_restrictions
+
 #	genetic_constraint_all = valyrian_3 
 
 	desc = {
+		# Shown like modifier lines above the description (the trick of aeluran_respect_*_bonus)
+		desc = trait_royal_elf_lormelis_effects
 		first_valid = {
 			triggered_desc = {
 				trigger = {

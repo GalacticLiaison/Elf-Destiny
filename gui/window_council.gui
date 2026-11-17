@@ -113,56 +113,73 @@ window = {
 					visible = "[CouncilWindow.CanShowTopLiegeTab]"
 
 					button_tab = {
-						layoutpolicy_horizontal = preferred
 						down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetPlayerCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
 						shortcut = "tab_1"
 
-						text_single = {
-							layoutpolicy_horizontal = expanding
-							min_height = 38
-							margin = { 15 0 }
+						alwaystransparent = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+
+						blockoverride "tab_label"
+						{
 							text = "COUNCIL_WINDOW_PLAYER_COUNCIL"
-							resizeparent = yes
-							align = center|nobaseline
-							default_format = "#low"
+							max_width = 135
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/council.dds"
+							down = "[And( CouncilWindow.IsPlayerCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						}
 					}
 
 					button_tab = {
-						layoutpolicy_horizontal = expanding
+
 						down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
 						shortcut = "tab_2"
 
-						text_single = {
-							layoutpolicy_horizontal = expanding
-							min_height = 38
-							margin = { 15 0 }
+						alwaystransparent = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+
+						blockoverride "tab_label"
+						{
 							text = "COUNCIL_WINDOW_LIEGE_COUNCIL"
-							parentanchor = center
-							align = center|nobaseline
-							default_format = "#low"
+							max_width = 135
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/liege_council.dds"
+							down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						}
 					}
 
 					button_tab = {
-						layoutpolicy_horizontal = preferred
+
 						down = "[And( CouncilWindow.IsTopLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						onclick = "[CouncilWindow.SetTopLiegeCouncil]"
 						onclick = "[GetVariableSystem.Clear( 'diarchy_tab' )]"
 						shortcut = "tab_3"
 
-						text_single = {
-							layoutpolicy_horizontal = expanding
-							min_height = 38
-							margin = { 15 0 }
+						alwaystransparent = "[And( CouncilWindow.IsTopLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
+
+						blockoverride "tab_label"
+						{
 							text = "COUNCIL_WINDOW_TOP_LIEGE_COUNCIL"
-							resizeparent = yes
-							align = center|nobaseline
-							default_format = "#low"
+							max_width = 135
+						}
+
+						blockoverride "icon_visible" {}
+
+						blockoverride "tab_icon"
+						{
+							texture = "gfx/interface/icons/flat_icons/liege_council.dds"
+							down = "[And( CouncilWindow.IsLiegeCouncilShown, Not( GetVariableSystem.Exists( 'diarchy_tab' ) ) )]"
 						}
 					}
 				}
@@ -270,7 +287,7 @@ widget = {
 		direction = vertical
 		scale = 1.2
 
-		position = {0 100 }
+		position = { 0 100 }
 
 		text_label_center = {
 			text = "COUNCIL_WINDOW_MAP_TASK_NAME"
@@ -336,6 +353,7 @@ types CouncilWindow
 			visible = "[CouncilTaskType.IsPercentageTask]"
 			layoutpolicy_horizontal = expanding
 			margin = { 5 3 }
+			margin_top = -1
 
 			text_single = {
 				name = "location"
@@ -373,6 +391,7 @@ types CouncilWindow
 			visible = "[And(And( CouncilTaskType.IsValueTask, Not( ActiveCouncilTask.IsFrozen ) ), Not(GuiCouncilPosition.ArePotentialTasksVisible))]"
 			layoutpolicy_horizontal = expanding
 			margin = { 5 3 }
+			margin_top = -1
 
 			text_single = {
 				name = "location"
@@ -835,60 +854,7 @@ types CouncilWindow
 						using = Animation_FadeIn_Quick
 					}
 
-					flowcontainer = {
-						name = "council_position_tasks"
-						datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
-						parentanchor = bottom|hcenter
-						margin_bottom = 10
-						direction = vertical
-						spacing = 3
-						alwaystransparent = no
-
-						item = {
-							button_standard = {
-								name = "potential_task"
-								datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
-								datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-								visible = "[GuiPotentialCouncilTask.IsVisible]"
-								size = { 220 25 }
-
-								enabled = "[GuiPotentialCouncilTask.CanSelect]"
-								onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
-
-								tooltip = "[CouncilTaskType.GetEffectDesc( ActiveCouncilTask.GetScopes )]"
-
-								text_single = {
-									parentanchor = left|vcenter
-									position = { 10 0 }
-									text = "[CouncilTaskType.GetName]"
-									align = nobaseline
-									default_format = "#clickable"
-								}
-
-								container = {
-									visible = "[CouncilTaskType.HasMainSkill]"
-									parentanchor = right|vcenter
-
-									skill_icon_label_vertical = {
-										datacontext = "[GuiCouncilPosition.GetSkillItemForTask(CouncilTaskType.Self)]"
-
-										blockoverride "font_size" {
-											min_width = 13
-										}
-
-										blockoverride "value"
-										{
-											text = "[GuiCouncilPosition.GetSkillModifierForTask(CouncilTaskType.Self)|+=]"
-										}
-
-										blockoverride "tooltip"
-										{
-										}
-									}
-								}
-							}
-						}
-					}
+					flowcontainer_council_position_tasks = {}
 				}
 			}
 
@@ -1161,6 +1127,7 @@ types CouncilWindow
 
 				background = {
 					using = Background_Area_Dark
+					margin = { 0 2 }
 				}
 
 				council_task_info = {
@@ -1168,6 +1135,162 @@ types CouncilWindow
 				}
 
 				block "assist_task" {}
+			}
+		}
+	}
+
+	# Requires a GuiCouncilPosition data context
+	type flowcontainer_council_position_tasks = flowcontainer {
+		name = "council_position_tasks"
+		parentanchor = bottom|hcenter
+		margin_bottom = 10
+		direction = vertical
+		spacing = 3
+		alwaystransparent = no
+
+		datamodel = "[GuiCouncilPosition.GetPotentialCouncilTasks]"
+		item = {
+			button_standard = {
+				name = "potential_task"
+				datacontext = "[GuiPotentialCouncilTask.GetCouncilTaskType]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				visible = "[GuiPotentialCouncilTask.IsVisible]"
+				block "task_button_size"
+				{
+					size = { 220 25 }
+				}
+
+				enabled = "[GuiPotentialCouncilTask.CanSelect]"
+				onclick = "[GuiPotentialCouncilTask.SelectTaskType]"
+
+				tooltip = "[CouncilTaskType.GetEffectDesc( ActiveCouncilTask.GetScopes )]"
+
+				text_single = {
+					parentanchor = left|vcenter
+					position = { 10 0 }
+					text = "[CouncilTaskType.GetName]"
+					align = nobaseline
+					default_format = "#clickable"
+				}
+
+				container = {
+					visible = "[CouncilTaskType.HasMainSkill]"
+					parentanchor = right|vcenter
+
+					skill_icon_label_vertical = {
+						datacontext = "[GuiCouncilPosition.GetSkillItemForTask(CouncilTaskType.Self)]"
+
+						blockoverride "font_size" {
+							min_width = 13
+						}
+
+						blockoverride "value"
+						{
+							text = "[GuiCouncilPosition.GetSkillModifierForTask(CouncilTaskType.Self)|+=]"
+						}
+
+						blockoverride "tooltip"
+						{
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	type widget_spouse_councillor_item = widget_councillor_item {
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
+		datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+		datacontext = "[ActiveCouncilTask.GetPositionType]"
+		datacontext = "[ActiveCouncilTask.GetCouncillor]"
+		visible = "[Not( CouncilOwnerHasVizier )]"
+
+		blockoverride "skill_visible" {
+			visible = no
+		}
+
+		background =  {
+			visible = "[Not( CouncilOwnerNomadic )]"
+			texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
+			fittype = centercrop
+			using = Mask_Rough_Edges
+			alpha = 0.8
+		}
+
+		background =  {
+			visible = "[CouncilOwnerNomadic]"
+			texture = "gfx/interface/illustrations/event_scenes/mpo_tent_interior_mongol.dds"
+			fittype = centercrop
+			using = Mask_Rough_Edges
+			alpha = 0.8
+		}
+
+		background = {
+			texture = "gfx/interface/component_masks/mask_vignette.dds"
+			color = { 0.15 0.15 0.15 1 }
+			alpha = 0.3
+		}
+
+		# make spouse portrait unique size, so it doesn't reuse
+		# textures from other councilors during hide animation
+		blockoverride "portrait_size"
+		{
+			size = { 260 286 }
+		}
+
+		blockoverride "replace_councillor"
+		{
+			spacer = {
+				visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
+				size = { 5 5 }
+			}
+		}
+
+		blockoverride "regular_task" {}
+
+		blockoverride "assist_task"
+		{
+			hbox_council_task_assist = {}
+		}
+
+		blockoverride "missing_councillor"
+		{
+			text_label_center = {
+				visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_MISSING_SPOUSE"
+				default_format = "#low;italic"
+			}
+
+			text_label_center = {
+				visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_MISSING_VIZIER"
+				default_format = "#low;italic"
+			}
+
+			text_label_center = {
+				visible = "[And( And( Not( CouncilOwnerCanUseVizier ), Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
+				default_format = "#low;italic"
+				max_width = 250
+				fontsize_min = 14
+			}
+
+			text_label_center = {
+				visible = "[And( And( CouncilOwnerCanUseVizier, Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
+				default_format = "#low;italic"
+				max_width = 250
+				fontsize_min = 14
 			}
 		}
 	}
@@ -1876,6 +1999,36 @@ types CouncilWindow
 types CouncilTaskTypes
 {
 
+	type hbox_council_task_assist = hbox {
+		visible = "[Character.IsValid]"
+		layoutpolicy_horizontal = expanding
+		margin = { 5 5 }
+		spacing = 3
+
+		button_standard = {
+			size = { 190 25 }
+			onclick = "[GuiCouncilPosition.ShowHideTasks]"
+			tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
+			down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
+
+			text_single = {
+				datacontext = "[ActiveCouncilTask.GetTaskTypeOrDefault]"
+				parentanchor = vcenter
+				position = { 10 0 }
+				text = "[CouncilTaskType.GetName]"
+				align = nobaseline
+			}
+
+			button_change = {
+				name = "show_tasks"
+				parentanchor = right|vcenter
+				position = { -5 0 }
+				alwaystransparent = yes
+				size = { 25 25 }
+			}
+		}
+	}
+
 	# Requires a GuiPotentialCouncilTask data context to be provided
 	type invalid_potential_council_task_icon_tooltip_widget = widget
 	{
@@ -1983,853 +2136,818 @@ types CouncilTaskTypes
 	}
 
 	type vbox_council_layout = vbox {
-		### COUNCIL
-		vbox = {
-			visible = "[Not( HasAccessToMinistry( CouncilWindow.GetCharacter ) )]"
-			layoutpolicy_horizontal = expanding
-			layoutpolicy_vertical = expanding
-			datacontext = "[CouncilWindow]"
-			maximumsize = { -1 932 }
-			spacing = 5
-
-			hbox = { # Vizier/Spouse + Spymaster/Court Chaplain
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-				margin = { 10 0 }
-				spacing = 5
-
-				widget_councillor_item = { # Vizier
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_vizier')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					visible = "[CouncilOwnerHasVizier]"
-
-					blockoverride "skill_visible" {
-						visible = no
-					}
-
-					background =  {
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.8
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-
-					# make spouse portrait unique size, so it doesn't reuse
-					# textures from other councilors during hide animation
-					blockoverride "portrait_size"
-					{
-						size = { 260 286 }
-					}
-
-					blockoverride "regular_task" {}
-
-					blockoverride "assist_task"
-					{
-						hbox = {
-							visible = "[Character.IsValid]"
-							layoutpolicy_horizontal = expanding
-							margin = { 5 5 }
-							spacing = 3
-
-							button_standard = {
-								size = { 190 25 }
-								onclick = "[GuiCouncilPosition.ShowHideTasks]"
-								tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
-								down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
-
-								text_single = {
-									datacontext = "[ActiveCouncilTask.GetTaskTypeOrDefault]"
-									parentanchor = vcenter
-									position = { 10 0 }
-									text = "[CouncilTaskType.GetName]"
-									align = nobaseline
-								}
-
-								button_change = {
-									name = "show_tasks"
-									parentanchor = right|vcenter
-									position = { -5 0 }
-									alwaystransparent = yes
-									size = { 25 25 }
-								}
-							}
-						}
-					}
-
-					blockoverride "missing_councillor"
-					{
-						text_label_center = {
-							visible = "[And( Not(Character.IsValid), CouncilWindow.IsPlayerCouncilShown )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_MISSING_VIZIER"
-							default_format = "#low;italic"
-						}
-
-						text_label_center = {
-							visible = "[And( Not(Character.IsValid), CouncilWindow.IsLiegeCouncilShown )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
-							default_format = "#low;italic"
-							max_width = 250
-							fontsize_min = 14
-						}
-					}
-				}
-
-				widget_councillor_item = { # Spouse (If you do not have a vizier)
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_spouse')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					visible = "[And( Not( CouncilOwnerHasVizier ), Not( PrimarySpouseIsAeluranAdvisor ) )]"
-
-					blockoverride "skill_visible" {
-						visible = no
-					}
-
-					background =  {
-						visible = "[Not( CouncilOwnerNomadic )]"
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.8
-					}
-
-					background =  {
-						visible = "[CouncilOwnerNomadic]"
-						texture = "gfx/interface/illustrations/event_scenes/mpo_tent_interior_mongol.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.8
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-
-					# make spouse portrait unique size, so it doesn't reuse
-					# textures from other councilors during hide animation
-					blockoverride "portrait_size"
-					{
-						size = { 260 286 }
-					}
-
-					blockoverride "replace_councillor"
-					{
-						spacer = {
-							visible = "[Not(Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ))]"
-							size = { 5 5 }
-						}
-					}
-
-					blockoverride "regular_task" {}
-
-					blockoverride "assist_task"
-					{
-						hbox = {
-							visible = "[Character.IsValid]"
-							layoutpolicy_horizontal = expanding
-							margin = { 5 5 }
-							spacing = 3
-
-							button_standard = {
-								size = { 190 25 }
-								onclick = "[GuiCouncilPosition.ShowHideTasks]"
-								tooltip = "[GuiCouncilPosition.GetShowHideTooltip]"
-								down = "[GuiCouncilPosition.ArePotentialTasksVisible]"
-
-								text_single = {
-									datacontext = "[ActiveCouncilTask.GetTaskTypeOrDefault]"
-									parentanchor = vcenter
-									position = { 10 0 }
-									text = "[CouncilTaskType.GetName]"
-									align = nobaseline
-								}
-
-								button_change = {
-									name = "show_tasks"
-									parentanchor = right|vcenter
-									position = { -5 0 }
-									alwaystransparent = yes
-									size = { 25 25 }
-								}
-							}
-						}
-					}
-
-					blockoverride "missing_councillor"
-					{
-						text_label_center = {
-							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_MISSING_SPOUSE"
-							default_format = "#low;italic"
-						}
-
-						text_label_center = {
-							visible = "[And( And( CouncilOwnerCanUseVizier, CouncilWindow.IsPlayerCouncilShown ), Not( Character.IsValid ) )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_MISSING_VIZIER"
-							default_format = "#low;italic"
-						}
-
-						text_label_center = {
-							visible = "[And( And( Not( CouncilOwnerCanUseVizier ), Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_LIEGE_MISSING_SPOUSE"
-							default_format = "#low;italic"
-							max_width = 250
-							fontsize_min = 14
-						}
-
-						text_label_center = {
-							visible = "[And( And( CouncilOwnerCanUseVizier, Or( CouncilWindow.IsLiegeCouncilShown, CouncilWindow.IsTopLiegeCouncilShown ) ), Not( Character.IsValid ) )]"
-							parentanchor = bottom|hcenter
-							position = { 0 -10 }
-							text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
-							default_format = "#low;italic"
-							max_width = 250
-							fontsize_min = 14
-						}
-					}
-				}
-
-				widget_councillor_item = { # Spymaster (If Nomadic it's moved up here)
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-
-					visible = "[CouncilOwnerNomadic]"
-
-					background =  {
-						texture = "gfx/interface/illustrations/event_scenes/mpo_campfire_steppe.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.7
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-
-				widget_councillor_item = { # Court Chaplain
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					name = "tutorial_court_chaplain"
-
-					visible = "[And( Not( CouncilOwnerHasAeluran ), Not( CouncilOwnerNomadic ) )]"
-
-					datacontext = "[GetIllustration( 'character_religion_interior' )]"
-
-					background =  {
-						texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillor.MakeScope )]"
-						fittype = centercrop
-						alpha = 0.7
-						using = Mask_Rough_Edges
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-
-				# Aeluran Advisor
-				widget_aeluran_councillor_item = {
-
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-					visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
-
-					name = "tutorial_aeluran_advisor"
-
-					datacontext = "[GetIllustration( 'religion_interior' )]"
-
-					background =  {
-						texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.8
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-			}
-            hbox = {
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-				margin = { 10 0 }
-				spacing = 5
-
-				visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
-				# Aeluran Advisor
-				widget_aeluran_councillor_item = {
-
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-				    visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
-
-					name = "tutorial_aeluran_advisor"
-
-					datacontext = "[GetIllustration( 'religion_interior' )]"
-
-					background =  {
-						texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.8
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-			}
-
-			hbox = { # Chancellor + Steward
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-				margin = { 10 0 }
-				spacing = 5
-
-				visible = "[Not( CouncilOwnerNomadic )]"
-
-				widget_councillor_item = { # Chancellor
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-
-					visible = "[Not( CouncilOwnerNomadic )]"
-
-					background =  {
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_chancellor.dds"
-						fittype = centercrop
-						alpha = 0.6
-						using = Mask_Rough_Edges
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-
-				widget_councillor_item = { # Steward
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-
-					background =  {
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_steward.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.7
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-			}
-
-			hbox = { # Marshal + Spymaster
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-				margin = { 10 0 }
-				margin_bottom = 5
-				spacing = 5
-
-				visible = "[Not( CouncilOwnerNomadic )]"
-
-				widget_councillor_item = { # Marshal
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-
-					background =  {
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_marshal.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.7
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-
-				widget_councillor_item = { # Spymaster
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
-					datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-					datacontext = "[ActiveCouncilTask.GetPositionType]"
-					datacontext = "[ActiveCouncilTask.GetCouncillor]"
-
-					background =  {
-						texture = "gfx/interface/skinned/illustrations/council/bg_council_spymaster.dds"
-						fittype = centercrop
-						using = Mask_Rough_Edges
-						alpha = 0.7
-					}
-
-					background = {
-						texture = "gfx/interface/component_masks/mask_vignette.dds"
-						color = { 0.15 0.15 0.15 1 }
-						alpha = 0.3
-					}
-				}
-			}
-
-			vbox = {
-				name = "kurultai_council_first"
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-
-				# Kurultai positions 1 & 2
-				kurultai_hbox = {
-
-					visible = "[CouncilOwnerNomadic]"
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-
-					margin = { 10 0 }
-					margin_bottom = 5
-					spacing = 5
-				}
-
-				# Kurultai positions 3 & 4
-				kurultai_hbox = {
-					visible = "[CouncilOwnerNomadic]"
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-					margin = { 10 0 }
-					margin_bottom = 5
-					spacing = 5
-
-					blockoverride "kurultai_datamodel_first"
-					{
-						datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_3')]"
-					}
-					blockoverride "kurultai_datamodel_second"
-					{
-						datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_4')]"
-					}
-				}
-			}
-		}
-
-		### MINISTRY
-		vbox = {
-			visible = "[HasAccessToMinistry( CouncilWindow.GetCharacter )]"
-			layoutpolicy_horizontal = expanding
-			layoutpolicy_vertical = expanding
-			datacontext = "[CouncilWindow]"
-
-			scrollbox = {
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-
-				blockoverride "scrollbox_margins"
-				{
-					margin = { 5 10 }
-					margin_bottom = 5
-				}
-
-				blockoverride "scrollbox_content"
-				{
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-
-					# Top Header
-					hbox = {
-						layoutpolicy_horizontal = expanding
-						margin_top = 1
-						margin_bottom = 8
-
-						background = {
-							name = "ministry_top_header"
-							texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
-							alpha = 0.95
-						}
-
-						header_text = {
-							blockoverride "header_text"
-							{
-								text = "CELESTIAL_MINISTRY_HEADER_DEP"
-							}
-						}
-					}
-
-					vbox = { # Prime Minister + Imperial Censor + Grand Marshal - These are shown at the top
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						margin = { 10 0 }
-						spacing = 5
-
-						widget_councillor_item = { # Prime Minister (chancellor)
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_garden_asia.dds"
-								fittype = centercrop
-								alpha = 0.7
-								using = Mask_Rough_Edges
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						widget_councillor_item = { # Imperial Censor (spymaster)
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_corridor_day.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						widget_councillor_item = { # Grand Marshal
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('minister_grand_marshal')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_courtyard_asia.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-					}
-
-					widget = {
-						size = { 0 15 }
-					}
-
-					# Ministry Header
-					hbox = {
-						layoutpolicy_horizontal = expanding
-						margin_top = 1
-						margin_bottom = 8
-
-						background = {
-							name = "ministry_header"
-							texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
-							alpha = 0.95
-						}
-
-						header_text = {
-							blockoverride "header_text"
-							{
-								text = "CELESTIAL_MINISTRY_HEADER_MIN"
-							}
-						}
-					}
-
-					hbox = { # Minister of Personnel + War
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						margin = { 10 0 }
-						margin_bottom = 5
-						spacing = 5
-
-						widget_councillor_item = { # Minister of Personnel
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('minister_personnel')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_examination_room.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						widget_councillor_item = { # Minister of War (marshal)
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_crossroad_inn_asia.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-					}
-
-					hbox = { # Minister of Revenue + Justice
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						margin = { 10 0 }
-						margin_bottom = 5
-						spacing = 5
-
-						widget_councillor_item = { # Minister of Revenue (steward)
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_market_asia.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						widget_councillor_item = { # Minister of Justice
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('minister_justice')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_physician_asia.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-					}
-
-					hbox = { # Minister of Rites + Works
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-						margin = { 10 0 }
-						margin_bottom = 5
-						spacing = 5
-
-						widget_councillor_item = { # Minister of Rites (court chaplain)
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							name = "tutorial_court_chaplain"
-							size = { -1 290 }
-
-							visible = "[And( Not( CouncilOwnerHasAeluran ), Not( CouncilOwnerNomadic ) )]"
-
-							datacontext = "[GetIllustration( 'character_religion_interior' )]"
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_holysite_asia.dds"
-								fittype = centercrop
-								alpha = 0.7
-								using = Mask_Rough_Edges
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						# Aeluran Advisor
-						widget_aeluran_councillor_item = {
-
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 280 }
-							visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
-
-							name = "tutorial_aeluran_advisor"
-
-							datacontext = "[GetIllustration( 'religion_interior' )]"
-
-							background =  {
-								texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.8
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-
-						widget_councillor_item = { # Minister of Works
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datacontext = "[CouncilWindow.GetCouncillor('minister_works')]"
-							datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
-							datacontext = "[ActiveCouncilTask.GetPositionType]"
-							datacontext = "[ActiveCouncilTask.GetCouncillor]"
-							size = { -1 290 }
-
-							background =  {
-								texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_city.dds"
-								fittype = centercrop
-								using = Mask_Rough_Edges
-								alpha = 0.7
-							}
-
-							background = {
-								texture = "gfx/interface/component_masks/mask_vignette.dds"
-								color = { 0.15 0.15 0.15 1 }
-								alpha = 0.3
-							}
-						}
-					}
-
-					blockoverride "scrollbox_expand" {
-						expand = {}
-					}
-				}
-			}
-		}
+		datacontext = "[CouncilWindow]"
+		vbox_council_layout_ministry = {}
+		vbox_council_layout_patrician = {}
+		vbox_council_layout_nomad = {}
+		vbox_council_layout_default = {}
 
 		expand = {
 			layoutpolicy_vertical = growing
 		}
 	}
 
+	type widget_councillor_vizier = widget_councillor_item { # Vizier
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		datacontext = "[CouncilWindow.GetCouncillor('councillor_vizier')]"
+		datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+		datacontext = "[ActiveCouncilTask.GetPositionType]"
+		datacontext = "[ActiveCouncilTask.GetCouncillor]"
+		visible = "[CouncilOwnerHasVizier]"
+
+		blockoverride "skill_visible" {
+			visible = no
+		}
+
+		background =  {
+			texture = "gfx/interface/skinned/illustrations/council/bg_council_spouse.dds"
+			fittype = centercrop
+			using = Mask_Rough_Edges
+			alpha = 0.8
+		}
+
+		background = {
+			texture = "gfx/interface/component_masks/mask_vignette.dds"
+			color = { 0.15 0.15 0.15 1 }
+			alpha = 0.3
+		}
+
+		# make spouse equivalent portrait unique size, so it doesn't reuse
+		# textures from other councilors during hide animation
+		blockoverride "portrait_size"
+		{
+			size = { 260 286 }
+		}
+
+		blockoverride "regular_task" {}
+
+		blockoverride "assist_task"
+		{
+			hbox_council_task_assist = {}
+		}
+
+		blockoverride "missing_councillor"
+		{
+			text_label_center = {
+				visible = "[And( Not(Character.IsValid), CouncilWindow.IsPlayerCouncilShown )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_MISSING_VIZIER"
+				default_format = "#low;italic"
+			}
+
+			text_label_center = {
+				visible = "[And( Not(Character.IsValid), CouncilWindow.IsLiegeCouncilShown )]"
+				parentanchor = bottom|hcenter
+				position = { 0 -10 }
+				text = "COUNCILLOR_LIEGE_MISSING_VIZIER"
+				default_format = "#low;italic"
+				max_width = 250
+				fontsize_min = 14
+			}
+		}
+	}
+
+	type vbox_council_layout_default = vbox {
+		visible = "[Nor3( HasAccessToMinistry( CouncilWindow.GetCharacter ), IsPatrician( CouncilWindow.GetCharacter ), CouncilOwnerNomadic )]"
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		maximumsize = { -1 932 }
+		spacing = 5
+
+		hbox = { # Vizier/Spouse + Court Chaplain
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			spacing = 5
+
+			widget_councillor_vizier = {}
+
+			widget_spouse_councillor_item = {
+				visible = "[And( Not( CouncilOwnerHasVizier ), Not( PrimarySpouseIsAeluranAdvisor ) )]"
+			}
+
+			widget_councillor_item = { # Court Chaplain
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+				name = "tutorial_court_chaplain"
+
+				visible = "[And( Not( CouncilOwnerHasAeluran ), Not( CouncilOwnerNomadic ) )]"
+
+				datacontext = "[GetIllustration( 'character_religion_interior' )]"
+
+				background =  {
+					texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillorOrCourtOwner.MakeScope )]"
+					fittype = centercrop
+					alpha = 0.7
+					using = Mask_Rough_Edges
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+
+			# Aeluran Advisor
+			widget_aeluran_councillor_item = {
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+				visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
+
+				name = "tutorial_aeluran_advisor"
+
+				datacontext = "[GetIllustration( 'religion_interior' )]"
+
+				background =  {
+					texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.8
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+
+		hbox = { # Chancellor + Steward
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			spacing = 5
+
+			visible = "[Not( CouncilOwnerNomadic )]"
+
+			widget_councillor_item = { # Chancellor
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				visible = "[Not( CouncilOwnerNomadic )]"
+
+				background =  {
+					texture = "gfx/interface/skinned/illustrations/council/bg_council_chancellor.dds"
+					fittype = centercrop
+					alpha = 0.6
+					using = Mask_Rough_Edges
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+
+			widget_councillor_item = { # Steward
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				background =  {
+					texture = "gfx/interface/skinned/illustrations/council/bg_council_steward.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.7
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+
+		hbox = { # Marshal + Spymaster
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			margin_bottom = 5
+			spacing = 5
+
+			visible = "[Not( CouncilOwnerNomadic )]"
+
+			widget_councillor_item = { # Marshal
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				background =  {
+					texture = "gfx/interface/skinned/illustrations/council/bg_council_marshal.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.7
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+
+			widget_councillor_item = { # Spymaster
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				background =  {
+					texture = "gfx/interface/skinned/illustrations/council/bg_council_spymaster.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.7
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+	}
+
+	type vbox_council_layout_nomad = vbox {
+		visible = "[And3( Not( HasAccessToMinistry( CouncilWindow.GetCharacter ) ), Not( IsPatrician( CouncilWindow.GetCharacter ) ), CouncilOwnerNomadic )]"
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		maximumsize = { -1 932 }
+		spacing = 5
+
+		hbox = { # Spouse + Spymaster
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			spacing = 5
+
+			widget_councillor_vizier = {} # should not appear, but if you want clan-nomad...
+
+			widget_spouse_councillor_item = {
+				visible = "[And( Not( CouncilOwnerHasVizier ), Not( PrimarySpouseIsAeluranAdvisor ) )]"
+			}
+
+			widget_councillor_item = { # Spymaster (If Nomadic it's moved up here)
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				background =  {
+					texture = "gfx/interface/illustrations/event_scenes/mpo_campfire_steppe.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.7
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			margin = { 10 0 }
+			spacing = 5
+
+			visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
+			# Aeluran Advisor
+			widget_aeluran_councillor_item = {
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+			    visible = "[And(CouncilOwnerHasAeluran, CouncilOwnerNomadic)]"
+
+				name = "tutorial_aeluran_advisor"
+
+				datacontext = "[GetIllustration( 'religion_interior' )]"
+
+				background =  {
+					texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
+					fittype = centercrop
+					using = Mask_Rough_Edges
+					alpha = 0.8
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+
+		vbox = {
+			name = "kurultai_council_first"
+			visible = "[CouncilOwnerNomadic]"
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			# Kurultai positions 1 & 2
+			kurultai_hbox = {
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+
+				margin = { 10 0 }
+				margin_bottom = 5
+				spacing = 5
+			}
+
+			# Kurultai positions 3 & 4
+			kurultai_hbox = {
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				margin = { 10 0 }
+				margin_bottom = 5
+				spacing = 5
+
+				blockoverride "kurultai_datamodel_first"
+				{
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_3')]"
+				}
+				blockoverride "kurultai_datamodel_second"
+				{
+					datacontext = "[CouncilWindow.GetCouncillor('councillor_kurultai_4')]"
+				}
+			}
+		}
+	}
+
+	type vbox_council_layout_patrician = vbox {
+		### Patrician (landless republican) Setup
+		visible = "[And( Not( HasAccessToMinistry( CouncilWindow.GetCharacter ) ), IsPatrician( CouncilWindow.GetCharacter ) )]"
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		maximumsize = { -1 932 }
+		spacing = 5
+
+		hbox = { # Spouse + Chancellor
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			spacing = 5
+
+			widget_spouse_councillor_item = {}
+
+			widget_councillor_item = { # Chancellor
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
+				datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+				datacontext = "[ActiveCouncilTask.GetPositionType]"
+				datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+				datacontext = "[GetIllustration( 'patrician_character_chancellor_interior' )]"
+
+				background =  {
+					texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillorOrCourtOwner.MakeScope )]"
+					fittype = centercrop
+					alpha = 0.7
+					using = Mask_Rough_Edges
+				}
+
+				background = {
+					texture = "gfx/interface/component_masks/mask_vignette.dds"
+					color = { 0.15 0.15 0.15 1 }
+					alpha = 0.3
+				}
+			}
+		}
+
+		widget_councillor_item = { # Steward
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
+			datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+			datacontext = "[ActiveCouncilTask.GetPositionType]"
+			datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+			datacontext = "[GetIllustration( 'patrician_character_steward_interior' )]"
+
+			background =  {
+				texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillorOrCourtOwner.MakeScope )]"
+				fittype = centercrop
+				alpha = 0.7
+				using = Mask_Rough_Edges
+			}
+
+			background = {
+				texture = "gfx/interface/component_masks/mask_vignette.dds"
+				color = { 0.15 0.15 0.15 1 }
+				alpha = 0.3
+			}
+		}
+
+		widget_councillor_item = { # Spymaster
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+			datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+			datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+			datacontext = "[ActiveCouncilTask.GetPositionType]"
+			datacontext = "[ActiveCouncilTask.GetCouncillor]"
+
+			datacontext = "[GetIllustration( 'patrician_character_spymaster_interior' )]"
+
+			background =  {
+				texture = "[Illustration.GetTexture( ActiveCouncilTask.GetCouncillorOrCourtOwner.MakeScope )]"
+				fittype = centercrop
+				alpha = 0.7
+				using = Mask_Rough_Edges
+			}
+
+			background = {
+				texture = "gfx/interface/component_masks/mask_vignette.dds"
+				color = { 0.15 0.15 0.15 1 }
+				alpha = 0.3
+			}
+		}
+	}
+
+	type vbox_council_layout_ministry = vbox {
+		### MINISTRY
+		visible = "[HasAccessToMinistry( CouncilWindow.GetCharacter )]"
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+
+		scrollbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			blockoverride "scrollbox_margins"
+			{
+				margin = { 5 10 }
+				margin_bottom = 5
+			}
+
+			blockoverride "scrollbox_content"
+			{
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				# Top Header
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					margin_top = 1
+					margin_bottom = 8
+
+					background = {
+						name = "ministry_top_header"
+						texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
+						alpha = 0.95
+					}
+
+					header_text = {
+						blockoverride "header_text"
+						{
+							text = "CELESTIAL_MINISTRY_HEADER_DEP"
+						}
+					}
+				}
+
+				vbox = { # Prime Minister + Imperial Censor + Grand Marshal - These are shown at the top
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin = { 10 0 }
+					spacing = 5
+
+					widget_councillor_item = { # Prime Minister (chancellor)
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_chancellor')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_garden_asia.dds"
+							fittype = centercrop
+							alpha = 0.7
+							using = Mask_Rough_Edges
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					widget_councillor_item = { # Imperial Censor (spymaster)
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_spymaster')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_corridor_day.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					widget_councillor_item = { # Grand Marshal
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('minister_grand_marshal')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_courtyard_asia.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+				}
+
+				widget = {
+					size = { 0 15 }
+				}
+
+				# Ministry Header
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					margin_top = 1
+					margin_bottom = 8
+
+					background = {
+						name = "ministry_header"
+						texture = "gfx/interface/icons/banners/banner_red_background_tgp.dds"
+						alpha = 0.95
+					}
+
+					header_text = {
+						blockoverride "header_text"
+						{
+							text = "CELESTIAL_MINISTRY_HEADER_MIN"
+						}
+					}
+				}
+
+				hbox = { # Minister of Personnel + War
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin = { 10 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					widget_councillor_item = { # Minister of Personnel
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('minister_personnel')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_examination_room.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					widget_councillor_item = { # Minister of War (marshal)
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_marshal')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_crossroad_inn_asia.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+				}
+
+				hbox = { # Minister of Revenue + Justice
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin = { 10 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					widget_councillor_item = { # Minister of Revenue (steward)
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_steward')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_market_asia.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					widget_councillor_item = { # Minister of Justice
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('minister_justice')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_physician_asia.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+				}
+
+				hbox = { # Minister of Rites + Works
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin = { 10 0 }
+					margin_bottom = 5
+					spacing = 5
+
+					widget_councillor_item = { # Minister of Rites (court chaplain)
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_court_chaplain')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						name = "tutorial_court_chaplain"
+						size = { -1 290 }
+
+						visible = "[And( Not( CouncilOwnerHasAeluran ), Not( CouncilOwnerNomadic ) )]"
+
+						datacontext = "[GetIllustration( 'character_religion_interior' )]"
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_holysite_asia.dds"
+							fittype = centercrop
+							alpha = 0.7
+							using = Mask_Rough_Edges
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					# Aeluran Advisor
+					widget_aeluran_councillor_item = {
+
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('councillor_aeluran_advisor')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 280 }
+						visible = "[And(CouncilOwnerHasAeluran, Not(CouncilOwnerNomadic))]"
+
+						name = "tutorial_aeluran_advisor"
+
+						datacontext = "[GetIllustration( 'religion_interior' )]"
+
+						background =  {
+							texture = "gfx/interface/illustrations/skinned/illustrations/council/advisor_background_skinned.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.8
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+
+					widget_councillor_item = { # Minister of Works
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						datacontext = "[CouncilWindow.GetCouncillor('minister_works')]"
+						datacontext = "[GuiCouncilPosition.GetActiveCouncilTask]"
+						datacontext = "[ActiveCouncilTask.GetPositionType]"
+						datacontext = "[ActiveCouncilTask.GetCouncillor]"
+						size = { -1 290 }
+
+						background =  {
+							texture = "gfx/interface/illustrations/event_scenes/tgp_chinese_city.dds"
+							fittype = centercrop
+							using = Mask_Rough_Edges
+							alpha = 0.7
+						}
+
+						background = {
+							texture = "gfx/interface/component_masks/mask_vignette.dds"
+							color = { 0.15 0.15 0.15 1 }
+							alpha = 0.3
+						}
+					}
+				}
+
+				blockoverride "scrollbox_expand" {
+					expand = {}
+				}
+			}
+		}
+	}
+	
 
 	type kurultai_hbox = hbox
 	{

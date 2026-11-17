@@ -23,6 +23,13 @@ Output Scopes: value
 
 --------------------
 
+building_type - Get the building_type with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: building_type
+
+--------------------
+
 casus_belli_type - Get the casus_belli_type with the specified key
 Requires Data: yes
 Global Link: yes
@@ -113,6 +120,13 @@ Output Scopes: value
 
 --------------------
 
+district_type - Get the district_type with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: district_type
+
+--------------------
+
 doctrine - Get the doctrine with the specified key
 Requires Data: yes
 Global Link: yes
@@ -178,6 +192,12 @@ Global Link: yes
 
 --------------------
 
+global_variable_map - Reference a previous set variable via its name eg: "global_variable_map(average_relation_map|title:k_france)"
+Requires Data: yes
+Global Link: yes
+
+--------------------
+
 government_type - Get the government_type with the specified key
 Requires Data: yes
 Global Link: yes
@@ -219,6 +239,13 @@ Output Scopes: dynasty_house
 
 --------------------
 
+law - Get the law with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: law
+
+--------------------
+
 legend_type - Get the legend_type with the specified key
 Requires Data: yes
 Global Link: yes
@@ -234,6 +261,19 @@ Output Scopes: character
 local_var - Reference a previous set local variable via its name eg: local_var:person_of_interest
 Requires Data: yes
 Global Link: yes
+
+--------------------
+
+local_variable_map - Reference a previous set variable via its name eg: "local_variable_map(rewards_for_title|title:k_france)"
+Requires Data: yes
+Global Link: yes
+
+--------------------
+
+men_at_arms - Get the men_at_arms with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: men_at_arms
 
 --------------------
 
@@ -337,6 +377,34 @@ Output Scopes: landed_title
 
 --------------------
 
+title_type - Get the title_type with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: title_type
+
+--------------------
+
+toll_level - Get the toll_level with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: toll_level
+
+--------------------
+
+trade_good_category - Get the trade_good_category with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: trade_good_category
+
+--------------------
+
+trade_good_type - Get the trade_good_type with the specified key
+Requires Data: yes
+Global Link: yes
+Output Scopes: trade_good_type
+
+--------------------
+
 trait - Get the trait with the specified key
 Requires Data: yes
 Global Link: yes
@@ -356,6 +424,11 @@ Requires Data: yes
 
 --------------------
 
+variable_map - Reference a variable set under a specified scope in a named container on this scope: "variable_map(our_relations_with|title:k_france)"
+Requires Data: yes
+
+--------------------
+
 vassal_contract - Get the vassal_contract with the specified key
 Requires Data: yes
 Global Link: yes
@@ -366,6 +439,12 @@ Output Scopes: vassal_contract
 yes - Boolean literal for true values
 Global Link: yes
 Output Scopes: boolean
+
+--------------------
+
+trade_good_need_category - Get the need category of this trade good type. This presumes each trade good type only belongs to one need type category.
+Input Scopes: trade_good_type
+Output Scopes: trade_good_category
 
 --------------------
 
@@ -407,6 +486,12 @@ Output Scopes: tax_slot
 
 --------------------
 
+assigned_trade_route - Get the trade route assigned assigned to the scoped character
+Input Scopes: character
+Output Scopes: trade_route
+
+--------------------
+
 betrothed - Get the betrothed of the scoped character
 Input Scopes: character
 Output Scopes: character
@@ -428,6 +513,18 @@ Output Scopes: landed_title
 capital_province - Get capital province of scoped character
 Input Scopes: character
 Output Scopes: province
+
+--------------------
+
+ceremonial_liege - Get the holder of the title stored in the administrative_ui_special_title variable of the scoped character's top liege's primary title. Can be the top liege themselves or someone outside their realm, use is_ceremonial_liege to check for a ceremonial liege who is a vassal
+Input Scopes: character
+Output Scopes: character
+
+--------------------
+
+ceremonial_liege_title - Get the title stored in the administrative_ui_special_title variable of the scoped character's top liege's primary title. ceremonial_liege returns its holder
+Input Scopes: character
+Output Scopes: landed_title
 
 --------------------
 
@@ -589,6 +686,24 @@ Output Scopes: government_type
 
 --------------------
 
+highest_liege_matching_mechanic - Get the top liege using the government mechanic in an unbroken chain from this character. 
+										This will be null if neither the scope character nor their direct liege use this mechanic.
+										character.highest_liege_matching_mechanic:republic 
+Requires Data: yes
+Input Scopes: character
+Output Scopes: character
+
+--------------------
+
+highest_liege_matching_rule - Get the top liege using the government rule in an unbroken chain from this character. 
+										This will be null if neither the scope character nor their direct liege use this rule.
+										character.highest_liege_matching_rule:uses_assembly 
+Requires Data: yes
+Input Scopes: character
+Output Scopes: character
+
+--------------------
+
 holy_order - Get holy order of scoped character (if exists)
 Input Scopes: character
 Output Scopes: holy_order
@@ -656,6 +771,15 @@ Output Scopes: army
 --------------------
 
 last_played_character - Get last played character of the currently scoped player character
+Input Scopes: character
+Output Scopes: character
+
+--------------------
+
+law_proposer - Get the character proposing a law change. 
+										For republics this will be the proposer of the current voting session.
+										If no session is in progress, it returns a null character.
+										For other government types this is the scoped character's liege. 
 Input Scopes: character
 Output Scopes: character
 
@@ -869,6 +993,24 @@ Output Scopes: dynasty_house
 
 --------------------
 
+leading_title - Scope to the confederation's leading title
+Input Scopes: confederation
+Output Scopes: landed_title
+
+--------------------
+
+subject_contract_type - Get the type of a given contract obligation
+Input Scopes: vassal_contract_obligation_level
+Output Scopes: vassal_contract
+
+--------------------
+
+vassal_contract_type - Get the type of a given contract obligation
+Input Scopes: vassal_contract_obligation_level
+Output Scopes: vassal_contract
+
+--------------------
+
 barony_active_holy_site - Get the active holy site attached to the scoped barony. Active holy sites are controlled by the correct faith on the county level and have an enshrined holy relic.
 Input Scopes: landed_title
 Output Scopes: holy_site
@@ -896,6 +1038,12 @@ Output Scopes: landed_title
 county_active_holy_site - Get the first active holy site of the scoped county (unset if none). Active holy sites are controlled by the correct faith on the county level and have an enshrined holy relic.
 Input Scopes: landed_title
 Output Scopes: holy_site
+
+--------------------
+
+current_assembly_proposal - The law currently being proposed in the assembly
+Input Scopes: landed_title
+Output Scopes: law
 
 --------------------
 
@@ -959,6 +1107,12 @@ Output Scopes: landed_title
 
 --------------------
 
+title_confederation - Scope to the title's confederation
+Input Scopes: landed_title
+Output Scopes: confederation
+
+--------------------
+
 title_domicile - Get the domicile associated with the scoped title. Might not exist.
 Input Scopes: landed_title
 Output Scopes: domicile
@@ -977,853 +1131,9 @@ Output Scopes: province
 
 --------------------
 
-obligation - Directly scope to a specific decision type by its key
-Requires Data: yes
-Input Scopes: vassal_contract
-Output Scopes: vassal_contract_obligation_level
-
---------------------
-
-holy_order_patron - Get patron of scoped holy order
-Input Scopes: holy_order
-Output Scopes: character
-
---------------------
-
-leader - Get leader of scoped holy order
-Input Scopes: holy_order
-Output Scopes: character
-
---------------------
-
-order_faith - Get faith of scoped holy order
-Input Scopes: holy_order
-Output Scopes: faith
-
---------------------
-
-order_founder - Get founder of scoped holy order, if it was specified on creation
-Input Scopes: holy_order
-Output Scopes: character
-
---------------------
-
-order_rite - Get the founding tenet of scoped holy order. Might be invalid.
-Input Scopes: holy_order
-Output Scopes: rite
-
---------------------
-
-order_tenet - Get tenet of scoped holy order
-Input Scopes: holy_order
-Output Scopes: tenet
-
---------------------
-
-title - Get landed title of scoped holy order
-Input Scopes: holy_order
-Output Scopes: landed_title
-
---------------------
-
-slot_character - Get the character of scoped agent slot
-Input Scopes: agent_slot
-Output Scopes: character
-
---------------------
-
-activity_doctrine - Get the selected doctrine with the given index, 1-based (e.g. activity_doctrine:1)
-Requires Data: yes
-Input Scopes: activity
-Output Scopes: doctrine
-
---------------------
-
-activity_host - Get host character of the scoped activity
-Input Scopes: activity
-Output Scopes: character
-
---------------------
-
-activity_location - Get current location of the scoped activity
-Input Scopes: activity
-Output Scopes: province
-
---------------------
-
-activity_tenet - Get the selected tenet with the given index, 1-based (e.g. activity_tenet:1)
-Requires Data: yes
-Input Scopes: activity
-Output Scopes: tenet
-
---------------------
-
-activity_type - Get the type of a given activity
-Input Scopes: activity
-Output Scopes: activity_type
-
---------------------
-
-regiment_controller - Get the character who currently controls the regiment
-Input Scopes: regiment
-Output Scopes: character
-
---------------------
-
-regiment_controlling_title - Get title regiment's owning title
-Input Scopes: regiment
-Output Scopes: landed_title
-
---------------------
-
-regiment_owner - Get regiment's owner
-Input Scopes: regiment
-Output Scopes: character
-
---------------------
-
-regiment_owning_title - Get title regiment's owning title
-Input Scopes: regiment
-Output Scopes: landed_title
-
---------------------
-
-regiment_station - Get regiment's station province
-Input Scopes: regiment
-Output Scopes: province
-
---------------------
-
-war - Get war of scoped casus belli
-Input Scopes: casus_belli
-Output Scopes: war
-
---------------------
-
-scheme - Get the scheme scheme associated with the task contract (if there is one).
-Input Scopes: task_contract
-Output Scopes: scheme
-
---------------------
-
-task_contract_destination - Get the task contract destination, null if unused.
-Input Scopes: task_contract
-Output Scopes: province
-
---------------------
-
-task_contract_employer - Get the task contract employer.
-Input Scopes: task_contract
-Output Scopes: character
-
---------------------
-
-task_contract_location - Get the task contract location.
-Input Scopes: task_contract
-Output Scopes: province
-
---------------------
-
-task_contract_taker - Get the task contract taker, null until taken.
-Input Scopes: task_contract
-Output Scopes: character
-
---------------------
-
-task_contract_target - Get the task contract target, null if unused.
-Input Scopes: task_contract
-Output Scopes: character
-
---------------------
-
-house_confederation - Scope to the house's confederation
-Input Scopes: dynasty_house
-Output Scopes: confederation
-
---------------------
-
-house_dynasty - Get dynasty  of the given house
-Input Scopes: dynasty_house
-Output Scopes: dynasty
-
---------------------
-
-house_founder - Get house founder of the scoped house
-Input Scopes: dynasty_house
-Output Scopes: character
-
---------------------
-
-house_head - Get house head of the scoped character
-Input Scopes: dynasty_house
-Output Scopes: character
-
---------------------
-
-last_house_head - Get last house head of scoped house
-Input Scopes: dynasty_house
-Output Scopes: character
-
---------------------
-
-noble_family - Get the noble family title of the dynasty house
-Input Scopes: dynasty_house
-Output Scopes: landed_title
-
---------------------
-
-current_location - Get the current province of the travel plan.
-Input Scopes: travel_plan
-Output Scopes: province
-
---------------------
-
-departure_location - Get the province from which this travel plan started.
-Input Scopes: travel_plan
-Output Scopes: province
-
---------------------
-
-final_destination_province - Get the final (last) destination province of the travel plan.
-Input Scopes: travel_plan
-Output Scopes: province
-
---------------------
-
-next_destination_province - Get the next destination province of the travel plan. If you are at a destination province, it will be the one after that one.
-Input Scopes: travel_plan
-Output Scopes: province
-
---------------------
-
-next_location - Get the next province the travel plan is going to.
-Input Scopes: travel_plan
-Output Scopes: province
-
---------------------
-
-travel_leader - Get the Travel Leader of the scoped travel plan
-Input Scopes: travel_plan
-Output Scopes: character
-
---------------------
-
-travel_plan_activity - Activity associated with the scoped travel plan. (may be empty)
-Input Scopes: travel_plan
-Output Scopes: activity
-
---------------------
-
-travel_plan_owner - Get the owner of the scoped travel plan
-Input Scopes: travel_plan
-Output Scopes: character
-
---------------------
-
-current_or_last_legend_owner - Get the current or last owner of this legend
-Input Scopes: legend
-Output Scopes: character
-
---------------------
-
-legend_owner - Get the owner of this legend
-Input Scopes: legend
-Output Scopes: character
-
---------------------
-
-legend_property - Get the scope of the property with the given name on the scoped legend
-Requires Data: yes
-Input Scopes: legend
-
---------------------
-
-legend_protagonist - Get the protagonist character of this legend
-Input Scopes: legend
-Output Scopes: character
-
---------------------
-
-legend_type - Get the type of this legend
-Input Scopes: legend
-Output Scopes: legend_type
-
---------------------
-
-combat_attacker - Get attacker side of scoped combat
-Input Scopes: combat
-Output Scopes: combat_side
-
---------------------
-
-combat_defender - Get defender side of scoped combat
-Input Scopes: combat
-Output Scopes: combat_side
-
---------------------
-
-combat_war - Get war of scoped combat
-Input Scopes: combat
-Output Scopes: war
-
---------------------
-
-faith_theocratic_goverment_type - Get a faith's theocratic government type
-Input Scopes: faith
-Output Scopes: government_type
-
---------------------
-
-founder - Get founder of scoped faith
-Input Scopes: faith
-Output Scopes: character
-
---------------------
-
-great_holy_war - Get great holy war of scoped faith
-Input Scopes: faith
-Output Scopes: ghw
-
---------------------
-
-main_rite - Get mainline Rite of scoped Faith
-Input Scopes: faith
-Output Scopes: rite
-
---------------------
-
-origin_faith - Get religion of scoped faith, character, province, title or great holy war
-Input Scopes: faith
-Output Scopes: faith
-
---------------------
-
-religious_head - Get religious head of scoped faith
-Input Scopes: faith
-Output Scopes: character
-
---------------------
-
-religious_head_title - Get landed title belonging to the religious head of the scoped faith
-Input Scopes: faith
-Output Scopes: landed_title
-
---------------------
-
-organization - Get organization from character or faith
-Input Scopes: character, faith
-Output Scopes: organization
-
---------------------
-
-ghw_designated_winner - Get designated winner of scoped great holy war
-Input Scopes: ghw
-Output Scopes: character
-
---------------------
-
-ghw_target_character - Get target character of scoped great holy war
-Input Scopes: ghw
-Output Scopes: character
-
---------------------
-
-ghw_target_title - Get target landed title of scoped great holy war
-Input Scopes: ghw
-Output Scopes: landed_title
-
---------------------
-
-ghw_title_recipient - Get the title recipient of scoped great holy war
-Input Scopes: ghw
-Output Scopes: character
-
---------------------
-
-ghw_war - Get great holy war from scoped war
-Input Scopes: ghw
-Output Scopes: war
-
---------------------
-
-ghw_war_declarer - Get declarer of scoped great holy war
-Input Scopes: ghw
-Output Scopes: character
-
---------------------
-
-memory_owner - Get the owner of a character memory
-Input Scopes: character_memory
-Output Scopes: character
-
---------------------
-
-memory_participant - Get the participant of a given tag from a memory
-Requires Data: yes
-Input Scopes: character_memory
-Output Scopes: character
-
---------------------
-
-epidemic_type - Get the type of this epidemic
-Input Scopes: epidemic
-Output Scopes: epidemic_type
-
---------------------
-
-outbreak_province - Get the province this epidemic outbreak started in
-Input Scopes: epidemic
-Output Scopes: province
-
---------------------
-
-army_commander - Get commander of scoped army
-Input Scopes: army
-Output Scopes: character
-
---------------------
-
-army_owner - Get owner of scoped army
-Input Scopes: army
-Output Scopes: character
-
---------------------
-
-involved_combat_side - Get combat side that army is involved in
-Input Scopes: army
-Output Scopes: combat_side
-
---------------------
-
-tax_collector - Get the Tax Collector of this Tax Slot
-Input Scopes: tax_slot
-Output Scopes: character
-
---------------------
-
-tax_slot_liege - Get the Liege of this Tax Slot
-Input Scopes: tax_slot
-Output Scopes: character
-
---------------------
-
-holding_type - Get the type of holding in the scoped province
-Input Scopes: province
-Output Scopes: holding_type
-
---------------------
-
-province_owner - Get province owner of scoped province
-Input Scopes: province
-Output Scopes: character
-
---------------------
-
-saint_in_province - Get the saint character buried in this province.
-Input Scopes: province
-Output Scopes: character
-
---------------------
-
-casus_belli - Get casus belli of scoped war
-Input Scopes: war
-Output Scopes: casus_belli
-
---------------------
-
-inspiration_owner - Get the character who owns the inspiration
-Input Scopes: inspiration
-Output Scopes: character
-
---------------------
-
-inspiration_sponsor - Get the character who is sponsoring the inspiration, may not exist if there is no sponsor yet
-Input Scopes: inspiration
-Output Scopes: character
-
---------------------
-
-domicile_culture - Get current culture of the scoped domicile. Doesn't exist if the domcile type doesn't use culture.
-Input Scopes: domicile
-Output Scopes: culture
-
---------------------
-
-domicile_faith - Get current faith of the scoped domicile. Doesn't exist if the domcile type doesn't use faith.
-Input Scopes: domicile
-Output Scopes: faith
-
---------------------
-
-domicile_location - Get current location of the scoped domicile
-Input Scopes: domicile
-Output Scopes: province
-
---------------------
-
-owner - Get the owner of scoped domicile.
-Input Scopes: domicile
-Output Scopes: character
-
---------------------
-
-participant_group_situation - From the situation participant group, get the situation it belongs to.
-Input Scopes: situation_participant_group
-Output Scopes: situation
-
---------------------
-
-participant_group_sub_region - From the situation participant group, get the situation sub-region it belongs to.
-Input Scopes: situation_participant_group
-Output Scopes: situation_sub_region
-
---------------------
-
-acclaimed_knight - Get the Acclaimed Knight of given Accolade
-Input Scopes: accolade
-Output Scopes: character
-
---------------------
-
-accolade_owner - Get the Owner of given Accolade
-Input Scopes: accolade
-Output Scopes: character
-
---------------------
-
-accolade_successor - Get the Successor of given Accolade
-Input Scopes: accolade
-Output Scopes: character
-
---------------------
-
-founder_culture - Get the founder Culture of given Accolade
-Input Scopes: accolade
-Output Scopes: culture
-
---------------------
-
-founder_dynasty - Get the founder Dynasty of given Accolade
-Input Scopes: accolade
-Output Scopes: dynasty
-
---------------------
-
-founder_faith - Get the founder Faith of given Accolade
-Input Scopes: accolade
-Output Scopes: faith
-
---------------------
-
-founder_house - Get the founder House of given Accolade
-Input Scopes: accolade
-Output Scopes: dynasty_house
-
---------------------
-
-initial_type - Get the initial Accolade Type of given Accolade
-Input Scopes: accolade
-Output Scopes: accolade_type
-
---------------------
-
-barony - Get de jure barony title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-barony_controller - Get barony controller of scoped province or barony title
-Input Scopes: landed_title, province
-Output Scopes: character
-
---------------------
-
-county - Get de jure county title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-county_controller - Get county controller of scoped province or barony/county title
-Input Scopes: landed_title, province
-Output Scopes: character
-
---------------------
-
-duchy - Get de jure duchy title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-empire - Get de jure empire title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-hegemony - Get de jure hegemony title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-kingdom - Get de jure kingdom title of scoped title or province
-Input Scopes: landed_title, province
-Output Scopes: landed_title
-
---------------------
-
-religion - Get religion of scoped faith, character, province, title or great holy war
-Input Scopes: character, landed_title, province, faith, ghw, rite
-Output Scopes: religion
-
---------------------
-
-combat - Get combat of scoped combat side
-Input Scopes: combat_side
-Output Scopes: combat
-
---------------------
-
-enemy_side - Get enemy ( opposite ) combat side of scoped side
-Input Scopes: combat_side
-Output Scopes: combat_side
-
---------------------
-
-side_commander - Get commander of scoped combat side
-Input Scopes: combat_side
-Output Scopes: character
-
---------------------
-
-side_primary_participant - Get primary participant of scoped combat side
-Input Scopes: combat_side
-Output Scopes: character
-
---------------------
-
-culture - Get culture of scoped character, province or title
-Input Scopes: character, landed_title, province
-Output Scopes: culture
-
---------------------
-
-rite - Get rite of scoped character, landed title or province
-Input Scopes: character, landed_title, province
-Output Scopes: rite
-
---------------------
-
-dynast - Get dynasty head ( dynast ) of scoped character
-Input Scopes: dynasty
-Output Scopes: character
-
---------------------
-
-dynasty_founder - Get the founder of the scoped dynasty
-Input Scopes: dynasty
-Output Scopes: character
-
---------------------
-
-mercenary_company_leader - Get leader of scoped mercenary company
-Input Scopes: mercenary_company
-Output Scopes: character
-
---------------------
-
-scheme_artifact - Get artifact of scoped scheme
-Input Scopes: scheme
-Output Scopes: artifact
-
---------------------
-
-scheme_defender - Get defender of scoped scheme
-Input Scopes: scheme
-Output Scopes: character
-
---------------------
-
-scheme_owner - Get owner of scoped scheme
-Input Scopes: scheme
-Output Scopes: character
-
---------------------
-
-scheme_target_character - Get target character of scoped scheme. Null if the target type is not a character.
-Input Scopes: scheme
-Output Scopes: character
-
---------------------
-
-scheme_target_culture - Get target culture of scoped scheme. Null if the target type is not a culture.
-Input Scopes: scheme
-Output Scopes: culture
-
---------------------
-
-scheme_target_faith - Get target faith of scoped scheme. Null if the target type is not a faith.
-Input Scopes: scheme
-Output Scopes: faith
-
---------------------
-
-scheme_target_title - Get target title of scoped scheme. Null if the target type is not a title.
-Input Scopes: scheme
-Output Scopes: landed_title
-
---------------------
-
-task_contract - Get the task contract associated to the scheme (if any).
-Input Scopes: scheme
-Output Scopes: task_contract
-
---------------------
-
-head_of_rite - Get the Head of Rite character of the scoped rite, if any.
-Input Scopes: rite
-Output Scopes: character
-
---------------------
-
-origin_rite - Get the origin rite of scoped rite.
-Input Scopes: rite
-Output Scopes: rite
-
---------------------
-
-rite_faith - Get the parent faith of scoped rite.
-Input Scopes: rite
-Output Scopes: faith
-
---------------------
-
-rite_founder - Get the founder of scoped rite.
-Input Scopes: rite
-Output Scopes: character
-
---------------------
-
-rite_type - Get the rite type of scoped rite.
-Input Scopes: rite
-Output Scopes: rite_type
-
---------------------
-
-claimant - Get claimant of scoped casus belli or war
-Input Scopes: war, casus_belli
-Output Scopes: character
-
---------------------
-
-primary_attacker - Get primary attacker of scoped casus belli or war
-Input Scopes: war, casus_belli
-Output Scopes: character
-
---------------------
-
-primary_defender - Get primary defender of scoped casus belli or war
-Input Scopes: war, casus_belli
-Output Scopes: character
-
---------------------
-
-epidemic_trait - Gets the trait that this epidemic will spread
-Input Scopes: epidemic_type
-Output Scopes: trait
-
---------------------
-
-calc_culture_dominant_faith - Calculates what faith is the biggest in the culture based on # of counties. Be aware that this is an *expensive* calculation. In a tie, definition order breaks the tie
-Input Scopes: culture
-Output Scopes: faith
-
---------------------
-
-calc_culture_dominant_religion - Calculates what religion is the biggest in the culture based on # of counties. Be aware that this is an *expensive* calculation. In a tie, definition order breaks the tie
-Input Scopes: culture
-Output Scopes: religion
-
---------------------
-
-culture_head - Get culture head of scoped culture
-Input Scopes: culture
-Output Scopes: character
-
---------------------
-
-secret_owner - Get owner of scoped secret
-Input Scopes: secret
-Output Scopes: character
-
---------------------
-
-secret_target - Get target character of scoped secret
-Input Scopes: secret
-Output Scopes: character
-
---------------------
-
-main_holy_site - Get the barony of the scoped religion's main holy site (if set)
-Input Scopes: religion
-Output Scopes: landed_title
-
---------------------
-
-holy_site_barony - Get the barony of the scoped holy site.
-Input Scopes: holy_site
-Output Scopes: landed_title
-
---------------------
-
-holy_site_controller - Get the controller of the scoped holy site. (county holder)
-Input Scopes: holy_site
-Output Scopes: landed_title
-
---------------------
-
-holy_site_county - Get the county of the scoped holy site.
-Input Scopes: holy_site
-Output Scopes: landed_title
-
---------------------
-
-artifact_age - Get age of scoped artifact
-Input Scopes: artifact
-Output Scopes: value
-
---------------------
-
-artifact_owner - Get owner of scoped artifact
-Input Scopes: artifact
-Output Scopes: character
-
---------------------
-
-creator - Get creator of scoped artifact
-Input Scopes: artifact
-Output Scopes: character
-
---------------------
-
-previous_owner - Get the previous owner of the scoped activity
-Input Scopes: artifact
-Output Scopes: character
-
---------------------
-
-previous_owner_level_2 - Get the 2 previous owner of the scoped activity
-Input Scopes: artifact
-Output Scopes: character
-
---------------------
-
-previous_owner_level_3 - Get the 3 previous owner of the scoped activity
-Input Scopes: artifact
-Output Scopes: character
+trade_market - Get the Trade Market for any Barony-tier Landed Title
+Input Scopes: landed_title
+Output Scopes: trade_market
 
 --------------------
 
@@ -1888,89 +1198,75 @@ Output Scopes: situation_sub_region
 
 --------------------
 
-contributor - Get the Character who funded this Contribution, if it has been funded
-Input Scopes: project_contribution
-Output Scopes: character
-
---------------------
-
-great_project - Get the Great Project to which this Contribution is connected
-Input Scopes: project_contribution
-Output Scopes: great_project
-
---------------------
-
-location - Get province of scoped army, character or combat
-Input Scopes: character, combat, army
-Output Scopes: province
-
---------------------
-
-councillor - Scope to the councillor in a council task
-Input Scopes: council_task
-Output Scopes: character
-
---------------------
-
-forced_next_councillor - Scope to the next forced councillor for the active council task of the given council position, ex. scope:council_task_steward
-Input Scopes: council_task
-Output Scopes: character
-
---------------------
-
-subject_contract_type - Get the type of a given contract obligation
-Input Scopes: vassal_contract_obligation_level
-Output Scopes: vassal_contract
-
---------------------
-
-vassal_contract_type - Get the type of a given contract obligation
-Input Scopes: vassal_contract_obligation_level
-Output Scopes: vassal_contract
-
---------------------
-
-faction_leader - Get leader of scoped faction
-Input Scopes: faction
-Output Scopes: character
-
---------------------
-
-faction_target - Get target character of scoped faction
-Input Scopes: faction
-Output Scopes: character
-
---------------------
-
-faction_war - Get war of scoped faction
-Input Scopes: faction
-Output Scopes: war
-
---------------------
-
-special_character - Get special character of scoped faction
-Input Scopes: faction
-Output Scopes: character
-
---------------------
-
-special_title - Get special landed title of scoped faction
-Input Scopes: faction
+holy_site_barony - Get the barony of the scoped holy site.
+Input Scopes: holy_site
 Output Scopes: landed_title
 
 --------------------
 
-character_participant_group - Get the scope of the situation_participant_group that given character is part of for the scoped situation sub-region.
-Requires Data: yes
-Input Scopes: situation_sub_region
-Output Scopes: situation_participant_group
+holy_site_controller - Get the controller of the scoped holy site. (county holder)
+Input Scopes: holy_site
+Output Scopes: landed_title
 
 --------------------
 
-sub_region_participant_group - Get the scope of the situation_participant_group with the given name on the scoped situation sub-region
-Requires Data: yes
-Input Scopes: situation_sub_region
-Output Scopes: situation_participant_group
+holy_site_county - Get the county of the scoped holy site.
+Input Scopes: holy_site
+Output Scopes: landed_title
+
+--------------------
+
+epidemic_trait - Gets the trait that this epidemic will spread
+Input Scopes: epidemic_type
+Output Scopes: trait
+
+--------------------
+
+commissioner - Get the commissioner of the scoped commission trade route (unset on standard routes)
+Input Scopes: trade_route
+Output Scopes: character
+
+--------------------
+
+primary_trade_good - Get the primary trade good of the scoped trade route (unset if it has none)
+Input Scopes: trade_route
+Output Scopes: trade_good_type
+
+--------------------
+
+trade_route_owner - Get the owner of this trade route
+Input Scopes: trade_route
+Output Scopes: character
+
+--------------------
+
+trader - Get the character assigned as trader on the scoped trade route
+Input Scopes: trade_route
+Output Scopes: character
+
+--------------------
+
+story_owner - Get owner of scoped story
+Input Scopes: story
+Output Scopes: character
+
+--------------------
+
+faith - Get faith of scoped character, province, title or great holy war
+Input Scopes: character, landed_title, province, ghw, rite
+Output Scopes: faith
+
+--------------------
+
+secret_owner - Get owner of scoped secret
+Input Scopes: secret
+Output Scopes: character
+
+--------------------
+
+secret_target - Get target character of scoped secret
+Input Scopes: secret
+Output Scopes: character
 
 --------------------
 
@@ -2004,15 +1300,1037 @@ Output Scopes: great_project_type
 
 --------------------
 
-faith - Get faith of scoped character, province, title or great holy war
-Input Scopes: character, landed_title, province, ghw, rite
+current_or_last_legend_owner - Get the current or last owner of this legend
+Input Scopes: legend
+Output Scopes: character
+
+--------------------
+
+legend_owner - Get the owner of this legend
+Input Scopes: legend
+Output Scopes: character
+
+--------------------
+
+legend_property - Get the scope of the property with the given name on the scoped legend
+Requires Data: yes
+Input Scopes: legend
+
+--------------------
+
+legend_protagonist - Get the protagonist character of this legend
+Input Scopes: legend
+Output Scopes: character
+
+--------------------
+
+legend_type - Get the type of this legend
+Input Scopes: legend
+Output Scopes: legend_type
+
+--------------------
+
+faith_theocratic_goverment_type - Get a faith's theocratic government type
+Input Scopes: faith
+Output Scopes: government_type
+
+--------------------
+
+founder - Get founder of scoped faith
+Input Scopes: faith
+Output Scopes: character
+
+--------------------
+
+great_holy_war - Get great holy war of scoped faith
+Input Scopes: faith
+Output Scopes: ghw
+
+--------------------
+
+main_rite - Get mainline Rite of scoped Faith
+Input Scopes: faith
+Output Scopes: rite
+
+--------------------
+
+origin_faith - Get religion of scoped faith, character, province, title or great holy war
+Input Scopes: faith
 Output Scopes: faith
 
 --------------------
 
-story_owner - Get owner of scoped story
-Input Scopes: story
+religious_head - Get religious head of scoped faith
+Input Scopes: faith
 Output Scopes: character
+
+--------------------
+
+religious_head_title - Get landed title belonging to the religious head of the scoped faith
+Input Scopes: faith
+Output Scopes: landed_title
+
+--------------------
+
+epidemic_type - Get the type of this epidemic
+Input Scopes: epidemic
+Output Scopes: epidemic_type
+
+--------------------
+
+outbreak_province - Get the province this epidemic outbreak started in
+Input Scopes: epidemic
+Output Scopes: province
+
+--------------------
+
+main_holy_site - Get the barony of the scoped religion's main holy site (if set)
+Input Scopes: religion
+Output Scopes: landed_title
+
+--------------------
+
+character_owner - Get the character that owns this monopoly
+Input Scopes: trade_monopoly
+Output Scopes: character
+
+--------------------
+
+confederation_owner - Get the confederation that owns this monopoly
+Input Scopes: trade_monopoly
+Output Scopes: confederation
+
+--------------------
+
+monopoly_trade_good_category - Get the trade good category of the scoped monopoly. Empty for complete monopolies, which cover all trade good categories
+Input Scopes: trade_monopoly
+Output Scopes: trade_good_category
+
+--------------------
+
+monopoly_trade_market - Get the Trade Market for the scoped monopoly
+Input Scopes: trade_monopoly
+Output Scopes: trade_market
+
+--------------------
+
+title_owner - Get the title that owns this monopoly
+Input Scopes: trade_monopoly
+Output Scopes: landed_title
+
+--------------------
+
+organization - Get organization from character or faith
+Input Scopes: character, faith
+Output Scopes: organization
+
+--------------------
+
+mercenary_company_leader - Get leader of scoped mercenary company
+Input Scopes: mercenary_company
+Output Scopes: character
+
+--------------------
+
+memory_owner - Get the owner of a character memory
+Input Scopes: character_memory
+Output Scopes: character
+
+--------------------
+
+memory_participant - Get the participant of a given tag from a memory
+Requires Data: yes
+Input Scopes: character_memory
+Output Scopes: character
+
+--------------------
+
+tax_collector - Get the Tax Collector of this Tax Slot
+Input Scopes: tax_slot
+Output Scopes: character
+
+--------------------
+
+tax_slot_liege - Get the Liege of this Tax Slot
+Input Scopes: tax_slot
+Output Scopes: character
+
+--------------------
+
+location - Get province of scoped army, character or combat
+Input Scopes: character, combat, army
+Output Scopes: province
+
+--------------------
+
+duchy_capital_district - Get the Duchy Capital District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+entrepot_district - Get the Entrepot District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+great_district - Get the Great District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+holding_district - Get the Holding District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+holding_type - Get the type of holding in the scoped province
+Input Scopes: province
+Output Scopes: holding_type
+
+--------------------
+
+province_owner - Get province owner of scoped province
+Input Scopes: province
+Output Scopes: character
+
+--------------------
+
+resource_district - Get the Resource District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+saint_in_province - Get the saint character buried in this province.
+Input Scopes: province
+Output Scopes: character
+
+--------------------
+
+special_district - Get the Special District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+trade_post_district - Get the Trade Post District in the scoped province
+Input Scopes: province
+Output Scopes: district
+
+--------------------
+
+trade_post_owner - Get character owning trade post of scoped province.
+										Returns an empty object if there is no trade post
+Input Scopes: province
+Output Scopes: character
+
+--------------------
+
+contributor - Get the Character who funded this Contribution, if it has been funded
+Input Scopes: project_contribution
+Output Scopes: character
+
+--------------------
+
+great_project - Get the Great Project to which this Contribution is connected
+Input Scopes: project_contribution
+Output Scopes: great_project
+
+--------------------
+
+claimant - Get claimant of scoped casus belli or war
+Input Scopes: war, casus_belli
+Output Scopes: character
+
+--------------------
+
+primary_attacker - Get primary attacker of scoped casus belli or war
+Input Scopes: war, casus_belli
+Output Scopes: character
+
+--------------------
+
+primary_defender - Get primary defender of scoped casus belli or war
+Input Scopes: war, casus_belli
+Output Scopes: character
+
+--------------------
+
+acclaimed_knight - Get the Acclaimed Knight of given Accolade
+Input Scopes: accolade
+Output Scopes: character
+
+--------------------
+
+accolade_owner - Get the Owner of given Accolade
+Input Scopes: accolade
+Output Scopes: character
+
+--------------------
+
+accolade_successor - Get the Successor of given Accolade
+Input Scopes: accolade
+Output Scopes: character
+
+--------------------
+
+founder_culture - Get the founder Culture of given Accolade
+Input Scopes: accolade
+Output Scopes: culture
+
+--------------------
+
+founder_dynasty - Get the founder Dynasty of given Accolade
+Input Scopes: accolade
+Output Scopes: dynasty
+
+--------------------
+
+founder_faith - Get the founder Faith of given Accolade
+Input Scopes: accolade
+Output Scopes: faith
+
+--------------------
+
+founder_house - Get the founder House of given Accolade
+Input Scopes: accolade
+Output Scopes: dynasty_house
+
+--------------------
+
+initial_type - Get the initial Accolade Type of given Accolade
+Input Scopes: accolade
+Output Scopes: accolade_type
+
+--------------------
+
+scheme_artifact - Get artifact of scoped scheme
+Input Scopes: scheme
+Output Scopes: artifact
+
+--------------------
+
+scheme_defender - Get defender of scoped scheme
+Input Scopes: scheme
+Output Scopes: character
+
+--------------------
+
+scheme_owner - Get owner of scoped scheme
+Input Scopes: scheme
+Output Scopes: character
+
+--------------------
+
+scheme_target_character - Get target character of scoped scheme. Null if the target type is not a character.
+Input Scopes: scheme
+Output Scopes: character
+
+--------------------
+
+scheme_target_culture - Get target culture of scoped scheme. Null if the target type is not a culture.
+Input Scopes: scheme
+Output Scopes: culture
+
+--------------------
+
+scheme_target_faith - Get target faith of scoped scheme. Null if the target type is not a faith.
+Input Scopes: scheme
+Output Scopes: faith
+
+--------------------
+
+scheme_target_title - Get target title of scoped scheme. Null if the target type is not a title.
+Input Scopes: scheme
+Output Scopes: landed_title
+
+--------------------
+
+task_contract - Get the task contract associated to the scheme (if any).
+Input Scopes: scheme
+Output Scopes: task_contract
+
+--------------------
+
+councillor - Scope to the councillor in a council task
+Input Scopes: council_task
+Output Scopes: character
+
+--------------------
+
+forced_next_councillor - Scope to the next forced councillor for the active council task of the given council position, ex. scope:council_task_steward
+Input Scopes: council_task
+Output Scopes: character
+
+--------------------
+
+regiment_controller - Get the character who currently controls the regiment
+Input Scopes: regiment
+Output Scopes: character
+
+--------------------
+
+regiment_controlling_title - Get title regiment's owning title
+Input Scopes: regiment
+Output Scopes: landed_title
+
+--------------------
+
+regiment_owner - Get regiment's owner
+Input Scopes: regiment
+Output Scopes: character
+
+--------------------
+
+regiment_owning_title - Get title regiment's owning title
+Input Scopes: regiment
+Output Scopes: landed_title
+
+--------------------
+
+regiment_station - Get regiment's station province
+Input Scopes: regiment
+Output Scopes: province
+
+--------------------
+
+district_owning_title - Get owning title of scoped district
+Input Scopes: district
+Output Scopes: landed_title
+
+--------------------
+
+district_province - Get the Province of the scoped district
+Input Scopes: district
+Output Scopes: province
+
+--------------------
+
+district_type - Get the District Type of the scoped district
+Input Scopes: district
+Output Scopes: district_type
+
+--------------------
+
+combat - Get combat of scoped combat side
+Input Scopes: combat_side
+Output Scopes: combat
+
+--------------------
+
+enemy_side - Get enemy ( opposite ) combat side of scoped side
+Input Scopes: combat_side
+Output Scopes: combat_side
+
+--------------------
+
+side_commander - Get commander of scoped combat side
+Input Scopes: combat_side
+Output Scopes: character
+
+--------------------
+
+side_primary_participant - Get primary participant of scoped combat side
+Input Scopes: combat_side
+Output Scopes: character
+
+--------------------
+
+dynast - Get dynasty head ( dynast ) of scoped character
+Input Scopes: dynasty
+Output Scopes: character
+
+--------------------
+
+dynasty_founder - Get the founder of the scoped dynasty
+Input Scopes: dynasty
+Output Scopes: character
+
+--------------------
+
+army_commander - Get commander of scoped army
+Input Scopes: army
+Output Scopes: character
+
+--------------------
+
+army_owner - Get owner of scoped army
+Input Scopes: army
+Output Scopes: character
+
+--------------------
+
+involved_combat_side - Get combat side that army is involved in
+Input Scopes: army
+Output Scopes: combat_side
+
+--------------------
+
+current_location - Get the current province of the travel plan.
+Input Scopes: travel_plan
+Output Scopes: province
+
+--------------------
+
+departure_location - Get the province from which this travel plan started.
+Input Scopes: travel_plan
+Output Scopes: province
+
+--------------------
+
+final_destination_province - Get the final (last) destination province of the travel plan.
+Input Scopes: travel_plan
+Output Scopes: province
+
+--------------------
+
+next_destination_province - Get the next destination province of the travel plan. If you are at a destination province, it will be the one after that one.
+Input Scopes: travel_plan
+Output Scopes: province
+
+--------------------
+
+next_location - Get the next province the travel plan is going to.
+Input Scopes: travel_plan
+Output Scopes: province
+
+--------------------
+
+travel_leader - Get the Travel Leader of the scoped travel plan
+Input Scopes: travel_plan
+Output Scopes: character
+
+--------------------
+
+travel_plan_activity - Activity associated with the scoped travel plan. (may be empty)
+Input Scopes: travel_plan
+Output Scopes: activity
+
+--------------------
+
+travel_plan_owner - Get the owner of the scoped travel plan
+Input Scopes: travel_plan
+Output Scopes: character
+
+--------------------
+
+obligation - Directly scope to a specific decision type by its key
+Requires Data: yes
+Input Scopes: vassal_contract
+Output Scopes: vassal_contract_obligation_level
+
+--------------------
+
+slot_character - Get the character of scoped agent slot
+Input Scopes: agent_slot
+Output Scopes: character
+
+--------------------
+
+artifact_age - Get age of scoped artifact
+Input Scopes: artifact
+Output Scopes: value
+
+--------------------
+
+artifact_owner - Get owner of scoped artifact
+Input Scopes: artifact
+Output Scopes: character
+
+--------------------
+
+creator - Get creator of scoped artifact
+Input Scopes: artifact
+Output Scopes: character
+
+--------------------
+
+previous_owner - Get the previous owner of the scoped activity
+Input Scopes: artifact
+Output Scopes: character
+
+--------------------
+
+previous_owner_level_2 - Get the 2 previous owner of the scoped activity
+Input Scopes: artifact
+Output Scopes: character
+
+--------------------
+
+previous_owner_level_3 - Get the 3 previous owner of the scoped activity
+Input Scopes: artifact
+Output Scopes: character
+
+--------------------
+
+casus_belli - Get casus belli of scoped war
+Input Scopes: war
+Output Scopes: casus_belli
+
+--------------------
+
+activity_doctrine - Get the selected doctrine with the given index, 1-based (e.g. activity_doctrine:1)
+Requires Data: yes
+Input Scopes: activity
+Output Scopes: doctrine
+
+--------------------
+
+activity_host - Get host character of the scoped activity
+Input Scopes: activity
+Output Scopes: character
+
+--------------------
+
+activity_location - Get current location of the scoped activity
+Input Scopes: activity
+Output Scopes: province
+
+--------------------
+
+activity_tenet - Get the selected tenet with the given index, 1-based (e.g. activity_tenet:1)
+Requires Data: yes
+Input Scopes: activity
+Output Scopes: tenet
+
+--------------------
+
+activity_type - Get the type of a given activity
+Input Scopes: activity
+Output Scopes: activity_type
+
+--------------------
+
+ghw_designated_winner - Get designated winner of scoped great holy war
+Input Scopes: ghw
+Output Scopes: character
+
+--------------------
+
+ghw_target_character - Get target character of scoped great holy war
+Input Scopes: ghw
+Output Scopes: character
+
+--------------------
+
+ghw_target_title - Get target landed title of scoped great holy war
+Input Scopes: ghw
+Output Scopes: landed_title
+
+--------------------
+
+ghw_title_recipient - Get the title recipient of scoped great holy war
+Input Scopes: ghw
+Output Scopes: character
+
+--------------------
+
+ghw_war - Get great holy war from scoped war
+Input Scopes: ghw
+Output Scopes: war
+
+--------------------
+
+ghw_war_declarer - Get declarer of scoped great holy war
+Input Scopes: ghw
+Output Scopes: character
+
+--------------------
+
+faction_leader - Get leader of scoped faction
+Input Scopes: faction
+Output Scopes: character
+
+--------------------
+
+faction_target - Get target character of scoped faction
+Input Scopes: faction
+Output Scopes: character
+
+--------------------
+
+faction_war - Get war of scoped faction
+Input Scopes: faction
+Output Scopes: war
+
+--------------------
+
+special_character - Get special character of scoped faction
+Input Scopes: faction
+Output Scopes: character
+
+--------------------
+
+special_title - Get special landed title of scoped faction
+Input Scopes: faction
+Output Scopes: landed_title
+
+--------------------
+
+domicile_culture - Get current culture of the scoped domicile. Doesn't exist if the domcile type doesn't use culture.
+Input Scopes: domicile
+Output Scopes: culture
+
+--------------------
+
+domicile_faith - Get current rite's parent faith of the scoped domicile. Doesn't exist if the domcile type doesn't use faith.
+Input Scopes: domicile
+Output Scopes: faith
+
+--------------------
+
+domicile_location - Get current location of the scoped domicile
+Input Scopes: domicile
+Output Scopes: province
+
+--------------------
+
+domicile_rite - Get current rite of the scoped domicile. Doesn't exist if the domcile type doesn't use faith.
+Input Scopes: domicile
+Output Scopes: rite
+
+--------------------
+
+owner - Get the owner of scoped domicile.
+Input Scopes: domicile
+Output Scopes: character
+
+--------------------
+
+primary_holding - Get the scoped government type's primary type of holding
+Input Scopes: government_type
+Output Scopes: holding_type
+
+--------------------
+
+building_constructor - Get the character that the built this building (if known).
+Input Scopes: building
+Output Scopes: character
+
+--------------------
+
+building_district - Get the district that the provided building resides in.
+Input Scopes: building
+Output Scopes: district
+
+--------------------
+
+building_trade_post_owner - Get the owner of the trade post district the building belongs to. 
+										Returns an empty object if the district is not a trade post.
+Input Scopes: building
+Output Scopes: character
+
+--------------------
+
+building_type - Get the Building Type of the scoped building
+Input Scopes: building
+Output Scopes: building_type
+
+--------------------
+
+combat_attacker - Get attacker side of scoped combat
+Input Scopes: combat
+Output Scopes: combat_side
+
+--------------------
+
+combat_defender - Get defender side of scoped combat
+Input Scopes: combat
+Output Scopes: combat_side
+
+--------------------
+
+combat_war - Get war of scoped combat
+Input Scopes: combat
+Output Scopes: war
+
+--------------------
+
+war - Get war of scoped casus belli
+Input Scopes: casus_belli
+Output Scopes: war
+
+--------------------
+
+calc_culture_dominant_faith - Calculates what faith is the biggest in the culture based on # of counties. Be aware that this is an *expensive* calculation. In a tie, definition order breaks the tie
+Input Scopes: culture
+Output Scopes: faith
+
+--------------------
+
+calc_culture_dominant_religion - Calculates what religion is the biggest in the culture based on # of counties. Be aware that this is an *expensive* calculation. In a tie, definition order breaks the tie
+Input Scopes: culture
+Output Scopes: religion
+
+--------------------
+
+culture_head - Get culture head of scoped culture
+Input Scopes: culture
+Output Scopes: character
+
+--------------------
+
+head_of_rite - Get the Head of Rite character of the scoped rite, if any.
+Input Scopes: rite
+Output Scopes: character
+
+--------------------
+
+origin_rite - Get the origin rite of scoped rite.
+Input Scopes: rite
+Output Scopes: rite
+
+--------------------
+
+rite_faith - Get the parent faith of scoped rite.
+Input Scopes: rite
+Output Scopes: faith
+
+--------------------
+
+rite_founder - Get the founder of scoped rite.
+Input Scopes: rite
+Output Scopes: character
+
+--------------------
+
+rite_type - Get the rite type of scoped rite.
+Input Scopes: rite
+Output Scopes: rite_type
+
+--------------------
+
+character_participant_group - Get the scope of the situation_participant_group that given character is part of for the scoped situation sub-region.
+Requires Data: yes
+Input Scopes: situation_sub_region
+Output Scopes: situation_participant_group
+
+--------------------
+
+sub_region_participant_group - Get the scope of the situation_participant_group with the given name on the scoped situation sub-region
+Requires Data: yes
+Input Scopes: situation_sub_region
+Output Scopes: situation_participant_group
+
+--------------------
+
+barony - Get de jure barony title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+barony_controller - Get barony controller of scoped province or barony title
+Input Scopes: landed_title, province
+Output Scopes: character
+
+--------------------
+
+county - Get de jure county title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+county_controller - Get county controller of scoped province or barony/county title
+Input Scopes: landed_title, province
+Output Scopes: character
+
+--------------------
+
+duchy - Get de jure duchy title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+empire - Get de jure empire title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+hegemony - Get de jure hegemony title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+kingdom - Get de jure kingdom title of scoped title or province
+Input Scopes: landed_title, province
+Output Scopes: landed_title
+
+--------------------
+
+culture - Get culture of scoped character, province or title
+Input Scopes: character, landed_title, province
+Output Scopes: culture
+
+--------------------
+
+rite - Get rite of scoped character, landed title or province
+Input Scopes: character, landed_title, province
+Output Scopes: rite
+
+--------------------
+
+holy_order_patron - Get patron of scoped holy order
+Input Scopes: holy_order
+Output Scopes: character
+
+--------------------
+
+leader - Get leader of scoped holy order
+Input Scopes: holy_order
+Output Scopes: character
+
+--------------------
+
+order_faith - Get faith of scoped holy order
+Input Scopes: holy_order
+Output Scopes: faith
+
+--------------------
+
+order_founder - Get founder of scoped holy order, if it was specified on creation
+Input Scopes: holy_order
+Output Scopes: character
+
+--------------------
+
+order_rite - Get the founding tenet of scoped holy order. Might be invalid.
+Input Scopes: holy_order
+Output Scopes: rite
+
+--------------------
+
+order_tenet - Get tenet of scoped holy order
+Input Scopes: holy_order
+Output Scopes: tenet
+
+--------------------
+
+title - Get landed title of scoped holy order
+Input Scopes: holy_order
+Output Scopes: landed_title
+
+--------------------
+
+religion - Get religion of scoped faith, character, province, title or great holy war
+Input Scopes: character, landed_title, province, faith, ghw, rite
+Output Scopes: religion
+
+--------------------
+
+house_confederation - Scope to the house's confederation
+Input Scopes: dynasty_house
+Output Scopes: confederation
+
+--------------------
+
+house_dynasty - Get dynasty  of the given house
+Input Scopes: dynasty_house
+Output Scopes: dynasty
+
+--------------------
+
+house_founder - Get house founder of the scoped house
+Input Scopes: dynasty_house
+Output Scopes: character
+
+--------------------
+
+house_head - Get house head of the scoped character
+Input Scopes: dynasty_house
+Output Scopes: character
+
+--------------------
+
+last_house_head - Get last house head of scoped house
+Input Scopes: dynasty_house
+Output Scopes: character
+
+--------------------
+
+noble_family - Get the noble family title of the dynasty house
+Input Scopes: dynasty_house
+Output Scopes: landed_title
+
+--------------------
+
+scheme - Get the scheme scheme associated with the task contract (if there is one).
+Input Scopes: task_contract
+Output Scopes: scheme
+
+--------------------
+
+task_contract_destination - Get the task contract destination, null if unused.
+Input Scopes: task_contract
+Output Scopes: province
+
+--------------------
+
+task_contract_employer - Get the task contract employer.
+Input Scopes: task_contract
+Output Scopes: character
+
+--------------------
+
+task_contract_location - Get the task contract location.
+Input Scopes: task_contract
+Output Scopes: province
+
+--------------------
+
+task_contract_taker - Get the task contract taker, null until taken.
+Input Scopes: task_contract
+Output Scopes: character
+
+--------------------
+
+task_contract_target - Get the task contract target, null if unused.
+Input Scopes: task_contract
+Output Scopes: character
+
+--------------------
+
+participant_group_situation - From the situation participant group, get the situation it belongs to.
+Input Scopes: situation_participant_group
+Output Scopes: situation
+
+--------------------
+
+participant_group_sub_region - From the situation participant group, get the situation sub-region it belongs to.
+Input Scopes: situation_participant_group
+Output Scopes: situation_sub_region
+
+--------------------
+
+inspiration_owner - Get the character who owns the inspiration
+Input Scopes: inspiration
+Output Scopes: character
+
+--------------------
+
+inspiration_sponsor - Get the character who is sponsoring the inspiration, may not exist if there is no sponsor yet
+Input Scopes: inspiration
+Output Scopes: character
+
+--------------------
+
+toll_level - Get the current toll level of this market
+Input Scopes: trade_market
+Output Scopes: toll_level
+
+--------------------
+
+trade_market_owner - Get the landed title that owns this trade market
+Input Scopes: trade_market
+Output Scopes: landed_title
 
 --------------------
 
@@ -2315,6 +2633,7 @@ heir
 top_liege
 changed_top_liege
 stepped_down
+term_end
 appointment_succession
 was_kurultai
 kurultai_members
@@ -2372,18 +2691,35 @@ doctrine
 personal_beliefs
 rite
 old_rite
+merchant
+trade_market
+lost_trade_market
+trade_good_type
+trade_good_category_type
+target_trade_goods
+target_trade_good_categories
+is_complete_monopoly
+is_exploitative_monopoly
 changed_tenets_or_doctrines
 consume_rite_edit_token
 added_tenets
 removed_tenets
 added_doctrines
 removed_doctrines
+changed_tenet_status
 index
 selected_item
 item_list
+proposer
+enemy
+building_type
+gold_cost
 holy_site
 old_holy_site
 trait
+trade_route
+trader
+primary_good_changed
 creation_reason
 pool
 guests
@@ -2397,6 +2733,15 @@ holy_site_type
 is_eminent_site
 is_new_holy_site
 artifacts
+enactor
+new_law
+current_law
 county_converted
 character_converted
+republic
+new_toll_level
+old_toll_level
 sponsor
+administrative_ui_special_title
+destroyer
+joined_as_mercenary

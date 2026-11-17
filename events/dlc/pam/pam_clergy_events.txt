@@ -17,7 +17,7 @@ pam_clergy_events.0001 = {
 
 	trigger = {
 		is_ai = no
-		primary_title = title:k_papal_state
+		has_title = title:k_papal_state
 		exists = cp:councillor_court_chaplain
 	}
 
@@ -67,6 +67,7 @@ pam_clergy_events.0002 = {
 				is_ai = no
 			}
 			trigger_event = pam_clergy_events.0001
+			remove_variable = has_edited_a_rite
 		}
 		# Just became AI pope? choose your favorite tenet!
 		else = {
@@ -120,7 +121,7 @@ pam_clergy_events.0010 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					scope:cardinal_improve_development = yes
+					scope:cardinal_improve_prosperity = yes
 				}
 				desc = pam_clergy_events.0010.desc.develop 
 			}
@@ -492,6 +493,56 @@ pam_clergy_events.0042 = {
 	}
 }
 
+##################################################
+## 0043 - Notify-only letter for a new cardinal ##
+##################################################
+
+pam_clergy_events.0043 = {
+	type = letter_event
+	opening = pam_clergy_events.0040.opening
+	desc = pam_clergy_events.0040.desc
+	sender = scope:head_of_faith
+
+	option = {
+		name = pam_clergy_events.0040.a
+	}
+}
+
+scripted_effect pam_clear_clerical_region_treasury_effect = {
+	if = {
+		limit = {
+			primary_title = scope:title
+			has_treasury = yes
+		}
+		empty_treasury_effect = yes
+	}
+}
+
+# Clerical region destory events
+# HoF can not convert and they can keep alive even if landless.
+pam_clergy_events.0050 = {
+	theme = christian
+	type = character_event
+	title = pam_clergy_events.0052.t
+	desc = pam_clergy_events.0052.desc
+	trigger = {
+		# Elf Destiny: same guards as 0052 below. This 1.21 event is first in on_clerical_region_faith_mismatch and destroys the title,
+		# so without them a head of faith's Matronate (or a see whose seat turned Aeluran) would skip the guards on 0051/0052
+		NOT = { scope:title = { aeluran_is_matronate_title_trigger = yes } }
+		NOT = { aeluran_see_seat_turned_aeluran_trigger = yes }
+		government_has_flag = government_is_theocracy
+		OR = {
+			faith.religious_head ?= this
+			is_proto_hof_trigger = yes
+		}
+	}
+	option = {
+		name = pam_clergy_events.0052.a
+		pam_clear_clerical_region_treasury_effect = yes
+		destroy_title = scope:title
+	}
+}
+
 ###################################################################
 ## 0051 - Clerical region capital converts (player holder)       ##                                                    ##
 ###################################################################
@@ -502,7 +553,13 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 		limit = {
 			any_held_title = {
 				tier >= tier_county
-				has_clerical_region = no
+				trigger_if = {
+					limit = {
+						scope:reason != flag:character_converted
+					}
+					has_clerical_region = no
+					pam_title_is_clerical_elector_trigger = no
+				}
 			}
 		}
 		create_title_and_vassal_change = {
@@ -512,11 +569,24 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 		}
 
 		if = {
-			limit = { scope:reason ?= flag:character_converted }
+			limit = { exists = scope:old_rite }
+			scope:old_rite = { save_scope_as = pam_strip_see_rite }
+		}
+		else_if = {
+			limit = { exists = scope:county.rite }
+			scope:county.rite = { save_scope_as = pam_strip_see_rite }
+		}
+
+		if = {
+			limit = {
+				scope:reason ?= flag:character_converted
+				exists = scope:pam_strip_see_rite
+			}
 			if = {
 				limit = {
+					exists = primary_heir
 					primary_heir = {
-						rite ?= root.var:old_rite
+						rite ?= scope:pam_strip_see_rite
 						OR = {
 							is_ruler = no
 							government_has_flag = government_is_theocracy
@@ -527,8 +597,9 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 			}
 			else_if = {
 				limit = {
+					exists = player_heir
 					player_heir = {
-						rite ?= root.var:old_rite
+						rite ?= scope:pam_strip_see_rite
 						OR = {
 							is_ruler = no
 							government_has_flag = government_is_theocracy
@@ -569,9 +640,12 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 			}
 		}
 		if = {
-			limit = { scope:reason ?= flag:character_converted }
+			limit = {
+				scope:reason ?= flag:character_converted
+				exists = scope:pam_strip_see_rite
+			}
 			scope:heir = {
-				set_character_rite = root.var:old_rite
+				set_character_rite = scope:pam_strip_see_rite
 			}
 		}
 		every_held_title = {
@@ -582,6 +656,7 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 						scope:reason != flag:character_converted
 					}
 					has_clerical_region = no
+					pam_title_is_clerical_elector_trigger = no
 				}
 			}
 			change_title_holder_include_vassals = {
@@ -591,7 +666,10 @@ scripted_effect pam_strip_personal_landed_titles_effect = {
 		}
 		resolve_title_and_vassal_change = scope:pam_strip_land_change
 		if = {
-			limit = { scope:reason = flag:character_converted }
+			limit = {
+				scope:reason = flag:character_converted
+				exists = scope:pam_strip_see_rite
+			}
 			scope:heir = {
 				change_government = faith.faith_theocratic_goverment_type
 				rite = { force_refresh_head_of_rite = yes }
@@ -728,6 +806,11 @@ pam_clergy_events.0051 = {
 		}
 		resolve_title_and_vassal_change = scope:pam_translation_change
 
+		if = {
+			limit = { primary_title = scope:title }
+			set_primary_title_to = scope:translation_see
+		}
+		hidden_effect = { pam_clear_clerical_region_treasury_effect = yes }
 		destroy_title = scope:title
 		pam_strip_personal_landed_titles_effect = yes
 	}
@@ -739,10 +822,11 @@ pam_clergy_events.0051 = {
 		custom_tooltip = pam_clergy_events.0051.c.tt
 
 		pam_strip_personal_landed_titles_effect = yes
+		pam_clear_clerical_region_treasury_effect = yes
 		destroy_title = scope:title
 		hidden_effect = {
 			if = {
-				limit = { has_dlc_feature = roads_to_power }
+				limit = { has_playable_adventurer_dlc_trigger = yes }
 				create_landless_adventurer_title_effect = {
 					REASON = flag:wanderer
 					FLAVOR_CHAR = root
@@ -786,11 +870,12 @@ pam_clergy_events.0052 = {
 		pam_strip_personal_landed_titles_effect = yes
 		if = {
 			limit = { scope:reason != flag:character_converted }
+			pam_clear_clerical_region_treasury_effect = yes
 			destroy_title = scope:title
 		}
 		hidden_effect = {
 			if = {
-				limit = { has_dlc_feature = roads_to_power }
+				limit = { has_playable_adventurer_dlc_trigger = yes }
 				create_landless_adventurer_title_effect = {
 					REASON = flag:wanderer
 					FLAVOR_CHAR = root

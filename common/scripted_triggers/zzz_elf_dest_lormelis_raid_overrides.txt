@@ -1,0 +1,35 @@
+﻿# Elf Destiny: the Lormelis bloodline raids across water and may start the Pillage legacy.
+# Key overrides of vanilla 00_scripted_rule_triggers.txt and 01_fp1_scripted_triggers.txt; re-check after each patch.
+can_raid_across_water_trigger = {
+	OR = {
+		# Culture logic.
+		culture = {
+			OR = {
+				can_ran_raid_overseas_cultural_innovations_trigger = yes
+				has_cultural_parameter = culture_can_raid_at_sea_even_if_feudal
+				has_cultural_parameter = culture_can_raid_at_sea_even_if_feudal_no_restrictions
+			}
+		}
+		# Dynasty logic.
+		dynasty ?= { can_raid_dynasty_modifiers_that_enable_raiding_overseas_list_trigger = yes }
+		# House logic.
+		house ?= { can_raid_house_modifiers_that_enable_raiding_overseas_list_trigger = yes }
+		# Can raid overseas by government rules
+		government_has_flag = government_enables_naval_raiding
+		#Is Hereward.
+		has_trait = the_wake
+		has_trait = royal_elf_lormelis # Elf Destiny: the sea raiders of Atlantis
+	}
+}
+
+eligible_for_fp1_dynasty_legacies_trigger = {
+	has_fp1_dlc_trigger = yes
+	OR = {
+		game_rule_unrestricted_dynasty_legacies_trigger = yes
+		# Technically, we could hardscript this to North Germanics/Normans/Estonians, but eh.
+		culture = { has_innovation = innovation_longboats }
+		# Converts should also get a chance to get in on the fun.
+		religion = religion:germanic_religion
+		has_trait = royal_elf_lormelis # Elf Destiny
+	}
+}

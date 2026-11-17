@@ -41,16 +41,20 @@ elf_prego_pulse = {
 				debug_log = "evaluating elf preg encouragment married"
 	
 				random_consort = {
+					limit = { fertility > 0 } # make_pregnant errors on an infertile father
 					save_scope_as = sex_partner
 				}
-	
+
 				debug_log_scopes = yes
-	
-				random = {
-					chance = 20
-					debug_log = "pregnancy given"
-					make_pregnant = {
-						father = scope:sex_partner
+
+				if = {
+					limit = { exists = scope:sex_partner }
+					random = {
+						chance = 20
+						debug_log = "pregnancy given"
+						make_pregnant = {
+							father = scope:sex_partner
+						}
 					}
 				}
 			}
@@ -59,6 +63,7 @@ elf_prego_pulse = {
 					is_concubine = yes
 					is_concubine_of = liege
 					is_visibly_fertile = yes
+					liege = { fertility > 0 }
 				}
 				debug_log = "evaluating elf preg encouragment concubine"
 				debug_log_scopes = yes
@@ -88,6 +93,7 @@ elf_prego_pulse = {
 			if = {
 				limit = {
 					exists = scope:sex_partner
+					fertility > 0
 				}
 				random = {
 					chance = 20
