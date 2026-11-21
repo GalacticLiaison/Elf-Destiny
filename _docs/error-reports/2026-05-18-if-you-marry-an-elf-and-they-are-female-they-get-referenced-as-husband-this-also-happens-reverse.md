@@ -5,4 +5,4 @@
 ## Report
 **prestigehero** · *2026-05-18*
 This also happens if Female and the elf is male, they get referred as Wife.
-![a718ff8fa21ac3eab7be0d90b651272d.png](https://cdn.discordapp.com/attachments/1505949927069450381/1505949927287685151/a718ff8fa21ac3eab7be0d90b651272d.png?ex=6a83cc69&is=6a827ae9&hm=cb3aabcaeb4ebe27fa38c3223c8aa223cba7e8b92b0f3c61a37d83394c39526a&)
+![a718ff8fa21ac3eab7be0d90b651272d.png](https://cdn.discordapp.com/attachments/1505949927069450381/1505949927287685151/a718ff8fa21ac3eab7be0d90b651272d.png?ex=6ae409e9&is=6ae2b869&hm=fb6ac5830a3d28f649127df766eed4bb26f6d3235b256c5adbed9525bb4ce3d3&)

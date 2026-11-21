@@ -5,7 +5,7 @@
 ## Report
 **.glasses** · *2025-12-08*
 High Matriach thinks serving under her Liege's Successor is beneath her.
-![Screenshot_2025-12-09_003735.png](https://cdn.discordapp.com/attachments/1447629064377602252/1447629064600031335/Screenshot_2025-12-09_003735.png?ex=6a83e260&is=6a8290e0&hm=d694e1e28b91c8fc80e947f5c22b68cb8fc0ba4669d5dd5ea321c89c268c579f&)
+![Screenshot_2025-12-09_003735.png](https://cdn.discordapp.com/attachments/1447629064377602252/1447629064600031335/Screenshot_2025-12-09_003735.png?ex=6ac9c1e0&is=6ac87060&hm=fc5b086804fbb2af83e0bfa66d92826c4de0046f483734f1d0bf5886e8f324a7&)
 ---
 
 ## Discussion (2 comments)

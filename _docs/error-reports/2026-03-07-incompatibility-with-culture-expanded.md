@@ -5,11 +5,11 @@
 ## Report
 **zockerhopper** · *2026-03-07*
 When Elf Destiny is used in conjunction with Culture Expanded a lot of characters lose their intended look and design and become impossible to fix. This doesn't affect everyone but it ruins the look of a lot of auto-generated characters and rulers. Additionally the Barbershop will not display any clothes for these characters (it doesn't affect the non-bugged characters)
-![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788557471187036/image.png?ex=6a84347d&is=6a82e2fd&hm=ee347b9a8b2b986cbf512cbaef9506c59d6716bd5808f25c75df9333d416f98c&)
-![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788558041616415/image.png?ex=6a84347d&is=6a82e2fd&hm=a26774dbdc5ad31d6952573f2ba7670e480e166eef577fb4d3c6af0781539a86&)
-![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788558448328826/image.png?ex=6a84347d&is=6a82e2fd&hm=c30c40022bca1b52d35448dd268b34b1133f06576eb6d8ba6df1af5ac67fe4e1&)
-![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788559190724638/image.png?ex=6a84347d&is=6a82e2fd&hm=f1a8d24bbc91283e2f46f3a70a8e20f5249964448a9bdc65de96618fd9253e09&)
-![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788559887241337/image.png?ex=6a84347d&is=6a82e2fd&hm=f10a530ca6d5acdb60477e917e78f0ae159750574b7de0dd230b98346e6bbaf0&)
+![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788557471187036/image.png?ex=6aca13fd&is=6ac8c27d&hm=6fcdc86ad6590663430340d8849b189bceacbb0309060dada1c0dfa9025eddc5&)
+![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788558041616415/image.png?ex=6aca13fd&is=6ac8c27d&hm=bdf062fed8ff8316357cb05e7ff68c47cbeb511088eacb04a4f2cc25d331c7f5&)
+![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788558448328826/image.png?ex=6aca13fd&is=6ac8c27d&hm=3bd0ecd025c4ce82ecd6e8dbb6253e06aff9d9894f4e719b9838980168790161&)
+![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788559190724638/image.png?ex=6aca13fd&is=6ac8c27d&hm=4a063b04b81fadcf07309963e941382374bb965ab2eb000a82d4eb24246cbf54&)
+![image.png](https://cdn.discordapp.com/attachments/1479788557202620477/1479788559887241337/image.png?ex=6aca13fd&is=6ac8c27d&hm=45bcf3d4708240745bb6114080f34643254efe1cf25f38eeec279fc4f95558fb&)
 ---
 
 ## Discussion (5 comments)
