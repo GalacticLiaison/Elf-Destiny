@@ -6,3 +6,4 @@
 - Removed leftover debug logging from the starting trait and lifestyle effects. Thanks to MetalJesuss.
 - The ruler designer trait list no longer gives almost every trait an orange glow; virtues glow green and sins red again, as they do in game.
 - The Drow rites (Sisters of the Silk, Sisters of the Coil) are now female dominated. They used to inherit male dominance from the wider elven faith, which let Drow realms drift back to male rulers after a few generations.
+- Drow culture now lets both men and women serve as knights and commanders.
