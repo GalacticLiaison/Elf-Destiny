@@ -5,7 +5,7 @@
 ## Report
 **jackdread** · *2026-05-07*
 you are unable to build non tribal buildings while using ascended tribal government this applies to castles, cities and temples
-![20DBB11.JPG](https://cdn.discordapp.com/attachments/1501960506565726399/1501960506787893369/20DBB11.JPG?ex=6a83c979&is=6a8277f9&hm=30ddcc98b35c8de8636a5d161ee17c73cd1ed8851321941fb6c1e9d9e0e3d223&)
+![20DBB11.JPG](https://cdn.discordapp.com/attachments/1501960506565726399/1501960506787893369/20DBB11.JPG?ex=6aedea39&is=6aec98b9&hm=c199fb7fc2ed2e4448d23612925be9a18dbb1c57d9cc8029bca9b1decbe4bcf3&)
 ---
 
 ## Discussion (8 comments)
@@ -23,7 +23,7 @@ I think the part that gets people is that it's been described as "some of the be
 You should not only be able to use all holdings, you shouldn't be locked out of building/using the buildings either.
 
 **deeznuggz** · *2026-05-09*
-![image.png](https://cdn.discordapp.com/attachments/1501960506565726399/1502517125242425536/image.png?ex=6a83d59e&is=6a82841e&hm=29dfc716f885b7ec391d94fb48172cecbdeb15bdca5a853fda5472bcaf0d84df&)
+![image.png](https://cdn.discordapp.com/attachments/1501960506565726399/1502517125242425536/image.png?ex=6aedf65e&is=6aeca4de&hm=37114fce9867a00a836ef25d876733e5b0c2c1d624bb05f611cc5f269ffd3c87&)
 
 **deeznuggz** · *2026-05-09*
 <@790004901774229515>
